@@ -1164,7 +1164,9 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, {"object": "list", "data": [
                 {"id": "laudo-router", "object": "model", "owned_by": "local"}]})
         if self.path.rstrip("/") in ("/versao", "/v1/versao"):
-            return self._json(200, {"versao": VERSAO, "gatilhos": len(BANCO.itens)})
+            # "pasta": o app (Rotrix) grava a configuração na pasta do roteador que está rodando
+            return self._json(200, {"versao": VERSAO, "gatilhos": len(BANCO.itens),
+                                    "pasta": os.path.dirname(os.path.abspath(__file__))})
         if self.path.rstrip("/") in ("/ia", "/v1/ia"):
             # botão de IA e contador de gasto (nunca devolve chave)
             if nuvem is None:
