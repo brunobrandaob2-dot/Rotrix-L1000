@@ -780,11 +780,71 @@ def _sem_preambulo(t):
     return r if r.strip() else t
 
 
+# "formar laudo" (no fim ou no começo do ditado contínuo): monta o laudo com o
+# banco local. "formar laudo com IA" monta local e depois manda o laudo montado
+# para a IA do exame (config ia_por_exame: RX na Luna só formatando, etc.).
+_FORMAR_NUCLEO = (r"(?:formar|forma|forme|formas|formando|montar|monta|monte|montando)\s+"
+                  r"(?:o\s+|um\s+|meu\s+)?laudo"
+                  r"(?P<ia>\s+(?:com|pela|pelo|na|no|por|via|usando)\s+(?:a\s+|o\s+)?"
+                  r"(?:ia|i\.?\s?a\.?|intelig[eê]ncia\s+artificial|nuvem|claude|gpt|chat\s?gpt))?")
+_FORMAR_FIM = re.compile(r"(?:^|[\s,.;:!?-])" + _FORMAR_NUCLEO + r"[\s,.;:!?-]*$", re.I)
+_FORMAR_INICIO = re.compile(r"^[\s,.;:!?-]*" + _FORMAR_NUCLEO + r"(?:[\s,.;:!?-]+|$)", re.I)
+
+
+def comando_formar(bruto):
+    """(resto_do_ditado, com_ia) se o ditado tem o comando "formar laudo"; senão None."""
+    t = (bruto or "").strip()
+    m = _FORMAR_FIM.search(t)
+    if m:
+        return t[:m.start()].strip(" ,.;:-"), bool(m.group("ia"))
+    m = _FORMAR_INICIO.match(t)
+    if m:
+        return t[m.end():].strip(" ,.;:-"), bool(m.group("ia"))
+    return None
+
+
+def formar_laudo(resto, com_ia):
+    """Monta o laudo com o banco; com IA, manda o laudo montado para a rota do exame.
+    Se a IA falhar, devolve o laudo local (o ditado nunca se perde)."""
+    ativa = nuvem is not None and nuvem.config().get("ativa")
+    if not resto.strip():
+        # só o comando: vale para o laudo que já está na tela
+        if com_ia and ativa and os.name == "nt":
+            try:
+                import atalho_win
+                sel = atalho_win.copiar_selecao()
+            except Exception:
+                sel = ""
+            if sel:
+                novo, origem = revisar_laudo_inteiro(sel)
+                if novo and origem == "nuvem":
+                    return formato.padronizar(novo), "nuvem_formar_tela"
+                return sel, "nuvem_formar_tela_falhou:" + str(origem)
+        return "", "formar_vazio"
+    texto, origem = rotear(resto)
+    if not com_ia:
+        return texto, "formar:" + origem
+    if not ativa:
+        return texto, "formar:" + origem + "+ia_desligada"
+    c = nuvem.config()
+    pedido = "LAUDO NA TELA:\n" + texto.replace("**", "")
+    novo, o2 = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000)
+    if novo and o2 == "nuvem":
+        return formato.padronizar(novo), "nuvem_formar"
+    if novo and o2 in ("nuvem_bloqueada", "nuvem_teto"):
+        return novo.split("\n", 1)[0] + "\n" + texto, o2     # aviso + laudo local
+    # "nuvem..." no começo: o teto de tempo do ditado local não se aplica aqui
+    return texto, "nuvem_indisponivel_local:" + str(o2)
+
+
 def rotear(ditado):
     """Devolve (texto_final, origem). Nunca levanta excecao."""
     bruto = (ditado or "").strip()
     if not bruto:
         return "", "vazio"
+    cmd = comando_formar(bruto)
+    if cmd is not None:
+        return formar_laudo(*cmd)
     original = bruto
     bruto = ouvido_fixo(_sem_preambulo(bruto))
     n = normalizar(bruto)

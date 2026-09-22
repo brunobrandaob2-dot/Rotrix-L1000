@@ -115,6 +115,33 @@ confere("gasto separado por modelo", "openai:gpt-5.6-luna" in g.get("por_modelo"
 confere("estado nunca mostra chave", "teste-" not in json.dumps(nuvem.estado()))
 confere("preço Luna", nuvem.preco("gpt-5.6-luna") == (0.20, 1.20))
 
+# 8. "formar laudo com IA": monta com o banco e manda o laudo montado para a rota do exame
+try:
+    import roteador
+except Exception as e:                       # sem base.sqlite: pula esta parte
+    roteador = None
+    print("aviso   roteador não carregou (%s): parte 8 pulada" % type(e).__name__)
+if roteador is not None:
+    cfg_rx = dict(cfg)
+    nuvem.config = lambda: dict(cfg_rx)
+    RESP["f"] = _oai(SAIDA_OK)
+    antes = len(ENVIADOS)
+    t, o = roteador.rotear("rx de tornozelo esquerdo com entesopatia calcificada plantar e posterior "
+                           "no calcanho. Formar laudo com IA.")
+    enviado = ENVIADOS[-1][2]["messages"][1]["content"] if len(ENVIADOS) > antes else ""
+    confere("formar laudo com IA usa a rota do exame (RX na Luna)",
+            o == "nuvem_formar" and len(ENVIADOS) == antes + 1
+            and ENVIADOS[-1][2]["model"] == "gpt-5.6-luna", o)
+    confere("vai o laudo montado, sem **", enviado.startswith("LAUDO NA TELA:\n") and "**" not in enviado
+            and "TÉCNICA" in enviado)
+    RESP["f"] = _401
+    t, o = roteador.rotear("rx de joelho direito com artrose medial, formar laudo com IA")
+    confere("IA falhou: devolve o laudo local", o.startswith("nuvem_indisponivel_local")
+            and "JOELHO DIREITO" in t, o)
+    antes = len(ENVIADOS)
+    t, o = roteador.rotear("rx de joelho direito com artrose medial, formar laudo")
+    confere("formar laudo sem IA não chama a nuvem", len(ENVIADOS) == antes and o.startswith("formar:"), o)
+
 print()
 if falhas:
     print("%d FALHA(S): %s" % (len(falhas), ", ".join(falhas)))

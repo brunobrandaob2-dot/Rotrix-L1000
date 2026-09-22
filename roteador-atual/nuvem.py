@@ -450,7 +450,9 @@ de reconhecimento de voz. Às vezes vem também uma INSTRUÇÃO FALADA separada.
 O QUE VOCÊ FAZ (e só isto)
 1. Coloca cada frase ditada no lugar certo do laudo: na linha do órgão ou estrutura
    correspondente da ANÁLISE, ou na CONCLUSÃO quando foi ditada como conclusão.
-   Use as MESMAS palavras que o médico ditou.
+   Use as MESMAS palavras que o médico ditou. As marcações
+   [não encontrado no banco — completar: ...] são achados ditados: leve o conteúdo delas
+   para a linha certa e apague a marcação.
 2. Quando a frase ditada contradiz uma frase da máscara, apaga a frase da máscara
    (ex.: ditou derrame pleural -> sai "seios costofrênicos livres"). Se sobrar parte normal
    da mesma estrutura, pode escrever "Demais ..." com as palavras da própria máscara.
