@@ -664,3 +664,49 @@ pub async fn rotrix_mascaras(
         .await
         .map_err(|e| e.to_string())?
 }
+
+// ---------------------------------------------------------------------------
+// Fila do Radius (radius.py no roteador). O roteador so devolve modalidade,
+// descricao, status e laudado; nome e numero de acesso nunca chegam aqui.
+// ---------------------------------------------------------------------------
+
+/// GET /v1/fila do roteador (JSON em texto).
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_fila() -> Result<String, String> {
+    http_get("/v1/fila").ok_or_else(|| "roteador parado".to_string())
+}
+
+/// Grava no config.json o perfil automatico e, se vier, a pasta do Radius.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_fila_salvar(
+    app: AppHandle,
+    perfil_automatico: bool,
+    pasta: Option<String>,
+) -> Result<(), String> {
+    let p = caminho_config(&app)?;
+    let mut c = ler_config(&p)?;
+    let obj = c
+        .as_object_mut()
+        .ok_or_else(|| "config.json nao e um objeto".to_string())?;
+    obj.insert(
+        "perfil_automatico".to_string(),
+        serde_json::Value::Bool(perfil_automatico),
+    );
+    if let Some(pa) = pasta {
+        let pa = pa.trim();
+        if pa.is_empty() {
+            obj.remove("radius_pasta");
+        } else {
+            if pa.len() > 300 || pa.contains('\n') || pa.contains('\r') {
+                return Err("pasta invalida".to_string());
+            }
+            obj.insert(
+                "radius_pasta".to_string(),
+                serde_json::Value::String(pa.to_string()),
+            );
+        }
+    }
+    gravar_config(&p, &c)
+}
