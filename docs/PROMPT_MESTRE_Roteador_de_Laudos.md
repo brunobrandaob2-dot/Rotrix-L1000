@@ -101,7 +101,7 @@ Tempos de referência medidos: roteador aquecido 0,2 a 0,5 s por ditado; revisã
 - **Escuta contínua:** toca o atalho uma vez (ou o botão do mouse) e o app fica escutando e reconhecendo. O médico **tira a mão do mouse do app, vai para o RadiAnt, olha as imagens e continua ditando**. A barra flutuante mostra o que está ouvindo. Quando volta ao campo do laudo, fala **"formar laudo"** (ou toca o atalho de novo): o roteador monta tudo o que foi ditado com o banco local e cola onde estiver o cursor.
 - **Ditado livre:** texto sem máscara, só com o dicionário de ouvido e a formatação.
 - **Comandos falados:** "parágrafo", "nova linha", pontuação falada ("vírgula", "ponto", "dois pontos", "abre/fecha parênteses"), "frase …" (frase solta do banco), "revisar laudo", instruções para a IA.
-- **"descreva <achado>"** (ex.: "descreva ascite moderada", "cistos Bosniak I", "descreva pavimentação em mosaico"): gera a descrição técnica e detalhada do achado, com linguagem radiológica, na linha do órgão, sem o médico precisar ditar a descrição inteira. Primeiro procura no banco (blocos e frases); se não houver, usa a IA num modo curto de "descrever" (modelo leve), sem inventar medida, lado ou localização (o que faltar vira `___`). Exceção já existente: "descreva/escreva/redija/coloque + nome de exame" continua sendo pedido de máscara.
+- **Pedidos livres à IA** (ex.: "descreva ascite moderada", "melhore a conclusão"): não são regras fixas do app. A IA atende pela instrução falada e pelo prompt do perfil de cada usuário (seção 16.7).
 
 ---
 
@@ -206,12 +206,14 @@ O **Anexo B** (guia extraído dos laudos reais) vale para máscaras novas e para
 - conclusão com um achado por linha, do mais relevante ao menos relevante;
 - achado normal não entra na conclusão.
 
-Preferências que o Bruno escreveu no perfil do Leorad (Anexo E), valendo também aqui:
-- subtópicos estruturados com a descrição na mesma linha depois dos dois-pontos ("Rim: …", "Fígado: …");
-- um parágrafo por linha, **nunca tudo num bloco de texto**;
-- seções TÉCNICA, Indicação ("Em anexo"), ANÁLISE, COMPARATIVO e CONCLUSÃO (ou outros subtópicos quando houver);
-- achados alterados ou patológicos nas primeiras linhas da análise, normais abaixo;
-- **não mencionar a vesícula biliar nos laudos de abdome quando ela estiver normal**, só quando tiver alteração. Hoje a máscara de TC de abdome normal ainda tem a linha "Loja vesicular: sem particularidades." → no app, essa linha só entra quando um bloco de vesícula for ditado.
+**Preferências pessoais não são regras fixas do app.** As do Bruno estão no perfil dele no Leorad (Anexo E):
+- subtópicos com a descrição na mesma linha;
+- um parágrafo por linha;
+- achados alterados primeiro;
+- não citar a vesícula quando normal;
+- descrever tecnicamente o que ele pedir.
+
+Elas entram pelo **prompt do perfil** e pelos controles da aba Processamento (seção 16.7), e cada usuário escreve as suas. O app não embute regra clínica de estilo.
 
 ---
 
@@ -252,6 +254,7 @@ MODALIDADE: TC
 REGIÃO: TÓRAX
 TAREFA: revisar | formatar | laudo | analisar
 LAUDO: (texto que está na tela)
+PROMPT DO PERFIL: (campo "Prompt adicionado no processamento de todos os laudos" + campo do tipo de exame, se houver)
 INSTRUÇÃO DO RADIOLOGISTA: conclusão direta
 ```
 A IA devolve **só o laudo**. Vai só o texto do laudo: **nunca nome, data de nascimento, número de acesso ou qualquer identificador**. Antes de enviar, o app faz uma triagem de identificadores (CPF, números longos, datas de nascimento) e bloqueia se encontrar.
@@ -262,7 +265,6 @@ A IA devolve **só o laudo**. Vai só o texto do laudo: **nunca nome, data de na
 - Não transformar achado em diagnóstico nem hipótese em certeza; não recomendar conduta que não foi ditada.
 - Não deixar notas, ordens ou marcações `[ ]` no texto final.
 - Saída sem markdown; o formatador do app aplica o negrito.
-- "descreva <achado>": descrição técnica completa do achado citado, sem acrescentar outros achados.
 
 ---
 
@@ -321,7 +323,7 @@ Uma janela no estilo de estação de laudo:
 - Depois do ditado: dicionário de ouvido ✓, comandos falados ✓, roteador ✓.
 - IA: provedor e modelo, ou "automática pelo exame" com a tabela da seção 13.3 editável.
 - Chave: colar a chave, que vai para o **Cofre de Credenciais do Windows** e nunca é mostrada de novo.
-- IA · quando: só quando eu pedir.
+- IA · quando: "só quando eu pedir" (padrão) ou "em todo ditado" (pós-processamento automático, como no Leorad).
 - Limite mensal e moeda.
 - Atalhos: todos configuráveis.
 
@@ -342,7 +344,11 @@ Atenção: hoje `Ctrl+Espaço` é o ditado simples e `Ctrl+Alt+Espaço` é o rot
 
 **Macros do mouse:** qualquer ação pode ir para um botão do mouse (pelo software do próprio mouse ou por mapeamento no app), para laudar sem teclado, inclusive reclinado.
 
-### 16.7 Perfis de configuração (inspirado nas "Configurações do Assistant por perfis" do Leorad)
+### 16.7 Configuração por perfis: copiar os controles do Leorad
+
+Objetivo, nas palavras do Bruno: uma aba para formatar o pós-processamento e a formatação dos laudos, e um botão para incluir um arquivo com os próprios laudos. Assim, quem instalar o app pode usar os laudos que já vêm com ele ou os seus, e explicar como os seus funcionam.
+
+**Regra de projeto:** copiar os controles (botões, abas, chips, campos, prévia) das telas "Configurações do Assistant por perfis" do Leorad. **Não embutir regras clínicas ou de estilo no app.** Comportamentos como "descreva X gera descrição técnica" ou "não citar a vesícula normal" vêm do prompt que cada usuário escreve no perfil ou fala na hora.
 
 - **Vários perfis com nome livre** (ex.: "Padrão Bruno", "Plantão TC", "RX rápido"). O perfil pode ser trocado pela barra ou por atalho, ou escolhido sozinho pela modalidade e região do exame aberto na fila. Botões: Salvar, Duplicar, Excluir, Exportar e Importar (arquivo .json, para levar para outro PC ou passar a um colega).
 - Cada perfil tem **quatro abas: Formatação · Processamento · Voz · Máscaras**. O perfil "Padrão Bruno" vem pronto com tudo o que está neste documento.
@@ -377,7 +383,14 @@ Atenção: hoje `Ctrl+Espaço` é o ditado simples e `Ctrl+Alt+Espaço` é o rot
   - comparar com exames anteriores;
   - campo de observação ao final.
 - Idioma em que o laudo é gerado.
-- **"Prompt do perfil"**: texto livre de até cerca de 2.000 caracteres, com "carregar exemplo". Serve só para conteúdo e estilo narrativo; formatação fica na aba Formatação.
+- **Campo "Prompt adicionado no processamento de todos os laudos"** (igual ao do Leorad; é o "prompt do perfil"):
+  - caixa de texto grande, com contador (ex.: "1695 / 2000") e o link "Carregar exemplo";
+  - aviso embaixo do título: "Não inclua comandos de formatação (centralizar título, fonte, tamanho, cores etc.). Este campo é para orientações sobre o conteúdo e o estilo narrativo dos laudos.";
+  - ali a pessoa delimita e escreve as características específicas dela e os comandos que devem valer sempre (ex.: "não mencionar a vesícula biliar nos laudos de abdome, somente se ela tiver alterações");
+  - o texto vai **em todo pós-processamento feito pela IA** daquele perfil ("só formatar", "analisar", revisão e instrução), sempre depois das regras de segurança do app, que ele não pode desligar (não inventar achado, medida ou lado);
+  - com "IA · quando" em "em todo ditado", ele vale para todos os laudos; em "só quando eu pedir", vale em cada envio à IA;
+  - **campos por tipo de exame (opcionais):** além do campo geral, um campo igual para RX, TC, RM, angio ou uma região específica. Ele entra depois do geral, para delimitar comandos que valem só naquele exame;
+  - o conteúdo aparece em "Ver o que será enviado à IA".
 - **"Ver o que será enviado à IA"**: mostra o pedido final montado (envelope + chips + prompt do perfil + modelo das máscaras + laudo), para total transparência.
 - Provedor e modelo (ou "automático pelo exame"), e o modo por exame (tabela 13.3).
 
@@ -386,7 +399,8 @@ Atenção: hoje `Ctrl+Espaço` é o ditado simples e `Ctrl+Alt+Espaço` é o rot
 - **"Usar contexto das máscaras"**: o vocabulário e os gatilhos das máscaras do perfil entram no vocabulário do reconhecimento, como o `custom_words` de hoje.
 - Dicionário de ouvido do perfil, editável.
 
-**Aba Máscaras** (pedido do Bruno: para quem quiser usar as próprias máscaras).
+**Aba Máscaras e laudos** (pedido do Bruno: para quem quiser usar os próprios laudos).
+- **Botão "Incluir arquivo com meus laudos"**: aceita .txt, .docx, .zip ou uma pasta inteira, com laudos ou máscaras no formato da pessoa.
 - **Escolher a fonte das máscaras:**
   - (a) o banco pronto do app, com as máscaras que já fizemos (47 regiões);
   - (b) só as minhas máscaras;
@@ -398,7 +412,7 @@ Atenção: hoje `Ctrl+Espaço` é o ditado simples e `Ctrl+Alt+Espaço` é o rot
 - **Conversor:**
   - a máscara colada em qualquer formato é convertida para o formato do banco (Anexo C) pelo formatador local e, se o usuário quiser, pela IA;
   - passa pelo validador antes de entrar, que mostra o que não passou e por quê.
-- **Campo "Como são as minhas máscaras"** (texto livre, editável). A pessoa descreve o modelo das próprias máscaras: seções, rótulos, frases de normalidade, ordem, o que omitir (ex.: "não citar a vesícula quando normal"). Esse texto é usado:
+- **Campo "Como são os meus laudos"** (texto livre, editável). A pessoa descreve mais ou menos como funcionam os laudos dela: seções, rótulos, frases de normalidade, ordem, o que omitir. Esse texto é usado:
   1. pelo conversor;
   2. pelo formatador;
   3. no processamento da IA daquele perfil, para que o laudo final siga o modelo da pessoa.
@@ -493,8 +507,7 @@ Os resultados esperados, gerados pelo motor atual, estão no **Anexo D**. Além 
   - modelo da **TC de rotina**;
   - moeda padrão do contador;
   - se os atalhos por modalidade continuam existindo;
-  - comportamento exato da colagem no "formar laudo": onde está o cursor ou no campo onde começou;
-  - aplicar já no sistema atual a regra da vesícula (tirar "Loja vesicular: sem particularidades." da TC de abdome normal e fazer os blocos de vesícula entrarem sem essa linha).
+  - comportamento exato da colagem no "formar laudo": onde está o cursor ou no campo onde começou.
 
 ---
 
@@ -1143,6 +1156,8 @@ Exame sem alterações significativas.
 ---
 
 # ANEXO E: Perfil atual do Bruno no Leorad (referência, 22/09/2026)
+
+Serve de modelo dos controles a copiar e de exemplo de prompt de perfil. **O conteúdo do prompt é preferência do Bruno, não regra do app.**
 
 - **Nome do perfil:** "Inferno na terra".
 - **Formatação:**
