@@ -63,6 +63,8 @@ struct MenuInputs {
     downloaded_models: Vec<(String, String)>,
     locale: String,
     update_checks_enabled: bool,
+    /// Rotrix: resumo do gasto com IA ("IA: hoje US$ 0,31 · mes US$ 4,20 de 25").
+    rotrix_gasto: Option<String>,
 }
 
 /// Complete description of what the tray should look like.
@@ -334,6 +336,7 @@ fn compute_desired(app: &AppHandle, icon_state: TrayIconState) -> TrayDesired {
             downloaded_models,
             locale: settings.app_language,
             update_checks_enabled: settings.update_checks_enabled,
+            rotrix_gasto: crate::rotrix::resumo_gasto(app),
         },
     }
 }
@@ -582,12 +585,29 @@ fn build_menu(app: &AppHandle, inputs: &MenuInputs) -> tauri::Result<(Menu<tauri
         menu.remove(&check_updates_i)?;
     }
 
+    // Rotrix: gasto com IA e atalho para a pasta do roteador, logo abaixo da versao.
+    let mut pos_extra = 1;
+    if let Some(gasto) = &inputs.rotrix_gasto {
+        let gasto_i = MenuItem::with_id(app, "rotrix_gasto", gasto, false, None::<&str>)?;
+        menu.insert(&gasto_i, pos_extra)?;
+        pos_extra += 1;
+    }
+    let pasta_i = MenuItem::with_id(
+        app,
+        "rotrix_pasta",
+        "Abrir pasta do roteador",
+        true,
+        None::<&str>,
+    )?;
+    menu.insert(&pasta_i, pos_extra)?;
+    pos_extra += 1;
+
     // Both layouts start with [version, separator, ...]; slot the warning in
     // right below the version line so it's the first actionable thing seen.
     let mut tooltip = version_label;
     if let Some(warning_item) = secure_input_warning {
-        menu.insert(&warning_item, 2)?;
-        menu.insert(&separator()?, 3)?;
+        menu.insert(&warning_item, pos_extra + 1)?;
+        menu.insert(&separator()?, pos_extra + 2)?;
         tooltip = format!("{} — {}", tooltip, warning_item.text().unwrap_or_default());
     }
 
@@ -694,6 +714,7 @@ mod tests {
             downloaded_models: vec![("small".to_string(), "Small".to_string())],
             locale: "en".to_string(),
             update_checks_enabled: true,
+            rotrix_gasto: None,
         }
     }
 

@@ -303,6 +303,15 @@ fn initialize_core_logic(app_handle: &AppHandle) {
             "copy_last_transcript" => {
                 tray::copy_last_transcript(app);
             }
+            "rotrix_pasta" => {
+                use tauri_plugin_opener::OpenerExt;
+                if let Some(p) = rotrix::pasta_roteador(app) {
+                    let _ = std::fs::create_dir_all(&p);
+                    let _ = app
+                        .opener()
+                        .open_path(p.to_string_lossy().to_string(), None::<String>);
+                }
+            }
             "unload_model" => {
                 let transcription_manager = app.state::<Arc<TranscriptionManager>>();
                 if !transcription_manager.is_model_loaded() {

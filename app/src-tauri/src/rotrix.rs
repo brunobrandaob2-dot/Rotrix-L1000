@@ -180,3 +180,62 @@ pub fn encerrar() {
         }
     }
 }
+
+/// Pasta do roteador na maquina do usuario (para o item "Abrir pasta do roteador").
+pub fn pasta_roteador(app: &AppHandle) -> Option<PathBuf> {
+    pasta_dados(app)
+}
+
+fn fmt_usd(v: f64) -> String {
+    format!("US$ {:.2}", v).replace('.', ",")
+}
+
+/// Resumo do gasto com IA para o menu da bandeja:
+/// "IA: hoje US$ 0,31 · mês US$ 4,20 de 25" (le gasto.json, nuvem.log e config.json).
+pub fn resumo_gasto(app: &AppHandle) -> Option<String> {
+    let dados = pasta_dados(app)?;
+    if !dados.join("roteador.py").exists() {
+        return None;
+    }
+    let ler_json = |nome: &str| -> Option<serde_json::Value> {
+        let txt = std::fs::read_to_string(dados.join(nome)).ok()?;
+        serde_json::from_str(&txt).ok()
+    };
+    let mes_atual = chrono::Local::now().format("%Y-%m").to_string();
+    let hoje = chrono::Local::now().format("%Y-%m-%d").to_string();
+
+    let mut mes_usd = 0.0;
+    let mut chamadas: u64 = 0;
+    if let Some(g) = ler_json("gasto.json") {
+        if g.get("mes").and_then(|v| v.as_str()) == Some(mes_atual.as_str()) {
+            mes_usd = g.get("usd").and_then(|v| v.as_f64()).unwrap_or(0.0);
+            chamadas = g.get("chamadas").and_then(|v| v.as_u64()).unwrap_or(0);
+        }
+    }
+    let limite = ler_json("config.json")
+        .and_then(|c| c.get("limite_mes_usd").and_then(|v| v.as_f64()))
+        .unwrap_or(0.0);
+
+    // nuvem.log: "2026-09-22T10:00:00\tmodelo\testado\tin=..\tout=..\tusd=0.01234\tmes=.."
+    let mut hoje_usd = 0.0;
+    if let Ok(log) = std::fs::read_to_string(dados.join("nuvem.log")) {
+        for linha in log.lines().filter(|l| l.starts_with(&hoje)) {
+            if let Some(v) = linha
+                .split('\t')
+                .find_map(|c| c.strip_prefix("usd="))
+                .and_then(|v| v.trim().parse::<f64>().ok())
+            {
+                hoje_usd += v;
+            }
+        }
+    }
+
+    if chamadas == 0 && hoje_usd == 0.0 {
+        return Some("IA: nenhum uso neste mês".to_string());
+    }
+    let mut s = format!("IA: hoje {} · mês {}", fmt_usd(hoje_usd), fmt_usd(mes_usd));
+    if limite > 0.0 {
+        s.push_str(&format!(" de {}", fmt_usd(limite).replace("US$ ", "")));
+    }
+    Some(s)
+}
