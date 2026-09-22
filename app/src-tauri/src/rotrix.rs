@@ -758,6 +758,153 @@ pub fn rotrix_perfil_importar(arquivo: String, modo: String) -> Result<String, S
     )
 }
 
+/// Correcoes do medico, escritas na caixa de texto do app.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_correcao_aplicar(
+    texto: String,
+    laudo: String,
+    usar_ia: bool,
+) -> Result<String, String> {
+    http_post(
+        "/v1/correcao",
+        &serde_json::json!({ "texto": texto, "laudo": laudo, "usar_ia": usar_ia }).to_string(),
+        90_000,
+    )
+}
+
+/// As ultimas regras que voce criou (para conferir e desfazer).
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_correcao_listar() -> Result<String, String> {
+    http_get("/v1/correcao").ok_or_else(|| "roteador parado".to_string())
+}
+
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_correcao_desfazer(id: String) -> Result<String, String> {
+    http_post(
+        "/v1/correcao/desfazer",
+        &serde_json::json!({ "id": id }).to_string(),
+        10_000,
+    )
+}
+
+/// Versao publicada no GitHub ("ultima"), para o app avisar e baixar sozinho.
+/// Sem token e sem login: e uma Release publica.
+const RELEASE_ULTIMA: &str =
+    "https://api.github.com/repos/brunobrandaob2-dot/Rotrix-L1000/releases/tags/ultima";
+
+#[derive(serde::Serialize, specta::Type)]
+pub struct VersaoPublicada {
+    /// commit do app instalado (vazio quando compilado fora do CI)
+    pub instalada: String,
+    /// commit da versao publicada
+    pub publicada: String,
+    pub nome: String,
+    pub quando: String,
+    pub link: String,
+    pub tem_nova: bool,
+}
+
+#[specta::specta]
+#[tauri::command]
+pub async fn rotrix_versao_publicada() -> Result<VersaoPublicada, String> {
+    let instalada = option_env!("ROTRIX_COMMIT").unwrap_or("").to_string();
+    let cliente = reqwest::Client::builder()
+        .timeout(Duration::from_secs(15))
+        .user_agent("Rotrix-L1000")
+        .build()
+        .map_err(|e| e.to_string())?;
+    let v: serde_json::Value = cliente
+        .get(RELEASE_ULTIMA)
+        .header("Accept", "application/vnd.github+json")
+        .send()
+        .await
+        .map_err(|e| format!("sem internet ou GitHub fora do ar: {e}"))?
+        .json()
+        .await
+        .map_err(|e| e.to_string())?;
+    let publicada = v
+        .get("target_commitish")
+        .and_then(|x| x.as_str())
+        .unwrap_or("")
+        .to_string();
+    let link = v
+        .get("assets")
+        .and_then(|a| a.as_array())
+        .and_then(|a| a.iter().find(|x| {
+            x.get("name")
+                .and_then(|n| n.as_str())
+                .map(|n| n.ends_with(".exe"))
+                .unwrap_or(false)
+        }))
+        .and_then(|x| x.get("browser_download_url"))
+        .and_then(|x| x.as_str())
+        .unwrap_or("")
+        .to_string();
+    let tem_nova = !publicada.is_empty() && !instalada.is_empty() && publicada != instalada;
+    Ok(VersaoPublicada {
+        instalada,
+        publicada,
+        nome: v
+            .get("name")
+            .and_then(|x| x.as_str())
+            .unwrap_or("")
+            .to_string(),
+        quando: v
+            .get("published_at")
+            .and_then(|x| x.as_str())
+            .unwrap_or("")
+            .to_string(),
+        link,
+        tem_nova,
+    })
+}
+
+/// Primeiros passos: o que ja esta pronto nesta maquina.
+#[derive(serde::Serialize, specta::Type)]
+pub struct PrimeirosPassos {
+    pub roteador: bool,
+    pub modelo: bool,
+    pub radius: bool,
+    pub chave_ia: bool,
+    pub mascaras: u32,
+}
+
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_primeiros_passos(app: AppHandle) -> PrimeirosPassos {
+    let versao = consultar_versao();
+    let mascaras = versao
+        .as_ref()
+        .and_then(|v| v.get("gatilhos"))
+        .and_then(|x| x.as_u64())
+        .unwrap_or(0) as u32;
+    let fila: Option<serde_json::Value> =
+        http_get("/v1/fila").and_then(|c| serde_json::from_str(&c).ok());
+    let ia: Option<serde_json::Value> =
+        http_get("/v1/ia").and_then(|c| serde_json::from_str(&c).ok());
+    let chave_ia = ia
+        .as_ref()
+        .and_then(|v| v.get("chaves"))
+        .and_then(|x| x.as_object())
+        .map(|o| o.values().any(|v| v.as_bool().unwrap_or(false)))
+        .unwrap_or(false);
+    let s = settings::get_settings(&app);
+    PrimeirosPassos {
+        roteador: versao.is_some(),
+        modelo: !s.selected_model.is_empty(),
+        radius: fila
+            .as_ref()
+            .and_then(|v| v.get("pasta_existe"))
+            .and_then(|x| x.as_bool())
+            .unwrap_or(false),
+        chave_ia,
+        mascaras,
+    }
+}
+
 /// Grava no config.json o perfil automatico e, se vier, a pasta do Radius.
 #[specta::specta]
 #[tauri::command]

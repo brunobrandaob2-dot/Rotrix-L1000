@@ -16,6 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import roteador as r  # noqa: E402
 import radius  # noqa: E402
 import perfil  # noqa: E402
+import correcao  # noqa: E402
 
 
 def _estudo(nome, acesso, mod, desc, laudado, quando, status=""):
@@ -147,13 +148,73 @@ def cenario_perfil(falhas):
         shutil.rmtree(casa, ignore_errors=True)
 
 
+def cenario_correcao(falhas):
+    casa = tempfile.mkdtemp(prefix="correcao_")
+    correcao.DADOS = casa
+    correcao.ARQ_REGRAS = os.path.join(casa, "minhas_regras.json")
+    correcao.ARQ_LOG = os.path.join(casa, "correcoes.jsonl")
+    correcao.ARQ_OUVIDO = os.path.join(casa, "ouvido.tsv")
+    try:
+        casos = [
+            ("risartrose, o certo é rizartrose", "ouvido", ("risartrose", "rizartrose")),
+            ("troque esparça por esparsa", "ouvido", ("esparça", "esparsa")),
+            ("a palavra orta deveria ser aorta", "ouvido", ("orta", "aorta")),
+            ("não escrever Partes moles sem alterações no raio x de punho", "tirar", None),
+            ("sempre escrever Sem sinais de pneumotórax no raio x de tórax", "acrescentar", None),
+        ]
+        for texto, tipo, par in casos:
+            acoes = correcao.entender(texto, r._regiao_do_exame)
+            if not acoes or acoes[0]["tipo"] != tipo:
+                falhas.append("correção: %r virou %s" % (texto, acoes))
+                continue
+            if par and (acoes[0]["errado"].lower(), acoes[0]["certo"]) != par:
+                falhas.append("correção: %r leu %s" % (texto, acoes[0]))
+        # o que não dá para entender vira nota, nunca regra errada
+        r_nota = correcao.aplicar("a máscara de joelho está comprida demais")
+        if not r_nota["ok"] or r_nota["acoes"][0]["tipo"] != "nota":
+            falhas.append("correção: pedido vago devia virar nota: %s" % r_nota)
+        # aplicar de verdade: a regra vale só no exame dito
+        correcao.aplicar("não escrever Partes moles sem alterações no raio x de punho",
+                         achar_regiao=r._regiao_do_exame)
+        texto = "**RADIOGRAFIA**\n\n**ANÁLISE:**\nSinais de rizartrose.\nPartes moles sem alterações.\n"
+        saiu = correcao.aplicar_regras(texto, "rx_literal:msk/rx/punho/normal")
+        if "Partes moles" in saiu:
+            falhas.append("correção: a frase não saiu do laudo do punho")
+        if "Partes moles" not in correcao.aplicar_regras(texto, "mascara:msk/rx/joelho/normal"):
+            falhas.append("correção: a regra do punho não podia valer no joelho")
+        # acrescentar entra antes da conclusão e não repete
+        correcao.aplicar("sempre escrever Sem sinais de pneumotórax no raio x de tórax",
+                         achar_regiao=r._regiao_do_exame)
+        t2 = "**ANÁLISE:**\nCampos pulmonares sem opacidades focais.\n\n**CONCLUSÃO:**\nNormal.\n"
+        s2 = correcao.aplicar_regras(t2, "mascara:medicina_interna/rx/torax/normal")
+        if s2.count("Sem sinais de pneumotórax") != 1 or s2.index("Sem sinais") > s2.index("CONCLUS"):
+            falhas.append("correção: acrescentar entrou errado: %r" % s2)
+        if correcao.aplicar_regras(s2, "mascara:medicina_interna/rx/torax/normal").count("pneumotórax") != 1:
+            falhas.append("correção: acrescentar repetiu a frase")
+        # desfazer tira a regra e a linha do ouvido.tsv
+        correcao.aplicar("risartrose, o certo é rizartrose", achar_regiao=r._regiao_do_exame)
+        if "rizartrose" not in open(correcao.ARQ_OUVIDO, encoding="utf-8").read():
+            falhas.append("correção: a troca de grafia não entrou no ouvido.tsv")
+        regras = correcao.listar()["regras"]
+        ouvido = next(x for x in regras if x["tipo"] == "ouvido")
+        correcao.desfazer(ouvido["id"])
+        if any(x["id"] == ouvido["id"] for x in correcao.listar()["regras"]):
+            falhas.append("correção: desfazer não tirou a regra")
+        if ouvido["errado"] in open(correcao.ARQ_OUVIDO, encoding="utf-8").read():
+            falhas.append("correção: desfazer não tirou a linha do ouvido.tsv")
+    finally:
+        shutil.rmtree(casa, ignore_errors=True)
+
+
 def main():
     falhas = []
     cenario_estacao(falhas)
     cenario_perfil(falhas)
+    cenario_correcao(falhas)
     for f in falhas:
         print("FALHOU", f)
-    print("estação e perfil: tudo certo" if not falhas else "estação e perfil: %d falha(s)" % len(falhas))
+    print("estação, perfil e correções: tudo certo" if not falhas
+          else "estação, perfil e correções: %d falha(s)" % len(falhas))
     sys.exit(1 if falhas else 0)
 
 

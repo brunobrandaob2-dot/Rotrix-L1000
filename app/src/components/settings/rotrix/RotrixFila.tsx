@@ -13,6 +13,7 @@ import { Button } from "../../ui/Button";
 import { Input } from "../../ui/Input";
 import { ToggleSwitch } from "../../ui/ToggleSwitch";
 import { ShortcutInput } from "../ShortcutInput";
+import { dica, useAtalho } from "../../../lib/utils/atalhos";
 
 interface Estudo {
   id: string;
@@ -165,6 +166,15 @@ export const RotrixFila: React.FC = () => {
   const itens = (fila?.itens ?? []).slice(0, MAX_LINHAS);
   const vez = itens.find((x) => x.id === fila?.vez) ?? null;
 
+  // teclas da tela (sem Ctrl/Alt), enquanto você não está num campo de texto
+  useAtalho("a", () => void ler());
+  useAtalho("n", () => {
+    if (!salvando && fila !== null && erro === "") void proximo();
+  });
+  useAtalho("l", () => {
+    if (vez) void marcar(vez.id, true);
+  });
+
   return (
     <SettingsGroup
       title="Fila do Radius"
@@ -173,7 +183,12 @@ export const RotrixFila: React.FC = () => {
       <SettingContainer title="Na fila agora" description="Atualiza a cada 10 segundos." grouped={true}>
         <div className="flex items-center gap-3">
           <span className="text-sm">{situacao}</span>
-          <Button variant="secondary" size="sm" onClick={() => void ler()}>
+          <Button
+            variant="secondary"
+            size="sm"
+            title={dica("Reler a fila do Radius", "a")}
+            onClick={() => void ler()}
+          >
             Atualizar
           </Button>
         </div>
@@ -192,6 +207,7 @@ export const RotrixFila: React.FC = () => {
             variant="primary"
             size="sm"
             disabled={salvando || fila === null || erro !== ""}
+            title={dica("Marca o exame da vez como laudado e passa ao próximo", "n")}
             onClick={() => void proximo()}
           >
             Próximo exame
@@ -232,6 +248,7 @@ export const RotrixFila: React.FC = () => {
           <Button
             variant="secondary"
             size="sm"
+            title={dica("Salvar a pasta do Radius")}
             onClick={() => void salvar(fila?.perfil_automatico ?? false, pasta)}
           >
             Salvar
@@ -279,7 +296,7 @@ export const RotrixFila: React.FC = () => {
                     <button
                       type="button"
                       className="shrink-0 text-xs text-mid-gray underline cursor-pointer bg-transparent border-0 p-0"
-                      title="marcar como laudado por você"
+                      title={dica("Marcar como laudado por você", daVez ? "l" : undefined)}
                       onClick={() => void marcar(x.id, true)}
                     >
                       laudei

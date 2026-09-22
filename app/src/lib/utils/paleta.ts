@@ -35,6 +35,8 @@ export interface EscolhaPaleta {
 }
 
 export const PALETA_STORAGE_KEY = "rotrix.paleta";
+/** Cor de fábrica do Rotrix: grafite com azul aço ("Sala de laudo"). */
+export const PADRAO = "sala";
 export const EVENTO_PALETA = "paleta-alterada";
 export const ID_LIVRE = "livre";
 
@@ -169,7 +171,9 @@ export const paletaLivre = (cor: string): Paleta => {
 export const paletaDe = (e: EscolhaPaleta): Paleta =>
   e.id === ID_LIVRE && e.cor
     ? paletaLivre(e.cor)
-    : PALETAS.find((p) => p.id === e.id) ?? PALETAS[0];
+    : PALETAS.find((p) => p.id === e.id) ??
+      PALETAS.find((p) => p.id === PADRAO) ??
+      PALETAS[0];
 
 // ---------- aplicar e guardar ----------
 
@@ -210,7 +214,7 @@ export const getPaletaSalva = (): EscolhaPaleta => {
   } catch {
     // sem localStorage: fica a original
   }
-  return { id: "original" };
+  return { id: PADRAO };
 };
 
 export const salvarPaleta = (e: EscolhaPaleta): void => {

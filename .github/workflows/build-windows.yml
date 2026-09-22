@@ -18,6 +18,9 @@ concurrency:
   group: build-windows-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write        # publica a versao "ultima" (Releases) para o app baixar
+
 env:
   PYTHON_EMBED_VERSION: "3.12.10"
 
@@ -162,10 +165,29 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # o app usa isso para saber se ja esta na versao publicada
+          ROTRIX_COMMIT: ${{ github.sha }}
+          ROTRIX_DATA: ${{ github.run_id }}
         with:
           projectPath: app
           tauriScript: bun run tauri
           args: --bundles nsis
+
+      # "ultima": o app procura aqui e baixa sem precisar de login no GitHub
+      - name: Publicar a versao "ultima" (so na main)
+        if: github.ref_name == 'main'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $exe = Get-ChildItem "app/src-tauri/target/release/bundle/nsis/*.exe" | Select-Object -First 1
+          if (-not $exe) { throw "instalador nao encontrado" }
+          $curto = "${{ github.sha }}".Substring(0,7)
+          $nome = "Rotrix-L1000-$curto.exe"
+          Copy-Item $exe.FullName $nome
+          $notas = "Instalador do Rotrix L-1000.`n`nCommit: ${{ github.sha }}`nGerado em: $(Get-Date -Format 'yyyy-MM-dd HH:mm') UTC"
+          gh release delete ultima --yes --cleanup-tag 2>$null
+          gh release create ultima $nome --title "Rotrix L-1000 ($curto)" --notes "$notas" --target ${{ github.sha }}
 
       - name: Upload installer
         uses: actions/upload-artifact@v4

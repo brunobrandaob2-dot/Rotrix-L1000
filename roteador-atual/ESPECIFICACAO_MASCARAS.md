@@ -122,6 +122,16 @@ preservados.", "Seios costofrênicos livres.") — é por elas que o achado acha
 de RX pode ter só a `normal.txt`; os blocos e as alteradas servem ao "descrever".
 Desligar: `"rx_literal": false` no config.json.
 
+### Correções do médico (22/09/2026)
+
+`correcao.py`. A caixa "Corrigir" do app manda o texto para `/v1/correcao`. O roteador entende
+sozinho três tipos — grafia (vai para `dados/ouvido.tsv`), frase que não deve sair e frase que
+deve sair sempre (`dados/minhas_regras.json`, com escopo opcional por região) — e guarda o resto
+como nota em `dados/correcoes.jsonl`. Com `usar_ia`, o pedido confuso passa pela IA, que só pode
+devolver esses mesmos tipos; o laudo nunca é enviado. As regras "tirar"/"acrescentar" são
+aplicadas no texto final (`aplicar_regras`, chamado no POST antes de formatar). Toda regra tem
+código e `desfazer`, que também tira a linha do ouvido.tsv.
+
 ### Modo estação e perfil (22/09/2026)
 
 - **Exame da vez.** `estacao_atual` = o exame escolhido na estação, senão o aberto no Radius,

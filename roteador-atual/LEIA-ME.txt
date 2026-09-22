@@ -184,6 +184,26 @@ RADIOGRAFIA — as SUAS palavras, na linha certa (RX literal):
     - Para voltar ao modo antigo (blocos do banco), ponha
       "rx_literal": false no config.json.
 
+CORRIGIR (app Rotrix): a caixa onde você escreve o que saiu errado
+    "risartrose, o certo é rizartrose"          (grafia, entra no ouvido.tsv)
+    "não escrever Partes moles sem alterações no raio x de punho"
+    "sempre escrever Sem sinais de pneumotórax no raio x de tórax"
+    Vale no próximo ditado. Cada regra tem "desfazer". O que o
+    roteador não entende fica anotado (dados/correcoes.jsonl) e, se
+    você ligar, a IA ajuda a entender — só o seu texto sai daqui,
+    laudo e nome de paciente nunca.
+
+TECLAS DA PÁGINA ROTRIX (passe o mouse no botão para ver):
+    A  atualizar a fila          N  próximo exame
+    L  marcar o da vez laudado   M  usar o modelo recomendado
+    C  aplicar a correção        E  exportar perfil
+    I  importar perfil           U  procurar atualização
+    P  conferir os primeiros passos
+    No Windows todo: Ctrl+Alt+N = próximo exame.
+
+ATUALIZAÇÃO DO APP: a página Rotrix procura a versão publicada no
+    GitHub (sem login) e baixa o instalador quando você manda.
+
 MODO ESTAÇÃO (app Rotrix):
     A fila do Radius mostra o EXAME DA VEZ (●). Ctrl+Alt+N passa para
     o próximo pendente e marca o anterior como laudado por você. Dá

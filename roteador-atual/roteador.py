@@ -34,10 +34,14 @@ try:
     import perfil as perfil_mod
 except Exception:
     perfil_mod = None
+try:
+    import correcao as correcao_mod
+except Exception:
+    correcao_mod = None
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-22.9"
+VERSAO = "2026-09-22.10"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -2069,6 +2073,39 @@ def estacao_proximo():
     return {"ok": True, "item": prox, "restam": len(pendentes)}
 
 
+# ---------------------------------------------------------------------------
+# CORRECOES DO MEDICO (correcao.py): a caixa de texto do app ("saiu risartrose,
+# e com z"; "nao escrever tal frase no rx de punho") vira regra na hora.
+# ---------------------------------------------------------------------------
+def _regiao_do_exame(nome_exame):
+    """"raio x de punho" -> "msk/rx/punho" (para a regra valer so nesse exame)."""
+    tit = _mascara_do_estudo(normalizar(ouvido_bruto(nome_exame or "")))
+    if not tit:
+        return ""
+    m = BANCO.meta.get(tit)
+    return "/".join(m[:3]) if m else ""
+
+
+def correcao_aplicar(texto, laudo="", usar_ia=False):
+    if correcao_mod is None:
+        return {"ok": False, "motivo": "correcao_indisponivel"}
+    return correcao_mod.aplicar(texto, laudo, usar_ia, nuvem,
+                                nuvem.config() if nuvem is not None else None,
+                                _regiao_do_exame)
+
+
+def correcao_listar():
+    if correcao_mod is None:
+        return {"ok": False, "motivo": "correcao_indisponivel"}
+    return correcao_mod.listar()
+
+
+def correcao_desfazer(id_regra):
+    if correcao_mod is None:
+        return {"ok": False, "motivo": "correcao_indisponivel"}
+    return correcao_mod.desfazer(id_regra)
+
+
 def perfil_exportar(destino=None, incluir_estilo=False):
     if perfil_mod is None:
         return {"ok": False, "motivo": "perfil_indisponivel"}
@@ -2143,6 +2180,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(200, fila_radius())
             except Exception as e:
                 return self._json(500, {"error": type(e).__name__})
+        if self.path.rstrip("/") in ("/correcao", "/v1/correcao"):
+            return self._json(200, correcao_listar())
         if self.path.rstrip("/") in ("/recarregar", "/v1/recarregar"):
             BANCO.carregar()
             return self._json(200, {"ok": True, "gatilhos": len(BANCO.itens)})
@@ -2158,7 +2197,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         rota = self.path.rstrip("/")
         if rota.endswith(("/fila/proximo", "/fila/escolher", "/fila/feito",
-                          "/perfil/exportar", "/perfil/importar")):
+                          "/perfil/exportar", "/perfil/importar",
+                          "/correcao", "/correcao/desfazer")):
             corpo = self._corpo()
             try:
                 if rota.endswith("/fila/proximo"):
@@ -2167,6 +2207,12 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(200, estacao_escolher(corpo.get("id")))
                 if rota.endswith("/fila/feito"):
                     return self._json(200, estacao_feito(corpo.get("id"), bool(corpo.get("feito", True))))
+                if rota.endswith("/correcao"):
+                    return self._json(200, correcao_aplicar(corpo.get("texto") or "",
+                                                            corpo.get("laudo") or "",
+                                                            bool(corpo.get("usar_ia"))))
+                if rota.endswith("/correcao/desfazer"):
+                    return self._json(200, correcao_desfazer(corpo.get("id")))
                 if rota.endswith("/perfil/exportar"):
                     return self._json(200, perfil_exportar(corpo.get("destino"),
                                                            bool(corpo.get("incluir_estilo"))))
@@ -2187,6 +2233,11 @@ class Handler(BaseHTTPRequestHandler):
             texto, origem = rotear(ditado)
             if (not origem.startswith("nuvem")) and (time.time() - t0 > ORCAMENTO_S):
                 texto, origem = ditado, "estouro_de_tempo"
+            if correcao_mod is not None:
+                try:
+                    texto = correcao_mod.aplicar_regras(texto, origem)
+                except Exception as e:
+                    print("AVISO: regras do medico falharam (%s)" % type(e).__name__, file=sys.stderr)
             texto = formatar_saida(texto)
         except Exception as e:
             texto, origem = (ditado or ""), f"erro:{type(e).__name__}"

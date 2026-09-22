@@ -9,6 +9,7 @@ import { SettingsGroup } from "../../ui/SettingsGroup";
 import { SettingContainer } from "../../ui/SettingContainer";
 import { Button } from "../../ui/Button";
 import { ToggleSwitch } from "../../ui/ToggleSwitch";
+import { dica, useAtalho } from "../../../lib/utils/atalhos";
 
 interface Exportado {
   ok: boolean;
@@ -105,6 +106,13 @@ export const RotrixPerfil: React.FC = () => {
     }
   };
 
+  useAtalho("e", () => {
+    if (!ocupado) void exportar();
+  });
+  useAtalho("i", () => {
+    if (!ocupado) void importar();
+  });
+
   return (
     <SettingsGroup
       title="Perfil"
@@ -124,10 +132,22 @@ export const RotrixPerfil: React.FC = () => {
         grouped={true}
       >
         <div className="flex gap-2">
-          <Button variant="primary" size="sm" disabled={ocupado} onClick={() => void exportar()}>
+          <Button
+            variant="primary"
+            size="sm"
+            disabled={ocupado}
+            title={dica("Gravar um .rotrix.zip com o que é seu", "e")}
+            onClick={() => void exportar()}
+          >
             Exportar perfil
           </Button>
-          <Button variant="secondary" size="sm" disabled={ocupado} onClick={() => void importar()}>
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={ocupado}
+            title={dica("Ler um .rotrix.zip de outro computador", "i")}
+            onClick={() => void importar()}
+          >
             Importar perfil
           </Button>
         </div>
