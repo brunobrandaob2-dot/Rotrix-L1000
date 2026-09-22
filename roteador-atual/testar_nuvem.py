@@ -118,9 +118,12 @@ confere("preço Luna", nuvem.preco("gpt-5.6-luna") == (0.20, 1.20))
 # 8. "formar laudo com IA": monta com o banco e manda o laudo montado para a rota do exame
 try:
     import roteador
-except Exception as e:                       # sem base.sqlite: pula esta parte
+except Exception as e:
     roteador = None
     print("aviso   roteador não carregou (%s): parte 8 pulada" % type(e).__name__)
+if roteador is not None and not roteador.BANCO.itens:   # sem base.sqlite
+    roteador = None
+    print("aviso   sem base.sqlite (rode construir_base.py): parte 8 pulada")
 if roteador is not None:
     cfg_rx = dict(cfg)
     nuvem.config = lambda: dict(cfg_rx)
