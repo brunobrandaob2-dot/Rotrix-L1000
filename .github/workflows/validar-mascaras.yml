@@ -23,3 +23,5 @@ jobs:
         run: |
           regioes=$(find dados/mascaras -name normal.txt -printf '%h\n' | sort)
           python validar_regiao.py $regioes
+      - name: Testar a rota de nuvem (sem internet, respostas simuladas)
+        run: python testar_nuvem.py

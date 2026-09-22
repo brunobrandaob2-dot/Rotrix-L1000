@@ -53,8 +53,17 @@ def _valor(frase):
     return total
 
 
+# "um"/"uma" sozinhos quase sempre são artigo ("um nódulo", "uma discreta
+# quantidade"): só viram 1 quando vem medida logo depois
+_UM_MEDIDA = re.compile(
+    r"\s*(?:v[íi]rgula|ponto|por\b|x\b|e\s+meio|[,.]\s*(?:\d|%s)\b|cent[íi]metro|mil[íi]metro|metro|"
+    r"mil[íi]litro|litro|grau|unidade|hounsfield|cm\b|mm\b|ml\b|%%)" % "|".join(_PAL), re.IGNORECASE)
+
+
 def _numeros_por_extenso(t):
     def rep(m):
+        if m.group(0).lower() in ("um", "uma") and not _UM_MEDIDA.match(m.string, m.end()):
+            return m.group(0)
         v = _valor(m.group(0))
         return str(v) if v is not None else m.group(0)
     return _NUM_RX.sub(rep, t)
@@ -150,7 +159,13 @@ HESITACOES = re.compile(
     r"quer dizer)(?=[\s,.;:]|$)", re.IGNORECASE)
 
 
+# "dois ponto cinco milímetros" é número decimal, não fim de frase
+_PONTO_DECIMAL = re.compile(
+    r"\b(%s|\d+)\s+ponto\s+(?=(?:%s|\d+)\b)" % ("|".join(_PAL), "|".join(_PAL)), re.IGNORECASE)
+
+
 def _pontuacao(t):
+    t = _PONTO_DECIMAL.sub(r"\1 vírgula ", t)
     for rx, sub in PONTUACAO_RX:
         t = rx.sub(sub, t)
     return t
