@@ -27,7 +27,7 @@ interface EstadoIA {
   provedor: string;
   modelo: string;
   modo_ia?: string;
-  ia_por_exame: Record<string, Rota>;
+  ia_por_exame: Record<string, Rota | string>;
   chaves: Record<string, boolean>;
   limite_mes_usd: number;
   gasto: {
@@ -47,10 +47,9 @@ const PROVEDORES: { value: string; label: string }[] = [
   { value: "gemini", label: "Google (Gemini)" },
   { value: "openrouter", label: "OpenRouter" },
   { value: "ollama", label: "Ollama (no próprio computador)" },
-  { value: "compativel", label: "Outra API compatível" },
 ];
 
-const COM_CHAVE = ["anthropic", "openai", "gemini", "openrouter", "compativel"];
+const COM_CHAVE = ["anthropic", "openai", "gemini", "openrouter"];
 
 const MODELOS: Record<string, { value: string; label: string }[]> = {
   anthropic: [
@@ -89,6 +88,24 @@ const SUGESTAO: Record<string, Rota> = {
 };
 
 const OUTRO = "__outro__";
+
+// o config aceita "provedor:modelo" em texto; a tela trabalha com objeto
+const normalizarRotas = (v: unknown): Record<string, Rota> => {
+  const out: Record<string, Rota> = {};
+  if (v === null || typeof v !== "object") return out;
+  for (const [k, e] of Object.entries(v as Record<string, unknown>)) {
+    if (typeof e === "string") {
+      const i = e.indexOf(":");
+      out[k] =
+        i > 0
+          ? { provedor: e.slice(0, i).trim().toLowerCase(), modelo: e.slice(i + 1).trim() }
+          : { modelo: e.trim() };
+    } else if (e !== null && typeof e === "object") {
+      out[k] = e as Rota;
+    }
+  }
+  return out;
+};
 
 const classeSelect =
   "px-2 py-1 text-sm bg-mid-gray/10 border border-mid-gray/80 rounded-md hover:border-logo-primary focus:outline-none focus:border-logo-primary";
@@ -171,7 +188,7 @@ export const RotrixIA: React.FC = () => {
       setProvedor(e.provedor || "anthropic");
       setModelo(e.modelo || "");
       setLimite(String(e.limite_mes_usd ?? 0));
-      setRotas(e.ia_por_exame ?? {});
+      setRotas(normalizarRotas(e.ia_por_exame));
       setAlterado(false);
       setVersao((v) => v + 1);
     } catch (err) {

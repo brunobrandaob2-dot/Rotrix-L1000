@@ -337,8 +337,7 @@ fn caminho_config(app: &AppHandle) -> Result<PathBuf, String> {
 #[tauri::command]
 pub fn rotrix_get_prompt(app: AppHandle) -> Result<String, String> {
     let p = caminho_config(&app)?;
-    let txt = std::fs::read_to_string(&p).unwrap_or_else(|_| "{}".to_string());
-    let v: serde_json::Value = serde_json::from_str(&txt).unwrap_or(serde_json::json!({}));
+    let v = ler_config(&p).unwrap_or(serde_json::json!({}));
     Ok(v.get("prompt_perfil")
         .and_then(|x| x.as_str())
         .unwrap_or("")
@@ -352,9 +351,7 @@ pub fn rotrix_set_prompt(app: AppHandle, texto: String) -> Result<(), String> {
     if let Some(dir) = p.parent() {
         std::fs::create_dir_all(dir).map_err(|e| e.to_string())?;
     }
-    let txt = std::fs::read_to_string(&p).unwrap_or_else(|_| "{}".to_string());
-    let mut v: serde_json::Value =
-        serde_json::from_str(&txt).map_err(|e| format!("config.json invalido: {e}"))?;
+    let mut v = ler_config(&p)?;
     let limpo: String = texto.chars().take(2000).collect();
     match v.as_object_mut() {
         Some(obj) => {
@@ -362,8 +359,7 @@ pub fn rotrix_set_prompt(app: AppHandle, texto: String) -> Result<(), String> {
         }
         None => return Err("config.json nao e um objeto".to_string()),
     }
-    let saida = serde_json::to_string_pretty(&v).map_err(|e| e.to_string())?;
-    std::fs::write(&p, saida).map_err(|e| e.to_string())?;
+    gravar_config(&p, &v)?;
     info!("Rotrix: prompt do perfil salvo ({} caracteres)", texto.chars().count().min(2000));
     Ok(())
 }
@@ -389,8 +385,9 @@ const TIPOS_EXAME: &[&str] = &["rx", "tc", "rm", "angio", "mamo", "us", "onco", 
 
 fn ler_config(p: &Path) -> Result<serde_json::Value, String> {
     let txt = std::fs::read_to_string(p).unwrap_or_else(|_| "{}".to_string());
+    let txt = txt.trim_start_matches('\u{feff}'); // BOM de editor do Windows
     let v: serde_json::Value =
-        serde_json::from_str(&txt).map_err(|e| format!("config.json invalido: {e}"))?;
+        serde_json::from_str(txt).map_err(|e| format!("config.json invalido: {e}"))?;
     if !v.is_object() {
         return Err("config.json nao e um objeto".to_string());
     }
