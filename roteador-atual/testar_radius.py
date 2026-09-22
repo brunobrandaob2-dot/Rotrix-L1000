@@ -7,13 +7,14 @@ import os
 import shutil
 import sys
 import tempfile
+import time
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import radius  # noqa: E402
 
 PROIBIDOS = ["FULANO", "BELTRANO", "CICLANO", "SOUZA", "123456789", "987654321", "555444333",
-             "1.2.840.99999"]
+             "1.2.840.99999", "SEGREDO", "estudo.zip", "111222333"]
 
 
 def _estudo(nome, acesso, mod, desc, status, laudado, quando):
@@ -46,6 +47,93 @@ def montar(pasta):
         f.write(b"PK\x03\x04 nao abrir")
     with open(os.path.join(pasta, "statistics.json"), "w", encoding="utf-8") as f:
         json.dump({"Total": 3, "PorModalidade": {"CT": 1, "CR": 2}}, f)
+
+
+def _real(nome, acesso, mod, desc, status, laudado, quando, com_status=True):
+    """Formato visto no Radius de verdade (radius_estrutura.txt de 22/09/2026)."""
+    d = {"AccessionNumber": acesso, "CompletedAt": quando, "CreatedAt": quando,
+         "FilePath": "C:\\Users\\x\\Downloads\\Radius Downloads\\%s %s\\estudo.zip" % (nome, acesso),
+         "Id": "id-" + acesso, "IsReported": laudado, "Modality": mod, "PatientName": nome,
+         "QueueEnteredAt": quando, "Sequence": 3, "SizeBytes": 123456789,
+         "StudyDescription": desc, "StudyInstanceUID": "1.2.840.99999." + acesso}
+    if com_status:
+        d.update({"Status": status, "Token": "SEGREDO-" + acesso, "ComboGroupId": "g1", "Error": ""})
+    return d
+
+
+def montar_real(pasta):
+    # estudo da vez: um objeto só, sem descrição, status Ready
+    with open(os.path.join(pasta, "state.beta-v3.json"), "w", encoding="utf-8") as f:
+        json.dump(_real("FULANO BELTRANO", "123456789", "CR", "", "Ready", False,
+                        "2026-09-22T10:40:00.1234567-03:00"), f)
+    # cópia de segurança: estudo ANTIGO, fica fora da fila
+    with open(os.path.join(pasta, "state.beta-v3.backup.json"), "w", encoding="utf-8") as f:
+        json.dump(_real("CICLANO SOUZA", "111222333", "CT", "", "Ready", False,
+                        "2026-09-22T09:00:00.0000000-03:00"), f)
+    # outros estudos: lista sem Status; o da vez aparece aqui com a descrição
+    outros = [
+        _real("FULANO BELTRANO", "123456789", "CR", "RX TORAX PA E PERFIL", "", False,
+              "2026-09-22T10:40:00.1234567-03:00", com_status=False),
+        _real("CICLANO SOUZA", "987654321", "CT", "TORAX E ABD TOTAL", "", False,
+              "2026-09-22T10:10:00.0000000-03:00", com_status=False),
+        _real("BELTRANO SOUZA", "555444333", "CT", "e+2 Angio AABD VENOSA", "", True,
+              "2026-09-22T08:10:00.0000000-03:00", com_status=False),
+    ]
+    with open(os.path.join(pasta, "other-dicoms-state.json"), "w", encoding="utf-8") as f:
+        json.dump(outros, f)
+    stats = [{"Key": "k%d" % i, "Modality": "CT" if i % 2 else "CR", "QueueEnteredAt": "2026-09-2%dT10:00:00" % (i % 3),
+              "RecordedAt": "2026-09-22T10:00:00", "Source": "Radius", "StudyInstanceUID": "1.2.840.99999.%d" % i}
+             for i in range(3)]
+    with open(os.path.join(pasta, "statistics.json"), "w", encoding="utf-8") as f:
+        json.dump(stats, f)
+
+
+def cenario_real(falhas):
+    pasta = tempfile.mkdtemp(prefix="radius_real_")
+    try:
+        montar_real(pasta)
+        fila = radius.ler_fila(pasta)
+        txt = json.dumps(fila, ensure_ascii=False)
+        diag = radius.diagnostico(pasta)
+        for p in PROIBIDOS:
+            if p.lower() in txt.lower():
+                falhas.append("real: fila vazou " + p)
+            if p.lower() in diag.lower():
+                falhas.append("real: diagnóstico vazou " + p)
+        if len(fila) != 3:
+            falhas.append("real: esperava 3 estudos (cópia de segurança fora), veio %d" % len(fila))
+        at = radius.atual(fila)
+        if not at or at["modalidade"] != "CR":
+            falhas.append("real: estudo da vez errado: %s" % at)
+        elif at["descricao"] != "RX TORAX PA E PERFIL":
+            falhas.append("real: descrição do estudo da vez não veio do outro arquivo: %r" % at["descricao"])
+        elif radius.cabecalho(at) != "raio x de torax pa e perfil":
+            falhas.append("real: cabeçalho %r" % radius.cabecalho(at))
+        elif at["entrou"] != "2026-09-22T10:40:00":
+            falhas.append("real: hora de entrada %r" % at["entrou"])
+        for trecho in ("[cópia de segurança", "estudo da vez: CR", "registros: 3", "Source: Radius: 3",
+                       "em mais de um arquivo: 1"):
+            if trecho not in diag:
+                falhas.append("real: diagnóstico sem %r" % trecho)
+        # estudo da vez laudado: nenhum aberto
+        with open(os.path.join(pasta, "state.beta-v3.json"), "w", encoding="utf-8") as f:
+            json.dump(_real("FULANO BELTRANO", "123456789", "CR", "", "Ready", True,
+                            "2026-09-22T10:40:00.1234567-03:00"), f)
+        os.utime(os.path.join(pasta, "state.beta-v3.json"), (time.time() + 5, time.time() + 5))
+        if radius.atual(radius.ler_fila(pasta)) is not None:
+            falhas.append("real: estudo laudado continuou como o da vez")
+    finally:
+        shutil.rmtree(pasta, ignore_errors=True)
+    # descrições do Radius -> cabeçalho
+    casos = [({"modalidade": "CT", "descricao": "TORAX E ABD TOTAL"}, "tomografia de torax e abdome total"),
+             ({"modalidade": "CT", "descricao": "e+2 Angio AABD VENOSA"}, "angiotomografia de abdome venosa"),
+             ({"modalidade": "CR", "descricao": "RADIOGRAFIA DE CAVUM (LATERAL+HIRTZ)"},
+              "raio x de cavum lateral hirtz"),
+             ({"modalidade": "CR", "descricao": ""}, ""),
+             ({"modalidade": "CT", "descricao": "Tc Cranio"}, "tomografia de cranio")]
+    for item, esperado in casos:
+        if radius.cabecalho(item) != esperado:
+            falhas.append("cabeçalho de %r: %r" % (item["descricao"], radius.cabecalho(item)))
 
 
 def main():
@@ -85,6 +173,7 @@ def main():
         # a fila relida sem mudança vem do cache e igual
         if radius.ler_fila(pasta) != fila:
             falhas.append("cache mudou a fila")
+        cenario_real(falhas)
     finally:
         shutil.rmtree(pasta, ignore_errors=True)
     # pasta que não existe: fila vazia, sem erro

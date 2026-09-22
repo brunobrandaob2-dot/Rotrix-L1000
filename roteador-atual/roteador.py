@@ -33,7 +33,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-22.6"
+VERSAO = "2026-09-22.7"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -177,6 +177,39 @@ _GENERICAS = set("""tomografia tomografica computadorizada radiografia raio angi
 normal normais sem com alteracoes alteracao significativas exame estudo contraste""".split())
 
 BANCO = Banco(BASE)
+
+# ---------- modalidade dita x modalidade da mascara ----------
+# "ressonancia de joelho normal" nao pode virar RADIOGRAFIA DO JOELHO so porque
+# o banco nao tem ressonancia de joelho: sem mascara da modalidade dita, o
+# ditado passa como texto.
+_ANTES_MOD = r"^(?:\w+ ){0,2}?"
+_MOD_DITA = [
+    ("angiotc", re.compile(_ANTES_MOD + r"(?:angio ?tomografia|angio ?tc|angiotc|angio tomo)\b")),
+    ("rm", re.compile(_ANTES_MOD + r"(?:angio ?ressonancia|ressonancia|rm|rnm)\b")),
+    ("tc", re.compile(_ANTES_MOD + r"(?:tomografia|tc|tomo|urotomografia|uro tc)\b")),
+    ("rx", re.compile(_ANTES_MOD + r"(?:raio x|raios x|raiox|rx|radiografia)\b")),
+    ("us", re.compile(_ANTES_MOD + r"(?:ultrassom|ultrassonografia|ultrasonografia|usg|ecografia|"
+                                   r"doppler|ecodoppler)\b")),
+    ("mg", re.compile(_ANTES_MOD + r"mamografia\b")),
+]
+_MOD_ACEITA = {"tc": {"tc", "angiotc"}, "angiotc": {"angiotc", "tc"}, "rm": {"rm"},
+               "rx": {"rx"}, "us": set(), "mg": set()}
+
+
+def _modalidade_dita(n):
+    for mod, rx in _MOD_DITA:
+        if rx.match(n or ""):
+            return mod
+    return None
+
+
+def _modalidade_confere(n, tit):
+    """False quando o ditado comeca nomeando um exame e o item achado e de outro."""
+    mod = _modalidade_dita(n)
+    meta = BANCO.meta.get(tit) if tit else None
+    if mod is None or not meta or not meta[1]:
+        return True
+    return meta[1] in _MOD_ACEITA.get(mod, {meta[1]})
 
 # ---------- motor de slots ----------
 # {nome|op1/op2}  -> se o ditado resolver, substitui; senao mantem [op1/op2]
@@ -1000,6 +1033,8 @@ def rotear(ditado, _auto=False):
                     cab_norm = cab_norm[len(pn):].strip()
                     break
             tit, txt, _sc, g = BANCO.buscar2(cab_norm, "mascara")
+            if txt is not None and not _modalidade_confere(cab_norm, tit):
+                tit, txt = None, None
             if txt is not None:
                 cab_norm = g
         if txt is not None and rx_literal is not None and _config().get("rx_literal", True):
@@ -1062,6 +1097,8 @@ def rotear(ditado, _auto=False):
             return base, f"mascara:{tit}"
 
     tit, txt, score = BANCO.buscar(resto, tipo)
+    if txt is not None and not _modalidade_confere(resto, tit):
+        tit, txt = None, None
     if txt is not None:
         return preencher(txt, bruto), f"{tipo or 'auto'}:{tit} ({score:.2f})"
     if tipo == "frase":
@@ -1477,6 +1514,8 @@ def _mascara_do_estudo(cab):
         if tit is None:
             t2, x2, sc, _g2 = BANCO.buscar2(n, "mascara")
             tit = t2 if (x2 is not None and sc >= 0.9) else None
+        if tit is not None and not _modalidade_confere(n, tit):
+            tit = None
         _MASC_ESTUDO[cab] = tit
     return _MASC_ESTUDO[cab]
 
@@ -1492,6 +1531,13 @@ def fila_radius():
         x["cabecalho"] = radius.cabecalho(x)
         x["mascara"] = _mascara_do_estudo(x["cabecalho"])
         x.pop("fonte", None)
+        x.pop("principal", None)
+    try:
+        # o diagnostico (sem dado de paciente) acompanha a fila ao longo do dia
+        radius.gravar_diagnostico_se_velho(pasta, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                                               "radius_estrutura.txt"))
+    except Exception:
+        pass
     return {"disponivel": True, "pasta_existe": os.path.isdir(pasta), "itens": fila,
             "atual": at["id"] if at else None,
             "perfil_automatico": bool(c.get("perfil_automatico", False))}
@@ -1506,9 +1552,9 @@ def _cabecalho_automatico():
         at = radius.atual(radius.ler_fila(radius.pasta_radius(_config())))
     except Exception:
         return ""
-    if not at or radius.cabecalho(at).split(" de ")[0] != "raio x":
-        return ""
-    return radius.cabecalho(at)
+    cab = radius.cabecalho(at) if at else ""
+    # so com a regiao ("raio x de torax"); "raio x" sozinho nao diz a mascara
+    return cab if cab.startswith("raio x de ") else ""
 
 
 def extrair_ditado(body):

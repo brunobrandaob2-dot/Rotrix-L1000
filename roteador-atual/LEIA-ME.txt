@@ -194,9 +194,21 @@ FILA DO RADIUS (app Rotrix → página Rotrix → Fila do Radius):
       Radius, "opacidade na base direita" sai na máscara desse RX.
       Liga na tela ou com "perfil_automatico": true no config.json.
     - Outra pasta: "radius_pasta": "C:\\caminho" no config.json.
-    - Ao subir, o roteador grava radius_estrutura.txt: só os NOMES dos
-      campos, tipos e contagens (sem nenhum dado de paciente). É por
-      ele que a leitura é ajustada ao seu Radius.
+    - Estudo da vez (●): o do state.beta-v3.json, enquanto não for
+      laudado. A cópia de segurança (state.beta-v3.backup.json) fica
+      fora da fila. Se o estado da vez vier sem descrição, a descrição
+      vem do other-dicoms-state.json (mesmo estudo); sem descrição
+      nenhuma, o perfil automático não age (só "raio x" não diz a
+      máscara).
+    - O roteador grava radius_estrutura.txt ao subir e de 15 em 15
+      minutos enquanto a fila está aberta: só os NOMES dos campos,
+      tipos e contagens (sem nenhum dado de paciente). É por ele que a
+      leitura é ajustada ao seu Radius.
+
+EXAME DE OUTRA MODALIDADE: "ressonância de joelho normal" ou
+"ultrassom de abdome" não viram mais a máscara de RX ou de TC por
+aproximação. Sem máscara da modalidade que você disse, o ditado sai
+como texto revisado.
 
 FRASE SOLTA — prefixo "frase":
     "frase derrame articular no raio x de joelho"

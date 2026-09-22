@@ -27,6 +27,8 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 _ARQ_SAL = os.path.join(AQUI, "dados", ".radius_sal")
 
 _NOME_ESTADO = re.compile(r"^(?:state[\w.-]*\.json|[\w.-]*-state\.json|statistics\.json)$", re.I)
+# cópia de segurança (state.beta-v3.backup.json): estudo antigo, não entra na fila
+_COPIA = re.compile(r"backup|\.bak\b|\.old\b|\.tmp\b", re.I)
 _MAX_BYTES = 60 * 1024 * 1024
 # campos do paciente: nunca saem; os VALORES servem só para apagar pedaços de
 # nome que apareçam na descrição
@@ -34,6 +36,8 @@ _SENSIVEL = re.compile(r"name|nome|patient|paciente|birth|nasc|cpf|mother|mae|ph
                        r"address|endereco|email|referring|physician|solicitante", re.I)
 _ID_ESTUDO = ("accessionnumber", "studyinstanceuid", "studyuid", "studyid", "id", "uid", "key")
 _ABERTO = re.compile(r"abert|open|view|curr|ativo|active|progress|laudando|reading|em leitura", re.I)
+_FALHOU = re.compile(r"erro|error|fail|falh|cancel", re.I)
+_ISO = re.compile(r"^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2})?")
 
 
 def _n(s):
@@ -78,6 +82,16 @@ def achar_arquivos(pasta, profundidade=2):
             if _NOME_ESTADO.match(a):
                 achados.append(os.path.join(raiz, a))
     return sorted(achados)
+
+
+def eh_copia(caminho):
+    return bool(_COPIA.search(os.path.basename(caminho)))
+
+
+def eh_principal(caminho):
+    """state*.json (não other-dicoms-state.json): o estado do estudo da vez."""
+    b = os.path.basename(caminho).lower()
+    return b.startswith("state") and not eh_copia(caminho)
 
 
 def _carregar(caminho):
@@ -205,14 +219,31 @@ def ler_fila(pasta):
     return [dict(x) for x in fila]
 
 
-def _ler_fila(arqs):
+def _quando(v):
+    """Hora de entrada na fila: só "AAAA-MM-DDTHH:MM:SS" (sem fração nem fuso)."""
+    s = str(v or "").strip()
+    m = _ISO.match(s)
+    return m.group(0).replace(" ", "T") if m else _limpo(s, set())[:25]
+
+
+# o que a leitura já viu no estudo da vez (só status e se veio descrição):
+# vai para o diagnóstico, para ajustar sem ver dado de paciente
+_VISTOS = {"status": {}, "com_descricao": 0, "sem_descricao": 0, "leituras": 0}
+
+
+def _ler_fila(arqs, contar=True):
     sal = _sal()
     itens = {}
     for arq in arqs:
+        if eh_copia(arq):
+            continue
         obj = _carregar(arq)
         if obj is None:
             continue
         fonte = os.path.basename(arq)
+        # estado da vez = state*.json com UM estudo na raiz; uma lista de
+        # estudos é fila, e aí vale o status de aberto
+        principal = eh_principal(arq) and isinstance(obj, dict) and _eh_estudo(obj)
         for d in _estudos(obj):
             sens = _tokens_sensiveis(d)
             item = {
@@ -221,21 +252,46 @@ def _ler_fila(arqs):
                 "descricao": _limpo(_valor(d, "studydescription"), sens),
                 "status": _limpo(_valor(d, "status"), sens),
                 "laudado": _laudado(_valor(d, "isreported")),
-                "entrou": _limpo(_valor(d, "queueenteredat"), set()),
+                "entrou": _quando(_valor(d, "queueenteredat")),
+                "principal": principal,
                 "fonte": fonte,
             }
+            if principal and contar:
+                st = item["status"][:30]
+                _VISTOS["status"][st] = _VISTOS["status"].get(st, 0) + 1
+                _VISTOS["com_descricao" if item["descricao"] else "sem_descricao"] += 1
             velho = itens.get(item["id"])
-            if velho is None or (fonte.lower().startswith("state") and not velho["fonte"].lower().startswith("state")):
+            if velho is None:
                 itens[item["id"]] = item
-            elif velho.get("laudado") is None and item["laudado"] is not None:
-                velho["laudado"] = item["laudado"]
+                continue
+            # o mesmo estudo em dois arquivos: o estado da vez manda; o que
+            # faltar num (descrição vazia, laudado desconhecido) vem do outro
+            novo, outro = (item, velho) if principal and not velho["principal"] else (velho, item)
+            for campo in ("modalidade", "descricao", "status", "entrou"):
+                if not novo[campo] and outro[campo]:
+                    novo[campo] = outro[campo]
+            if novo["laudado"] is None:
+                novo["laudado"] = outro["laudado"]
+            elif outro["laudado"] is True:
+                novo["laudado"] = True
+            novo["principal"] = novo["principal"] or outro["principal"]
+            itens[item["id"]] = novo
+    if contar:
+        _VISTOS["leituras"] += 1
     fila = list(itens.values())
     fila.sort(key=lambda x: (bool(x["laudado"]), x["entrou"] or ""))
     return fila
 
 
 def atual(fila):
-    """O estudo aberto agora (status de aberto/em leitura e ainda não laudado)."""
+    """O estudo aberto agora.
+
+    1) o estudo do estado da vez (state*.json), se não foi laudado nem deu erro;
+    2) senão, o mais recente com status de aberto/em leitura e sem laudo."""
+    da_vez = [x for x in fila if x.get("principal") and not x["laudado"]
+              and not _FALHOU.search(x["status"] or "")]
+    if da_vez:
+        return max(da_vez, key=lambda x: x["entrou"] or "")
     abertos = [x for x in fila if not x["laudado"] and _ABERTO.search(x["status"] or "")]
     if not abertos:
         return None
@@ -249,18 +305,32 @@ _PREFIXO_DESC = re.compile(r"^(?:tc|tomografia(?: computadorizada)?|rx|raio x|ra
                            r"(?:de|do|da|dos|das)?\s*")
 
 
+# abreviações comuns nas descrições do Radius ("TORAX E ABD TOTAL")
+_ABREV = [(re.compile(r"\babd\b|\babdom\b|\baabd\b"), "abdome"),
+          (re.compile(r"\bmmii\b"), "membros inferiores"),
+          (re.compile(r"\bmmss\b"), "membros superiores"),
+          (re.compile(r"\bcol\b"), "coluna")]
+# "e+2 Angio ...": marca de estudos juntados, não faz parte do nome do exame
+_MARCA_COMBO = re.compile(r"^\s*(?:e\s*)?\+\s*\d+\s*", re.I)
+
+
 def cabecalho(item):
-    """Abertura de ditado para o estudo: "raio x de torax pa e perfil"."""
+    """Abertura de ditado para o estudo: "raio x de torax pa e perfil".
+    Sem descrição, "" (só a modalidade não diz a região)."""
     if not item:
         return ""
     mod = _MODALIDADE.get((item.get("modalidade") or "").split("\\")[0].strip())
-    desc = _n(item.get("descricao"))
-    if "•" in (item.get("descricao") or ""):
-        desc = _n(item["descricao"].replace("•••", " "))
-    if not mod:
+    bruto = (item.get("descricao") or "").replace("•••", " ")
+    desc = _n(_MARCA_COMBO.sub("", bruto))
+    if not mod or not desc:
         return ""
+    for rx, troca in _ABREV:
+        desc = rx.sub(troca, desc)
+    desc = re.sub(r"\s+", " ", desc).strip()
+    if mod == "tomografia" and re.match(r"angio\b|angiotomografia\b", desc):
+        mod, desc = "angiotomografia", re.sub(r"^(?:angio|angiotomografia)\s*(?:de|do|da|dos|das)?\s*", "", desc)
     desc = _PREFIXO_DESC.sub("", desc).strip()
-    return (mod + " de " + desc).strip() if desc else mod
+    return (mod + " de " + desc).strip() if desc else ""
 
 
 # ---------------------------------------------------------------------------
@@ -311,15 +381,20 @@ def diagnostico(pasta):
               "pasta existe: " + ("sim" if os.path.isdir(pasta) else "NAO")]
     arqs = achar_arquivos(pasta)
     linhas.append("arquivos de estado encontrados: %d" % len(arqs))
+    agora = time.time()
     for a in arqs:
         rel = os.path.relpath(a, pasta)
         if os.path.dirname(rel):              # nome de subpasta pode ter nome de paciente
             rel = "(subpasta)" + os.sep + os.path.basename(a)
         try:
             tam = os.path.getsize(a) // 1024
+            idade = int((agora - os.path.getmtime(a)) // 60)
         except OSError:
-            tam = -1
-        linhas.append("  - %s (%d KB)" % (rel, tam))
+            tam, idade = -1, -1
+        marca = " [cópia de segurança: fora da fila]" if eh_copia(a) else \
+                (" [estado da vez]" if eh_principal(a) else "")
+        linhas.append("  - %s (%d KB, mudou há %d min)%s" % (rel, tam, idade, marca))
+    linhas.extend(_resumo_fila(arqs))
     for a in arqs:
         obj = _carregar(a)
         linhas.append("")
@@ -349,10 +424,82 @@ def diagnostico(pasta):
             linhas.append("  StudyDescription (40 mais comuns): " + _contagem([x["descricao"] for x in fila]))
             ids = [nome for nome in _ID_ESTUDO if any(_valor(d, nome) not in (None, "") for d in est)]
             linhas.append("  campo usado para o código do estudo: " + (ids[0] if ids else "(nenhum; usa os campos permitidos)"))
+        else:
+            # statistics.json: histórico (Modality, Source, datas); só contagens
+            regs = [d for d in (obj if isinstance(obj, list) else []) if isinstance(d, dict)]
+            if regs:
+                linhas.append("  registros: %d" % len(regs))
+                linhas.append("  Modality: " + _contagem([_rotulo(_valor(d, "modality")) for d in regs], 12))
+                linhas.append("  Source: " + _contagem([_rotulo(_valor(d, "source")) for d in regs], 12))
+                dias = [str(_valor(d, "queueenteredat") or "")[:10] for d in regs]
+                dias = sorted(x for x in dias if re.match(r"^\d{4}-\d{2}-\d{2}$", x))
+                if dias:
+                    linhas.append("  período: %s a %s (%d dias)" % (dias[0], dias[-1], len(set(dias))))
     return "\n".join(linhas) + "\n"
 
 
+def _rotulo(v):
+    """Valor curto de campo técnico (modalidade, origem); o resto vira "(outro)"."""
+    s = str(v if v is not None else "").strip()
+    return s if re.fullmatch(r"[A-Za-z][A-Za-z _-]{0,24}", s) else ("(vazio)" if not s else "(outro)")
+
+
+def _resumo_fila(arqs):
+    """Como a fila foi montada: estudo da vez, estudos repetidos entre arquivos."""
+    linhas = [""]
+    if not arqs:
+        return linhas + ["fila montada: 0 estudo(s)", "estudo da vez: nenhum"]
+    fila = _ler_fila(arqs, contar=False)
+    sal = _sal()
+    por_arquivo = {}
+    for a in arqs:
+        if eh_copia(a):
+            continue
+        obj = _carregar(a)
+        if obj is None:
+            continue
+        por_arquivo[os.path.basename(a)] = {_codigo(d, sal) for d in _estudos(obj)}
+    vistos = {}
+    for ids in por_arquivo.values():
+        for i in ids:
+            vistos[i] = vistos.get(i, 0) + 1
+    linhas.append("fila montada: %d estudo(s); em mais de um arquivo: %d"
+                  % (len(fila), sum(1 for q in vistos.values() if q > 1)))
+    at = atual(fila)
+    if at:
+        cab = cabecalho(at)
+        linhas.append("estudo da vez: %s, status %s, descrição %s, laudado %s, cabeçalho %s"
+                      % (at["modalidade"] or "?", at["status"] or "(vazio)",
+                         "preenchida" if at["descricao"] else "VAZIA", at["laudado"],
+                         "ok" if cab else "(nenhum)"))
+    else:
+        linhas.append("estudo da vez: nenhum")
+    if _VISTOS["leituras"]:
+        linhas.append("desde que o roteador abriu: %d leitura(s); status do estudo da vez: %s; "
+                      "com descrição %d, sem descrição %d"
+                      % (_VISTOS["leituras"], _contagem(list(_expandir(_VISTOS["status"]))) or "-",
+                         _VISTOS["com_descricao"], _VISTOS["sem_descricao"]))
+    return linhas
+
+
+def _expandir(cont):
+    for k, q in cont.items():
+        for _ in range(min(q, 1000)):
+            yield k
+
+
+_ULTIMO_DIAG = {"t": 0.0}
+
+
+def gravar_diagnostico_se_velho(pasta, destino, minutos=15):
+    """Reescreve o diagnóstico de tempos em tempos (a fila muda ao longo do dia)."""
+    if time.time() - _ULTIMO_DIAG["t"] < minutos * 60:
+        return False
+    return gravar_diagnostico(pasta, destino)
+
+
 def gravar_diagnostico(pasta, destino):
+    _ULTIMO_DIAG["t"] = time.time()
     try:
         texto = diagnostico(pasta)
         tmp = destino + ".tmp"

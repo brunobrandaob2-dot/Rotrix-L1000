@@ -38,6 +38,23 @@ const nomeMascara = (m: string | null): string => {
   return p.length >= 3 ? `${p[1]} · ${p[2].replace(/_/g, " ")}` : m;
 };
 
+// status do Radius em português (o resto aparece como veio)
+const STATUS_PT: Record<string, string> = {
+  ready: "pronto",
+  downloaded: "baixado",
+  downloading: "baixando",
+  queued: "na fila",
+  pending: "na fila",
+  opened: "aberto",
+  open: "aberto",
+  error: "erro",
+  failed: "erro",
+  completed: "concluído",
+  reported: "laudado",
+};
+
+const statusPt = (s: string): string => STATUS_PT[(s || "").trim().toLowerCase()] ?? s;
+
 const hora = (t: string): string => {
   const m = /T?(\d{2}):(\d{2})/.exec(t || "");
   return m ? `${m[1]}:${m[2]}` : "";
@@ -155,15 +172,19 @@ export const RotrixFila: React.FC = () => {
                   className={`flex items-center gap-3 py-1.5 ${x.laudado ? "opacity-60" : ""}`}
                   title={x.cabecalho}
                 >
-                  <span className="w-4 text-center" aria-label={x.laudado ? "laudado" : aberto ? "aberto" : "na fila"}>
+                  <span
+                    className="w-4 shrink-0 text-center"
+                    aria-label={x.laudado ? "laudado" : aberto ? "estudo da vez" : "na fila"}
+                    title={x.laudado ? "laudado" : aberto ? "estudo da vez" : "na fila"}
+                  >
                     {marca}
                   </span>
-                  <span className="w-10 text-xs font-semibold">{x.modalidade}</span>
+                  <span className="w-10 shrink-0 text-xs font-semibold">{x.modalidade}</span>
                   <span className="flex-1 min-w-0 truncate">{x.descricao || "—"}</span>
-                  <span className="text-xs text-mid-gray">Paciente ••••</span>
-                  <span className="w-28 truncate text-xs text-mid-gray">{nomeMascara(x.mascara)}</span>
-                  <span className="w-24 truncate text-right text-xs text-mid-gray">{x.status}</span>
-                  <span className="w-12 text-right text-xs text-mid-gray">{hora(x.entrou)}</span>
+                  <span className="shrink-0 whitespace-nowrap text-xs text-mid-gray">Paciente ••••</span>
+                  <span className="w-28 shrink-0 truncate text-xs text-mid-gray">{nomeMascara(x.mascara)}</span>
+                  <span className="w-20 shrink-0 truncate text-right text-xs text-mid-gray">{statusPt(x.status)}</span>
+                  <span className="w-12 shrink-0 text-right text-xs text-mid-gray">{hora(x.entrou)}</span>
                 </li>
               );
             })}
