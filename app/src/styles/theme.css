@@ -14,6 +14,10 @@
   --dark-color-logo-primary: #f28cbb;
   --dark-color-logo-stroke: #fad1ed;
 
+  /* Rotrix: o cinza tem um valor por tema (as paletas de cor o trocam) */
+  --light-color-mid-gray: #808080;
+  --dark-color-mid-gray: #808080;
+
   /* Semantic status colors. First used by SecureInputWarning; intended to
      replace the ad-hoc yellow-500/red-500 usages (e.g. ui/Alert.tsx) over
      time so status styling is themeable from one place. */
@@ -25,7 +29,6 @@
   /* Tokens that do not change between light and dark */
   --color-background-ui: #da5893;
   --color-text-stroke: #f6f6f6;
-  --color-mid-gray: #808080;
 
   /* Active palette — defaults to light, follows the OS via the media query
      below, or is forced by `data-theme` (see the overrides below). */
@@ -33,6 +36,7 @@
   --color-background: var(--light-color-background);
   --color-logo-primary: var(--light-color-logo-primary);
   --color-logo-stroke: var(--light-color-logo-stroke);
+  --color-mid-gray: var(--light-color-mid-gray);
   --color-warning: var(--light-color-warning);
   --color-error: var(--light-color-error);
 }
@@ -43,6 +47,7 @@
     --color-background: var(--dark-color-background);
     --color-logo-primary: var(--dark-color-logo-primary);
     --color-logo-stroke: var(--dark-color-logo-stroke);
+    --color-mid-gray: var(--dark-color-mid-gray);
     --color-warning: var(--dark-color-warning);
     --color-error: var(--dark-color-error);
   }
@@ -63,6 +68,7 @@
   --color-background: var(--light-color-background);
   --color-logo-primary: var(--light-color-logo-primary);
   --color-logo-stroke: var(--light-color-logo-stroke);
+  --color-mid-gray: var(--light-color-mid-gray);
   --color-warning: var(--light-color-warning);
   --color-error: var(--light-color-error);
 }
@@ -72,6 +78,7 @@
   --color-background: var(--dark-color-background);
   --color-logo-primary: var(--dark-color-logo-primary);
   --color-logo-stroke: var(--dark-color-logo-stroke);
+  --color-mid-gray: var(--dark-color-mid-gray);
   --color-warning: var(--dark-color-warning);
   --color-error: var(--dark-color-error);
 }
