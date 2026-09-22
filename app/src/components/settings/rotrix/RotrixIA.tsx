@@ -94,7 +94,8 @@ const classeSelect =
   "px-2 py-1 text-sm bg-mid-gray/10 border border-mid-gray/80 rounded-md hover:border-logo-primary focus:outline-none focus:border-logo-primary";
 
 const usd = (v: number | undefined): string =>
-  "US$ " + (v ?? 0).toFixed(v !== undefined && v < 1 ? 4 : 2).replace(".", ",");
+  "US$ " +
+  (v ?? 0).toFixed(v !== undefined && v > 0 && v < 0.01 ? 4 : 2).replace(".", ",");
 
 const milhar = (v: number | undefined): string =>
   (v ?? 0).toLocaleString("pt-BR");
