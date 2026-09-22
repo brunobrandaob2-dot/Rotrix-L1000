@@ -6,7 +6,8 @@ name: Build Windows (Rotrix L-1000)
 
 on:
   push:
-    branches: [main]
+    # main = versão estável; rotrix-pagina = telas novas em teste (compila à parte)
+    branches: [main, rotrix-pagina]
     paths:
       - "app/**"
       - "roteador-atual/**"
@@ -130,6 +131,20 @@ jobs:
           ..\python\python.exe -c "import sys,os; sys.path.insert(0,os.getcwd()); import roteador as r; print(r.rotear('rx de joelho direito com artrose medial')[1]); print(r.rotear('tc de torax normal')[1])"
           if ($LASTEXITCODE -ne 0) { throw "roteador falhou no Python embutido" }
 
+      - name: Testar a base e o importador no Python embutido
+        shell: pwsh
+        working-directory: app/src-tauri/resources/rotrix/roteador
+        run: |
+          # o Python embutido nao poe a pasta do script no caminho (._pth): o importador
+          # de mascaras do usuario precisa ser achado mesmo assim
+          $saida = ..\python\python.exe construir_base.py 2>&1 | Out-String
+          Write-Host $saida
+          if ($LASTEXITCODE -ne 0) { throw "construir_base falhou no Python embutido" }
+          if ($saida -match "importar_usuario indispon") { throw "construir_base nao achou o importador no Python embutido" }
+          ..\python\python.exe importar_usuario.py listar --json
+          if ($LASTEXITCODE -ne 0) { throw "importador falhou no Python embutido" }
+          Get-ChildItem -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
+
       # ---------- App ----------
       - name: Install frontend dependencies
         working-directory: app
@@ -147,7 +162,7 @@ jobs:
       - name: Upload installer
         uses: actions/upload-artifact@v4
         with:
-          name: Rotrix-L1000-instalador-windows
+          name: Rotrix-L1000-instalador-windows-${{ github.ref_name }}
           path: |
             app/src-tauri/target/release/bundle/nsis/*.exe
           if-no-files-found: error

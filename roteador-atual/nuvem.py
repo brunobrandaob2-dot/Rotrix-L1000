@@ -90,6 +90,8 @@ PRECOS = [
     ("gpt-5.6-sol",      5.0, 30.0),
     ("gpt-5.6-terra",    2.0, 12.0),
     ("gpt-5.6-luna",     0.20, 1.20),
+    # Gemini 3.8 Flash: preço de lançamento até 31/12/2026 (depois 1,50 / 7,50)
+    ("gemini-3.8-flash", 0.75, 3.75),
 ]
 
 def preco(modelo, c=None):
@@ -97,6 +99,8 @@ def preco(modelo, c=None):
     m = (modelo or "").lower()
     if ":" in m:                                   # "openai:gpt-5.6-luna"
         m = m.split(":", 1)[1]
+    if "/" in m:                                   # OpenRouter: "anthropic/claude-sonnet-5"
+        m = m.rsplit("/", 1)[1]
     extras = (c or {}).get("precos") or {}
     if isinstance(extras, dict):
         for prefixo in sorted(extras, key=len, reverse=True):
@@ -111,8 +115,14 @@ def preco(modelo, c=None):
             return pin, pout
     return 0.0, 0.0
 
-def custo(modelo, n_in, n_out, c=None):
+# Modelo de preço desconhecido (fora da tabela e sem "precos" no config): conta como
+# caro, para o teto do mês continuar valendo. O gasto real fica menor que o contado.
+PRECO_DESCONHECIDO = (5.0, 25.0)
+
+def custo(modelo, n_in, n_out, c=None, local=False):
     pin, pout = preco(modelo, c)
+    if (pin, pout) == (0.0, 0.0) and not local:
+        pin, pout = PRECO_DESCONHECIDO
     return (n_in / 1_000_000.0) * pin + (n_out / 1_000_000.0) * pout
 
 # ---------- acumulador de gasto do mês ----------
@@ -153,11 +163,24 @@ def gasto_somar(modelo, n_in, n_out, usd=None):
         pass
     return g
 
+def ler_texto(caminho):
+    """Texto de arquivo salvo à mão no Windows: UTF-8 (com ou sem BOM), UTF-16
+    (o ">" do PowerShell 5) ou cp1252. Nunca levanta erro de decodificação."""
+    b = open(caminho, "rb").read()
+    if b[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        return b.decode("utf-16", "replace")
+    for enc in ("utf-8-sig", "cp1252"):
+        try:
+            return b.decode(enc)
+        except UnicodeDecodeError:
+            pass
+    return b.decode("latin-1")
+
 def config():
     c = dict(PADRAO)
     if os.path.exists(CONFIG):
         try:
-            c.update(json.load(open(CONFIG, encoding="utf-8")))
+            c.update(json.loads(ler_texto(CONFIG)))
         except Exception:
             pass
     return c
@@ -168,7 +191,10 @@ def chave(c):
         return v
     p = os.path.join(AQUI, c["arquivo_da_chave"])
     if os.path.exists(p):
-        return open(p, encoding="utf-8").read().strip()
+        try:
+            return ler_texto(p).strip().strip("\ufeff")
+        except OSError:
+            return ""
     return ""
 
 def provedor_cfg(c, nome):
@@ -198,7 +224,7 @@ def chave_de(c, nome):
         caminho = os.path.join(AQUI, arq)
         if os.path.exists(caminho):
             try:
-                return open(caminho, encoding="utf-8").read().strip()
+                return ler_texto(caminho).strip().strip("\ufeff")
             except OSError:
                 pass
     if p.get("sem_chave"):
@@ -213,6 +239,11 @@ BLOQUEIOS = [
     (re.compile(r"\bprontuário\s*n?[ºo]?\s*\d+", re.I), "número de prontuário"),
     (re.compile(r"\b[\w.+-]+@[\w-]+\.\w+\b"), "e-mail"),
 ]
+
+_CAMPO_PACIENTE = re.compile(
+    r"^\s*(?:paciente|pac\.|nome do paciente|nome|data de nascimento|nascimento|idade|"
+    r"prontu[aá]rio|atendimento|conv[eê]nio|accession|m[eé]dico solicitante|solicitante)\s*[:：]",
+    re.I | re.M)
 
 def triagem(texto):
     """Devolve lista de motivos de bloqueio. Vazia = liberado."""
@@ -450,7 +481,9 @@ de reconhecimento de voz. Às vezes vem também uma INSTRUÇÃO FALADA separada.
 O QUE VOCÊ FAZ (e só isto)
 1. Coloca cada frase ditada no lugar certo do laudo: na linha do órgão ou estrutura
    correspondente da ANÁLISE, ou na CONCLUSÃO quando foi ditada como conclusão.
-   Use as MESMAS palavras que o médico ditou.
+   Use as MESMAS palavras que o médico ditou. As marcações
+   [não encontrado no banco — completar: ...] são achados ditados: leve o conteúdo delas
+   para a linha certa e apague a marcação.
 2. Quando a frase ditada contradiz uma frase da máscara, apaga a frase da máscara
    (ex.: ditou derrame pleural -> sai "seios costofrênicos livres"). Se sobrar parte normal
    da mesma estrutura, pode escrever "Demais ..." com as palavras da própria máscara.
@@ -512,9 +545,19 @@ _TIPOS_EXAME = (("angio", ("ANGIOTOMOGRAFIA", "ANGIO-TC", "ANGIOTC", "ANGIO TC",
 _ONCO = re.compile(r"\bRECIST|\bONCOLOG|\bESTADIAMENTO|\bRESPOSTA (?:AO|DE|A) TRATAMENTO|"
                    r"\bLESO?(?:AO|ES) ALVO|\bNADIR\b|\bLUGANO\b|\bMRECIST|\bIRECIST")
 
+def _texto_do_laudo(texto):
+    """Parte que é o laudo: depois de "LAUDO NA TELA:" (a instrução falada vem antes),
+    sem as linhas de marca/aviso entre colchetes e sem valores em US$."""
+    t = texto or ""
+    m = re.search(r"LAUDO NA TELA:\s*\n", t)
+    if m:
+        t = t[m.end():]
+    t = "\n".join(l for l in t.split("\n") if not l.strip().startswith("["))
+    return re.sub(r"US\$\s*[\d.,]+", " ", t)
+
 def tipo_exame(texto):
-    """'rx', 'tc', 'rm', 'angio', 'mamo', 'us' ou '' — pelo que aparece primeiro."""
-    alto = " " + re.sub(r"[^A-Z0-9-]+", " ", _sem_acento(texto or "").upper()) + " "
+    """'rx', 'tc', 'rm', 'angio', 'mamo', 'us' ou '' — pelo que aparece primeiro no laudo."""
+    alto = " " + re.sub(r"[^A-Z0-9-]+", " ", _sem_acento(_texto_do_laudo(texto)).upper()) + " "
     melhor, pos = "", None
     for tipo, chaves in _TIPOS_EXAME:
         for k in chaves:
@@ -534,6 +577,8 @@ def _prompt_perfil(c, pedido=""):
     prompt_perfil) + campo opcional do tipo de exame (prompt_por_exame: {"rx": ..., "tc": ...}).
     Entra depois das regras do sistema, que continuam tendo prioridade."""
     geral = (c.get("prompt_perfil") or "").strip()[:2000]
+    if geral and triagem(geral):
+        geral = ""                           # nunca manda identificador, nem no prompt do perfil
     extra = ""
     por_exame = c.get("prompt_por_exame") or {}
     if isinstance(por_exame, dict) and por_exame:
@@ -563,13 +608,20 @@ def _exemplos_estilo():
         return ""
     partes, total = [], 0
     for f in arqs:
-        t = open(os.path.join(pasta, f), encoding="utf-8").read().strip()
+        try:
+            t = ler_texto(os.path.join(pasta, f)).strip()
+        except OSError:
+            continue
+        # exemplo com identificador (CPF, data completa, prontuário, e-mail, "Paciente:")
+        # nunca vai para a nuvem, nem como exemplo de estilo
+        if triagem(t) or _CAMPO_PACIENTE.search(t):
+            continue
         if total + len(t) > 24000:          # teto de tamanho do prompt
             break
         partes.append(t); total += len(t)
     guia = ""
     try:
-        guia = open(os.path.join(pasta, "GUIA_ESTILO.md"), encoding="utf-8").read().strip()
+        guia = ler_texto(os.path.join(pasta, "GUIA_ESTILO.md")).strip()
     except OSError:
         pass
     if not partes:
@@ -636,8 +688,17 @@ _LIVRES = set("""para pela pelo pelas pelos como mais menos muito pouca pouco en
 apos este esta estes estas esse essa esses essas isso isto seus suas estao tambem ainda
 cada todo toda todos todas outro outra outros outras mesmo mesma quais onde quando qual
 demais restante restantes tecnica indicacao clinica analise comparacao conclusao exame
-anexo nota notas""".split())
-_LADOS = (("direit", "direito"), ("esquerd", "esquerdo"), ("bilatera", "bilateral"))
+anexo nota notas de do da dos das com e o a os as no na nos nas em por ao aos""".split())
+_EXPANSOES = {"tc": ("tomografia", "computadorizada"), "rx": ("radiografia",),
+              "rm": ("ressonancia", "magnetica"), "us": ("ultrassonografia", "ultrassom"),
+              "angio": ("angiotomografia", "angiorressonancia"), "raio": ("radiografia",)}
+_NEGACOES = ("nao", "sem", "ausencia", "ausente", "ausentes", "inexistente", "inexistentes")
+_PREFIXOS_OPOSTOS = ("a", "an", "in", "im", "ir", "i", "des", "dis")
+_GRAUS = ("hipo", "hiper", "iso")
+# avisos que o próprio sistema escreve entre colchetes (não são conteúdo da IA)
+_AVISO_PROPRIO = re.compile(r"^\s*\[(?:pedido de descri|n[ãa]o enviei|conferir)", re.I)
+_LACUNA_LADO = re.compile(r"\[\s*(?:[àa]\s+)?(?:direit|esquerd)\w*\s*/", re.I)
+_MEDIDA = re.compile(r"(\d+(?:[.,]\d+)?)\s*(mm|cm|ml|m|%|°|uh)\b", re.I)
 
 def _tokens(t):
     return re.findall(r"[a-z]+", _sem_acento(t).lower())
@@ -645,39 +706,138 @@ def _tokens(t):
 def _numeros(t):
     return {n.replace(".", ",") for n in re.findall(r"\d+(?:[.,]\d+)?", t or "")}
 
+def _medidas(t):
+    return {(n.replace(".", ","), u.lower()) for n, u in _MEDIDA.findall(t or "")}
+
+def _opostos(a, b):
+    """normal/anormal, regular/irregular, hipoatenuante/hiperatenuante/isoatenuante."""
+    if a == b:
+        return False
+    for p in _PREFIXOS_OPOSTOS:
+        if a == p + b or b == p + a:
+            return True
+    for g1 in _GRAUS:
+        for g2 in _GRAUS:
+            if g1 != g2 and a.startswith(g1) and b.startswith(g2) and a[len(g1):] == b[len(g2):]:
+                return True
+    return False
+
+def _parecido(a, b):
+    return a == b or (difflib.SequenceMatcher(None, a, b).ratio() >= 0.75 and not _opostos(a, b))
+
+def _contextos_de_lado(tokens):
+    """(palavra -2, palavra -1, 'd'|'e') para cada direito/esquerdo do texto."""
+    out = []
+    for i, w in enumerate(tokens):
+        lado = "d" if w.startswith("direit") else ("e" if w.startswith("esquerd") else "")
+        if lado:
+            out.append((tokens[i - 2] if i > 1 else "", tokens[i - 1] if i > 0 else "", lado))
+    return out
+
+def _frases(t):
+    return [f for f in re.split(r"(?<=[.;:!?])\s+|\n+", t or "") if f.strip()]
+
+def _conteudo(frase):
+    return {w for w in _tokens(frase) if len(w) >= 4 and w not in _LIVRES and w not in _NEGACOES
+            and w not in ("sinais", "areas", "area", "evidencia", "evidencias", "observa", "observam")}
+
+def _negacao_removida(base, corpo):
+    """Palavras de frases que eram negadas no ditado e voltaram afirmadas na saída."""
+    negadas, afirmadas = [], []
+    for f in _frases(base):
+        c = _conteudo(f)
+        if not c:
+            continue
+        (negadas if any(w in _NEGACOES for w in _tokens(f)) else afirmadas).append(c)
+    achou = []
+    for f in _frases(corpo):
+        if any(w in _NEGACOES for w in _tokens(f)):
+            continue
+        cf = _conteudo(f)
+        for cn in negadas:
+            # a afirmação precisa conter as palavras da frase negada (ao menos 2)...
+            chave = cn & cf
+            if chave and len(chave) >= min(2, len(cn)) and len(chave) >= len(cn) * 0.6:
+                # ...e não pode ter sido ditada de forma afirmativa
+                if not any(len(chave & ca) >= len(chave) for ca in afirmadas):
+                    achou.append(" ".join(sorted(chave))[:40])
+                    break
+    return achou
+
 def conferir(entrada, saida):
     """Compara o que foi enviado com o que voltou. Devolve a lista do que a IA
-    ACRESCENTOU (palavras de conteúdo, números, lado). Lista vazia = nada novo.
-    Tolera correção de reconhecimento de voz (palavra parecida) e número por extenso."""
+    ACRESCENTOU ou TROCOU: palavras de conteúdo (inclusive o oposto de uma palavra
+    ditada, como hipo->hiper), números e medidas, negação a mais, siglas e LADO
+    (lado trocado junto da mesma estrutura, ou lacuna de lado preenchida).
+    Lista vazia = nada novo. Tolera correção de voz e número por extenso."""
     base = entrada or ""
     try:
         import revisor                      # números por extenso e vocabulário
         base = base + "\n" + revisor.revisar(entrada or "")
     except Exception:
         pass
-    # linhas que a própria IA marca entre colchetes não entram na conta
-    corpo = "\n".join(l for l in (saida or "").splitlines() if not l.strip().startswith("["))
-    vocab = set(w for w in _tokens(base) if len(w) >= 3)
-    novas, vistas = [], set()
+    # só os avisos do próprio sistema ficam fora da conta; o resto da saída é conferido
+    corpo = "\n".join(l for l in (saida or "").splitlines() if not _AVISO_PROPRIO.match(l))
+    tok_base = _tokens(base)
+    vocab = set(w for w in tok_base if len(w) >= 3)
+    todos = set(tok_base)
+    for sigla, extenso in _EXPANSOES.items():      # "tc" ditado -> "tomografia" no título
+        if sigla in todos:
+            vocab.update(extenso)
+    novas, trocas, vistas = [], [], set()
     for original in re.findall(r"[A-Za-zÀ-ÿ]+", corpo):
         w = _sem_acento(original).lower()
-        if len(w) < 4 or w in vocab or w in _LIVRES or w in vistas:
+        sigla = original.isupper() and 2 <= len(original) <= 5
+        if (len(w) < 4 and not sigla) or w in vocab or w in todos or w in _LIVRES or w in vistas:
             continue
+        if w.startswith(("direit", "esquerd")):
+            continue                         # lado: conferido abaixo, com o contexto
         vistas.add(w)
-        if difflib.get_close_matches(w, vocab, n=1, cutoff=0.78):
-            continue                         # "calcanho" -> "calcaneo", "horta" -> "aorta"
-        novas.append(original.lower())
+        perto = difflib.get_close_matches(w, vocab, n=3, cutoff=0.78)
+        if any(not _opostos(w, c) for c in perto):
+            continue                         # correção de voz: "calcanho" -> "calcaneo"
+        oposto = [c for c in perto if _opostos(w, c)] or [c for c in vocab if _opostos(w, c)]
+        if oposto:
+            trocas.append("%s (ditado: %s)" % (original.lower(), oposto[0]))
+        else:
+            novas.append(original.lower())
     avisos = []
-    t_in, t_out = _sem_acento(base).lower(), _sem_acento(corpo).lower()
-    lados = [nome for raiz, nome in _LADOS if raiz in t_out and raiz not in t_in]
-    novas = [w for w in novas if not any(_sem_acento(w).startswith(raiz) for raiz, _n in _LADOS)]
+    if trocas:
+        avisos.append("TROCA " + ", ".join(trocas[:4]))
     if novas:
         avisos.append(", ".join(novas[:8]) + (" …" if len(novas) > 8 else ""))
     nums = sorted(_numeros(corpo) - _numeros(base))
     if nums:
         avisos.append("número " + ", ".join(nums[:6]))
-    for nome in lados:
-        avisos.append("LADO " + nome.upper())
+    meds = sorted(_medidas(corpo) - _medidas(base))
+    meds = [m for m in meds if m[0] not in nums]
+    if meds:
+        avisos.append("medida " + ", ".join("%s %s" % m for m in meds[:4]))
+    tok_corpo = _tokens(corpo)
+    neg_in = sum(1 for w in tok_base if w in _NEGACOES)
+    neg_out = sum(1 for w in tok_corpo if w in _NEGACOES)
+    if neg_out > neg_in:
+        avisos.append("negação a mais (não/sem)")
+    # negação REMOVIDA: frase negada no ditado ("não há derrame pleural") que volta
+    # afirmativa ("há derrame pleural") sem que o médico tenha ditado a afirmação
+    tirou = _negacao_removida(base, corpo)
+    if tirou:
+        avisos.append("NEGAÇÃO REMOVIDA: " + ", ".join(tirou[:3]))
+    # LADO: cada direito/esquerdo da saída precisa existir no ditado junto da mesma estrutura
+    ctx_in = _contextos_de_lado(tok_base)
+    lados = []
+    for p2, p1, lado in _contextos_de_lado(tok_corpo):
+        ok = any(lado == l and _parecido(p1, q1) and
+                 (len(p2) < 4 or len(q2) < 4 or _parecido(p2, q2))   # "da"/"na": não conta
+                 for q2, q1, l in ctx_in)
+        if not ok:
+            txt = "%s %s" % (p1, "direito" if lado == "d" else "esquerdo")
+            if txt not in lados:
+                lados.append(txt)
+    if lados:
+        avisos.append("LADO " + ", ".join(lados[:4]).upper())
+    if len(_LACUNA_LADO.findall(corpo)) < len(_LACUNA_LADO.findall(entrada or "")):
+        avisos.append("LADO: a IA preencheu uma lacuna [direito/esquerdo]")
     return avisos
 
 
@@ -809,11 +969,12 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
         texto, n_in, n_out, usd = enviar(p, k, r["modelo"], sistema, pedido,
                                          int(max_tokens or c.get("max_tokens", 1500)),
                                          int(c.get("timeout_s", 40)), rac)
+        local = bool(p.get("sem_chave"))
+        c_call = float(usd) if usd is not None else custo(r["modelo"], n_in, n_out, c, local=local)
+        g = gasto_somar(rotulo, n_in, n_out, usd=c_call)   # resposta vazia também é cobrada
         if not texto:
-            registrar(c, n_in, n_out, "vazia", modelo=rotulo)
+            registrar(c, n_in, n_out, "vazia", c_call, g["usd"], modelo=rotulo)
             return None, "nuvem_vazia"
-        c_call = float(usd) if usd is not None else custo(r["modelo"], n_in, n_out, c)
-        g = gasto_somar(rotulo, n_in, n_out, usd=c_call)
 
         travas = c.get("modos_com_trava")
         if not isinstance(travas, list):

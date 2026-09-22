@@ -82,7 +82,32 @@ RESP["f"] = _oai(SAIDA_INVENTA)
 t, o = nuvem.chamar(PEDIDO, cfg, modo="laudo", marcar=False)
 l1 = t.splitlines()[0]
 confere("trava aponta palavra, número e lado", l1.startswith("[conferir") and "esporão" in l1
-        and "7" in l1 and "LADO DIREITO" in l1, l1)
+        and "7" in l1 and "LADO" in l1 and "DIREITO" in l1, l1)
+
+# 3b. trava: trocas perigosas que não podem passar
+def trava(a, b):
+    return nuvem.conferir(a, b)
+confere("lado trocado junto da mesma estrutura", any("LADO" in x for x in
+        trava("nódulo no lobo inferior direito", "Nódulo no lobo inferior esquerdo.")))
+confere("lacuna de lado preenchida pela IA", any("lacuna" in x for x in
+        trava("RADIOGRAFIA DO JOELHO [DIREITO/ESQUERDO]", "RADIOGRAFIA DO JOELHO DIREITO")))
+confere("negação acrescentada", any("negação" in x for x in trava("Há derrame pleural.", "Não há derrame pleural.")))
+confere("unidade trocada (mm -> cm)", any("medida" in x for x in trava("nódulo de 5 mm", "Nódulo de 5 cm.")))
+confere("oposto: hipo -> hiper", any("TROCA" in x for x in trava("área hipoatenuante", "Área hiperatenuante.")))
+confere("oposto: normal -> anormal", any("TROCA" in x for x in trava("exame normal", "Exame anormal.")))
+confere("linha entre colchetes inventada é conferida", any("12" in x for x in
+        trava("Fígado normal.", "Fígado normal.\n[Achado adicional: nódulo de 12 mm]")))
+confere("negação removida (não há derrame -> há derrame)", any("NEGAÇÃO REMOVIDA" in x for x in
+        trava("Seios costofrênicos livres. Não há derrame pleural.", "Seios costofrênicos livres. Há derrame pleural.")))
+confere("achado ditado substitui a frase negada da máscara sem aviso",
+        trava("Não há derrame pleural.\nderrame pleural à direita", "Derrame pleural à direita.") == [])
+confere("sigla acrescentada (AVC)", any("avc" in x for x in trava("isquemia na acm esquerda", "AVC na ACM esquerda.")))
+confere("correção de voz não dispara a trava",
+        trava("antiromas falsificados na horta; tem dinopatia do supra espinhal",
+              "Ateromas calcificados na aorta; tendinopatia do supraespinhal.") == [])
+confere("repetir o achado na conclusão não dispara a trava",
+        trava("LAUDO NA TELA:\nTC DE TÓRAX\nnódulo no lobo superior direito",
+              "TOMOGRAFIA COMPUTADORIZADA DE TÓRAX\nNódulo no lobo superior direito.\nCONCLUSÃO:\nNódulo no lobo superior direito.") == [])
 p = formato.padronizar(t)
 confere("aviso fica numa linha própria depois de padronizar", p.splitlines()[0] == l1, p[:120])
 
@@ -93,6 +118,10 @@ confere("RECIST vai para a regra onco", r["regra"] == "onco" and r["modo"] == "a
         and r["provedor"] == "anthropic", str(r))
 
 # 5. tipo de exame pelo que aparece primeiro
+confere("marca da IA (US$) não vira ultrassom",
+        nuvem.tipo_exame("[[ análise assistida ]]  (US$ 0,01)\nRADIOGRAFIA DO JOELHO") == "rx")
+confere("instrução antes do laudo não muda o tipo",
+        nuvem.tipo_exame("INSTRUÇÃO FALADA: compare com a tomografia\n\nLAUDO NA TELA:\nRADIOGRAFIA DO TÓRAX") == "rx")
 confere("RM com comparação de TC continua RM",
         nuvem.tipo_exame("RESSONÂNCIA DO JOELHO\nCOMPARAÇÃO: tomografia prévia") == "rm")
 confere("ditado curto 'rx de joelho'", nuvem.tipo_exame("rx de joelho direito") == "rx")
@@ -114,6 +143,52 @@ confere("gasto separado por modelo", "openai:gpt-5.6-luna" in g.get("por_modelo"
         and "claude-sonnet-5" in g.get("por_modelo", {}))
 confere("estado nunca mostra chave", "teste-" not in json.dumps(nuvem.estado()))
 confere("preço Luna", nuvem.preco("gpt-5.6-luna") == (0.20, 1.20))
+
+# 7b. chave salva pelo PowerShell (UTF-16), exemplo de estilo com identificador, preço desconhecido
+open(os.path.join(tmp, "chave_gemini.txt"), "wb").write("chave-gemini-teste\r\n".encode("utf-16"))
+confere("chave em UTF-16 (PowerShell) é lida", nuvem.chave_de(base, "gemini") == "chave-gemini-teste")
+os.makedirs(os.path.join(tmp, "dados", "estilo"), exist_ok=True)
+open(os.path.join(tmp, "dados", "estilo", "a.txt"), "w", encoding="utf-8").write("TC DO CRÂNIO\nPaciente: Fulano\nnormal")
+open(os.path.join(tmp, "dados", "estilo", "b.txt"), "w", encoding="cp1252").write("RADIOGRAFIA DO TÓRAX\nCampos pulmonares livres.")
+ex = nuvem._exemplos_estilo()
+confere("exemplo de estilo com identificador não vai", "Fulano" not in ex and "Campos pulmonares" in ex)
+confere("modelo sem preço conta como caro (teto vale)", nuvem.custo("modelo-novo", 1000000, 0) > 0)
+def _vazia(url, corpo):
+    return _R(json.dumps({"content": [], "usage": {"input_tokens": 1000, "output_tokens": 0}}).encode())
+RESP["f"] = _vazia
+antes = nuvem.gasto_ler()["chamadas"]
+confere("resposta vazia também entra no gasto",
+        nuvem.chamar(PEDIDO, dict(base), modo="laudo")[1] == "nuvem_vazia" and nuvem.gasto_ler()["chamadas"] == antes + 1)
+
+# 8. "formar laudo com IA": monta com o banco e manda o laudo montado para a rota do exame
+try:
+    import roteador
+except Exception as e:
+    roteador = None
+    print("aviso   roteador não carregou (%s): parte 8 pulada" % type(e).__name__)
+if roteador is not None and not roteador.BANCO.itens:   # sem base.sqlite
+    roteador = None
+    print("aviso   sem base.sqlite (rode construir_base.py): parte 8 pulada")
+if roteador is not None:
+    cfg_rx = dict(cfg)
+    nuvem.config = lambda: dict(cfg_rx)
+    RESP["f"] = _oai(SAIDA_OK)
+    antes = len(ENVIADOS)
+    t, o = roteador.rotear("rx de tornozelo esquerdo com entesopatia calcificada plantar e posterior "
+                           "no calcanho. Formar laudo com IA.")
+    enviado = ENVIADOS[-1][2]["messages"][1]["content"] if len(ENVIADOS) > antes else ""
+    confere("formar laudo com IA usa a rota do exame (RX na Luna)",
+            o == "nuvem_formar" and len(ENVIADOS) == antes + 1
+            and ENVIADOS[-1][2]["model"] == "gpt-5.6-luna", o)
+    confere("vai o laudo montado, sem **", enviado.startswith("LAUDO NA TELA:\n") and "**" not in enviado
+            and "TÉCNICA" in enviado)
+    RESP["f"] = _401
+    t, o = roteador.rotear("rx de joelho direito com artrose medial, formar laudo com IA")
+    confere("IA falhou: devolve o laudo local", o.startswith("nuvem_indisponivel_local")
+            and "JOELHO DIREITO" in t, o)
+    antes = len(ENVIADOS)
+    t, o = roteador.rotear("rx de joelho direito com artrose medial, formar laudo")
+    confere("formar laudo sem IA não chama a nuvem", len(ENVIADOS) == antes and o.startswith("formar:"), o)
 
 print()
 if falhas:

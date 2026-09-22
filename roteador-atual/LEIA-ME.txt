@@ -21,6 +21,34 @@ nada, rode INICIAR.ps1.
 
 
 ────────────────────────────────────────────────────────────────
+ NOVO (22/09/2026)
+────────────────────────────────────────────────────────────────
+
+ FORMAR LAUDO (ditado contínuo)
+    Toque o atalho, dite o exame e os achados à vontade e termine
+    com "formar laudo": o banco monta o laudo.
+    "formar laudo com IA": o laudo montado passa pela IA do exame
+    (config.json -> ia_por_exame). Se a IA falhar, cola o do banco.
+
+ MINHAS MÁSCARAS (MINHAS_MASCARAS.bat)
+    Inclui o seu arquivo de máscaras (.txt, .docx, .rtf, .md), os
+    seus laudos de estilo (sem dados de paciente) e escolhe quais
+    máscaras valem: só as do Rotrix, só as suas ou as duas.
+    O lado escrito na máscara vira lacuna que o ditado preenche.
+
+ LADO
+    Quando o ditado cita os dois lados ("joelho esquerdo ... comparado
+    ao lado direito"), o título usa o lado do começo do ditado. Trecho
+    que cita os dois lados vira [direito/esquerdo] para você escolher.
+
+ IA POR EXAME e TRAVA DE CONFERÊNCIA
+    Veja IA_POR_EXAME.md no projeto (projeto-app). Com "só formatar",
+    a IA não descreve; tudo o que ela acrescentar ou trocar (palavra,
+    número, unidade, lado, negação) aparece numa linha
+    [conferir — ...] no topo do laudo. Apague a linha depois de conferir.
+
+
+────────────────────────────────────────────────────────────────
  AS CAMADAS, NA ORDEM
 ────────────────────────────────────────────────────────────────
 

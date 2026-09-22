@@ -151,9 +151,28 @@ if (Test-Path $destino) {
     if ($nLeg)  { Aviso "$nLeg mascara(s) antiga(s) guardada(s) em dados\mascaras\_legado" }
     if ($nUser) { Ok "$nUser mascara(s) criada(s) por voce preservada(s)" }
   }
-  # o que e seu e nao vem no pacote: chave, gasto, aprendizado, log
-  foreach ($f in @("chave_anthropic.txt", "gasto.json", "aprendizado.json", "nuvem.log")) {
+  # o que e seu e nao vem no pacote: chaves (todos os provedores), gasto, aprendizado, log
+  $seus = @("gasto.json", "aprendizado.json", "nuvem.log")
+  $seus += @(Get-ChildItem "$bk" -File -Filter "chave_*.txt" -ErrorAction SilentlyContinue | ForEach-Object { $_.Name })
+  foreach ($f in $seus) {
     if (Test-Path "$bk\$f") { Copy-Item "$bk\$f" "$stage\$f" -Force; Ok "preservado: $f" }
+  }
+  # suas mascaras e seus laudos de estilo (Rotrix: importar_usuario.py)
+  if (Test-Path "$bk\dados\mascaras_usuario") {
+    Copy-Item "$bk\dados\mascaras_usuario" "$stage\dados\mascaras_usuario" -Recurse -Force
+    Ok "preservadas: suas mascaras (dados\mascaras_usuario)"
+  }
+  Get-ChildItem "$bk\dados\estilo" -File -Filter "usuario_*.txt" -ErrorAction SilentlyContinue |
+    ForEach-Object { Copy-Item $_.FullName "$stage\dados\estilo\$($_.Name)" -Force }
+  # config.json: o do pacote + as suas escolhas por cima (prompt, IA por exame, fonte das mascaras)
+  if (Test-Path "$bk\config.json") {
+    try {
+      $velho = Get-Content "$bk\config.json" -Raw -Encoding UTF8 | ConvertFrom-Json
+      $novo = if (Test-Path "$stage\config.json") { Get-Content "$stage\config.json" -Raw -Encoding UTF8 | ConvertFrom-Json } else { [pscustomobject]@{} }
+      foreach ($p in $velho.PSObject.Properties) { $novo | Add-Member -NotePropertyName $p.Name -NotePropertyValue $p.Value -Force }
+      [IO.File]::WriteAllText("$stage\config.json", ($novo | ConvertTo-Json -Depth 10), (New-Object Text.UTF8Encoding $false))
+      Ok "preservada: sua configuracao (config.json)"
+    } catch { Aviso "nao consegui juntar o config.json antigo; ficou o do pacote (o antigo esta em $(Split-Path $bk -Leaf))" }
   }
 }
 Move-Item $stage $destino

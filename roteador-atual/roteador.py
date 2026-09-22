@@ -25,7 +25,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-22.1"
+VERSAO = "2026-09-22.4"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -48,23 +48,34 @@ class Banco:
         self.caminho = caminho
         self.lock = threading.Lock()
         self.itens = []          # (tipo, gatilho_norm, titulo, texto)
+        self.meta = {}
         self.carregar()
     def carregar(self):
+        """Lê a base. Se a leitura falhar (arquivo sendo refeito, vazio, corrompido),
+        mantém o que já estava carregado: o ditado nunca fica sem banco."""
         with self.lock:
-            self.itens = []
-            self.meta = {}           # titulo -> (categoria, modalidade, regiao, subtipo)
             if not os.path.exists(self.caminho):
                 print("AVISO: base.sqlite nao encontrado. Rode construir_base.py", file=sys.stderr)
                 return
-            self.mtime = os.path.getmtime(self.caminho)
-            con = sqlite3.connect(self.caminho)
             try:
-                rows = con.execute("SELECT tipo, gatilho_norm, titulo, texto, secao, conclusao, "
-                                   "categoria, modalidade, regiao, subtipo FROM entradas").fetchall()
-            except sqlite3.OperationalError:     # base antiga, sem metadados
-                rows = [tuple(r) + ("", "", "", "") for r in con.execute(
-                    "SELECT tipo, gatilho_norm, titulo, texto, secao, conclusao FROM entradas")]
-            con.close()
+                mtime = os.path.getmtime(self.caminho)
+                con = sqlite3.connect("file:%s?mode=ro" % self.caminho.replace("\\", "/"), uri=True)
+                try:
+                    try:
+                        rows = con.execute("SELECT tipo, gatilho_norm, titulo, texto, secao, conclusao, "
+                                           "categoria, modalidade, regiao, subtipo FROM entradas").fetchall()
+                    except sqlite3.OperationalError:     # base antiga, sem metadados
+                        rows = [tuple(r) + ("", "", "", "") for r in con.execute(
+                            "SELECT tipo, gatilho_norm, titulo, texto, secao, conclusao FROM entradas")]
+                finally:
+                    con.close()
+            except (sqlite3.Error, OSError) as e:
+                print("AVISO: base.sqlite ilegível (%s); mantendo a base anterior" % e, file=sys.stderr)
+                return
+            if not rows and self.itens:
+                print("AVISO: base.sqlite vazia; mantendo a base anterior", file=sys.stderr)
+                return
+            itens, meta = [], {}     # titulo -> (categoria, modalidade, regiao, subtipo)
             prio = {"mascara": 0, "achado": 1, "adendo": 2, "bloco": 3, "frase": 4}
             rows.sort(key=lambda r: prio.get(r[0], 5))      # sort estavel
             textos = {}
@@ -74,15 +85,16 @@ class Banco:
             for r in rows:
                 if not r[3]:            # forma curta gerada: o texto é o da máscara
                     r = (r[0], r[1], r[2], textos.get(r[2], "")) + tuple(r[4:])
-                self.itens.append(tuple(r[:6]))
-                self.meta.setdefault(r[2], tuple(x or "" for x in r[6:10]))
+                itens.append(tuple(r[:6]))
+                meta.setdefault(r[2], tuple(x or "" for x in r[6:10]))
+            self.itens, self.meta, self.mtime = itens, meta, mtime
             print(f"base carregada: {len(self.itens)} gatilhos", flush=True)
     def atualizada(self):
         """Recarrega sozinho se a base.sqlite foi trocada no disco."""
         try:
             if os.path.getmtime(self.caminho) != getattr(self, "mtime", None):
                 self.carregar()
-        except OSError:
+        except Exception:
             pass
     def buscar(self, consulta_norm, tipo=None):
         tit, txt, score, _g = self.buscar2(consulta_norm, tipo)
@@ -160,8 +172,11 @@ BANCO = Banco(BASE)
 
 def _lado(n):
     if re.search(r"\bbilatera", n): return "bilateral"
-    if re.search(r"\bdireit", n):   return "direito"
-    if re.search(r"\besquerd", n):  return "esquerdo"
+    d, e = re.search(r"\bdireit", n), re.search(r"\besquerd", n)
+    if d and e:
+        return None          # os dois lados no mesmo trecho: lacuna visível, nunca chute
+    if d: return "direito"
+    if e: return "esquerdo"
     return None
 
 def _lobo(n):
@@ -512,7 +527,7 @@ def _config():
     try:
         mt = os.path.getmtime(p)
         if mt != _CFG["mtime"]:
-            _CFG["dados"] = json.load(open(p, encoding="utf-8"))
+            _CFG["dados"] = json.load(open(p, encoding="utf-8-sig"))
             _CFG["mtime"] = mt
     except Exception:
         pass
@@ -780,11 +795,74 @@ def _sem_preambulo(t):
     return r if r.strip() else t
 
 
+# "formar laudo" (no fim ou no começo do ditado contínuo): monta o laudo com o
+# banco local. "formar laudo com IA" monta local e depois manda o laudo montado
+# para a IA do exame (config ia_por_exame: RX na Luna só formatando, etc.).
+_FORMAR_NUCLEO = (r"(?:formar|forma|forme|formas|formando|montar|monta|monte|montando)\s+"
+                  r"(?:o\s+|um\s+|meu\s+)?laudo"
+                  r"(?P<ia>\s+(?:com|pela|pelo|na|no|por|via|usando)\s+(?:a\s+|o\s+)?"
+                  r"(?:ia|i\.?\s?a\.?|intelig[eê]ncia\s+artificial|nuvem|claude|gpt|chat\s?gpt))?")
+_FORMAR_FIM = re.compile(r"(?:^|[\s,.;:!?-])" + _FORMAR_NUCLEO + r"[\s,.;:!?-]*$", re.I)
+_FORMAR_INICIO = re.compile(r"^[\s,.;:!?-]*" + _FORMAR_NUCLEO + r"(?:[\s,.;:!?-]+|$)", re.I)
+
+
+def comando_formar(bruto):
+    """(resto_do_ditado, com_ia) se o ditado tem o comando "formar laudo"; senão None."""
+    t = (bruto or "").strip()
+    m = _FORMAR_FIM.search(t)
+    if m:
+        return t[:m.start()].strip(" ,.;:-"), bool(m.group("ia"))
+    m = _FORMAR_INICIO.match(t)
+    if m:
+        return t[m.end():].strip(" ,.;:-"), bool(m.group("ia"))
+    return None
+
+
+def formar_laudo(resto, com_ia):
+    """Monta o laudo com o banco; com IA, manda o laudo montado para a rota do exame.
+    Se a IA falhar, devolve o laudo local (o ditado nunca se perde)."""
+    ativa = nuvem is not None and nuvem.config().get("ativa")
+    if not resto.strip():
+        # só o comando: vale para o laudo que já está na tela
+        if com_ia and ativa and os.name == "nt":
+            try:
+                import atalho_win
+                sel = atalho_win.copiar_selecao()
+            except Exception:
+                sel = ""
+            if sel:
+                novo, origem = revisar_laudo_inteiro(sel)
+                if novo and origem == "nuvem":
+                    return formato.padronizar(novo), "nuvem_formar_tela"
+                return sel, "nuvem_formar_tela_falhou:" + str(origem)
+        return "", "formar_vazio"
+    texto, origem = rotear(resto)
+    if not com_ia:
+        return texto, "formar:" + origem
+    if not ativa:
+        return texto, "formar:" + origem + "+ia_desligada"
+    try:
+        c = nuvem.config()
+        pedido = "LAUDO NA TELA:\n" + texto.replace("**", "")
+        novo, o2 = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000)
+    except Exception as e:
+        return texto, "nuvem_indisponivel_local:erro_%s" % type(e).__name__
+    if novo and o2 == "nuvem":
+        return formato.padronizar(novo), "nuvem_formar"
+    if novo and o2 in ("nuvem_bloqueada", "nuvem_teto"):
+        return novo.split("\n", 1)[0] + "\n" + texto, o2     # aviso + laudo local
+    # "nuvem..." no começo: o teto de tempo do ditado local não se aplica aqui
+    return texto, "nuvem_indisponivel_local:" + str(o2)
+
+
 def rotear(ditado):
     """Devolve (texto_final, origem). Nunca levanta excecao."""
     bruto = (ditado or "").strip()
     if not bruto:
         return "", "vazio"
+    cmd = comando_formar(bruto)
+    if cmd is not None:
+        return formar_laudo(*cmd)
     original = bruto
     bruto = ouvido_fixo(_sem_preambulo(bruto))
     n = normalizar(bruto)
@@ -920,7 +998,7 @@ def rotear(ditado):
             # "desvio lateral da coluna, com convexidade para a esquerda": o trecho
             # que so qualifica o achado anterior (lado, medida, nivel) vai para ele
             blocos, orfaos = _juntar_qualificadores(restantes, blocos, orfaos)
-            base = preencher(txt, bruto, None)
+            base = preencher(txt, bruto, ctx)
             if blocos or orfaos:
                 texto = montar(base, blocos, ctx)
                 if orfaos:
@@ -1104,7 +1182,9 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, {"object": "list", "data": [
                 {"id": "laudo-router", "object": "model", "owned_by": "local"}]})
         if self.path.rstrip("/") in ("/versao", "/v1/versao"):
-            return self._json(200, {"versao": VERSAO, "gatilhos": len(BANCO.itens)})
+            # "pasta": o app (Rotrix) grava a configuração na pasta do roteador que está rodando
+            return self._json(200, {"versao": VERSAO, "gatilhos": len(BANCO.itens),
+                                    "pasta": os.path.dirname(os.path.abspath(__file__))})
         if self.path.rstrip("/") in ("/ia", "/v1/ia"):
             # botão de IA e contador de gasto (nunca devolve chave)
             if nuvem is None:
@@ -1120,8 +1200,11 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         t0 = time.time()
-        BANCO.atualizada()
         ditado = ""
+        try:
+            BANCO.atualizada()
+        except Exception as e:
+            print("base: falha ao recarregar:", e, flush=True)
         try:
             n = int(self.headers.get("Content-Length") or 0)
             body = json.loads(self.rfile.read(n).decode("utf-8") or "{}")
@@ -1166,7 +1249,34 @@ def instruir_laudo(texto, instrucao):
     return nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000)
 
 
+def _base_em_dia():
+    """A base foi gerada com as máscaras do usuário e a fonte atuais? (importar_usuario)"""
+    if not os.path.exists(BASE) or os.path.getsize(BASE) == 0:
+        return False                      # sem base: refaz
+    try:
+        import importar_usuario
+        esperado = importar_usuario.assinatura_usuario()
+        con = sqlite3.connect("file:%s?mode=ro" % BASE.replace("\\", "/"), uri=True)
+        try:
+            v = con.execute("SELECT valor FROM meta WHERE chave='assinatura_usuario'").fetchone()
+        except sqlite3.OperationalError:
+            v = None                      # base antiga, sem assinatura
+        con.close()
+        return (v[0] if v else "rotrix|0|0|0") == esperado
+    except Exception:
+        return True
+
+
 if __name__ == "__main__":
+    # atualização trocou a base (sem as máscaras do usuário) ou a fonte mudou: refaz
+    if not _base_em_dia():
+        try:
+            import importar_usuario
+            ok, msg = importar_usuario.refazer_base()
+            print("base refeita com as máscaras do usuário:", msg, flush=True)
+            BANCO.carregar()
+        except Exception as e:
+            print("não consegui refazer a base:", e, flush=True)
     if os.name == "nt":
         try:
             import atalho_win
