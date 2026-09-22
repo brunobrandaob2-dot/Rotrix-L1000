@@ -20,3 +20,6 @@ pacote/
 node_modules/
 target/
 dist/
+
+# gerado no CI
+app/src-tauri/resources/rotrix/
