@@ -25,7 +25,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-21.6"
+VERSAO = "2026-09-22.1"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -1105,6 +1105,14 @@ class Handler(BaseHTTPRequestHandler):
                 {"id": "laudo-router", "object": "model", "owned_by": "local"}]})
         if self.path.rstrip("/") in ("/versao", "/v1/versao"):
             return self._json(200, {"versao": VERSAO, "gatilhos": len(BANCO.itens)})
+        if self.path.rstrip("/") in ("/ia", "/v1/ia"):
+            # botão de IA e contador de gasto (nunca devolve chave)
+            if nuvem is None:
+                return self._json(200, {"ativa": False})
+            try:
+                return self._json(200, nuvem.estado())
+            except Exception as e:
+                return self._json(500, {"error": type(e).__name__})
         if self.path.rstrip("/") in ("/recarregar", "/v1/recarregar"):
             BANCO.carregar()
             return self._json(200, {"ok": True, "gatilhos": len(BANCO.itens)})

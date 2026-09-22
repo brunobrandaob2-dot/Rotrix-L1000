@@ -91,8 +91,15 @@ def padronizar(texto):
     linhas = [l for l in linhas if l and not l.startswith("```")]
     if not linhas:
         return texto
+    # avisos no topo ("[conferir — a IA acrescentou: ...]") ficam como vieram,
+    # numa linha própria, antes do título
+    avisos = []
+    while linhas and linhas[0].startswith("["):
+        avisos.append(linhas.pop(0))
+    if not linhas:
+        return "\n".join(avisos)
     if not any(_cab(l) for l in linhas):
-        return "\n".join(linhas)            # não é laudo estruturado: só limpa
+        return "\n".join(avisos + linhas)   # não é laudo estruturado: só limpa
 
     titulo, secoes, atual = [], [], None
     for l in linhas:
@@ -120,7 +127,7 @@ def padronizar(texto):
             out.append("**%s:**" % canon)
             for l in corpo:
                 out.append(rotulo_negrito(l) if canon == "ANÁLISE" else l)
-    return "\n".join(out)
+    return "\n".join(avisos + out)
 
 
 def negritar_rotulos(texto):
