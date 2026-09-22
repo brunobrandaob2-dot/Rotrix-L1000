@@ -54,7 +54,7 @@ A trava aponta:
 - **palavra de conteúdo nova**, inclusive sigla ("AVC");
 - **troca pelo oposto** de uma palavra ditada: hipo↔hiper↔iso, normal→anormal, regular→irregular;
 - **número novo** e **unidade trocada** (5 mm → 5 cm);
-- **negação a mais** ("há derrame" → "não há derrame");
+- **negação a mais** ("há derrame" → "não há derrame") e **negação removida** ("não há derrame" → "há derrame", quando o médico não ditou o achado);
 - **LADO**:
   - um lado junto de uma estrutura em que ele não foi ditado ("lobo inferior direito" → "esquerdo");
   - uma lacuna [direito/esquerdo] preenchida pela IA;
@@ -66,7 +66,7 @@ Não disparam a trava:
 - sigla escrita por extenso no título (TC → TOMOGRAFIA);
 - achado repetido na conclusão.
 
-O que a trava **não** pega: uma negação ditada que a IA tirou ("não há derrame" → "há derrame"). O modo formatar pode apagar frases da máscara que contradizem o achado, então retirar uma frase não é marcado. Confira sempre a conclusão.
+Quando o achado ditado substitui a frase negada da máscara ("não há derrame" → "derrame pleural à direita", ditado), a trava não avisa: é o esperado. Mesmo assim, confira sempre a conclusão.
 
 Para ligar a trava também em outros modos, use `"modos_com_trava": ["formatar", "laudo"]`.
 

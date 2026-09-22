@@ -734,6 +734,36 @@ def _contextos_de_lado(tokens):
             out.append((tokens[i - 2] if i > 1 else "", tokens[i - 1] if i > 0 else "", lado))
     return out
 
+def _frases(t):
+    return [f for f in re.split(r"(?<=[.;:!?])\s+|\n+", t or "") if f.strip()]
+
+def _conteudo(frase):
+    return {w for w in _tokens(frase) if len(w) >= 4 and w not in _LIVRES and w not in _NEGACOES
+            and w not in ("sinais", "areas", "area", "evidencia", "evidencias", "observa", "observam")}
+
+def _negacao_removida(base, corpo):
+    """Palavras de frases que eram negadas no ditado e voltaram afirmadas na saída."""
+    negadas, afirmadas = [], []
+    for f in _frases(base):
+        c = _conteudo(f)
+        if not c:
+            continue
+        (negadas if any(w in _NEGACOES for w in _tokens(f)) else afirmadas).append(c)
+    achou = []
+    for f in _frases(corpo):
+        if any(w in _NEGACOES for w in _tokens(f)):
+            continue
+        cf = _conteudo(f)
+        for cn in negadas:
+            # a afirmação precisa conter as palavras da frase negada (ao menos 2)...
+            chave = cn & cf
+            if chave and len(chave) >= min(2, len(cn)) and len(chave) >= len(cn) * 0.6:
+                # ...e não pode ter sido ditada de forma afirmativa
+                if not any(len(chave & ca) >= len(chave) for ca in afirmadas):
+                    achou.append(" ".join(sorted(chave))[:40])
+                    break
+    return achou
+
 def conferir(entrada, saida):
     """Compara o que foi enviado com o que voltou. Devolve a lista do que a IA
     ACRESCENTOU ou TROCOU: palavras de conteúdo (inclusive o oposto de uma palavra
@@ -788,6 +818,11 @@ def conferir(entrada, saida):
     neg_out = sum(1 for w in tok_corpo if w in _NEGACOES)
     if neg_out > neg_in:
         avisos.append("negação a mais (não/sem)")
+    # negação REMOVIDA: frase negada no ditado ("não há derrame pleural") que volta
+    # afirmativa ("há derrame pleural") sem que o médico tenha ditado a afirmação
+    tirou = _negacao_removida(base, corpo)
+    if tirou:
+        avisos.append("NEGAÇÃO REMOVIDA: " + ", ".join(tirou[:3]))
     # LADO: cada direito/esquerdo da saída precisa existir no ditado junto da mesma estrutura
     ctx_in = _contextos_de_lado(tok_base)
     lados = []

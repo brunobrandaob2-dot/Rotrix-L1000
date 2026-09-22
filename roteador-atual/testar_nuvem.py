@@ -97,6 +97,10 @@ confere("oposto: hipo -> hiper", any("TROCA" in x for x in trava("área hipoaten
 confere("oposto: normal -> anormal", any("TROCA" in x for x in trava("exame normal", "Exame anormal.")))
 confere("linha entre colchetes inventada é conferida", any("12" in x for x in
         trava("Fígado normal.", "Fígado normal.\n[Achado adicional: nódulo de 12 mm]")))
+confere("negação removida (não há derrame -> há derrame)", any("NEGAÇÃO REMOVIDA" in x for x in
+        trava("Seios costofrênicos livres. Não há derrame pleural.", "Seios costofrênicos livres. Há derrame pleural.")))
+confere("achado ditado substitui a frase negada da máscara sem aviso",
+        trava("Não há derrame pleural.\nderrame pleural à direita", "Derrame pleural à direita.") == [])
 confere("sigla acrescentada (AVC)", any("avc" in x for x in trava("isquemia na acm esquerda", "AVC na ACM esquerda.")))
 confere("correção de voz não dispara a trava",
         trava("antiromas falsificados na horta; tem dinopatia do supra espinhal",

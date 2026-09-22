@@ -337,7 +337,7 @@ def lado_em_lacuna(titulo, corpo):
         corpo = _LADOS_CORPO.sub(talvez, corpo)
         if trocou:
             avisos.append("lado do texto virou lacuna")
-        if ficou:
+        if ficou and len(lados) == 1:     # os dois lados descritos (rim direito e esquerdo) é normal
             avisos.append("o texto cita lado (%s) sem lado no título — confira" % ", ".join(sorted(ficou)))
     return novo_tit, corpo, avisos
 
@@ -589,8 +589,47 @@ def main(argv):
     if como_json:
         sys.stdout.write(json.dumps(res, ensure_ascii=False))
     else:
-        print(json.dumps(res, ensure_ascii=False, indent=2))
+        print(resumo_legivel(res))
     return 0 if res.get("ok") else 1
+
+
+def resumo_legivel(res):
+    """Saída para gente (o menu MINHAS_MASCARAS usa esta; o app usa --json)."""
+    if not res.get("ok"):
+        return "  [X] " + res.get("erro", "falhou")
+    L = []
+    a = res.get("acao")
+    if a == "mascaras":
+        L.append("  %d mascara(s) incluida(s) de %s" % (len(res["importadas"]), res.get("arquivo", "")))
+        for m in res["importadas"]:
+            L.append("   + %s  ->  diga \"%s\"" % (m["titulo"], (m.get("comandos") or ["?"])[0]))
+            for av in m.get("avisos", []):
+                L.append("       (%s)" % av)
+        for m in res.get("recusadas", []):
+            L.append("   - NAO ENTROU: %s — %s" % (m["titulo"], m["motivo"]))
+    elif a == "laudos":
+        L.append("  %d laudo(s) de estilo incluido(s) de %s" % (res.get("importados", 0), res.get("arquivo", "")))
+        for m in res.get("recusados", []):
+            L.append("   - NAO ENTROU: %s — %s" % (m["titulo"], m["motivo"]))
+    elif a == "fonte":
+        nomes = {"rotrix": "so as do Rotrix", "minhas": "so as suas", "ambas": "as duas (a sua vale primeiro)"}
+        L.append("  mascaras que valem agora: " + nomes.get(res.get("fonte"), res.get("fonte", "")))
+    elif a == "listar":
+        nomes = {"rotrix": "so as do Rotrix", "minhas": "so as suas", "ambas": "as duas (a sua vale primeiro)"}
+        L.append("  mascaras que valem: " + nomes.get(res.get("fonte"), ""))
+        L.append("  %d mascara(s) sua(s):" % len(res.get("mascaras", [])))
+        for m in res.get("mascaras", []):
+            L.append("   . %s  ->  diga \"%s\"" % (m["titulo"], m.get("comando", "")))
+        L.append("  %d laudo(s) de estilo seu(s)" % res.get("laudos", 0))
+    elif a == "remover":
+        L.append("  removido(s): %s" % (res.get("removidas", res.get("removidos", 0))))
+        if res.get("fonte"):
+            L.append("  mascaras que valem agora: so as do Rotrix")
+    for av in res.get("avisos", []):
+        L.append("  aviso: " + av)
+    if res.get("base"):
+        L.append("  " + res["base"])
+    return "\n".join(L)
 
 
 if __name__ == "__main__":
