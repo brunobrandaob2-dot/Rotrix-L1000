@@ -8,6 +8,9 @@ Fala o protocolo OpenAI (/v1/chat/completions) para que o Handy o use como
 Regra de ouro: nunca trava e nunca inventa. Se não reconhecer o ditado,
 devolve o texto exatamente como veio.
 """
+import os as _os, sys as _sys
+# Python embutido (Rotrix) nao poe a pasta do script no caminho: garante aqui
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
 import formato
 import collections, json, re, sqlite3, sys, unicodedata, difflib, threading, os, time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer

@@ -14,7 +14,8 @@ import formato
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 LOG = os.path.join(AQUI, "atalho.log")
-COLADOR = os.path.join(os.environ.get("APPDATA", ""), "com.pais.handy", "handy_radiology_paste.exe")
+COLADOR = os.environ.get("ROTEADOR_COLADOR") or \
+    os.path.join(os.environ.get("APPDATA", ""), "com.pais.handy", "handy_radiology_paste.exe")
 
 MOD_ALT, MOD_CONTROL, MOD_NOREPEAT = 0x1, 0x2, 0x4000
 WM_HOTKEY = 0x0312

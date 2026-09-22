@@ -1,7 +1,7 @@
-# app/ — Rotrix L-1000 (em construção)
+# app/ — Rotrix L-1000
 
-Aqui vai entrar o app único: cópia própria do Handy (Tauri v2 + Rust + React/TypeScript, licença MIT, com nome e ícone próprios), com o roteador e o formatador embutidos.
+App único de ditado radiológico: cópia própria do Handy (Tauri v2 + Rust + React/TypeScript, MIT; ver `NOTICE.md`) com o Roteador de Laudos embutido.
 
-Plano completo, requisitos e testes de aceite: `../docs/PROMPT_MESTRE_Roteador_de_Laudos.md` (seções 5, 16, 21).
-
-Etapa 1: trazer o código do Handy para esta pasta, trocar nome e ícone, manter o aviso MIT e configurar o build de Windows no GitHub Actions.
+- **Compilação:** o GitHub Actions (`.github/workflows/build-windows.yml`) gera o instalador de Windows a cada envio. O instalador fica em Actions → execução → Artifacts.
+- **Roteador embutido:** no CI, o Python embutido oficial, o `roteador-atual/` (máscaras + banco) e o colador com negrito são colocados em `src-tauri/resources/rotrix/`. Ao abrir, o app copia o roteador para `%APPDATA%\com.rotrix.l1000\roteador` e o inicia na porta 8123 (`src-tauri/src/rotrix.rs`).
+- **Especificação completa:** `../docs/PROMPT_MESTRE_Roteador_de_Laudos.md`.
