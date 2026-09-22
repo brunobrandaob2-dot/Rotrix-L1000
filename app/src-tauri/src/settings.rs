@@ -921,6 +921,21 @@ pub fn get_default_settings() -> AppSettings {
             current_binding: default_post_process_shortcut.to_string(),
         },
     );
+    // Rotrix, modo estacao: passa para o proximo exame da fila do Radius
+    #[cfg(target_os = "macos")]
+    let default_proximo_exame = "cmd+alt+n";
+    #[cfg(not(target_os = "macos"))]
+    let default_proximo_exame = "ctrl+alt+n";
+    bindings.insert(
+        "proximo_exame".to_string(),
+        ShortcutBinding {
+            id: "proximo_exame".to_string(),
+            name: "Próximo exame".to_string(),
+            description: "Passa para o próximo exame da fila do Radius.".to_string(),
+            default_binding: default_proximo_exame.to_string(),
+            current_binding: default_proximo_exame.to_string(),
+        },
+    );
     bindings.insert(
         "cancel".to_string(),
         ShortcutBinding {

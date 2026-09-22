@@ -33,3 +33,5 @@ jobs:
         run: python testar_radius.py
       - name: Testar a TC com as palavras do médico (alterações primeiro)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_tc_literal.py
+      - name: Testar o modo estação e o perfil (arquivos falsos)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_estacao.py

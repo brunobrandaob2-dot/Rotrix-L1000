@@ -122,6 +122,17 @@ preservados.", "Seios costofrênicos livres.") — é por elas que o achado acha
 de RX pode ter só a `normal.txt`; os blocos e as alteradas servem ao "descrever".
 Desligar: `"rx_literal": false` no config.json.
 
+### Modo estação e perfil (22/09/2026)
+
+- **Exame da vez.** `estacao_atual` = o exame escolhido na estação, senão o aberto no Radius,
+  senão o primeiro pendente. `POST /v1/fila/proximo` marca o da vez como feito e passa ao
+  seguinte (Ctrl+Alt+N no app); `/v1/fila/escolher` e `/v1/fila/feito` fazem o resto. O que fica
+  gravado em `dados/estacao.json` são só os códigos embaralhados, nunca nome ou número de acesso.
+- **Perfil** (`perfil.py`): `/v1/perfil/exportar` e `/v1/perfil/importar`. Vão as máscaras do
+  usuário, o `ouvido.tsv`, o `aprendizado.json` e as chaves de config que são do radiologista;
+  os laudos de estilo só com `incluir_estilo`. A chave de IA nunca entra. Na importação, só
+  caminhos conhecidos são aceitos (nada de `..`), o `ouvido.tsv` é somado e a base é regerada.
+
 ### Regras do laudo (22/09/2026, pedido do Bruno) — valem para RX e TC
 
 1. **Alterações primeiro.** Na ANÁLISE, as frases de alteração abrem o laudo, na ordem ditada

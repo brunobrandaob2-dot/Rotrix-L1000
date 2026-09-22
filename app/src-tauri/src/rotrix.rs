@@ -271,6 +271,35 @@ fn http_get(caminho: &str) -> Option<String> {
     Some(corpo.trim().to_string())
 }
 
+/// POST simples no roteador local (corpo JSON). Devolve o corpo da resposta.
+/// Espera mais que o GET: importar perfil regera a base de mascaras.
+fn http_post(caminho: &str, corpo: &str, espera_ms: u64) -> Result<String, String> {
+    use std::io::{Read, Write};
+    let addr: SocketAddr = "127.0.0.1:8123"
+        .parse()
+        .map_err(|_| "endereco invalido".to_string())?;
+    let mut s = TcpStream::connect_timeout(&addr, Duration::from_millis(600))
+        .map_err(|_| "roteador parado".to_string())?;
+    s.set_read_timeout(Some(Duration::from_millis(espera_ms)))
+        .map_err(|e| e.to_string())?;
+    let pedido = format!(
+        "POST {caminho} HTTP/1.0\r\nHost: 127.0.0.1\r\nContent-Type: application/json\r\n\
+         Content-Length: {}\r\n\r\n{corpo}",
+        corpo.as_bytes().len()
+    );
+    s.write_all(pedido.as_bytes()).map_err(|e| e.to_string())?;
+    let mut bytes = Vec::new();
+    s.read_to_end(&mut bytes).map_err(|e| e.to_string())?;
+    let resp = String::from_utf8_lossy(&bytes).to_string();
+    let (cab, body) = resp
+        .split_once("\r\n\r\n")
+        .ok_or_else(|| "resposta incompleta do roteador".to_string())?;
+    if !cab.starts_with("HTTP/1.0 200") && !cab.starts_with("HTTP/1.1 200") {
+        return Err(format!("roteador respondeu: {}", cab.lines().next().unwrap_or("")));
+    }
+    Ok(body.trim().to_string())
+}
+
 /// GET http://127.0.0.1:8123/v1/versao -> {"versao", "gatilhos", "pasta"}.
 fn consultar_versao() -> Option<serde_json::Value> {
     serde_json::from_str(&http_get("/v1/versao")?).ok()
@@ -675,6 +704,58 @@ pub async fn rotrix_mascaras(
 #[tauri::command]
 pub fn rotrix_fila() -> Result<String, String> {
     http_get("/v1/fila").ok_or_else(|| "roteador parado".to_string())
+}
+
+/// Modo estacao: passa para o proximo exame da fila (Ctrl+Alt+N).
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_fila_proximo() -> Result<String, String> {
+    http_post("/v1/fila/proximo", "{}", 4000)
+}
+
+/// Modo estacao: escolhe na mao o exame da vez.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_fila_escolher(id: String) -> Result<String, String> {
+    http_post(
+        "/v1/fila/escolher",
+        &serde_json::json!({ "id": id }).to_string(),
+        4000,
+    )
+}
+
+/// Modo estacao: marca (ou desmarca) um exame como laudado por voce.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_fila_feito(id: String, feito: bool) -> Result<String, String> {
+    http_post(
+        "/v1/fila/feito",
+        &serde_json::json!({ "id": id, "feito": feito }).to_string(),
+        4000,
+    )
+}
+
+/// Perfil: grava num .rotrix.zip as suas mascaras, o ouvido.tsv e os ajustes.
+/// A chave de IA nunca entra; os laudos de estilo so com incluir_estilo.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_perfil_exportar(destino: String, incluir_estilo: bool) -> Result<String, String> {
+    http_post(
+        "/v1/perfil/exportar",
+        &serde_json::json!({ "destino": destino, "incluir_estilo": incluir_estilo }).to_string(),
+        60_000,
+    )
+}
+
+/// Perfil: le um .rotrix.zip. modo = "juntar" ou "substituir". Regera a base.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_perfil_importar(arquivo: String, modo: String) -> Result<String, String> {
+    http_post(
+        "/v1/perfil/importar",
+        &serde_json::json!({ "arquivo": arquivo, "modo": modo }).to_string(),
+        900_000,
+    )
 }
 
 /// Grava no config.json o perfil automatico e, se vier, a pasta do Radius.

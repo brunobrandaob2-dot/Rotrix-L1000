@@ -184,6 +184,28 @@ RADIOGRAFIA — as SUAS palavras, na linha certa (RX literal):
     - Para voltar ao modo antigo (blocos do banco), ponha
       "rx_literal": false no config.json.
 
+MODO ESTAÇÃO (app Rotrix):
+    A fila do Radius mostra o EXAME DA VEZ (●). Ctrl+Alt+N passa para
+    o próximo pendente e marca o anterior como laudado por você. Dá
+    para escolher outro clicando na bolinha da linha, e para marcar
+    "laudei" à direita. Com o perfil automático ligado, o exame da vez
+    é quem decide a máscara do ditado de RX.
+
+TEXTO AO VIVO (app Rotrix):
+    A barra de gravação mostra o texto enquanto você fala, com modelo
+    que reconhece em tempo real (Nemotron Streaming, Voxtral). O
+    Whisper só devolve o texto no fim. A troca é na página Rotrix, em
+    "Texto ao vivo"; depois rode o ATUALIZAR_AGORA.bat, para o
+    vocabulário combinar com o modelo novo.
+
+PERFIL (levar para outro computador):
+    Página Rotrix → Perfil → "Exportar perfil" grava um .rotrix.zip
+    com as suas máscaras, as suas correções de ouvido e os ajustes.
+    A chave de IA nunca entra; os laudos de estilo só se você marcar.
+    No outro computador, "Importar perfil" (somar ou trocar).
+    Sem o app: python perfil.py exportar CAMINHO [--estilo]
+               python perfil.py importar ARQUIVO [--substituir]
+
 REGRAS DO LAUDO (RX e TC):
     - As frases de ALTERAÇÃO abrem a análise, na ordem em que você
       ditou; as normais vêm abaixo. Na TC sobe a estrutura inteira.

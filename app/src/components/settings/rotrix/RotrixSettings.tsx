@@ -9,6 +9,8 @@ import { Textarea } from "../../ui/Textarea";
 import { RotrixIA } from "./RotrixIA";
 import { RotrixMascaras } from "./RotrixMascaras";
 import { RotrixFila } from "./RotrixFila";
+import { RotrixAoVivo } from "./RotrixAoVivo";
+import { RotrixPerfil } from "./RotrixPerfil";
 import { ThemeSelector } from "../ThemeSelector";
 import { SeletorCores } from "./SeletorCores";
 
@@ -121,6 +123,8 @@ export const RotrixSettings: React.FC = () => {
 
       <RotrixFila />
 
+      <RotrixAoVivo />
+
       <SettingsGroup
         title="Prompt adicionado no processamento de todos os laudos"
         description="Não inclua comandos de formatação (centralizar título, fonte, tamanho, cores etc.). Este campo é para orientações sobre o conteúdo e o estilo narrativo dos laudos."
@@ -165,6 +169,8 @@ export const RotrixSettings: React.FC = () => {
       <RotrixIA />
 
       <RotrixMascaras />
+
+      <RotrixPerfil />
     </div>
   );
 };

@@ -30,10 +30,14 @@ try:
     import radius
 except Exception:
     radius = None
+try:
+    import perfil as perfil_mod
+except Exception:
+    perfil_mod = None
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-22.8"
+VERSAO = "2026-09-22.9"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -1962,9 +1966,124 @@ def fila_radius():
                                                                "radius_estrutura.txt"))
     except Exception:
         pass
+    d = _estacao_ler()
+    feitos = set(d.get("feitos") or [])
+    for x in fila:
+        x["feito"] = x["id"] in feitos
+    vez = estacao_atual(fila)
     return {"disponivel": True, "pasta_existe": os.path.isdir(pasta), "itens": fila,
             "atual": at["id"] if at else None,
+            "vez": vez["id"] if vez else None,
+            "escolhido": d.get("escolhido"),
             "perfil_automatico": bool(c.get("perfil_automatico", False))}
+
+
+# ---------------------------------------------------------------------------
+# MODO ESTACAO: o exame da vez (Ctrl+Alt+N no app passa para o proximo).
+# Guarda so codigos embaralhados (nada de nome nem numero de acesso).
+# ---------------------------------------------------------------------------
+_ESTACAO_ARQ = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dados", "estacao.json")
+
+
+def _estacao_ler():
+    try:
+        with open(_ESTACAO_ARQ, encoding="utf-8") as f:
+            d = json.load(f)
+        if isinstance(d, dict):
+            d.setdefault("escolhido", None)
+            d.setdefault("feitos", [])
+            return d
+    except (OSError, ValueError):
+        pass
+    return {"escolhido": None, "feitos": []}
+
+
+def _estacao_gravar(d, ids_da_fila=None):
+    if ids_da_fila is not None:                 # so guarda o que ainda esta na fila
+        d["feitos"] = [i for i in d.get("feitos", []) if i in ids_da_fila][-500:]
+    try:
+        os.makedirs(os.path.dirname(_ESTACAO_ARQ), exist_ok=True)
+        tmp = _ESTACAO_ARQ + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(d, f)
+        os.replace(tmp, _ESTACAO_ARQ)
+    except OSError:
+        pass
+
+
+def _pendente(x, feitos):
+    return not x.get("laudado") and x.get("id") not in feitos
+
+
+def estacao_atual(fila):
+    """O exame da vez: o escolhido na estacao, senao o aberto no Radius."""
+    d = _estacao_ler()
+    feitos = set(d.get("feitos") or [])
+    esc = next((x for x in fila if x.get("id") == d.get("escolhido")), None)
+    if esc is not None and _pendente(esc, feitos):
+        return esc
+    at = radius.atual(fila) if radius is not None else None
+    if at is not None and _pendente(at, feitos):
+        return at
+    return next((x for x in fila if _pendente(x, feitos)), None)
+
+
+def estacao_escolher(id_estudo):
+    fila = fila_radius()
+    d = _estacao_ler()
+    d["escolhido"] = id_estudo
+    _estacao_gravar(d, {x["id"] for x in fila.get("itens", [])})
+    item = next((x for x in fila.get("itens", []) if x["id"] == id_estudo), None)
+    return {"ok": item is not None, "item": item}
+
+
+def estacao_feito(id_estudo, feito=True):
+    fila = fila_radius()
+    d = _estacao_ler()
+    feitos = [i for i in d.get("feitos", []) if i != id_estudo]
+    if feito:
+        feitos.append(id_estudo)
+    d["feitos"] = feitos
+    if feito and d.get("escolhido") == id_estudo:
+        d["escolhido"] = None
+    _estacao_gravar(d, {x["id"] for x in fila.get("itens", [])})
+    return {"ok": True}
+
+
+def estacao_proximo():
+    """Marca o exame da vez como laudado aqui e passa para o proximo pendente."""
+    if radius is None:
+        return {"ok": False, "motivo": "sem_radius"}
+    fila = fila_radius()
+    itens = fila.get("itens", [])
+    d = _estacao_ler()
+    feitos = list(d.get("feitos") or [])
+    atual = estacao_atual(itens)
+    if atual is not None and atual["id"] not in feitos:
+        feitos.append(atual["id"])
+    pendentes = [x for x in itens if _pendente(x, set(feitos))]
+    prox = pendentes[0] if pendentes else None
+    d["feitos"] = feitos
+    d["escolhido"] = prox["id"] if prox else None
+    _estacao_gravar(d, {x["id"] for x in itens})
+    return {"ok": True, "item": prox, "restam": len(pendentes)}
+
+
+def perfil_exportar(destino=None, incluir_estilo=False):
+    if perfil_mod is None:
+        return {"ok": False, "motivo": "perfil_indisponivel"}
+    return perfil_mod.exportar(destino, incluir_estilo)
+
+
+def perfil_importar(arquivo, modo="juntar"):
+    if perfil_mod is None:
+        return {"ok": False, "motivo": "perfil_indisponivel"}
+    r = perfil_mod.importar(arquivo, modo)
+    try:
+        BANCO.carregar()
+    except Exception:
+        pass
+    return r
 
 
 def _cabecalho_automatico():
@@ -1973,7 +2092,10 @@ def _cabecalho_automatico():
     if radius is None or not _config().get("perfil_automatico", False):
         return ""
     try:
-        at = radius.atual(radius.ler_fila(radius.pasta_radius(_config())))
+        fila = radius.ler_fila(radius.pasta_radius(_config()))
+        for x in fila:
+            x["cabecalho"] = radius.cabecalho(x)
+        at = estacao_atual(fila)
     except Exception:
         return ""
     cab = radius.cabecalho(at) if at else ""
@@ -2026,7 +2148,32 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, {"ok": True, "gatilhos": len(BANCO.itens)})
         self._json(404, {"error": "not found"})
 
+    def _corpo(self):
+        try:
+            n = int(self.headers.get("Content-Length") or 0)
+            return json.loads(self.rfile.read(n).decode("utf-8") or "{}")
+        except Exception:
+            return {}
+
     def do_POST(self):
+        rota = self.path.rstrip("/")
+        if rota.endswith(("/fila/proximo", "/fila/escolher", "/fila/feito",
+                          "/perfil/exportar", "/perfil/importar")):
+            corpo = self._corpo()
+            try:
+                if rota.endswith("/fila/proximo"):
+                    return self._json(200, estacao_proximo())
+                if rota.endswith("/fila/escolher"):
+                    return self._json(200, estacao_escolher(corpo.get("id")))
+                if rota.endswith("/fila/feito"):
+                    return self._json(200, estacao_feito(corpo.get("id"), bool(corpo.get("feito", True))))
+                if rota.endswith("/perfil/exportar"):
+                    return self._json(200, perfil_exportar(corpo.get("destino"),
+                                                           bool(corpo.get("incluir_estilo"))))
+                return self._json(200, perfil_importar(corpo.get("arquivo"), corpo.get("modo") or "juntar"))
+            except Exception as e:
+                print("AVISO: %s falhou (%s: %s)" % (rota, type(e).__name__, e), file=sys.stderr)
+                return self._json(500, {"ok": False, "error": type(e).__name__, "detalhe": str(e)[:200]})
         t0 = time.time()
         ditado = ""
         try:
