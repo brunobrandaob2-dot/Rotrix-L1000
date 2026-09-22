@@ -23,3 +23,6 @@ dist/
 
 # gerado no CI
 app/src-tauri/resources/rotrix/
+# fila do Radius: segredo local do código embaralhado e diagnóstico gerado no PC
+.radius_sal
+radius_estrutura.txt

@@ -8,6 +8,12 @@ import {
   syncThemeFromSettings,
 } from "@/lib/utils/theme";
 import type { Theme } from "@/bindings";
+import {
+  EVENTO_PALETA,
+  aplicarPaleta,
+  getPaletaSalva,
+  type EscolhaPaleta,
+} from "@/lib/utils/paleta";
 import "@/i18n";
 
 // A separate webview from the settings window, so the overlay has to set
@@ -17,6 +23,10 @@ import "@/i18n";
 applyTheme(getStoredTheme());
 syncThemeFromSettings();
 listen<Theme>("theme-changed", (event) => applyTheme(event.payload));
+// Rotrix: a barra de gravação segue a cor escolhida na janela principal
+aplicarPaleta(getPaletaSalva());
+listen<EscolhaPaleta>(EVENTO_PALETA, (event) => aplicarPaleta(event.payload));
+window.addEventListener("storage", () => aplicarPaleta(getPaletaSalva()));
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

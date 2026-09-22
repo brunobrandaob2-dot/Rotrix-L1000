@@ -667,6 +667,8 @@ pub fn run(cli_args: CliArgs) {
             rotrix::rotrix_chave_salvar,
             rotrix::rotrix_chave_apagar,
             rotrix::rotrix_mascaras,
+            rotrix::rotrix_fila,
+            rotrix::rotrix_fila_salvar,
             shortcut::change_binding,
             shortcut::reset_binding,
             shortcut::change_shortcut_activation_setting,

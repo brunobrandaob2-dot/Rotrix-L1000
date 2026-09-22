@@ -184,6 +184,20 @@ RADIOGRAFIA — as SUAS palavras, na linha certa (RX literal):
     - Para voltar ao modo antigo (blocos do banco), ponha
       "rx_literal": false no config.json.
 
+FILA DO RADIUS (app Rotrix → página Rotrix → Fila do Radius):
+    O roteador lê, no seu computador, os arquivos de estado do Radius
+    (state*.json, *-state.json, statistics.json) na pasta
+    Downloads\Radius Downloads. Só modalidade, exame, situação e
+    "laudado" aparecem; nome e número de acesso nunca saem do Radius,
+    não vão para a IA nem para log. DICOM e pacotes não são abertos.
+    - Perfil automático (desligado de fábrica): com um RX aberto no
+      Radius, "opacidade na base direita" sai na máscara desse RX.
+      Liga na tela ou com "perfil_automatico": true no config.json.
+    - Outra pasta: "radius_pasta": "C:\\caminho" no config.json.
+    - Ao subir, o roteador grava radius_estrutura.txt: só os NOMES dos
+      campos, tipos e contagens (sem nenhum dado de paciente). É por
+      ele que a leitura é ajustada ao seu Radius.
+
 FRASE SOLTA — prefixo "frase":
     "frase derrame articular no raio x de joelho"
     "frase cisto hepático simples"

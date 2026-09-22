@@ -8,6 +8,9 @@ import { Button } from "../../ui/Button";
 import { Textarea } from "../../ui/Textarea";
 import { RotrixIA } from "./RotrixIA";
 import { RotrixMascaras } from "./RotrixMascaras";
+import { RotrixFila } from "./RotrixFila";
+import { ThemeSelector } from "../ThemeSelector";
+import { SeletorCores } from "./SeletorCores";
 
 interface RotrixStatus {
   ativo: boolean;
@@ -106,7 +109,17 @@ export const RotrixSettings: React.FC = () => {
             </Button>
           </div>
         </SettingContainer>
+        <ThemeSelector descriptionMode="tooltip" grouped={true} />
+        <SettingContainer
+          title="Cor do app"
+          description="Troque quando quiser; também no botão Cores, no pé da barra lateral."
+          grouped={true}
+        >
+          <SeletorCores />
+        </SettingContainer>
       </SettingsGroup>
+
+      <RotrixFila />
 
       <SettingsGroup
         title="Prompt adicionado no processamento de todos os laudos"

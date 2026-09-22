@@ -29,3 +29,5 @@ jobs:
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_rx_literal.py
+      - name: Testar a fila do Radius (arquivos falsos; nome nunca pode sair)
+        run: python testar_radius.py

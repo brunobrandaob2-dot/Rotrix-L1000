@@ -26,10 +26,14 @@ try:
     import rx_literal
 except Exception:
     rx_literal = None
+try:
+    import radius
+except Exception:
+    radius = None
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-22.5"
+VERSAO = "2026-09-22.6"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -883,7 +887,7 @@ def formar_laudo(resto, com_ia):
     return texto, "nuvem_indisponivel_local:" + str(o2)
 
 
-def rotear(ditado):
+def rotear(ditado, _auto=False):
     """Devolve (texto_final, origem). Nunca levanta excecao."""
     bruto = (ditado or "").strip()
     if not bruto:
@@ -980,6 +984,12 @@ def rotear(ditado):
             r_cab = _cabecalho_rx(bruto, bruto_lit)
             if r_cab is not None and (txt is None or len(r_cab[3]) > len(cab_norm)):
                 bruto, bruto_lit, cab_raw, cab_norm, tit, txt = r_cab
+        if txt is None and tipo is None and not _auto:
+            cab_auto = _cabecalho_automatico()
+            if cab_auto and _cabecalho_rx(cab_auto, cab_auto) is not None:
+                t_auto, o_auto = rotear(cab_auto + ", " + original, _auto=True)
+                if o_auto.startswith(("rx_literal", "mascara")):
+                    return t_auto, o_auto + "+radius"
         if txt is None and len(segmentos) > 1:
             # sem gatilho no inicio: a base sai do primeiro segmento
             cab_raw = segmentos[0]
@@ -1446,6 +1456,61 @@ def _compor_rx_literal(bruto_lit, bruto, cab_raw, cab_norm, tit, txt):
     return texto, "mascara:%s" % tit
 
 
+# ---------------------------------------------------------------------------
+# FILA DO RADIUS (radius.py): le so os arquivos de estado, so os campos
+# permitidos. Nome e numero de acesso nunca saem de radius.py.
+# "perfil_automatico": true no config.json -> ditado de RX sem o nome do exame
+# usa o exame ABERTO no Radius ("opacidade na base direita" vira "raio x de
+# torax, opacidade na base direita"). Desligado ate a leitura ser conferida.
+# ---------------------------------------------------------------------------
+_MASC_ESTUDO = {}
+
+
+def _mascara_do_estudo(cab):
+    if not cab:
+        return None
+    if cab not in _MASC_ESTUDO:
+        if len(_MASC_ESTUDO) > 500:
+            _MASC_ESTUDO.clear()
+        n = normalizar(ouvido_bruto(cab))
+        _c, _g, tit, _t = _cabecalho_do_exame(cab, n)
+        if tit is None:
+            t2, x2, sc, _g2 = BANCO.buscar2(n, "mascara")
+            tit = t2 if (x2 is not None and sc >= 0.9) else None
+        _MASC_ESTUDO[cab] = tit
+    return _MASC_ESTUDO[cab]
+
+
+def fila_radius():
+    c = _config()
+    if radius is None:
+        return {"disponivel": False, "itens": [], "atual": None, "perfil_automatico": False}
+    pasta = radius.pasta_radius(c)
+    fila = radius.ler_fila(pasta)
+    at = radius.atual(fila)
+    for x in fila:
+        x["cabecalho"] = radius.cabecalho(x)
+        x["mascara"] = _mascara_do_estudo(x["cabecalho"])
+        x.pop("fonte", None)
+    return {"disponivel": True, "pasta_existe": os.path.isdir(pasta), "itens": fila,
+            "atual": at["id"] if at else None,
+            "perfil_automatico": bool(c.get("perfil_automatico", False))}
+
+
+def _cabecalho_automatico():
+    """Abertura do exame aberto no Radius, se o perfil automatico estiver ligado
+    e o exame for radiografia. Senao, ""."""
+    if radius is None or not _config().get("perfil_automatico", False):
+        return ""
+    try:
+        at = radius.atual(radius.ler_fila(radius.pasta_radius(_config())))
+    except Exception:
+        return ""
+    if not at or radius.cabecalho(at).split(" de ")[0] != "raio x":
+        return ""
+    return radius.cabecalho(at)
+
+
 def extrair_ditado(body):
     msgs = body.get("messages") or []
     for m in reversed(msgs):
@@ -1478,6 +1543,12 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(200, {"ativa": False})
             try:
                 return self._json(200, nuvem.estado())
+            except Exception as e:
+                return self._json(500, {"error": type(e).__name__})
+        if self.path.rstrip("/") in ("/fila", "/v1/fila"):
+            # fila do Radius: so modalidade, descricao, status e laudado (nunca nome)
+            try:
+                return self._json(200, fila_radius())
             except Exception as e:
                 return self._json(500, {"error": type(e).__name__})
         if self.path.rstrip("/") in ("/recarregar", "/v1/recarregar"):
@@ -1578,6 +1649,17 @@ if __name__ == "__main__":
             rotear(_t)
         except Exception:
             pass
+    if radius is not None:
+        # estrutura dos arquivos do Radius, SEM dado de paciente (radius_estrutura.txt)
+        def _diag_radius():
+            try:
+                p = radius.pasta_radius(_config())
+                if os.path.isdir(p):
+                    radius.gravar_diagnostico(p, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                                              "radius_estrutura.txt"))
+            except Exception:
+                pass
+        threading.Thread(target=_diag_radius, daemon=True).start()
     srv = ThreadingHTTPServer((HOST, PORT), Handler)
     print(f"roteador em http://{HOST}:{PORT}/v1  (Ctrl+C para sair)", flush=True)
     try: srv.serve_forever()
