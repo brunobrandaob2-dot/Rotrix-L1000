@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Órgãos pélvicos
+# gatilhos: cisto anexial | cisto ovariano | cisto no ovario | cisto de ovario
+# conclusao: Formação cística anexial {lado_a|à direita/à esquerda}, de aspecto simples ao método; correlacionar com ultrassonografia transvaginal, a critério clínico.
+Órgãos pélvicos:  útero de dimensões habituais. Formação cística na região anexial {lado_a|à direita/à esquerda}, medindo {tamanho}, de paredes finas e conteúdo homogêneo, sem septos espessos ou componente sólido. Região anexial contralateral sem particularidades, considerando os limites do método.

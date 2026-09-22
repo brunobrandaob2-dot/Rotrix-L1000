@@ -1,0 +1,28 @@
+# gatilhos: tomografia de joelho com fratura da patela | tc de joelho com fratura da patela | tc joelho fratura patela | tomografia de joelho com fratura patelar | tc de joelho com fratura patelar
+# categoria: msk
+# modalidade: tc
+# regiao: joelho
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  relações articulares femorotibiais e femoropatelares preservadas. Não há luxação ou subluxação.
+Espaço femorotibial medial:  preservado, sem esclerose subcondral ou osteófitos significativos.
+Espaço femorotibial lateral:  preservado, sem esclerose subcondral ou osteófitos significativos.
+Articulação femoropatelar:  congruente, com espaço articular preservado. Tróclea femoral de morfologia habitual.
+Fêmur distal:  côndilos femorais de contornos regulares e densidade habitual, sem traços de fratura.
+Tíbia e fíbula proximais:  planaltos tibiais regulares, sem afundamentos ou traços de fratura. Articulação tibiofibular proximal sem particularidades.
+Patela:  traço de fratura {traco|transverso/longitudinal/cominutivo/estrelado/do polo inferior}, com afastamento dos fragmentos de {afastamento} e degrau articular de {degrau}.
+Recesso suprapatelar:  {lipo|distensão líquida com nível gordura-líquido, compatível com lipo-hemartrose/sem distensão líquida significativa}.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  {partes_moles|edema e hematoma pré-patelar/sem alterações significativas}.
+Estruturas capsuloligamentares e meniscais:  avaliação limitada pelo método.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura {traco|transversa/longitudinal/cominutiva/estrelada/do polo inferior} da patela, com afastamento dos fragmentos de {afastamento} e degrau articular de {degrau}.

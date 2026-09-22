@@ -1,0 +1,17 @@
+# gatilhos: raio x de quadril | raio x do quadril | rx de quadril | rx do quadril | radiografia de quadril | radiografia do quadril | raio x de quadril normal | rx de quadril normal | rx quadril normal | radiografia de quadril normal | raio x de quadril sem alteracoes | rx quadril | raio x de quadril ap e perfil | raio x de quadril com lauenstein
+# categoria: msk
+# modalidade: rx
+# regiao: quadril
+# tipo_mascara: normal
+**RADIOGRAFIA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil (Lauenstein).
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Espaço articular preservado.
+Acetábulo com cobertura habitual da cabeça femoral.
+Transição cabeça-colo femoral com concavidade habitual.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

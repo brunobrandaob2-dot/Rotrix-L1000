@@ -1,0 +1,16 @@
+# gatilhos: raio x de pe | raio x do pe | rx de pe | rx do pe | radiografia de pe | radiografia do pe | raio x de pe normal | rx de pe normal | radiografia de pe normal | rx pe normal | rx de pe com carga | raio x de pe com carga | radiografia de pe com carga | rx de pe com carga normal | rx de pe sem carga
+# categoria: msk
+# modalidade: rx
+# regiao: pe
+# tipo_mascara: normal
+**RADIOGRAFIA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, oblíqua e perfil.
+
+**ANÁLISE:**
+Alinhamento preservado, com articulações tarsometatarsais congruentes.
+Espaços articulares preservados.
+Arco longitudinal medial de altura preservada.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

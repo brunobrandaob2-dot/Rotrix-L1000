@@ -1,0 +1,26 @@
+# gatilhos: tomografia de ombro com fratura | tomografia do ombro com fratura | tc de ombro com fratura | tc do ombro com fratura | tc ombro fratura | tomografia de ombro com fratura do umero proximal | tc de ombro com fratura do umero proximal | tomografia de ombro com fratura do umero | tc de ombro com fratura do umero | tomografia de ombro com fratura do colo do umero | tc de ombro com fratura do colo do umero
+# categoria: msk
+# modalidade: tc
+# regiao: ombro
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relação glenoumeral preservada, sem sinais de luxação ou subluxação.
+Úmero proximal:  traço de fratura acometendo {local|o colo cirúrgico/o colo anatômico/o tubérculo maior/o tubérculo menor} do úmero, com desvio de {tamanho} e angulação de {angulacao}° da cabeça umeral. {articular|Sem/Com} extensão à superfície articular. Extensão metafisária posteromedial (calcar) do fragmento cefálico de ___ mm, com dobradiça medial {dobradica|íntegra/rompida}.
+Glenoide e escápula:  glenoide de morfologia e versão habituais, com rebordo íntegro. Corpo e espinha da escápula, acrômio e processo coracoide sem particularidades.
+Articulação glenoumeral:  espaço articular preservado. {derrame|Sem derrame articular significativo/Lipo-hemartrose, com nível líquido-gorduroso}.
+Articulação acromioclavicular:  congruente, com espaço articular preservado e sem osteófitos significativos.
+Espaço acromioumeral:  preservado.
+Clavícula:  contornos corticais preservados, sem traços de fratura.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções organizadas ou hematomas volumosos, considerando os limites do método para avaliação tendínea, labral e capsuloligamentar.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura do úmero proximal {lado|direito/esquerdo} em {partes|uma/duas/três/quatro} parte(s) segundo a classificação de Neer (parte considerada desviada quando o desvio é superior a 1,0 cm ou a angulação superior a 45°).

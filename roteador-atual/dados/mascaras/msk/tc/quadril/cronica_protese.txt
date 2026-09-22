@@ -1,0 +1,28 @@
+# gatilhos: tomografia de quadril com protese | tc de quadril com protese | tc quadril artroplastia | tomografia de quadril com artroplastia | tc de quadril com artroplastia | tomografia de quadril com protese total
+# categoria: msk
+# modalidade: tc
+# regiao: quadril
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e técnica de redução de artefatos metálicos. Avaliação parcialmente limitada por artefatos de endurecimento de feixe relacionados ao material protético.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  componente cefálico protético centrado no componente acetabular. Não há luxação.
+Acetábulo:  componente acetabular {fixacao_acet|não cimentado/cimentado}, com inclinação de {inclinacao}° e anteversão de {anteversao}° (zona de segurança de Lewinnek: inclinação 30° a 50°; anteversão 5° a 25°). Não há osteólise periacetabular ou migração.
+Cabeça femoral:  substituída por componente cefálico protético.
+Colo femoral:  haste femoral {fixacao_haste|não cimentada/cimentada}, centrada no canal medular. Não há halo de radiolucência superior a 2 mm na interface osso-implante, osteólise ou afundamento.
+Região trocantérica:  sem fraturas periprotéticas.
+Espaço articular:  componente cefálico centrado, sem sinais de desgaste excêntrico do polietileno.
+Cavidade articular:  sem coleções periprotéticas ou distensão da pseudocápsula.
+Diáfise femoral proximal:  sem particularidades.
+Ossos pélvicos adjacentes:  sem particularidades.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  musculatura periarticular de volume e atenuação habituais. {brooker|Sem ossificação heterotópica significativa/Ossificação heterotópica periarticular grau I de Brooker/Ossificação heterotópica periarticular grau II de Brooker/Ossificação heterotópica periarticular grau III de Brooker/Ossificação heterotópica periarticular grau IV de Brooker}.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artroplastia {tipo_protese|total/parcial} do quadril, com componentes em posição habitual, sem sinais tomográficos de soltura, osteólise ou fratura periprotética.

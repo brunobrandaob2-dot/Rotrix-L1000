@@ -1,0 +1,3 @@
+Laudos reais do Dr. Bruno (sem identificação), usados como EXEMPLO DE ESTILO
+no Ctrl+Alt+A e na instrução falada. Um laudo por arquivo .txt.
+Para acrescentar: salve mais um .txt aqui e rode ATUALIZAR_AGORA (ou reinicie o roteador).

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Arcabouço ósseo
+# gatilhos: espondilose | espondilose toracica | osteofitos | alteracoes degenerativas da coluna
+Alterações degenerativas da coluna torácica, com osteófitos marginais.

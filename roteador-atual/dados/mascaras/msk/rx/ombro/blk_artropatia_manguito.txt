@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaço acromioumeral
+# gatilhos: reducao do espaco acromioumeral | ascensao da cabeca umeral | artropatia do manguito | hamada
+Redução do espaço acromioumeral, medindo {tamanho}, com ascensão da cabeça umeral (Hamada {hamada|1/2/3/4A/4B/5}), sugerindo lesão crônica do manguito rotador.

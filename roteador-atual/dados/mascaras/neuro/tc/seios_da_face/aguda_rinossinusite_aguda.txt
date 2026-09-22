@@ -1,0 +1,34 @@
+# gatilhos: tomografia de seios da face com rinossinusite aguda | tc de seios da face com rinossinusite aguda | tc seios da face sinusite aguda | tomografia de seios da face com sinusite aguda | tc de seios da face com sinusite aguda
+# categoria: neuro
+# modalidade: tc
+# regiao: seios_da_face
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DOS SEIOS DA FACE**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado, com reconstruções multiplanares em filtro para osso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Seios maxilares:  espessamento mucoso com nível hidroaéreo {lado_a|à direita/à esquerda}. {bolhas|Sem/Com} bolhas gasosas de permeio. Paredes ósseas íntegras.
+Seios etmoidais:  {etmoidais|células etmoidais normopneumatizadas/espessamento mucoso nas células etmoidais ___}. Lâminas papiráceas íntegras.
+Seios frontais:  {frontais|normopneumatizados/espessamento mucoso com nível hidroaéreo ___}, com paredes ósseas íntegras.
+Seios esfenoidais:  {esfenoidais|normopneumatizados/espessamento mucoso com nível hidroaéreo ___}, com paredes ósseas íntegras.
+Complexos ostiomeatais:  obstrução {lado_a|à direita/à esquerda} por espessamento mucoso no infundíbulo etmoidal.
+Recessos frontais:  pérvios.
+Recessos esfenoetmoidais:  pérvios.
+Cavidade nasal:  sem lesões expansivas.
+Septo nasal:  centrado.
+Conchas nasais:  de dimensões e morfologia habituais.
+Variantes anatômicas:  sem variantes anatômicas de relevância.
+Base anterior do crânio:  teto etmoidal e lâminas cribriformes íntegros.
+Estruturas ósseas:  paredes sinusais íntegras, sem erosões.
+Órbitas:  gordura orbitária de atenuação preservada, sem coleções subperiosteais.
+Rinofaringe:  pérvia, sem lesões expansivas.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sinusopatia maxilar {lado_a|à direita/à esquerda} com nível hidroaéreo, achado que, no contexto clínico adequado, favorece rinossinusite aguda.
+Não há sinais de complicações orbitárias ou intracranianas ao método.

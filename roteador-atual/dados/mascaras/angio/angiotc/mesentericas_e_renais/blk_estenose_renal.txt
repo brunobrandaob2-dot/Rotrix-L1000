@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias renais
+# gatilhos: estenose de arteria renal | estenose da arteria renal | estenose renal
+# conclusao: Estenose ateromatosa {local_placa|ostial/proximal} da artéria renal {lado_f|direita/esquerda}, estimada em ___%.
+Artérias renais:  placa ateromatosa {local_placa|ostial/proximal} na artéria renal {lado_f|direita/esquerda}, determinando estenose estimada em ___% ({grau_renal|< 50%/50–69%/≥ 70%}), {pos_estenotica|sem/com} dilatação pós-estenótica. Artéria renal contralateral {contralateral|pérvia, sem estenoses significativas/com ___}.

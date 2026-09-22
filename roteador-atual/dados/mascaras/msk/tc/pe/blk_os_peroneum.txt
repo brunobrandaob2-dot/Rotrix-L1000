@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tendões
+# gatilhos: os peroneum | os peroneo | osso fibular acessorio
+# conclusao: Os peroneum.
+Tendões:  os peroneum no trajeto do tendão fibular longo, junto à face plantar lateral do cuboide, de contornos corticais regulares e sem fragmentação. Demais tendões com trajeto habitual, considerando os limites do método.

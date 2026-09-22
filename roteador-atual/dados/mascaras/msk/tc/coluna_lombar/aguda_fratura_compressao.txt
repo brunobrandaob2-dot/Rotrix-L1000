@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna lombar com fratura | tc de coluna lombar com fratura | tc coluna lombar fratura | tomografia de coluna lombar com fratura por compressao | tc de coluna lombar com fratura por compressao | tc de coluna lombar com fratura em cunha | tc de coluna lombar com acunhamento agudo | tomografia de coluna lombar com fratura aguda
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_lombar
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  cifose focal em {nivel}. Ausência de listeses ou translações.
+Corpos vertebrais:  fratura do corpo vertebral de {nivel}, com acunhamento anterior e afundamento da plataforma {plataforma|superior/inferior}, com perda de altura estimada em {percentual}% (Genant grau 1: 20 a 25%; grau 2: 25 a 40%; grau 3: acima de 40%). Traço de fratura de margens nítidas, sem esclerose, com condensação trabecular subjacente à plataforma, aspectos que favorecem fratura aguda ou recente. Não há esclerose das margens nem fenda de vácuo intrassomática, que sugeririam fratura antiga. Muro posterior íntegro, sem retropulsão de fragmentos.
+Discos intervertebrais:  espaços discais de altura preservada.
+Articulações interapofisárias:  congruentes, sem diástase.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, lâminas e processos espinhosos e transversos íntegros. Sem alargamento do espaço interespinhoso.
+Transição lombossacra:  de configuração habitual.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares.
+Partes moles paravertebrais:  discreta densificação das partes moles paravertebrais adjacentes à fratura, podendo corresponder a componente hemático.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura por compressão do corpo vertebral de {nivel}, com perda de altura estimada em {percentual}%, muro posterior íntegro, com aspecto de fratura aguda ou recente (AO Spine tipo {ao_spine|A1/A2}).
+A datação da fratura não é definível com segurança apenas pela tomografia; a ressonância magnética com sequências sensíveis a edema (STIR) pode confirmar a fase aguda, se houver indicação clínica.

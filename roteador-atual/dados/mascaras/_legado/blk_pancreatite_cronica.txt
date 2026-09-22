@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Pâncreas
+# gatilhos: pancreatite cronica | calcificacoes pancreaticas | pancreatopatia cronica | pancreas com calcificacoes
+# conclusao: Sinais de pancreatite crônica, com calcificações parenquimatosas e dilatação do ducto pancreático principal.
+Pâncreas: de dimensões reduzidas e contornos irregulares, com calcificações grosseiras esparsas pelo parênquima, de predomínio ___, e dilatação do ducto pancreático principal, que mede {tamanho} no maior calibre, com aspecto irregular e moniliforme. Ausência de coleções peripancreáticas, de massa focal com realce anômalo ou de densificação da gordura adjacente no presente estudo.

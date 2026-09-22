@@ -1,0 +1,26 @@
+# gatilhos: tomografia de perna com material de sintese | tc de perna com material de sintese | tc perna haste intramedular | tomografia de perna com haste intramedular | tomografia de perna pos operatoria
+# categoria: msk
+# modalidade: tc
+# regiao: perna
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA PERNA {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares. Artefatos metálicos limitam parcialmente a avaliação das estruturas adjacentes ao material de síntese.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  {alinhamento|preservado/com desvio angular residual de ___°}.
+Tíbia:  traço de fratura prévia no terço {terco|proximal/médio/distal} da diáfise, {consolidacao|consolidado, com calo ósseo maduro/em consolidação, com calo ósseo parcial/sem sinais de consolidação}.
+Fíbula:  {fibula|sem particularidades/com fratura prévia consolidada/com fratura prévia em consolidação}.
+Material de síntese:  {material|haste intramedular tibial com parafusos de bloqueio/placa e parafusos na tíbia/placa e parafusos na fíbula}, em posição habitual, sem sinais de fratura do implante, soltura ou migração. Não há halo de radiolucência ao redor dos parafusos.
+Articulações tibiofibulares proximal e distal:  congruentes.
+Articulações adjacentes:  porções incluídas do joelho e do tornozelo sem particularidades.
+Musculatura:  volume e densidade preservados nos compartimentos da perna.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Material de osteossíntese na perna, sem sinais de falha ou soltura.
+Fratura tibial {consolidacao_concl|consolidada/em consolidação/sem sinais de consolidação}.

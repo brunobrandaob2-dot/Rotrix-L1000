@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Mineralização óssea
+# gatilhos: osteopenia | reducao da densidade ossea | rarefacao ossea
+# conclusao: Redução difusa da densidade óssea. A tomografia não quantifica a massa óssea; considerar densitometria, se houver indicação clínica.
+Mineralização óssea:  redução difusa da densidade óssea, com afilamento das corticais.

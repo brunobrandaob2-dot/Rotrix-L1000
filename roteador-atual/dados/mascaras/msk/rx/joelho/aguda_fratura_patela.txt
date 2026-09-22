@@ -1,0 +1,17 @@
+# gatilhos: raio x de joelho com fratura da patela | rx de joelho com fratura da patela | rx joelho fratura patela | radiografia de joelho com fratura da patela | raio x de joelho com fratura patelar
+# categoria: msk
+# modalidade: rx
+# regiao: joelho
+# tipo_mascara: aguda
+**RADIOGRAFIA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, perfil e axial de patela.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Espaços articulares preservados.
+Fratura {traco|transversa/longitudinal/cominutiva/estrelada/do polo inferior} da patela, com afastamento dos fragmentos de {afastamento}.
+Não há sinais de luxações.
+{lipo|Nível gordura-líquido no recesso suprapatelar, compatível com lipo-hemartrose./Distensão do recesso suprapatelar, sugestiva de derrame articular./Recesso suprapatelar sem distensão.}
+Densidade óssea preservada.
+Aumento de partes moles pré-patelares.

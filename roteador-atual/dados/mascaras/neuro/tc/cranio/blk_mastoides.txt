@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Células mastoides
+# gatilhos: velamento mastoideo | velamento das celulas mastoides | celulas mastoides veladas | mastoidopatia | mastoidite
+# conclusao: Velamento das células mastoides {lado_a|à direita/à esquerda}, sem sinais de erosão óssea; correlacionar clinicamente.
+Células mastoides:  velamento {grau_velamento|parcial/completo} das células mastoides {lado_a|à direita/à esquerda}, com septações ósseas preservadas, sem erosão do tégmen timpânico ou da cortical adjacente.

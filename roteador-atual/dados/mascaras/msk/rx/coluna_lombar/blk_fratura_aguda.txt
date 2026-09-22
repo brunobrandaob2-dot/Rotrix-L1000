@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: fratura aguda | fratura vertebral | fratura por compressao | fratura
+Fratura do corpo vertebral de {nivel}, com perda de altura estimada em {percentual}%, de aspecto agudo ou recente; recomenda-se tomografia computadorizada.

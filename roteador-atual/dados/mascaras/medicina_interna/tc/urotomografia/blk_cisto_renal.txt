@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: cisto renal | cistos renais | cisto renal simples
+# conclusao: Cisto renal {lado_a|à direita/à esquerda} (Bosniak {bosniak|I/II}), sem necessidade de seguimento.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Nefrograma homogêneo e simétrico. Cisto cortical {lado_a|à direita/à esquerda}, medindo {tamanho}, de conteúdo homogêneo, paredes finas, sem septos espessos, componente sólido ou realce (Bosniak {bosniak|I/II}). Não há cálculos.

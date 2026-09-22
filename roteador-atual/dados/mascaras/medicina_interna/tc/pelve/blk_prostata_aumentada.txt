@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Próstata e vesículas seminais
+# gatilhos: prostata aumentada | aumento prostatico | hiperplasia prostatica | prostatomegalia
+# conclusao: Próstata de dimensões aumentadas.
+Próstata e vesículas seminais:  próstata de dimensões aumentadas, medindo {tamanho}, com volume estimado em ___. Vesículas seminais sem alterações.

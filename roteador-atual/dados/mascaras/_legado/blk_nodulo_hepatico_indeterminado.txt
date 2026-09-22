@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Fígado
+# gatilhos: nodulo hepatico indeterminado | lesao hepatica a esclarecer | nodulo no figado indeterminado | lesao focal hepatica indeterminada
+# conclusao: Nódulo hepático no {segmento} medindo {tamanho}, de caráter indeterminado ao método, a esclarecer; sugere-se complementação com ressonância magnética com contraste hepatoespecífico.
+Fígado: dimensões normais, contornos regulares, notando-se no {segmento} nódulo medindo {tamanho}, de limites ___, hipodenso em relação ao parênquima adjacente na fase sem contraste, com realce ___ na fase arterial e ___ nas fases portal e tardia, sem características que permitam caracterização definitiva ao presente método. Caso se trate de paciente com cirrose ou hepatopatia crônica de risco para carcinoma hepatocelular — contexto em que a classificação LI-RADS é aplicável —, a lesão corresponde a LI-RADS ___; fora dessa população de risco, a categorização LI-RADS não se aplica e a lesão permanece indeterminada.

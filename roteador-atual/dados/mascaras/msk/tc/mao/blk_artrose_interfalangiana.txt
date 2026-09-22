@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações interfalangianas
+# gatilhos: artrose interfalangiana | artrose | artrose dos dedos | nodulos de heberden
+# conclusao: Artrose interfalangiana (Kellgren-Lawrence {kl|1/2/3/4}).
+Articulações interfalangianas:  redução dos espaços articulares, com osteófitos marginais e esclerose subcondral, predominando nas interfalangianas {ifs|distais/proximais/proximais e distais}.

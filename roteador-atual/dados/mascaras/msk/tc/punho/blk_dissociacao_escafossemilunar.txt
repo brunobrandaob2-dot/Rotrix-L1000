@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento articular
+# gatilhos: dissociacao escafossemilunar | instabilidade escafossemilunar | disi
+# conclusao: Alargamento do intervalo escafossemilunar, sugestivo de dissociação escafossemilunar; a ressonância magnética avalia o ligamento.
+Alinhamento articular:  alargamento do intervalo escafossemilunar, medindo {tamanho} (valores acima de 3 mm são sugestivos de dissociação), com ângulo escafossemilunar de ___° (referência: 30° a 60°) e semilunar {semilunar|em posição neutra/em extensão (padrão DISI)}.

@@ -1,0 +1,29 @@
+# gatilhos: tomografia de torax de paciente acamado | tomografia de torax de acamado | tc de torax de acamado | tc torax acamado | tomografia de torax de uti | tc de torax de uti
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multidetectores com reconstruções multiplanares, {contraste|sem/com/sem e com} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  opacidades com atenuação em vidro fosco nas porções posteriores e dependentes dos pulmões, relacionadas a decúbito e hipoventilação, associadas a áreas de hipoatenuação e hipoperfusão com padrão de atenuação em mosaico. Presença de artefatos de movimentos respiratórios limitando parcialmente a avaliação.
+Traqueia e brônquios:  espessamento parietal brônquico difuso, podendo representar broncopatia inflamatória crônica. Calibre e trajeto traqueais preservados.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  ateromatose aórtica caracterizada por calcificações parietais na aorta torácica e na emergência de seus principais ramos. Trajeto e calibre habituais.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Cúpulas diafragmáticas:  morfologia e posição habituais.
+Estruturas ósseas e partes moles:  alterações osteodegenerativas na coluna torácica. Partes moles da parede torácica sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Opacidades parenquimatosas pulmonares posteriores e dependentes relacionadas a decúbito e hipoventilação, associadas a padrão de atenuação em mosaico.
+Espessamento parietal brônquico, podendo representar broncopatia inflamatória crônica.
+Ateromatose aórtica e de seus principais ramos.
+Alterações degenerativas na coluna torácica.
+Artefatos decorrentes de movimentos respiratórios.

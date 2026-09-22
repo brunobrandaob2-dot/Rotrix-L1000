@@ -1,0 +1,17 @@
+# gatilhos: raio x de tornozelo com artrose | rx de tornozelo com artrose | radiografia de tornozelo com artrose | rx tornozelo artrose | raio x de tornozelo com artrose tibiotalar
+# categoria: msk
+# modalidade: rx
+# regiao: tornozelo
+# tipo_mascara: cronica
+**RADIOGRAFIA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, perfil e mortise (anteroposterior com rotação interna de 15 a 20 graus).
+
+**ANÁLISE:**
+Pinça maleolar congruente, sem subluxação do tálus.
+Sindesmose tibiofibular sem alargamento.
+Redução {grau|discreta/moderada/acentuada} do espaço articular tibiotalar, com osteófitos e esclerose subcondral, grau {kl|2/3/4} de Kellgren-Lawrence.
+Articulação subtalar {subtalar|preservada/com sinais degenerativos}.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

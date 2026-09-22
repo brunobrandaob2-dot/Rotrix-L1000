@@ -1,0 +1,3 @@
+# tipo: achado
+# gatilhos: litiase renal | calculo renal | microcalculo renal
+Cálculo no rim {lado|direito/esquerdo}, medindo {tamanho}, sem dilatação do sistema pielocalicinal a montante.

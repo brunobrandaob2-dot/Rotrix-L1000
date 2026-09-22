@@ -1,0 +1,26 @@
+# gatilhos: tomografia de torax com derrame pleural | tc de torax com derrame pleural | tc de torax com derrame | tomografia de torax com derrame | tomografia de torax com derrame e atelectasia | tc torax derrame pleural
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multislice e reconstruções multiplanares, {contraste|sem/com/sem e com} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  atelectasia passiva do parênquima adjacente ao derrame, sem sinais de consolidação subjacente caracterizáveis ao método. Demais segmentos sem alterações significativas.
+Traqueia e brônquios:  calibre e trajetos normais, sem obstrução endoluminal.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais, com principais ramos preservados.
+Derrames:  derrame pleural {lado|direito/esquerdo/bilateral}, de {volume|pequeno/moderado/grande} volume, com densidade de líquido, sem septações ou espessamento pleural evidentes. Ausência de derrame pericárdico.
+Cúpulas diafragmáticas:  morfologia e posição habituais.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Derrame pleural {lado|direito/esquerdo/bilateral} de {volume|pequeno/moderado/grande} volume.
+Atelectasia passiva do parênquima adjacente.

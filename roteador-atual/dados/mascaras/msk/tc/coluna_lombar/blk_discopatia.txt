@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: discopatia degenerativa | discopatia | reducao dos espacos discais | vacuo discal
+# conclusao: Discopatia degenerativa em {nivel}.
+Discos intervertebrais:  redução da altura dos espaços discais em {nivel}, com fenômeno de vácuo discal e esclerose das plataformas vertebrais adjacentes. Demais espaços discais de altura preservada.

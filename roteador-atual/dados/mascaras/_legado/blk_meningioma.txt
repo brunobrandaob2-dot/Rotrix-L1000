@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Coleções extra-axiais
+# gatilhos: meningioma | meningioma incidental | lesao extra axial de base dural | lesao de base dural
+# conclusao: Lesão extra-axial de base dural medindo {tamanho}, com aspecto sugestivo de meningioma; sugere-se ressonância magnética com contraste para caracterização.
+Coleções extra-axiais: ausentes. Identifica-se lesão extra-axial de base dural na convexidade do lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, medindo {tamanho}, espontaneamente hiperatenuante, de contornos bem definidos e com calcificações de permeio, sem edema perilesional significativo ou erosão da tábua interna, cujo aspecto é sugestivo de meningioma.

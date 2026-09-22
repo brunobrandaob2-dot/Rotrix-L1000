@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: fratura de arco costal | fratura de costela | fratura costal | fraturas costais | fratura dos arcos costais
+# conclusao: Fratura {fase|recente/em consolidação/consolidada} do {arco_costal} arco costal {lado|direito/esquerdo}.
+Estruturas ósseas e partes moles:  fratura {fase|recente/em consolidação/consolidada} do {arco_costal} arco costal {lado|direito/esquerdo}, em seu terço {terco|anterior/lateral/posterior}, {desvio|sem desvio significativo/com desvio} dos fragmentos. Demais estruturas ósseas e partes moles sem particularidades.

@@ -1,0 +1,17 @@
+# gatilhos: raio x de coluna cervical com artrodese | rx de coluna cervical com artrodese | rx coluna cervical artrodese | radiografia de coluna cervical com artrodese | rx de coluna cervical pos operatorio | rx de coluna cervical com placa anterior | rx de coluna cervical com material de sintese
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_cervical
+# tipo_mascara: cronica
+**RADIOGRAFIA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Retificação da lordose cervical, sem listeses.
+Transição craniocervical sem alterações.
+Artrodese anterior de {nivel} a {nivel}, com placa, parafusos e espaçador intersomático em posição habitual, sem sinais de soltura ou fratura dos implantes.
+Redução do espaço discal no nível adjacente ({nivel}).
+Articulações uncovertebrais e interapofisárias preservadas.
+Densidade óssea preservada.
+Partes moles pré-vertebrais com espessura esperada para o pós-operatório.

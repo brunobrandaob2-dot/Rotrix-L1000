@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tíbia
+# gatilhos: fratura da tibia | fratura tibial | traco de fratura na tibia | fratura
+# conclusao: Fratura do terço {terco|proximal/médio/distal} da diáfise tibial.
+Tíbia:  fratura {traco|transversa/oblíqua/espiral/cominutiva} no terço {terco|proximal/médio/distal} da diáfise, com desvio de {tamanho}.

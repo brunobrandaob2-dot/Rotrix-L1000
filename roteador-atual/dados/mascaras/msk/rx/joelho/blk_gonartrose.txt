@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: gonartrose | artrose | artrose do joelho
+Artrose {compart|femorotibial medial/femorotibial lateral/femoropatelar/tricompartimental} do joelho, grau {kl|1/2/3/4} de Kellgren-Lawrence.

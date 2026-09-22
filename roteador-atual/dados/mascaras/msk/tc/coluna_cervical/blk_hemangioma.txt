@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: hemangioma vertebral | hemangioma
+# conclusao: Hemangioma no corpo vertebral de {nivel}.
+Corpos vertebrais:  de altura e morfologia preservadas. Lesão no corpo vertebral de {nivel}, medindo {tamanho}, com trabéculas verticais espessadas de permeio a tecido de baixa densidade (aspecto pontilhado no plano axial), compatível com hemangioma.

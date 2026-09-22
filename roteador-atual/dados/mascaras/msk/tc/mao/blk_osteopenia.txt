@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Mineralização óssea
+# gatilhos: osteopenia | reducao da densidade ossea | osteopenia periarticular
+# conclusao: Redução da densidade óssea, de padrão {padrao|difuso/periarticular}.
+Mineralização óssea:  redução da densidade óssea, de padrão {padrao|difuso/periarticular}.

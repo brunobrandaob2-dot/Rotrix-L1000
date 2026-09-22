@@ -1,0 +1,27 @@
+# gatilhos: tomografia de torax trauma | tc de torax trauma | tomografia de torax no trauma | tc de torax no trauma | tc torax trauma | tc torax politrauma | tomografia de torax com fraturas costais | tc de torax com fraturas costais | tomografia de torax com contusao pulmonar | tc de torax com hemopneumotorax
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multislice e reconstruções multiplanares, {contraste|sem/com/sem e com} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  opacidades em vidro fosco e consolidações de distribuição não segmentar no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, subjacentes às fraturas, compatíveis com contusão pulmonar. {laceracao|Não há lacerações ou pneumatoceles/Laceração pulmonar com pneumatocele de ___}.
+Traqueia e brônquios:  calibre e trajetos normais, sem sinais de lesão traqueobrônquica.
+Mediastino:  sem hematoma mediastinal ou pneumomediastino.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais, sem sinais de lesão aórtica traumática, considerando os limites do método.
+Derrames:  pneumotórax {lado|direito/esquerdo}, com distância interpleural máxima de {tamanho}, associado a derrame pleural com densidade de {densidade} UH, compatível com hemotórax. Ausência de derrame pericárdico.
+Cúpulas diafragmáticas:  morfologia e posição habituais, sem sinais de ruptura diafragmática.
+Estruturas ósseas e partes moles:  fraturas dos arcos costais {arcos_costais} {lado_a|à direita/à esquerda}, {desvio|sem desvio significativo/com desvio} dos fragmentos. Esterno, clavículas, escápulas e coluna torácica sem traços de fratura. {enfisema|Não há enfisema subcutâneo/Enfisema subcutâneo na parede torácica adjacente}.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fraturas de arcos costais {lado_a|à direita/à esquerda}.
+Contusão pulmonar no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}.
+Hemopneumotórax {lado|direito/esquerdo}.

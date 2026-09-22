@@ -1,0 +1,19 @@
+# gatilhos: apendicite complicada | apendicite com abscesso | apendicite perfurada
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Trato gastrointestinal: apêndice cecal de calibre aumentado, medindo {tamanho}, com descontinuidade focal da parede e perda do realce parietal em seu terço ___. Associam-se densificação acentuada da gordura periapendicular, borramento dos planos adiposos e coleção organizada de {tamanho} com paredes espessas e realce periférico na fossa ilíaca direita. Focos de gás extraluminal adjacentes.
+Peritônio: líquido livre na pelve e nas goteiras parietocólicas, de densidade elevada.
+Retroperitônio: linfonodos ileocólicos aumentados, de aspecto reacional.
+Alças intestinais adjacentes com espessamento parietal reacional e íleo localizado.
+Demais órgãos abdominais sem alterações significativas.
+
+CONCLUSÃO:
+1. **Apendicite aguda complicada**, com sinais de perfuração bloqueada e abscesso na fossa ilíaca direita medindo {tamanho}.
+2. Líquido livre peritoneal e íleo reflexo adjacente.
+
+Achado crítico comunicado ao(à) Dr(a). ___ em ___/___/____ às ___h___.

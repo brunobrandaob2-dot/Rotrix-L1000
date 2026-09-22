@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Seios maxilares
+# gatilhos: velamento maxilar | velamento do seio maxilar | opacificacao do seio maxilar
+Velamento {grau_velamento|parcial/completo} do seio maxilar {lado|direito/esquerdo}.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: opacidades dependentes | opacidades posteriores | hipoventilacao | opacidades de decubito | vidro fosco dependente | opacidades em vidro fosco dependentes | alteracoes de decubito
+# conclusao: Opacidades parenquimatosas pulmonares posteriores e dependentes relacionadas a decúbito e hipoventilação.
+Parênquima pulmonar:  opacidades com atenuação em vidro fosco nas porções posteriores e dependentes dos pulmões, relacionadas a decúbito e hipoventilação.

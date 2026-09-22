@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: fibroatelectasias | fibroatelectasia | fibroatelectasias esparsas | opacidades fibroatelectasicas | opacidades fibroatelectasicas esparsas
+# conclusao: Opacidades fibroatelectásicas esparsas nos pulmões.
+Parênquima pulmonar:  opacidades fibroatelectásicas esparsas.

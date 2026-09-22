@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Adrenais
+# gatilhos: adenoma adrenal | adenoma de adrenal | adenoma rico em lipidios | nodulo adrenal benigno
+# conclusao: Nódulo na adrenal {lado_f|direita/esquerda} com densidade inferior a 10 UH na fase sem contraste, compatível com adenoma rico em lipídios, sem necessidade de seguimento por imagem.
+Adrenais:  nódulo na adrenal {lado_f|direita/esquerda}, de contornos regulares e conteúdo homogêneo, medindo {tamanho}, com densidade de {densidade} UH na fase sem contraste (inferior a 10 UH), compatível com adenoma rico em lipídios. Adrenal contralateral de espessura normal e sem nódulos.

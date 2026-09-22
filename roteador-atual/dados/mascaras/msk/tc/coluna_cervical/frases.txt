@@ -1,0 +1,43 @@
+# tipo: frases
+## gatilhos: coluna cervical sem fraturas na tomografia | tc coluna cervical sem fratura
+Não há sinais de fraturas ou de desalinhamentos traumáticos na coluna cervical.
+## gatilhos: retificacao da lordose cervical | lordose cervical retificada
+Retificação da lordose cervical fisiológica, que pode estar relacionada a posicionamento ou a contratura muscular.
+## gatilhos: inversao da lordose cervical | cifose cervical
+Inversão da lordose cervical fisiológica, com ápice em {nivel}.
+## gatilhos: uncoartrose cervical com estenose foraminal | forame cervical reduzido por uncoartrose
+Uncoartrose em {nivel}, com osteófitos que reduzem a amplitude do forame neural {lado_a|à direita/à esquerda}.
+## gatilhos: complexo disco osteofitario cervical | barra disco osteofitaria cervical
+Complexo disco-osteofitário posterior em {nivel}, que comprime a face ventral do saco dural.
+## gatilhos: ressalva ressonancia coluna cervical | ressonancia para medula cervical
+A tomografia tem sensibilidade limitada para a avaliação dos discos, da medula e das raízes; a ressonância magnética é o método de escolha para esta avaliação, se houver indicação clínica.
+## gatilhos: fratura de hangman cervical | espondilolistese traumatica de c2
+Fratura bilateral da pars interarticularis do áxis (C2), de aspecto agudo, compatível com espondilolistese traumática (fratura do enforcado), tipo {levine|I/II/IIA/III} de Levine e Edwards.
+## gatilhos: os odontoideum cervical | os odontoideum
+Ossículo de contornos corticais regulares e escleróticos, separado da base do processo odontoide, compatível com os odontoideum, sem sinais de fratura aguda.
+## gatilhos: intervalo atlantodental aumentado cervical | instabilidade atlantoaxial
+Aumento do intervalo atlantodental, medindo {adi} mm (normal até 3 mm no adulto), sugerindo instabilidade atlantoaxial.
+## gatilhos: fratura do forame transverso cervical | fratura cervical com acometimento do forame transverso
+Traço de fratura que se estende ao forame transverso {lado|direito/esquerdo} de {nivel}; recomenda-se angiotomografia para avaliação da artéria vertebral.
+## gatilhos: fratura da massa lateral cervical | fratura da faceta articular cervical
+Traço de fratura na massa lateral {lado_f|direita/esquerda} de {nivel}, de margens nítidas, aspecto agudo, com extensão à faceta articular.
+## gatilhos: fratura do processo transverso cervical | fratura cervical do processo transverso
+Traço de fratura no processo transverso {lado|direito/esquerdo} de {nivel}, de aspecto agudo, sem desvio significativo.
+## gatilhos: fratura cervical antiga consolidada | fratura antiga da coluna cervical
+Fratura antiga consolidada do corpo vertebral de {nivel}, com remodelamento e esclerose das margens, sem sinais de agudização.
+## gatilhos: fusao congenita cervical | bloco vertebral cervical
+Fusão congênita dos corpos vertebrais de {nivel} (bloco vertebral), com disco rudimentar e cintura anterior ("sinal da cintura").
+## gatilhos: costela cervical | costela cervical rudimentar
+Costela cervical {lado_f|direita/esquerda} rudimentar, articulada com o processo transverso de C7.
+## gatilhos: megapofise transversa de c7 | processo transverso de c7 alongado
+Alongamento do processo transverso {lado|direito/esquerdo} de C7 (megapófise transversa).
+## gatilhos: calcificacao do ligamento nucal cervical | ossiculo nucal
+Calcificação linear no ligamento nucal, posterior aos processos espinhosos, sem significado patológico.
+## gatilhos: espondilodiscite cervical | discite cervical
+Redução da altura do espaço discal {nivel}, com erosões das plataformas vertebrais contíguas e aumento das partes moles pré-vertebrais, sugestivos de espondilodiscite; a ressonância magnética com contraste é o método de escolha para a confirmação.
+## gatilhos: pannus atlantoaxial cervical | pannus retro odontoide
+Tecido de partes moles retro-odontoide, com erosões do processo odontoide, podendo corresponder a pannus, a correlacionar com artropatia inflamatória.
+## gatilhos: dish cervical | hiperostose cervical
+Pontes ósseas anteriores fluidas em {nivel}, com espaços discais relativamente preservados, compatíveis com hiperostose esquelética idiopática difusa (DISH).
+## gatilhos: placa cervical anterior sem complicacoes | artrodese cervical sem complicacoes
+Material de artrodese cervical anterior em posição habitual, sem sinais de soltura, fratura ou migração.

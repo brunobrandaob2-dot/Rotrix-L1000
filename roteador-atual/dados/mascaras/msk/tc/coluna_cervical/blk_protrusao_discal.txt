@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: protrusao discal | hernia discal | abaulamento discal | hernia
+# conclusao: Protrusão discal em {nivel} (a ressonância magnética é o método de escolha para a avaliação discal).
+Discos intervertebrais:  protrusão discal {localizacao|posterior mediana/posterolateral/foraminal} {lado_a|à direita/à esquerda} em {nivel}, que toca a face ventral do saco dural, considerando os limites do método para a avaliação discal.

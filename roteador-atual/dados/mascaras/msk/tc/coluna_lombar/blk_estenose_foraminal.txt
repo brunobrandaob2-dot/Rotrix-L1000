@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Forames neurais
+# gatilhos: estenose foraminal | forames reduzidos | reducao dos forames | estenose dos forames
+# conclusao: Redução da amplitude dos forames neurais em {nivel}, {lado_a|à direita/à esquerda}.
+Forames neurais:  redução da amplitude dos forames neurais em {nivel}, {lado_a|à direita/à esquerda}, por componente disco-osteofitário e hipertrofia facetária. Demais forames de amplitude preservada.

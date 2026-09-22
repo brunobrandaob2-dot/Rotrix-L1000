@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: espondilolistese | anterolistese degenerativa | listese degenerativa | anterolistese | listese
+# conclusao: Anterolistese degenerativa grau {grau_listese|1/2/3/4} {nivel_listese}.
+Alinhamento:  anterolistese degenerativa grau {grau_listese|1/2/3/4} {nivel_listese}.

@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna lombar com artrodese | tc de coluna lombar com artrodese | tc coluna lombar artrodese | tomografia de coluna lombar pos operatoria | tc de coluna lombar pos operatoria | tc de coluna lombar com parafusos pediculares | tomografia de coluna lombar com material de artrodese
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_lombar
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles, com técnica de redução de artefatos metálicos.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  lordose lombar retificada. Ausência de listeses nos níveis instrumentados e adjacentes.
+Corpos vertebrais:  material de artrodese posterior de {nivel} a {nivel}, constituído por parafusos pediculares e hastes longitudinais, {espacador|com espaçador intersomático em ___/sem espaçador intersomático}. Implantes em posição habitual, sem sinais de fratura, soltura ou halo de radiolucência ao redor dos parafusos.
+Discos intervertebrais:  {fusao|sinais de fusão óssea intersomática em ___/sem ponte óssea intersomática contínua caracterizável}. Nível adjacente: altura discal preservada.
+Articulações interapofisárias:  artrose interapofisária no nível adjacente ({nivel}).
+Canal vertebral:  de amplitude preservada nos níveis avaliados, considerando os artefatos metálicos.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  alterações pós-operatórias de laminectomia em {nivel}.
+Transição lombossacra:  de configuração habitual.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares.
+Partes moles paravertebrais:  alterações pós-cirúrgicas habituais na musculatura paravertebral posterior, sem coleções.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artrodese lombar posterior de {nivel} a {nivel}, sem sinais de soltura ou fratura dos implantes.
+Artrose interapofisária no nível adjacente ({nivel}).

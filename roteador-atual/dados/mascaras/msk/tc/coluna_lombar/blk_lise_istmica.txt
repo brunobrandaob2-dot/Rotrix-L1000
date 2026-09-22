@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Elementos posteriores
+# gatilhos: espondilolise istmica | lise istmica | espondilolise bilateral | defeito da pars
+# conclusao: Espondilólise de {nivel}.
+Elementos posteriores:  descontinuidade dos istmos (pars interarticularis) de {nivel}, {lado|bilateral/direito/esquerdo}, com margens escleróticas e irregulares, compatível com espondilólise. Demais elementos posteriores íntegros.

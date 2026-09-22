@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Densidade óssea
+# gatilhos: enostose | ilhota ossea | ilhota de osso compacto
+# conclusao: Enostose (ilhota de osso compacto) no {local_enostose|colo femoral/cabeça femoral/acetábulo}.
+Densidade óssea:  preservada. Foco esclerótico homogêneo de contornos espiculados no {local_enostose|colo femoral/cabeça femoral/acetábulo}, medindo {tamanho}, com aspecto de enostose (ilhota de osso compacto).

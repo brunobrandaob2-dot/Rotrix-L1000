@@ -1,0 +1,17 @@
+# gatilhos: raio x de torax com dpoc | rx de torax com dpoc | radiografia de torax com dpoc | rx torax dpoc | raio x de torax com hiperinsuflacao | rx de torax com hiperinsuflacao | raio x de torax com enfisema | rx de torax com enfisema
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: torax
+# tipo_mascara: cronica
+**RADIOGRAFIA DO TÓRAX**
+
+**TÉCNICA:**  incidências posteroanterior e perfil, em ortostase.
+
+**ANÁLISE:**
+Campos pulmonares hipertransparentes, com rarefação da trama vascular periférica, podendo corresponder a doença pulmonar obstrutiva crônica.
+Seios costofrênicos livres.
+Área cardíaca de dimensões normais, com aspecto verticalizado.
+Mediastino centrado, de contornos regulares.
+Hilos pulmonares de aspecto habitual.
+Cúpulas diafragmáticas retificadas e rebaixadas, com aumento do espaço aéreo retroesternal.
+Arcabouço ósseo sem alterações.

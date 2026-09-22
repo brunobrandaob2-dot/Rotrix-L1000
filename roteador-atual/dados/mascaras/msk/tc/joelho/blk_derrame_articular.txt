@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Recesso suprapatelar
+# gatilhos: derrame articular | derrame | distensao do recesso
+# conclusao: Derrame articular.
+Recesso suprapatelar:  distensão líquida, compatível com derrame articular. Não há nível gordura-líquido.

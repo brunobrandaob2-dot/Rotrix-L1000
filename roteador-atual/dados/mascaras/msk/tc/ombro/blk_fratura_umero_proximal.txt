@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Úmero proximal
+# gatilhos: fratura do umero proximal | fratura | fratura do colo do umero | fratura do colo cirurgico
+# conclusao: Fratura do úmero proximal em {partes|uma/duas/três/quatro} parte(s) segundo Neer (parte desviada: desvio superior a 1,0 cm ou angulação superior a 45°).
+Úmero proximal:  traço de fratura acometendo {local|o colo cirúrgico/o colo anatômico/o tubérculo maior/o tubérculo menor} do úmero, com desvio de {tamanho} e angulação de {angulacao}°. {articular|Sem/Com} extensão à superfície articular.

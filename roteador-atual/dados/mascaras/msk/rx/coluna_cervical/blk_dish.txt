@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: dish | hiperostose | hiperostose esqueletica | doenca de forestier
+Ossificações fluidas na face anterior dos corpos vertebrais de {nivel} a {nivel}, com espaços discais preservados, compatíveis com DISH.

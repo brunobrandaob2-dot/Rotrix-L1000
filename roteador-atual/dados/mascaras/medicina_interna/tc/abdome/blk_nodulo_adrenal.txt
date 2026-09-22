@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Adrenais
+# gatilhos: nodulo adrenal indeterminado | nodulo adrenal | incidentaloma adrenal | nodulo na adrenal
+# conclusao: Nódulo na adrenal {lado_f|direita/esquerda}, medindo {tamanho}, indeterminado ao método; sugere-se tomografia com protocolo adrenal (washout) ou ressonância magnética com sequências em fase e fora de fase, além de avaliação da função hormonal.
+Adrenais:  nódulo na adrenal {lado_f|direita/esquerda}, medindo {tamanho}, com densidade de {densidade} UH na fase sem contraste (igual ou superior a 10 UH), que não permite caracterizar adenoma rico em lipídios no protocolo utilizado. Adrenal contralateral de espessura normal e sem nódulos.

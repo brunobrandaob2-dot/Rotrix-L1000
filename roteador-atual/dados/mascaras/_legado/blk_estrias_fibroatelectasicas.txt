@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: estrias fibroatelectasicas | estrias nas bases | bandas parenquimatosas | fibroatelectasia
+# conclusao: Estrias fibroatelectásicas nas bases pulmonares, de aspecto residual.
+Parênquima pulmonar: estrias fibroatelectásicas nas bases pulmonares, de disposição subpleural, sem retração pleural ou distorção arquitetural associadas. Ausência de consolidações, nódulos suspeitos ou sinais de doença intersticial em atividade.

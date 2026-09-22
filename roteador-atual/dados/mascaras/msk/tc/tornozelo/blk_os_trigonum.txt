@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tálus
+# gatilhos: os trigonum | os trigono | osso trigono
+# conclusao: Os trigonum.
+Tálus:  morfologia e densidade normais, com ossículo acessório posterior ao processo lateral (os trigonum), de contornos corticais regulares, medindo {tamanho}.

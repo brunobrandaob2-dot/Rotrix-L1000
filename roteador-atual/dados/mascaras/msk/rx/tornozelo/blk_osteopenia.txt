@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Densidade óssea
+# gatilhos: osteopenia | osteopenia difusa | reducao da densidade ossea | rarefacao ossea
+Redução difusa da densidade óssea.

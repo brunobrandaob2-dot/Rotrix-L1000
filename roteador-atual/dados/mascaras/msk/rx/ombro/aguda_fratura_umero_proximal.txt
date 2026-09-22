@@ -1,0 +1,19 @@
+# gatilhos: raio x de ombro com fratura | rx de ombro com fratura | radiografia de ombro com fratura | rx do ombro com fratura | rx ombro fratura | raio x de ombro com fratura do umero proximal | rx de ombro com fratura do umero proximal | raio x de ombro com fratura do umero | rx de ombro com fratura do umero
+# categoria: msk
+# modalidade: rx
+# regiao: ombro
+# tipo_mascara: aguda
+**RADIOGRAFIA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior em rotação interna e externa e perfil da escápula.
+
+**ANÁLISE:**
+Espaço articular glenoumeral preservado.
+Articulação acromioclavicular sem alterações.
+Espaço acromioumeral preservado.
+Fratura do úmero proximal acometendo {local|o colo cirúrgico/o colo anatômico/o tubérculo maior/o tubérculo menor}, com desvio de {tamanho} e angulação de {angulacao}°, {articular|sem/com} extensão à superfície articular.
+Fratura em {partes|uma/duas/três/quatro} parte(s) segundo Neer.
+Não há sinais de luxação glenoumeral.
+Densidade óssea preservada.
+Partes moles sem alterações.
+A tomografia pode auxiliar na caracterização dos fragmentos e no planejamento terapêutico.

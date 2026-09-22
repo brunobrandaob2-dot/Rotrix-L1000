@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Elementos posteriores
+# gatilhos: fratura do processo espinhoso | fratura de processo espinhoso | fratura do espinhoso
+# conclusao: Fratura do processo espinhoso de {nivel}, de aspecto agudo.
+Elementos posteriores:  traço de fratura no processo espinhoso de {nivel}, de margens nítidas, aspecto agudo, com discreto desvio do fragmento. Demais elementos posteriores íntegros.

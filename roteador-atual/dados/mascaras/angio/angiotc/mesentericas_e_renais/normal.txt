@@ -1,0 +1,28 @@
+# gatilhos: angiotomografia de arterias mesentericas | angio de mesentericas | angio de arterias mesentericas | angiotomografia de arterias mesentericas e renais | angio de mesentericas e renais | angio tc de mesentericas e renais | angiotomografia de mesentericas e renais | angio de mesentericas e renais normal | angiotomografia de arterias mesentericas e renais normal | angio de arterias mesentericas e renais | angio de mesentericas normal | angio mesenterica | angio de arterias renais | angio de renais | angio de renais normal | angio de arterias renais normal | angiotomografia de arterias renais | angio renal | angio tc de arterias renais | angio de vasos viscerais | angiotomografia de arterias viscerais
+# categoria: angio
+# modalidade: angiotc
+# regiao: mesentericas_e_renais
+# tipo_mascara: normal
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS {territorio|MESENTÉRICAS E RENAIS/MESENTÉRICAS/RENAIS}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fases arterial e portal, com reconstruções multiplanares, em projeção de intensidade máxima (MIP) e tridimensionais, direcionadas para a avaliação das artérias viscerais abdominais.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na aorta abdominal na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise dos ramos viscerais.
+Aorta abdominal:  trajeto e calibre habituais, sem dilatações, estenoses ou flap intimal.
+Tronco celíaco:  origem e trajeto habituais, pérvio, sem estenose ostial. Artérias hepática comum, esplênica e gástrica esquerda pérvias, com distribuição habitual.
+Artéria mesentérica superior:  origem e trajeto habituais, pérvia, com ramos jejunais, ileais e cólicos opacificados.
+Artéria mesentérica inferior:  pérvia, de calibre habitual.
+Artérias renais:  únicas bilateralmente, de origem e trajeto habituais, pérvias, sem estenoses, irregularidades parietais ou dilatações.
+Rins:  tópicos, de dimensões normais, com realce parenquimatoso simétrico e homogêneo.
+Sistema venoso:  veia porta, veia esplênica, veia mesentérica superior e veias renais pérvias.
+Alças intestinais:  distribuição habitual, sem espessamento parietal, alterações do realce ou pneumatose, no protocolo utilizado.
+Demais estruturas abdominais:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Angiotomografia das artérias mesentéricas e renais sem alterações significativas.

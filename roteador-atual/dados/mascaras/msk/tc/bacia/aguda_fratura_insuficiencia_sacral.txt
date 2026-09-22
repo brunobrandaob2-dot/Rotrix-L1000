@@ -1,0 +1,30 @@
+# gatilhos: tomografia de bacia com fratura por insuficiencia | tc de bacia com fratura por insuficiencia | tc bacia fratura insuficiencia sacral | tomografia de bacia com fratura por insuficiencia do sacro | tc de bacia com fratura de insuficiencia
+# categoria: msk
+# modalidade: tc
+# regiao: bacia
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA BACIA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Anel pélvico:  íntegro, simétrico e alinhado, sem traços de fratura ou diástases.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares, sem erosões ou esclerose subcondral significativa.
+Sínfise púbica:  alinhada, de amplitude preservada e superfícies regulares.
+Sacro e cóccix:  traços de fratura com esclerose linear na asa sacral {lado_a|à direita/à esquerda}, paralelos à articulação sacroilíaca, {traco_h|sem componente horizontal no corpo sacral/com componente horizontal no corpo sacral (padrão em "H")}, sem desvio significativo dos fragmentos.
+Ossos ilíacos:  contornos regulares e densidade habitual.
+Ramos púbicos e ísquios:  {ramos|contornos regulares, sem traços de fratura/com traços de fratura por insuficiência associados nos ramos ___}.
+Acetábulos:  morfologia e cobertura habituais. Colunas e paredes acetabulares íntegras.
+Articulações coxofemorais:  congruentes, com espaços articulares preservados e simétricos.
+Fêmures proximais:  cabeças femorais esféricas e de densidade habitual. Colos femorais e regiões trocantéricas sem particularidades.
+Densidade óssea:  redução difusa da densidade óssea, com afilamento das corticais e acentuação do trabeculado. Não há lesões líticas ou blásticas focais.
+Partes moles:  musculatura pélvica, glútea e da raiz das coxas de volume e atenuação habituais. Não há coleções ou hematomas.
+Estruturas pélvicas incluídas no estudo:  sem particularidades, considerando os limites do método.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura por insuficiência na asa sacral {lado_a|à direita/à esquerda}, no contexto de redução difusa da densidade óssea.
+A densitometria óssea é o método adequado para quantificação da massa óssea, se clinicamente indicado.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cabeça femoral
+# gatilhos: osteonecrose | necrose avascular | necrose da cabeca femoral
+# conclusao: Osteonecrose da cabeça femoral, estágio {ficat|II/III/IV} da classificação de Ficat-Arlet.
+Cabeça femoral:  área de esclerose de contornos serpiginosos na porção {local_necrose|anterossuperior/superior/central} da cabeça femoral, {colapso|sem sinais de colapso subcondral/com fratura subcondral/com colapso subcondral}, compatível com osteonecrose.

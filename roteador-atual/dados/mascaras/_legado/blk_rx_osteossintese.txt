@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas
+# gatilhos: material de sintese | osteossintese | placa e parafusos | haste intramedular
+# conclusao: Material de osteossíntese no {osso} {lado_a|à direita/à esquerda}, sem sinais de falha ou soltura evidentes ao método.
+Estruturas ósseas: material de osteossíntese no {osso} {lado|direito/esquerdo}, constituído por ___ (placa e parafusos / haste intramedular / fios de Kirschner), em posição habitual, sem sinais de fratura do implante, soltura, migração ou halo de radiolucência periprotético. Traço de fratura com sinais de consolidação ___ (em curso / consolidado), com formação de calo ósseo e alinhamento preservado.

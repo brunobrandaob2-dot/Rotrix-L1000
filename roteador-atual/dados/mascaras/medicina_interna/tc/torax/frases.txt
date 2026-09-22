@@ -1,0 +1,55 @@
+# tipo: frases
+## gatilhos: pulmoes sem nodulos na tomografia | torax sem nodulos pulmonares
+Não há nódulos pulmonares caracterizáveis ao método.
+## gatilhos: hipoventilacao pulmonar nas bases | vidro fosco pendente nas bases pulmonares
+Tênues opacidades em vidro fosco nas regiões pendentes das bases pulmonares, atribuíveis a hipoventilação/hipoperfusão.
+## gatilhos: atenuacao em mosaico pulmonar | mosaico no pulmao
+Áreas de atenuação em mosaico no parênquima pulmonar, inespecíficas, podendo corresponder a doença de pequenas vias aéreas ou a alteração da perfusão.
+## gatilhos: vidro fosco pulmonar inespecifico | opacidades em vidro fosco no pulmao
+Opacidades em vidro fosco {distribuicao|esparsas/multifocais/difusas} no parênquima pulmonar, de aspecto inespecífico, podendo corresponder a processo inflamatório/infeccioso; correlacionar com dados clínicos.
+## gatilhos: nodulo pulmonar menor que seis milimetros | nodulo pulmonar pequeno fleischner
+Nódulo pulmonar sólido medindo {tamanho}, inferior a 6 mm; como referência, os critérios de Fleischner (2017) não indicam seguimento de rotina em pacientes de baixo risco e sugerem controle opcional em 12 meses nos de alto risco.
+## gatilhos: nodulo pulmonar de seis a oito milimetros | nodulo pulmonar intermediario fleischner
+Nódulo pulmonar sólido medindo {tamanho}, entre 6 e 8 mm; como referência, os critérios de Fleischner (2017) sugerem controle tomográfico em 6 a 12 meses, a critério clínico.
+## gatilhos: nodulo pulmonar maior que oito milimetros | nodulo pulmonar grande fleischner
+Nódulo pulmonar sólido medindo {tamanho}, superior a 8 mm; como referência, os critérios de Fleischner (2017) sugerem considerar controle tomográfico em 3 meses, PET-CT ou amostragem tecidual, a critério clínico.
+## gatilhos: nodulo perifissural no pulmao | linfonodo intrapulmonar
+Nódulo sólido perifissural, de contornos regulares e morfologia triangular/ovalada, medindo {tamanho}, com aspecto de linfonodo intrapulmonar.
+## gatilhos: granuloma calcificado no pulmao | nodulo calcificado no pulmao
+Nódulo calcificado no parênquima pulmonar, de aspecto residual (granuloma).
+## gatilhos: cisto pulmonar simples | cisto no pulmao
+Cisto pulmonar de paredes finas e regulares, medindo {tamanho}, sem componente sólido.
+## gatilhos: bolhas de enfisema no pulmao | bolhas subpleurais apicais no pulmao
+Bolhas subpleurais nos ápices pulmonares.
+## gatilhos: espessamento pleuroparenquimatoso apical no torax | espessamento pleural apical sequelar
+Espessamento pleuroparenquimatoso apical {lado|direito/esquerdo/bilateral}, de aspecto sequelar.
+## gatilhos: derrame pleural loculado no torax | derrame pleural septado
+Derrame pleural {lado|direito/esquerdo} loculado, com espessamento e realce das pleuras parietal e visceral (sinal da pleura dividida), podendo corresponder a empiema; correlacionar com dados clínicos e toracocentese.
+## gatilhos: derrame pericardico pequeno no torax | pequeno derrame pericardico na tomografia de torax
+Pequeno derrame pericárdico.
+## gatilhos: calcificacoes coronarianas no torax | ateromatose coronariana na tomografia de torax
+Calcificações parietais nas artérias coronárias.
+## gatilhos: calcificacao da valva aortica no torax | calcificacoes valvares no torax
+Calcificações no plano valvar aórtico.
+## gatilhos: hernia hiatal pequena no torax | pequena hernia de hiato no torax
+Pequena hérnia hiatal por deslizamento.
+## gatilhos: fratura costal consolidada no torax | fratura antiga de costela no torax
+Fratura consolidada do {arco_costal} arco costal {lado|direito/esquerdo}.
+## gatilhos: torax instavel na tomografia | retalho costal no torax
+Fraturas de três ou mais arcos costais consecutivos {lado_a|à direita/à esquerda}, em dois ou mais pontos cada, configurando segmento costal instável (tórax instável).
+## gatilhos: fratura vertebral toracica por insuficiencia | achatamento vertebral no torax
+Redução da altura do corpo vertebral de {nivel_vertebral}, estimada em {percentual}%, podendo corresponder a fratura por insuficiência (Genant: grau 1 de 20 a 25%, grau 2 de 25 a 40%, grau 3 acima de 40%); correlacionar com densitometria.
+## gatilhos: esternorrafia no torax | fios de esternorrafia na tomografia de torax
+Fios de esternorrafia íntegros, de aspecto pós-operatório.
+## gatilhos: escoliose toracica na tomografia | escoliose no torax
+Escoliose torácica de convexidade {lado_f|direita/esquerda}.
+## gatilhos: pneumomediastino no torax | ar no mediastino na tomografia de torax
+Pneumomediastino.
+## gatilhos: timo residual no torax | tecido timico residual no mediastino
+Tecido tímico residual no mediastino anterior, de aspecto habitual para a faixa etária.
+## gatilhos: marcapasso no torax | cabos de marcapasso na tomografia de torax
+Gerador de marcapasso na parede torácica, com cabos-eletrodos projetados nas câmaras cardíacas direitas.
+## gatilhos: dilatacao do tronco da arteria pulmonar no torax | tronco pulmonar aumentado
+Tronco da artéria pulmonar com calibre de {tamanho} (referência: acima de 2,9 cm sugere hipertensão pulmonar), a correlacionar com ecocardiograma.
+## gatilhos: esofago dilatado no torax | dilatacao esofagica na tomografia de torax
+Esôfago de calibre aumentado, com conteúdo {conteudo_esofago|líquido/alimentar/aéreo} em seu interior.

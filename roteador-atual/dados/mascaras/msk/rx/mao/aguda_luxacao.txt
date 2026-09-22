@@ -1,0 +1,18 @@
+# gatilhos: raio x de mao com luxacao | rx de mao com luxacao | radiografia de mao com luxacao | rx da mao com luxacao | rx mao luxacao | raio x de mao com luxacao interfalangiana | rx de mao com luxacao interfalangiana | raio x de mao com luxacao do dedo | rx de mao com luxacao do dedo
+# categoria: msk
+# modalidade: rx
+# regiao: mao
+# tipo_mascara: aguda
+**RADIOGRAFIA DA MÃO {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  incidências posteroanterior e oblíqua.
+
+**ANÁLISE:**
+Espaços articulares preservados.
+Superfícies articulares regulares, sem erosões.
+Articulação trapeziometacarpiana preservada.
+Luxação {direcao|dorsal/volar/lateral} da articulação {articulacao|interfalangiana proximal/interfalangiana distal/metacarpofalangiana} do {dedo} dedo.
+{avulsao|Não há sinais de fraturas/Pequeno fragmento ósseo avulsionado da base volar da falange ___}.
+Recomenda-se controle radiográfico após a redução.
+Densidade óssea preservada.
+Partes moles sem alterações.

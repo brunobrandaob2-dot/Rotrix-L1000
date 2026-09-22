@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Fossa posterior
+# gatilhos: megacisterna magna | cisterna magna ampla | cisterna magna proeminente
+# conclusao: Megacisterna magna, variante anatômica.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas. Cisterna magna ampla (megacisterna magna), sem efeito expansivo, com vérmis cerebelar e quarto ventrículo de aspecto habitual.

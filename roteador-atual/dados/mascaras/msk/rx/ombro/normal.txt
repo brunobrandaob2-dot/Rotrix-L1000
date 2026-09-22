@@ -1,0 +1,16 @@
+# gatilhos: raio x de ombro | raio x do ombro | rx de ombro | rx do ombro | radiografia de ombro | radiografia do ombro | raio x de ombro normal | rx de ombro normal | rx do ombro normal | radiografia de ombro normal | rx ombro normal | raio x de ombro sem alteracoes | radiografia do ombro sem alteracoes
+# categoria: msk
+# modalidade: rx
+# regiao: ombro
+# tipo_mascara: normal
+**RADIOGRAFIA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior em rotação interna e externa e perfil da escápula.
+
+**ANÁLISE:**
+Espaço articular glenoumeral preservado.
+Articulação acromioclavicular sem alterações.
+Espaço acromioumeral preservado.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

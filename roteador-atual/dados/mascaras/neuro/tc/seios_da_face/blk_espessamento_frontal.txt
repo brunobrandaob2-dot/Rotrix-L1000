@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Seios frontais
+# gatilhos: espessamento mucoso frontal | sinusopatia frontal | velamento frontal
+# conclusao: Espessamento mucoso no seio frontal {lado|direito/esquerdo}.
+Seios frontais:  espessamento mucoso no seio frontal {lado|direito/esquerdo}, sem níveis hidroaéreos. Paredes ósseas íntegras.

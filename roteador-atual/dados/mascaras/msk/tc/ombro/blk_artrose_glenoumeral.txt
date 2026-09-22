@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulação glenoumeral
+# gatilhos: artrose glenoumeral | artrose | omartrose | artrose do ombro
+# conclusao: Artrose glenoumeral (Kellgren-Lawrence {kl|1/2/3/4}).
+Articulação glenoumeral:  redução {grau|leve/moderada/acentuada} do espaço articular, com osteófitos marginais, esclerose e cistos subcondrais. Não há derrame articular ou corpos livres intra-articulares evidentes.

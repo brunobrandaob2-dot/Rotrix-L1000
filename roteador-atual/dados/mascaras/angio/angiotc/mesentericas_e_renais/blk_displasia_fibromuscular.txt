@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias renais
+# gatilhos: displasia fibromuscular | colar de contas
+# conclusao: Alterações dos terços médio e distal da artéria renal {lado_f|direita/esquerda/bilateral}, com aspecto em colar de contas, sugestivas de displasia fibromuscular (forma multifocal).
+Artérias renais:  irregularidade parietal com alternância de segmentos estenóticos e pequenas dilatações nos terços médio e distal da artéria renal {lado_f|direita/esquerda/bilateral}, com aspecto em colar de contas, sem ateromatose ostial. {aneurisma_dfm|Sem aneurismas associados/Aneurisma associado medindo ___}.

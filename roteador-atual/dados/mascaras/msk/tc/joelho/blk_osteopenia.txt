@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Densidade óssea
+# gatilhos: osteopenia | reducao da densidade ossea | rarefacao ossea
+# conclusao: Redução difusa da densidade óssea.
+Densidade óssea:  redução difusa da densidade óssea, com afilamento das corticais e acentuação do trabeculado. Não há lesões líticas ou blásticas focais.

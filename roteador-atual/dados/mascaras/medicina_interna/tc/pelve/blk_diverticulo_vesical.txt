@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Bexiga
+# gatilhos: diverticulo vesical | diverticulo vesical septado | diverticulo da bexiga | formacao sacular na bexiga
+# conclusao: Formação sacular na parede vesical, comunicando-se por colo com o lúmen vesical, compatível com divertículo vesical.
+Bexiga:  formação sacular na parede vesical, medindo {tamanho} nos maiores eixos, comunicando-se com o lúmen vesical por colo, sugestiva de divertículo vesical.

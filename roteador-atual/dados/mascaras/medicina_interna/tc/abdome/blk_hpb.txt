@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Órgãos pélvicos
+# gatilhos: prostata aumentada | hiperplasia prostatica | aumento prostatico | prostata de volume aumentado
+# conclusao: Próstata de volume aumentado (volume estimado em {volume} cm³).
+Órgãos pélvicos:  próstata de volume aumentado, com volume estimado em {volume} cm³ (referência: até 30 cm³), com impressão sobre a base vesical. Vesículas seminais sem particularidades.

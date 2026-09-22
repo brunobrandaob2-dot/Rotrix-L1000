@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: escoliose | escoliose cervical | desvio lateral
+# conclusao: Escoliose cervical de convexidade {convexidade|à direita/à esquerda}.
+Alinhamento:  escoliose cervical de convexidade {convexidade|à direita/à esquerda}, que pode estar relacionada a posicionamento ou a contratura muscular. Ausência de listeses.

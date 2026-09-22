@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Patela
+# gatilhos: entesopatia | entesopatia quadricipital | entesofito patelar | entesopatia patelar
+# conclusao: Entesopatia {entese_c|quadricipital/patelar}.
+Patela:  de altura e centragem habituais. Entesófitos {entese|no polo superior, junto à inserção do tendão quadricipital/no polo inferior, junto à origem do tendão patelar}, compatíveis com entesopatia.

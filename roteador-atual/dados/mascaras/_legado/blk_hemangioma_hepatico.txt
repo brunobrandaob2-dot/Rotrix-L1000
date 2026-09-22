@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Fígado
+# gatilhos: hemangioma hepatico | hemangioma no figado | lesao hepatica com realce globuliforme
+# conclusao: Lesão hepática no {segmento} com padrão de realce típico de hemangioma.
+Fígado: dimensões normais, contornos regulares, notando-se lesão no {segmento}, medindo {tamanho}, hipodensa na fase sem contraste, com realce globuliforme periférico e descontínuo na fase arterial e preenchimento centrípeto progressivo nas fases portal e tardia, isodenso ao pool vascular, padrão característico de hemangioma. Demais parênquima sem outras lesões focais.

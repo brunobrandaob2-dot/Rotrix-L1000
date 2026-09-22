@@ -1,0 +1,45 @@
+# tipo: frases
+## gatilhos: aorta de calibre normal | aorta sem alteracoes na angio
+Aorta de trajeto e calibre habituais em toda a extensão avaliada, sem dilatações, estenoses ou sinais de síndrome aórtica aguda.
+## gatilhos: atenuacao adequada da aorta | qualidade adequada da angio de aorta
+Opacificação arterial adequada, com atenuação de ___ UH na luz aórtica na fase arterial (estudo diagnóstico quando ≥ 200 UH).
+## gatilhos: atenuacao inadequada da aorta | angio de aorta com opacificacao subotima
+Opacificação arterial subótima, com atenuação de ___ UH na luz aórtica (inferior a 200 UH), o que reduz a sensibilidade do estudo para lesões intimais discretas.
+## gatilhos: ateromatose aortica difusa | ateromatose difusa da aorta
+Ateromatose aórtica difusa, com placas parietais calcificadas e não calcificadas, sem estenoses significativas.
+## gatilhos: aneurisma fusiforme da aorta abdominal infrarrenal | aneurisma da aorta infrarrenal
+Aneurisma fusiforme da aorta abdominal infrarrenal, com diâmetro máximo de {tamanho} (critério ≥ 3,0 cm), sem sinais de instabilidade.
+## gatilhos: dilatacao aneurismatica da aorta ascendente | aneurisma toracico da aorta ascendente
+Dilatação aneurismática da aorta ascendente, com diâmetro máximo de {tamanho} (critério ≥ 4,5 cm).
+## gatilhos: trombo mural no aneurisma de aorta | trombo mural aortico
+Trombo mural excêntrico no saco aneurismático, com espessura máxima de ___ cm, sem sinais de fissura.
+## gatilhos: crescente hiperatenuante na parede da aorta | sinal do crescente na aorta
+Crescente hiperatenuante na parede do aneurisma na fase sem contraste, sinal tomográfico de instabilidade e iminência de ruptura.
+## gatilhos: sinal da aorta drapeada | aorta drapeada na coluna
+Parede posterior do aneurisma amoldando-se ao contorno anterior da coluna vertebral, sem plano de clivagem (sinal da aorta drapeada), sinal de fragilidade parietal.
+## gatilhos: flap intimal na aorta | flap de disseccao na aorta
+Flap intimal na aorta, separando luz verdadeira, de menor calibre, e luz falsa, de maior calibre, com sinal do bico.
+## gatilhos: luz falsa parcialmente trombosada na aorta | trombose parcial da luz falsa aortica
+Luz falsa parcialmente trombosada, achado associado a maior risco de expansão aórtica.
+## gatilhos: zonas aorticas svs | zonas da aorta sts
+Zonas aórticas (SVS/STS): 0, aorta ascendente até o tronco braquiocefálico; 1, até a artéria carótida comum esquerda; 2, até a artéria subclávia esquerda; 3, 2 cm proximais da aorta descendente; 4, até o nível médio da aorta torácica descendente (T6); 5, até o tronco celíaco; 6, até a artéria mesentérica superior; 7, até as artérias renais; 8, segmento das artérias renais; 9, aorta infrarrenal; 10, artérias ilíacas comuns; 11, artérias ilíacas externas.
+## gatilhos: hematoma intramural na aorta | hematoma intramural aortico
+Espessamento parietal aórtico em crescente, hiperatenuante na fase sem contraste, com espessura de {tamanho}, sem flap intimal, compatível com hematoma intramural.
+## gatilhos: ulcera penetrante na aorta | ulcera aterosclerotica na aorta
+Úlcera aterosclerótica penetrante na aorta, com profundidade de ___ mm e colo de ___ mm, sem hematoma intramural associado.
+## gatilhos: calcificacao intimal deslocada na aorta | deslocamento de calcificacao intimal aortica
+Deslocamento interno de calcificação intimal aórtica na fase sem contraste.
+## gatilhos: hematoma retroperitoneal por ruptura da aorta | ruptura do aneurisma de aorta
+Hematoma retroperitoneal adjacente ao aneurisma, com descontinuidade parietal, compatível com ruptura.
+## gatilhos: extravasamento ativo de contraste da aorta | sangramento ativo aortico
+Extravasamento ativo de contraste a partir da aorta, com acúmulo nas fases tardias, indicando sangramento ativo.
+## gatilhos: hemopericardio na disseccao da aorta | derrame pericardico na disseccao aortica
+Derrame pericárdico de atenuação elevada, podendo corresponder a hemopericárdio, no contexto de dissecção aórtica.
+## gatilhos: ma perfusao visceral na disseccao da aorta | ramo visceral pela luz falsa da aorta
+Ramo visceral com origem na luz falsa, com opacificação reduzida do órgão-alvo, sugerindo má perfusão.
+## gatilhos: arco aortico bovino | arco bovino na angio de aorta
+Variante anatômica: origem comum do tronco braquiocefálico e da artéria carótida comum esquerda (arco bovino).
+## gatilhos: endoprotese de aorta sem vazamento | endoprotese aortica sem endoleak
+Endoprótese aórtica pérvia, bem posicionada, sem sinais de vazamento (endoleak) nas fases avaliadas, com saco aneurismático medindo {tamanho}.
+## gatilhos: endoleak tipo 2 na endoprotese de aorta | vazamento tipo 2 na endoprotese aortica
+Opacificação do saco aneurismático fora da endoprótese, com enchimento retrógrado a partir de {ramo_endoleak|artéria lombar/artéria mesentérica inferior}, compatível com vazamento (endoleak) do tipo 2.

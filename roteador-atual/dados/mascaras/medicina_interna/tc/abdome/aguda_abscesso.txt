@@ -1,0 +1,33 @@
+# gatilhos: tomografia de abdome com abscesso | tc de abdome com abscesso | tc abdome abscesso | tomografia de abdome total com abscesso | tc de abdome total com abscesso | tomografia do abdome com abscesso | tomografia de abdome com abscesso abdominal | tc de abdome com abscesso abdominal | tc abdome abscesso abdominal | tomografia de abdome com colecao intra abdominal | tc de abdome com colecao intra abdominal | tc abdome colecao intra abdominal | tomografia de abdome com abscesso intracavitario | tc de abdome com abscesso intracavitario | tc abdome abscesso intracavitario
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, com injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  alças adjacentes à coleção com espessamento parietal reacional, sem distensão a montante.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  coleção organizada em {localizacao}, de conteúdo hipodenso, com paredes espessas e realce periférico, medindo {tamanho}, com {gas|ausência de/presença de} focos gasosos de permeio e densificação da gordura adjacente. Não há pneumoperitônio livre.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Coleção organizada em {localizacao}, medindo {tamanho}, com paredes espessas e realce periférico, compatível com abscesso.
+Correlacionar com o quadro clínico e laboratorial.

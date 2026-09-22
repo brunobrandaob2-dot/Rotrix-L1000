@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: infiltrado intersticial | infiltrado intersticial periferico | discreto infiltrado intersticial | intersticio periferico | infiltrado intersticial basal | infiltrado basal | infiltrado intersticial basal bilateral
+# conclusao: {?grau_inf|discreto}infiltrado intersticial {local_inf|periférico/basal bilateral/difuso}.
+Parênquima pulmonar:  {?grau_inf|discreto}infiltrado intersticial {local_inf|periférico/basal bilateral/difuso}.

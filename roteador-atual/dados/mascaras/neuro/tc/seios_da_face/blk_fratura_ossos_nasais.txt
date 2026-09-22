@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas
+# gatilhos: fratura dos ossos nasais | fratura dos ossos proprios nasais | fratura de ossos nasais
+# conclusao: Fratura dos ossos próprios nasais {lado_a|à direita/à esquerda}.
+Estruturas ósseas:  traço de fratura nos ossos próprios nasais {lado_a|à direita/à esquerda}, {desvio_fragmentos|sem/com} desvio dos fragmentos. Demais estruturas ósseas sem sinais de fratura.

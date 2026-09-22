@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: hipercifose | cifose acentuada | acentuacao da cifose
+# conclusao: Acentuação da cifose torácica.
+Alinhamento:  acentuação da cifose torácica fisiológica. Ausência de listeses.

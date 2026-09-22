@@ -1,0 +1,3 @@
+# tipo: adendo
+# gatilhos: ressalva de parede abdominal | densificacao do subcutaneo | parede abdominal anterior
+RESSALVA: Nota-se densificação do tecido celular subcutâneo e dos planos musculares da parede abdominal anterior (retos e oblíquos) {lado}, de aspecto inespecífico ao método. Recomendada correlação clínica.

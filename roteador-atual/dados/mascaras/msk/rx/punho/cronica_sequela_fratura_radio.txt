@@ -1,0 +1,19 @@
+# gatilhos: raio x de punho com sequela de fratura do radio | rx de punho com sequela de fratura do radio | radiografia de punho com sequela de fratura do radio | rx do punho com sequela de fratura do radio | rx punho sequela de fratura do radio | raio x de punho com fratura consolidada do radio | rx de punho com fratura consolidada do radio | raio x de punho com consolidacao viciosa do radio | rx de punho com consolidacao viciosa do radio
+# categoria: msk
+# modalidade: rx
+# regiao: punho
+# tipo_mascara: cronica
+**RADIOGRAFIA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências posteroanterior, perfil e oblíqua.
+
+**ANÁLISE:**
+Alinhamento carpal preservado.
+Espaços articulares radiocarpal, mediocarpal e radioulnar distal preservados.
+Articulação trapeziometacarpiana preservada.
+Fratura consolidada do rádio distal, com {deformidade|consolidação viciosa em inclinação dorsal/encurtamento radial/alinhamento satisfatório}.
+Inclinação radial de {inclinacao}°, inclinação {sentido|volar/dorsal} de ___° e altura radial de ___ mm.
+Variância ulnar {variancia|neutra/positiva, de ___ mm/negativa, de ___ mm}.
+Processo estiloide ulnar {estiloide|íntegro/com pseudartrose da base/com fratura consolidada}.
+Densidade óssea preservada.
+Partes moles sem alterações.

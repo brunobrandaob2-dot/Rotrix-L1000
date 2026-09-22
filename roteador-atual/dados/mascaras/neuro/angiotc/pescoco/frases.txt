@@ -1,0 +1,37 @@
+# tipo: frases
+## gatilhos: tronco bicarotideo na angio cervical | arco bovino na angio cervical
+Origem comum do tronco braquiocefálico e da artéria carótida comum esquerda (arco bovino), variante anatômica.
+## gatilhos: vertebral com origem no arco aortico | origem da vertebral direto do arco
+Artéria vertebral {lado_f|direita/esquerda} com origem direta do arco aórtico, variante anatômica.
+## gatilhos: subclavia direita aberrante | arteria lusoria
+Artéria subclávia direita aberrante (artéria lusória), originando-se como último ramo do arco aórtico, com trajeto retroesofágico.
+## gatilhos: placa ulcerada na carotida | ulceracao na placa carotidea
+Placa ateromatosa na origem da artéria carótida interna {lado_f|direita/esquerda}, com ulceração de {tamanho}, achado associado a maior risco embólico.
+## gatilhos: estenose carotidea leve | estenose carotidea menor que 50
+Estenose leve da origem da artéria carótida interna {lado_f|direita/esquerda} (< 50% pelo critério NASCET).
+## gatilhos: estenose carotidea moderada | estenose carotidea de 50 a 69
+Estenose moderada da origem da artéria carótida interna {lado_f|direita/esquerda} (50–69% pelo critério NASCET).
+## gatilhos: estenose carotidea acentuada | estenose carotidea maior que 70
+Estenose acentuada da origem da artéria carótida interna {lado_f|direita/esquerda} (70–99% pelo critério NASCET).
+## gatilhos: oclusao da carotida interna cervical | carotida interna cervical ocluida
+Ausência de opacificação da artéria carótida interna {lado_f|direita/esquerda} desde a origem, compatível com oclusão; a cronologia não é determinável pelo método.
+## gatilhos: flap intimal na carotida | flap intimal carotideo
+Flap intimal no segmento cervical da artéria carótida interna {lado_f|direita/esquerda}, com duplo lúmen, compatível com dissecção.
+## gatilhos: pseudoaneurisma dissecante da carotida | pseudoaneurisma da carotida interna
+Pseudoaneurisma dissecante no segmento cervical distal da artéria carótida interna {lado_f|direita/esquerda}, medindo {tamanho}.
+## gatilhos: displasia fibromuscular carotida | carotida em colar de contas
+Irregularidades parietais com alternância de estenoses e dilatações (aspecto em colar de contas) no segmento cervical médio-distal da artéria carótida interna {lado_f|direita/esquerda}, podendo corresponder a displasia fibromuscular.
+## gatilhos: processo estiloide alongado | sindrome de eagle
+Alongamento do processo estiloide {lado|direito/esquerdo}, medindo {tamanho} (referência: até 3,0 cm), {estiloide|sem/com} íntima relação com a artéria carótida interna; correlacionar com síndrome de Eagle.
+## gatilhos: vertebral comprimida por osteofito | compressao da vertebral por osteofito
+Compressão extrínseca do segmento V2 da artéria vertebral {lado_f|direita/esquerda} por osteófito uncovertebral no nível {nivel}, com redução luminal estimada em {percentual}%.
+## gatilhos: paraganglioma do corpo carotideo | tumor do glomus carotideo
+Lesão hipervascular na bifurcação carotídea {lado_a|à direita/à esquerda}, medindo {tamanho}, alargando o ângulo entre as artérias carótidas interna e externa, podendo corresponder a paraganglioma do corpo carotídeo.
+## gatilhos: carotidas tortuosas sem estenose | tortuosidade carotidea bilateral
+Tortuosidade dos segmentos cervicais das artérias carótidas internas, sem estenoses associadas.
+## gatilhos: nodulo tireoidiano na angio cervical | nodulo de tireoide na angio
+Nódulo tireoidiano incidental no lobo {lado|direito/esquerdo}, medindo {tamanho}; sugere-se ultrassonografia para caracterização.
+## gatilhos: ateromatose do arco e troncos supra aorticos | placas no arco sem estenose
+Ateromatose do arco aórtico e das origens dos troncos supra-aórticos, sem estenoses significativas.
+## gatilhos: vertebral dominante | dominancia da vertebral
+Artéria vertebral {lado_f|direita/esquerda} dominante, variante anatômica.

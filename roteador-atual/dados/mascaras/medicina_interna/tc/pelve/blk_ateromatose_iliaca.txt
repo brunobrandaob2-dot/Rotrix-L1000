@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vasos ilíacos
+# gatilhos: ateromatose | ateromatose iliaca | ateromas | ateromas calcificados | ateromas iliacos | calcificacoes vasculares
+# conclusao: Ateromatose ilíaca.
+Vasos ilíacos:  ateromas calcificados no trajeto vascular.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Glândulas submandibulares
+# gatilhos: sialolitiase | calculo na submandibular | calculo salivar | sialolitiase submandibular
+# conclusao: Sialolitíase submandibular {lado_f|direita/esquerda}, com cálculo de {tamanho}, {dilatacao|sem/com} dilatação ductal a montante.
+Glândulas submandibulares:  cálculo {local_calculo|no ducto submandibular (de Wharton)/no hilo da glândula/no parênquima da glândula} {lado|direito/esquerdo}, medindo {tamanho}, {dilatacao|sem/com} dilatação ductal a montante. Glândula submandibular ipsilateral {glandula|de dimensões e densidade preservadas/reduzida e hipoatenuante/aumentada, com realce acentuado e densificação da gordura adjacente}. Glândula contralateral sem alterações.

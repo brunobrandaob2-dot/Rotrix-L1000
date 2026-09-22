@@ -1,0 +1,29 @@
+# gatilhos: angio de mesentericas com ligamento arqueado | angio de mesentericas com compressao do tronco celiaco | angio de mesentericas e renais com ligamento arqueado | angio de mesentericas com ligamento arqueado mediano | angio de mesentericas com sindrome do ligamento arqueado mediano | angiotomografia de mesentericas com ligamento arqueado
+# categoria: angio
+# modalidade: angiotc
+# regiao: mesentericas_e_renais
+# tipo_mascara: cronica
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS {territorio|MESENTÉRICAS E RENAIS/MESENTÉRICAS/RENAIS}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fases arterial e portal, com reconstruções multiplanares, em projeção de intensidade máxima (MIP) e tridimensionais, direcionadas para a avaliação das artérias viscerais abdominais.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na aorta abdominal na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise dos ramos viscerais.
+Aorta abdominal:  trajeto e calibre habituais, sem dilatações, estenoses ou flap intimal.
+Tronco celíaco:  estreitamento focal da porção proximal, com angulação superior em aspecto de gancho, determinado por compressão extrínseca pelo ligamento arqueado mediano, com redução luminal estimada em ___% e {pos_estenotica|sem/com} dilatação pós-estenótica. Artérias hepática comum, esplênica e gástrica esquerda pérvias.
+Artéria mesentérica superior:  origem e trajeto habituais, pérvia. {arcadas|Arcadas pancreaticoduodenais de calibre habitual/Arcadas pancreaticoduodenais proeminentes, com circulação colateral para o território do tronco celíaco}.
+Artéria mesentérica inferior:  pérvia, de calibre habitual.
+Artérias renais:  únicas bilateralmente, de origem e trajeto habituais, pérvias, sem estenoses, irregularidades parietais ou dilatações.
+Rins:  tópicos, de dimensões normais, com realce parenquimatoso simétrico e homogêneo.
+Sistema venoso:  veia porta, veia esplênica, veia mesentérica superior e veias renais pérvias.
+Alças intestinais:  distribuição habitual, sem espessamento parietal, alterações do realce ou pneumatose, no protocolo utilizado.
+Demais estruturas abdominais:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Estreitamento proximal do tronco celíaco por compressão extrínseca pelo ligamento arqueado mediano, com redução luminal estimada em ___%.
+O grau de compressão varia com a fase respiratória, acentuando-se na expiração. A síndrome do ligamento arqueado mediano é diagnóstico clínico-radiológico, a correlacionar com o quadro clínico.

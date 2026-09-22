@@ -1,0 +1,26 @@
+# gatilhos: urotomografia com calculo ureteral | uro tc com calculo ureteral | urotc com calculo ureteral | urotomografia calculo ureteral | urotomografia com litiase ureteral | uro tc com litiase ureteral | urotc com litiase ureteral | urotomografia litiase ureteral | urotomografia com colica renal | uro tc com colica renal | urotc com colica renal | urotomografia colica renal | urotomografia com ureterolitiase | uro tc com ureterolitiase | urotc com ureterolitiase | urotomografia ureterolitiase
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: urotomografia
+# tipo_mascara: aguda
+**UROTOMOGRAFIA COMPUTADORIZADA**
+
+**TÉCNICA:**  aquisição volumétrica sem contraste, seguida das fases nefrográfica e excretora após injeção intravenosa de contraste iodado, com reconstruções multiplanares.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Rins:  tópicos, de contornos regulares e espessura do parênquima preservada. Nefrograma {nefrograma|simétrico/retardado no rim obstruído}. Densificação da gordura perirrenal {lado_a|à direita/à esquerda}.
+Vias excretoras:  dilatação ureteropielocalicinal {grau|discreta/moderada/acentuada} {lado_a|à direita/à esquerda} a montante de cálculo localizado em {local|terço proximal/terço médio/terço distal/junção ureterovesical} do ureter, medindo {tamanho}, com densidade de {densidade} UH. Vias excretoras contralaterais de calibre normal, com opacificação completa na fase excretora.
+Bexiga:  de parcial repleção, de paredes finas e regulares, sem falhas de enchimento na fase excretora.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Demais órgãos abdominais:  fígado, vesícula biliar, pâncreas, baço e adrenais sem particularidades no protocolo utilizado.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Cálculo em {local|terço proximal/terço médio/terço distal/junção ureterovesical} do ureter {lado|direito/esquerdo}, medindo {tamanho}, determinando dilatação ureteropielocalicinal {grau|discreta/moderada/acentuada} a montante.

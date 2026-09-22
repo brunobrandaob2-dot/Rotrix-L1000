@@ -1,0 +1,33 @@
+# gatilhos: tomografia de cranio trauma sem lesoes agudas | tc de cranio trauma sem lesoes agudas | tc cranio trauma normal | tomografia de cranio pos trauma normal | tc de cranio pos trauma normal | tc de cranio tce sem lesoes | tomografia de cranio tce normal
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado, com reconstruções em janelas para parênquima e para osso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  coeficientes de atenuação preservados, com diferenciação córtico-subcortical mantida. Não há contusões, hematomas ou lesões expansivas.
+Substância branca:  sem alterações de atenuação.
+Núcleos da base:  de morfologia e atenuação preservadas.
+Sistema ventricular:  de morfologia, dimensões e topografia normais, sem conteúdo hemático.
+Cisternas da base e sulcos corticais:  cisternas da base pérvias e simétricas. Sem hemorragia subaracnóidea.
+Linha média:  estruturas centradas, sem desvio (0 mm).
+Espaços extra-axiais:  sem coleções.
+Pneumoencéfalo:  ausente.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo, sem níveis líquidos.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  {subgaleal|sem hematoma subgaleal/hematoma subgaleal na região ___, com espessura de ___ mm, sem fratura subjacente}.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Não há sinais de lesões traumáticas intracranianas agudas ou de fraturas.
+Linha média centrada (desvio de 0 mm). Cisternas da base pérvias.

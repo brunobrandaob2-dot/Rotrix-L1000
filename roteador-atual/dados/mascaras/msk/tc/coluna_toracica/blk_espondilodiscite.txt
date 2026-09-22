@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: espondilodiscite | discite
+# conclusao: Achados sugestivos de espondilodiscite em {nivel}, a correlacionar com dados clínicos e laboratoriais (a ressonância magnética com contraste é o método de escolha).
+Discos intervertebrais:  redução da altura do espaço discal {nivel}, com hipoatenuação do disco e erosões das plataformas vertebrais contíguas, associadas a densificação das partes moles paravertebrais adjacentes.

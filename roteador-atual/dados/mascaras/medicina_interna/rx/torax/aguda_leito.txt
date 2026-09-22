@@ -1,0 +1,20 @@
+# gatilhos: raio x de torax no leito | rx de torax no leito | radiografia de torax no leito | rx torax leito | raio x de torax portatil | rx de torax portatil | rx de torax ap no leito | raio x de torax com dispositivos | rx de torax de uti
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: torax
+# tipo_mascara: aguda
+**RADIOGRAFIA DO TÓRAX NO LEITO**
+
+**TÉCNICA:**  incidência anteroposterior, no leito, com aparelho portátil.
+
+**ANÁLISE:**
+Tubo orotraqueal com extremidade a {distancia_carina} da carina, {posicao_tot|em posição adequada/a reposicionar}.
+Cateter venoso central por via {via_cateter|jugular interna/subclávia} {lado_cateter|direita/esquerda}, com extremidade projetada {ponta_cateter|na veia cava superior/na junção cavoatrial/no átrio direito}.
+Sonda {tipo_sonda|nasogástrica/nasoenteral} com extremidade projetada {ponta_sonda|no estômago/no duodeno/abaixo do campo de estudo}.
+Campos pulmonares sem opacidades focais.
+Seios costofrênicos livres, sem pneumotórax evidente nesta incidência.
+Área cardíaca sem aumento evidente, de avaliação limitada pela incidência AP.
+Mediastino centrado, de contornos regulares.
+Hilos pulmonares de aspecto habitual.
+Cúpulas diafragmáticas de contornos regulares e posição habitual.
+Arcabouço ósseo sem alterações.

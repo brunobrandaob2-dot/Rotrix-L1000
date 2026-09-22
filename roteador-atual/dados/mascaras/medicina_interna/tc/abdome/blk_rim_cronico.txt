@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: rins cronicos | rim cronico | nefropatia cronica | rins atroficos | doenca renal cronica
+# conclusao: Rins de dimensões reduzidas, com adelgaçamento difuso do parênquima, compatíveis com nefropatia crônica.
+Rins:  tópicos, de dimensões reduzidas (rim direito com {medida_rim_direito} e rim esquerdo com {medida_rim_esquerdo} no eixo longitudinal; referência habitual de 9,0 a 12,0 cm), contornos irregulares e adelgaçamento difuso do parênquima. Não há cálculos ou dilatação de vias coletoras.

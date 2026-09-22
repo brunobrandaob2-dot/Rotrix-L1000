@@ -1,0 +1,19 @@
+# gatilhos: raio x de coluna cervical com fratura do odontoide | rx de coluna cervical com fratura do odontoide | rx coluna cervical odontoide | radiografia de coluna cervical com fratura de c2 | rx de coluna cervical com fratura de jefferson | rx de coluna cervical com fratura de c1 | rx de coluna cervical com fratura de c1 c2
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_cervical
+# tipo_mascara: aguda
+**RADIOGRAFIA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Retificação da lordose cervical, sem listeses.
+{achado_c1c2|Fratura do processo odontoide de C2, tipo ___ de Anderson e D'Alonzo/Deslocamento lateral das massas laterais de C1 sobre C2 de ___ mm, sugestivo de fratura de Jefferson (acima de 6,9 mm sugere ruptura do ligamento transverso)}.
+Intervalo atlantodental de {adi} mm (normal até 3 mm).
+Corpos vertebrais com altura preservada.
+Espaços discais preservados.
+Articulações uncovertebrais e interapofisárias preservadas.
+Densidade óssea preservada.
+Aumento das partes moles pré-vertebrais em C2, medindo {tamanho} (referência: até 7 mm).
+A radiografia tem sensibilidade limitada para a transição craniocervical; recomenda-se tomografia computadorizada.

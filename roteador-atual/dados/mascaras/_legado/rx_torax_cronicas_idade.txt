@@ -1,0 +1,22 @@
+# gatilhos: raio x de torax do idoso | rx de torax do idoso | radiografia de torax com alteracoes cronicas | rx torax alteracoes cronicas da idade | raio x de torax alteracoes senis | rx torax idoso
+RADIOGRAFIA DO TÓRAX
+
+TÉCNICA: incidências póstero-anterior e perfil, em ortostase.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Parênquima pulmonar: acentuação difusa da trama broncovascular, de aspecto crônico e inespecífico. Ausência de consolidações, opacidades focais ou nódulos evidentes ao método.
+Hilos e vasos pulmonares: hilos de topografia e densidade habituais, sem alargamento.
+Área cardíaca e mediastino: área cardíaca no limite superior da normalidade, com índice cardiotorácico de ___ (valor de referência: > 0,5 em PA indica aumento). Mediastino centrado.
+Aorta: botão aórtico proeminente, com alongamento do arco e calcificações parietais, compatível com ateromatose.
+Pleura e seios costofrênicos: seios costofrênicos livres. Ausência de derrame pleural.
+Cúpulas diafragmáticas: elevação da cúpula diafragmática {lado_a|à direita/à esquerda}, de contornos regulares, sem sinais de solução de continuidade.
+Estruturas ósseas: alterações degenerativas da coluna torácica, com osteófitos marginais e redução da altura dos espaços discais. Redução difusa da densidade óssea.
+Partes moles: sem alterações significativas.
+
+CONCLUSÃO:
+1. Acentuação da trama broncovascular, de aspecto crônico e inespecífico, compatível com a faixa etária.
+2. Ateromatose e alongamento do arco aórtico.
+3. Espondilose da coluna torácica, com redução difusa da densidade óssea.
+4. Elevação da cúpula diafragmática {lado_a|à direita/à esquerda}, a correlacionar clinicamente.

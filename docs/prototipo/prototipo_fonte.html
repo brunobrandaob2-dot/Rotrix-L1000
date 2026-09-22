@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Rotrix L-1000 — protótipo</title>
+<style>
+@page { size: 297mm 210mm; margin: 0; }
+:root{
+  --ink:#16202b; --muted:#5d6b7b; --line:#d6dde5; --bg:#ffffff; --panel:#f5f7f9;
+  --blue:#24527f; --blue-soft:#e8f0f8; --green:#2c7a57; --green-soft:#e5f3ec;
+  --amber:#a8661a; --amber-soft:#fcf1e0; --red:#b3413a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,Arial,sans-serif;color:var(--ink);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:297mm;height:210mm;padding:9mm 10mm 8mm;position:relative;overflow:hidden;page-break-after:always;display:flex;flex-direction:column}
+.page:last-child{page-break-after:auto}
+header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--blue);padding-bottom:3.2mm;margin-bottom:4mm}
+h1{font-size:21px;font-weight:750;letter-spacing:-.2px}
+h1 small{font-size:11px;font-weight:600;color:var(--blue);background:var(--blue-soft);border-radius:4px;padding:2px 6px;margin-left:8px;vertical-align:4px;letter-spacing:.4px}
+.sub{font-size:11.5px;color:var(--muted);margin-top:3px}
+.pg{font-size:10px;color:var(--muted);text-align:right;line-height:1.5;white-space:nowrap}
+h2{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--blue);margin-bottom:2.2mm}
+.grid{display:grid;gap:5mm;flex:1;min-height:0}
+.grid>div{min-width:0}
+.card{border:1px solid var(--line);border-radius:7px;padding:3.2mm 3.6mm;background:#fff}
+.card+.card{margin-top:3.2mm}
+.card p,.card li{font-size:10.6px;line-height:1.42}
+.card ul{list-style:none}
+.card li{padding-left:11px;position:relative;margin-bottom:1.1mm}
+.card li:before{content:"";position:absolute;left:0;top:5px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+.muted{color:var(--muted)}
+b,strong{font-weight:680}
+.tag{display:inline-block;font-size:9.5px;font-weight:650;border-radius:10px;padding:1px 6px}
+.t-green{background:var(--green-soft);color:var(--green)}
+.t-amber{background:var(--amber-soft);color:var(--amber)}
+.t-blue{background:var(--blue-soft);color:var(--blue)}
+.mono{font-family:"DejaVu Sans Mono",monospace}
+footer{font-size:9.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:2mm;margin-top:3mm;display:flex;justify-content:space-between}
+
+/* page 1 */
+.p1 .grid{grid-template-columns:1fr 84mm}
+.flow svg{width:100%;height:auto;display:block}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-top:1mm}
+.vs div{border-radius:5px;padding:2.4mm 2.6mm;font-size:10.2px;line-height:1.4}
+.vs .hoje{background:var(--panel)}
+.vs .app{background:var(--blue-soft)}
+.vs h3{font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:1mm}
+.bar{display:flex;height:14px;border-radius:3px;overflow:hidden;margin:1.8mm 0 1.4mm}
+.bar span{display:block;height:100%}
+.legend{display:flex;gap:10px;font-size:10px;color:var(--muted)}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.rules{display:grid;grid-template-columns:repeat(5,1fr);gap:3mm;margin-top:3mm}
+.rule{border-left:3px solid var(--blue);padding:1.4mm 0 1.4mm 2.6mm;font-size:10.4px;line-height:1.35}
+.rule b{display:block;font-size:10.8px;margin-bottom:.6mm}
+.yes{font-size:13px;font-weight:750;color:var(--green);margin-bottom:1.2mm}
+
+/* page 2 */
+.p2 .grid{grid-template-columns:1fr 88mm}
+.lbl{font-size:10.5px;font-weight:700;margin:0 0 1.6mm;display:flex;align-items:center;gap:6px}
+.lbl .tag{font-weight:600}
+.strip{display:flex;align-items:center;gap:0;border:1px solid #2b3947;background:#1c2631;color:#e9eef3;border-radius:22px;height:32px;padding:0 4px 0 10px;font-size:10.2px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.strip > div{padding:0 8px;border-right:1px solid #394857;white-space:nowrap;height:18px;display:flex;align-items:center;gap:6px}
+.strip > div:last-child{border-right:0}
+.dot{width:9px;height:9px;border-radius:50%;background:#e25b52;box-shadow:0 0 0 3px rgba(226,91,82,.25)}
+.strip .k{font-family:"DejaVu Sans Mono",monospace;font-size:9.5px;background:#2e3c4a;border-radius:4px;padding:1px 5px;color:#cfe0f0}
+.strip .hl{color:#8fc3f2;font-weight:650}
+.win{border:1px solid #c3ccd6;border-radius:8px;overflow:hidden;box-shadow:0 3px 10px rgba(20,32,43,.10);display:flex;flex-direction:column;height:104mm}
+.wtitle{height:24px;background:#eef1f4;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 9px;gap:6px;font-size:10.4px;color:var(--muted)}
+.wtitle .c{width:8px;height:8px;border-radius:50%;background:#cfd6de}
+.wtool{display:flex;align-items:center;gap:7px;padding:5px 8px;border-bottom:1px solid var(--line);font-size:10.2px}
+.pill{border:1px solid var(--line);border-radius:12px;padding:2px 8px;background:#fff;white-space:nowrap}
+.pill.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:650}
+.pill.rec{border-color:#e7b3ae;background:#fdf0ef;color:var(--red);font-weight:650}
+.wbody{flex:1;display:grid;grid-template-columns:40mm 1fr 50mm;min-height:0}
+.queue{border-right:1px solid var(--line);background:var(--panel);padding:6px 6px;font-size:10.2px}
+.queue h4,.side h4{font-size:9.4px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:2px 2px 5px}
+.qi{border-radius:5px;padding:5px 6px;margin-bottom:4px;background:#fff;border:1px solid var(--line);line-height:1.3}
+.qi.sel{border-color:var(--blue);box-shadow:inset 3px 0 0 var(--blue)}
+.qi small{display:block;color:var(--muted);font-size:9.2px}
+.qi.done{opacity:.55}
+.editor{padding:9px 12px;font-family:Arial,sans-serif;font-size:10.8px;line-height:1.45;position:relative}
+.editor p{margin-bottom:5px}
+.editor .gap{background:#fff3cd;border:1px dashed #d8a93a;border-radius:3px;padding:0 3px;font-size:10px}
+.said{position:absolute;left:10px;right:10px;bottom:8px;border-top:1px dashed var(--line);padding-top:5px;font-family:Inter,sans-serif;font-size:9.8px;color:var(--muted)}
+.said b{color:var(--ink)}
+.side{border-left:1px solid var(--line);padding:6px 7px;font-size:10px;display:flex;flex-direction:column;gap:6px}
+.box{border:1px solid var(--line);border-radius:6px;padding:5px 6px;background:#fff}
+.chip{display:inline-block;border-radius:10px;padding:1px 6px;margin:0 3px 3px 0;font-size:9.6px;background:var(--green-soft);color:var(--green);font-weight:600}
+.chip.gray{background:#eef1f4;color:var(--muted);font-weight:500}
+.ia{border-color:#e9c894;background:var(--amber-soft)}
+.ia .inp{background:#fff;border:1px solid #e3cfae;border-radius:4px;padding:3px 5px;margin:3px 0 4px;font-size:10px}
+.ia .btn{background:var(--amber);color:#fff;border-radius:4px;padding:3px 6px;text-align:center;font-weight:650;font-size:9.8px}
+table{width:100%;border-collapse:collapse;font-size:10.4px}
+td{padding:1.25mm 0;border-bottom:1px solid #edf0f3;vertical-align:top;line-height:1.3}
+td:first-child{width:37mm;padding-right:2mm;white-space:nowrap}
+kbd{font-family:"DejaVu Sans Mono",monospace;font-size:9.4px;background:var(--panel);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 4px;white-space:nowrap}
+.cfg{font-size:10.2px;line-height:1.35}
+.cfg .row{display:flex;justify-content:space-between;align-items:center;padding:.8mm 0;border-bottom:1px solid #edf0f3}
+.cfg .row:last-child{border-bottom:0}
+.sel2{border:1px solid var(--line);border-radius:4px;padding:1px 6px;background:#fff;font-size:9.8px}
+.cfg .sec{font-size:9.2px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-top:1.5mm}
+.chk{color:var(--green);font-weight:700}
+ol.steps{list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding-left:20px;margin-bottom:1.6mm;font-size:10.4px;line-height:1.38}
+ol.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--blue);color:#fff;font-size:9px;font-weight:700;text-align:center;line-height:14px}
+.hsteps{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm}
+.hsteps div{border:1px solid var(--line);border-radius:6px;padding:2.2mm 2.6mm 2.2mm 2.6mm;font-size:10px;line-height:1.35;color:var(--muted);position:relative}
+.hsteps b{display:block;color:var(--ink);font-size:10.6px;margin-bottom:.8mm;padding-left:18px}
+.hsteps i{position:absolute;left:2.6mm;top:2.2mm;width:14px;height:14px;border-radius:50%;background:var(--blue);color:#fff;font-style:normal;font-size:9px;font-weight:700;text-align:center;line-height:14px}
+.win{position:relative}
+.win.dark{background:#10161d;border-color:#2a3441;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.dark .wtitle{background:#0c1117;border-color:#222c37;color:#8d9bab}
+.dark .wtitle .c{background:#2c3743}
+.dark .wtool{border-color:#222c37;background:#131a22;color:#dfe6ee}
+.dark .pill{background:#1a232d;border-color:#2c3845;color:#d5dde6}
+.dark .pill.on{background:#3b78b5;border-color:#3b78b5;color:#fff}
+.dark .pill.rec{background:#3a1d1d;border-color:#6b2e2b;color:#f19a92}
+.dark .pill.iabtn{border-color:#c98a2e;color:#f3c77e;background:#2d2314}
+.dark .queue{background:#131a22;border-color:#222c37}
+.dark .qi{background:#18212b;border-color:#28333f;color:#dbe3eb}
+.dark .qi.sel{border-color:#5d9bd6;box-shadow:inset 3px 0 0 #5d9bd6}
+.dark .qi small{color:#8594a4}
+.dark .queue p{color:#6f7e8e!important}
+.dark .editor{background:#10161d;color:#e4eaf0}
+.dark .editor .gap{background:#3a3014;border-color:#a4822e;color:#f0d68a}
+.dark .said{border-color:#2a3441;color:#8d9bab}
+.dark .said b{color:#e4eaf0}
+.dark .side{border-color:#222c37;background:#131a22;position:relative;padding-top:268px}
+.dark .box{background:#18212b;border-color:#28333f;color:#cfd8e1}
+.dark .box div{color:#8594a4!important}
+.dark .queue h4,.dark .side h4{color:#8594a4}
+.dark .chip{background:#173326;color:#86d3a9}
+.dark .chip.gray{background:#232d38;color:#a8b5c2}
+.pop{position:absolute;top:4px;left:5px;right:5px;background:#1d2833;border:1px solid #c98a2e;border-radius:7px;box-shadow:0 8px 20px rgba(0,0,0,.5);padding:4px 5px 5px;font-size:10px;color:#e4eaf0;z-index:5}
+.pop:before{content:"";position:absolute;top:-6px;right:34px;width:10px;height:10px;background:#1d2833;border-left:1px solid #c98a2e;border-top:1px solid #c98a2e;transform:rotate(45deg)}
+.pop .grp{font-size:8.6px;text-transform:uppercase;letter-spacing:.5px;color:#8f9eae;margin:4px 4px 1px}
+.pop .it{display:flex;justify-content:space-between;gap:6px;padding:2px 6px;border-radius:4px;line-height:1.35}
+.pop .it .d{color:#8594a4;font-size:9px}
+.pop .it.on{background:#2b4966;color:#fff;font-weight:650}
+.pop .rv{margin-top:4px;background:#c98a2e;color:#1a1206;border-radius:4px;text-align:center;font-weight:700;font-size:9.6px;padding:3px}
+.ia-t{font-size:10px}
+.ia-t th{text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);font-weight:650;padding:0 2.5mm 1mm 0;border-bottom:1px solid var(--line)}
+.ia-t td{padding:1mm 1.5mm 1mm 0;width:auto!important;white-space:normal}
+.ia-t td:first-child{font-weight:650}
+.ia-t .tag{white-space:nowrap;font-size:9px}
+.pop .gasto{margin:5px 2px 0;border-top:1px solid #33404d;padding-top:4px}
+.pop .gl{display:flex;justify-content:space-between;font-size:9.4px;padding:1px 4px;color:#cfd8e1}
+.pop .gl span:last-child{color:#f3c77e;font-weight:600}
+.pop .gbar{height:5px;border-radius:3px;background:#2a3542;margin:3px 4px 1px;overflow:hidden}
+.pop .gbar i{display:block;height:100%;background:#86d3a9}
+</style>
+</head>
+<body>
+
+<!-- ============================ PÁGINA 1 ============================ -->
+<section class="page p1">
+  <header>
+    <div>
+      <h1>ROTRIX <span style="color:#24527f">L-1000</span> <small>PROTÓTIPO</small></h1>
+      <div class="sub">O Roteador de Laudos num programa só: ditado local + roteador + formatador + fila do Radius. Flutua sobre qualquer caixa de texto; a IA só entra quando você pede.</div>
+    </div>
+    <div class="pg">Bruno · set/2026<br>1 / 2 · Como funciona</div>
+  </header>
+
+  <div class="grid">
+    <div class="flow">
+      <h2>Fluxo do ditado ao laudo</h2>
+      <svg viewBox="0 0 780 530" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif">
+        <defs>
+          <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#24527f"/></marker>
+          <marker id="am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a8661a"/></marker>
+          <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7b8794"/></marker>
+        </defs>
+
+        <!-- faixa local -->
+        <rect x="0" y="104" width="780" height="262" rx="10" fill="#f1f8f4" stroke="#cfe6da"/>
+        <text x="12" y="122" font-size="10.5" font-weight="700" fill="#2c7a57" letter-spacing=".6">NO SEU COMPUTADOR · SEM INTERNET · O LAUDO SAI SÓ COM O BANCO LOCAL</text>
+        <rect x="596" y="111" width="152" height="18" rx="9" fill="#fff" stroke="#cfe6da"/>
+        <text x="672" y="124" font-size="10" font-weight="650" fill="#2c7a57" text-anchor="middle">③ a ⑥ em menos de 1 s</text>
+
+        <!-- Radius + perfil -->
+        <rect x="0" y="6" width="236" height="74" rx="9" fill="#fff" stroke="#b9c6d3"/>
+        <text x="14" y="30" font-size="13" font-weight="700" fill="#16202b">Fila do Radius</text>
+        <text x="14" y="49" font-size="10.8" fill="#5d6b7b">exame aberto na fila:</text>
+        <rect x="14" y="56" width="120" height="17" rx="8.5" fill="#e8f0f8"/>
+        <text x="74" y="68.5" font-size="10.4" font-weight="650" fill="#24527f" text-anchor="middle">TC · TÓRAX</text>
+        <text x="142" y="68.5" font-size="9.6" fill="#7b8794">(nome fica local)</text>
+
+        <line x1="236" y1="43" x2="284" y2="43" stroke="#24527f" stroke-width="1.6" marker-end="url(#a)"/>
+        <rect x="288" y="18" width="220" height="50" rx="25" fill="#24527f"/>
+        <text x="398" y="39" font-size="12.5" font-weight="700" fill="#fff" text-anchor="middle">Perfil automático</text>
+        <text x="398" y="55" font-size="10.2" fill="#d8e6f3" text-anchor="middle">modalidade e região já escolhidas</text>
+        <text x="530" y="66" font-size="10.4" fill="#5d6b7b">você não clica em região:</text>
+        <text x="530" y="81" font-size="10.4" fill="#5d6b7b">o roteador já sabe o exame</text>
+        <path d="M508 43 L768 43 L768 300 L752 300" fill="none" stroke="#24527f" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#a)"/>
+
+        <!-- linha 1 -->
+        <g>
+          <rect x="12" y="140" width="220" height="92" rx="9" fill="#fff" stroke="#b9c6d3"/>
+          <circle cx="34" cy="163" r="11" fill="#24527f"/><text x="34" y="167" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+          <text x="52" y="167" font-size="12.6" font-weight="700">Dite (teclado ou mouse)</text>
+          <text x="24" y="190" font-size="10.4" fill="#5d6b7b"><tspan font-weight="700" fill="#16202b">segure</tspan> o atalho: um trecho, ou</text>
+          <text x="24" y="205" font-size="10.4" fill="#5d6b7b"><tspan font-weight="700" fill="#16202b">toque</tspan>: escuta contínua enquanto</text>
+          <text x="24" y="220" font-size="10.4" fill="#5d6b7b">você olha as imagens no RadiAnt</text>
+        </g>
+        <line x1="232" y1="186" x2="266" y2="186" stroke="#24527f" stroke-width="1.6" marker-end="url(#a)"/>
+        <g>
+          <rect x="270" y="140" width="220" height="92" rx="9" fill="#fff" stroke="#b9c6d3"/>
+          <circle cx="292" cy="163" r="11" fill="#24527f"/><text x="292" y="167" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+          <text x="310" y="167" font-size="12.6" font-weight="700">Voz vira texto</text>
+          <text x="282" y="190" font-size="10.6" fill="#5d6b7b">modelo local (Whisper ou Parakeet),</text>
+          <text x="282" y="205" font-size="10.6" fill="#5d6b7b">vocabulário de radiologia</text>
+          <text x="282" y="220" font-size="10.6" fill="#5d6b7b">carregado na memória</text>
+        </g>
+        <line x1="490" y1="186" x2="524" y2="186" stroke="#24527f" stroke-width="1.6" marker-end="url(#a)"/>
+        <g>
+          <rect x="528" y="140" width="220" height="92" rx="9" fill="#fff" stroke="#b9c6d3"/>
+          <circle cx="550" cy="163" r="11" fill="#24527f"/><text x="550" y="167" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+          <text x="568" y="167" font-size="12.6" font-weight="700">Dicionário de ouvido</text>
+          <text x="540" y="190" font-size="10.6" fill="#5d6b7b">conserta o que a voz erra sempre:</text>
+          <text x="540" y="207" font-size="10.4" class="mono" font-family="DejaVu Sans Mono,monospace" fill="#16202b">calcanho → calcâneo</text>
+          <text x="540" y="222" font-size="10.4" font-family="DejaVu Sans Mono,monospace" fill="#16202b">na horta → na aorta</text>
+        </g>
+        <path d="M638 232 L638 258" stroke="#24527f" stroke-width="1.6" marker-end="url(#a)"/>
+
+        <!-- linha 2 (volta) -->
+        <g>
+          <rect x="528" y="262" width="220" height="92" rx="9" fill="#fff" stroke="#24527f" stroke-width="1.6"/>
+          <circle cx="550" cy="285" r="11" fill="#24527f"/><text x="550" y="289" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">4</text>
+          <text x="568" y="289" font-size="12.6" font-weight="700">Roteador</text>
+          <text x="540" y="312" font-size="10.6" fill="#5d6b7b">máscara do exame + blocos dos</text>
+          <text x="540" y="327" font-size="10.6" fill="#5d6b7b">achados + lacunas preenchidas</text>
+          <text x="540" y="342" font-size="10.6" fill="#5d6b7b">(banco com 24 mil gatilhos)</text>
+        </g>
+        <line x1="528" y1="308" x2="494" y2="308" stroke="#24527f" stroke-width="1.6" marker-end="url(#a)"/>
+        <g>
+          <rect x="270" y="262" width="220" height="92" rx="9" fill="#fff" stroke="#b9c6d3"/>
+          <circle cx="292" cy="285" r="11" fill="#24527f"/><text x="292" y="289" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">5</text>
+          <text x="310" y="289" font-size="12.6" font-weight="700">Formatador</text>
+          <text x="282" y="312" font-size="10.6" fill="#5d6b7b">título, TÉCNICA / ANÁLISE /</text>
+          <text x="282" y="327" font-size="10.6" fill="#5d6b7b">CONCLUSÃO em negrito, rótulos e</text>
+          <text x="282" y="342" font-size="10.6" fill="#5d6b7b">espaçamento que o editor aceita</text>
+        </g>
+        <line x1="270" y1="308" x2="236" y2="308" stroke="#24527f" stroke-width="1.6" marker-end="url(#a)"/>
+        <g>
+          <rect x="12" y="262" width="220" height="92" rx="9" fill="#fff" stroke="#b9c6d3"/>
+          <circle cx="34" cy="285" r="11" fill="#24527f"/><text x="34" y="289" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">6</text>
+          <text x="52" y="289" font-size="12.6" font-weight="700">Cola em qualquer campo</text>
+          <text x="24" y="312" font-size="10.6" fill="#5d6b7b">Leorad, Mobile Teleradiologia ou</text>
+          <text x="24" y="327" font-size="10.6" fill="#5d6b7b">outra caixa de texto, formatado.</text>
+          <text x="24" y="342" font-size="10.6" fill="#5d6b7b">Ctrl+Z desfaz a colagem.</text>
+        </g>
+
+        <!-- ramo IA -->
+        <path d="M122 354 L122 404" stroke="#a8661a" stroke-width="1.6" marker-end="url(#am)"/>
+        <text x="130" y="384" font-size="10.2" fill="#a8661a" font-weight="650">laudo pronto na tela + Ctrl+Alt+A</text>
+        <path d="M380 404 L380 358" fill="none" stroke="#a8661a" stroke-width="1.6" marker-end="url(#am)"/>
+        <text x="388" y="384" font-size="10.2" fill="#a8661a" font-weight="650">volta formatado e cola por cima</text>
+
+        <rect x="0" y="408" width="780" height="118" rx="10" fill="#fcf1e0" stroke="#e9c894"/>
+        <circle cx="24" cy="432" r="11" fill="#a8661a"/><text x="24" y="436" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">7</text>
+        <text x="42" y="437" font-size="13" font-weight="700" fill="#16202b">IA só quando você pede</text>
+        <text x="206" y="437" font-size="10.6" fill="#5d6b7b">Ctrl+Alt+A, ou fale “revisar laudo”, “conclusão direta”, “descreva melhor o AVC”</text>
+
+        <rect x="14" y="449" width="370" height="68" rx="6" fill="#fff" stroke="#e3cfae"/>
+        <text x="24" y="465" font-size="9.8" font-family="DejaVu Sans Mono,monospace" fill="#5d6b7b">o app monta o pedido sozinho:</text>
+        <text x="24" y="481" font-size="10" font-family="DejaVu Sans Mono,monospace" fill="#16202b">MODALIDADE: TC · REGIÃO: TÓRAX</text>
+        <text x="24" y="495" font-size="10" font-family="DejaVu Sans Mono,monospace" fill="#16202b">TAREFA: revisar · LAUDO: (texto da tela)</text>
+        <text x="24" y="509" font-size="10" font-family="DejaVu Sans Mono,monospace" fill="#16202b">INSTRUÇÃO: conclusão direta</text>
+
+        <text x="402" y="465" font-size="10.6" font-weight="700" fill="#16202b">Um botão: provedor → modelo (chave própria)</text>
+        <text x="402" y="482" font-size="10.2" fill="#16202b">Anthropic (Haiku · Sonnet · Opus) · OpenAI (Luna · Terra · Sol) · Ollama</text>
+        <text x="402" y="500" font-size="10.4" fill="#5d6b7b">Ou automático: o modelo muda conforme o exame (tabela ao lado).</text>
+        <text x="402" y="515" font-size="10.4" fill="#5d6b7b">Contador ao lado do botão: tokens e gasto do laudo, do dia e do mês.</text>
+      </svg>
+
+      <div class="rules">
+        <div class="rule"><b>Teclado ou mouse</b>cada atalho pode virar um botão do mouse (macro)</div>
+        <div class="rule"><b>Região automática</b>vem do exame aberto na fila, sem menu</div>
+        <div class="rule"><b>Flutuante</b>o laudo cai no campo onde está o cursor, em qualquer site</div>
+        <div class="rule"><b>Escuta contínua</b>dite olhando a imagem; “formar laudo” monta tudo</div>
+        <div class="rule"><b>IA sob demanda</b>o banco local faz o laudo; sem chave, tudo funciona</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h2>IA certa para cada exame</h2>
+        <table class="ia-t">
+          <tr><th>Exame</th><th>Anthropic</th><th>OpenAI</th><th>Modo</th></tr>
+          <tr><td>RX</td><td>Haiku</td><td>Luna</td><td><span class="tag t-green">só formatar</span></td></tr>
+          <tr><td>TC de rotina</td><td colspan="2" class="muted">você escolhe</td><td><span class="tag t-green">só formatar</span></td></tr>
+          <tr><td>RM</td><td>Sonnet</td><td>Sol</td><td><span class="tag t-amber">analisar</span></td></tr>
+          <tr><td>TC onco · RECIST</td><td>Sonnet</td><td>Sol</td><td><span class="tag t-amber">analisar</span></td></tr>
+        </table>
+        <p style="margin-top:1.6mm"><b>Só formatar:</b> põe as frases na ordem da máscara, separa as seções e padroniza. Não descreve, não conclui, não acrescenta achado. Palavra que não estava no ditado nem na máscara fica marcada.</p>
+        <p style="margin-top:1mm"><b>Analisar:</b> reescreve, integra comparação e RECIST. O modelo troca sozinho pelo exame aberto.</p>
+      </div>
+
+      <div class="card">
+        <h2>Seu volume · 6 a 21/set</h2>
+        <p><b>594 estudos</b> passaram pela fila do Radius.</p>
+        <div class="bar">
+          <span style="width:76.9%;background:#24527f"></span>
+          <span style="width:21.9%;background:#6f9cc8"></span>
+          <span style="width:1.2%;background:#c9d6e3"></span>
+        </div>
+        <div class="legend"><span><i style="background:#24527f"></i>TC 77%</span><span><i style="background:#6f9cc8"></i>RX 22%</span><span><i style="background:#c9d6e3"></i>RM e outros 1%</span></div>
+        
+      </div>
+
+      <div class="card">
+        <h2>Dá para fazer um app “container”?</h2>
+        <div class="yes">Sim, como um único programa instalável.</div>
+        <ul>
+          <li><b>Base:</b> o Handy é código aberto (licença MIT, feito em Tauri + Rust + React). Pode ser copiado e modificado, mas com <b>nome e logo próprios</b>: a marca Handy não é aberta.</li>
+          <li><b>Dentro dele:</b> voz, roteador, máscaras, formatador, fila do Radius e IA. O roteador entra como está e depois pode ser reescrito em Rust.</li>
+          <li><b>Docker não serve para o posto de laudo</b> (microfone, atalhos globais, colar em outro programa). Se virar produto, entra só no servidor: contas, licenças, banco compartilhado.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <footer><span>Privacidade: nome do paciente nunca sai do computador · chave de IA guardada no cofre do Windows · nuvem desligada até o usuário ativar</span><span>Rotrix L-1000 · nome do protótipo</span></footer>
+</section>
+
+<!-- ============================ PÁGINA 2 ============================ -->
+<section class="page p2">
+  <header>
+    <div>
+      <h1>Como fica a tela <small>PROTÓTIPO</small></h1>
+      <div class="sub">Mesma lógica em dois modos: barra flutuante sobre qualquer programa ou site, ou a estação completa. Tela mostrada no modo escuro (claro / escuro / sistema).</div>
+    </div>
+    <div class="pg">Bruno · set/2026<br>2 / 2 · Interface e atalhos</div>
+  </header>
+
+  <div class="grid">
+    <div style="display:flex;flex-direction:column;min-height:0">
+      <div class="lbl">A · Modo flutuante, em escuta contínua <span class="tag t-blue">fica por cima do Leorad, da Mobile Teleradiologia, do RadiAnt…</span></div>
+      <div class="strip">
+        <div><span class="dot"></span><b>Escutando 02:14</b></div>
+        <div><span class="hl">TC · TÓRAX</span></div>
+        <div style="color:#aebccb;font-style:italic">“…nódulo sólido no lobo superior”</div>
+        <div>fale <b>“formar laudo”</b></div>
+        <div>IA: auto ▾ <span class="k" style="color:#f3c77e">hoje US$ 0,31</span></div>
+        <div>⚙</div>
+      </div>
+
+      <div class="lbl" style="margin-top:4.5mm">B · Modo estação <span class="tag t-blue">fila · laudo · ferramentas, numa janela só</span> <span class="tag" style="background:#1c2631;color:#cfe0f0">modo escuro</span></div>
+      <div class="win dark">
+        <div class="wtitle"><span class="c"></span><span class="c"></span><span class="c"></span><span style="margin-left:6px">Rotrix L-1000</span></div>
+        <div class="wtool">
+          <span class="pill rec">● Ctrl+Espaço</span>
+          <span class="pill on">TC · TÓRAX</span>
+          <span class="pill">perfil auto</span>
+          <span class="pill">fila 3/12</span>
+          <span style="flex:1"></span>
+          <span class="pill">◐ escuro</span>
+          <span class="pill iabtn">IA: automática · Haiku ▾ · <b>US$ 0,31</b></span>
+          <span class="pill">⚙</span>
+        </div>
+        <div class="wbody">
+          <div class="queue">
+            <h4>Fila (Radius)</h4>
+            <div class="qi done">TC Crânio<small>laudado ✓</small></div>
+            <div class="qi done">RX Tornozelo E<small>laudado ✓</small></div>
+            <div class="qi sel"><b>TC Tórax</b><small>pronto · aberto</small></div>
+            <div class="qi">TC Abdome total<small>pronto</small></div>
+            <div class="qi">TC Coluna lombar<small>baixando…</small></div>
+            <div class="qi">RX Tórax PA/perfil<small>pronto</small></div>
+            <p style="font-size:9px;color:#7b8794;margin-top:5px;line-height:1.3">Nome do paciente oculto nesta tela e nunca enviado à IA.</p>
+          </div>
+          <div class="editor">
+            <p><b>TOMOGRAFIA COMPUTADORIZADA DO TÓRAX</b></p>
+            <p><b>TÉCNICA:</b>&nbsp; aquisição volumétrica, sem contraste endovenoso.</p>
+            <p><b>ANÁLISE:</b></p>
+            <p>Enfisema pulmonar centrolobular nos lobos superiores.</p>
+            <p>Nódulo sólido no lobo superior direito, medindo <span class="gap">[medida]</span> cm.</p>
+            <p>Traqueia e brônquios principais pérvios.</p>
+            <p>Ausência de derrame pleural.</p>
+            <p>Mediastino e hilos sem linfonodomegalias.</p>
+            <p><b>CONCLUSÃO:</b></p>
+            <p>Enfisema pulmonar centrolobular.<br>Nódulo pulmonar sólido no lobo superior direito.</p>
+            <div class="said">você disse: <b>“tc de tórax com enfisema centrolobular nos lobos superiores, nódulo sólido no lobo superior direito”</b></div>
+          </div>
+          <div class="side">
+            <div class="pop">
+              <div class="it on"><span>Automático pelo exame</span><span>✓</span></div>
+              <div class="grp">Anthropic</div>
+              <div class="it"><span>Haiku</span><span class="d">rápido · só formatar</span></div>
+              <div class="it"><span>Sonnet</span><span class="d">RM · oncológica</span></div>
+              <div class="it"><span>Opus</span><span class="d">mais caro</span></div>
+              <div class="grp">OpenAI</div>
+              <div class="it"><span>Luna</span><span class="d">rápido · só formatar</span></div>
+              <div class="it"><span>Terra</span><span class="d">equilíbrio</span></div>
+              <div class="it"><span>Sol</span><span class="d">análise</span></div>
+              <div class="it"><span>Gemini, OpenRouter, Ollama</span></div>
+              <div class="it"><span>Nenhuma</span><span class="d">só o banco</span></div>
+              <div class="gasto">
+                <div class="grp" style="margin:0 0 2px">Tokens e gasto</div>
+                <div class="gl"><span>laudo</span><span>3,1 mil tok · US$ 0,02</span></div>
+                <div class="gl"><span>hoje (14)</span><span>52 mil tok · US$ 0,31</span></div>
+                <div class="gl"><span>mês</span><span>US$ 4,20 de 25</span></div>
+                <div class="gbar"><i style="width:17%"></i></div>
+              </div>
+              <div class="rv">Revisar agora · Ctrl+Alt+A</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lbl" style="margin-top:4mm">C · Caminho em 4 etapas</div>
+      <div class="hsteps">
+        <div><i>1</i><b>Cópia própria do Handy</b>nome e ícone novos, aviso da licença MIT mantido</div>
+        <div><i>2</i><b>Roteador e formatador dentro</b>a janela preta do PowerShell some</div>
+        <div><i>3</i><b>Fila do Radius na lateral</b>lê só modalidade e descrição para escolher a máscara</div>
+        <div><i>4</i><b>IA com chave própria</b>instalador único e atualização automática</div>
+      </div>
+
+    </div>
+
+    <div>
+      <div class="card">
+        <h2>Atalhos · teclado ou botão do mouse</h2>
+        <table>
+          <tr><td><kbd>Ctrl+Espaço</kbd> segurar</td><td>dita um trecho e cola</td></tr>
+          <tr><td><kbd>Ctrl+Alt+Espaço</kbd> tocar</td><td>liga / desliga a escuta</td></tr>
+          <tr><td>fale “formar laudo”</td><td>monta com o banco e cola</td></tr>
+          <tr><td><kbd>Ctrl+Shift+Espaço</kbd></td><td>ditado livre, sem máscara</td></tr>
+          <tr><td><kbd>Ctrl+Alt+A</kbd></td><td>IA revisa (fale a instrução)</td></tr>
+          <tr><td><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd></td><td>próxima / anterior lacuna</td></tr>
+          <tr><td><kbd>Ctrl+Alt+N</kbd></td><td>próximo exame da fila</td></tr>
+          <tr><td><kbd>Ctrl+Z</kbd></td><td>desfaz a colagem</td></tr>
+        </table>
+        <p class="muted" style="margin-top:1.4mm;font-size:9.8px">Todos configuráveis e podem ir para botões do mouse.</p>
+      </div>
+
+      <div class="card cfg">
+        <h2>Configuração · uma tela</h2>
+        <div class="row"><span>Tema</span><span class="sel2">escuro ▾</span></div>
+        <div class="row"><span>Voz</span><span><span class="sel2">Whisper medium ▾</span> <span class="sel2">pt-BR ▾</span></span></div>
+        <div class="row"><span>Escuta</span><span><span class="sel2">segurar</span> <span class="sel2">contínua</span></span></div>
+        <div class="row"><span>IA</span><span><span class="sel2">automática pelo exame ▾</span></span></div>
+        <div class="row"><span>Chave</span><span class="sel2">•••• colar ▸ cofre do Windows</span></div>
+        <div class="row"><span>IA · quando</span><span class="sel2">só quando eu pedir ▾</span></div>
+        <div class="row"><span>Limite e moeda</span><span><span class="sel2">US$ 25 / mês</span> <span class="sel2">US$ ≈ R$ ▾</span></span></div>
+      </div>
+
+      <div class="card">
+        <h2>Escuta contínua em 3 passos</h2>
+        <ol class="steps">
+          <li>Toque o atalho ou o botão do mouse: começa a escutar.</li>
+          <li>Dite olhando as imagens no RadiAnt; a barra mostra o que ouviu.</li>
+          <li>No campo do laudo, fale “formar laudo”: o banco monta e cola.</li>
+        </ol>
+      </div>
+</div>
+    </div>
+  </div>
+  <footer><span>Tudo local por padrão · a IA só entra quando você pede e usa a conta de cada usuário · as máscaras e regras do usuário são mantidas a cada atualização</span><span>Rotrix L-1000 · nome do protótipo</span></footer>
+</section>
+</body>
+</html>

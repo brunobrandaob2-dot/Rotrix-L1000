@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Campos pulmonares
+# gatilhos: atelectasia laminar | atelectasia | estrias atelectasicas | estria atelectasica
+Opacidade linear {localizacao|na base direita/na base esquerda/nas bases}, compatível com atelectasia laminar.

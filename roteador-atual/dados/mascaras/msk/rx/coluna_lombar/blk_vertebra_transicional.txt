@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Elementos posteriores
+# gatilhos: vertebra transicional | sacralizacao | lombarizacao | megapofise transversa
+Vértebra transicional lombossacra, com megapófise transversa {lado_f|direita/esquerda} {tipo_contato|articulada com a asa sacral/fundida à asa sacral} (Castellvi {castellvi|IA/IB/IIA/IIB/IIIA/IIIB/IV}).

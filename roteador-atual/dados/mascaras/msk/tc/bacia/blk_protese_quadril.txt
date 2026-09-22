@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações coxofemorais
+# gatilhos: protese de quadril | artroplastia de quadril | artroplastia do quadril | protese do quadril
+# conclusao: Artroplastia {tipo_protese|total/parcial} do quadril {lado_prot|direito/esquerdo}, sem sinais tomográficos de soltura ou complicação.
+Articulações coxofemorais:  artroplastia {tipo_protese|total/parcial} do quadril {lado_prot|direito/esquerdo}, com componentes em posição habitual, sem halo de radiolucência periprotético, osteólise ou fratura periprotética. Articulação coxofemoral contralateral com espaço articular preservado.

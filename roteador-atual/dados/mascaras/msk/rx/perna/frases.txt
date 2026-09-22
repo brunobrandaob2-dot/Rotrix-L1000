@@ -1,0 +1,29 @@
+# tipo: frases
+## gatilhos: rx de perna sem fratura | perna sem fratura no rx
+Não há sinais de fraturas na tíbia ou na fíbula.
+## gatilhos: ressalva fratura por estresse na perna | fratura por estresse na tibia rx normal
+A radiografia inicial pode ser normal na fratura por estresse; considerar ressonância magnética ou controle em 10 a 14 dias.
+## gatilhos: joelho e tornozelo nao incluidos na perna
+Joelho e tornozelo não incluídos integralmente no estudo.
+## gatilhos: linha negra na tibia | dreaded black line na tibia
+Linha radiotransparente na cortical anterior do terço médio da tíbia (dreaded black line), compatível com fratura por estresse de alto risco.
+## gatilhos: fratura consolidada na perna
+Fratura consolidada da {osso_perna|tíbia/fíbula}, com alinhamento preservado.
+## gatilhos: calo osseo em formacao na tibia
+Calo ósseo em formação no foco de fratura da tíbia.
+## gatilhos: imobilizacao gessada na perna | gesso na perna
+Imobilização gessada, que reduz a definição dos detalhes ósseos.
+## gatilhos: arqueamento da tibia | tibia arqueada na perna
+Arqueamento {arqueamento|anterior/lateral/medial} da diáfise tibial.
+## gatilhos: calcificacoes vasculares no rx da perna
+Calcificações vasculares na perna.
+## gatilhos: gas nas partes moles da perna no rx
+Gás nas partes moles da perna.
+## gatilhos: aumento de partes moles na perna
+Aumento de partes moles da perna.
+## gatilhos: fratura da fibula proximal no rx da perna
+Fratura do terço proximal da fíbula; avaliar o tornozelo para excluir lesão de Maisonneuve.
+## gatilhos: lesao ossea no rx da tibia
+Lesão {padrao|lítica/esclerótica/mista} na tíbia, medindo {tamanho}, indeterminada; considerar ressonância magnética.
+## gatilhos: espessamento cortical da tibia no rx
+Espessamento cortical fusiforme da diáfise tibial.

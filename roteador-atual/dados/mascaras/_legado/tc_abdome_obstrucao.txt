@@ -1,0 +1,19 @@
+# gatilhos: abdome com obstrucao intestinal | obstrucao de delgado | suboclusao intestinal | obstrucao intestinal
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Trato gastrointestinal: distensão de alças de delgado, com calibre máximo de {tamanho}, e níveis hidroaéreos, com zona de transição identificada em ___, a partir da qual as alças apresentam calibre reduzido. Paredes das alças com espessura e realce preservados, sem pneumatose, gás portal ou sinais de sofrimento isquêmico. Cólon de calibre reduzido a jusante.
+Peritônio: líquido livre interalças de pequeno volume.
+Não se identifica hérnia de parede, massa ou processo inflamatório que justifique a obstrução.
+Demais órgãos abdominais sem alterações significativas.
+Vasos mesentéricos pérvios, com realce preservado.
+
+CONCLUSÃO:
+1. **Obstrução intestinal de delgado**, com zona de transição em ___, de provável etiologia aderencial, considerando a ausência de outra causa identificável.
+2. Ausência de sinais de sofrimento de alça no presente estudo.
+
+Achado comunicado ao(à) Dr(a). ___ em ___/___/____ às ___h___.

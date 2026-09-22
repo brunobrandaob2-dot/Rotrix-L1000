@@ -1,0 +1,16 @@
+# gatilhos: raio x de punho | rx de punho | radiografia de punho e mao | rx punho apos trauma | raio x de punho ap e perfil | rx punho
+RADIOGRAFIA DO PUNHO {lado|direito/esquerdo}
+
+TÉCNICA: incidências ântero-posterior, perfil e oblíqua, complementadas por incidência específica para o escafoide.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Estruturas ósseas: rádio distal com cortical íntegra, sem traço de fratura, degrau articular ou impacção evidentes ao método, mantendo inclinação radial e inclinação volar dentro dos parâmetros habituais. Ulna distal e processo estiloide preservados, com variância ulnar ___ (neutra / positiva / negativa). Escafoide e demais ossos do carpo com contornos corticais preservados, sem traços de fratura evidentes nas incidências realizadas.
+Alinhamento carpal: arcos de Gilula contínuos e regulares, com espaços intercarpais preservados, sem sinais de dissociação escafossemilunar ou de luxação perilunar. Alinhamento radiossemilunar e semilunocapitato preservado no perfil.
+Espaços articulares: radiocarpal, mediocarpal e primeira carpometacarpal de amplitude preservada, sem esclerose subcondral ou osteófitos significativos.
+Partes moles: ___ (sem alterações significativas / aumento de volume das partes moles adjacentes). Coxim adiposo do escafoide preservado. Ausência de corpos estranhos radiopacos.
+
+CONCLUSÃO:
+1. Radiografia do punho sem alterações significativas; não se identificam sinais de fratura ou luxação ao método.
+2. A radiografia simples tem sensibilidade limitada para fraturas ocultas do escafoide na fase aguda; se a suspeita clínica persistir, considerar controle radiográfico em 10 a 14 dias ou tomografia / ressonância magnética.

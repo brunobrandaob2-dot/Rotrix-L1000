@@ -1,0 +1,33 @@
+# gatilhos: tomografia de abdome com histerectomia | tc de abdome com histerectomia | tc abdome histerectomia | tomografia de abdome total com histerectomia | tc de abdome total com histerectomia | tomografia do abdome com histerectomia | tomografia de abdome com pos histerectomia | tc de abdome com pos histerectomia | tc abdome pos histerectomia | tomografia de abdome com utero ausente | tc de abdome com utero ausente | tc abdome utero ausente | tomografia de abdome com status pos histerectomia | tc de abdome com status pos histerectomia | tc abdome status pos histerectomia
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  útero não caracterizado, compatível com histerectomia prévia. Cúpula vaginal de aspecto habitual. Regiões anexiais sem massas, considerando os limites do método.
+Trato gastrointestinal:  sem particularidades no protocolo utilizado.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Status pós-histerectomia.

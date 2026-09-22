@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima encefálico
+# gatilhos: sequela de avc | sequela isquemica | encefalomalacia | encefalomalacia e gliose | avc antigo
+# conclusao: Encefalomalácia com gliose no lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, compatível com sequela de insulto isquêmico prévio.
+Parênquima encefálico: área de encefalomalácia com gliose perilesional no lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, medindo {tamanho}, em território da artéria cerebral ___, sem efeito expansivo e com dilatação ex-vacuo do ventrículo lateral adjacente, compatível com sequela de insulto isquêmico prévio. Ausência de áreas de isquemia aguda ou de hemorragia no presente estudo.

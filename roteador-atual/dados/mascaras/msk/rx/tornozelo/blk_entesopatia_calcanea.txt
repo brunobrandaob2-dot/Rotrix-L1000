@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: entesopatia calcificada | entesopatia calcificada plantar | entesopatia plantar | entesopatia posterior | entesopatia no calcaneo | entesopatia calcanea | entesofito | entesofitos | esporao calcaneo | esporao plantar | esporao do calcaneo | esporao posterior | esporao | calcificacao na insercao do tendao calcaneo
+Entesopatia calcificada {local_ent|plantar/posterior/plantar e posterior} no calcâneo.
+Demais partes moles sem alterações.

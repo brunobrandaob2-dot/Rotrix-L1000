@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura do umero distal | fratura supracondiliana | fratura do epicondilo
+Fratura do úmero distal acometendo {local|a região supracondiliana/a região intercondiliana/o epicôndilo medial/o epicôndilo lateral/o capítulo}, com desvio de {tamanho}.

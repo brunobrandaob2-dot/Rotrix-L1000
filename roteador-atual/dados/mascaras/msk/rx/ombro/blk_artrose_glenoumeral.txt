@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaço articular glenoumeral
+# gatilhos: artrose glenoumeral | artrose do ombro | artrose da glenoumeral
+Artrose glenoumeral, com redução {grau|leve/moderada/acentuada} do espaço articular, osteófitos marginais e esclerose subcondral (Kellgren-Lawrence {kl|1/2/3/4}).

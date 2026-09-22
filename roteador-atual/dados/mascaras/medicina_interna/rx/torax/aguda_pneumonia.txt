@@ -1,0 +1,17 @@
+# gatilhos: raio x de torax com pneumonia | rx de torax com pneumonia | radiografia de torax com pneumonia | rx torax pneumonia | raio x de torax com consolidacao | rx de torax com consolidacao | raio x de torax com broncopneumonia
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: torax
+# tipo_mascara: aguda
+**RADIOGRAFIA DO TÓRAX**
+
+**TÉCNICA:**  incidências posteroanterior e perfil, em ortostase.
+
+**ANÁLISE:**
+Consolidação com broncogramas aéreos no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, sugestiva de processo infeccioso no contexto clínico adequado.
+Seios costofrênicos livres.
+Área cardíaca dentro dos limites da normalidade.
+Mediastino centrado, de contornos regulares.
+Hilos pulmonares de aspecto habitual.
+Cúpulas diafragmáticas de contornos regulares e posição habitual.
+Arcabouço ósseo sem alterações.

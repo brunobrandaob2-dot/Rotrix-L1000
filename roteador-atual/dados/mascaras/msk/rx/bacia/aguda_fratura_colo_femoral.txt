@@ -1,0 +1,17 @@
+# gatilhos: raio x de bacia com fratura do colo femoral | rx de bacia com fratura do colo femoral | rx bacia fratura colo femoral | radiografia de bacia com fratura do colo femoral | raio x de bacia com fratura do colo do femur
+# categoria: msk
+# modalidade: rx
+# regiao: bacia
+# tipo_mascara: aguda
+**RADIOGRAFIA DA BACIA**
+
+**TÉCNICA:**  incidência anteroposterior da bacia.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Articulações sacroilíacas preservadas.
+Sínfise púbica sem alterações.
+Espaços articulares coxofemorais preservados.
+Fratura {local_colo|subcapital/transcervical/basocervical} do colo femoral {lado|direito/esquerdo}, Garden {garden|I/II/III/IV}.
+{densidade|Densidade óssea preservada/Redução difusa da densidade óssea}.
+Partes moles sem alterações.

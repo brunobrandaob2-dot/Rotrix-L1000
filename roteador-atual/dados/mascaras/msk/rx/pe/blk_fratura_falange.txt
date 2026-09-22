@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura de falange | fratura da falange | fratura do dedo
+Fratura {traco|transversa/oblíqua/cominutiva} da falange {falange|proximal/média/distal} do {dedo|1º/2º/3º/4º/5º} dedo, com desvio de {tamanho}, {articular|sem/com} extensão articular.

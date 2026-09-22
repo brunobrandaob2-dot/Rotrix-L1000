@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna toracica com dish | tc de coluna toracica com dish | tc coluna toracica dish | tomografia de coluna toracica com hiperostose | tc de coluna toracica com hiperostose esqueletica | tc de coluna toracica com doenca de forestier | tc de coluna dorsal com dish
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_toracica
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  cifose torácica fisiológica preservada. Ausência de listeses.
+Corpos vertebrais:  ossificações fluidas ao longo da face anterolateral dos corpos vertebrais, formando pontes ósseas contínuas de {nivel} a {nivel} (quatro ou mais corpos vertebrais contíguos), sem sinais de fratura ou de lesão focal.
+Discos intervertebrais:  espaços discais de altura relativamente preservada nos segmentos acometidos.
+Articulações interapofisárias:  congruentes, sem anquilose.
+Articulações costovertebrais:  de aspecto habitual.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, lâminas e processos espinhosos e transversos íntegros.
+Partes moles paravertebrais:  sem particularidades.
+Demais estruturas:  segmentos pulmonares incluídos no campo de visão sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Hiperostose esquelética idiopática difusa (DISH) na coluna torácica, de {nivel} a {nivel}.
+A coluna anquilosada é suscetível a fraturas mesmo com trauma de baixa energia; em contexto de trauma, avaliar com atenção os traços que atravessam os segmentos fundidos.

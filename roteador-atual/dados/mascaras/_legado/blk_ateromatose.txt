@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vasos
+# gatilhos: ateromatose | ateromas calcificados | aterosclerose aortica | ateromatose aortica
+# conclusao: Ateromatose calcificada da aorta e de seus ramos.
+Vasos: aorta de calibre preservado, com ateromatose calcificada parietal difusa, estendendo-se às artérias ilíacas e aos ramos viscerais, sem estenoses hemodinamicamente significativas caracterizáveis ao método. Veia cava inferior de calibre normal.

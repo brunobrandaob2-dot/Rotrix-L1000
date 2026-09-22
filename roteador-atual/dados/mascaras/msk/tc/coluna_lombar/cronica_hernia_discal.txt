@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna lombar com hernia discal | tc de coluna lombar com hernia discal | tc coluna lombar hernia | tomografia de coluna lombar com hernia de disco | tc de coluna lombar com hernia | tc de coluna lombar com protrusao discal | tomografia de coluna lombar com protrusao discal
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_lombar
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  retificação da lordose lombar fisiológica. Ausência de listeses.
+Corpos vertebrais:  de altura e morfologia preservadas, sem sinais de fratura ou de lesão focal.
+Discos intervertebrais:  {tipo_hernia|protrusão/extrusão} discal {localizacao|posterolateral/foraminal/central/paramediana} {lado_a|à direita/à esquerda} em {nivel}, medindo {tamanho} no maior eixo, que reduz o recesso lateral e toca a raiz de {raiz}. Demais discos sem herniações focais evidentes ao método.
+Articulações interapofisárias:  de aspecto habitual, com espaços articulares preservados.
+Canal vertebral:  de amplitude preservada, com impressão discal sobre a face ventral do saco dural em {nivel}.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, istmos, lâminas e processos espinhosos e transversos íntegros.
+Transição lombossacra:  de configuração habitual.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares.
+Partes moles paravertebrais:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+{tipo_hernia|Protrusão/Extrusão} discal {localizacao|posterolateral/foraminal/central/paramediana} {lado_a|à direita/à esquerda} em {nivel}, com contato radicular.
+A tomografia tem sensibilidade limitada para o disco e as raízes; a ressonância magnética é o método de escolha para esta avaliação.

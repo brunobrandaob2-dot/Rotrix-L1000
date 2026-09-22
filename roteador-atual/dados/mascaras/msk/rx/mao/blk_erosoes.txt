@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Superfícies articulares
+# gatilhos: erosoes | erosoes osseas | erosoes marginais | artropatia inflamatoria
+Erosões ósseas marginais nas metacarpofalangianas {mcf|___}, com redução {padrao|simétrica/assimétrica} dos espaços articulares.

@@ -1,0 +1,15 @@
+# gatilhos: raio x de cotovelo | raio x do cotovelo | rx de cotovelo | rx do cotovelo | radiografia de cotovelo | radiografia do cotovelo | raio x de cotovelo normal | rx de cotovelo normal | rx do cotovelo normal | radiografia de cotovelo normal | rx cotovelo normal | raio x de cotovelo sem alteracoes | radiografia do cotovelo sem alteracoes
+# categoria: msk
+# modalidade: rx
+# regiao: cotovelo
+# tipo_mascara: normal
+**RADIOGRAFIA DO COTOVELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Espaços articulares preservados.
+Não há sinais de fraturas ou luxações.
+Coxins gordurosos em posição habitual, sem sinais de derrame articular.
+Densidade óssea preservada.
+Partes moles sem alterações.

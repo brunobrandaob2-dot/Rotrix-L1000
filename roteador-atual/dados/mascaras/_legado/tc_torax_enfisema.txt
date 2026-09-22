@@ -1,0 +1,19 @@
+# gatilhos: torax com enfisema | enfisema pulmonar | dpoc | torax enfisematoso
+TOMOGRAFIA COMPUTADORIZADA DO TÓRAX
+
+TÉCNICA: aquisição volumétrica com reconstruções multiplanares.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Parênquima pulmonar: áreas de hipoatenuação sem paredes definidas, de distribuição {lobo|centrolobular predominante nos lobos superiores/panlobular difusa}, compatíveis com enfisema, de grau ___ (leve/moderado/acentuado). Espessamento parietal brônquico difuso. Ausência de consolidações ou nódulos suspeitos.
+Traqueia e brônquios: espessamento parietal, sem estenoses focais.
+Mediastino: sem alterações evidentes.
+Aorta torácica: calibre preservado, com ateromas calcificados parietais.
+Derrames: ausência de derrame pleural ou pericárdico.
+Cúpulas diafragmáticas: retificadas.
+Estruturas ósseas: aumento do diâmetro anteroposterior do tórax. Alterações degenerativas da coluna torácica.
+
+CONCLUSÃO:
+1. Enfisema pulmonar de grau ___, com sinais de hiperinsuflação.
+2. Espessamento parietal brônquico difuso, podendo traduzir componente inflamatório crônico das vias aéreas.

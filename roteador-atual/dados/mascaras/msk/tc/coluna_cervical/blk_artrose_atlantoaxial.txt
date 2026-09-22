@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Transição craniocervical
+# gatilhos: artrose atlantoaxial | artrose atlanto odontoide | artrose c1 c2
+# conclusao: Artrose atlantoaxial.
+Transição craniocervical:  processo odontoide íntegro e centrado em relação às massas laterais de C1. Redução do espaço articular atlanto-odontoide, com esclerose subcondral, osteófitos e calcificações periodontoides, de aspecto degenerativo.

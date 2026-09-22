@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: aumento de partes moles | edema de partes moles | aumento de volume de partes moles
+Aumento de partes moles {regiao_pm|perimaleolares laterais/perimaleolares mediais/periarticulares}.

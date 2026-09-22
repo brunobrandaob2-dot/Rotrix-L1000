@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Articulações uncovertebrais
+# gatilhos: artrose interapofisaria | artrose facetaria | artrose das facetas | artrose
+Artrose interapofisária em {nivel}.

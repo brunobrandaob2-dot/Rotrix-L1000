@@ -1,0 +1,23 @@
+# tipo: frases
+## gatilhos: indice de fujioka no cavum | relacao adenoide nasofaringe | fujioka no cavum
+Relação adenoide/nasofaringe (índice de Fujioka) de ___ (referência: até 0,8).
+## gatilhos: obstrucao percentual do cavum | percentual de obstrucao da rinofaringe
+Redução da coluna aérea da rinofaringe estimada em ___% da sua amplitude.
+## gatilhos: tecido adenoideano normal para a idade no cavum | adenoide normal para idade
+Tecido adenoideano de dimensões habituais para a faixa etária.
+## gatilhos: involucao adenoideana no cavum | adenoide involuida
+Tecido adenoideano de dimensões reduzidas, compatível com involução habitual.
+## gatilhos: hipertrofia adenoideana discreta no cavum
+Discreta hipertrofia do tecido adenoideano, sem redução significativa da coluna aérea da rinofaringe.
+## gatilhos: hipertrofia adenoideana acentuada no cavum | obstrucao acentuada do cavum
+Acentuada hipertrofia do tecido adenoideano, com importante redução da coluna aérea da rinofaringe.
+## gatilhos: tonsilas palatinas aumentadas no cavum | amigdalas grandes no raio x de cavum
+Aumento das tonsilas palatinas, com redução da coluna aérea da orofaringe.
+## gatilhos: palato mole espessado no cavum
+Espessamento do palato mole.
+## gatilhos: corpo estranho no cavum | corpo estranho radiopaco na faringe
+Imagem radiopaca projetada na topografia da ___, podendo corresponder a corpo estranho. Correlacionar com a clínica.
+## gatilhos: limitacao do raio x de cavum | limite do metodo no cavum
+A radiografia simples avalia de forma indireta as vias aéreas superiores; a nasofibroscopia é o método de referência para a avaliação do tecido adenoideano.
+## gatilhos: posicionamento inadequado no cavum | rotacao no raio x de cavum
+Exame realizado com discreta rotação/flexão cervical, o que limita parcialmente a avaliação.

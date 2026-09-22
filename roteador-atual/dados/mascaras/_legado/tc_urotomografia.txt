@@ -1,0 +1,40 @@
+# gatilhos: urotomografia | uro tc | urotomografia trifasica | tc de vias urinarias | urotc | tomografia do trato urinario
+UROTOMOGRAFIA COMPUTADORIZADA (TC DE ABDOME E PELVE COM ESTUDO DO TRATO URINÁRIO)
+
+TÉCNICA: aquisição volumétrica em três fases — sem contraste, nefrográfica (aproximadamente 100 segundos) e excretora (aproximadamente 8 a 12 minutos) —, após injeção intravenosa de contraste iodado, com hidratação prévia e reconstruções multiplanares e em MIP dos sistemas coletores.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+FASE SEM CONTRASTE
+Rins: tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Cálculo no grupamento calicinal ___ {lado|direito/esquerdo}, medindo {tamanho} no maior eixo, com densidade de ___ UH. Ausência / presença de outros cálculos no rim contralateral.
+Ureteres: cálculo no ureter {lado|direito/esquerdo}, em seu terço ___, medindo {tamanho}, com densidade de ___ UH. Ureter contralateral sem cálculos.
+Bexiga: sem cálculos no seu interior.
+Ausência de coleções ou de hematomas perirrenais.
+
+FASE NEFROGRÁFICA
+Rins: realce parenquimatoso homogêneo e simétrico, sem áreas focais de hipoperfusão, nefrograma estriado ou falhas de realce. Ausência / presença de lesão renal sólida em ___, medindo {tamanho}, com realce de ___ UH em relação à fase sem contraste.
+Densificação da gordura perirrenal e periureteral {lado_a|à direita/à esquerda} / ausente.
+
+FASE EXCRETORA
+Sistemas coletores: opacificação simétrica e homogênea dos cálices, pelves e ureteres, com contornos regulares. Dilatação pielocalicinal e ureteral {lado_a|à direita/à esquerda} a montante do cálculo descrito, com espessura do parênquima preservada. Sistema contralateral sem dilatação.
+Urotélio: espessura parietal preservada dos sistemas coletores e dos ureteres, sem espessamento focal, falha de enchimento intraluminal ou realce anômalo que sugiram lesão urotelial.
+Bexiga: de paredes de espessura preservada, com opacificação homogênea, sem falhas de enchimento ou espessamento focal caracterizáveis ao método. Volume residual pós-miccional de ___ mL.
+
+DEMAIS ESTRUTURAS
+Fígado, vias biliares, vesícula biliar, pâncreas, baço e adrenais sem alterações significativas.
+Órgãos pélvicos: sem particularidades, considerando os limites do método.
+Trato gastrointestinal: sem particularidades no protocolo utilizado.
+Vasos: aorta e veia cava inferior de calibres normais. Artérias renais de número e trajetos ___.
+Retroperitônio: ausência de linfonodomegalias.
+Peritônio: ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles: sem alterações significativas.
+
+COMPARAÇÃO: estudos anteriores não disponíveis para análise comparativa.
+
+CONCLUSÃO:
+1. **Cálculo ureteral {lado_a|à direita/à esquerda}**, em terço ___, medindo {tamanho}, determinando dilatação pielocalicinal e ureteral a montante.
+2. Litíase renal não obstrutiva {lado_a|à direita/à esquerda}, o maior cálculo medindo {tamanho}.
+3. Nefrograma simétrico e excreção preservada bilateralmente na fase excretora.
+4. Urotélio de espessura e realce preservados, sem falhas de enchimento caracterizáveis no presente estudo. Ressalta-se que lesões uroteliais planas podem não ser detectadas ao método.
+5. Ausência de linfonodomegalias ou de coleções retroperitoneais.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: aumento das partes moles pre vertebrais | partes moles pre vertebrais espessadas | hematoma pre vertebral
+# conclusao: Aumento da espessura das partes moles pré-vertebrais, que pode indicar lesão subjacente no contexto de trauma.
+Partes moles:  aumento da espessura das partes moles pré-vertebrais no nível de {nivel}, medindo {tamanho} (referência no adulto: até 7 mm em C2 e até 22 mm em C6). Partes moles paravertebrais sem particularidades.

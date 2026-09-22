@@ -1,0 +1,29 @@
+# gatilhos: angio de renais com displasia fibromuscular | angio de arterias renais com displasia fibromuscular | angio de mesentericas e renais com displasia fibromuscular | angio renal com colar de contas | angio de arterias renais com colar de contas | angiotomografia de arterias renais com displasia fibromuscular
+# categoria: angio
+# modalidade: angiotc
+# regiao: mesentericas_e_renais
+# tipo_mascara: cronica
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS {territorio|MESENTÉRICAS E RENAIS/MESENTÉRICAS/RENAIS}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fases arterial e portal, com reconstruções multiplanares, em projeção de intensidade máxima (MIP) e tridimensionais, direcionadas para a avaliação das artérias viscerais abdominais.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na aorta abdominal na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise dos ramos viscerais.
+Aorta abdominal:  trajeto e calibre habituais, sem dilatações, estenoses ou flap intimal.
+Tronco celíaco:  origem e trajeto habituais, pérvio, sem estenose ostial. Artérias hepática comum, esplênica e gástrica esquerda pérvias, com distribuição habitual.
+Artéria mesentérica superior:  origem e trajeto habituais, pérvia, com ramos jejunais, ileais e cólicos opacificados.
+Artéria mesentérica inferior:  pérvia, de calibre habitual.
+Artérias renais:  irregularidade parietal com alternância de segmentos estenóticos e pequenas dilatações nos terços médio e distal da artéria renal {lado_f|direita/esquerda/bilateral}, com aspecto em colar de contas, sem ateromatose ostial. {aneurisma_dfm|Sem aneurismas associados/Aneurisma associado medindo ___}.
+Rins:  tópicos, de dimensões normais, com realce parenquimatoso simétrico e homogêneo.
+Sistema venoso:  veia porta, veia esplênica, veia mesentérica superior e veias renais pérvias.
+Alças intestinais:  distribuição habitual, sem espessamento parietal, alterações do realce ou pneumatose, no protocolo utilizado.
+Demais estruturas abdominais:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Alterações dos terços médio e distal da artéria renal {lado_f|direita/esquerda/bilateral}, com aspecto em colar de contas, sugestivas de displasia fibromuscular (forma multifocal).
+Sugere-se avaliação de outros territórios arteriais (carótidas e vertebrais), a critério clínico.

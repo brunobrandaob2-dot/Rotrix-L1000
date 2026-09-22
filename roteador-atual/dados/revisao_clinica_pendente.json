@@ -1,0 +1,402 @@
+[
+ {
+  "gatilho": "tendinopatia do supraespinhal sem rotura",
+  "regiao": "Ombro",
+  "nota": "A descrição usa marcador __ para o tendão, mas a conclusão já fixa 'supraespinhal'."
+ },
+ {
+  "gatilho": "tendinopatia com fissuras na junção miotendínea",
+  "regiao": "Ombro",
+  "nota": "Marcador de preenchimento vinha grafado '__l' na descrição; normalizado para '__'."
+ },
+ {
+  "gatilho": "tendinopatia do subescapular sem rotura",
+  "regiao": "Ombro",
+  "nota": "A descrição usa marcador __ para o tendão, mas a conclusão já fixa 'subescapular'."
+ },
+ {
+  "gatilho": "artrose glenoumeral com afilamento condral acentuado",
+  "regiao": "Ombro",
+  "nota": "Contradição interna: a conclusão afirma afilamento condral acentuado e reações osteofitárias, achados que não constam da descrição."
+ },
+ {
+  "gatilho": "displasia do rebordo posterior da glenoide",
+  "regiao": "Ombro",
+  "nota": "O título de origem dizia 'rebordo costal', mas o texto trata da glenoide. A descrição vinha com duas frases emendadas sem ponto ('...da glenoide Acentuada deformidade...'); separação inserida."
+ },
+ {
+  "gatilho": "tendinopatia crônica do supraespinhal e infraespinhal",
+  "regiao": "Ombro",
+  "nota": "A descrição usa marcador __ para os tendões, mas a conclusão já fixa supraespinhal e infraespinhal."
+ },
+ {
+  "gatilho": "rotura parcial intrassubstancial com edema ósseo",
+  "regiao": "Ombro",
+  "nota": "A descrição usa marcador __ para o tendão, mas a conclusão fixa 'supraespinhal' em uma das ocorrências."
+ },
+ {
+  "gatilho": "espessamento capsular glenoumeral no recesso axilar",
+  "regiao": "Ombro",
+  "nota": "A descrição vinha com dois trechos emendados e com 'edema de capsular'; corrigido para 'edema capsular' e inserida a separação de frases. Confira se o primeiro trecho pertence mesmo a esta frase."
+ },
+ {
+  "gatilho": "edema pericapsular no intervalo dos rotadores",
+  "regiao": "Ombro",
+  "nota": "Trecho truncado na origem ('porção anterior é de capsular'); lido como 'porção anterior da cápsula'. Confirmar."
+ },
+ {
+  "gatilho": "tendinopatia do supraespinhal e infraespinhal com fissura",
+  "regiao": "Ombro",
+  "nota": "Conteúdo praticamente idêntico ao do registro 35 (versão sem a frase de espessamento/heterogeneidade). Avaliar se as duas frases devem coexistir."
+ },
+ {
+  "gatilho": "tendinopatia difusa do subescapular com rotura articular",
+  "regiao": "Ombro",
+  "nota": "Conteúdo praticamente idêntico ao do registro 36, sem as medidas. Avaliar se as duas frases devem coexistir."
+ },
+ {
+  "gatilho": "maceração do cabo longo do bíceps",
+  "regiao": "Ombro",
+  "nota": "Conteúdo praticamente idêntico ao do registro 37, sem a menção a líquido na bainha. Avaliar se as duas frases devem coexistir."
+ },
+ {
+  "gatilho": "artrose glenoumeral com degeneração do lábio glenoidal",
+  "regiao": "Ombro",
+  "nota": "A descrição vinha com dois blocos emendados sem ponto ('...derrame articular associado Afilamento condral...') e os dois dizem essencialmente a mesma coisa; separação inserida, mas convém escolher uma das versões."
+ },
+ {
+  "gatilho": "edema nos ligamentos coracoclaviculares",
+  "regiao": "Ombro",
+  "nota": "O título de origem era 'Bursite', mas o achado é edema/líquido no espaço coracoclavicular."
+ },
+ {
+  "gatilho": "encondroma da metáfise proximal do úmero",
+  "regiao": "Ombro",
+  "nota": "Título original 'Enostose' não corresponde: o texto descreve lesão condral (encondroma), e o sinal descrito (intermediário em T2) é incompatível com enostose. Confirmar qual achado se aplica."
+ },
+ {
+  "gatilho": "lesão de Hill-Sachs na cabeça umeral",
+  "regiao": "Ombro",
+  "nota": "Corrigido 'lesões cálcicas' para 'lesões clássicas' de Hill-Sachs (erro de digitação) na descrição e na conclusão."
+ },
+ {
+  "gatilho": "derrame articular heterogêneo do ombro",
+  "regiao": "Ombro",
+  "nota": "Frase depende de achado anterior do laudo ('descrita acima no laudo'); não é autossuficiente como gatilho isolado."
+ },
+ {
+  "gatilho": "necrose óssea subcondral do acetábulo direito",
+  "regiao": "Bacia e quadril",
+  "nota": "A frase começa com um rótulo de seção ('Foco Isquêmico / Necrose no quadril direito,') colado ao texto corrido; avaliar remover o rótulo."
+ },
+ {
+  "gatilho": "tendinopatia glútea com rotura parcial insercional",
+  "regiao": "Bacia e quadril",
+  "nota": "Removida a duplicação 'em de padrão'. O texto diz apenas 'tendão do glúteo', sem especificar médio ou mínimo (o registro 59, de conteúdo próximo, especifica glúteo médio)."
+ },
+ {
+  "gatilho": "retração do coto tendíneo dos isquiotibiais",
+  "regiao": "Bacia e quadril",
+  "nota": "Frase de continuação: pressupõe a rotura descrita no registro anterior. Alterna entre 'o coto tendíneo distal' (singular) e 'os cotos tendíneos' (plural)."
+ },
+ {
+  "gatilho": "coleção líquida no hiato da rotura tendínea",
+  "regiao": "Bacia e quadril",
+  "nota": "Frase de continuação: o 'hiato correspondente à área de avulsão' só faz sentido após a descrição da rotura."
+ },
+ {
+  "gatilho": "desinserção da origem conjunta do bíceps femoral",
+  "regiao": "Bacia e quadril",
+  "nota": "Removida vírgula indevida após 'Observa-se' e a repetição 'planos planos musculares'."
+ },
+ {
+  "gatilho": "edema da gordura peritrocantérica bilateral",
+  "regiao": "Bacia e quadril",
+  "nota": "Título original ('Estruturas vasculares profundas com trajeto e sinal de fluxo habituais') não tem relação com o conteúdo."
+ },
+ {
+  "gatilho": "fragmento ósseo destacado na fóvea capitis",
+  "regiao": "Bacia e quadril",
+  "nota": "'Irregularidade cortical anatômica' contradiz o achado descrito (descontinuidade óssea com fragmento destacado); provável 'não anatômica'. Não alterado por não ser erro objetivo."
+ },
+ {
+  "gatilho": "rotura distal do ligamento redondo",
+  "regiao": "Bacia e quadril",
+  "nota": "Frase de continuação: refere-se ao 'fragmento ósseo avulsionado acima descrito' (registro 79)."
+ },
+ {
+  "gatilho": "fissuras do lábio acetabular anterossuperior",
+  "regiao": "Bacia e quadril",
+  "nota": "Título original ('Condropatia coxofemoral incipiente') não corresponde: o texto descreve fissuras do lábio acetabular."
+ },
+ {
+  "gatilho": "fratura por estresse do calcâneo",
+  "regiao": "Tornozelo e pé",
+  "nota": "Registro sem descrição — o texto existe apenas na conclusão."
+ },
+ {
+  "gatilho": "síndrome de haglund com tendinopatia do aquiles",
+  "regiao": "Tornozelo e pé",
+  "nota": "A conclusão reúne três blocos distintos e sem pontuação entre eles (condromatose sinovial, síndrome de Haglund e imagem geográfica no tálus) e não corresponde à descrição; além disso a descrição situa o edema no calcâneo e a conclusão no processo posterior do tálus. Revisar antes de usar."
+ },
+ {
+  "gatilho": "rotura transfixante do tendão de aquiles",
+  "regiao": "Tornozelo e pé",
+  "nota": "A descrição diz \"O coto tendíneo distal encontra-se afilado... e o coto distal encontra-se espessado\" — o primeiro provavelmente deveria ser \"proximal\". A conclusão termina com uma frase sobre derrame tibiotalar que parece pertencer a outro bloco."
+ },
+ {
+  "gatilho": "os supranavicular com fratura avulsão",
+  "regiao": "Tornozelo e pé",
+  "nota": "Registro sem descrição — o texto existe apenas na conclusão."
+ },
+ {
+  "gatilho": "hipotrofia do abdutor do quinto dedo",
+  "regiao": "Tornozelo e pé",
+  "nota": "A conclusão está truncada: traz \"abdutor do 5º\" sem a palavra \"dedo\"."
+ },
+ {
+  "gatilho": "rotura do retináculo flexor com tenossinovite",
+  "regiao": "Tornozelo e pé",
+  "nota": "Faltava a conjunção em \"tenossinovite processo inflamatório peritendíneo\"; acrescentado \"e\"."
+ },
+ {
+  "gatilho": "edema do calcâneo com tendinopatia do aquiles",
+  "regiao": "Tornozelo e pé",
+  "nota": "A conclusão não corresponde à descrição: trata de edema ósseo difuso do pé e das hipóteses de dor regional complexa e artropatia inflamatória; provavelmente pertence a outro bloco."
+ },
+ {
+  "gatilho": "entesite do aquiles com erosão do calcâneo",
+  "regiao": "Tornozelo e pé",
+  "nota": "A descrição começava com o resíduo de extração \"C;\", removido."
+ },
+ {
+  "gatilho": "condropatia degenerativa do tornozelo sem derrame",
+  "regiao": "Tornozelo e pé",
+  "nota": "Registro sem descrição — o texto existe apenas na conclusão."
+ },
+ {
+  "gatilho": "artrose femorotibial com exposição do osso subcondral",
+  "regiao": "Joelho",
+  "nota": "A descrição mantém o placeholder \"lateral/medial\", enquanto a conclusão já fixa \"compartimento lateral\"; uniformizar o lado no ditado."
+ },
+ {
+  "gatilho": "condropatia femorotibial com edema ósseo subcondral",
+  "regiao": "Joelho",
+  "nota": "Contradição interna: a descrição situa o edema ósseo no compartimento medial e a conclusão no côndilo femoral lateral."
+ },
+ {
+  "gatilho": "alterações fibrocísticas do platô tibial lateral",
+  "regiao": "Joelho",
+  "nota": "Conclusão vazia no registro de origem."
+ },
+ {
+  "gatilho": "rotura radial e horizontal do menisco medial",
+  "regiao": "Joelho",
+  "nota": "A classificação citada (\"Tipo II de Meskaharian\") não corresponde a eponímia conhecida para rotura radial de raiz meniscal (a usual é LaPrade); conferir. Conclusão vazia."
+ },
+ {
+  "gatilho": "rotura radial complexa da raiz medial",
+  "regiao": "Joelho",
+  "nota": "Conclusão vazia no registro de origem."
+ },
+ {
+  "gatilho": "rotura horizontal lateral com cisto parameniscal",
+  "regiao": "Joelho",
+  "nota": "Conclusão vazia no registro de origem."
+ },
+ {
+  "gatilho": "degeneração do menisco lateral com extrusão parcial",
+  "regiao": "Joelho",
+  "nota": "Conclusão vazia no registro de origem."
+ },
+ {
+  "gatilho": "avulsão da raiz anterior do menisco lateral",
+  "regiao": "Joelho",
+  "nota": "Conclusão vazia no registro de origem."
+ },
+ {
+  "gatilho": "rotura completa da raiz anterior lateral",
+  "regiao": "Joelho",
+  "nota": "Conclusão vazia no registro de origem."
+ },
+ {
+  "gatilho": "rotura da margem livre do menisco lateral",
+  "regiao": "Joelho",
+  "nota": "Contradição interna: a descrição refere corpo e corno posterior e a conclusão, corpo e corno anterior."
+ },
+ {
+  "gatilho": "alteração de sinal meniscal grau 1",
+  "regiao": "Joelho",
+  "nota": "Frase vinda de tabela de graduação: o prefixo \"Grau 1:\" e o placeholder do corno precisam ser ajustados no ditado. Conclusão vazia."
+ },
+ {
+  "gatilho": "alteração de sinal meniscal grau 2",
+  "regiao": "Joelho",
+  "nota": "Frase vinda de tabela de graduação: o prefixo \"Grau 2:\" e o placeholder do corno precisam ser ajustados no ditado. Conclusão vazia."
+ },
+ {
+  "gatilho": "alteração de sinal meniscal grau 3",
+  "regiao": "Joelho",
+  "nota": "Frase vinda de tabela de graduação: o prefixo \"Grau 3:\" e o placeholder do corno precisam ser ajustados no ditado. Conclusão vazia."
+ },
+ {
+  "gatilho": "alterações pós-cirúrgicas da área doadora do enxerto",
+  "regiao": "Joelho",
+  "nota": "Duas frases vieram coladas na extração, sem ponto final entre elas; ponto inserido. Conclusão vazia."
+ },
+ {
+  "gatilho": "degeneração do ligamento cruzado posterior",
+  "regiao": "Joelho",
+  "nota": "Conclusão vazia no registro de origem."
+ },
+ {
+  "gatilho": "espessamento cicatricial do ligamento colateral",
+  "regiao": "Joelho",
+  "nota": "Conclusão vazia no registro de origem."
+ },
+ {
+  "gatilho": "entesopatia quadricipital no polo superior da patela",
+  "regiao": "Joelho",
+  "nota": "A extração duplicou a mesma frase; mantida uma única ocorrência. Grafia \"pólo\" atualizada para \"polo\" (Acordo de 1990)."
+ },
+ {
+  "gatilho": "cisto sinovial da fossa poplítea",
+  "regiao": "Joelho",
+  "nota": "Descrição vazia: o registro traz apenas a conclusão."
+ },
+ {
+  "gatilho": "bursite do ligamento colateral medial",
+  "regiao": "Joelho",
+  "nota": "Descrição e conclusão não correspondem: a descrição é de edema subcutâneo anterior justapatelar e a conclusão, de bursite do colateral medial. Além disso, \"de aspecto específico\" provavelmente deveria ser \"de aspecto inespecífico\" — não alterado por mudar o sentido clínico."
+ },
+ {
+  "gatilho": "cisto de Baker",
+  "regiao": "Joelho",
+  "nota": "Descrição truncada: termina em \"localizada\" sem o complemento. Conclusão vazia."
+ },
+ {
+  "gatilho": "cisto de Baker com edema miofascial",
+  "regiao": "Joelho",
+  "nota": "Descrição truncada no início: o trecho começa no meio da frase (falta a abertura que nomeia a imagem cística entre a cabeça medial do gastrocnêmio e o semimembranoso)."
+ },
+ {
+  "gatilho": "cisto poplíteo no recesso semimembranoso gastrocnêmio",
+  "regiao": "Joelho",
+  "nota": "A conclusão parecia concatenar duas frases distintas sem pontuação; foi separada em duas. Verificar se a segunda frase pertence a este registro. Medida em branco (__ mm) para preenchimento."
+ },
+ {
+  "gatilho": "placa e parafusos com enxerto tibial",
+  "regiao": "Joelho",
+  "nota": "Texto usa terminologia de tomografia ('alta radiodensidade', 'artefatos de endurecimento do feixe') em registro de ressonância magnética; confirmar o método de origem da frase."
+ },
+ {
+  "gatilho": "alteração do colateral lateral e bíceps femoral",
+  "regiao": "Joelho",
+  "nota": "A descrição reúne dois achados distintos (colateral medial e complexo colateral lateral/bíceps femoral) sem separação; considerar dividir em duas frases."
+ },
+ {
+  "gatilho": "lesão de matriz cartilaginosa na tíbia proximal",
+  "regiao": "Joelho",
+  "nota": "A descrição localiza a lesão na metáfise proximal da tíbia e a conclusão acrescenta 'medial'; uniformizar a localização."
+ },
+ {
+  "gatilho": "lesão em pivot shift com fratura subcondral",
+  "regiao": "Joelho",
+  "nota": "A descrição registra apenas o côndilo femoral lateral, enquanto a conclusão cita côndilos femorais e platôs tibiais no plural; conferir a extensão das impactações."
+ },
+ {
+  "gatilho": "condropatia com microfratura do côndilo femoral medial",
+  "regiao": "Joelho",
+  "nota": "Conclusão truncada: termina em 'na med', faltando o restante da frase ('medular óssea subjacente' ou equivalente)."
+ },
+ {
+  "gatilho": "pequeno cisto poplíteo do joelho",
+  "regiao": "Joelho",
+  "nota": "Medida em branco (__ mm) para preenchimento."
+ },
+ {
+  "gatilho": "tendinopatia e peritendinopatia do semimembranoso",
+  "regiao": "Joelho",
+  "nota": "Registro sem descrição: só há texto de conclusão."
+ },
+ {
+  "gatilho": "cartilagem glenoumeral com espessura e sinal normais",
+  "regiao": "Joelho",
+  "nota": "O texto descreve a articulação glenoumeral (ombro), mas o registro está classificado na região Joelho; corrigir a região."
+ },
+ {
+  "gatilho": "corpos livres osteocondrais nas facetas patelares",
+  "regiao": "Joelho",
+  "nota": "Achado descrito de forma bilateral ('patelas', direita e esquerda); confirmar se a frase se destina a exame bilateral."
+ },
+ {
+  "gatilho": "lesão semelhante no sacro esquerdo",
+  "regiao": "Bacia e quadril",
+  "nota": "Frase dependente do registro anterior ('lesão de comportamento semelhante'); só faz sentido logo após a descrição da lesão índice."
+ },
+ {
+  "gatilho": "múltiplas lesões ósseas no acetábulo e trocanteres",
+  "regiao": "Bacia e quadril",
+  "nota": "Frase dependente de uma lesão índice descrita antes ('aspecto e comportamento de sinal análogos')."
+ },
+ {
+  "gatilho": "edema peritrocantérico entre trato iliotibial e trocânter",
+  "regiao": "Bacia e quadril",
+  "nota": "Corrigido 'trato tibial' para 'trato iliotibial' (estrutura inexistente como grafada); confirmar."
+ },
+ {
+  "gatilho": "infiltração neoplásica secundária da bacia",
+  "regiao": "Bacia e quadril",
+  "nota": "A segunda frase da descrição ('O padrão de sinal ... associado a acentuada restrição à difusão ... que traduz lesões hipercelulares') está sem verbo principal, possivelmente truncada na extração."
+ },
+ {
+  "gatilho": "atrito iliotibial peritrocantérico bilateral",
+  "regiao": "Bacia e quadril",
+  "nota": "Corrigido 'trato tibial' para 'trato iliotibial'. Atenção: o título original falava em impacto isquiofemoral, que não é o achado descrito."
+ },
+ {
+  "gatilho": "bursite do iliopsoas",
+  "regiao": "Bacia e quadril",
+  "nota": "Estrutura reclassificada de 'Tendão' para bursa do iliopsoas; o título original era sobre ligamento pubofemoral, sem relação com o conteúdo."
+ },
+ {
+  "gatilho": "processo inflamatório da gordura peritrocantérica",
+  "regiao": "Bacia e quadril",
+  "nota": "Corrigido 'trato tibial' para 'trato iliotibial'."
+ },
+ {
+  "gatilho": "cisto paralabral posterior na incisura espinoglenoidal",
+  "regiao": "Ombro",
+  "nota": "A medida (4,5 cm) consta apenas na conclusão; a descrição não a traz."
+ },
+ {
+  "gatilho": "tendinopatia calcária do infraespinhal e redondo menor",
+  "regiao": "Ombro",
+  "nota": "A descrição inclui também tendinopatia do subescapular com delaminação, achado que não aparece na conclusão."
+ },
+ {
+  "gatilho": "fratura da tuberosidade maior do úmero",
+  "regiao": "Ombro",
+  "nota": "Descrição agrupa vários achados (fratura, lábio glenoidal, derrame, cartilagem e manguito); pode convir separá-la em frases independentes."
+ },
+ {
+  "gatilho": "tendinopatia pós-traumática do supraespinhal e infraespinhal",
+  "regiao": "Ombro",
+  "nota": "Conteúdo duplicado do trecho final do registro 276."
+ },
+ {
+  "gatilho": "bursite subacromial subdeltoidea moderada",
+  "regiao": "Ombro",
+  "nota": "A conclusão traz achados que não estão na descrição (hiperplasia acromioclavicular e fratura da clavícula distal), aparentemente colados do bloco seguinte. Revisar o pareamento."
+ },
+ {
+  "gatilho": "fratura da clavícula distal",
+  "regiao": "Ombro",
+  "nota": "Descrição e conclusão não correspondem: a descrição é da fratura da clavícula distal e a conclusão é da rotura do cabo longo do bíceps. Revisar o pareamento antes de usar."
+ },
+ {
+  "gatilho": "rotura completa do subescapular lafosse 4",
+  "regiao": "Ombro",
+  "nota": "A descrição agrupa dois achados (rotura do cabo longo do bíceps e rotura do subescapular); a conclusão contempla apenas o subescapular."
+ }
+]

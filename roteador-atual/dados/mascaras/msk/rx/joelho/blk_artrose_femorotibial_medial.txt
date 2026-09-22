@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: artrose femorotibial medial | artrose medial | reducao do espaco medial
+Redução do espaço articular femorotibial medial, com esclerose subcondral e osteófitos marginais.

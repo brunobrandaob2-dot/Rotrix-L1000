@@ -1,0 +1,17 @@
+# gatilhos: raio x de abdome com obstrucao intestinal | rx de abdome com obstrucao intestinal | radiografia de abdome com obstrucao intestinal | rx abdome obstrucao intestinal | raio x de abdome com distensao de delgado | rx de abdome com distensao de delgado | radiografia de abdome com distensao de delgado | rx abdome distensao de delgado | raio x de abdome com niveis hidroaereos | rx de abdome com niveis hidroaereos | radiografia de abdome com niveis hidroaereos | rx abdome niveis hidroaereos | raio x de abdome com suboclusao intestinal | rx de abdome com suboclusao intestinal | radiografia de abdome com suboclusao intestinal | rx abdome suboclusao intestinal
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: abdome
+# tipo_mascara: aguda
+**RADIOGRAFIA DE ABDOME**
+
+**TÉCNICA:**  incidência anteroposterior em decúbito dorsal.
+
+**ANÁLISE:**
+Distribuição gasosa alterada, com escassez de gás no cólon e na ampola retal.
+Alças de delgado distendidas, com calibre de até {tamanho} (normal até 3,0 cm) e níveis hidroaéreos {niveis|múltiplos e escalonados/esparsos}, sugerindo obstrução intestinal; tomografia a critério clínico para definir nível e causa.
+Conteúdo fecal em quantidade habitual.
+Não há sinais de pneumoperitônio.
+Não há imagens cálcicas projetadas nas lojas renais ou nos trajetos ureterais.
+Não há corpos estranhos radiopacos.
+Arcabouço ósseo sem alterações.

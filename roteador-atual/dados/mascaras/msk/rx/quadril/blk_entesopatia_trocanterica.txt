@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: entesopatia | entesopatia trocanterica | calcificacao peritrocanterica | entesofitos
+Entesófitos no trocânter maior, compatíveis com entesopatia glútea.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Aorta abdominal
+# gatilhos: aneurisma de aorta abdominal | aneurisma da aorta abdominal | aneurisma abdominal | aneurisma infrarrenal
+# conclusao: Aneurisma {morfologia|fusiforme/sacular} da aorta abdominal infrarrenal, com diâmetro máximo de {tamanho}, sem sinais tomográficos de instabilidade ou ruptura.
+Aorta abdominal:  dilatação aneurismática {morfologia|fusiforme/sacular} do segmento infrarrenal, com diâmetro máximo de {tamanho} (critério de aneurisma: ≥ 3,0 cm) e extensão longitudinal de ___ cm. Colo proximal com ___ cm de extensão a partir da artéria renal mais baixa, ___ mm de diâmetro e angulação de ___ graus. {limite_distal|Termina acima da bifurcação aórtica/Estende-se às artérias ilíacas comuns}.

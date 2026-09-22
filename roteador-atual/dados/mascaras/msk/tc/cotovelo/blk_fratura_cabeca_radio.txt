@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cabeça e colo do rádio
+# gatilhos: fratura da cabeca do radio | fratura | fratura do colo do radio | mason
+# conclusao: Fratura da cabeça do rádio, tipo {mason|I/II/III/IV} de Mason.
+Cabeça e colo do rádio:  traço de fratura na {local|cabeça/colo/cabeça e colo} do rádio, com degrau articular de {tamanho}, {cominuicao|sem/com} cominuição.

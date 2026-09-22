@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Traqueia e brônquios
+# gatilhos: espessamento bronquico | espessamento parietal bronquico | espessamento das paredes bronquicas | broncopatia | broncopatia inflamatoria | broncopatia cronica
+# conclusao: Espessamento parietal brônquico, podendo representar broncopatia inflamatória crônica.
+Traqueia e brônquios:  espessamento parietal brônquico difuso, podendo representar broncopatia inflamatória crônica. Calibre e trajeto traqueais preservados.

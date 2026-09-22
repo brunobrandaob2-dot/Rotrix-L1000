@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: granuloma calcificado | nodulo calcificado residual | granulomas
+# conclusao: Nódulos calcificados residuais, com características de benignidade.
+Parênquima pulmonar: nódulos sólidos de margens regulares e densidade calcificada, esparsos, o maior no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo} medindo {tamanho}, com características de benignidade e aspecto residual. Ausência de nódulos suspeitos.

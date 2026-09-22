@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Espaço femorotibial medial
+# gatilhos: gonartrose | artrose | artrose do joelho
+# conclusao: Gonartrose {grau|leve/moderada/acentuada}, com acometimento {compart|femorotibial medial/femorotibial lateral/femoropatelar/tricompartimental}.
+Espaço femorotibial medial:  espaço articular {grau_medial|preservado/discretamente reduzido/moderadamente reduzido/acentuadamente reduzido}, com esclerose subcondral e osteófitos marginais.

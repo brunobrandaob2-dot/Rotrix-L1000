@@ -1,0 +1,30 @@
+# gatilhos: tomografia de coluna lombar com estenose de canal | tc de coluna lombar com estenose de canal | tc coluna lombar estenose de canal | tomografia de coluna lombar com estenose do canal vertebral | tc de coluna lombar com canal estreito | tc de coluna lombar com estenose do canal
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_lombar
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  retificação da lordose lombar fisiológica. Ausência de listeses.
+Corpos vertebrais:  de altura preservada, sem sinais de fratura ou de lesão focal. Osteófitos marginais em múltiplos níveis.
+Discos intervertebrais:  redução da altura discal em {nivel}, com abaulamento discal difuso que comprime a face ventral do saco dural.
+Articulações interapofisárias:  artrose interapofisária em {nivel}, com hipertrofia das facetas articulares e osteófitos.
+Canal vertebral:  redução da amplitude do canal vertebral em {nivel}, com diâmetro anteroposterior de {diametro} mm, por componente degenerativo combinado (abaulamento discal, hipertrofia facetária e espessamento dos ligamentos amarelos). Valores inferiores a 10 mm caracterizam estenose absoluta e entre 10 e 12 mm, estenose relativa.
+Forames neurais:  redução da amplitude dos forames neurais em {nivel}, {lado_a|à direita/à esquerda}.
+Elementos posteriores:  pedículos, istmos, lâminas e processos espinhosos e transversos íntegros.
+Transição lombossacra:  de configuração habitual.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares.
+Partes moles paravertebrais:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Estenose {tipo_estenose|absoluta/relativa} do canal vertebral em {nivel}, de natureza degenerativa, com diâmetro anteroposterior de {diametro} mm.
+Redução da amplitude dos forames neurais em {nivel}, {lado_a|à direita/à esquerda}.
+Espondilose e artrose interapofisária lombar.
+A ressonância magnética é o método de escolha para a avaliação do conteúdo do canal e das raízes, se houver indicação clínica.

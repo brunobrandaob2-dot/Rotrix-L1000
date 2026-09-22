@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Ramos púbicos e ísquios
+# gatilhos: fratura dos ramos pubicos | fratura de ramo pubico | fratura do ramo isquiopubico | fratura do ramo iliopubico
+# conclusao: Fratura dos ramos púbicos {lado_ramos_c|direitos/esquerdos/bilaterais}. Fraturas dos ramos púbicos frequentemente se associam a lesão do anel pélvico posterior.
+Ramos púbicos e ísquios:  traços de fratura nos ramos iliopúbico e isquiopúbico {lado_ramos|direitos/esquerdos/bilaterais}, {desvio_ramos|sem desvio significativo/com desvio de ___}.

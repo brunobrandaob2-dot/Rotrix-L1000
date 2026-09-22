@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: hidronefrose | dilatacao pielocalicinal | ectasia pielocalicinal | dilatacao das vias coletoras
+# conclusao: Dilatação pielocalicinal {grau|discreta/moderada/acentuada} {lado_a|à direita/à esquerda}, sem fator obstrutivo definido ao método.
+Rins:  tópicos, de contornos regulares. Dilatação pielocalicinal {grau|discreta/moderada/acentuada} {lado_a|à direita/à esquerda}, com espessura do parênquima {parenquima|preservada/reduzida}, sem cálculos ou fator obstrutivo caracterizável ao método. Rim contralateral sem dilatação de vias coletoras.

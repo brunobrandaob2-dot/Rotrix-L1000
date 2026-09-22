@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura do radio distal | fratura | fratura do radio | fratura de colles
+Fratura {padrao|extra-articular/intra-articular} do rádio distal, com desvio {sentido|dorsal/volar} do fragmento distal, {cominuicao|sem/com} cominuição.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Transição toracoabdominal
+# gatilhos: derrame pleural | derrame pleural nas bases
+# conclusao: Derrame pleural {lado_a|à direita/à esquerda}.
+Transição toracoabdominal:  derrame pleural {volume|laminar/pequeno/moderado} {lado_a|à direita/à esquerda}, com atelectasia passiva do parênquima adjacente.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: cisto renal complexo | lesao renal indeterminada | cisto renal bosniak | lesao cistica renal complexa
+# conclusao: Lesão cística renal {lado_a|à direita/à esquerda} Bosniak {bosniak|IIF/III/IV}, medindo {tamanho}; sugere-se avaliação urológica e complementação com ressonância magnética, a critério clínico.
+Rins:  tópicos, de contornos regulares e espessura do parênquima preservada. Lesão cística {lado_a|à direita/à esquerda}, no terço {terco|superior/médio/inferior}, medindo {tamanho}, com {componentes|septos finos múltiplos/septos ou paredes espessados com realce mensurável/componente sólido com realce} (Bosniak {bosniak|IIF/III/IV}). Não há cálculos ou dilatação de vias coletoras.

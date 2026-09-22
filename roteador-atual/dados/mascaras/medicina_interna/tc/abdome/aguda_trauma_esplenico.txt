@@ -1,0 +1,35 @@
+# gatilhos: tomografia de abdome com trauma esplenico | tc de abdome com trauma esplenico | tc abdome trauma esplenico | tomografia de abdome total com trauma esplenico | tc de abdome total com trauma esplenico | tomografia do abdome com trauma esplenico | tomografia de abdome com trauma | tc de abdome com trauma | tc abdome trauma | tomografia de abdome com lesao esplenica | tc de abdome com lesao esplenica | tc abdome lesao esplenica | tomografia de abdome com laceracao esplenica | tc de abdome com laceracao esplenica | tc abdome laceracao esplenica | tomografia de abdome com trauma abdominal fechado | tc de abdome com trauma abdominal fechado | tc abdome trauma abdominal fechado | tomografia de trauma abdominal | tc de trauma abdominal
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica em protocolo de trauma, com injeção intravenosa de contraste iodado, nas fases arterial, portal e tardia.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  {derrame|sem derrame pleural ou contusões nas bases pulmonares/derrame pleural ___}.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  laceração no polo {polo|superior/médio/inferior}, com profundidade de {tamanho}, associada a hematoma {hematoma|subcapsular/intraparenquimatoso} ocupando cerca de {percentual_superficie} % da superfície, {sangramento|sem extravasamento do meio de contraste/com extravasamento do meio de contraste na fase arterial e aumento na fase tardia, indicando sangramento ativo/com extravasamento contido de contraste, sugestivo de pseudoaneurisma}.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  sem particularidades no protocolo utilizado.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  hemoperitônio de {volume|pequeno/moderado/grande} volume, com densidade de {densidade} UH, predominando no recesso periesplênico e na goteira parietocólica esquerda.
+Estruturas ósseas e partes moles:  {fraturas|não há fraturas caracterizáveis/fratura de ___}. Partes moles sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Lesão esplênica traumática grau {grau_aast|I/II/III/IV/V} (AAST).
+Hemoperitônio de {volume|pequeno/moderado/grande} volume.
+A tomografia tem sensibilidade limitada para lesões de víscera oca e mesentério; recomenda-se correlação clínica seriada.

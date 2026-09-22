@@ -1,0 +1,23 @@
+# gatilhos: angio intracraniana com aneurisma | angiotomografia intracraniana com aneurisma | angio tc intracraniana com aneurisma | angio do poligono de willis com aneurisma | angio intracraniana com aneurisma incidental | angio intracraniana com aneurisma nao roto
+# categoria: neuro
+# modalidade: angiotc
+# regiao: cranio
+# tipo_mascara: cronica
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL INTRACRANIANA**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação do sistema arterial intracraniano.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Artérias carótidas internas:  segmentos petrosos, cavernosos e supraclinóideos pérvios, com calibre preservado, simétricos, sem ectasias, estenoses ou aneurismas.
+Artérias vertebrais:  segmentos intracranianos (V4) pérvios, com calibre e trajeto anatômicos, terminando na formação da artéria basilar.
+Artéria basilar:  calibre e fluxo anatômicos, sem tortuosidades anômalas ou ectasias.
+Artérias cerebrais anteriores, médias e posteriores:  pérvias, com opacificação simétrica, trajeto habitual e sem áreas de estenose, espasmo ou oclusão vascular.
+Artérias comunicantes anterior e posteriores:  patência anatômica dentro dos limites da resolução do método.
+Polígono de Willis:  dilatação aneurismática sacular na {localizacao|artéria comunicante anterior/bifurcação da artéria cerebral média/origem da artéria comunicante posterior/artéria carótida interna, segmento oftálmico/extremidade distal da artéria basilar}, {lado_a|à direita/à esquerda/na linha média}, com projeção {projecao|anterior/posterior/superior/inferior/medial/lateral}, medindo {tamanho} no maior eixo, com colo de {colo} e altura do domo de {altura_domo}, de contornos {contorno|regulares/lobulados, com pequena bolha (bleb) no domo}. Não há outras dilatações aneurismáticas ou malformações vasculares.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Aneurisma sacular na {localizacao|artéria comunicante anterior/bifurcação da artéria cerebral média/origem da artéria comunicante posterior/artéria carótida interna, segmento oftálmico/extremidade distal da artéria basilar}, {lado_a|à direita/à esquerda/na linha média}, medindo {tamanho}, com colo de {colo}, sem sinais de complicação ao método.

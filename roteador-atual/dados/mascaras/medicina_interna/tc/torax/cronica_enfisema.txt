@@ -1,0 +1,26 @@
+# gatilhos: tomografia de torax com enfisema | tc de torax com enfisema | tomografia de torax com dpoc | tc de torax com dpoc | tc torax enfisema | tc torax dpoc | tomografia de torax com enfisema pulmonar | tc de torax com enfisema pulmonar
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multislice e reconstruções multiplanares, {contraste|sem/com/sem e com} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  áreas de hipoatenuação sem paredes definidas, de distribuição {tipo_enfisema|centrolobular/parasseptal/centrolobular e parasseptal/panlobular}, predominando nos {predominio|lobos superiores/lobos inferiores}, compatíveis com enfisema pulmonar de grau {grau|leve/moderado/acentuado}. Não há consolidações ou nódulos suspeitos.
+Traqueia e brônquios:  traqueia de calibre e trajeto normais. Espessamento parietal brônquico difuso, sem estenoses focais.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais, com principais ramos preservados.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Cúpulas diafragmáticas:  {cupulas|morfologia e posição habituais/retificadas e rebaixadas, por hiperinsuflação pulmonar}.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Enfisema pulmonar {tipo_enfisema|centrolobular/parasseptal/centrolobular e parasseptal/panlobular} de grau {grau|leve/moderado/acentuado}.
+Espessamento parietal brônquico difuso, podendo relacionar-se a doença inflamatória crônica das vias aéreas.

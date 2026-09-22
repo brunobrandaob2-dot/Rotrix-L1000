@@ -1,0 +1,24 @@
+# gatilhos: angio cervical com disseccao carotidea | angiotomografia cervical com disseccao carotidea | angio de pescoco com disseccao carotidea | angio cervical com dissecao carotidea | angio cervical com disseccao da carotida
+# categoria: neuro
+# modalidade: angiotc
+# regiao: pescoco
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL DE VASOS CERVICAIS**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação do sistema arterial cervical, do arco aórtico à base do crânio.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Arco aórtico e origens dos troncos supra-aórticos:  arco aórtico de configuração habitual, com origens do tronco braquiocefálico e das artérias carótida comum e subclávia esquerdas pérvias, sem estenoses.
+Artérias carótidas comuns:  trajeto e calibre anatômicos, paredes lisas e opacificação homogênea, sem sinais de estenoses ou oclusões.
+Bulbos carotídeos e bifurcações:  pérvios, sem placas ateromatosas significativas.
+Artérias carótidas internas:  afilamento luminal {afilamento|excêntrico/cônico/filiforme} no segmento cervical da artéria carótida interna {lado_f|direita/esquerda}, iniciando-se cerca de {distancia_bulbo} acima do bulbo e estendendo-se por {tamanho}, com espessamento parietal em crescente, compatível com hematoma intramural. Flap intimal: {flap|não identificado/presente}. Pseudoaneurisma dissecante: {pseudoaneurisma|ausente/presente, medindo ___}. Segmento distal na base do crânio {base|pérvio/acometido}. Artéria carótida interna contralateral sem alterações.
+Artérias carótidas externas e seus principais ramos:  patência mantida e trajeto habitual.
+Artérias vertebrais:  pérvias, com calibre e trajeto anatômicos nos segmentos cervicais (V1 a V3), sem estenoses ou irregularidades parietais.
+Demais estruturas cervicais:  sem particularidades nos segmentos incluídos no estudo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sinais de dissecção do segmento cervical da artéria carótida interna {lado_f|direita/esquerda}, com {reducao|redução luminal leve/redução luminal moderada/redução luminal acentuada/oclusão}.

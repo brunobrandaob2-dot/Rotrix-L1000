@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Colo femoral
+# gatilhos: fratura do colo femoral | fratura do colo do femur | fratura de colo
+# conclusao: Fratura {local_colo|subcapital/transcervical/basocervical} do colo femoral, tipo {garden|I/II/III/IV} da classificação de Garden.
+Colo femoral:  traço de fratura {local_colo|subcapital/transcervical/basocervical}, {desvio_colo|incompleto ou impactado em valgo/completo sem desvio/completo com desvio parcial/completo com desvio total} dos fragmentos.

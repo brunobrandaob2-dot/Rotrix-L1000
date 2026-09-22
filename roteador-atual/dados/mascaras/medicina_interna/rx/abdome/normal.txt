@@ -1,0 +1,17 @@
+# gatilhos: raio x de abdome | rx de abdome | radiografia de abdome | raio x de abdome normal | rx de abdome normal | radiografia de abdome normal | rx abdome normal | raio x do abdome | rx do abdome | radiografia do abdome | rotina de abdome agudo | rotina de abdome agudo normal | rx de abdome agudo | raio x de abdome agudo | radiografia de abdome agudo | rx de abdome agudo normal | raio x de abdome simples | rx de abdome simples | radiografia de abdome sem alteracoes
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: abdome
+# tipo_mascara: normal
+**RADIOGRAFIA DE ABDOME**
+
+**TÉCNICA:**  incidência anteroposterior em decúbito dorsal.
+
+**ANÁLISE:**
+Distribuição gasosa intestinal habitual, com gás até a ampola retal.
+Alças intestinais de calibre normal, sem níveis hidroaéreos anômalos.
+Conteúdo fecal em quantidade habitual.
+Não há sinais de pneumoperitônio.
+Não há imagens cálcicas projetadas nas lojas renais ou nos trajetos ureterais.
+Não há corpos estranhos radiopacos.
+Arcabouço ósseo sem alterações.

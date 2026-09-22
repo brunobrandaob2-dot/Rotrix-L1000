@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: listese | anterolistese | retrolistese | espondilolistese
+{tipo_listese|Anterolistese/Retrolistese} de {nivel}, medindo {tamanho}.

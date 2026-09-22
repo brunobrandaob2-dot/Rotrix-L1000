@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna cervical com fratura | tc de coluna cervical com fratura | tc coluna cervical fratura | tomografia de coluna cervical com fratura aguda | tc de coluna cervical com fratura aguda | tc de coluna cervical com fratura subaxial | tc de coluna cervical com fratura do corpo vertebral
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_cervical
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  {alinhamento|lordose cervical retificada, sem listeses/cifose focal em ___, sem translação}.
+Transição craniocervical:  processo odontoide íntegro e centrado em relação às massas laterais de C1. Intervalo atlantodental preservado. Articulações atlanto-occipitais e atlantoaxiais congruentes.
+Corpos vertebrais:  fratura do corpo vertebral de {nivel}, {morfologia|com acunhamento anterior e afundamento da plataforma superior/cominutiva, com acometimento do muro posterior}, com perda de altura estimada em {percentual}%. Traço de fratura de margens nítidas, sem esclerose, aspecto de fratura aguda. Muro posterior {muro|íntegro, sem retropulsão/acometido, com retropulsão de fragmento medindo ___}.
+Discos intervertebrais:  espaços discais de altura preservada, sem alargamento anormal.
+Articulações uncovertebrais:  de aspecto habitual.
+Articulações interapofisárias:  congruentes, sem diástase ou luxação.
+Canal vertebral:  {canal|de amplitude preservada/reduzido em ___ pela retropulsão, com diâmetro anteroposterior residual de ___ mm}.
+Forames neurais:  de amplitude preservada. Forames transversos {forame_transverso|íntegros/com traço de fratura em ___}.
+Elementos posteriores:  {posteriores|pedículos, massas laterais, lâminas e processos espinhosos íntegros, sem alargamento interespinhoso/traço de fratura na lâmina/massa lateral de ___}.
+Partes moles:  aumento da espessura das partes moles pré-vertebrais no nível da fratura, compatível com hematoma.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura do corpo vertebral de {nivel}, de aspecto agudo, com perda de altura estimada em {percentual}% (AO Spine subaxial tipo {ao_spine|A0/A1/A2/A3/A4/B1/B2/B3/C}).
+Recomenda-se ressonância magnética para avaliação discoligamentar e medular; fraturas que acometem os forames transversos justificam angiotomografia das artérias vertebrais.

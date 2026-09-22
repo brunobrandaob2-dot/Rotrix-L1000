@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: osteossintese | material de sintese | placa bloqueada | haste intramedular
+Osteossíntese do úmero proximal com {material|placa bloqueada e parafusos/haste intramedular/parafusos/fios de Kirschner}, sem sinais de soltura ou quebra, com foco de fratura {consolidacao|consolidado/em consolidação/sem sinais de consolidação}.

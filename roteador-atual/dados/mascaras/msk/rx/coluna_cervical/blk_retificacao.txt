@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: retificacao | retificacao da lordose | retificacao cervical | perda da lordose
+Retificação da lordose cervical.

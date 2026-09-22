@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Ossos ilíacos
+# gatilhos: enostose | ilhota ossea | ilhota de osso compacto
+# conclusao: Enostose (ilhota de osso compacto) no osso ilíaco {lado_enostose|direito/esquerdo}, achado habitualmente sem significado clínico.
+Ossos ilíacos:  foco esclerótico homogêneo de contornos espiculados no osso ilíaco {lado_enostose|direito/esquerdo}, medindo {tamanho}, com aspecto de enostose (ilhota de osso compacto).

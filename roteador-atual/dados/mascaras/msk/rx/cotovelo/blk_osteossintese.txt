@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: osteossintese | material de sintese | banda de tensao
+Osteossíntese do olécrano com {material|fios de Kirschner e cerclagem em banda de tensão/placa e parafusos/parafuso intramedular}, sem sinais de soltura, quebra ou migração.

@@ -1,0 +1,26 @@
+# gatilhos: tomografia de punho com osteossintese do radio | tomografia do punho com osteossintese do radio | tc de punho com osteossintese do radio | tc do punho com osteossintese do radio | tc punho osteossintese do radio | tomografia de punho com placa volar | tc de punho com placa volar | tomografia de punho com material de sintese no radio | tc de punho com material de sintese no radio
+# categoria: msk
+# modalidade: tc
+# regiao: punho
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações radiocarpal, radioulnar distal, mediocarpal e carpometacarpais preservadas, sem sinais de luxação ou subluxação.
+Rádio distal:  material de osteossíntese constituído por {material|placa volar bloqueada e parafusos/fios de Kirschner/fixador externo}, em posição habitual, sem sinais de soltura, quebra ou migração. {penetracao|Não há penetração articular pelos parafusos/Parafuso com penetração da superfície articular ___}. {dorsal|Sem/Com} protrusão de parafuso além da cortical dorsal. Foco de fratura {consolidacao|consolidado/em consolidação/sem sinais de consolidação}, com inclinação volar de ___° e degrau articular residual de {tamanho}.
+Ulna distal:  sem traços de fratura, com processo estiloide íntegro.
+Escafoide:  contornos corticais preservados, sem traços de fratura.
+Demais ossos do carpo:  de morfologia, contornos e densidade preservados, sem traços de fratura.
+Espaços articulares:  radiocarpal, mediocarpal e radioulnar distal preservados, sem alterações degenerativas significativas.
+Articulação trapeziometacarpiana:  espaço articular preservado, sem osteófitos.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções, considerando os artefatos metálicos, que limitam a avaliação das partes moles adjacentes.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Alterações pós-operatórias de osteossíntese do rádio distal, sem sinais de falha do material evidentes ao método.

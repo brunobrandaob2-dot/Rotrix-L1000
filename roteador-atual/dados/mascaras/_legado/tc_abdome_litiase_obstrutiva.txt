@@ -1,0 +1,17 @@
+# gatilhos: abdome com calculo obstrutivo | litiase ureteral obstrutiva | colica renal | calculo ureteral
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, sem injeção de contraste (protocolo de urolitíase).
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Rins e vias urinárias: cálculo no ureter {lado|direito/esquerdo}, em seu terço ___, medindo {tamanho} no maior eixo, com densidade de ___ UH, determinando dilatação pielocalicinal e ureteral a montante. Densificação da gordura perirrenal e periureteral ipsilateral. Rim contralateral sem cálculos ou dilatação.
+Bexiga: parcial repleção, sem cálculos no seu interior.
+Demais órgãos abdominais e pélvicos sem alterações significativas, considerando a ausência de contraste.
+Vasos: aorta com ateromatose calcificada parietal.
+Estruturas ósseas: alterações degenerativas da coluna lombar.
+
+CONCLUSÃO:
+1. **Cálculo ureteral {lado_a|à direita/à esquerda}** medindo {tamanho}, com hidronefrose a montante.
+2. Sinais inflamatórios perirrenais ipsilaterais, compatíveis com obstrução aguda.

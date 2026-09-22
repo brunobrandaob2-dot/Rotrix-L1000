@@ -1,0 +1,17 @@
+# gatilhos: raio x de pe com fratura por estresse | rx de pe com fratura por estresse | radiografia de pe com fratura por estresse | rx pe fratura de estresse | raio x de pe com fratura de estresse do metatarso
+# categoria: msk
+# modalidade: rx
+# regiao: pe
+# tipo_mascara: aguda
+**RADIOGRAFIA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, oblíqua e perfil.
+
+**ANÁLISE:**
+Alinhamento preservado, com articulações tarsometatarsais congruentes.
+Espaços articulares preservados.
+Arco longitudinal medial de altura preservada.
+Reação periosteal {periosteal|lisa/lamelar/com calo ósseo em formação} na diáfise {terco|proximal/média/distal} do {metatarso|1º/2º/3º/4º/5º} metatarso, {linha|sem/com} linha de fratura visível, sugestiva de fratura por estresse.
+A ressonância magnética é mais sensível para o diagnóstico precoce.
+Densidade óssea preservada.
+Aumento de partes moles no dorso do antepé.

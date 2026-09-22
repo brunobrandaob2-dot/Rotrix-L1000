@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima encefálico
+# gatilhos: leucoaraiose fazekas | fazekas | microangiopatia com fazekas | leucoencefalopatia microangiopatica | substancia branca fazekas
+# conclusao: Alterações microangiopáticas crônicas da substância branca, grau ___ na escala de Fazekas (0 a 3).
+Parênquima encefálico: hipoatenuações na substância branca periventricular e profunda, de distribuição simétrica e sem efeito expansivo, correspondendo ao grau ___ da escala de Fazekas (0: ausente; 1: focos puntiformes; 2: focos com início de confluência; 3: áreas confluentes), compatíveis com alterações microangiopáticas crônicas. Ausência de áreas de isquemia aguda, hemorragia ou lesão expansiva.

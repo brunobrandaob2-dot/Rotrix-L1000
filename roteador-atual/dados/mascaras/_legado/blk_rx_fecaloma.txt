@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cólon e ampola retal
+# gatilhos: fecaloma | retencao fecal | grande quantidade de fezes no colon | carga fecal aumentada
+# conclusao: Acentuada carga fecal no arcabouço colônico e na ampola retal, compatível com retenção fecal.
+Cólon e ampola retal: acentuado conteúdo fecal distribuído pelo arcabouço colônico, com maior acúmulo no cólon descendente, sigmoide e ampola retal, onde se observa massa fecal de aspecto heterogêneo e limites definidos medindo {tamanho}, compatível com fecaloma. Gás distribuído até a ampola retal.

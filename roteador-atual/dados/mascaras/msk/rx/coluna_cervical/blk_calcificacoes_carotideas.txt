@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: calcificacoes carotideas | ateromatose carotidea | ateromatose
+Partes moles pré-vertebrais com espessura normal e calcificações na projeção das bifurcações carotídeas, sugestivas de ateromatose.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias carótidas internas
+# gatilhos: tortuosidade carotidea | tortuosidade das carotidas internas | kinking carotideo | coiling carotideo
+# conclusao: {tortuosidade|Tortuosidade/Acotovelamento (kinking)/Alça completa (coiling)} do segmento cervical da artéria carótida interna {lado_a|à direita/à esquerda/bilateralmente}, sem estenose associada.
+Artérias carótidas internas:  segmentos cervicais pérvios até a base do crânio, com calibre preservado, apresentando {tortuosidade|tortuosidade/acotovelamento (kinking)/alça completa (coiling)} {lado_a|à direita/à esquerda/bilateralmente}, sem estenose significativa associada.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Seios paranasais
+# gatilhos: nivel hidroaereo | nivel hidroaereo no seio | nivel liquido nos seios | sinusopatia aguda
+# conclusao: Nível hidroaéreo no seio {seio|maxilar/frontal/esfenoidal} {lado|direito/esquerdo}; correlacionar com dados clínicos.
+Seios paranasais:  espessamento mucoso com nível hidroaéreo no seio {seio|maxilar/frontal/esfenoidal} {lado|direito/esquerdo}, nos segmentos incluídos no estudo.

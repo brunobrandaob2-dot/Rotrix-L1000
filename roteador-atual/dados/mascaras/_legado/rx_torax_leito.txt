@@ -1,0 +1,24 @@
+# gatilhos: raio x de torax no leito | rx de torax no leito | radiografia de torax no leito | rx torax ap no leito | raio x de torax portatil | rx torax leito dispositivos
+RADIOGRAFIA DO TÓRAX NO LEITO
+
+TÉCNICA: incidência ântero-posterior, obtida no leito, com o paciente em decúbito dorsal / semissentado, em aparelho portátil.
+
+RESSALVA TÉCNICA: exame realizado em incidência AP, no leito, em inspiração e penetração subótimas, o que determina magnificação da área cardíaca e do mediastino e reduz a acurácia na avaliação de derrames de pequeno volume e de pneumotórax anterior. A interpretação deve considerar essas limitações.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Dispositivos: tubo orotraqueal com extremidade distal a {tamanho} da carina (posicionamento adequado entre 2 e 6 cm da carina). Cateter venoso central em acesso {lado|direito/esquerdo}, com extremidade projetando-se em ___. Sonda enteral com trajeto ___ e extremidade projetando-se em ___. Dreno tubular {lado_a|à direita/à esquerda}, com extremidade em ___.
+Parênquima pulmonar: opacidades ___ (ausentes / de distribuição ___), sem consolidações evidentes ao método.
+Hilos e vasos pulmonares: hilos de topografia e densidade habituais.
+Área cardíaca e mediastino: área cardíaca de avaliação limitada pela técnica AP, aparentemente aumentada por magnificação. Mediastino centrado.
+Pleura e seios costofrênicos: seios costofrênicos ___ (livres / velados), sem sinais de pneumotórax evidentes nesta incidência.
+Cúpulas diafragmáticas: contornos parcialmente delimitados.
+Estruturas ósseas e partes moles: sem alterações significativas evidentes ao método.
+
+COMPARAÇÃO: comparado ao estudo de ___/___/____.
+
+CONCLUSÃO:
+1. Dispositivos em posição adequada / a rever, conforme descrito.
+2. Exame realizado no leito, em AP, com as limitações técnicas assinaladas.
+3. A radiografia simples no leito tem sensibilidade limitada para pneumotórax anterior e derrames de pequeno volume; se a suspeita clínica persistir, considerar tomografia.

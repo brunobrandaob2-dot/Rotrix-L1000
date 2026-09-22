@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: rim cronico | nefropatia cronica | rim atrofico | doenca renal cronica | rim reduzido de volume
+# conclusao: Sinais de nefropatia crônica {lado_a|à direita/à esquerda}, com redução volumétrica e adelgaçamento cortical.
+Rins: rim {lado|direito/esquerdo} de dimensões reduzidas, com adelgaçamento do parênquima e contornos lobulados, sem cálculos ou dilatação de vias coletoras. Rim contralateral de dimensões preservadas, com hipertrofia compensatória.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: osteopenia | reducao da densidade ossea | rarefacao ossea | osteoporose
+# conclusao: Redução difusa da densidade óssea (sugere-se densitometria óssea para quantificação, se houver indicação clínica).
+Corpos vertebrais:  de altura e morfologia preservadas, com redução difusa da densidade óssea e acentuação do trabeculado vertical, sem sinais de fratura ou de lesão focal.

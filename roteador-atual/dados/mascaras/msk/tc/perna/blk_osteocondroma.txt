@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tíbia
+# gatilhos: osteocondroma | exostose | exostose ossea
+# conclusao: Osteocondroma na metáfise {metafise|proximal/distal} da tíbia.
+Tíbia:  exostose {forma|séssil/pediculada} na metáfise {metafise|proximal/distal}, com continuidade cortical e medular com o osso de origem, medindo {tamanho}, com aspecto de osteocondroma. A capa cartilaginosa é melhor avaliada pela ressonância magnética.

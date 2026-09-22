@@ -1,0 +1,30 @@
+# gatilhos: coluna cervical degenerativa | tomografia de coluna cervical | espondilose cervical | coluna cervical com alteracoes degenerativas | uncoartrose
+TOMOGRAFIA COMPUTADORIZADA DA COLUNA CERVICAL
+
+TÉCNICA: aquisição volumétrica com reconstruções multiplanares, em filtros para osso e para partes moles.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Alinhamento: retificação da lordose cervical fisiológica. Ausência de listeses / anterolistese de ___ sobre o nível subjacente, de ___ mm.
+Corpos vertebrais: altura e morfologia preservadas, sem sinais de fratura ou de lesão focal. Osteófitos marginais anteriores e posteriores em múltiplos níveis.
+Charneira craniocervical: processo odontoide íntegro e centrado em relação às massas laterais de C1. Articulações atlantoaxiais preservadas.
+Discos intervertebrais: redução da altura discal em ___, com fenômeno de vácuo discal em ___.
+Articulações uncovertebrais e interapofisárias: uncoartrose com osteófitos projetados para os forames em ___. Artrose interapofisária com esclerose subcondral e redução do espaço articular em ___.
+Análise por nível:
+C2-C3: altura discal preservada; uncoartrose ausente / presente; canal vertebral de amplitude preservada; forames pérvios / com redução de amplitude {lado_a|à direita/à esquerda}.
+C3-C4: altura discal preservada / reduzida; uncoartrose ausente / presente; canal vertebral de amplitude preservada / reduzida; forames pérvios / com redução de amplitude {lado_a|à direita/à esquerda}.
+C4-C5: altura discal preservada / reduzida; uncoartrose ausente / presente; canal vertebral de amplitude preservada / reduzida; forames pérvios / com redução de amplitude {lado_a|à direita/à esquerda}.
+C5-C6: altura discal preservada / reduzida; uncoartrose ausente / presente; complexo disco-osteofitário posterior com impressão sobre o saco dural; canal vertebral com diâmetro ântero-posterior de ___ mm; forames pérvios / com redução de amplitude {lado_a|à direita/à esquerda}.
+C6-C7: altura discal preservada / reduzida; uncoartrose ausente / presente; canal vertebral com diâmetro ântero-posterior de ___ mm; forames pérvios / com redução de amplitude {lado_a|à direita/à esquerda}.
+C7-T1: altura discal preservada / reduzida; uncoartrose ausente / presente; canal vertebral de amplitude preservada / reduzida; forames pérvios / com redução de amplitude {lado_a|à direita/à esquerda}.
+Canal vertebral: amplitude preservada / reduzida em ___, por componente degenerativo combinado — complexo disco-osteofitário, hipertrofia facetária e espessamento do ligamento amarelo. Valores de diâmetro ântero-posterior inferiores a 10 mm caracterizam estenose absoluta e entre 10 e 12 mm, estenose relativa.
+Forames de conjugação: pérvios / com redução de amplitude em ___ {lado_a|à direita/à esquerda}, predominantemente por componente uncovertebral.
+Partes moles paravertebrais: sem alterações significativas. Ausência de coleções ou calcificações ectópicas.
+
+CONCLUSÃO:
+1. Alterações degenerativas da coluna cervical (espondilose, uncoartrose e artrose interapofisária), mais evidentes em ___.
+2. Redução da altura discal em ___.
+3. Redução da amplitude dos forames de conjugação em ___ {lado_a|à direita/à esquerda}.
+4. Redução da amplitude do canal vertebral em ___, com diâmetro ântero-posterior de ___ mm / canal vertebral de amplitude preservada nos níveis avaliados.
+5. Recomenda-se ressonância magnética para avaliação das estruturas discoligamentares, do cordão medular e das raízes, se houver indicação clínica.

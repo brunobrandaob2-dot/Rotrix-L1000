@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas
+# gatilhos: espondilose cervical | osteofitos cervicais | alteracoes degenerativas da coluna cervical | alteracoes degenerativas na coluna | alteracoes degenerativas da coluna | osteofitos na coluna | osteofitos | espondiloartrose | espondilartrose | alteracoes degenerativas
+# conclusao: Alterações degenerativas da coluna cervical.
+Estruturas ósseas:  alterações degenerativas da coluna cervical, com osteófitos marginais e redução dos espaços discais, mais evidentes em {niveis_cervicais}. Sem lesões líticas ou blásticas.

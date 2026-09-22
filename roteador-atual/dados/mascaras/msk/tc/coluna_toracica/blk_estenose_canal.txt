@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Canal vertebral
+# gatilhos: estenose de canal | estenose do canal vertebral | canal estreito | estenose do canal
+# conclusao: Redução da amplitude do canal vertebral torácico em {nivel}, com diâmetro anteroposterior de {diametro} mm.
+Canal vertebral:  redução da amplitude do canal vertebral em {nivel}, com diâmetro anteroposterior de {diametro} mm, por {causa|componente disco-osteofitário/hipertrofia facetária e espessamento dos ligamentos amarelos/ossificação do ligamento amarelo}.

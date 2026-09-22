@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias femorais superficiais
+# gatilhos: estenose da femoral superficial | estenose femoral superficial
+# conclusao: Estenose de ___% da artéria femoral superficial {lado_f|direita/esquerda}.
+Artérias femorais superficiais:  placa ateromatosa no terço {terco|proximal/médio/distal} da artéria femoral superficial {lado_f|direita/esquerda}, determinando estenose de ___%, com extensão de ___ cm. Artéria femoral superficial contralateral {contralateral|pérvia, sem estenoses significativas/com ___}.

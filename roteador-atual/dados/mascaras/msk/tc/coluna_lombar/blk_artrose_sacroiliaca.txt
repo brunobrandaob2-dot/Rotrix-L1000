@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações sacroilíacas
+# gatilhos: artrose sacroiliaca | sacroiliacas degenerativas | esclerose sacroiliaca
+# conclusao: Alterações degenerativas das articulações sacroilíacas.
+Articulações sacroilíacas:  redução dos espaços articulares, esclerose subcondral e osteófitos anteriores, sem erosões, de aspecto degenerativo.

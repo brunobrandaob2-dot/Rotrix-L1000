@@ -1,0 +1,18 @@
+# gatilhos: raio x de coluna lombar com espondilolistese | rx de coluna lombar com espondilolistese | rx coluna lombar espondilolistese | radiografia de coluna lombar com espondilolistese | rx de coluna lombar com anterolistese | rx de coluna lombossacra com espondilolistese | rx de coluna lombar com espondilolise | rx de coluna lombar com listese
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_lombar
+# tipo_mascara: cronica
+**RADIOGRAFIA DA COLUNA LOMBOSSACRA**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Anterolistese de {nivel}, grau {grau_meyerding|I/II/III/IV/V} de Meyerding.
+Corpos vertebrais com altura preservada e osteófitos marginais no nível da listese.
+Redução do espaço discal em {nivel}.
+{espondilolise|Descontinuidade do istmo de ___, compatível com espondilólise/Istmos sem descontinuidade evidente}.
+Artrose interapofisária em {nivel}.
+Articulações sacroilíacas preservadas.
+Densidade óssea preservada.
+Partes moles sem alterações.

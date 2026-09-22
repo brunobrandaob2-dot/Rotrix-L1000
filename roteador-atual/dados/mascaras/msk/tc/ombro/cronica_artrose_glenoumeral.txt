@@ -1,0 +1,27 @@
+# gatilhos: tomografia de ombro com artrose | tomografia do ombro com artrose | tc de ombro com artrose | tc do ombro com artrose | tc ombro artrose | tomografia de ombro com artrose glenoumeral | tc de ombro com artrose glenoumeral | tomografia de ombro com omartrose | tc de ombro com omartrose
+# categoria: msk
+# modalidade: tc
+# regiao: ombro
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  cabeça umeral {centragem|centrada na glenoide/com subluxação posterior estática}, sem sinais de luxação.
+Úmero proximal:  osteófitos marginais na cabeça umeral, mais evidentes na sua face inferior, com esclerose e cistos subcondrais. Não há traços de fratura.
+Glenoide e escápula:  glenoide com esclerose subcondral e osteófitos marginais, morfologia tipo {walch|A1/A2/B1/B2/B3/C/D} de Walch e retroversão estimada em {retroversao}°. Acrômio e processo coracoide sem particularidades.
+Articulação glenoumeral:  redução {grau|leve/moderada/acentuada} do espaço articular. {corpos|Não há corpos livres intra-articulares/Corpos livres intra-articulares no recesso ___, o maior medindo ___}.
+Articulação acromioclavicular:  congruente, com espaço articular preservado e sem osteófitos significativos.
+Espaço acromioumeral:  preservado.
+Clavícula:  contornos corticais preservados, sem traços de fratura.
+Mineralização óssea:  preservada.
+Partes moles:  ventres musculares do manguito rotador e do deltoide de volume e atenuação preservados, sem lipossubstituição significativa. Não há coleções ou calcificações, considerando os limites do método para avaliação tendínea, labral e capsuloligamentar.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artrose glenoumeral (Kellgren-Lawrence {kl|1/2/3/4}).
+Glenoide tipo {walch|A1/A2/B1/B2/B3/C/D} de Walch, com retroversão estimada em {retroversao}°.

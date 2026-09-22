@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: enfisema | enfisema pulmonar | enfisema centrolobular | enfisema parasseptal | enfisema paraseptal | alteracoes enfisematosas | enfisema centrolobular e parasseptal
+# conclusao: Enfisema pulmonar {tipo_enfisema|centrolobular/parasseptal/centrolobular e parasseptal/centrolobular e predominantemente parasseptal/panlobular} nos {predominio|lobos superiores/lobos inferiores}.
+Parênquima pulmonar:  enfisema {tipo_enfisema|centrolobular/parasseptal/centrolobular e parasseptal/centrolobular e predominantemente parasseptal/panlobular} nos {predominio|lobos superiores/lobos inferiores}.

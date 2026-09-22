@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: varizes | veias varicosas | varicosidades
+# conclusao: Varizes no tecido subcutâneo da perna.
+Partes moles:  estruturas vasculares tortuosas e dilatadas no tecido subcutâneo da face {face|medial/posterior/lateral} da perna, compatíveis com varizes.

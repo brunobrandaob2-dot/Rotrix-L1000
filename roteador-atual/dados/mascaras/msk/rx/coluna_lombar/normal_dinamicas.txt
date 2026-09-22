@@ -1,0 +1,18 @@
+# gatilhos: raio x de coluna lombar com dinamicas | rx de coluna lombar com dinamicas | rx coluna lombar dinamica | radiografia de coluna lombar com dinamicas | rx de coluna lombar com flexao e extensao | raio x de coluna lombossacra com dinamicas | rx de coluna lombossacra dinamica | rx de coluna lombar dinamica normal
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_lombar
+# tipo_mascara: normal
+**RADIOGRAFIA DA COLUNA LOMBOSSACRA**
+
+**TÉCNICA:**  incidências anteroposterior, perfil neutro e perfis dinâmicos em flexão e extensão.
+
+**ANÁLISE:**
+Alinhamento vertebral preservado.
+Corpos vertebrais com altura preservada, sem sinais de fraturas.
+Espaços discais preservados.
+Elementos posteriores preservados.
+Articulações sacroilíacas preservadas.
+Densidade óssea preservada.
+Não há sinais de instabilidade entre flexão e extensão.
+Partes moles sem alterações.

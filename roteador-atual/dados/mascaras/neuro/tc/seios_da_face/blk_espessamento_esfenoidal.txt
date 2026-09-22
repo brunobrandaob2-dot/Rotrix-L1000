@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Seios esfenoidais
+# gatilhos: espessamento mucoso esfenoidal | sinusopatia esfenoidal | velamento esfenoidal
+# conclusao: Espessamento mucoso no seio esfenoidal {lado|direito/esquerdo}.
+Seios esfenoidais:  espessamento mucoso no seio esfenoidal {lado|direito/esquerdo}, sem níveis hidroaéreos. Paredes ósseas íntegras, incluindo as relações com os canais ópticos e carotídeos.

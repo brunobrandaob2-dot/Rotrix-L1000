@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Pâncreas
+# gatilhos: lipossubstituicao pancreatica | lipossubstituicao do pancreas | pancreas lipossubstituido | involucao adiposa do pancreas
+# conclusao: Lipossubstituição pancreática.
+Pâncreas:  de dimensões normais, com lipossubstituição parenquimatosa difusa, sem dilatação ductal ou lesões focais.

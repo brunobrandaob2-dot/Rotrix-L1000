@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vasos
+# gatilhos: trombose de porta | trombose portal | trombose do eixo esplenoportal | falha de enchimento na porta
+# conclusao: Trombose {lado_a|à direita/à esquerda} / parcial do eixo esplenoportal, com extensão a ___; correlacionar com o quadro clínico e com a avaliação de hipercoagulabilidade.
+Vasos: falha de enchimento endoluminal na veia porta, acometendo o ramo ___ e estendendo-se ao tronco portal por ___ cm, com oclusão parcial / completa da luz, sem realce do material intraluminal nas fases contrastadas e sem alargamento significativo do calibre do vaso. Circulação colateral portossistêmica incipiente / desenvolvida em ___. Veias esplênica e mesentérica superior pérvias / também acometidas. Aorta de calibre preservado e veia cava inferior pérvia.

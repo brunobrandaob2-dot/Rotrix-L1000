@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Elementos posteriores
+# gatilhos: laminectomia | hemilaminectomia | pos laminectomia
+Ausência das lâminas e dos processos espinhosos de {nivel}, compatível com laminectomia.

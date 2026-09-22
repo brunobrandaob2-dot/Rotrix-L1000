@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: corpo estranho | corpo estranho radiopaco | corpo estranho metalico | fragmento de vidro
+Corpo estranho de densidade {densidade|metálica/cálcica/vítrea} nas partes moles da face {face|anterior/posterior/medial/lateral} do terço {terco|proximal/médio/distal} da perna, medindo {tamanho}.

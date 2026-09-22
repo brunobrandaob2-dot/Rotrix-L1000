@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: entesopatia | entesopatia quadricipital | entesofito patelar | entesopatia patelar
+Entesófitos no polo {entese|superior da patela, na inserção do tendão quadricipital/inferior da patela, na origem do tendão patelar}, compatíveis com entesopatia.

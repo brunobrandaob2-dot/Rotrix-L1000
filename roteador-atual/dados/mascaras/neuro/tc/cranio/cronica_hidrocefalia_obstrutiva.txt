@@ -1,0 +1,33 @@
+# gatilhos: tomografia de cranio com hidrocefalia obstrutiva | tc de cranio com hidrocefalia obstrutiva | tc cranio hidrocefalia obstrutiva | tomografia de cranio com hidrocefalia nao comunicante | tc de cranio com hidrocefalia nao comunicante
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  diferenciação córtico-subcortical mantida. Não há áreas de isquemia aguda ou hemorragia.
+Substância branca:  {transudacao|sem hipoatenuação periventricular sugestiva de transudação liquórica/hipoatenuação periventricular com aspecto de halo, sugestiva de transudação liquórica transependimária}.
+Núcleos da base:  de morfologia e atenuação preservadas.
+Sistema ventricular:  dilatação do sistema ventricular a montante {nivel_obstrucao|dos forames interventriculares/do aqueduto cerebral/das saídas do quarto ventrículo}, com arredondamento dos cornos frontais. Índice de Evans de {evans} (referência: até 0,30).
+Lesão obstrutiva: {lesao_obstrutiva|não caracterizada ao método/___}.
+Cisternas da base e sulcos corticais:  sulcos corticais da convexidade apagados. Cisternas da base {cisternas|pérvias/parcialmente apagadas/apagadas}.
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Espaços extra-axiais:  sem coleções.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura ou lesões focais.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Dilatação do sistema ventricular a montante {nivel_obstrucao|dos forames interventriculares/do aqueduto cerebral/das saídas do quarto ventrículo}, com índice de Evans de {evans}, sugerindo hidrocefalia de padrão obstrutivo.
+Recomenda-se ressonância magnética do encéfalo para caracterização do nível e da causa da obstrução.

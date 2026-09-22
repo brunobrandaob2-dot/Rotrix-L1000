@@ -1,0 +1,31 @@
+# gatilhos: angiotomografia de aorta | angio de aorta | angio tc de aorta | angiotomografia da aorta | angio da aorta | angiotomografia de aorta normal | angio de aorta normal | angio tc de aorta normal | angio de aorta sem alteracoes | angio de aorta toracica | angio de aorta toracica normal | angiotomografia de aorta toracica | angiotomografia de aorta toracica normal | angio tc de aorta toracica | angio de aorta abdominal | angio de aorta abdominal normal | angiotomografia de aorta abdominal | angiotomografia de aorta abdominal normal | angio tc de aorta abdominal | angio de aorta total | angio de aorta total normal | angiotomografia de aorta total | angiotomografia de aorta total normal | angio de aorta toracica e abdominal | angiotomografia de aorta toracica e abdominal | angiotomografia de aorta sem alteracoes | pesquisa de disseccao de aorta negativa
+# categoria: angio
+# modalidade: angiotc
+# regiao: aorta
+# tipo_mascara: normal
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA {segmento_aortico|TORÁCICA E ABDOMINAL/TORÁCICA/ABDOMINAL}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, em fase arterial, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação da aorta e de seus ramos. Diâmetros aferidos de parede externa a parede externa, em plano perpendicular ao eixo longitudinal do vaso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na luz aórtica na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise.
+Fase sem contraste:  sem evidências de hematoma intramural, de deslocamento interno de calcificações intimais ou de coleções hemáticas periaórticas.
+Raiz aórtica e aorta ascendente:  calibre preservado, contornos regulares e opacificação homogênea.
+Arco aórtico e ramos supra-aórticos:  conformação habitual, com origem e trajeto preservados do tronco braquiocefálico, da artéria carótida comum esquerda e da artéria subclávia esquerda, pérvios.
+Aorta torácica descendente:  trajeto e calibre habituais, com opacificação homogênea.
+Aorta abdominal:  trajeto e calibre habituais, com opacificação homogênea.
+Paredes aórticas:  lisas, sem placas ateromatosas significativas, trombos murais, úlceras ou espessamentos parietais.
+Ramos viscerais:  tronco celíaco, artéria mesentérica superior, artérias renais e artéria mesentérica inferior com origem habitual e pérvios, sem estenoses significativas.
+Artérias ilíacas:  artérias ilíacas comuns, internas e externas pérvias, com calibre e trajeto anatômicos.
+Diâmetros aórticos:  seios de Valsalva ___ mm; aorta ascendente ___ mm; arco ___ mm; descendente proximal ___ mm; descendente no hiato diafragmático ___ mm; aorta abdominal suprarrenal ___ mm; infrarrenal ___ mm.
+Mediastino e retroperitônio:  sem hematomas, densificações ou coleções periaórticas.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Demais estruturas:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Angiotomografia da aorta sem alterações significativas.

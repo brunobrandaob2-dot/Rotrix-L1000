@@ -1,0 +1,24 @@
+# gatilhos: tomografia de pe | tomografia do pe | tc de pe | tc do pe | tomografia de pe normal | tomografia do pe normal | tc de pe normal | tc pe normal | tomografia de pe sem alteracoes
+# categoria: msk
+# modalidade: tc
+# regiao: pe
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  preservado, sem subluxações.
+Retropé:  tálus e calcâneo de morfologia e densidade normais. Articulações subtalar e talonavicular congruentes.
+Mediopé:  navicular, cuboide e cuneiformes sem particularidades. Articulações tarsometatarsais (Lisfranc) congruentes.
+Antepé:  metatarsos e falanges sem particularidades. Articulações metatarsofalângicas e interfalângicas congruentes.
+Arcos plantares:  preservados, considerando que o exame é realizado sem carga.
+Tendões:  trajeto habitual, considerando os limites do método.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

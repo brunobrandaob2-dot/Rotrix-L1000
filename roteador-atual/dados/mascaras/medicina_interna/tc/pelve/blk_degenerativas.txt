@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas pélvicas
+# gatilhos: alteracoes degenerativas | alteracoes degenerativas na coluna e bacia | alteracoes degenerativas na bacia | espondiloartrose | osteoartrose | artrose
+# conclusao: Alterações degenerativas osteoarticulares na coluna e pelve.
+Estruturas ósseas pélvicas:  alterações degenerativas na coluna lombar e bacia.

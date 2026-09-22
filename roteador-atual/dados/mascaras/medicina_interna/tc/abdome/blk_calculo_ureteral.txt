@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: calculo ureteral | litiase ureteral | ureterolitiase | calculo no ureter
+# conclusao: Cálculo em {local|terço proximal/terço médio/terço distal/junção ureterovesical} do ureter {lado|direito/esquerdo}, medindo {tamanho}, determinando dilatação ureteropielocalicinal {grau|discreta/moderada/acentuada} a montante.
+Rins:  rim {lado|direito/esquerdo} com dilatação ureteropielocalicinal {grau|discreta/moderada/acentuada} a montante de cálculo localizado em {local|terço proximal/terço médio/terço distal/junção ureterovesical} do ureter ipsilateral, medindo {tamanho}, com densificação da gordura perirrenal e periureteral. Rim contralateral tópico, sem cálculos ou dilatação de vias coletoras.

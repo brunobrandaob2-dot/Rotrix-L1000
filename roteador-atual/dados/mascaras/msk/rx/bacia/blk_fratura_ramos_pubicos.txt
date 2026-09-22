@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura dos ramos pubicos | fratura de ramo pubico | fratura do ramo isquiopubico | fratura do ramo iliopubico
+Fratura dos ramos iliopúbico e isquiopúbico {lado_ramos|direitos/esquerdos/bilaterais}, {desvio_ramos|sem desvio significativo/com desvio de ___}; considerar tomografia para o anel pélvico posterior.

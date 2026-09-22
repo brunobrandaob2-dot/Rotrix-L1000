@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Seios maxilares
+# gatilhos: espessamento mucoso maxilar | espessamento mucoso no seio maxilar | sinusopatia maxilar
+# conclusao: Espessamento mucoso maxilar {lado_a|à direita/à esquerda}, de aspecto inflamatório inespecífico.
+Seios maxilares:  espessamento mucoso parietal {lado_a|à direita/à esquerda}, com espessura máxima de {tamanho}, sem níveis hidroaéreos. Paredes ósseas íntegras.

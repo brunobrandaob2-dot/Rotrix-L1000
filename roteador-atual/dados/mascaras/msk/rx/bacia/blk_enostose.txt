@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Densidade óssea
+# gatilhos: enostose | ilhota ossea | ilhota de osso compacto
+Densidade óssea preservada, com enostose no osso ilíaco {lado_enostose|direito/esquerdo}, medindo {tamanho}.

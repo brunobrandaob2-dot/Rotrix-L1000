@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: luxacao do cotovelo | luxacao | cotovelo luxado
+Luxação {direcao|posterior/posterolateral/anterior} do cotovelo.

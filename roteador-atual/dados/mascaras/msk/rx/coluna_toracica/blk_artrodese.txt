@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: material de artrodese | parafusos pediculares | fixacao pedicular | artrodese toracica
+Material de artrodese de {nivel} a {nivel}, em posição habitual, sem sinais de soltura ou fratura dos implantes.

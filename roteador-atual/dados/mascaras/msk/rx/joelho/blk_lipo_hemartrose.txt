@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: lipo hemartrose | lipohemartrose | nivel gordura liquido
+Nível gordura-líquido no recesso suprapatelar, compatível com lipo-hemartrose.

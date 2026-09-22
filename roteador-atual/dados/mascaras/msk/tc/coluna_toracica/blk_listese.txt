@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: listese | anterolistese | retrolistese | espondilolistese
+# conclusao: {tipo_listese|Anterolistese/Retrolistese} de {nivel}.
+Alinhamento:  {tipo_listese|anterolistese/retrolistese} de {nivel} sobre o nível subjacente, medindo {tamanho}. Cifose torácica fisiológica preservada.

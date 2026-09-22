@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Mediastino
+# gatilhos: calcificacoes coronarianas | ateromatose coronariana | coronarias calcificadas | calcificacao coronariana
+# conclusao: Calcificações ateromatosas coronarianas.
+Mediastino:  calcificações parietais nas artérias coronárias. Demais estruturas mediastinais sem alterações evidentes.

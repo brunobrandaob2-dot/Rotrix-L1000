@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulação acromioclavicular
+# gatilhos: artrose acromioclavicular | artrose da acromioclavicular | acromioclavicular degenerativa
+# conclusao: Artrose acromioclavicular.
+Articulação acromioclavicular:  redução do espaço articular, com esclerose subcondral e osteófitos marginais, {inferior|sem/com} osteófito de projeção inferior.

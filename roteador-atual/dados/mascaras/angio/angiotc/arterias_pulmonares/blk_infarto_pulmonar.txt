@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: infarto pulmonar | opacidade cuneiforme | consolidacao em cunha
+# conclusao: Opacidade periférica cuneiforme no {lobo} {lado|direito/esquerdo}, podendo corresponder a infarto pulmonar.
+Parênquima pulmonar:  opacidade periférica cuneiforme de base pleural no {lobo} {lado|direito/esquerdo}, medindo {tamanho}, com hipoatenuação central e sem realce significativo, podendo corresponder a infarto pulmonar. Demais segmentos sem consolidações.

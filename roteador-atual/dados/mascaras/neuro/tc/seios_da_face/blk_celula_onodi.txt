@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Variantes anatômicas
+# gatilhos: celula de onodi | celula esfenoetmoidal | celulas de onodi
+# conclusao: Célula de Onodi {lado_a|à direita/à esquerda}, em relação com o canal óptico.
+Variantes anatômicas:  célula esfenoetmoidal (célula de Onodi) {lado_a|à direita/à esquerda}, em íntima relação com o canal óptico, dado relevante para o planejamento cirúrgico.

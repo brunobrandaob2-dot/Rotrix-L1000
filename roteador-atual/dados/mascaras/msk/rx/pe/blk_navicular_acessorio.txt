@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: navicular acessorio | os naviculare | os tibial externo | osso navicular acessorio
+Navicular acessório tipo {tipo_nav|I/II/III}, sem sinais de fraturas ou luxações.

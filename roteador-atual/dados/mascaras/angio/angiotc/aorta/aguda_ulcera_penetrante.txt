@@ -1,0 +1,32 @@
+# gatilhos: angio de aorta com ulcera penetrante sintomatica | angio de aorta com ulcera penetrante complicada | angiotomografia de aorta com ulcera penetrante sintomatica | angio de aorta com sindrome aortica aguda por ulcera penetrante | angio de aorta com ulcera penetrante e hematoma intramural
+# categoria: angio
+# modalidade: angiotc
+# regiao: aorta
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA {segmento_aortico|TORÁCICA E ABDOMINAL/TORÁCICA/ABDOMINAL}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, em fase arterial, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação da aorta e de seus ramos. Diâmetros aferidos de parede externa a parede externa, em plano perpendicular ao eixo longitudinal do vaso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na luz aórtica na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise.
+Fase sem contraste:  {him_associado|sem hematoma intramural associado/espessamento parietal hiperatenuante em crescente adjacente à úlcera, compatível com hematoma intramural associado, com espessura de ___ mm}.
+Raiz aórtica e aorta ascendente:  calibre preservado, contornos regulares e opacificação homogênea.
+Arco aórtico e ramos supra-aórticos:  conformação habitual, com origem e trajeto preservados do tronco braquiocefálico, da artéria carótida comum esquerda e da artéria subclávia esquerda, pérvios.
+Aorta torácica descendente:  trajeto e calibre habituais, com opacificação homogênea.
+Aorta abdominal:  trajeto e calibre habituais, com opacificação homogênea.
+Paredes aórticas:  placas ateromatosas parietais, com ulceração focal na {localizacao_ulcera|aorta torácica descendente/aorta abdominal/arco aórtico}, projetando-se além do contorno esperado da íntima, com profundidade de ___ mm e colo de ___ mm (maior risco quando profundidade > 10 mm ou largura > 20 mm).
+Ramos viscerais:  tronco celíaco, artéria mesentérica superior, artérias renais e artéria mesentérica inferior com origem habitual e pérvios, sem estenoses significativas.
+Artérias ilíacas:  artérias ilíacas comuns, internas e externas pérvias, com calibre e trajeto anatômicos.
+Diâmetros aórticos:  seios de Valsalva ___ mm; aorta ascendente ___ mm; arco ___ mm; descendente proximal ___ mm; descendente no hiato diafragmático ___ mm; aorta abdominal suprarrenal ___ mm; infrarrenal ___ mm.
+Mediastino e retroperitônio:  {densificacao|densificação da gordura periaórtica adjacente, sem hematoma/hematoma periaórtico ___}.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Demais estruturas:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Úlcera aterosclerótica penetrante na {localizacao_ulcera|aorta torácica descendente/aorta abdominal/arco aórtico}, com profundidade de ___ mm, {him_conclusao|com hematoma intramural associado/com densificação periaórtica}, configurando síndrome aórtica aguda.
+Resultado comunicado à equipe assistente em ___h___, ao(à) Dr(a). ___.

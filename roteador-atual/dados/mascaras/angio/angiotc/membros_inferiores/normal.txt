@@ -1,0 +1,29 @@
+# gatilhos: angiotomografia de membros inferiores | angio de membros inferiores | angio tc de membros inferiores | angiotomografia arterial de membros inferiores | angio arterial de membros inferiores | angiotomografia de membros inferiores normal | angio de membros inferiores normal | angio tc de membros inferiores normal | angio arterial de membros inferiores normal | angiotomografia dos membros inferiores | angio dos membros inferiores | angio de mmii | angio de mmii normal | angio arterial de mmii | angio de arterias dos membros inferiores | angiotomografia de membros inferiores sem alteracoes
+# categoria: angio
+# modalidade: angiotc
+# regiao: membros_inferiores
+# tipo_mascara: normal
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL DOS MEMBROS INFERIORES**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fase arterial, da aorta abdominal aos pés, com reconstruções multiplanares, em projeção de intensidade máxima (MIP) e tridimensionais, direcionadas para a avaliação do sistema arterial dos membros inferiores.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada até os segmentos distais, sem artefatos que limitem a análise.
+Aorta abdominal infrarrenal:  trajeto e calibre habituais, pérvia, sem estenoses ou dilatações.
+Artérias ilíacas comuns:  pérvias, com calibre e trajeto anatômicos, sem estenoses.
+Artérias ilíacas internas:  pérvias.
+Artérias ilíacas externas:  pérvias, com calibre e trajeto anatômicos, sem estenoses.
+Artérias femorais comuns:  pérvias, com bifurcação habitual.
+Artérias femorais profundas:  pérvias, com calibre e trajeto habituais.
+Artérias femorais superficiais:  pérvias, com calibre preservado e opacificação homogênea, sem estenoses ou oclusões.
+Artérias poplíteas:  pérvias, de calibre normal, sem dilatações ou estenoses.
+Artérias da perna:  troncos tibiofibulares, artérias tibiais anteriores, tibiais posteriores e fibulares pérvios, com opacificação contínua até o tornozelo.
+Artérias do pé:  artérias dorsais do pé e arcos plantares opacificados, considerando os limites de resolução do método.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Angiotomografia arterial dos membros inferiores sem alterações significativas.

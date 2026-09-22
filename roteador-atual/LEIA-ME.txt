@@ -1,0 +1,346 @@
+════════════════════════════════════════════════════════════════
+ ROTEADOR DE LAUDOS
+ Máscaras, revisão e colagem por voz sobre o Handy
+════════════════════════════════════════════════════════════════
+
+Esta é a pasta única do sistema. Tudo que interessa está aqui.
+O que falar para cada exame está em CATALOGO.txt.
+
+
+────────────────────────────────────────────────────────────────
+ COMO USAR
+────────────────────────────────────────────────────────────────
+
+    Ctrl + Space         ditado normal (texto limpo pelo processador)
+    Ctrl + Alt + Space   ditado com o roteador (máscaras, blocos, frases)
+    Ctrl + Alt + A       revisão do LAUDO INTEIRO pela nuvem (ver abaixo)
+    Esc                  cancela
+
+O roteador sobe sozinho com o Windows. Se Ctrl+Alt+Space não fizer
+nada, rode INICIAR.ps1.
+
+
+────────────────────────────────────────────────────────────────
+ AS CAMADAS, NA ORDEM
+────────────────────────────────────────────────────────────────
+
+ 1. NUVEM — só por gatilho falado no início do ditado
+      "revisar ..." / "corrigir ..."    revisão textual com o seu prompt
+      "recist ..." / "comparar exames"  análise
+    Nada vai para a nuvem sem um desses gatilhos.
+
+ 2. BANCO — máscaras, blocos e frases (local, milissegundos, grátis)
+    O texto vem do banco. Nenhum modelo escreve laudo.
+
+ 3. REVISOR LOCAL — o ditado que não casou com o banco
+    Números e unidades ("um vírgula dois centímetros" -> 1,2 cm),
+    vocabulário radiológico, capitalização.
+
+ 4. PROCESSADOR DE COLAGEM — o seu pacote v8, agora v9
+    Roda em TODO ditado, nos dois atalhos: comandos de parágrafo e
+    pontuação, 1.600 regras de acento, aliases (PI-RADS, BI-RADS...),
+    e o NEGRITO dos cabeçalhos.
+
+
+────────────────────────────────────────────────────────────────
+ CTRL + ALT + A — revisão do laudo inteiro pela nuvem
+────────────────────────────────────────────────────────────────
+
+Dite o laudo normalmente. No fim, com o cursor no campo do laudo:
+
+    Ctrl + Alt + A
+
+    bipe curto   começou (copia o texto; sem seleção, seleciona o campo)
+    bipe agudo   colou por cima a versão revisada (cabeçalhos em negrito)
+    bipe grave   não deu — o texto fica como estava (motivo em atalho.log)
+
+Por voz também: com o laudo selecionado, Ctrl+Alt+Espaço e diga
+"revisar laudo".
+
+COM UMA INSTRUÇÃO SUA — com o cursor no campo do laudo, Ctrl+Alt+Espaço
+e fale o que quer que a IA faça. O laudo inteiro que está na tela vai
+junto com a instrução e volta modificado, colado por cima:
+    "revise e faça uma melhor descrição do AVC"
+    "melhore a conclusão"          "resuma a análise"
+    "descreva melhor o nódulo"     "padronize a descrição da fratura"
+Comece com o verbo (faça, melhore, descreva, resuma, reescreva,
+padronize, detalhe, acrescente, retire...). Se selecionar só um trecho,
+só ele é reescrito. A IA não inventa dado: o que faltar vira ___.
+
+NOTAS NO MEIO DO LAUDO — pode deixar ordens soltas no texto, em
+qualquer lugar (início, fim, meio), e apertar Ctrl+Alt+A:
+    "incluir área de AVC isquêmico no território da ACM esquerda"
+    "acrescentar nódulo de 5 mm no lobo inferior direito"
+    "refinar a análise"      "tirar a conclusão de normal"
+A nuvem põe cada achado na linha certa da ANÁLISE, reescreve a frase
+normal da máscara que o contradiz, refaz a CONCLUSÃO e apaga as notas.
+As marcações [não encontrado no banco — completar: ...] também são
+integradas. Dado que você não ditou (medida, território) vira ___.
+
+O prompt fica em cache na Anthropic, então
+cada laudo sai por ~US$ 0,01. Teto do mês em config.json
+(limite_mes_usd); GASTO.ps1 mostra o acumulado.
+
+────────────────────────────────────────────────────────────────
+ ORGANIZAÇÃO DO BANCO
+────────────────────────────────────────────────────────────────
+
+ MEDICINA INTERNA   TC: tórax, abdome, abdome superior, pelve, urotomografia
+                    RX: tórax, abdome
+ NEURO              TC: crânio, seios da face, pescoço
+                    AngioTC: crânio, pescoço, crânio e pescoço
+                    RX: crânio, seios da face, cavum
+ ANGIO              AngioTC: aorta, artérias pulmonares (TEP),
+                    membros inferiores, mesentéricas e renais
+ MUSCULOESQUELÉTICO TC e RX: ombro, cotovelo, punho, mão, bacia,
+                    quadril, joelho, perna, tornozelo, pé,
+                    coluna cervical, torácica e lombar
+
+Cada região tem:
+    uma máscara NORMAL
+    máscaras CRÔNICAS  (degenerativo, involutivo, corriqueiro)
+    máscaras AGUDAS    (fratura, sangramento, infecção, obstrução...)
+    BLOCOS             achados que se encaixam na máscara
+    FRASES             repertório de frases prontas
+
+Hoje: 47 regiões, ~6.500 gatilhos. Lista completa: CATALOGO.txt.
+
+
+────────────────────────────────────────────────────────────────
+ O QUE FALAR
+────────────────────────────────────────────────────────────────
+
+MÁSCARA NORMAL — o nome do exame:
+    "tomografia de tórax"            "raio x de joelho direito"
+    "tomografia do abdome total com contraste"
+    "angio de crânio e pescoço"      "tc de coluna lombar"
+    A forma curta também vale: "rx ombro", "tc crânio", "rx coluna
+    lombar", "angio pescoço" (tc/tomografia, rx/raio x/radiografia).
+
+MÁSCARA ALTERADA PRONTA — "<exame> com <achado>":
+    "tomografia de crânio com avc isquêmico agudo"
+    "raio x de tórax com pneumonia"
+    "tomografia de joelho com fratura do planalto tibial"
+
+MÁSCARA + BLOCOS — o exame e depois os achados, separados por
+vírgula ou "com" / "e". Cada bloco entra na linha certa; a conclusão
+é montada sozinha, um achado por linha:
+    "tomografia de abdome com esteatose, colelitíase e cisto renal"
+    "raio x de joelho esquerdo com artrose femorotibial medial,
+     derrame articular"
+    Dois achados da mesma estrutura SOMAM na mesma linha.
+
+FRASE SOLTA — prefixo "frase":
+    "frase derrame articular no raio x de joelho"
+    "frase cisto hepático simples"
+
+Achado que não existe no banco NÃO some: aparece no fim da análise
+como [não encontrado no banco — completar: ...].
+
+
+────────────────────────────────────────────────────────────────
+ FORMATAÇÃO
+────────────────────────────────────────────────────────────────
+
+    **TÍTULO DO EXAME**
+    **TÉCNICA:**  ...
+    **INDICAÇÃO CLÍNICA:**  Em anexo.
+    **ANÁLISE:**
+    Estrutura:  ...
+    **COMPARAÇÃO:**  estudos anteriores não disponíveis ...
+    **CONCLUSÃO:**
+
+RADIOGRAFIA tem formato próprio, mais enxuto:
+
+    **RADIOGRAFIA DO JOELHO DIREITO**
+    **TÉCNICA:**  incidências ...
+    **ANÁLISE:**
+    Alinhamento articular preservado.
+    Espaços articulares preservados ...
+    Não há sinais de fraturas ou luxações.
+
+Sem indicação, comparação ou conclusão, e sem "Rótulo:" — frases
+diretas, uma por linha. O bloco ditado ("com artrose medial") troca a
+frase normal correspondente.
+
+Cabeçalhos em CAIXA ALTA, com dois-pontos e em NEGRITO. O negrito é
+feito pelo processador de colagem: ele coloca no clipboard a versão
+formatada (HTML para editores web e Word; RTF para editores de desktop)
+e a versão em texto puro. Campo que não aceita formatação recebe o texto
+limpo, sem asteriscos.
+
+Se o seu sistema de laudos não mostrar o negrito, ele aceita só texto
+puro — nesse caso não há como ter negrito via colagem.
+
+
+────────────────────────────────────────────────────────────────
+ SLOTS — o que o sistema preenche e o que deixa em branco
+────────────────────────────────────────────────────────────────
+
+    {lado} {lado_f} {lado_a}   direito / direita / à direita
+    {tamanho}                  "1,2 cm", "5 mm"
+    {contraste}                sem / com / sem e com
+    {lobo} {segmento}          do ditado
+
+REGRA DE SEGURANÇA: o que o ditado não resolver fica VISÍVEL — como
+[direito/esquerdo] ou ___. O sistema nunca escolhe um lado.
+
+Cada achado usa o LADO E A MEDIDA DITOS NO PRÓPRIO TRECHO. O lado do
+exame ("raio x de joelho DIREITO com...") vale para os blocos daquele
+exame; o lado de um achado nunca passa para outro achado.
+
+
+────────────────────────────────────────────────────────────────
+ VOCABULÁRIO E O WHISPER  —  leia isto
+────────────────────────────────────────────────────────────────
+
+Com modelo WHISPER (o whisper-medium, por exemplo), o Handy NÃO faz a
+correção por semelhança com o dicionário. Ele junta os termos e entrega
+como prompt inicial do Whisper — que só aceita ~224 tokens e descarta o
+começo. Na prática só os ÚLTIMOS ~80 termos da lista chegam ao modelo.
+(Handy 0.9.7, src-tauri/src/managers/transcription.rs.)
+
+Com modelo NÃO-Whisper (Parakeet, Nemotron...), a correção por
+semelhança roda sobre a lista inteira.
+
+Por isso os ~70 termos que ele mais erra (handy\whisper_prioridade.txt:
+ateromatose, calcificações, osteófitos, espondilose...) ficam no FIM da
+lista. Antes o fim era o alfabético (zona de transição, Wirsung...).
+
+
+────────────────────────────────────────────────────────────────
+ OUVIDO — quando o reconhecimento de voz escreve errado
+────────────────────────────────────────────────────────────────
+
+Antes de procurar no banco, o roteador corrige o que o Whisper errou:
+
+ 1. dados\ouvido.tsv — trocas fixas, que você mesmo pode acrescentar
+    (uma por linha: errado<TAB>certo). Ex.: "na horta" -> "na aorta".
+    Vale também para o ditado livre do Ctrl+Alt+Espaço.
+ 2. vocabulário do banco — palavra que não existe no banco é trocada
+    pela mais parecida ("antiromas" -> "ateromas", "falsificados" ->
+    "calcificados"). Só serve para ACHAR a máscara, o bloco ou a frase;
+    o texto que sai é sempre o do banco.
+
+"frase ..." que não casa ao pé da letra procura pela raiz das palavras
+("frase ateromas calcificados na aorta" acha o bloco de ateromatose).
+
+Com Whisper, os termos de handy\whisper_prioridade.txt vão para o FIM
+do vocabulário do Handy — é a parte que o Whisper realmente usa.
+
+
+────────────────────────────────────────────────────────────────
+ APRENDIZADO — o sistema fica melhor com o uso
+────────────────────────────────────────────────────────────────
+
+Quando você usa "revisar ..." e a nuvem corrige uma palavra que as
+camadas locais deixaram passar, o par (errado -> certo) é anotado.
+
+Rode APRENDER.ps1 de vez em quando. Ele mostra as sugestões, da mais
+frequente para a menos, e você aprova (s) ou rejeita (n). Cada
+aprovada vira regra do processador de colagem: a partir da próxima
+colagem ela vale nos dois atalhos, sem internet e sem custo.
+
+Só pares de palavras são guardados, nunca o laudo. Lado, posição,
+presença/ausência e grau NUNCA viram regra, mesmo que a nuvem troque.
+
+
+────────────────────────────────────────────────────────────────
+ A CAMADA DE NUVEM
+────────────────────────────────────────────────────────────────
+
+Liga com CHAVE.ps1 (lê a chave da área de transferência). A chave
+fica em chave_anthropic.txt, só nesta máquina. Nunca mande por chat.
+
+MODELO claude-sonnet-5 · ~US$ 0,003 a 0,015 por chamada
+TETO US$ 25/mês — ao atingir, o roteador para de enviar.
+GASTO.ps1 mostra o mês.
+
+Antes de enviar, o texto é triado: CPF, data completa, 8+ dígitos,
+prontuário e e-mail bloqueiam o envio.
+Toda saída vem marcada: [[ análise assistida — revisar antes de assinar ]]
+
+
+────────────────────────────────────────────────────────────────
+ OS ARQUIVOS DESTA PASTA
+────────────────────────────────────────────────────────────────
+
+ DIA A DIA
+    INICIAR.ps1      sobe o roteador
+    CHAVE.ps1        liga a nuvem
+    GASTO.ps1        gasto da nuvem no mês
+    APRENDER.ps1     aprova correções aprendidas
+    TESTAR.ps1       testa um gatilho sem abrir o Handy
+    CATALOGO.txt     tudo que dá para falar
+    COLA_ROTEADOR.html  cola de uma página (abra no navegador ou imprima)
+
+ MANUTENÇÃO
+    GERAR_BASE.ps1   recompila depois de editar máscaras
+    ATUALIZAR.ps1    reinstala a partir de pacote\
+    DESINSTALAR.ps1  devolve o Handy ao estado original
+
+ CONTEÚDO
+    dados\mascaras\<categoria>\<modalidade>\<região>\
+                     normal.txt, cronica_*.txt, aguda_*.txt,
+                     blk_*.txt, frases.txt
+    dados\mascaras\_comum\    adendos e achados genéricos
+    dados\mascaras\_legado\   versões antigas (não compiladas)
+    dados\frases.json         frases de RM musculoesquelética
+    handy\                    processador v9, regras e vocabulário
+
+ LEITURA
+    NOTAS_CLINICAS_PENDENTES.txt   contradições no banco de frases de RM
+    ESPECIFICACAO_MASCARAS.md      o formato, para quem for escrever máscara
+
+
+────────────────────────────────────────────────────────────────
+ EDITAR OU CRIAR UMA MÁSCARA
+────────────────────────────────────────────────────────────────
+
+Abra a pasta da região em dados\mascaras e copie um arquivo parecido.
+O formato completo está em ESPECIFICACAO_MASCARAS.md. O essencial:
+
+    # gatilhos: tomografia de joelho com artrose | tc de joelho com artrose
+    **TOMOGRAFIA COMPUTADORIZADA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+    ...
+
+Bloco (encaixa numa máscara da mesma região):
+
+    # tipo: bloco
+    # secao: Fêmur distal
+    # gatilhos: enostose | ilhota ossea
+    # conclusao: Enostose no fêmur distal.
+    Fêmur distal:  texto que substitui a linha inteira.
+
+O "# secao:" tem de ser IGUAL ao rótulo "Fêmur distal:" da normal.
+
+Depois de editar, rode GERAR_BASE.ps1. Ele recompila e reinicia o
+roteador. Para conferir uma região:
+    python validar_regiao.py dados\mascaras\msk\tc\joelho
+
+
+────────────────────────────────────────────────────────────────
+ QUANDO ALGO NÃO FUNCIONAR
+────────────────────────────────────────────────────────────────
+
+Ctrl+Alt+Space não faz nada ........ INICIAR.ps1
+Gatilho devolve o texto errado ..... TESTAR.ps1 e fale o mesmo gatilho
+Editei e nada mudou ................ GERAR_BASE.ps1
+Nuvem não responde ................. GASTO.ps1 (teto?) e CHAVE.ps1 (teste)
+Negrito não aparece ................ o sistema de laudos aceita só texto puro
+Script "abre e fecha" .............. abra o PowerShell e cole:
+    powershell -ExecutionPolicy Bypass -File "CAMINHO\ARQUIVO.ps1"
+
+
+────────────────────────────────────────────────────────────────
+ PARA INSTALAR EM OUTRO COMPUTADOR
+────────────────────────────────────────────────────────────────
+
+ 1. Mande pacote\Roteador-de-Laudos-Instalador.zip
+ 2. A pessoa precisa do Handy instalado e aberto ao menos uma vez.
+ 3. Botão direito no zip -> "Extrair tudo...". Não instala de dentro do zip.
+ 4. Botão direito em INSTALAR.ps1 -> "Executar com o PowerShell"
+    (Windows 11: "Mostrar mais opções").
+ 5. Não abra o INSTALAR.ps1 para colar o conteúdo — execute o arquivo.
+
+A chave da API não vai junto: cada pessoa usa a sua.

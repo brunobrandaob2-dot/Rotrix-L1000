@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: hernia discal | hernia de disco | extrusao discal | hernia
+# conclusao: Hérnia discal {localizacao|posterolateral/foraminal/central} {lado_a|à direita/à esquerda} em {nivel}, com contato radicular (a ressonância magnética é o método de escolha para a avaliação discorradicular).
+Discos intervertebrais:  hérnia discal (extrusão) {localizacao|posterolateral/foraminal/central} {lado_a|à direita/à esquerda} em {nivel}, medindo {tamanho} no maior eixo, que reduz o recesso lateral e toca a raiz de {raiz}. Demais discos sem herniações focais evidentes ao método.

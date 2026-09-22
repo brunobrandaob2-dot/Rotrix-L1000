@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Fígado
+# gatilhos: laceracao hepatica | trauma hepatico | lesao hepatica traumatica
+# conclusao: Lesão hepática traumática grau {grau_aast|I/II/III/IV/V} (AAST), no {segmento}.
+Fígado:  laceração no {segmento}, com profundidade de {tamanho}, associada a hematoma {hematoma|subcapsular/intraparenquimatoso}, {sangramento|sem extravasamento do meio de contraste/com extravasamento do meio de contraste indicando sangramento ativo}.

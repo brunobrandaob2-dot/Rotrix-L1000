@@ -1,0 +1,16 @@
+# gatilhos: raio x de ombro com artrose | rx de ombro com artrose | radiografia de ombro com artrose | rx do ombro com artrose | rx ombro artrose | raio x de ombro com artrose acromioclavicular | rx de ombro com artrose acromioclavicular | raio x de ombro com alteracoes degenerativas | rx de ombro com alteracoes degenerativas
+# categoria: msk
+# modalidade: rx
+# regiao: ombro
+# tipo_mascara: cronica
+**RADIOGRAFIA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior em rotação interna e externa e perfil da escápula.
+
+**ANÁLISE:**
+Espaço articular glenoumeral preservado.
+Artrose acromioclavicular, com redução do espaço articular, esclerose subcondral e osteófitos marginais, {inferior|sem/com} osteófito de projeção inferior.
+Espaço acromioumeral preservado.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

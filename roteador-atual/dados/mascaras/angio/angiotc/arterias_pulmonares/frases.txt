@@ -1,0 +1,39 @@
+# tipo: frases
+## gatilhos: arterias pulmonares sem falhas de enchimento | arterias pulmonares pervias
+Artérias pulmonares principais, lobares, segmentares e subsegmentares pérvias, sem falhas de enchimento endoluminais.
+## gatilhos: opacificacao adequada das arterias pulmonares | atenuacao adequada do tronco pulmonar
+Opacificação adequada das artérias pulmonares, com atenuação de ___ UH no tronco da artéria pulmonar (estudo diagnóstico quando ≥ 200 UH).
+## gatilhos: opacificacao subotima das arterias pulmonares | atenuacao inadequada do tronco pulmonar
+Opacificação subótima das artérias pulmonares, com atenuação de ___ UH no tronco da artéria pulmonar, limitando a avaliação dos ramos segmentares e subsegmentares.
+## gatilhos: artefato de fluxo transitorio nas arterias pulmonares | fluxo transitorio na angio tep
+Artefato de fluxo transitório, com interrupção do bolo de contraste por sangue não opacificado proveniente da veia cava inferior, reduzindo a atenuação das artérias pulmonares.
+## gatilhos: trombo em sela na arteria pulmonar | tep em sela
+Falha de enchimento cavalgando a bifurcação do tronco da artéria pulmonar (trombo em sela), estendendo-se às artérias pulmonares principais.
+## gatilhos: tep subsegmentar isolado | falha subsegmentar isolada na arteria pulmonar
+Falha de enchimento isolada em ramo subsegmentar do {lobo} {lado|direito/esquerdo}, podendo corresponder a tromboembolismo pulmonar subsegmentar isolado, de significado clínico a correlacionar.
+## gatilhos: relacao vd ve normal na angio tep | sem sobrecarga de ventriculo direito na angio tep
+Relação VD/VE de ___ (≤ 0,9), sem sinais tomográficos de sobrecarga de câmaras direitas.
+## gatilhos: relacao vd ve aumentada na angio tep | sobrecarga de ventriculo direito na angio tep
+Relação VD/VE de ___ (> 0,9), sinal tomográfico de sobrecarga de câmaras direitas.
+## gatilhos: refluxo de contraste para a veia cava inferior | refluxo para a cava na angio tep
+Refluxo de contraste para a veia cava inferior e veias hepáticas.
+## gatilhos: retificacao do septo interventricular | abaulamento do septo para o ventriculo esquerdo
+Retificação do septo interventricular, com abaulamento em direção ao ventrículo esquerdo.
+## gatilhos: infarto pulmonar na angio tep | opacidade cuneiforme de infarto pulmonar
+Opacidade periférica cuneiforme de base pleural no {lobo} {lado|direito/esquerdo}, com hipoatenuação central, podendo corresponder a infarto pulmonar.
+## gatilhos: perfusao em mosaico pulmonar | mosaico perfusional nos pulmoes
+Padrão de atenuação em mosaico, com vasos de menor calibre nas áreas hipoatenuantes, podendo corresponder a perfusão em mosaico.
+## gatilhos: redes e bandas nas arterias pulmonares | teias nas arterias pulmonares
+Redes e bandas intraluminais nas artérias pulmonares {nivel_cronico|lobares/segmentares/subsegmentares}, sinais de tromboembolismo pulmonar crônico.
+## gatilhos: trombo cronico calcificado na arteria pulmonar | tep cronico calcificado
+Falha de enchimento excêntrica aderida à parede da artéria pulmonar, com calcificações e ângulo obtuso, de aspecto crônico.
+## gatilhos: trombo em transito no coracao direito | trombo no atrio direito na angio tep
+Falha de enchimento no {camara|átrio direito/ventrículo direito}, podendo corresponder a trombo em trânsito, a correlacionar com ecocardiograma.
+## gatilhos: tronco pulmonar dilatado na angio tep | tronco da arteria pulmonar aumentado
+Tronco da artéria pulmonar dilatado, medindo ___ mm (aumentado quando > 29 mm).
+## gatilhos: arterias bronquicas hipertrofiadas | colaterais bronquicas na angio tep
+Artérias brônquicas hipertrofiadas e tortuosas, com circulação colateral sistêmica.
+## gatilhos: ramos pulmonares com calibre reduzido | reducao abrupta do calibre da arteria pulmonar
+Redução abrupta do calibre de ramos arteriais pulmonares {nivel_cronico|lobares/segmentares/subsegmentares}, com afilamento distal.
+## gatilhos: sem sinais de tep na angio | ausencia de tromboembolismo pulmonar
+Ausência de sinais de tromboembolismo pulmonar.

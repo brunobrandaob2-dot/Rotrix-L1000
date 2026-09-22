@@ -1,0 +1,27 @@
+# gatilhos: tomografia de abdome com alteracoes cronicas relacionadas a idade | abdome do idoso | abdome com alteracoes cronicas | tc abdome idoso | abdome alteracoes senis
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Transição toracoabdominal: estrias fibroatelectásicas nas bases pulmonares.
+Fígado: dimensões normais, contornos regulares. Cistos simples esparsos, o maior no {segmento}, medindo {tamanho}.
+Vias biliares: sem dilatação.
+Vesícula biliar: paredes finas, sem cálculos.
+Pâncreas: dimensões e densidade normais, com lipossubstituição parenquimatosa difusa compatível com a faixa etária. Sem dilatação ductal.
+Baço: dimensões normais e densidade homogênea.
+Adrenais: espessura normal e sem nódulos.
+Rins: tópicos, contornos regulares. Cistos simples corticais bilaterais, o maior à {lado_f|direita/esquerda} medindo {tamanho} (Bosniak I). Sem cálculos ou dilatação de vias coletoras.
+Bexiga: parcial repleção, conteúdo homogêneo.
+Órgãos pélvicos: sem particularidades, considerando os limites do método.
+Trato gastrointestinal: divertículos colônicos esparsos, sem sinais focais de diverticulite. Coprostase na moldura colônica.
+Vasos: aorta de calibre preservado, com ateromatose calcificada parietal difusa, estendendo-se às artérias ilíacas. Veia cava inferior de calibre normal.
+Retroperitônio: ausência de linfonodomegalias.
+Peritônio: ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles: alterações degenerativas da coluna lombar, com osteófitos marginais, redução da altura dos discos intervertebrais e artrose interapofisária. Redução difusa da densidade óssea.
+
+CONCLUSÃO:
+1. Alterações crônicas compatíveis com a faixa etária: ateromatose calcificada da aorta e ramos, diverticulose colônica, cistos simples hepáticos e renais e espondilose lombar.
+2. Ausência de achados agudos ou de processo inflamatório abdominal no presente estudo.

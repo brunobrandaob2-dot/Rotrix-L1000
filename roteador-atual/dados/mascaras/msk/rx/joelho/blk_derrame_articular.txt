@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: derrame articular | derrame | distensao do recesso suprapatelar
+Distensão do recesso suprapatelar, sugestiva de derrame articular.

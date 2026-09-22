@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Linfonodos mediastinais e hilares
+# gatilhos: linfonodomegalia mediastinal | linfonodos aumentados no mediastino | adenomegalia mediastinal | linfonodomegalias mediastinais e hilares
+# conclusao: Linfonodomegalias mediastinais e hilares, a maior com eixo curto de {tamanho}, de natureza indeterminada, a esclarecer.
+Linfonodos mediastinais e hilares: linfonodos aumentados nas cadeias {cadeia|paratraqueais/subcarinal/hilares/da janela aortopulmonar}, o maior medindo {tamanho} no eixo curto — acima do limite de 10 mm adotado como critério de linfonodomegalia —, de contornos regulares, sem realce heterogêneo, necrose central ou coalescência. Achado inespecífico, podendo corresponder a processo reacional, granulomatoso ou neoplásico.

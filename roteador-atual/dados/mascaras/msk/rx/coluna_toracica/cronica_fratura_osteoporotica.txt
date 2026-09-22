@@ -1,0 +1,17 @@
+# gatilhos: raio x de coluna toracica com fratura antiga | rx de coluna toracica com fratura antiga | rx coluna toracica acunhamento | radiografia de coluna toracica com acunhamento | rx de coluna toracica com fratura osteoporotica | rx de coluna toracica com acunhamento vertebral | rx de coluna dorsal com acunhamento
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_toracica
+# tipo_mascara: cronica
+**RADIOGRAFIA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Acentuação da cifose torácica.
+Acunhamento anterior do corpo vertebral de {nivel}, com perda de altura estimada em {percentual}% (Genant grau {genant|1/2/3}), de aspecto antigo.
+Sem estudos prévios, a datação não é definível pela radiografia.
+Espaços discais preservados.
+Elementos posteriores preservados.
+Redução difusa da densidade óssea.
+Partes moles sem alterações.

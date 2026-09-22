@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Linfonodos cervicais
+# gatilhos: linfonodomegalia cervical | linfonodomegalias cervicais | linfonodos aumentados | adenomegalia cervical
+# conclusao: Linfonodomegalia cervical no nível {nivel} {lado_a|à direita/à esquerda/bilateralmente}, o maior linfonodo medindo {tamanho} no menor eixo, de natureza indeterminada pelo método — correlacionar com o contexto clínico.
+Linfonodos cervicais:  linfonodos aumentados no nível {nivel} {lado_a|à direita/à esquerda/bilateralmente}, o maior medindo {tamanho} no menor eixo, {morfologia|de morfologia ovalada e realce homogêneo/arredondado, com perda do hilo gorduroso/com hipoatenuação central (necrose)/com sinais de extensão extranodal}. Demais níveis sem linfonodomegalias.

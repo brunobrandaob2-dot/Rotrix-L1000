@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: calcificacoes carotideas | ateromatose carotidea | ateromatose
+# conclusao: Calcificações ateromatosas nas bifurcações carotídeas.
+Partes moles:  espessura das partes moles pré-vertebrais preservada. Calcificações ateromatosas nas bifurcações carotídeas, {lado_f|bilateral/direita/esquerda}.

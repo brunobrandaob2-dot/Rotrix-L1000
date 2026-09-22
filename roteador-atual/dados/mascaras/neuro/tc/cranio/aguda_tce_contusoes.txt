@@ -1,0 +1,34 @@
+# gatilhos: tomografia de cranio com contusao | tc de cranio com contusao | tc cranio contusao cerebral | tomografia de cranio com contusoes | tc de cranio com contusoes | tomografia de cranio com contusao hemorragica | tc de cranio com contusoes hemorragicas
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado, com reconstruções em janelas para parênquima e para osso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  focos hiperatenuantes córtico-subcorticais no lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, circundados por halo hipoatenuante de edema, compatíveis com contusões hemorrágicas, o maior medindo {tamanho}.
+Substância branca:  sem outras alterações de atenuação.
+Núcleos da base:  de morfologia e atenuação preservadas.
+Sistema ventricular:  {hemoventriculo|sem/com} conteúdo hemático intraventricular, de dimensões preservadas.
+Cisternas da base e sulcos corticais:  cisternas da base {cisternas|pérvias/parcialmente apagadas/apagadas}. {hsa_traumatica|Sem/Com} hemorragia subaracnóidea traumática nos sulcos corticais adjacentes.
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Espaços extra-axiais:  sem coleções.
+Pneumoencéfalo:  ausente.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo, sem níveis líquidos.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  {subgaleal|sem hematoma subgaleal/hematoma subgaleal na região ___, com espessura de ___ mm}.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Contusões hemorrágicas no lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}.
+Linha média: {linha_media_c|centrada/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}. Cisternas da base: {cisternas_c|pérvias/parcialmente apagadas/apagadas}.
+Sugere-se controle tomográfico evolutivo, a critério clínico.

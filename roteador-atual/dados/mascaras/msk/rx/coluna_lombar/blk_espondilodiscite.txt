@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços discais
+# gatilhos: espondilodiscite | discite
+Redução do espaço discal {nivel}, com irregularidade das plataformas vertebrais, podendo corresponder a espondilodiscite; a ressonância magnética é o método de escolha.

@@ -1,0 +1,41 @@
+# tipo: frases
+## gatilhos: seios costofrenicos livres no rx de torax | rx de torax seios livres
+Seios costofrênicos livres.
+## gatilhos: trama broncovascular acentuada no rx de torax | acentuacao da trama no raio x de torax
+Acentuação difusa da trama broncovascular.
+## gatilhos: hipoinspiracao no rx de torax | rx de torax com inspiracao insuficiente
+Exame em inspiração insuficiente, o que pode simular opacidades nas bases e aumento da área cardíaca.
+## gatilhos: rotacao no rx de torax | rx de torax rodado
+Exame com rotação, limitando a avaliação do mediastino e da área cardíaca.
+## gatilhos: granuloma calcificado no rx de torax | nodulo calcificado no raio x de torax
+Pequeno granuloma calcificado no campo pulmonar {lado|direito/esquerdo}.
+## gatilhos: linhas b de kerley no rx de torax | kerley no raio x de torax
+Linhas B de Kerley nas bases, sugestivas de edema intersticial.
+## gatilhos: mamilo simulando nodulo no rx de torax | sombra mamilar no raio x de torax
+Imagem nodular na base {lado_f|direita/esquerda}, compatível com sombra mamilar.
+## gatilhos: pneumoperitonio no rx de torax | ar sob as cupulas no raio x de torax
+Ar livre sob as cúpulas diafragmáticas, compatível com pneumoperitônio.
+## gatilhos: tubo orotraqueal bem posicionado no rx de torax | tot adequado no raio x de torax
+Tubo orotraqueal com extremidade a {distancia_carina} da carina, em posição adequada.
+## gatilhos: tubo orotraqueal seletivo no rx de torax | tot seletivo no raio x de torax
+Tubo orotraqueal no brônquio principal {lado|direito/esquerdo} (intubação seletiva).
+## gatilhos: cateter venoso central no rx de torax | cvc bem posicionado no raio x de torax
+Cateter venoso central com extremidade projetada na veia cava superior.
+## gatilhos: sonda nasoenteral no rx de torax | sonda no raio x de torax
+Sonda {tipo_sonda|nasogástrica/nasoenteral} com extremidade projetada {ponta_sonda|no estômago/no duodeno/abaixo do campo de estudo}.
+## gatilhos: dreno de torax no rx | dreno pleural no raio x de torax
+Dreno tubular no hemitórax {lado|direito/esquerdo}, com extremidade projetada {ponta_dreno|no ápice/na base}.
+## gatilhos: marcapasso no rx de torax | marcapasso no raio x de torax
+Marcapasso com cabos-eletrodos projetados nas câmaras cardíacas direitas.
+## gatilhos: esternorrafia no rx de torax | fios de esternorrafia no raio x de torax
+Fios de esternorrafia íntegros.
+## gatilhos: escoliose no rx de torax | escoliose toracica no raio x
+Escoliose torácica de convexidade {lado_f|direita/esquerda}.
+## gatilhos: sem pneumotorax apos procedimento no rx de torax | controle sem pneumotorax no raio x de torax
+Não há sinais de pneumotórax.
+## gatilhos: espessamento pleural apical no rx de torax | espessamento apical no raio x de torax
+Espessamento pleural apical {lado|direito/esquerdo/bilateral}, de aspecto sequelar.
+## gatilhos: calcificacoes pleurais no rx de torax | placas pleurais no raio x de torax
+Placas pleurais calcificadas {lado_a|à direita/à esquerda/bilateralmente}.
+## gatilhos: rx de torax sem alteracao evolutiva | raio x de torax estavel comparativo
+Sem alterações evolutivas em relação ao estudo anterior.

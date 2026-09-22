@@ -1,0 +1,17 @@
+# gatilhos: raio x de ombro com protese | rx de ombro com protese | radiografia de ombro com protese | rx do ombro com protese | rx ombro protese | raio x de ombro com artroplastia | rx de ombro com artroplastia | raio x de ombro com protese reversa | rx de ombro com protese reversa
+# categoria: msk
+# modalidade: rx
+# regiao: ombro
+# tipo_mascara: cronica
+**RADIOGRAFIA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior em rotação interna e externa e perfil da escápula.
+
+**ANÁLISE:**
+Artroplastia {tipo|anatômica total/reversa/parcial (hemiartroplastia)} do ombro, com componentes em posição habitual.
+Componente glenoidal {glenoide|em posição habitual, sem halo de radiolucência/ausente (glenoide nativa)}.
+Não há sinais de soltura, luxação ou fratura periprotética.
+{notching|Sem/Com} erosão da borda inferior do colo da escápula (notching).
+Articulação acromioclavicular sem alterações.
+Densidade óssea preservada.
+Partes moles sem ossificações heterotópicas significativas.

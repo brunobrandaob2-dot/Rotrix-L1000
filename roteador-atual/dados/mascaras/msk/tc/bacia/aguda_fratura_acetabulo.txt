@@ -1,0 +1,29 @@
+# gatilhos: tomografia de bacia com fratura do acetabulo | tc de bacia com fratura do acetabulo | tc bacia fratura acetabular | tomografia de bacia com fratura acetabular | tc de bacia com fratura acetabular
+# categoria: msk
+# modalidade: tc
+# regiao: bacia
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA BACIA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Anel pélvico:  descontinuidade do anel pélvico na topografia do acetábulo {lado|direito/esquerdo}, descrita a seguir.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares, sem erosões ou esclerose subcondral significativa.
+Sínfise púbica:  alinhada, de amplitude preservada e superfícies regulares.
+Sacro e cóccix:  sem particularidades. Forames sacrais livres.
+Ossos ilíacos:  contornos regulares e densidade habitual.
+Ramos púbicos e ísquios:  contornos regulares, sem traços de fratura.
+Acetábulos:  traço de fratura no acetábulo {lado|direito/esquerdo}, acometendo {componente|a parede posterior/a parede anterior/a coluna anterior/a coluna posterior/ambas as colunas/o teto acetabular}, com padrão {letournel|de parede posterior/de coluna posterior/de coluna anterior/transverso/em T/de ambas as colunas/___} da classificação de Judet-Letournel. Degrau articular máximo de {medida_degrau} e afastamento máximo dos fragmentos de {medida_afastamento}. Acetábulo contralateral íntegro.
+Articulações coxofemorais:  cabeça femoral {lado_f|direita/esquerda} {relacao|congruente com o teto acetabular/com subluxação posterior/com luxação posterior/com protrusão medial (luxação central)}. {fragmentos|Não há fragmentos ósseos intra-articulares/Há fragmentos ósseos intra-articulares, o maior medindo ___}.
+Fêmures proximais:  cabeças femorais esféricas e de densidade habitual. Colos femorais e regiões trocantéricas sem particularidades.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  hematoma e edema das partes moles periacetabulares.
+Estruturas pélvicas incluídas no estudo:  sem particularidades, considerando os limites do método.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura do acetábulo {lado|direito/esquerdo}, padrão {letournel|de parede posterior/de coluna posterior/de coluna anterior/transverso/em T/de ambas as colunas/___} da classificação de Judet-Letournel, com degrau articular máximo de {medida_degrau}.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura do maleolo medial | fratura maleolar medial | avulsao do maleolo medial
+Fratura {traco|transversa/oblíqua/vertical/por avulsão da ponta} do maléolo medial, com desvio de {tamanho}.

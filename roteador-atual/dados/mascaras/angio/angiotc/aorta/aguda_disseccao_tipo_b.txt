@@ -1,0 +1,35 @@
+# gatilhos: angio de aorta com disseccao tipo b | angio de aorta com disseccao stanford b | angiotomografia de aorta com disseccao tipo b | angio de aorta com disseccao de aorta descendente | angiotomografia de aorta com disseccao stanford b | angio de aorta com disseccao aortica tipo b
+# categoria: angio
+# modalidade: angiotc
+# regiao: aorta
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA {segmento_aortico|TORÁCICA E ABDOMINAL/TORÁCICA/ABDOMINAL}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, em fase arterial, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação da aorta e de seus ramos. Diâmetros aferidos de parede externa a parede externa, em plano perpendicular ao eixo longitudinal do vaso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na luz aórtica na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise.
+Fase sem contraste:  {him_associado|sem/com} hematoma intramural associado. {calcificacao_deslocada|Sem/Com} deslocamento interno de calcificações intimais.
+Raiz aórtica e aorta ascendente:  calibre preservado, contornos regulares e opacificação homogênea, sem flap intimal.
+Arco aórtico e ramos supra-aórticos:  {arco_disseccao|sem flap intimal/flap intimal a partir da zona ___, sem acometimento da aorta ascendente}. Ramos supra-aórticos pérvios, com origem {ramos_arco|preservada/acometida pelo flap}.
+Aorta torácica descendente:  flap intimal com porta de entrada principal na zona {zona_entrada|1 a 11}, medindo ___ mm, separando luz verdadeira, de menor calibre, e luz falsa, de maior calibre, com sinal do bico. Diâmetro aórtico máximo de {tamanho} e diâmetro da luz falsa de ___ mm.
+Aorta abdominal:  {abdominal_disseccao|sem flap intimal/flap intimal em continuidade}.
+Paredes aórticas:  luz falsa {luz_falsa|pérvia/parcialmente trombosada/totalmente trombosada}.
+Achados de alto risco:  diâmetro aórtico ≥ 40 mm, luz falsa ≥ 22 mm, porta de entrada ≥ 10 mm ou trombose parcial da luz falsa: {alto_risco|ausentes/presentes: ___}.
+Ramos viscerais:  tronco celíaco, artéria mesentérica superior e artérias renais com origem {ramos_viscerais|na luz verdadeira/na luz falsa/acometida pelo flap}, {ma_perfusao|sem sinais de má perfusão de órgão-alvo ao método/com sinais de má perfusão ___}.
+Artérias ilíacas:  {iliacas_disseccao|sem extensão do flap intimal/com extensão do flap à artéria ilíaca comum ___}.
+Diâmetros aórticos:  seios de Valsalva ___ mm; aorta ascendente ___ mm; arco ___ mm; descendente proximal ___ mm; descendente no hiato diafragmático ___ mm; aorta abdominal suprarrenal ___ mm; infrarrenal ___ mm.
+Mediastino e retroperitônio:  {hematoma_periaortico|sem hematoma periaórtico ou sinais de ruptura/com hematoma periaórtico ___}.
+Derrames:  derrame pleural {derrame_pleural|ausente/à direita/à esquerda/bilateral}. Ausência de derrame pericárdico.
+Demais estruturas:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Dissecção aórtica aguda do tipo B de Stanford, classificação SVS/STS tipo B com extensão proximal na zona {zona_proximal|1 a 11} e distal na zona {zona_distal|1 a 11}, com luz falsa {luz_falsa|pérvia/parcialmente trombosada/totalmente trombosada}.
+Diâmetro aórtico máximo de {tamanho}. Achados de alto risco {alto_risco|ausentes/presentes: ___}.
+{complicacao|Sem sinais de ruptura ou de má perfusão ao método/Sinais de complicação: ___}.
+Resultado comunicado à equipe assistente em ___h___, ao(à) Dr(a). ___.

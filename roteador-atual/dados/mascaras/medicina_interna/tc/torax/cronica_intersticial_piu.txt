@@ -1,0 +1,28 @@
+# gatilhos: tomografia de torax com fibrose pulmonar | tc de torax com fibrose pulmonar | tomografia de torax com padrao de piu | tc de torax com padrao de piu | tomografia de torax com doenca intersticial | tc de torax com doenca intersticial | tc de torax com pneumopatia intersticial | tomografia de alta resolucao com fibrose | tcar com fibrose pulmonar | tcar com padrao de piu | tc torax piu
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DE ALTA RESOLUÇÃO DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multislice, cortes finos de alta resolução e reconstruções multiplanares, sem administração de contraste iodado endovenoso, {complementar|com aquisições complementares em expiração e em decúbito ventral/sem aquisições complementares}.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  opacidades reticulares de distribuição subpleural e predomínio basal, com bronquiectasias e bronquiolectasias de tração e distorção arquitetural, {faveolamento|com faveolamento subpleural/sem faveolamento}. Extensão estimada do acometimento: {extensao}% do volume pulmonar.
+Não há vidro fosco predominante, predomínio peribroncovascular, micronódulos profusos, cistos fora das áreas de faveolamento, consolidações ou aprisionamento aéreo extenso.
+Traqueia e brônquios:  calibre e trajetos normais das vias aéreas centrais.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais, com principais ramos preservados.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Cúpulas diafragmáticas:  morfologia e posição habituais.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Pneumopatia intersticial fibrosante, com reticulado subpleural de predomínio basal e bronquiectasias de tração, {faveolamento|com faveolamento subpleural/sem faveolamento}.
+Padrão tomográfico de {padrao_piu|PIU típica/PIU provável/indeterminado para PIU/mais compatível com diagnóstico alternativo}, segundo a classificação da Sociedade Fleischner (2018).
+A definição etiológica depende de correlação clínica, laboratorial e de discussão multidisciplinar.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Raiz aórtica e aorta ascendente
+# gatilhos: aneurisma de aorta ascendente | aneurisma da aorta ascendente | aneurisma da ascendente | aneurisma ascendente
+# conclusao: Aneurisma da aorta ascendente, com diâmetro máximo de {tamanho}, sem sinais de síndrome aórtica aguda.
+Raiz aórtica e aorta ascendente:  dilatação aneurismática da aorta ascendente, com diâmetro máximo de {tamanho} (critério de aneurisma: ≥ 4,5 cm), aferido a ___ cm do plano valvar. Seios de Valsalva com ___ mm e junção sinotubular com ___ mm, {juncao_sinotubular|preservada/com apagamento}. Contornos regulares e opacificação homogênea, sem flap intimal.

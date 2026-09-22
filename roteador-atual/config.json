@@ -1,0 +1,30 @@
+{
+  "ativa": true,
+  "modelo": "claude-sonnet-5",
+  "arquivo_da_chave": "chave_anthropic.txt",
+  "variavel_de_ambiente": "ANTHROPIC_API_KEY",
+  "timeout_s": 40,
+  "max_tokens": 1500,
+  "limite_mes_usd": 25.0,
+  "marcar_saida": true,
+  "marca_inicio": "[[ análise assistida — revisar antes de assinar ]]",
+  "marca_fim": "",
+  "gatilhos": [
+    "analise avancada",
+    "analise",
+    "analisar",
+    "comparar exames",
+    "recist",
+    "resposta de tratamento",
+    "medir resposta"
+  ],
+  "gatilhos_revisao": [
+    "revisar",
+    "revisao",
+    "corrigir",
+    "revisar laudo",
+    "corrigir texto",
+    "revisar texto",
+    "passar a limpo"
+  ]
+}

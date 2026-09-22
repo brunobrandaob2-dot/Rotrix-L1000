@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Calota craniana
+# gatilhos: craniotomia | pos operatorio de craniotomia | status pos craniotomia | craniectomia
+Alterações pós-operatórias de {procedimento|craniotomia/craniectomia} na região {regiao_cirurgica|frontal/parietal/temporal/occipital} {lado_f|direita/esquerda}, {retalho|com retalho ósseo fixado/com falha óssea correspondente}.

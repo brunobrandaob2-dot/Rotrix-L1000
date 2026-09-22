@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Demais ossos do carpo
+# gatilhos: fratura do piramidal | fratura dorsal do piramidal | fratura do carpo | fratura do hamato
+# conclusao: Fratura do {osso|piramidal/hamato/capitato/trapézio/semilunar/pisiforme/trapezoide}.
+Demais ossos do carpo:  fratura do {osso|piramidal/hamato/capitato/trapézio/semilunar/pisiforme/trapezoide}, com fragmento medindo {tamanho}. Demais ossos do carpo sem traços de fratura.

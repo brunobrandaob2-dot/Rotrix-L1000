@@ -1,0 +1,28 @@
+# gatilhos: tomografia de joelho com gonartrose tricompartimental | tc de joelho com gonartrose tricompartimental | tc joelho gonartrose tricompartimental | tomografia de joelho com artrose tricompartimental | tc de joelho com artrose tricompartimental | tomografia de joelho com gonartrose avancada | tc de joelho com gonartrose avancada
+# categoria: msk
+# modalidade: tc
+# regiao: joelho
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica por tomografia computadorizada multidetectores do joelho {lado|direito/esquerdo}, com reconstruções multiplanares, sem administração de meio de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  alinhamento ósseo preservado. Não há luxação ou subluxação.
+Espaço femorotibial medial:  redução do espaço articular, com osteofitose marginal exuberante, esclerose subcondral e geodos no planalto tibial e no côndilo femoral medial.
+Espaço femorotibial lateral:  redução do espaço articular, com osteofitose marginal exuberante, esclerose subcondral e geodos no planalto tibial e no côndilo femoral lateral.
+Articulação femoropatelar:  redução do espaço articular, com osteofitose marginal exuberante.
+Fêmur distal:  irregularidades nas eminências intercondilianas. Sem fraturas agudas.
+Tíbia e fíbula proximais:  sem fraturas agudas. Articulação tibiofibular proximal sem particularidades.
+Patela:  osteófitos marginais, sem traços de fratura.
+Recesso suprapatelar:  sem distensão líquida significativa.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  planos miofasciais periarticulares com atenuação e espessura preservadas.
+Estruturas capsuloligamentares e meniscais:  avaliação limitada pelo método.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sinais de gonartrose tricompartimental {grau|moderada/acentuada/moderada a acentuada}, com osteofitose exuberante e geodos subcondrais nos planaltos tibiais e côndilos femorais.

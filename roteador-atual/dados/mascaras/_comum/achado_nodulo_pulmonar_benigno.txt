@@ -1,0 +1,3 @@
+# tipo: achado
+# gatilhos: nodulo pulmonar benigno | nodulo calcificado | granuloma pulmonar
+Nódulo sólido de margens regulares e densidade calcificada no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho}, com características de benignidade, provavelmente granulomatoso.

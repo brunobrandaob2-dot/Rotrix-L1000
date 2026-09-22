@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Arcabouço ósseo
+# gatilhos: espondilose | espondilose lombar | alteracoes degenerativas da coluna
+Alterações degenerativas da coluna lombar, com osteófitos marginais.

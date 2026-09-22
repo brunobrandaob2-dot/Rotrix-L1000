@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Seios maxilares
+# gatilhos: cisto de retencao | cisto de retencao mucoso | cisto mucoso maxilar
+# conclusao: Cisto de retenção mucoso ou pólipo no seio maxilar {lado|direito/esquerdo}.
+Seios maxilares:  formação de contornos convexos e densidade de partes moles na parede {parede|inferior/lateral/medial/posterior} do seio maxilar {lado|direito/esquerdo}, medindo {tamanho}, compatível com cisto de retenção mucoso ou pólipo. Paredes ósseas íntegras.

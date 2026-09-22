@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Células mastoides
+# gatilhos: velamento das celulas mastoides | mastoidite | celulas mastoides veladas | velamento mastoideo
+# conclusao: Velamento das células mastoides {lado_a|à direita/à esquerda}, sem sinais de erosão óssea; a diferenciação entre processo agudo e alteração crônica depende da correlação clínica.
+Células mastoides: velamento parcial / completo das células mastoides {lado_a|à direita/à esquerda}, com as septações ósseas preservadas e sem erosão do tegme timpânico ou da cortical adjacente, não havendo coleções subperiosteais identificáveis ao método.

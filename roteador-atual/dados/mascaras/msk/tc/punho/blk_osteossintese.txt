@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rádio distal
+# gatilhos: osteossintese | material de sintese | placa volar
+# conclusao: Alterações pós-operatórias de osteossíntese do rádio distal, sem sinais de falha do material evidentes ao método.
+Rádio distal:  material de osteossíntese constituído por {material|placa volar bloqueada e parafusos/fios de Kirschner/fixador externo}, em posição habitual, sem sinais de soltura, quebra ou migração, e sem penetração articular pelos parafusos. Foco de fratura {consolidacao|consolidado/em consolidação/sem sinais de consolidação}.

@@ -1,0 +1,41 @@
+# tipo: frases
+## gatilhos: artrose glenoumeral leve no ombro | ombro com artrose glenoumeral leve
+Redução leve do espaço articular glenoumeral, com pequenos osteófitos marginais na cabeça umeral.
+## gatilhos: glenoide tipo walch no ombro | classificacao de walch do ombro
+Glenoide com morfologia tipo {walch|A1/A2/B1/B2/B3/C/D} de Walch e retroversão estimada em {retroversao}°.
+## gatilhos: subluxacao posterior da cabeca umeral no ombro
+Subluxação posterior estática da cabeça umeral em relação à glenoide, com cerca de {subluxacao}% da cabeça umeral posterior ao eixo da escápula.
+## gatilhos: corpos livres intra articulares no ombro | corpo livre no ombro
+Corpos livres intra-articulares no recesso {recesso|axilar/subescapular/posterior}, o maior medindo {tamanho}.
+## gatilhos: lipo hemartrose no ombro | nivel liquido gorduroso no ombro
+Lipo-hemartrose glenoumeral, com nível líquido-gorduroso, achado que sugere fratura intra-articular.
+## gatilhos: hill sachs reverso no ombro | lesao de mclaughlin no ombro
+Fratura-impactação na face anteromedial da cabeça umeral (lesão de Hill-Sachs reversa ou de McLaughlin), medindo {tamanho}, relacionada a luxação posterior.
+## gatilhos: perda ossea glenoidal no ombro | perda ossea da glenoide no ombro
+Perda óssea do rebordo anteroinferior da glenoide estimada em {perda}% da largura glenoidal, pelo método do círculo inferior (best-fit).
+## gatilhos: hill sachs off track no ombro | lesao off track no ombro
+Lesão de Hill-Sachs com intervalo de {tamanho}, superior à largura estimada do trilho glenoidal (glenoid track), configurando lesão off-track.
+## gatilhos: extensao do calcar no umero proximal | criterios de hertel no ombro
+Extensão metafisária posteromedial (calcar) do fragmento cefálico de {tamanho}, com dobradiça medial {dobradica|íntegra/rompida} (calcar inferior a 8 mm e ruptura da dobradiça medial associam-se a maior risco de isquemia da cabeça umeral, segundo Hertel).
+## gatilhos: fratura head split no ombro | fratura da cabeca umeral dividida no ombro
+Traço de fratura atravessando a superfície articular da cabeça umeral (padrão head-split).
+## gatilhos: os acromiale no ombro | os acromial no ombro
+Os acromiale ({tipo_os|pré-acrômio/mesoacrômio/meta-acrômio}), com interface {interface|regular/irregular e com alterações degenerativas}.
+## gatilhos: morfologia do acromio no ombro | acromio em gancho no ombro
+Acrômio de morfologia {bigliani|plana (tipo I)/curva (tipo II)/em gancho (tipo III)} de Bigliani.
+## gatilhos: esporao subacromial no ombro | entesofito do acromio no ombro
+Entesófito na borda anteroinferior do acrômio, medindo {tamanho}.
+## gatilhos: cistos no tuberculo maior do ombro
+Pequenos cistos subcorticais no tubérculo maior do úmero, de aspecto degenerativo.
+## gatilhos: sequela de fratura do umero proximal no ombro | fratura consolidada do umero proximal
+Sinais de fratura consolidada do úmero proximal, com deformidade residual {deformidade|em varo/em valgo/com desvio do tubérculo maior}.
+## gatilhos: fratura consolidada da clavicula no ombro | sequela de fratura da clavicula
+Sinais de fratura consolidada do terço {terco|medial/médio/lateral} da clavícula, com calo ósseo {calo|regular/hipertrófico}, {encurtamento|sem/com} encurtamento significativo.
+## gatilhos: osteolise da clavicula distal no ombro
+Reabsorção óssea da extremidade distal da clavícula, com irregularidade cortical, podendo corresponder a osteólise pós-traumática ou por sobrecarga, a correlacionar clinicamente.
+## gatilhos: notching escapular no ombro | notching na protese reversa do ombro
+Erosão da borda inferior do colo da escápula junto à glenosfera (notching escapular), grau {sirveaux|1/2/3/4} de Sirveaux.
+## gatilhos: manguito sem atrofia no ombro | musculatura do manguito preservada no ombro
+Ventres musculares do manguito rotador de volume e atenuação preservados, sem lipossubstituição significativa.
+## gatilhos: limite do metodo no ombro | tomografia nao avalia manguito do ombro
+A tomografia computadorizada tem sensibilidade limitada para avaliação dos tendões do manguito rotador, do lábio glenoidal e das estruturas capsuloligamentares; se houver indicação clínica, a ressonância magnética é o método de escolha.

@@ -1,0 +1,25 @@
+# gatilhos: tomografia de perna com fratura por estresse | tc de perna com fratura por estresse | tc perna fratura de estresse | tomografia de perna com fratura de estresse
+# categoria: msk
+# modalidade: tc
+# regiao: perna
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA PERNA {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  preservado.
+Tíbia:  linha de fratura incompleta na cortical {cortical|posteromedial/anterior} do terço {terco|proximal/médio/distal} da diáfise, com esclerose endosteal e reação periosteal {periosteal|lisa/lamelar}, sem desvio.
+Fíbula:  morfologia, contornos corticais e densidade normais em toda a extensão.
+Articulações tibiofibulares proximal e distal:  congruentes.
+Articulações adjacentes:  porções incluídas do joelho e do tornozelo sem particularidades.
+Musculatura:  volume e densidade preservados nos compartimentos da perna.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura por estresse na cortical {cortical|posteromedial/anterior} da diáfise tibial.
+A ressonância magnética é mais sensível para o estadiamento das lesões por estresse e para a detecção de edema medular associado.

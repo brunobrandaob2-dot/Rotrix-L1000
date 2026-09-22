@@ -1,0 +1,35 @@
+# tipo: frases
+## gatilhos: degrau articular no radio distal
+Degrau articular de {tamanho} na superfície articular do rádio distal (valores superiores a 2 mm associam-se a maior risco de artrose pós-traumática).
+## gatilhos: afastamento articular no radio distal | gap articular no radio distal
+Afastamento (gap) de {tamanho} entre os fragmentos articulares do rádio distal.
+## gatilhos: fragmento da faceta semilunar volar no radio distal
+Fragmento isolado da faceta semilunar volar do rádio distal, com desvio de {tamanho}, de relevância para a estabilidade da fixação.
+## gatilhos: fragmento die punch no radio distal
+Fragmento deprimido da fossa semilunar do rádio distal (fragmento die-punch), com depressão de {tamanho}.
+## gatilhos: fratura da base do estiloide ulnar no punho
+Fratura da base do processo estiloide ulnar, que pode associar-se a instabilidade da articulação radioulnar distal.
+## gatilhos: subluxacao radioulnar distal no punho
+Subluxação {sentido|dorsal/volar} da ulna distal na articulação radioulnar distal, a correlacionar com a posição do antebraço durante a aquisição.
+## gatilhos: fratura do gancho do hamato no punho | fratura do hamulo do hamato
+Fratura do hâmulo (gancho) do hamato, {desvio|sem/com} desvio.
+## gatilhos: fratura dorsal do piramidal no punho
+Pequeno fragmento ósseo avulsionado da face dorsal do piramidal.
+## gatilhos: humpback do escafoide no punho | escafoide em corcunda no punho
+Deformidade em flexão do escafoide (humpback), com ângulo intraescafoide lateral de {angulo}° (referência: até cerca de 35°).
+## gatilhos: pseudartrose do escafoide no punho
+Ausência de consolidação do escafoide, com esclerose e reabsorção das margens do foco de fratura e cistos adjacentes, compatível com pseudartrose.
+## gatilhos: esclerose do polo proximal do escafoide
+Esclerose do polo proximal do escafoide, que pode corresponder a necrose avascular; a ressonância magnética é o método de escolha para avaliação da vitalidade.
+## gatilhos: snac no punho | colapso por pseudartrose do escafoide no punho
+Alterações degenerativas relacionadas à pseudartrose do escafoide (SNAC), estágio {snac|I/II/III}.
+## gatilhos: slac no punho | colapso escafossemilunar no punho
+Alterações degenerativas em padrão de colapso avançado escafossemilunar (SLAC), estágio {slac|I/II/III}.
+## gatilhos: impactacao ulnocarpal no punho
+Esclerose e cistos subcondrais na face ulnar do semilunar, que, associados a variância ulnar positiva, podem corresponder a síndrome de impactação ulnocarpal, a correlacionar clinicamente.
+## gatilhos: kienbock no punho | doenca de kienbock no punho
+Esclerose do semilunar, {colapso|sem/com} colapso, podendo corresponder a doença de Kienböck, estágio {lichtman|I/II/IIIA/IIIB/IV} de Lichtman.
+## gatilhos: tomografia do punho sem fratura | tc sem fratura no punho
+Não há traços de fratura evidentes ao método. Se a suspeita clínica de fratura oculta persistir, a ressonância magnética é o método mais sensível.
+## gatilhos: limite do metodo no punho | tomografia nao avalia ligamentos do punho
+A tomografia computadorizada tem sensibilidade limitada para avaliação dos ligamentos intrínsecos do carpo e da fibrocartilagem triangular; se houver indicação clínica, considerar ressonância magnética ou artrorressonância.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Calota craniana
+# gatilhos: hiperostose frontal interna | hiperostose frontal | espessamento da tabua interna frontal
+Espessamento da tábua interna do osso frontal, compatível com hiperostose frontal interna.

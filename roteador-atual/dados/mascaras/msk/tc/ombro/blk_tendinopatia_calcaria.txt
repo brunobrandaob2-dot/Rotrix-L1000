@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: tendinopatia calcaria | calcificacao tendinea | calcificacao no manguito | tendinite calcaria
+# conclusao: Tendinopatia calcária do {tendao|supraespinhal/infraespinhal/subescapular/redondo menor}.
+Partes moles:  calcificação {aspecto|amorfa/homogênea e de contornos definidos} no trajeto do tendão {tendao|supraespinhal/infraespinhal/subescapular/redondo menor}, medindo {tamanho}, compatível com tendinopatia calcária. Ventres musculares do manguito rotador e do deltoide de volume e atenuação preservados, considerando os limites do método para avaliação tendínea.

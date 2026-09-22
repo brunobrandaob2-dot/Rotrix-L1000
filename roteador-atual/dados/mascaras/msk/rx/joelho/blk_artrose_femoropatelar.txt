@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: artrose femoropatelar | alteracoes degenerativas femoropatelares | artrose patelar
+Redução do espaço articular femoropatelar, com esclerose subcondral e osteófitos nos polos patelares.

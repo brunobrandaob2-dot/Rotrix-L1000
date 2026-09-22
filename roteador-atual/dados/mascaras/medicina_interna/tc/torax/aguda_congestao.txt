@@ -1,0 +1,28 @@
+# gatilhos: tomografia de torax com congestao | tc de torax com congestao | tomografia de torax com edema pulmonar | tc de torax com edema pulmonar | tc torax congestao | tomografia de torax com congestao pulmonar | tc de torax com insuficiencia cardiaca
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multislice e reconstruções multiplanares, {contraste|sem/com/sem e com} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  opacidades em vidro fosco de distribuição peri-hilar e nas regiões pendentes, com espessamento liso dos septos interlobulares, compatíveis com edema pulmonar intersticial. Não há consolidações focais.
+Traqueia e brônquios:  calibre e trajetos normais.
+Mediastino:  aumento das dimensões cardíacas.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais, com principais ramos preservados.
+Derrames:  derrame pleural {lado|bilateral/direito/esquerdo}, de pequeno volume. Ausência de derrame pericárdico.
+Cúpulas diafragmáticas:  morfologia e posição habituais.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sinais de congestão pulmonar, com edema intersticial.
+Derrame pleural {lado|bilateral/direito/esquerdo} de pequeno volume.
+Aumento das dimensões cardíacas.
+Achados sugestivos de congestão de origem cardiogênica, a correlacionar com dados clínicos.

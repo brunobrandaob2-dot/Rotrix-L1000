@@ -1,0 +1,25 @@
+# gatilhos: tomografia de pe com coalizao tarsal | tc de pe com coalizao tarsal | tc pe coalizao | tomografia de pe com coalizao | tomografia de pe com coalizao calcaneonavicular | tomografia de pe com coalizao talocalcanea
+# categoria: msk
+# modalidade: tc
+# regiao: pe
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  preservado, sem subluxações.
+Retropé:  coalizão {tipo_coal|talocalcânea na faceta média/calcaneonavicular} de aspecto {natureza|ósseo, com ponte óssea contínua/fibrocartilaginoso, com estreitamento, irregularidade e esclerose das superfícies justapostas}.
+{bico|Sem/Com} bico talar dorsal.
+Mediopé:  navicular, cuboide e cuneiformes sem particularidades. Articulações tarsometatarsais (Lisfranc) congruentes.
+Antepé:  metatarsos e falanges sem particularidades. Articulações metatarsofalângicas e interfalângicas congruentes.
+Arcos plantares:  {arco|preservados/com redução do arco longitudinal medial}, considerando que o exame é realizado sem carga.
+Tendões:  trajeto habitual, considerando os limites do método.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Coalizão {tipo_coal|talocalcânea/calcaneonavicular} de aspecto {natureza_concl|ósseo/fibrocartilaginoso}.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Adrenais
+# gatilhos: nodulo adrenal indeterminado | incidentaloma adrenal | lesao adrenal a esclarecer | nodulo suprarrenal indeterminado
+# conclusao: Nódulo adrenal {lado_a|à direita/à esquerda} medindo {tamanho}, com densidade igual ou superior a 10 UH na fase sem contraste, de caráter indeterminado ao método; sugere-se protocolo adrenal dedicado com washout ou ressonância magnética, além de avaliação da função hormonal.
+Adrenais: adrenal {lado|direito/esquerdo} com nódulo medindo {tamanho}, de contornos ___ e conteúdo ___, com densidade de ___ UH na fase sem contraste — valor igual ou superior a 10 UH, que não permite caracterizar adenoma rico em lipídios — e realce de ___ UH após o meio de contraste, sem cálculo de washout no protocolo utilizado. Adrenal contralateral de espessura normal e sem nódulos.

@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna cervical com artrodese | tc de coluna cervical com artrodese | tc coluna cervical artrodese | tomografia de coluna cervical pos operatoria | tc de coluna cervical pos operatoria | tc de coluna cervical com placa anterior | tc de coluna cervical com cage
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_cervical
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles, com técnica de redução de artefatos metálicos.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  retificação da lordose cervical. Ausência de listeses nos níveis instrumentados e adjacentes.
+Transição craniocervical:  processo odontoide íntegro e centrado em relação às massas laterais de C1. Intervalo atlantodental preservado. Articulações atlanto-occipitais e atlantoaxiais congruentes.
+Corpos vertebrais:  material de artrodese anterior de {nivel} a {nivel}, constituído por placa e parafusos, com espaçador intersomático em {nivel}. Implantes em posição habitual, sem sinais de fratura, soltura ou halo de radiolucência ao redor dos parafusos.
+Discos intervertebrais:  {fusao|sinais de fusão óssea intersomática no nível operado/sem ponte óssea intersomática contínua caracterizável no nível operado}. Nível adjacente com redução da altura discal em {nivel}.
+Articulações uncovertebrais:  uncoartrose no nível adjacente.
+Articulações interapofisárias:  congruentes, com espaços articulares preservados.
+Canal vertebral:  de amplitude preservada nos níveis avaliados, considerando os artefatos metálicos.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, massas laterais, lâminas e processos espinhosos íntegros.
+Partes moles:  alterações pós-cirúrgicas habituais nas partes moles pré-vertebrais, sem coleções.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artrodese cervical anterior de {nivel} a {nivel}, sem sinais de soltura ou fratura dos implantes.
+Discopatia degenerativa no nível adjacente ({nivel}).

@@ -1,0 +1,26 @@
+# gatilhos: tomografia de perna com fratura | tc de perna com fratura | tc perna fratura | tomografia de perna com fratura da tibia | tomografia de perna com fratura da diafise tibial | tc de perna com fratura da tibia e fibula
+# categoria: msk
+# modalidade: tc
+# regiao: perna
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA PERNA {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  {alinhamento|preservado/com desvio angular de ___° e translação de ___ mm entre os fragmentos}.
+Tíbia:  fratura {traco|transversa/oblíqua/espiral/cominutiva/segmentar} no terço {terco|proximal/médio/distal} da diáfise, com desvio de {tamanho} e {cavalgamento|sem/com} cavalgamento dos fragmentos.
+Traço {extensao|sem/com} extensão à superfície articular.
+Fíbula:  {fibula|íntegra/com fratura associada no terço proximal/com fratura associada no terço médio/com fratura associada no terço distal}.
+Articulações tibiofibulares proximal e distal:  congruentes.
+Articulações adjacentes:  porções incluídas do joelho e do tornozelo sem particularidades.
+Musculatura:  edema e hematoma intramusculares adjacentes ao foco de fratura.
+Partes moles:  aumento de volume das partes moles, {gas|sem/com} gás adjacente ao foco de fratura.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura {traco|transversa/oblíqua/espiral/cominutiva/segmentar} do terço {terco|proximal/médio/distal} da diáfise tibial, com desvio de {tamanho}.
+{fibula_concl|Fíbula íntegra/Fratura associada da fíbula}.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias ilíacas comuns
+# gatilhos: estenose da iliaca comum | estenose iliaca
+# conclusao: Estenose de ___% da artéria ilíaca comum {lado_f|direita/esquerda}.
+Artérias ilíacas comuns:  placa ateromatosa na artéria ilíaca comum {lado_f|direita/esquerda}, determinando estenose de ___% (graduação: < 50% leve, 50–69% moderada, ≥ 70% acentuada), com extensão de ___ cm. Artéria ilíaca comum contralateral {contralateral|pérvia, sem estenoses significativas/com ___}.

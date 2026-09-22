@@ -1,0 +1,35 @@
+# gatilhos: tomografia de abdome com pancreatite | tc de abdome com pancreatite | tc abdome pancreatite | tomografia de abdome total com pancreatite | tc de abdome total com pancreatite | tomografia do abdome com pancreatite | tomografia de abdome com pancreatite aguda | tc de abdome com pancreatite aguda | tc abdome pancreatite aguda | tomografia de abdome com pancreatite necrosante | tc de abdome com pancreatite necrosante | tc abdome pancreatite necrosante | tomografia de abdome com pancreatite edematosa | tc de abdome com pancreatite edematosa | tc abdome pancreatite edematosa
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, com injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  vesícula biliar {vesicula|sem cálculos caracterizáveis/com cálculos no seu interior}.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões aumentadas e contornos borrados, com densificação da gordura peripancreática e {realce|realce parenquimatoso homogêneo, sem áreas de necrose/áreas sem realce compatíveis com necrose, estimadas em ___% do parênquima}. Sem dilatação do ducto pancreático principal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  sem particularidades no protocolo utilizado.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  eixo esplenomesentérico-portal pérvio. Não há pseudoaneurismas. Aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  {colecoes|ausência de coleções peripancreáticas/coleção líquida aguda peripancreática, sem parede definida, em ___/coleções peripancreáticas em ___}. {liquido|Ausência de/Pequena quantidade de} líquido livre.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Pancreatite aguda {tipo_pancreatite|intersticial edematosa/necrosante}.
+Balthazar {balthazar|A/B/C/D/E}; necrose {necrose|ausente/inferior a 30%/de 30 a 50%/superior a 50%}; índice de gravidade tomográfico (CTSI) de {ctsi} pontos (escala de 0 a 10).
+A extensão da necrose pode ser subestimada nas primeiras 72 horas de evolução.

@@ -1,0 +1,33 @@
+# gatilhos: tomografia de abdome com litiase renal | tc de abdome com litiase renal | tc abdome litiase renal | tomografia de abdome total com litiase renal | tc de abdome total com litiase renal | tomografia do abdome com litiase renal | tomografia de abdome com calculo renal | tc de abdome com calculo renal | tc abdome calculo renal | tomografia de abdome com nefrolitiase | tc de abdome com nefrolitiase | tc abdome nefrolitiase | tomografia de abdome com litiase renal nao obstrutiva | tc de abdome com litiase renal nao obstrutiva | tc abdome litiase renal nao obstrutiva
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Cálculo no grupamento calicinal {grupamento|superior/médio/inferior} {lado_a|à direita/à esquerda}, medindo {tamanho}. Não há dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  sem particularidades no protocolo utilizado.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Litíase renal {lado_a|à direita/à esquerda}, não obstrutiva.

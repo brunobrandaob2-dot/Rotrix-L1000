@@ -1,0 +1,18 @@
+# gatilhos: raio x de coluna lombar com espondilose | rx de coluna lombar com espondilose | rx coluna lombar espondilose | radiografia de coluna lombar com espondilose | rx de coluna lombar degenerativa | raio x de coluna lombar com alteracoes degenerativas | rx de coluna lombossacra com espondilose | rx de coluna lombar com artrose | rx de coluna lombar com discopatia
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_lombar
+# tipo_mascara: cronica
+**RADIOGRAFIA DA COLUNA LOMBOSSACRA**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Retificação da lordose lombar.
+Corpos vertebrais com altura preservada e osteófitos marginais, mais evidentes em {nivel}.
+Redução dos espaços discais em {nivel}, com esclerose das plataformas vertebrais.
+Artrose interapofisária, mais evidente em {nivel}.
+Não há sinais de fraturas.
+Articulações sacroilíacas preservadas.
+Densidade óssea preservada.
+Partes moles sem alterações.

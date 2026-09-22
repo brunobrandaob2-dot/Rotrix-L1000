@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: aumento das partes moles pre vertebrais | partes moles pre vertebrais espessadas | edema pre vertebral
+Aumento das partes moles pré-vertebrais em {nivel}, medindo {tamanho} (referência: até 7 mm em C2 e 22 mm em C6); considerar tomografia no contexto de trauma.

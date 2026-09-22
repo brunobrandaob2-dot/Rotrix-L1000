@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações sacroilíacas
+# gatilhos: sacroileite | sacroiliite | erosoes sacroiliacas
+# conclusao: Erosões e esclerose subcondral sacroilíacas, a correlacionar com hipótese de sacroileíte (a ressonância magnética é mais sensível para alterações inflamatórias ativas).
+Articulações sacroilíacas:  erosões e esclerose subcondral nas margens ilíacas das articulações sacroilíacas, {lado_f|bilateral/direita/esquerda}, com irregularidade e pseudoalargamento dos espaços articulares.

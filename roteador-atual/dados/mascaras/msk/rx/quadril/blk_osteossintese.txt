@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: osteossintese | material de sintese | haste cefalomedular | dhs
+Osteossíntese do fêmur proximal com {material|haste cefalomedular/parafuso deslizante e placa lateral (DHS)/parafusos canulados}, sem sinais de soltura, e foco de fratura {consolidacao|em consolidação/consolidado/sem sinais de consolidação}.

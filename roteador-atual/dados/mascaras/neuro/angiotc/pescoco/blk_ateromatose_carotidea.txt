@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Bulbos carotídeos e bifurcações
+# gatilhos: ateromatose carotidea | placas carotideas | ateromatose nas bifurcacoes carotideas | placas nos bulbos
+# conclusao: Ateromatose carotídea, sem estenose significativa (< 50% pelo critério NASCET).
+Bulbos carotídeos e bifurcações:  placas ateromatosas {placa|calcificadas/não calcificadas/mistas} nos bulbos carotídeos e nas origens das artérias carótidas internas, {lado_a|à direita/à esquerda/bilateralmente}, sem determinar estenose significativa (< 50% pelo critério NASCET).

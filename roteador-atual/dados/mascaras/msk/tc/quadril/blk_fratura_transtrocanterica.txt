@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Região trocantérica
+# gatilhos: fratura transtrocanterica | fratura trocanterica | fratura intertrocanterica
+# conclusao: Fratura transtrocantérica do fêmur proximal, tipo {ao|31A1/31A2/31A3} da classificação AO/OTA.
+Região trocantérica:  traço de fratura transtrocantérico, estendendo-se do trocânter maior ao trocânter menor, {cominuicao|sem/com} cominuição da parede posteromedial.

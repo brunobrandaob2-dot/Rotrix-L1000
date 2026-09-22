@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Recesso suprapatelar
+# gatilhos: lipo hemartrose | lipohemartrose | nivel gordura liquido
+# conclusao: Lipo-hemartrose, indicativa de fratura intra-articular.
+Recesso suprapatelar:  distensão por conteúdo líquido, com nível gordura-líquido, compatível com lipo-hemartrose.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura do olecrano | fratura de olecrano
+Fratura {traco|transversa/oblíqua/cominutiva} do olécrano, com diástase de {tamanho} entre os fragmentos.

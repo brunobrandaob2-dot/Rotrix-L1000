@@ -1,0 +1,41 @@
+# tipo: frases
+## gatilhos: coluna toracica sem fraturas na tomografia | tc coluna toracica sem fratura
+Não há sinais de fraturas ou de desalinhamentos traumáticos na coluna torácica.
+## gatilhos: cifose toracica acentuada | hipercifose toracica
+Acentuação da cifose torácica fisiológica.
+## gatilhos: retificacao da cifose toracica | cifose toracica retificada
+Retificação da cifose torácica fisiológica.
+## gatilhos: hernia discal toracica calcificada | calcificacao discal toracica
+Protrusão discal calcificada em {nivel}, que toca a face ventral da medula; a ressonância magnética é o método de escolha para a avaliação medular.
+## gatilhos: ossificacao do ligamento amarelo toracico | ossificacao ligamento amarelo toracica
+Ossificação do ligamento amarelo em {nivel}, {lado_a|à direita/à esquerda}, que reduz a amplitude do canal vertebral.
+## gatilhos: ressalva ressonancia coluna toracica | ressonancia para medula toracica
+A tomografia tem sensibilidade limitada para a avaliação dos discos, da medula e das raízes; a ressonância magnética é o método de escolha para esta avaliação, se houver indicação clínica.
+## gatilhos: fratura toracica antiga consolidada | fratura antiga da coluna toracica
+Fratura antiga do corpo vertebral de {nivel}, com margens escleróticas e remodeladas, sem sinais de agudização.
+## gatilhos: multiplas fraturas osteoporoticas toracicas | varios acunhamentos toracicos
+Acunhamentos de múltiplos corpos vertebrais torácicos ({nivel}), de aspecto antigo, com perda de altura máxima estimada em {percentual}% em {nivel}, compatíveis com fraturas por insuficiência.
+## gatilhos: fenda de vacuo intrassomatica toracica | kummell toracica
+Fenda de vácuo intrassomática em {nivel}, sugerindo pseudoartrose/osteonecrose do corpo vertebral (doença de Kümmell).
+## gatilhos: fratura toracica com retropulsao | retropulsao de fragmento toracico
+Fragmento ósseo retropulso do muro posterior de {nivel}, medindo {tamanho}, que reduz a amplitude do canal vertebral em cerca de {comprometimento_canal}%.
+## gatilhos: fratura de costela na tc de coluna toracica | fratura de arco costal posterior toracico
+Traço de fratura no arco costal posterior da {costela} costela {lado_f|direita/esquerda}, de aspecto agudo, sem desvio significativo.
+## gatilhos: fratura do esterno na tc toracica | fratura esternal na coluna toracica
+Traço de fratura no corpo do esterno, de aspecto agudo; fraturas esternais associadas a fraturas torácicas altas sugerem mecanismo de alta energia e instabilidade.
+## gatilhos: fratura na coluna anquilosada toracica | fratura em dish toracica
+Traço de fratura transverso que atravessa os segmentos anquilosados em {nivel}, incluindo corpo vertebral e elementos posteriores, de aspecto agudo; fraturas na coluna anquilosada são instáveis.
+## gatilhos: lesao litica vertebral toracica | lesao osteolitica na coluna toracica
+Lesão osteolítica no corpo vertebral de {nivel}, medindo {tamanho}, de natureza indeterminada, a ser correlacionada com os dados clínicos e com ressonância magnética.
+## gatilhos: ilhota ossea toracica | enostose vertebral toracica
+Foco de esclerose óssea no corpo vertebral de {nivel}, medindo {tamanho}, de margens espiculadas, podendo corresponder a ilhota óssea (enostose).
+## gatilhos: hematoma paravertebral toracico | partes moles paravertebrais toracicas densificadas
+Densificação e aumento volumétrico das partes moles paravertebrais em {nivel}, compatíveis com hematoma.
+## gatilhos: derrame pleural na tc de coluna toracica | derrame pleural coluna toracica
+Derrame pleural {lado_a|à direita/à esquerda} incluído no campo de visão, de pequeno volume.
+## gatilhos: escoliose toracica leve | escoliose toracica discreta
+Discreta escoliose torácica de convexidade {convexidade|à direita/à esquerda}.
+## gatilhos: anquilose costovertebral toracica | artrose costovertebral toracica
+Alterações degenerativas das articulações costovertebrais em {nivel}, com osteófitos e esclerose subcondral.
+## gatilhos: parafuso pedicular toracico solto | soltura de parafuso toracico
+Halo de radiolucência ao redor do parafuso pedicular {lado|direito/esquerdo} de {nivel}, medindo {tamanho}, sugestivo de soltura.

@@ -1,0 +1,17 @@
+# gatilhos: raio x de bacia | raio x da bacia | rx de bacia | rx da bacia | radiografia de bacia | radiografia da bacia | raio x de bacia normal | rx de bacia normal | rx bacia normal | radiografia de bacia normal | raio x de bacia sem alteracoes | rx bacia | raio x de bacia ap | raio x dos quadris | rx dos quadris
+# categoria: msk
+# modalidade: rx
+# regiao: bacia
+# tipo_mascara: normal
+**RADIOGRAFIA DA BACIA**
+
+**TÉCNICA:**  incidência anteroposterior da bacia.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Articulações sacroilíacas preservadas.
+Sínfise púbica sem alterações.
+Espaços articulares coxofemorais preservados.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

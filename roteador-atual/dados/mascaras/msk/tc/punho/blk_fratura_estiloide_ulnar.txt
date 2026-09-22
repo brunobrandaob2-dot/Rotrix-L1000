@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Ulna distal
+# gatilhos: fratura do estiloide ulnar | fratura do processo estiloide da ulna | fratura da ulna
+# conclusao: Fratura da {local|ponta/base} do processo estiloide ulnar.
+Ulna distal:  fratura da {local|ponta/base} do processo estiloide ulnar, com desvio de {tamanho}.

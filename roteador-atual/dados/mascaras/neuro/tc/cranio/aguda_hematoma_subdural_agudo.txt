@@ -1,0 +1,33 @@
+# gatilhos: tomografia de cranio com hematoma subdural agudo | tc de cranio com hematoma subdural agudo | tc cranio hematoma subdural agudo | tomografia de cranio com hsd agudo | tc de cranio com hsd agudo
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado, com reconstruções em janelas para parênquima e para osso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  apagamento dos sulcos corticais subjacentes à coleção. Não há contusões ou hematomas intraparenquimatosos identificáveis.
+Substância branca:  sem alterações de atenuação.
+Núcleos da base:  de morfologia e atenuação preservadas.
+Sistema ventricular:  {ventriculos|de dimensões preservadas/com compressão do ventrículo lateral ipsilateral à coleção/com compressão do ventrículo lateral ipsilateral e dilatação do contralateral por aprisionamento}.
+Cisternas da base e sulcos corticais:  cisternas da base {cisternas|pérvias/parcialmente apagadas/apagadas}, {herniacao|sem/com} sinais de herniação subfalcina ou transtentorial.
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Espaços extra-axiais:  coleção extra-axial em crescente, espontaneamente hiperatenuante, ao longo da convexidade cerebral {lado_f|direita/esquerda}, não limitada pelas suturas, com espessura máxima de {tamanho}, compatível com hematoma subdural agudo. {foice_tentorio|Sem/Com} extensão ao longo da foice cerebral e do tentório.
+Pneumoencéfalo:  ausente.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo, sem níveis líquidos.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  {subgaleal|sem hematoma subgaleal/hematoma subgaleal na região ___, com espessura de ___ mm}.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Hematoma subdural agudo na convexidade cerebral {lado_f|direita/esquerda}, com espessura máxima de {tamanho}.
+Linha média: {linha_media_c|centrada/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}. Cisternas da base: {cisternas_c|pérvias/parcialmente apagadas/apagadas}.

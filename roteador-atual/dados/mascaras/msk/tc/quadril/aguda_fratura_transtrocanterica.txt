@@ -1,0 +1,28 @@
+# gatilhos: tomografia de quadril com fratura transtrocanterica | tc de quadril com fratura transtrocanterica | tc quadril fratura trocanterica | tomografia de quadril com fratura trocanterica | tc de quadril com fratura trocanterica
+# categoria: msk
+# modalidade: tc
+# regiao: quadril
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  {alinhamento_troc|sem desvio angular significativo/desvio em varo do fragmento cefálico}. Não há luxação.
+Acetábulo:  morfologia e cobertura da cabeça femoral habituais. Colunas e paredes acetabulares íntegras.
+Cabeça femoral:  esférica, de contornos regulares e densidade habitual, sem sinais de colapso subcondral.
+Colo femoral:  sem traço de fratura isolado no colo femoral.
+Região trocantérica:  traço de fratura transtrocantérico, estendendo-se do trocânter maior ao trocânter menor, {cominuicao|sem cominuição da parede posteromedial/com cominuição da parede posteromedial e destacamento do trocânter menor}, {parede_lateral|com parede lateral íntegra/com fratura da parede lateral}, {subtroc|sem/com} extensão subtrocantérica. Padrão {ao|31A1/31A2/31A3} da classificação AO/OTA.
+Espaço articular:  preservado, sem esclerose subcondral, osteófitos ou cistos subcondrais.
+Cavidade articular:  sem derrame articular significativo. Não há corpos livres intra-articulares.
+Diáfise femoral proximal:  sem particularidades.
+Ossos pélvicos adjacentes:  sem particularidades.
+Densidade óssea:  {densidade|preservada/difusamente reduzida}. Não há lesões líticas ou blásticas focais que sugiram fratura patológica.
+Partes moles:  hematoma e edema das partes moles adjacentes.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura transtrocantérica do fêmur proximal, tipo {ao|31A1/31A2/31A3} da classificação AO/OTA.

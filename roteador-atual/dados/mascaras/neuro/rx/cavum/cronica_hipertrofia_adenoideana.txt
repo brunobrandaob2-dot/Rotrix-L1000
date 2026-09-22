@@ -1,0 +1,15 @@
+# gatilhos: raio x de cavum com hipertrofia adenoideana | rx de cavum com hipertrofia adenoideana | radiografia do cavum com hipertrofia adenoideana | raio x de cavum com adenoide aumentada | rx de cavum com adenoide aumentada | rx cavum hipertrofia de adenoide | raio x de cavum com hipertrofia de adenoide
+# categoria: neuro
+# modalidade: rx
+# regiao: cavum
+# tipo_mascara: cronica
+**RADIOGRAFIA DO CAVUM**
+
+**TÉCNICA:**  incidência em perfil.
+
+**ANÁLISE:**
+Hipertrofia {grau|discreta/moderada/acentuada} do tecido adenoideano.
+Redução {grau|discreta/moderada/acentuada} da coluna aérea da rinofaringe.
+Palato mole de espessura e contornos normais.
+Coluna aérea da orofaringe sem alterações.
+Partes moles pré-vertebrais de espessura normal.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: nodulo subsolido | nodulo em vidro fosco | nodulo parcialmente solido | nodulo pulmonar parcialmente solido | nodulo pulmonar subsolido | nodulo semissolido
+# conclusao: Nódulo pulmonar subsólido no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, medindo {tamanho}, a esclarecer; como referência, os critérios de Fleischner (2017) indicam controle tomográfico para confirmar a persistência dos nódulos subsólidos a partir de 6 mm, a critério clínico.
+Parênquima pulmonar:  nódulo {tipo_subsolido|em vidro fosco puro/parcialmente sólido} no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, medindo {tamanho} (diâmetro médio), {componente_solido|sem componente sólido/com componente sólido de ___}. Demais segmentos sem consolidações ou outros nódulos.

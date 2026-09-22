@@ -1,0 +1,40 @@
+# gatilhos: abdome oncologico em seguimento | tc abdome controle oncologico | seguimento de neoplasia | restadiamento abdominal | abdome com lesoes alvo | controle de tratamento oncologico
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado, com fases arterial e portal, em protocolo de seguimento oncológico.
+
+INDICAÇÃO CLÍNICA: seguimento de neoplasia de ___, em vigência de ___.
+
+COMPARAÇÃO: estudo tomográfico prévio de ___/___/____.
+
+ANÁLISE:
+Transição toracoabdominal: ausência de derrame pleural ou de nódulos nas bases pulmonares incluídas no estudo.
+Fígado: de dimensões normais e contornos regulares.
+LESÕES-ALVO:
+- Alvo 1 — lesão hepática no {segmento}: maior diâmetro de ___ cm no presente estudo, contra ___ cm no exame prévio.
+- Alvo 2 — linfonodo em cadeia ___: menor eixo de ___ cm no presente estudo, contra ___ cm no exame prévio.
+- Alvo 3 — lesão em ___: maior diâmetro de ___ cm no presente estudo, contra ___ cm no exame prévio.
+Soma dos maiores diâmetros das lesões-alvo: ___ cm no presente estudo, contra ___ cm no exame prévio (variação de ___ %), e contra ___ cm no nadir do seguimento.
+LESÕES NÃO ALVO: ___ — estáveis / com redução / com progressão em relação ao estudo prévio.
+NOVAS LESÕES: ausentes / presentes em ___, medindo {tamanho}.
+Vias biliares: sem dilatação.
+Vesícula biliar: de paredes finas, sem cálculos no seu interior.
+Pâncreas: de dimensões e densidade normais, sem dilatação ductal.
+Baço: de dimensões normais e densidade homogênea.
+Adrenais: de espessura normal e sem nódulos.
+Rins: tópicos, de contornos regulares, sem cálculos ou dilatação de vias coletoras.
+Bexiga: de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos: sem particularidades, considerando os limites do método.
+Trato gastrointestinal: sem particularidades no protocolo utilizado.
+Vasos: aorta e veia cava inferior de calibres normais, pérvias, sem trombose ou envolvimento tumoral caracterizável.
+Retroperitônio: linfonodos de dimensões ___, o maior em cadeia ___ medindo ___ cm no menor eixo, contra ___ cm no exame prévio.
+Peritônio: ausência de líquido livre, de espessamento peritoneal ou de implantes caracterizáveis ao método.
+Estruturas ósseas e partes moles: ausência / presença de lesões ósseas focais em ___, medindo {tamanho}, de aspecto ___, estáveis / com alteração em relação ao prévio.
+
+CONCLUSÃO:
+1. Exame comparado ao estudo de ___/___/____.
+2. Soma dos maiores diâmetros das lesões-alvo de ___ cm, contra ___ cm no exame prévio, correspondendo a variação de ___ %.
+3. Lesões não alvo: ___.
+4. Novas lesões: ausentes / presentes em ___.
+5. **Avaliação de resposta: ___ (resposta completa / resposta parcial / doença estável / progressão de doença), segundo critérios RECIST 1.1.**
+6. Correlacionar com a evolução clínica, laboratorial e com a conduta oncológica em curso.

@@ -1,0 +1,25 @@
+# gatilhos: tomografia de cotovelo com artrose | tomografia do cotovelo com artrose | tc de cotovelo com artrose | tc do cotovelo com artrose | tc cotovelo artrose | tomografia de cotovelo com alteracoes degenerativas | tc de cotovelo com alteracoes degenerativas | tomografia de cotovelo com corpos livres | tc de cotovelo com corpos livres
+# categoria: msk
+# modalidade: tc
+# regiao: cotovelo
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO COTOVELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações umeroulnar, umerorradial e radioulnar proximal preservadas, sem sinais de luxação ou subluxação.
+Úmero distal:  côndilos, epicôndilos, capítulo e tróclea de morfologia e contornos preservados, sem traços de fratura.
+Cabeça e colo do rádio:  de morfologia e contornos preservados, sem traços de fratura.
+Ulna proximal:  osteófitos na ponta do olécrano e do processo coronoide, sem traços de fratura.
+Espaços articulares:  redução {grau|leve/moderada/acentuada} dos espaços umeroulnar e umerorradial, com osteófitos marginais, esclerose e cistos subcondrais, e osteófitos nas fossas olecraniana e coronoide. {corpos|Não há corpos livres intra-articulares/Corpos livres intra-articulares no recesso ___, o maior medindo ___}.
+Derrame articular:  ausente.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções, calcificações ou alterações significativas, considerando os limites do método para avaliação ligamentar e tendínea.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artrose do cotovelo (Kellgren-Lawrence {kl|1/2/3/4}).

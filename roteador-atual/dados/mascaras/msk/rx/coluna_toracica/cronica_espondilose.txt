@@ -1,0 +1,18 @@
+# gatilhos: raio x de coluna toracica com espondilose | rx de coluna toracica com espondilose | rx coluna toracica espondilose | radiografia de coluna toracica com espondilose | rx de coluna toracica degenerativa | raio x de coluna toracica com alteracoes degenerativas | rx de coluna dorsal com espondilose | rx de coluna toracica com dish | rx de coluna toracica com discopatia
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_toracica
+# tipo_mascara: cronica
+**RADIOGRAFIA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Acentuação da cifose torácica.
+Corpos vertebrais com altura preservada e osteófitos marginais, mais evidentes em {nivel}.
+{dish|Não há pontes ósseas contínuas/Pontes ósseas contínuas anterolaterais de ___ a ___, compatíveis com hiperostose esquelética idiopática difusa (DISH)}.
+Redução dos espaços discais em {nivel}.
+Elementos posteriores preservados.
+Não há sinais de fraturas.
+Densidade óssea preservada.
+Partes moles sem alterações.

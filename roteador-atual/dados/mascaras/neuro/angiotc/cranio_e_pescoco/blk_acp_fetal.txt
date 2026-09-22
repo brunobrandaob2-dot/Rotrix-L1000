@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias comunicantes anterior e posteriores
+# gatilhos: origem fetal da cerebral posterior | acp fetal | cerebral posterior fetal | comunicante posterior fetal
+# conclusao: Origem fetal da artéria cerebral posterior {lado_f|direita/esquerda}, variante anatômica.
+Artérias comunicantes anterior e posteriores:  artéria comunicante anterior pérvia. Artéria comunicante posterior {lado_f|direita/esquerda} de calibre semelhante ao da artéria cerebral posterior, que se origina predominantemente da artéria carótida interna (origem fetal), com segmento P1 ipsilateral {p1|hipoplásico/não caracterizado}. Comunicante posterior contralateral dentro dos limites da resolução do método.

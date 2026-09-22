@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Espaço articular
+# gatilhos: condrocalcinose | calcificacao condral | calcificacao do labio
+# conclusao: Condrocalcinose coxofemoral, que pode estar relacionada a doença por depósito de pirofosfato de cálcio (CPPD). Correlacionar com dados clínicos.
+Espaço articular:  preservado. Calcificações lineares na cartilagem articular e no lábio acetabular, compatíveis com condrocalcinose.

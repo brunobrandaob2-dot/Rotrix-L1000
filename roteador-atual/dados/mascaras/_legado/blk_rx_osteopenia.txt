@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas
+# gatilhos: osteopenia difusa | reducao difusa da densidade ossea | osteopenia no rx | rarefacao ossea difusa
+# conclusao: Redução difusa da densidade óssea. Sugere-se densitometria óssea para quantificação, se houver indicação clínica.
+Estruturas ósseas: redução difusa da densidade óssea, com afilamento das corticais e acentuação do trabeculado, sem sinais de fratura, colapso ou lesão focal evidentes ao método. A radiografia simples não quantifica a massa óssea.

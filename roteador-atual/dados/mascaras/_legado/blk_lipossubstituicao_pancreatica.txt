@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Pâncreas
+# gatilhos: lipossubstituicao pancreatica | pancreas lipossubstituido | involucao adiposa do pancreas
+# conclusao: Lipossubstituição pancreática, compatível com a faixa etária.
+Pâncreas: dimensões preservadas, com lipossubstituição parenquimatosa difusa, sem dilatação ductal, lesões focais ou densificação peripancreática.

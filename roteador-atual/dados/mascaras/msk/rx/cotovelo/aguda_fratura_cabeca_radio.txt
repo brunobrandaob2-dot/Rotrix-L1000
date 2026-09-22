@@ -1,0 +1,16 @@
+# gatilhos: raio x de cotovelo com fratura | rx de cotovelo com fratura | radiografia de cotovelo com fratura | rx do cotovelo com fratura | rx cotovelo fratura | raio x de cotovelo com fratura da cabeca do radio | rx de cotovelo com fratura da cabeca do radio | raio x de cotovelo com fratura do radio | rx de cotovelo com fratura do radio
+# categoria: msk
+# modalidade: rx
+# regiao: cotovelo
+# tipo_mascara: aguda
+**RADIOGRAFIA DO COTOVELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Espaços articulares preservados.
+Fratura da {local|cabeça/colo} do rádio, com desvio de {tamanho}, {cominuicao|sem/com} cominuição, tipo {mason|I/II/III/IV} de Mason.
+Não há sinais de luxações.
+Elevação dos coxins gordurosos, indicando derrame articular.
+Densidade óssea preservada.
+Partes moles sem alterações.

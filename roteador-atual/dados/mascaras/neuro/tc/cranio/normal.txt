@@ -1,0 +1,31 @@
+# gatilhos: tomografia de cranio | tomografia do cranio | tc de cranio | tomografia de cranio normal | tomografia do cranio normal | tc de cranio normal | tc cranio normal | cranio normal | tomografia de cranio sem alteracoes | tomografia de cranio sem contraste | tc de cranio sem contraste | tomografia de cranio com contraste | tc de cranio com contraste | tomografia de encefalo | tc de encefalo
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  coeficientes de atenuação preservados, com diferenciação córtico-subcortical mantida. Não há áreas de isquemia aguda, hemorragia ou lesão expansiva.
+Substância branca:  sem alterações de atenuação.
+Núcleos da base:  de morfologia e atenuação preservadas.
+Sistema ventricular:  de morfologia, dimensões e topografia normais.
+Cisternas da base e sulcos corticais:  de amplitude preservada.
+Linha média:  estruturas centradas.
+Espaços extra-axiais:  sem coleções.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura ou lesões focais.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

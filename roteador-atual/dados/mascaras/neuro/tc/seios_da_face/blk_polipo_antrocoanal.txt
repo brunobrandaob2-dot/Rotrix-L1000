@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cavidade nasal
+# gatilhos: polipo antrocoanal | polipo coanal | polipo de killian
+# conclusao: Formação polipoide com origem no seio maxilar {lado|direito/esquerdo} e extensão à cavidade nasal e à coana, compatível com pólipo antrocoanal.
+Cavidade nasal:  formação polipoide com origem no seio maxilar {lado|direito/esquerdo}, estendendo-se através do óstio para a fossa nasal homolateral e a coana, medindo {tamanho}, compatível com pólipo antrocoanal.

@@ -1,0 +1,26 @@
+# gatilhos: tomografia de torax com pneumonia | tc de torax com pneumonia | tc torax pneumonia | tomografia de torax com consolidacao | tc de torax com consolidacao | tomografia de torax com processo infeccioso | tc de torax com broncopneumonia
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multislice e reconstruções multiplanares, {contraste|sem/com/sem e com} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  consolidação com broncogramas aéreos no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, com opacidades em vidro fosco no parênquima adjacente. Não há cavitação ou abscesso. Demais segmentos sem consolidações.
+Traqueia e brônquios:  calibre e trajetos normais.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais, com principais ramos preservados.
+Derrames:  {derrame|ausência de derrame pleural ou pericárdico/pequeno derrame pleural ipsilateral, sem derrame pericárdico}.
+Cúpulas diafragmáticas:  morfologia e posição habituais.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Consolidação no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, sugestiva de processo infeccioso no contexto clínico adequado.
+Correlacionar com dados clínicos e laboratoriais.

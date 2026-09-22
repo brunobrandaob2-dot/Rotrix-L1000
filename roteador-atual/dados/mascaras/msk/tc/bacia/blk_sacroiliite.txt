@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações sacroilíacas
+# gatilhos: sacroiliite | alteracoes sacroiliacas | erosoes sacroiliacas | erosoes nas sacroiliacas
+# conclusao: Erosões e esclerose subcondral nas articulações sacroilíacas, que podem corresponder a sacroiliíte. Correlacionar com dados clínicos e laboratoriais.
+Articulações sacroilíacas:  erosões subcondrais, esclerose e irregularidade das superfícies articulares {lado_si|à direita/à esquerda/bilateralmente}, predominando na vertente ilíaca.

@@ -1,0 +1,17 @@
+# gatilhos: raio x de coluna lombar | raio x da coluna lombar | rx de coluna lombar | rx da coluna lombar | rx coluna lombar | radiografia de coluna lombar | radiografia da coluna lombar | raio x de coluna lombossacra | rx de coluna lombossacra | rx coluna lombossacra | radiografia de coluna lombossacra | radiografia da coluna lombossacra | raio x de coluna lombar normal | rx de coluna lombar normal | rx coluna lombar normal | radiografia de coluna lombar normal | rx de coluna lombossacra normal | raio x de coluna lombossacra normal | radiografia de coluna lombar sem alteracoes
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_lombar
+# tipo_mascara: normal
+**RADIOGRAFIA DA COLUNA LOMBOSSACRA**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Alinhamento vertebral preservado.
+Corpos vertebrais com altura preservada, sem sinais de fraturas.
+Espaços discais preservados.
+Elementos posteriores preservados.
+Articulações sacroilíacas preservadas.
+Densidade óssea preservada.
+Partes moles sem alterações.

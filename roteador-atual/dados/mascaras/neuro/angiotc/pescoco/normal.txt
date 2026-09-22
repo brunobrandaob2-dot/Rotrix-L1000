@@ -1,0 +1,24 @@
+# gatilhos: angiotomografia cervical | angio cervical | angio tc cervical | angiotomografia de pescoco | angio de pescoco | angio tc de pescoco | angiotomografia cervical normal | angio cervical normal | angio de pescoco normal | angiotomografia de pescoco normal | angio de carotidas | angio das carotidas | angiotomografia das carotidas | angiotomografia arterial cervical | angio cervical sem alteracoes
+# categoria: neuro
+# modalidade: angiotc
+# regiao: pescoco
+# tipo_mascara: normal
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL DE VASOS CERVICAIS**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação do sistema arterial cervical, do arco aórtico à base do crânio.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Arco aórtico e origens dos troncos supra-aórticos:  arco aórtico de configuração habitual, com origens do tronco braquiocefálico e das artérias carótida comum e subclávia esquerdas pérvias, sem estenoses.
+Artérias carótidas comuns:  trajeto e calibre anatômicos, paredes lisas e opacificação homogênea, sem sinais de estenoses ou oclusões.
+Bulbos carotídeos e bifurcações:  pérvios, sem placas ateromatosas significativas.
+Artérias carótidas internas:  segmentos cervicais pérvios até a base do crânio, com calibre preservado, simétricos, sem ectasias, estenoses ou irregularidades parietais.
+Artérias carótidas externas e seus principais ramos:  patência mantida e trajeto habitual.
+Artérias vertebrais:  pérvias, com calibre e trajeto anatômicos nos segmentos cervicais (V1 a V3), sem estenoses ou irregularidades parietais.
+Demais estruturas cervicais:  sem particularidades nos segmentos incluídos no estudo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Angiotomografia arterial dos vasos cervicais sem alterações significativas.

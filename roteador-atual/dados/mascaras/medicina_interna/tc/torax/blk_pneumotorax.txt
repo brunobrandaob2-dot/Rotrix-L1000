@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Derrames
+# gatilhos: pneumotorax | pneumotorax laminar | pneumotorax pequeno | ar no espaco pleural
+# conclusao: Pneumotórax {lado|direito/esquerdo}, com distância interpleural máxima de {tamanho}, sem sinais tomográficos de hipertensão.
+Derrames:  pneumotórax {lado|direito/esquerdo}, com distância interpleural máxima de {tamanho}, sem desvio mediastinal. Ausência de derrame pleural ou pericárdico.

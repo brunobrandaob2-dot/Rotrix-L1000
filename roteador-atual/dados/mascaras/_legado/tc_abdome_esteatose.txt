@@ -1,0 +1,20 @@
+# gatilhos: abdome com esteatose | esteatose hepatica | figado gorduroso
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Fígado: dimensões aumentadas, contornos regulares, com redução difusa e homogênea dos coeficientes de atenuação do parênquima (___ UH), inferiores aos do baço, compatível com esteatose. Ausência de lesões focais ou de sinais de hepatopatia crônica estabelecida.
+Vias biliares: sem dilatação.
+Vesícula biliar: paredes finas, sem cálculos.
+Pâncreas: lipossubstituição parenquimatosa.
+Baço: dimensões normais e densidade homogênea.
+Demais órgãos abdominais e pélvicos sem alterações significativas.
+Vasos: aorta com ateromatose calcificada parietal.
+Partes moles: aumento do tecido adiposo visceral.
+
+CONCLUSÃO:
+1. **Esteatose hepática difusa**, com hepatomegalia.
+2. Lipossubstituição pancreática e aumento da gordura visceral, achados do mesmo espectro metabólico.

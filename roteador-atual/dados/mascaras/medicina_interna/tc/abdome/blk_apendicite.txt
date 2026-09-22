@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Trato gastrointestinal
+# gatilhos: apendicite | apendicite aguda | apendice inflamado
+# conclusao: Achados compatíveis com apendicite aguda.
+Trato gastrointestinal:  apêndice cecal de calibre aumentado, medindo {tamanho} de diâmetro (referência: até 0,6 cm), com espessamento e realce parietal e densificação da gordura periapendicular, {apendicolito|sem/com} apendicolito. Não há sinais de perfuração ou coleções.

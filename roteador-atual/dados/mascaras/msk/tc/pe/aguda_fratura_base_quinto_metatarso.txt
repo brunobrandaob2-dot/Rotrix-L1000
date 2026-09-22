@@ -1,0 +1,25 @@
+# gatilhos: tomografia de pe com fratura da base do quinto metatarso | tc de pe com fratura do quinto metatarso | tc pe fratura quinto metatarso | tomografia de pe com fratura de jones | tc de pe com fratura de jones
+# categoria: msk
+# modalidade: tc
+# regiao: pe
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  preservado, sem subluxações.
+Retropé:  tálus e calcâneo de morfologia e densidade normais. Articulações subtalar e talonavicular congruentes.
+Mediopé:  navicular, cuboide e cuneiformes sem particularidades. Articulações tarsometatarsais (Lisfranc) congruentes.
+Antepé:  fratura da base do quinto metatarso {zona|na tuberosidade (zona 1)/na junção metafisodiafisária (zona 2, fratura de Jones)/na diáfise proximal (zona 3)}, de traço {traco|transverso/oblíquo}, com desvio de {tamanho} e {articular|sem/com} extensão à articulação {art_5mt|cuboide-quinto metatarso/intermetatarsal entre o quarto e o quinto metatarsos}. Demais metatarsos e falanges sem particularidades.
+Fraturas das zonas 2 e 3 apresentam maior risco de retardo de consolidação.
+Arcos plantares:  preservados, considerando que o exame é realizado sem carga.
+Tendões:  trajeto habitual, considerando os limites do método.
+Partes moles:  aumento de volume das partes moles da borda lateral do pé.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura da base do quinto metatarso, {zona_concl|zona 1 (tuberosidade)/zona 2 (Jones)/zona 3 (diáfise proximal)}.

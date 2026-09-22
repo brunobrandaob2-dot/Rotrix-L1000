@@ -1,0 +1,33 @@
+# gatilhos: tomografia de pescoco com abscesso cervical | tc de pescoco com abscesso cervical | tomografia do pescoco com abscesso cervical | tc de pescoco com celulite | tomografia de pescoco com celulite cervical | tc de pescoco com abscesso submandibular | tc de pescoco com infeccao cervical
+# categoria: neuro
+# modalidade: tc
+# regiao: pescoco
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO PESCOÇO**
+
+**TÉCNICA:**  aquisição volumétrica da base do crânio à transição cervicotorácica, {contraste|sem/com} injeção intravenosa de contraste iodado, com reconstruções multiplanares.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Nasofaringe:  simétrica, com recessos faríngeos laterais preservados, sem espessamentos parietais ou lesões expansivas.
+Orofaringe:  tonsilas palatinas simétricas e de dimensões habituais. Base da língua e valéculas sem particularidades.
+Hipofaringe e laringe:  seios piriformes livres. Pregas vocais simétricas, espaços paraglóticos e pré-epiglótico preservados. Cartilagens laríngeas sem particularidades.
+Espaços parafaríngeos:  gordura preservada e simétrica.
+Espaços mastigatórios:  musculatura mastigatória simétrica, sem coleções ou densificação.
+Espaço retrofaríngeo e pré-vertebral:  de espessura normal, sem coleções ou densificação.
+Glândulas parótidas:  tópicas, simétricas, de dimensões e densidade habituais, sem nódulos.
+Glândulas submandibulares:  tópicas, simétricas, de dimensões e realce habituais, sem cálculos ou dilatação ductal.
+Tireoide:  tópica, de dimensões e densidade habituais, sem nódulos identificáveis ao método.
+Linfonodos cervicais:  linfonodos reacionais nos níveis {niveis|I e II/II e III} ipsilaterais, o maior medindo ___ no menor eixo.
+Vasos cervicais:  artérias carótidas pérvias. Veia jugular interna ipsilateral {jugular|pérvia/com falha de enchimento, sugerindo tromboflebite}.
+Traqueia:  centrada, {via_aerea|sem redução da coluna aérea/com redução da coluna aérea por efeito de massa}.
+Planos gordurosos e partes moles:  densificação da gordura e espessamento do tecido celular subcutâneo e dos planos musculares no espaço {espaco|submandibular/sublingual/submentual/cervical anterior/cervical posterior} {lado_a|à direita/à esquerda/bilateralmente}, com coleção de paredes espessas e realce periférico, medindo {tamanho} nos maiores eixos, {gas|sem/com} gás de permeio.
+Estruturas ósseas:  sem lesões líticas ou blásticas.
+Ápices pulmonares:  sem particularidades nos segmentos incluídos no estudo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Processo inflamatório/infeccioso no espaço {espaco|submandibular/sublingual/submentual/cervical anterior/cervical posterior} {lado_a|à direita/à esquerda/bilateralmente}, com coleção de {tamanho}, compatível com abscesso.
+Correlacionar com possível foco odontogênico ou cutâneo.

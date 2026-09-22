@@ -1,0 +1,33 @@
+# gatilhos: tomografia de seios da face | tomografia dos seios da face | tc de seios da face | tomografia de seios da face normal | tomografia dos seios da face normal | tc de seios da face normal | tc seios da face normal | tomografia de seios paranasais | tomografia dos seios paranasais | tc de seios paranasais | tc de seios paranasais normal | tomografia de seios da face sem alteracoes
+# categoria: neuro
+# modalidade: tc
+# regiao: seios_da_face
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DOS SEIOS DA FACE**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado, com reconstruções multiplanares em filtro para osso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Seios maxilares:  normopneumatizados, com paredes ósseas íntegras.
+Seios etmoidais:  células etmoidais anteriores e posteriores normopneumatizadas. Lâminas papiráceas íntegras.
+Seios frontais:  normopneumatizados, com paredes ósseas íntegras.
+Seios esfenoidais:  normopneumatizados, com paredes ósseas íntegras.
+Complexos ostiomeatais:  pérvios.
+Recessos frontais:  pérvios.
+Recessos esfenoetmoidais:  pérvios.
+Cavidade nasal:  sem lesões expansivas.
+Septo nasal:  centrado.
+Conchas nasais:  de dimensões e morfologia habituais.
+Variantes anatômicas:  sem variantes anatômicas de relevância.
+Base anterior do crânio:  teto etmoidal e lâminas cribriformes íntegros.
+Estruturas ósseas:  sem sinais de fratura ou lesões focais.
+Órbitas:  conteúdo orbitário sem alterações evidentes.
+Rinofaringe:  pérvia, sem lesões expansivas.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

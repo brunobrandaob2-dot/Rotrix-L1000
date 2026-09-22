@@ -1,0 +1,35 @@
+# tipo: frases
+## gatilhos: fratura do navicular no pe
+Fratura do corpo do navicular, {desvio|sem desvio/com desvio de ___ mm}.
+## gatilhos: fratura do cuboide no pe | fratura em quebra nozes no pe
+Fratura do cuboide por compressão (padrão em quebra-nozes).
+## gatilhos: fratura do cuneiforme no pe
+Fratura do cuneiforme {cuneiforme|medial/intermédio/lateral}, sem desvio significativo.
+## gatilhos: fleck sign no pe | fleck de lisfranc no pe
+Pequeno fragmento ósseo no primeiro espaço intermetatarsal (fleck sign), sugestivo de avulsão do ligamento de Lisfranc.
+## gatilhos: diastase entre primeiro e segundo metatarso no pe
+Alargamento do espaço entre a base do primeiro e do segundo metatarsos, medindo {tamanho}, suspeito para lesão do complexo de Lisfranc; a ressonância magnética avalia diretamente o ligamento.
+## gatilhos: lisfranc congruente no pe | tarsometatarsal preservada no pe
+Articulações tarsometatarsais congruentes, com alinhamento preservado da margem medial do segundo metatarso com o cuneiforme intermédio.
+## gatilhos: fratura da cabeca do metatarso no pe
+Fratura da cabeça do {metatarso|1º/2º/3º/4º/5º} metatarso, {articular|sem/com} extensão articular.
+## gatilhos: fratura de falange do pe | fratura do dedo do pe
+Fratura da falange {falange|proximal/média/distal} do {dedo|1º/2º/3º/4º/5º} dedo, {articular|sem/com} extensão articular.
+## gatilhos: neuroartropatia de charcot no pe | charcot no pe
+Alterações de neuroartropatia de Charcot no mediopé, com fragmentação, esclerose e desorganização articular.
+## gatilhos: gas nas partes moles do pe
+Gás nas partes moles do {regiao_pe|antepé/mediopé/retropé}, que pode corresponder a infecção por germe produtor de gás, ferida aberta ou manipulação recente; correlacionar com o exame clínico.
+## gatilhos: colecao nas partes moles do pe
+Coleção nas partes moles plantares, medindo {tamanho}; a caracterização é limitada sem contraste.
+## gatilhos: ulcera no pe | ulcera plantar do pe
+Descontinuidade cutânea (úlcera) na face plantar {local_ulcera|do antepé/do mediopé/do calcanhar}, sem erosão óssea subjacente caracterizada ao método.
+## gatilhos: calcificacoes vasculares no pe
+Calcificações parietais vasculares lineares nas artérias do pé, de padrão medial (Mönckeberg).
+## gatilhos: sesamoide bipartido no pe
+Sesamoide {sesamoide|medial/lateral} do hálux bipartido, de contornos corticais regulares e bordas escleróticas, sem sinais de fratura recente.
+## gatilhos: fratura do sesamoide do pe
+Fratura do sesamoide {sesamoide|medial/lateral} do hálux, de bordas irregulares e não corticadas.
+## gatilhos: fratura do processo anterior do calcaneo
+Fratura do processo anterior do calcâneo, com fragmento medindo {tamanho}.
+## gatilhos: tc de pe sem fratura | pe sem fratura na tomografia
+Não há sinais tomográficos de fratura ou luxação no pé.

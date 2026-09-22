@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: atelectasia laminar | estrias fibroatelectasicas | atelectasias laminares | estrias atelectasicas
+# conclusao: Atelectasias laminares/estrias fibroatelectásicas {localizacao|nas bases pulmonares/no lobo médio e na língula/nos lobos inferiores}.
+Parênquima pulmonar:  atelectasias laminares e estrias fibroatelectásicas {localizacao|nas bases pulmonares/no lobo médio e na língula/nos lobos inferiores}, sem distorção arquitetural. Não há consolidações ou nódulos suspeitos.

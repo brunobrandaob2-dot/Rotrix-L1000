@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: nodulo pulmonar no rx | opacidade nodular no rx | nodulo na radiografia de torax | imagem nodular pulmonar
+# conclusao: Opacidade nodular no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho}. Recomendada tomografia de tórax para caracterização.
+Parênquima pulmonar: opacidade nodular de limites ___ (definidos / mal definidos) projetada no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho} no maior eixo, sem calcificações grosseiras caracterizáveis nesta incidência. A radiografia simples tem sensibilidade limitada para a caracterização de nódulos pulmonares e para a detecção de lesões adicionais; recomenda-se tomografia de tórax, além da comparação com estudos anteriores, se disponíveis.

@@ -1,0 +1,3 @@
+# tipo: achado
+# gatilhos: nodulo pulmonar suspeito | nodulo suspeito | nodulo espiculado | nodulo pulmonar indeterminado
+Nódulo sólido de margens espiculadas no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho}, de aspecto indeterminado, não podendo ser afastada natureza neoplásica. Recomendada correlação clínica e seguimento conforme critérios de Fleischner, ou investigação dirigida a critério clínico.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: calcificacao na gordura de hoffa | calcificacoes na gordura de hoffa | calcificacao de hoffa | hoffa calcificada | calcificacoes de hoffa
+# conclusao: Calcificações na gordura de Hoffa.
+Partes moles:  focos de calcificação de permeio à gordura infrapatelar de Hoffa. Planos miofasciais periarticulares com atenuação e espessura preservadas.

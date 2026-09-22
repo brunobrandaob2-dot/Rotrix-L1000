@@ -1,0 +1,33 @@
+# gatilhos: tomografia de abdome com pneumoperitonio | tc de abdome com pneumoperitonio | tc abdome pneumoperitonio | tomografia de abdome total com pneumoperitonio | tc de abdome total com pneumoperitonio | tomografia do abdome com pneumoperitonio | tomografia de abdome com perfuracao | tc de abdome com perfuracao | tc abdome perfuracao | tomografia de abdome com perfuracao de viscera oca | tc de abdome com perfuracao de viscera oca | tc abdome perfuracao de viscera oca | tomografia de abdome com perfuracao intestinal | tc de abdome com perfuracao intestinal | tc abdome perfuracao intestinal
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  {sitio|sem sítio de perfuração definido ao método/descontinuidade parietal e espessamento de ___, sugestivos do sítio de perfuração}.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  gás livre na cavidade peritoneal, predominando {local_gas|no andar superior do abdome/na região periumbilical/no andar inframesocólico}, associado a {liquido|pequena/moderada} quantidade de líquido livre e densificação da gordura adjacente. Não há coleções organizadas.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Pneumoperitônio, sugestivo de perfuração de víscera oca.
+Achado de comunicação imediata.

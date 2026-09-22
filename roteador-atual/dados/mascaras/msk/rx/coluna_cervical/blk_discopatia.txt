@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços discais
+# gatilhos: discopatia degenerativa | discopatia | reducao dos espacos discais | reducao do espaco discal | vacuo discal
+Redução dos espaços discais em {nivel}, com esclerose das plataformas vertebrais.

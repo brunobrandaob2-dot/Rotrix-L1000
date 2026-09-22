@@ -1,0 +1,18 @@
+# gatilhos: raio x de joelho com protese | rx de joelho com protese | rx joelho artroplastia | radiografia de joelho com protese | raio x de joelho com artroplastia | rx de joelho com artroplastia
+# categoria: msk
+# modalidade: rx
+# regiao: joelho
+# tipo_mascara: cronica
+**RADIOGRAFIA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, perfil e axial de patela.
+
+**ANÁLISE:**
+Artroplastia {tipo_ptj|total/unicompartimental} do joelho.
+Eixo femorotibial {eixo|neutro/em varo/em valgo}, sem sinais de luxação.
+Componentes em posição habitual, sem sinais de soltura, osteólise ou desgaste do polietileno.
+Patela {recapeamento|com/sem} componente protético, centrada na tróclea.
+Não há sinais de fratura periprotética.
+Densidade óssea preservada.
+Partes moles sem alterações.
+Comparar com radiografias anteriores para avaliar migração dos componentes.

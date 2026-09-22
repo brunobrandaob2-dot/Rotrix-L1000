@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: coalizao tarsal | coalizao calcaneonavicular | coalizao talocalcanea | barra tarsal
+Sinais de coalizão {tipo_coal|calcaneonavicular/talocalcânea} ({sinal|sinal do tamanduá/sinal do C/bico talar}), melhor caracterizada por tomografia.

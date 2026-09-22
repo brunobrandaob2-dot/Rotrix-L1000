@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Coleções extra-axiais
+# gatilhos: higroma subdural | higroma | colecao subdural hipoatenuante | colecao de densidade liquorica subdural
+# conclusao: Coleção subdural de atenuação liquórica na convexidade do hemisfério {lado|direito/esquerdo}, com espessura máxima de {tamanho}, compatível com higroma; o diferencial inclui hematoma subdural crônico.
+Coleções extra-axiais: coleção extra-axial em crescente na convexidade do hemisfério {lado|direito/esquerdo}, com coeficientes de atenuação semelhantes aos do líquido cefalorraquidiano e espessura máxima de {tamanho}, sem componentes hiperatenuantes de permeio ou septações, compatível com higroma subdural; o diagnóstico diferencial inclui hematoma subdural crônico.

@@ -1,0 +1,17 @@
+# gatilhos: raio x de coluna cervical | raio x da coluna cervical | rx de coluna cervical | rx da coluna cervical | rx coluna cervical | radiografia de coluna cervical | radiografia da coluna cervical | raio x de coluna cervical normal | rx de coluna cervical normal | rx coluna cervical normal | radiografia de coluna cervical normal | raio x de coluna cervical com transoral | rx de coluna cervical com transoral | radiografia de coluna cervical sem alteracoes
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_cervical
+# tipo_mascara: normal
+**RADIOGRAFIA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Alinhamento vertebral preservado.
+Transição craniocervical sem alterações.
+Corpos vertebrais com altura preservada.
+Espaços discais preservados.
+Articulações uncovertebrais e interapofisárias preservadas.
+Densidade óssea preservada.
+Partes moles pré-vertebrais com espessura normal.

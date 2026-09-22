@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Pneumoperitônio
+# gatilhos: pneumoperitonio no rx | ar livre subdiafragmatico | gas livre subdiafragmatico | pneumoperitonio na radiografia
+# conclusao: **Pneumoperitônio**, com gás livre subdiafragmático {lado_a|à direita/à esquerda}. **Achado de comunicação imediata.**
+Pneumoperitônio: imagem gasosa em crescente, de limites bem definidos, interposta entre o hemidiafragma {lado|direito/esquerdo} e o parênquima hepático / a câmara gástrica, caracterizando gás livre na cavidade peritoneal.

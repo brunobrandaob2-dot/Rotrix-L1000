@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cisternas da base e sulcos corticais
+# gatilhos: atrofia encefalica | reducao volumetrica encefalica | atrofia cortical
+# conclusao: Redução volumétrica encefálica difusa, com dilatação ventricular ex-vacuo.
+Cisternas da base e sulcos corticais: alargamento difuso dos sulcos corticais e das cisternas, com dilatação ventricular proporcional, traduzindo redução volumétrica encefálica sem sinais de hidrocefalia.

@@ -1,0 +1,32 @@
+# gatilhos: tomografia de pescoco com abscesso retrofaringeo | tc de pescoco com abscesso retrofaringeo | tomografia do pescoco com abscesso retrofaringeo | tc de pescoco com colecao retrofaringea
+# categoria: neuro
+# modalidade: tc
+# regiao: pescoco
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO PESCOÇO**
+
+**TÉCNICA:**  aquisição volumétrica da base do crânio à transição cervicotorácica, {contraste|sem/com} injeção intravenosa de contraste iodado, com reconstruções multiplanares.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Nasofaringe:  simétrica, com recessos faríngeos laterais preservados, sem espessamentos parietais ou lesões expansivas.
+Orofaringe:  tonsilas palatinas simétricas e de dimensões habituais. Base da língua e valéculas sem particularidades.
+Hipofaringe e laringe:  redução da coluna aérea da hipofaringe por abaulamento da parede posterior. Pregas vocais simétricas. Cartilagens laríngeas sem particularidades.
+Espaços parafaríngeos:  gordura preservada e simétrica.
+Espaços mastigatórios:  musculatura mastigatória simétrica, sem coleções ou densificação.
+Espaço retrofaríngeo e pré-vertebral:  coleção no espaço retrofaríngeo, com realce periférico e efeito de massa, estendendo-se de {nivel_superior} a {nivel_inferior}, medindo {tamanho} de espessura, {mediastino|sem/com} extensão para o mediastino superior.
+Glândulas parótidas:  tópicas, simétricas, de dimensões e densidade habituais, sem nódulos.
+Glândulas submandibulares:  tópicas, simétricas, de dimensões e realce habituais, sem cálculos ou dilatação ductal.
+Tireoide:  tópica, de dimensões e densidade habituais, sem nódulos identificáveis ao método.
+Linfonodos cervicais:  linfonodos reacionais nos níveis II e III, bilateralmente.
+Vasos cervicais:  artérias carótidas e veias jugulares internas pérvias e de calibre habitual.
+Traqueia:  centrada, de calibre e trajeto normais.
+Planos gordurosos e partes moles:  preservados, sem coleções, gás ou densificação.
+Estruturas ósseas:  sem lesões líticas ou blásticas.
+Ápices pulmonares:  sem particularidades nos segmentos incluídos no estudo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Coleção retrofaríngea com realce periférico, medindo {tamanho} de espessura, compatível com abscesso retrofaríngeo, {mediastino|sem/com} extensão para o mediastino superior.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: corpo estranho | corpo estranho radiopaco | fragmento metalico
+Corpo estranho radiopaco nas partes moles {local}, medindo {tamanho}.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Acetábulo
+# gatilhos: morfologia pincer | impacto pincer | sobrecobertura acetabular | sinal do cruzamento
+{pincer_rx|Sinal do cruzamento e da parede posterior, sugestivos de retroversão acetabular/Sobrecobertura acetabular (coxa profunda)}, com ângulo centro-borda de {angulo_cb}° (morfologia pincer).

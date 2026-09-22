@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Linha média
+# gatilhos: desvio da linha media | desvio de linha media | linha media desviada
+# conclusao: Desvio das estruturas da linha média de {desvio_mm} mm {sentido_desvio|para a direita/para a esquerda}.
+Linha média:  desvio das estruturas da linha média de {desvio_mm} mm {sentido_desvio|para a direita/para a esquerda}, medido ao nível do septo pelúcido.

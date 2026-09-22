@@ -1,0 +1,30 @@
+# gatilhos: tomografia de coluna lombar com espondilose | tc de coluna lombar com espondilose | tc coluna lombar espondilose | tomografia de coluna lombar degenerativa | tc de coluna lombar degenerativa | tc de coluna lombar com alteracoes degenerativas | tomografia de coluna lombar com alteracoes degenerativas | tc de coluna lombar com discopatia | tomografia de coluna lombar com discopatia degenerativa
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_lombar
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  retificação da lordose lombar fisiológica. Ausência de listeses.
+Corpos vertebrais:  de altura preservada, sem sinais de fratura ou de lesão focal. Osteófitos marginais anteriores e laterais em múltiplos níveis, mais evidentes em {nivel}.
+Discos intervertebrais:  redução da altura dos espaços discais em {nivel}, com fenômeno de vácuo discal e esclerose das plataformas vertebrais adjacentes. Abaulamentos discais difusos, sem herniações focais evidentes ao método.
+Articulações interapofisárias:  alterações degenerativas com redução dos espaços articulares, esclerose subcondral e osteófitos, mais evidentes em {nivel}.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, istmos, lâminas e processos espinhosos e transversos íntegros.
+Transição lombossacra:  de configuração habitual.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares.
+Partes moles paravertebrais:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Espondilose lombar, mais evidente em {nivel}.
+Discopatia degenerativa em {nivel}, com fenômeno de vácuo discal.
+Artrose interapofisária em {nivel}.
+A ressonância magnética é o método de escolha para a avaliação discal e radicular, se houver indicação clínica.

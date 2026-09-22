@@ -1,0 +1,33 @@
+# gatilhos: angio de aorta com aneurisma roto | angio de aorta com ruptura de aneurisma | angiotomografia de aorta com aneurisma roto | angio de aorta com aaa roto | angio de aorta com aneurisma de aorta abdominal roto | angio de aorta com rotura de aneurisma
+# categoria: angio
+# modalidade: angiotc
+# regiao: aorta
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA {segmento_aortico|TORÁCICA E ABDOMINAL/TORÁCICA/ABDOMINAL}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, em fase arterial, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação da aorta e de seus ramos. Diâmetros aferidos de parede externa a parede externa, em plano perpendicular ao eixo longitudinal do vaso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na luz aórtica na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise.
+Fase sem contraste:  hematoma retroperitoneal hiperatenuante adjacente ao aneurisma. {crescente|Sem/Com} crescente hiperatenuante na parede aneurismática.
+Raiz aórtica e aorta ascendente:  calibre preservado, contornos regulares e opacificação homogênea.
+Arco aórtico e ramos supra-aórticos:  conformação habitual, com origem e trajeto preservados do tronco braquiocefálico, da artéria carótida comum esquerda e da artéria subclávia esquerda, pérvios.
+Aorta torácica descendente:  trajeto e calibre habituais, com opacificação homogênea.
+Aorta abdominal:  dilatação aneurismática {morfologia|fusiforme/sacular} do segmento infrarrenal, com diâmetro máximo de {tamanho} e extensão longitudinal de ___ cm. Colo proximal com ___ cm de extensão a partir da artéria renal mais baixa e ___ mm de diâmetro.
+Paredes aórticas:  descontinuidade focal da parede aneurismática na parede {parede_ruptura|posterior/lateral esquerda/lateral direita/anterior}, com trombo mural de ___ cm. Extravasamento ativo de contraste {extravasamento|ausente/presente}.
+Ramos viscerais:  tronco celíaco, artéria mesentérica superior, artérias renais e artéria mesentérica inferior com origem habitual e pérvios, sem estenoses significativas.
+Artérias ilíacas:  artérias ilíacas comuns, internas e externas pérvias, com calibre e trajeto anatômicos.
+Diâmetros aórticos:  seios de Valsalva ___ mm; aorta ascendente ___ mm; arco ___ mm; descendente proximal ___ mm; descendente no hiato diafragmático ___ mm; aorta abdominal suprarrenal ___ mm; infrarrenal ___ mm.
+Mediastino e retroperitônio:  hematoma retroperitoneal ocupando o espaço {espaco_hematoma|pararrenal posterior/perirrenal/pararrenal anterior} {lado_hematoma|à esquerda/à direita/bilateralmente}, medindo ___ cm, com extensão ___.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Demais estruturas:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Aneurisma da aorta abdominal infrarrenal roto, com diâmetro máximo de {tamanho}, associado a hematoma retroperitoneal.
+Extravasamento ativo de contraste {extravasamento|ausente/presente}.
+Resultado comunicado à equipe assistente em ___h___, ao(à) Dr(a). ___.

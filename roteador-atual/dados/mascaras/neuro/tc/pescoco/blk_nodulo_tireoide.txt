@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tireoide
+# gatilhos: nodulo tireoidiano | nodulo de tireoide | nodulo na tireoide | nodulo tireoideano
+# conclusao: Nódulo tireoidiano no lobo {lado|direito/esquerdo}, medindo {tamanho}; a caracterização é limitada pelo método — sugere-se ultrassonografia da tireoide.
+Tireoide:  tópica, de dimensões preservadas, com nódulo no lobo {lado|direito/esquerdo}, medindo {tamanho}, de contornos definidos e densidade {densidade|hipoatenuante/isoatenuante/heterogênea}, {calcificacao|sem/com} calcificações, sem extensão extraglandular ou efeito compressivo sobre a traqueia.

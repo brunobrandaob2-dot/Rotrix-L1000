@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Coxins gordurosos
+# gatilhos: derrame articular | sinal do coxim gorduroso | coxim gorduroso posterior | sinal da vela
+Elevação do coxim gorduroso anterior (sinal da vela) e visualização do coxim posterior, indicando derrame articular; no trauma, considerar fratura oculta.

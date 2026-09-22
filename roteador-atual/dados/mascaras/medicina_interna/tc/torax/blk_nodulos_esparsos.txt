@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: nodulos esparsos | nodulos pulmonares esparsos | nodulos bilaterais | micronodulos | nodulos inespecificos | micronodulos esparsos | multiplos nodulos pulmonares | multiplos nodulos esparsos
+# conclusao: Múltiplos nódulos pulmonares esparsos, inespecíficos, {?lobo_completo:o maior no }medindo até {tamanho}, sendo indicada correlação clínica.
+Parênquima pulmonar:  múltiplos nódulos pulmonares esparsos, não calcificados, sólidos, com atenuação de partes moles, inespecíficos, {?lobo_completo:o maior no }medindo cerca de {tamanho}, sendo indicada correlação clínica.

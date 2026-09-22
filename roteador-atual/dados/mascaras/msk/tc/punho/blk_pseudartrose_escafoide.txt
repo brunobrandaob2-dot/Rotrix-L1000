@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Escafoide
+# gatilhos: pseudartrose do escafoide | pseudartrose | escafoide nao consolidado
+# conclusao: Pseudartrose do escafoide.
+Escafoide:  ausência de consolidação de fratura do terço {terco|proximal/médio/distal} do escafoide, com esclerose e reabsorção das margens do foco e cistos adjacentes.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Seios paranasais
+# gatilhos: sinusopatia | velamento dos seios | seios paranasais velados
+Redução da transparência dos seios {seios|maxilares/frontais/etmoidais} {lado_a|à direita/à esquerda}.

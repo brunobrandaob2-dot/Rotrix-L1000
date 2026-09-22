@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: litiase renal | calculo renal | calculos renais | nefrolitiase | litiase renal nao obstrutiva
+# conclusao: Litíase renal {lado_f|direita/esquerda}, não obstrutiva.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Cálculo no grupamento calicinal {grupamento|superior/médio/inferior} {lado_a|à direita/à esquerda}, medindo {tamanho}, sem dilatação de vias coletoras.

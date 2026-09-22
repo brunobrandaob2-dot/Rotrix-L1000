@@ -1,0 +1,22 @@
+# segredos e dados pessoais: NUNCA no repositório
+chave_*.txt
+*.key
+.env
+gasto.json
+aprendizado.json
+history.db
+*.log
+# arquivos do Radius e DICOM (têm nome de paciente)
+state*.json
+other-dicoms-state*.json
+statistics*.json
+*.dcm
+# gerados
+base.sqlite
+__pycache__/
+*.pyc
+pacote/
+*.zip
+node_modules/
+target/
+dist/

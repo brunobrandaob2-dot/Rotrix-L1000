@@ -1,0 +1,3 @@
+# tipo: achado
+# gatilhos: derrame pleural | liquido pleural
+Derrame pleural {lado|direito/esquerdo/bilateral} de pequeno/moderado volume, com atelectasia passiva do parênquima adjacente.

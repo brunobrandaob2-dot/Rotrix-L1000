@@ -1,0 +1,17 @@
+# gatilhos: raio x de ombro com tendinopatia calcaria | rx de ombro com tendinopatia calcaria | radiografia de ombro com tendinopatia calcaria | rx do ombro com tendinopatia calcaria | rx ombro tendinopatia calcaria | raio x de ombro com calcificacao | rx de ombro com calcificacao | raio x de ombro com calcificacao no manguito | rx de ombro com calcificacao no manguito
+# categoria: msk
+# modalidade: rx
+# regiao: ombro
+# tipo_mascara: cronica
+**RADIOGRAFIA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior em rotação interna e externa e perfil da escápula.
+
+**ANÁLISE:**
+Espaço articular glenoumeral preservado.
+Articulação acromioclavicular sem alterações.
+Espaço acromioumeral preservado.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Calcificação {aspecto|amorfa/homogênea e de contornos definidos} no trajeto do tendão {tendao|supraespinhal/infraespinhal/subescapular}, adjacente ao tubérculo {tuberculo|maior/menor}, medindo {tamanho}, compatível com tendinopatia calcária.
+A radiografia não avalia a integridade dos tendões.

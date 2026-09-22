@@ -1,0 +1,31 @@
+# gatilhos: tomografia de tornozelo com fratura maleolar | tc de tornozelo com fratura maleolar | tc tornozelo fratura maleolar | tomografia de tornozelo com fratura bimaleolar | tomografia de tornozelo com fratura trimaleolar | tc de tornozelo com fratura do maleolo
+# categoria: msk
+# modalidade: tc
+# regiao: tornozelo
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento e encaixe da pinça maleolar:  {encaixe|preservados/alterados, com subluxação lateral do tálus e alargamento do espaço claro medial}.
+Articulação tibiotalar:  {fragmentos|sem fragmentos ósseos intra-articulares/com fragmento ósseo intra-articular}.
+Tíbia distal:  maléolo posterior {mp|íntegro/fraturado, com fragmento acometendo cerca de ___% da superfície articular do plafond e degrau articular de ___ mm}.
+Maléolo medial:  {mm|íntegro/com fratura transversa/com fratura oblíqua/com fratura por avulsão da ponta}.
+Maléolo lateral:  fratura {traco|oblíqua/espiral/transversa/cominutiva}, {nivel|abaixo/ao nível/acima} da sindesmose (Weber {weber|A/B/C}), com desvio de {tamanho}.
+Sindesmose tibiofibular:  {sindesmose|sem alargamento da incisura fibular/com alargamento do espaço tibiofibular distal, medindo ___ mm}.
+Nas fraturas Weber C, e em parte das Weber B, há risco de lesão sindesmótica; a tomografia não avalia diretamente os ligamentos.
+Tálus:  morfologia e densidade normais, com cúpula talar de contornos regulares.
+Calcâneo:  morfologia e densidade normais.
+Articulação subtalar:  congruente, com espaço articular preservado.
+Demais ossos do tarso:  sem particularidades nos segmentos incluídos.
+Tendões:  trajeto habitual dos tendões ao redor do tornozelo, considerando os limites do método.
+Partes moles:  aumento de volume e edema das partes moles perimaleolares.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura {padrao|unimaleolar lateral/bimaleolar/trimaleolar} do tornozelo, com componente fibular Weber {weber|A/B/C}.
+{sind_concl|Sem alargamento tibiofibular distal/Alargamento tibiofibular distal, sugestivo de lesão sindesmótica}.

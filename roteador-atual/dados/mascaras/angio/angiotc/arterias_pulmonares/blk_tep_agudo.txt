@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias pulmonares
+# gatilhos: tromboembolismo pulmonar agudo | tromboembolismo pulmonar | tep agudo | embolia pulmonar | tep positivo
+# conclusao: Tromboembolismo pulmonar agudo, com falhas de enchimento {distribuicao_tep|nas artérias pulmonares direitas/nas artérias pulmonares esquerdas/bilaterais} e nível mais proximal de acometimento {nivel_tep|no tronco da artéria pulmonar/nas artérias pulmonares principais/nas artérias lobares/nas artérias segmentares/nas artérias subsegmentares}.
+Artérias pulmonares:  falhas de enchimento endoluminais {distribuicao_tep|nas artérias pulmonares direitas/nas artérias pulmonares esquerdas/bilaterais}, com nível mais proximal de acometimento {nivel_tep|no tronco da artéria pulmonar/nas artérias pulmonares principais/nas artérias lobares/nas artérias segmentares/nas artérias subsegmentares}, de caráter {oclusao_tep|parcialmente oclusivo/oclusivo}, centrais ou envoltas por contraste e formando ângulo agudo com a parede arterial, com aspecto de evento agudo.

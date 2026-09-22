@@ -1,0 +1,17 @@
+# gatilhos: raio x de abdome com volvo | rx de abdome com volvo | radiografia de abdome com volvo | rx abdome volvo | raio x de abdome com volvo de sigmoide | rx de abdome com volvo de sigmoide | radiografia de abdome com volvo de sigmoide | rx abdome volvo de sigmoide | raio x de abdome com sinal do grao de cafe | rx de abdome com sinal do grao de cafe | radiografia de abdome com sinal do grao de cafe | rx abdome sinal do grao de cafe
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: abdome
+# tipo_mascara: aguda
+**RADIOGRAFIA DE ABDOME**
+
+**TÉCNICA:**  incidência anteroposterior em decúbito dorsal.
+
+**ANÁLISE:**
+Distribuição gasosa alterada.
+Acentuada distensão de alça colônica em U invertido (sinal do grão de café), com ápice no {quadrante|quadrante superior direito/quadrante superior esquerdo} e calibre de até {tamanho}, sugestiva de volvo de sigmoide.
+Conteúdo fecal escasso na ampola retal.
+Não há sinais de pneumoperitônio.
+Não há imagens cálcicas projetadas nas lojas renais ou nos trajetos ureterais.
+Não há corpos estranhos radiopacos.
+Arcabouço ósseo sem alterações.

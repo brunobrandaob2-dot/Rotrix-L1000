@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: consolidacao com broncograma aereo | area de consolidacao | condensacao com broncograma
+# conclusao: Consolidação com broncogramas aéreos no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, de aspecto inespecífico, podendo traduzir processo infeccioso; recomendada correlação clínico-laboratorial.
+Parênquima pulmonar: área de consolidação com broncogramas aéreos de permeio no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho} no maior eixo, com opacidades em vidro fosco no parênquima circunjacente e sem redução volumétrica lobar associada. Ausência de cavitação, de abaulamento de cissura ou de nódulos suspeitos a distância.

@@ -1,0 +1,18 @@
+# gatilhos: raio x de pe com pe plano | rx de pe com pe plano | radiografia de pe com pe plano | rx pe plano | raio x de pe com pe chato
+# categoria: msk
+# modalidade: rx
+# regiao: pe
+# tipo_mascara: cronica
+**RADIOGRAFIA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, oblíqua e perfil.
+
+**ANÁLISE:**
+Alinhamento preservado, com articulações tarsometatarsais congruentes.
+Espaços articulares preservados.
+Pé plano, com ângulo de Meary de {angulo_meary}° de vértice plantar (normal 0 ± 4°) e inclinação do calcâneo de {angulo_pitch}° (normal 18 a 30°).
+Tálus {flexao_talar|sem/com} verticalização.
+{carga_obs|Medidas no perfil com carga./Incidência sem carga, que limita a avaliação do arco.}
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

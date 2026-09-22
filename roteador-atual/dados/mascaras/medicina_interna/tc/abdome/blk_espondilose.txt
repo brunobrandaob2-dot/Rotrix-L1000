@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: espondilose | espondilose lombar | alteracoes degenerativas da coluna | artrose da coluna | alteracoes degenerativas na coluna | osteofitos na coluna | osteofitos | espondiloartrose | espondilartrose | alteracoes degenerativas
+# conclusao: Espondilose lombar.
+Estruturas ósseas e partes moles:  alterações degenerativas da coluna lombar, com osteófitos marginais nos corpos vertebrais, redução de espaços discais e artrose interapofisária. Partes moles sem particularidades.

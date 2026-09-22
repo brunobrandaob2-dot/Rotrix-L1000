@@ -1,0 +1,33 @@
+# gatilhos: tomografia de abdome com obstrucao intestinal | tc de abdome com obstrucao intestinal | tc abdome obstrucao intestinal | tomografia de abdome total com obstrucao intestinal | tc de abdome total com obstrucao intestinal | tomografia do abdome com obstrucao intestinal | tomografia de abdome com obstrucao de delgado | tc de abdome com obstrucao de delgado | tc abdome obstrucao de delgado | tomografia de abdome com suboclusao intestinal | tc de abdome com suboclusao intestinal | tc abdome suboclusao intestinal | tomografia de abdome com semioclusao intestinal | tc de abdome com semioclusao intestinal | tc abdome semioclusao intestinal
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  distensão de alças de delgado, com calibre máximo de {tamanho} (referência: até 2,5 cm) e níveis hidroaéreos, até zona de transição em {zona_transicao}, a jusante da qual as alças apresentam calibre reduzido. Paredes com espessura e realce preservados, sem pneumatose, gás portal ou sinais de sofrimento de alça. Cólon com pouco conteúdo gasoso.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  {liquido|ausência de/pequena quantidade de} líquido livre interalças. Não há coleções ou pneumoperitônio.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Obstrução intestinal de delgado, com zona de transição em {zona_transicao}, sem causa identificável ao método, podendo corresponder a bridas; correlacionar com antecedentes cirúrgicos.
+Não há sinais de sofrimento de alça no presente estudo.

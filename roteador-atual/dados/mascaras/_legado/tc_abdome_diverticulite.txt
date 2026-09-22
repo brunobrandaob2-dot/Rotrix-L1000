@@ -1,0 +1,19 @@
+# gatilhos: abdome com diverticulite | diverticulite aguda | diverticulite nao complicada
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Trato gastrointestinal: divertículos esparsos na moldura colônica, com espessamento parietal segmentar do {segmento} cólon sigmoide, em extensão de ___ cm, associado a densificação da gordura pericólica e ingurgitamento dos vasos do mesocólon. Não há coleções organizadas, pneumoperitônio ou fístula identificável.
+Peritônio: mínima lâmina de líquido livre adjacente ao segmento acometido.
+Retroperitônio: linfonodos mesentéricos de aspecto reacional.
+Demais órgãos abdominais e pélvicos sem alterações significativas.
+Vasos: aorta com ateromatose calcificada parietal.
+Estruturas ósseas e partes moles: alterações degenerativas da coluna lombar.
+
+CONCLUSÃO:
+1. **Diverticulite aguda não complicada** do cólon sigmoide (Hinchey Ia).
+2. Diverticulose colônica difusa.
+3. Ausência de abscesso, pneumoperitônio ou fístula no presente estudo.

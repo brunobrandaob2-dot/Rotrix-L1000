@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Peritônio
+# gatilhos: pneumoperitonio | ar livre na cavidade | gas livre intraperitoneal | perfuracao de viscera oca
+# conclusao: Pneumoperitônio, cuja principal hipótese é perfuração de víscera oca; achado de relevância clínica imediata.
+Peritônio: focos gasosos livres na cavidade peritoneal, de distribuição ___, predominando na região ___ e no recesso sub-hepático, o maior com extensão de {tamanho}. Associa-se líquido livre de ___ volume e densificação da gordura adjacente em ___. Não se caracteriza ao método o sítio exato da descontinuidade parietal, sendo o segmento de maior suspeição ___.

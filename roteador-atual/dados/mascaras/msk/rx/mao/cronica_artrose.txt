@@ -1,0 +1,16 @@
+# gatilhos: raio x de mao com artrose | rx de mao com artrose | radiografia de mao com artrose | rx da mao com artrose | rx mao artrose | raio x de mao com artrose interfalangiana | rx de mao com artrose interfalangiana | raio x de mao com nodulos de heberden | rx de mao com nodulos de heberden | raio x de mao com artrose nas maos | rx de mao com artrose nas maos
+# categoria: msk
+# modalidade: rx
+# regiao: mao
+# tipo_mascara: cronica
+**RADIOGRAFIA DA MÃO {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  incidências posteroanterior e oblíqua.
+
+**ANÁLISE:**
+Artrose interfalangiana, com redução dos espaços articulares, osteófitos marginais e esclerose subcondral, predominando nas interfalangianas {ifs|distais (nódulos de Heberden)/proximais (nódulos de Bouchard)/proximais e distais} (Kellgren-Lawrence {kl|1/2/3/4}).
+{erosoes|Não há erosões/Erosões centrais subcondrais, com aspecto em asa de gaivota}.
+{tmc|Articulação trapeziometacarpiana preservada/Rizartrose, com redução do espaço articular e osteófitos marginais}.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

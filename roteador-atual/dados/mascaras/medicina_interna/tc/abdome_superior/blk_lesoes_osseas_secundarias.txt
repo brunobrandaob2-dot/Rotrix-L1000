@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: lesoes osseas | lesoes osseas secundarias | metastases osseas | lesoes blasticas | lesoes liticas e blasticas | lesoes osseas mistas | lesoes secundarias
+# conclusao: Múltiplas lesões ósseas com padrão misto, lítico e predominantemente blástico, difusas pelo esqueleto avaliado, mais evidentes em ___, sugestivas de acometimento secundário.
+Estruturas ósseas e partes moles:  múltiplas lesões focais com distribuição difusa pelo esqueleto avaliado, caracterizadas por áreas de alteração da densidade óssea com aspecto osteolítico e predominantemente osteoblástico, destacando-se alterações em ___, altamente sugestivas de lesões secundárias/metastáticas.

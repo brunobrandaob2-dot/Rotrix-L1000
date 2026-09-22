@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Fígado
+# gatilhos: esteatose | esteatose hepatica | figado gorduroso | esteatose difusa
+# conclusao: Esteatose hepática difusa.
+Fígado: dimensões preservadas, contornos regulares, com redução difusa dos coeficientes de atenuação do parênquima, inferiores aos do baço, compatível com esteatose. Ausência de lesões focais.

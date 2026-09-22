@@ -1,0 +1,16 @@
+# gatilhos: raio x de joelho com condrocalcinose | rx de joelho com condrocalcinose | rx joelho condrocalcinose | radiografia de joelho com condrocalcinose | raio x de joelho com calcificacao meniscal
+# categoria: msk
+# modalidade: rx
+# regiao: joelho
+# tipo_mascara: cronica
+**RADIOGRAFIA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, perfil e axial de patela.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Espaços articulares preservados.
+Calcificações lineares nos meniscos e na cartilagem articular, compatíveis com condrocalcinose, podendo estar relacionadas a doença por depósito de pirofosfato de cálcio (CPPD).
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

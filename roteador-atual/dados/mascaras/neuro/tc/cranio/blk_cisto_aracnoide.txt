@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Espaços extra-axiais
+# gatilhos: cisto aracnoide | cisto aracnoideo | cisto extra axial
+# conclusao: Cisto aracnoide {localizacao_cisto|na fossa craniana média/na fossa posterior/na convexidade/___} {lado_a|à direita/à esquerda}, sem efeito expansivo significativo.
+Espaços extra-axiais:  sem coleções. Formação extra-axial de contornos regulares e atenuação liquórica {localizacao_cisto|na fossa craniana média/na fossa posterior/na convexidade/___} {lado_a|à direita/à esquerda}, medindo {tamanho}, sem septações ou componentes sólidos, com discreto remodelamento da tábua interna adjacente e sem efeito expansivo significativo, compatível com cisto aracnoide.

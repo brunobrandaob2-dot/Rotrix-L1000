@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas capsuloligamentares e meniscais
+# gatilhos: condrocalcinose | calcificacao meniscal | calcificacoes meniscais
+# conclusao: Condrocalcinose, que pode estar relacionada a doença por depósito de pirofosfato de cálcio (CPPD). Correlacionar com dados clínicos.
+Estruturas capsuloligamentares e meniscais:  calcificações lineares na fibrocartilagem meniscal, compatíveis com condrocalcinose. Demais estruturas com avaliação limitada pelo método.

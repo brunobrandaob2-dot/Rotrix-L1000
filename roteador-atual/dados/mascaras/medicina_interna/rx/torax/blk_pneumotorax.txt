@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Seios costofrênicos
+# gatilhos: pneumotorax | pneumotorax laminar | linha pleural visivel
+Pneumotórax {lado|direito/esquerdo}, com afastamento pleural de {tamanho}.

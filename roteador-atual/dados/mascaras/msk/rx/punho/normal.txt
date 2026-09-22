@@ -1,0 +1,16 @@
+# gatilhos: raio x de punho | raio x do punho | rx de punho | rx do punho | radiografia de punho | radiografia do punho | raio x de punho normal | rx de punho normal | rx do punho normal | radiografia de punho normal | rx punho normal | raio x de punho sem alteracoes | radiografia do punho sem alteracoes
+# categoria: msk
+# modalidade: rx
+# regiao: punho
+# tipo_mascara: normal
+**RADIOGRAFIA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências posteroanterior, perfil e oblíqua.
+
+**ANÁLISE:**
+Alinhamento carpal preservado.
+Espaços articulares radiocarpal, mediocarpal e radioulnar distal preservados.
+Articulação trapeziometacarpiana preservada.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

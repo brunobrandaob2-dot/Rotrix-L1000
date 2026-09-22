@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Loja vesicular
+# gatilhos: polipo na vesicula | polipo de vesicula | polipo vesicular
+# conclusao: Imagem polipoide na vesícula biliar, medindo {tamanho}; sugere-se correlação com ultrassonografia, método de escolha para caracterização e seguimento.
+Loja vesicular:  vesícula biliar normodistendida, de paredes finas, com imagem polipoide séssil aderida à parede, medindo {tamanho}, com realce pelo meio de contraste. Não há cálculos caracterizáveis.

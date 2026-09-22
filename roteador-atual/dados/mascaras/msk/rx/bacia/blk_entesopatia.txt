@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: entesopatia | entesofitos | entesopatia isquiatica
+Entesófitos nas tuberosidades isquiáticas {lado_ent|à direita/à esquerda/bilateralmente}, compatíveis com entesopatia.

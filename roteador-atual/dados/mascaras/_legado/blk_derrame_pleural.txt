@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Derrames
+# gatilhos: derrame pleural | liquido pleural | derrame nas pleuras
+# conclusao: Derrame pleural {lado_a|à direita/à esquerda/bilateralmente}, com atelectasia passiva adjacente.
+Derrames: derrame pleural {lado|direito/esquerdo/bilateral} de pequeno a moderado volume, de densidade líquida, com atelectasia passiva do parênquima adjacente. Ausência de derrame pericárdico.

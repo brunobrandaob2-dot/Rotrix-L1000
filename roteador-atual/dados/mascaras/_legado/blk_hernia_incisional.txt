@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: hernia incisional | hernia na cicatriz cirurgica | eventracao | hernia da parede anterior pos operatoria
+# conclusao: Hérnia incisional da parede abdominal anterior, com colo de {tamanho}, sem sinais de encarceramento.
+Estruturas ósseas e partes moles: descontinuidade da camada musculoaponeurótica da parede abdominal anterior na topografia de cicatriz cirúrgica ___, com colo medindo {tamanho} e saco herniário de ___ cm, contendo gordura pré-peritoneal e alça ___, de paredes com espessura e realce preservados e sem líquido de permeio. Ausência / presença de tela cirúrgica na parede, aparentemente ___. Sem dilatação de alças a montante ou sinais de encarceramento.

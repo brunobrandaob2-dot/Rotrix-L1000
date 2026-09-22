@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: ureterohidronefrose | uretero hidronefrose | ureterohidronefrose com kinking | hidronefrose com kinking | kinking ureteral | acotovelamento ureteral | ureterohidronefrose com acotovelamento
+# conclusao: Uretero-hidronefrose {grau|leve/moderada/acentuada} {lado_a|à direita/à esquerda} com acotovelamento (kinking) ureteral, de etiologia indeterminada pelo presente estudo limitado ao abdome superior.
+Rins:  uretero-hidronefrose {grau|leve/moderada/acentuada} {lado_a|à direita/à esquerda} com acotovelamento (kinking) ureteral, sem identificação de fator obstrutivo evidente no segmento avaliado neste exame limitado ao abdome superior. Rim contralateral tópico, com dimensões normais, sem hidronefrose.

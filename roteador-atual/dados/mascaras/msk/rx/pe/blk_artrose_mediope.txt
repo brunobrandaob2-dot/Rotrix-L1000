@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: artrose | artrose do mediope | artrose tarsometatarsal | degenerativo do mediope
+Artrose {artic|tarsometatarsal/naviculocuneiforme/talonavicular}, com redução do espaço articular e osteófitos dorsais.

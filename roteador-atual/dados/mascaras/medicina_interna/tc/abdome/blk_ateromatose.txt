@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vasos
+# gatilhos: ateromatose | ateromatose aortica | aterosclerose | calcificacoes ateromatosas | ateromas | ateromas calcificados | ateromas calcificados na aorta | ateromas calcificados na aorta e ramos | ateromas calcificados esparsos | placas ateromatosas calcificadas | placas calcificadas
+# conclusao: Ateromatose calcificada da aorta abdominal e das artérias ilíacas.
+Vasos:  aorta de calibre normal, com ateromatose calcificada parietal, estendendo-se às artérias ilíacas comuns. Veia cava inferior de calibre normal.

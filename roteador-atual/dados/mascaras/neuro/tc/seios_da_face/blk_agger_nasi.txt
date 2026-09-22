@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Recessos frontais
+# gatilhos: agger nasi | celula de agger nasi | celulas de agger nasi
+# conclusao: Célula de agger nasi {lado_a|à direita/à esquerda}.
+Recessos frontais:  pérvios. Célula de agger nasi {lado_a|à direita/à esquerda}, reduzindo a amplitude do recesso frontal.

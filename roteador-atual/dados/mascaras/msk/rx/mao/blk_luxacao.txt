@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: luxacao | luxacao interfalangiana | luxacao do dedo | luxacao metacarpofalangiana
+Luxação {direcao|dorsal/volar/lateral} da articulação {articulacao|interfalangiana proximal/interfalangiana distal/metacarpofalangiana} do {dedo} dedo.

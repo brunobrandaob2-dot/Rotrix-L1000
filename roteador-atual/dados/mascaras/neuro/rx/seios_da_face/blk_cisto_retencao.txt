@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Seios maxilares
+# gatilhos: cisto de retencao | imagem arredondada no seio maxilar | cisto mucoso maxilar
+Imagem de contornos convexos no assoalho do seio maxilar {lado|direito/esquerdo}, podendo corresponder a cisto de retenção mucoso ou pólipo.

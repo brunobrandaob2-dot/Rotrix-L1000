@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Articulações uncovertebrais
+# gatilhos: uncoartrose | artrose uncovertebral | osteofitos uncovertebrais
+Uncoartrose em {nivel}.

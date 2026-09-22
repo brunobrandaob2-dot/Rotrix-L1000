@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulação acromioclavicular
+# gatilhos: luxacao acromioclavicular | disjuncao acromioclavicular | rockwood
+# conclusao: Luxação acromioclavicular, tipo {rockwood|I/II/III/IV/V/VI} de Rockwood.
+Articulação acromioclavicular:  incongruência articular, com desvio {sentido|superior/posterior/inferior} da extremidade distal da clavícula em relação ao acrômio. Distância coracoclavicular de {tamanho}.

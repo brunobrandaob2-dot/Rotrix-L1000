@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: corpos livres | corpo livre intra articular | corpos livres intra articulares
+# conclusao: Corpo(s) livre(s) intra-articular(es) no cotovelo.
+Espaços articulares:  preservados. Corpo(s) livre(s) intra-articular(es) no recesso {recesso|anterior/posterior (fossa olecraniana)}, o maior medindo {tamanho}.

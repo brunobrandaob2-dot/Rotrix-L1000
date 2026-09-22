@@ -1,0 +1,15 @@
+# gatilhos: raio x de cotovelo com luxacao | rx de cotovelo com luxacao | radiografia de cotovelo com luxacao | rx do cotovelo com luxacao | rx cotovelo luxacao | raio x de cotovelo com luxacao do cotovelo | rx de cotovelo com luxacao do cotovelo
+# categoria: msk
+# modalidade: rx
+# regiao: cotovelo
+# tipo_mascara: aguda
+**RADIOGRAFIA DO COTOVELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Luxação {direcao|posterior/posterolateral/anterior} do cotovelo.
+Não há sinais de fraturas evidentes na posição atual, com avaliação limitada da cabeça do rádio e do processo coronoide.
+Densidade óssea preservada.
+Partes moles sem alterações.
+Recomenda-se controle radiográfico após a redução.

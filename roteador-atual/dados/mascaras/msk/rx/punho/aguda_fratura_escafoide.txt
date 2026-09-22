@@ -1,0 +1,17 @@
+# gatilhos: raio x de punho com fratura do escafoide | rx de punho com fratura do escafoide | radiografia de punho com fratura do escafoide | rx do punho com fratura do escafoide | rx punho fratura do escafoide | raio x de punho com fratura de escafoide | rx de punho com fratura de escafoide | raio x de punho com escafoide fraturado | rx de punho com escafoide fraturado
+# categoria: msk
+# modalidade: rx
+# regiao: punho
+# tipo_mascara: aguda
+**RADIOGRAFIA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências posteroanterior, perfil e oblíqua, complementadas por incidência específica para o escafoide.
+
+**ANÁLISE:**
+Alinhamento carpal preservado.
+Espaços articulares radiocarpal, mediocarpal e radioulnar distal preservados.
+Articulação trapeziometacarpiana preservada.
+Fratura do terço {terco|proximal/médio (cintura)/distal/tubérculo} do escafoide, com desvio de {tamanho}.
+Recomenda-se controle radiográfico em 10 a 14 dias; tomografia ou ressonância magnética se houver dúvida quanto ao desvio ou à consolidação.
+Densidade óssea preservada.
+Obliteração do coxim adiposo do escafoide.

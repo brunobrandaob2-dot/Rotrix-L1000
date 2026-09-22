@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Área cardíaca e mediastino
+# gatilhos: cardiomegalia no rx | aumento da area cardiaca no rx | indice cardiotoracico aumentado | coracao aumentado na radiografia
+# conclusao: Aumento da área cardíaca, com índice cardiotorácico de ___ (valor de referência: > 0,5 em PA).
+Área cardíaca e mediastino: aumento da área cardíaca, com índice cardiotorácico de ___ (valor de referência: > 0,5 em incidência PA indica aumento), às custas predominantemente de câmaras esquerdas. Mediastino centrado, de contornos regulares.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles pré-vertebrais
+# gatilhos: alargamento pre vertebral | partes moles pre vertebrais espessadas | espessamento pre vertebral | alargamento de partes moles pre vertebrais
+Alargamento das partes moles pré-vertebrais, medindo {tamanho}.

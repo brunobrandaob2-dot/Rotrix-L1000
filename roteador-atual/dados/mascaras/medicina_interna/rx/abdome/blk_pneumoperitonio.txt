@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de pneumoperitônio
+# gatilhos: pneumoperitonio | gas livre | ar livre subdiafragmatico | gas livre subdiafragmatico
+Imagem gasosa em crescente sob a cúpula diafragmática {lado_f|direita/esquerda}, compatível com pneumoperitônio.

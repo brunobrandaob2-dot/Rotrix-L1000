@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Aorta
+# gatilhos: ateromatose do arco aortico | botao aortico calcificado | aorta alongada e calcificada | ateromatose aortica no rx
+# conclusao: Ateromatose e alongamento do arco aórtico.
+Aorta: botão aórtico proeminente, com alongamento do arco e calcificações parietais lineares, compatível com ateromatose. Contornos regulares, sem alargamento mediastinal associado.

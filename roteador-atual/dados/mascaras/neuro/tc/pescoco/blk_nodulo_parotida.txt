@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Glândulas parótidas
+# gatilhos: nodulo na parotida | nodulo parotideo | lesao parotidea | nodulo de parotida
+# conclusao: Nódulo na glândula parótida {lado_f|direita/esquerda}, medindo {tamanho}, de natureza indeterminada pelo método — sugere-se correlação com ultrassonografia/ressonância magnética e, se indicado, punção.
+Glândulas parótidas:  nódulo no {lobo_parotida|lobo superficial/lobo profundo} da glândula parótida {lado_f|direita/esquerda}, medindo {tamanho}, de contornos {contornos|regulares/lobulados/irregulares} e realce {realce|homogêneo/heterogêneo}. Glândula parótida contralateral sem alterações.

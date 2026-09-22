@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Fíbula
+# gatilhos: fratura da fibula | fratura fibular | fratura do perone
+# conclusao: Fratura do terço {terco|proximal/médio/distal} da fíbula.
+Fíbula:  fratura {traco|transversa/oblíqua/espiral/cominutiva} no terço {terco|proximal/médio/distal}, com desvio de {tamanho}.

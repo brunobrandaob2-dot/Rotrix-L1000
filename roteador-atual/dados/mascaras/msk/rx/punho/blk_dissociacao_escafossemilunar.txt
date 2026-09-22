@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Alinhamento carpal
+# gatilhos: dissociacao escafossemilunar | instabilidade escafossemilunar | terry thomas
+Alargamento do intervalo escafossemilunar, medindo {tamanho}, com ângulo escafossemilunar de {angulo}°, sugestivo de dissociação escafossemilunar.

@@ -1,0 +1,34 @@
+# gatilhos: tomografia de abdome com calculo ureteral | tc de abdome com calculo ureteral | tc abdome calculo ureteral | tomografia de abdome total com calculo ureteral | tc de abdome total com calculo ureteral | tomografia do abdome com calculo ureteral | tomografia de abdome com litiase ureteral | tc de abdome com litiase ureteral | tc abdome litiase ureteral | tomografia de abdome com colica renal | tc de abdome com colica renal | tc abdome colica renal | tomografia de abdome com ureterolitiase | tc de abdome com ureterolitiase | tc abdome ureterolitiase | tomografia de abdome com litiase ureteral obstrutiva | tc de abdome com litiase ureteral obstrutiva | tc abdome litiase ureteral obstrutiva | tomografia de abdome com calculo obstrutivo | tc de abdome com calculo obstrutivo
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado, em protocolo para litíase urinária.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  rim {lado|direito/esquerdo} com dilatação ureteropielocalicinal {grau|discreta/moderada/acentuada} a montante de cálculo localizado em {local|terço proximal/terço médio/terço distal/junção ureterovesical} do ureter ipsilateral, medindo {tamanho}, associada a densificação da gordura perirrenal e periureteral. Rim contralateral tópico, sem cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção, sem cálculos no seu interior.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  sem particularidades no protocolo utilizado.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Cálculo em {local|terço proximal/terço médio/terço distal/junção ureterovesical} do ureter {lado|direito/esquerdo}, medindo {tamanho}, determinando dilatação ureteropielocalicinal {grau|discreta/moderada/acentuada} a montante.
+Avaliação dos órgãos parenquimatosos limitada pela ausência de contraste intravenoso.

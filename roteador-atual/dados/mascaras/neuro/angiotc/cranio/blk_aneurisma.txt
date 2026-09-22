@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Polígono de Willis
+# gatilhos: aneurisma | aneurisma incidental | aneurisma sacular | dilatacao aneurismatica
+# conclusao: Aneurisma sacular na {localizacao|artéria comunicante anterior/bifurcação da artéria cerebral média/origem da artéria comunicante posterior/artéria carótida interna, segmento oftálmico/extremidade distal da artéria basilar}, {lado_a|à direita/à esquerda/na linha média}, medindo {tamanho}, com colo de {colo}, sem sinais de complicação ao método.
+Polígono de Willis:  dilatação aneurismática sacular na {localizacao|artéria comunicante anterior/bifurcação da artéria cerebral média/origem da artéria comunicante posterior/artéria carótida interna, segmento oftálmico/extremidade distal da artéria basilar}, {lado_a|à direita/à esquerda/na linha média}, com projeção {projecao|anterior/posterior/superior/inferior/medial/lateral}, medindo {tamanho} no maior eixo, com colo de {colo} e altura do domo de {altura_domo}, de contornos {contorno|regulares/lobulados, com pequena bolha (bleb) no domo}. Não há outras dilatações aneurismáticas ou malformações vasculares.

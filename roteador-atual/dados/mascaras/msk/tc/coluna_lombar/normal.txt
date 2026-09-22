@@ -1,0 +1,27 @@
+# gatilhos: tomografia de coluna lombar | tomografia da coluna lombar | tomografia de coluna lombossacra | tomografia da coluna lombossacra | tc de coluna lombar | tc da coluna lombar | tc coluna lombar | tc de coluna lombossacra | tc coluna lombossacra | tomografia de coluna lombar normal | tomografia da coluna lombar normal | tc de coluna lombar normal | tc da coluna lombar normal | tc coluna lombar normal | coluna lombar normal na tomografia | tomografia de coluna lombar sem alteracoes | tc de coluna lombar sem contraste | tc de coluna lombar com contraste | tomografia de coluna lombar sem contraste | tomografia de coluna lombar com contraste
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_lombar
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  lordose lombar fisiológica preservada. Ausência de listeses.
+Corpos vertebrais:  de altura e morfologia preservadas, sem sinais de fratura ou de lesão focal.
+Discos intervertebrais:  espaços discais de altura preservada, sem abaulamentos ou herniações significativas, considerando os limites do método.
+Articulações interapofisárias:  de aspecto habitual, com espaços articulares preservados.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, istmos, lâminas e processos espinhosos e transversos íntegros.
+Transição lombossacra:  de configuração habitual.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares.
+Partes moles paravertebrais:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

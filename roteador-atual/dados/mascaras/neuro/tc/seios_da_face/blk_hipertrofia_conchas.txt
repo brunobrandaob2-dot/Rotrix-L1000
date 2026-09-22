@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Conchas nasais
+# gatilhos: hipertrofia das conchas | hipertrofia das conchas nasais | conchas inferiores hipertroficas
+# conclusao: Hipertrofia das conchas nasais inferiores {lado_a|à direita/à esquerda}.
+Conchas nasais:  aumento das dimensões das conchas nasais inferiores {lado_a|à direita/à esquerda}, com redução da amplitude das fossas nasais.

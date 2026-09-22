@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Coleções extra-axiais
+# gatilhos: cisto aracnoide | cisto aracnoideo | formacao cistica extra axial | cisto extra axial
+# conclusao: Cisto aracnoide extra-axial medindo {tamanho}, sem sinais de repercussão sobre o parênquima adjacente.
+Coleções extra-axiais: formação extra-axial de contornos regulares e coeficientes de atenuação semelhantes aos do líquido cefalorraquidiano, situada em ___ {lado_a|à direita/à esquerda}, medindo {tamanho}, sem septações ou componentes sólidos, promovendo discreto remodelamento da tábua interna adjacente e sem efeito expansivo sobre as estruturas da linha média, compatível com cisto aracnoide.

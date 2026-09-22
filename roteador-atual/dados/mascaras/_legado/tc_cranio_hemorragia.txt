@@ -1,0 +1,21 @@
+# gatilhos: cranio com hemorragia | hematoma intraparenquimatoso | hemorragia intracraniana
+TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO
+
+TÉCNICA: aquisição helicoidal, sem injeção de contraste.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Parênquima encefálico: coleção hemática hiperatenuante intraparenquimatosa em {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, medindo ___ x ___ x ___ cm, com **volume estimado de ___ mL (método ABC/2)**, circundada por halo de edema perilesional.
+Extensão intraventricular: presente / ausente.
+Efeito de massa: desvio das estruturas da linha média de ___ mm para {lado|a direita/a esquerda}. Cisternas da base pérvias / comprimidas.
+Sistema ventricular sem dilatação / com hidrocefalia associada.
+Ausência de coleções extra-axiais.
+Calota craniana sem sinais de fratura.
+
+CONCLUSÃO:
+1. **Hematoma intraparenquimatoso {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, com volume estimado de ___ mL.**
+2. Desvio da linha média de ___ mm.
+3. Ausência / presença de extensão intraventricular e de hidrocefalia.
+
+Achado crítico comunicado ao(à) Dr(a). ___ em ___/___/____ às ___h___.

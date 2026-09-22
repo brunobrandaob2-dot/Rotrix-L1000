@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna cervical com fratura de jefferson | tc de coluna cervical com fratura de jefferson | tc coluna cervical jefferson | tomografia de coluna cervical com fratura do atlas | tc de coluna cervical com fratura de c1 | tc de coluna cervical com fratura do atlas
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_cervical
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  lordose cervical fisiológica preservada. Ausência de listeses nos segmentos subaxiais.
+Transição craniocervical:  fratura do atlas (C1), com traços {tracos|nos arcos anterior e posterior, bilaterais/no arco anterior/no arco posterior/na massa lateral ___}, de margens nítidas, aspecto agudo (fratura de Jefferson). Deslocamento lateral das massas laterais de C1 em relação a C2 somando {soma_deslocamento} mm (valores acima de 6,9 mm sugerem ruptura do ligamento transverso — regra de Spence). Intervalo atlantodental de {adi} mm (normal até 3 mm no adulto). Processo odontoide íntegro.
+Corpos vertebrais:  de altura e morfologia preservadas, sem outros sinais de fratura.
+Discos intervertebrais:  espaços discais de altura preservada, considerando os limites do método.
+Articulações uncovertebrais:  de aspecto habitual.
+Articulações interapofisárias:  congruentes, com espaços articulares preservados.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, massas laterais, lâminas e processos espinhosos dos demais níveis íntegros.
+Partes moles:  aumento da espessura das partes moles pré-vertebrais no nível de C1-C2, compatível com hematoma.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura do atlas (C1) de aspecto agudo, tipo Jefferson, com deslocamento lateral somado das massas laterais de {soma_deslocamento} mm.
+Recomenda-se ressonância magnética para avaliação do ligamento transverso e angiotomografia para avaliação das artérias vertebrais, a critério clínico.

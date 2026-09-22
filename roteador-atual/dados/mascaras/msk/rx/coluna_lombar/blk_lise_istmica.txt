@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Elementos posteriores
+# gatilhos: espondilolise istmica | lise istmica | espondilolise bilateral | defeito da pars
+Descontinuidade do istmo de {nivel}, {lado|bilateral/direito/esquerdo}, sugestiva de espondilólise.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: consolidacao no rx | consolidacao na radiografia | condensacao no rx | opacidade com broncograma aereo
+# conclusao: Consolidação no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, a correlacionar com o quadro clínico-laboratorial.
+Parênquima pulmonar: opacidade heterogênea com padrão de consolidação e broncogramas aéreos de permeio no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, de limites mal definidos, com apagamento do contorno anatômico adjacente. Demais campos pulmonares com transparência preservada.

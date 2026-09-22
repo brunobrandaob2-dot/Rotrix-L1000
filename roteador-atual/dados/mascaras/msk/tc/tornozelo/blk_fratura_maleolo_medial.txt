@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Maléolo medial
+# gatilhos: fratura do maleolo medial | fratura maleolar medial | avulsao do maleolo medial
+# conclusao: Fratura do maléolo medial.
+Maléolo medial:  fratura {traco|transversa/oblíqua/vertical/por avulsão da ponta}, com desvio de {tamanho}.

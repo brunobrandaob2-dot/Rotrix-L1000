@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações interapofisárias
+# gatilhos: artrose interapofisaria | artrose facetaria | artrose das facetas | artrose
+# conclusao: Artrose interapofisária lombar, mais evidente em {nivel}.
+Articulações interapofisárias:  alterações degenerativas com redução dos espaços articulares, esclerose subcondral, osteófitos e hipertrofia das facetas, mais evidentes em {nivel}.

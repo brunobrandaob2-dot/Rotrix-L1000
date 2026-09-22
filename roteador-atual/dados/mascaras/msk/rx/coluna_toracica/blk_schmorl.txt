@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: nodulo de schmorl | nodulos de schmorl | schmorl
+Corpos vertebrais com altura preservada e nódulos de Schmorl em {nivel}.

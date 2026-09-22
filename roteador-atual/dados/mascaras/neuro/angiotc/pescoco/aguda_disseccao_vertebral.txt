@@ -1,0 +1,24 @@
+# gatilhos: angio cervical com disseccao vertebral | angiotomografia cervical com disseccao vertebral | angio de pescoco com disseccao vertebral | angio cervical com dissecao vertebral | angio cervical com disseccao da vertebral
+# categoria: neuro
+# modalidade: angiotc
+# regiao: pescoco
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL DE VASOS CERVICAIS**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação do sistema arterial cervical, do arco aórtico à base do crânio.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Arco aórtico e origens dos troncos supra-aórticos:  arco aórtico de configuração habitual, com origens do tronco braquiocefálico e das artérias carótida comum e subclávia esquerdas pérvias, sem estenoses.
+Artérias carótidas comuns:  trajeto e calibre anatômicos, paredes lisas e opacificação homogênea, sem sinais de estenoses ou oclusões.
+Bulbos carotídeos e bifurcações:  pérvios, sem placas ateromatosas significativas.
+Artérias carótidas internas:  segmentos cervicais pérvios até a base do crânio, com calibre preservado, simétricos, sem ectasias, estenoses ou irregularidades parietais.
+Artérias carótidas externas e seus principais ramos:  patência mantida e trajeto habitual.
+Artérias vertebrais:  afilamento luminal irregular no segmento {segmento_vertebral|V2/V3/V2 e V3} da artéria vertebral {lado_f|direita/esquerda}, com extensão de {tamanho} e espessamento parietal em crescente, compatível com hematoma intramural. Flap intimal: {flap|não identificado/presente}. Pseudoaneurisma dissecante: {pseudoaneurisma|ausente/presente, medindo ___}. Artéria vertebral contralateral pérvia, com calibre e trajeto anatômicos.
+Demais estruturas cervicais:  sem particularidades nos segmentos incluídos no estudo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sinais de dissecção do segmento {segmento_vertebral|V2/V3/V2 e V3} da artéria vertebral {lado_f|direita/esquerda}, com {reducao|redução luminal leve/redução luminal moderada/redução luminal acentuada/oclusão}.

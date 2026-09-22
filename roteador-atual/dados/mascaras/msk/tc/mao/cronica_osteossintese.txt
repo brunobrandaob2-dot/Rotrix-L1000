@@ -1,0 +1,26 @@
+# gatilhos: tomografia de mao com osteossintese | tomografia da mao com osteossintese | tc de mao com osteossintese | tc da mao com osteossintese | tc mao osteossintese | tomografia de mao com material de sintese | tc de mao com material de sintese | tomografia de mao com fios de kirschner | tc de mao com fios de kirschner
+# categoria: msk
+# modalidade: tc
+# regiao: mao
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA MÃO {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações carpometacarpais, metacarpofalangianas e interfalangianas preservadas, sem luxações ou subluxações.
+Ossos do carpo:  de morfologia e contornos preservados, sem traços de fratura.
+Metacarpos:  material de osteossíntese no {osso|___ metacarpo/___ falange do ___ dedo}, constituído por {material|placa e parafusos/parafusos/fios de Kirschner/parafuso intramedular}, em posição habitual, sem sinais de soltura, quebra ou migração. Foco de fratura {consolidacao|consolidado/em consolidação/sem sinais de consolidação}.
+Falanges:  de morfologia e contornos preservados, sem traços de fratura ou lesões focais.
+Articulação trapeziometacarpiana:  espaço articular preservado, sem osteófitos.
+Articulações metacarpofalangianas:  espaços articulares preservados, sem erosões ou osteófitos.
+Articulações interfalangianas:  espaços articulares preservados, sem erosões ou osteófitos.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções, considerando os artefatos metálicos, que limitam a avaliação das partes moles adjacentes.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Alterações pós-operatórias de osteossíntese na mão, sem sinais de falha do material evidentes ao método.

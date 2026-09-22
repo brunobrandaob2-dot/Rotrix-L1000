@@ -1,0 +1,25 @@
+# tipo: frases
+## gatilhos: linha umeral anterior normal no cotovelo
+Linha umeral anterior interceptando o terço médio do capítulo.
+## gatilhos: linha umeral anterior anteriorizada no cotovelo
+Linha umeral anterior passando anteriormente ao capítulo, sugerindo fratura supracondiliana com desvio posterior.
+## gatilhos: fratura supracondiliana gartland no cotovelo | classificacao de gartland no cotovelo
+Fratura supracondiliana do úmero, tipo {gartland|I/II/III} de Gartland.
+## gatilhos: sinal do coxim gorduroso posterior no cotovelo
+Coxim gorduroso posterior visível, sinal indireto de derrame articular.
+## gatilhos: sinal da vela no cotovelo
+Elevação do coxim gorduroso anterior (sinal da vela), sugestiva de derrame articular.
+## gatilhos: linha radiocapitular alterada no cotovelo
+Linha radiocapitular não intercepta o capítulo, sugerindo luxação da cabeça do rádio.
+## gatilhos: nucleos de ossificacao do cotovelo
+Núcleos de ossificação do cotovelo em posição habitual (sequência CRITOE).
+## gatilhos: fratura transversa do olecrano no cotovelo
+Fratura transversa do olécrano, com diástase de {tamanho}.
+## gatilhos: limite do rx no cotovelo | rx nao exclui fratura oculta do cotovelo
+A radiografia tem sensibilidade limitada para fraturas sem desvio do cotovelo; se a suspeita persistir, considerar controle em 10 a 14 dias ou tomografia.
+## gatilhos: entesofito do olecrano no cotovelo
+Entesófito na ponta do olécrano, na inserção do tendão tricipital.
+## gatilhos: calcificacao ligamentar medial no cotovelo
+Calcificação no trajeto do ligamento colateral medial, podendo corresponder a sequela de lesão por sobrecarga em valgo.
+## gatilhos: incidencia da cabeca do radio no cotovelo
+Recomenda-se incidência específica para a cabeça do rádio (Greenspan).

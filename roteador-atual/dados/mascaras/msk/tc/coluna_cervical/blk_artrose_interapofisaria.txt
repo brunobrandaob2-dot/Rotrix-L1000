@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações interapofisárias
+# gatilhos: artrose interapofisaria | artrose facetaria | artrose das facetas | artrose
+# conclusao: Artrose interapofisária cervical, mais evidente em {nivel}.
+Articulações interapofisárias:  artrose interapofisária em {nivel}, com redução dos espaços articulares, esclerose subcondral e osteófitos.

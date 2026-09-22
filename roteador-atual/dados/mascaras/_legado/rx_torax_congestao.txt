@@ -1,0 +1,22 @@
+# gatilhos: raio x de torax com congestao pulmonar | rx de torax com congestao | radiografia de torax com congestao pulmonar | rx torax insuficiencia cardiaca | raio x de torax edema pulmonar | rx torax congestao
+RADIOGRAFIA DO TÓRAX
+
+TÉCNICA: incidências póstero-anterior e perfil, em ortostase.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Parênquima pulmonar: opacidades intersticiais difusas, de predomínio peri-hilar e bibasal, com linhas B de Kerley nas regiões inferiores e borramento dos contornos vasculares, compatíveis com congestão pulmonar.
+Hilos e vasos pulmonares: hilos alargados e de contornos borrados, com redistribuição do fluxo para os ápices (inversão do padrão vascular).
+Área cardíaca e mediastino: aumento da área cardíaca, com índice cardiotorácico de ___ (valor de referência: > 0,5 em PA indica aumento). Mediastino de contornos regulares.
+Aorta: botão aórtico alongado, com calcificações parietais.
+Pleura e seios costofrênicos: derrame pleural {lado|direito/esquerdo/bilateral}, de pequeno a moderado volume, com velamento do seio costofrênico correspondente. Espessamento das cissuras.
+Cúpulas diafragmáticas: parcialmente obscurecidas pelo derrame.
+Estruturas ósseas: sem sinais de fratura ou lesão focal evidentes ao método.
+Partes moles: sem alterações significativas.
+
+CONCLUSÃO:
+1. Sinais de congestão pulmonar, com redistribuição de fluxo, linhas B de Kerley e opacidades intersticiais peri-hilares.
+2. Aumento da área cardíaca, com índice cardiotorácico de ___ (valor de referência: > 0,5 em PA).
+3. Derrame pleural {lado|direito/esquerdo/bilateral}, de pequeno a moderado volume.
+4. Achados compatíveis com descompensação cardíaca. Recomendada correlação clínica e comparação com estudos anteriores.

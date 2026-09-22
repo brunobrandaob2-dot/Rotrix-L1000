@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: nodulo solido suspeito | nodulo pulmonar solido | nodulo espiculado | nodulo solido indeterminado
+# conclusao: Nódulo pulmonar sólido de aspecto indeterminado no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho}; seguimento ou investigação adicional a critério clínico, tendo como referência os critérios de Fleischner (2017).
+Parênquima pulmonar: nódulo sólido de margens espiculadas e contornos irregulares no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho}, sem calcificações benignas ou conteúdo gorduroso, de aspecto indeterminado. Nódulos sólidos com diâmetro médio ≥ 8 mm ou com margens suspeitas justificam avaliação adicional — seguimento tomográfico, PET-CT ou amostragem tecidual — conforme os critérios de Fleischner (2017), citados aqui como referência, ficando a conduta a critério clínico. Demais segmentos sem consolidações ou outros nódulos suspeitos.

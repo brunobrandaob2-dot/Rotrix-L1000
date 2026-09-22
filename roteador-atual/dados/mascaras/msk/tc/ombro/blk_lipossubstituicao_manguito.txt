@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: lipossubstituicao do manguito | atrofia do manguito | lipossubstituicao muscular | goutallier
+# conclusao: Lipossubstituição do ventre muscular do {musculo|supraespinhal/infraespinhal/subescapular/redondo menor} (Goutallier {goutallier|1/2/3/4}), que pode estar associada a lesão crônica do manguito rotador; considerar ultrassonografia ou ressonância magnética para avaliação tendínea.
+Partes moles:  lipossubstituição do ventre muscular do {musculo|supraespinhal/infraespinhal/subescapular/redondo menor}, grau {goutallier|1/2/3/4} de Goutallier. Não há coleções ou calcificações, considerando os limites do método para avaliação tendínea.

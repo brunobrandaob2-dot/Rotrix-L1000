@@ -1,0 +1,32 @@
+# gatilhos: abdome com abscesso | colecao intra-abdominal | abscesso intracavitario | colecao organizada abdominal | abscesso abdominal
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Transição toracoabdominal: ausência / presença de derrame pleural reacional {lado_a|à direita/à esquerda}.
+Fígado: de dimensões normais, contornos regulares e densidade homogênea.
+Vias biliares: sem dilatação.
+Vesícula biliar: de paredes finas, sem cálculos no seu interior.
+Pâncreas: de dimensões e densidade normais, sem dilatação ductal.
+Baço: de dimensões normais e densidade homogênea.
+Adrenais: de espessura normal e sem nódulos.
+Rins: tópicos, de contornos regulares, sem cálculos ou dilatação de vias coletoras.
+Bexiga: de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos: sem particularidades, considerando os limites do método.
+Trato gastrointestinal: alças adjacentes à coleção com espessamento parietal reacional e realce mucoso preservado, sem descontinuidade parietal caracterizável. Ausência de distensão significativa a montante.
+Vasos: aorta e veia cava inferior de calibres normais. Vasos adjacentes à coleção pérvios, sem trombose.
+Retroperitônio: linfonodos de aspecto reacional na vizinhança da coleção.
+Peritônio: coleção líquida organizada localizada em ___, de contornos definidos, medindo {tamanho} nos maiores eixos (volume estimado de ___ mL), com conteúdo hipodenso e heterogêneo, densidade de ___ UH, delimitada por parede espessada que apresenta realce evidente pelo meio de contraste. Focos gasosos de permeio no seu interior. Densificação da gordura e espessamento dos planos fasciais adjacentes. Ausência / presença de outras coleções satélites em ___. Ausência de pneumoperitônio livre.
+Estruturas ósseas e partes moles: sem alterações significativas. Ausência de trajeto fistuloso para a parede abdominal caracterizável ao método.
+
+CONCLUSÃO:
+1. **Coleção intra-abdominal organizada em ___**, medindo {tamanho}, com parede espessada e realce parietal e focos gasosos de permeio, achados compatíveis com abscesso.
+2. Densificação da gordura e alterações inflamatórias dos planos adjacentes, com espessamento parietal reacional das alças vizinhas.
+3. Ausência de pneumoperitônio ou de descontinuidade parietal de víscera oca caracterizáveis no presente estudo.
+4. A coleção apresenta / não apresenta janela de acesso percutâneo seguro, a ser confirmada em planejamento dirigido.
+5. Correlacionar com o quadro clínico e laboratorial.
+
+Achado comunicado ao(à) Dr(a). ___ em ___/___/____ às ___h___.

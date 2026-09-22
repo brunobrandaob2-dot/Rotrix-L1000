@@ -1,0 +1,26 @@
+# gatilhos: urotomografia | urotomografia normal | uro tc | uro tc normal | urotc | urotc normal | urotomografia sem alteracoes | urotomografia computadorizada | tomografia de vias urinarias | tomografia das vias urinarias | tc de vias urinarias | tc das vias urinarias | tomografia do trato urinario | tomografia de vias urinarias normal | urotomografia trifasica
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: urotomografia
+# tipo_mascara: normal
+**UROTOMOGRAFIA COMPUTADORIZADA**
+
+**TÉCNICA:**  aquisição volumétrica sem contraste, seguida das fases nefrográfica e excretora após injeção intravenosa de contraste iodado, com reconstruções multiplanares.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Nefrograma homogêneo e simétrico, sem lesões focais. Não há cálculos.
+Vias excretoras:  sistemas pielocalicinais e ureteres de calibre e trajeto habituais, com opacificação completa e simétrica na fase excretora, sem falhas de enchimento ou espessamento parietal.
+Bexiga:  de parcial repleção, de paredes finas e regulares, sem falhas de enchimento na fase excretora.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Demais órgãos abdominais:  fígado, vesícula biliar, pâncreas, baço e adrenais sem particularidades no protocolo utilizado.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Urotomografia sem alterações significativas.

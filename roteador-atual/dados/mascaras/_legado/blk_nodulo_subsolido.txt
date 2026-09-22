@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: nodulo subsolido | nodulo em vidro fosco | vidro fosco persistente | nodulo parcialmente solido
+# conclusao: Nódulo subsólido persistente no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho}, a esclarecer; seguimento conforme critérios de Fleischner (2017), a critério clínico.
+Parênquima pulmonar: nódulo subsólido no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho}, de contornos {contorno|regulares/lobulados}, com componente sólido de ___ mm, persistente em relação ao estudo anterior. Nódulos subsólidos persistentes com diâmetro ≥ 6 mm, e sobretudo aqueles com componente sólido ≥ 6 mm, merecem seguimento ou investigação dirigida, conforme os critérios de Fleischner (2017), citados como referência; a conduta fica a critério clínico. Ausência de outros nódulos suspeitos.

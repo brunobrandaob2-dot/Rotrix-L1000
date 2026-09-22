@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Fígado
+# gatilhos: cistos hepaticos | cistos no figado | imagens cisticas hepaticas
+# conclusao: Cistos hepáticos simples, sem significado clínico.
+Fígado: dimensões normais, contornos regulares, notando-se formações nodulares hipodensas de limites definidos e sem realce, esparsas, a maior no {segmento} medindo {tamanho}, compatíveis com cistos simples.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: material de artrodese | placa anterior | artrodese cervical | espacador intersomatico
+# conclusao: Artrodese cervical anterior de {nivel} a {nivel}, sem sinais de soltura ou fratura dos implantes.
+Corpos vertebrais:  material de artrodese anterior de {nivel} a {nivel}, constituído por placa e parafusos, com espaçador intersomático, em posição habitual, sem sinais de fratura, soltura ou halo de radiolucência ao redor dos parafusos.

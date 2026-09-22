@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações uncovertebrais
+# gatilhos: uncoartrose | artrose uncovertebral | osteofitos uncovertebrais
+# conclusao: Uncoartrose em {nivel}.
+Articulações uncovertebrais:  uncoartrose em {nivel}, com osteófitos projetados para os forames neurais.

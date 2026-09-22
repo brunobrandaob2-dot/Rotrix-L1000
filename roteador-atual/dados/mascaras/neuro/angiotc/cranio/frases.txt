@@ -1,0 +1,37 @@
+# tipo: frases
+## gatilhos: aneurisma da comunicante anterior | aneurisma comunicante anterior
+Dilatação aneurismática sacular no complexo da artéria comunicante anterior, com projeção {projecao|anterior/posterior/superior/inferior/medial/lateral}, medindo {tamanho}, com colo de {colo}.
+## gatilhos: aneurisma da cerebral media | aneurisma de bifurcacao da cerebral media
+Dilatação aneurismática sacular na bifurcação da artéria cerebral média {lado_f|direita/esquerda}, medindo {tamanho}, com colo de {colo}.
+## gatilhos: aneurisma da comunicante posterior | aneurisma na origem da comunicante posterior
+Dilatação aneurismática sacular na origem da artéria comunicante posterior {lado_f|direita/esquerda}, medindo {tamanho}, com colo de {colo}.
+## gatilhos: aneurisma do topo da basilar | aneurisma da ponta da basilar
+Dilatação aneurismática sacular na extremidade distal da artéria basilar, medindo {tamanho}, com colo de {colo}.
+## gatilhos: aneurisma paraoftalmico da carotida | aneurisma oftalmico da carotida
+Dilatação aneurismática sacular no segmento oftálmico (paraclinóideo) da artéria carótida interna {lado_f|direita/esquerda}, medindo {tamanho}, com colo de {colo}, com projeção {projecao|anterior/posterior/superior/inferior/medial/lateral}.
+## gatilhos: infundibulo da comunicante posterior | dilatacao infundibular da comunicante posterior
+Dilatação infundibular na origem da artéria comunicante posterior {lado_f|direita/esquerda}, de formato cônico, medindo {tamanho}, com o vaso emergindo do seu ápice, aspecto sem significado patológico (infundíbulo).
+## gatilhos: vasoespasmo na angio intracraniana | vasoespasmo apos hsa
+Redução segmentar do calibre de artérias intracranianas, podendo corresponder a vasoespasmo no contexto de hemorragia subaracnóidea; correlacionar com Doppler transcraniano.
+## gatilhos: calcificacoes nos sifoes carotideos | ateromatose calcificada dos sifoes carotideos
+Placas ateromatosas calcificadas nos sifões carotídeos, sem estenoses significativas.
+## gatilhos: hipoplasia da comunicante posterior | comunicante posterior nao caracterizada
+Artéria comunicante posterior {lado_f|direita/esquerda} hipoplásica ou não caracterizada, variante anatômica frequente.
+## gatilhos: cerebral anterior azigos | arteria cerebral anterior azigos
+Artéria cerebral anterior ázigos (tronco pericaloso único), variante anatômica.
+## gatilhos: fenestracao da basilar | fenestracao da arteria basilar
+Fenestração do segmento proximal da artéria basilar, variante anatômica.
+## gatilhos: arteria trigeminal persistente | trigeminal persistente
+Artéria trigeminal persistente, com anastomose entre o segmento cavernoso da artéria carótida interna {lado_f|direita/esquerda} e a artéria basilar, variante anatômica.
+## gatilhos: trombose venosa na angio intracraniana | angio intracraniana nao avalia seios venosos
+Estudo adquirido em fase arterial, não adequado para a avaliação dos seios venosos durais e das veias cerebrais; na suspeita de trombose venosa cerebral, recomenda-se angiotomografia venosa (venografia por TC) ou ressonância magnética com venografia.
+## gatilhos: angio intracraniana sem aneurisma | pesquisa de aneurisma negativa
+Não há evidência de dilatações aneurismáticas ou malformações vasculares, considerando os limites de resolução do método, cuja sensibilidade é reduzida para aneurismas menores que 3 mm.
+## gatilhos: hsa perimesencefalica sem aneurisma | padrao perimesencefalico
+Hemorragia subaracnóidea de distribuição predominantemente perimesencefálica, sem aneurisma identificado, padrão que pode corresponder a hemorragia perimesencefálica não aneurismática; a critério clínico, complementar com angiografia digital.
+## gatilhos: malformacao arteriovenosa intracraniana | mav intracraniana
+Enovelado de vasos no lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, medindo {tamanho}, com artérias nutridoras ampliadas e drenagem venosa precoce, podendo corresponder a malformação arteriovenosa; sugere-se ressonância magnética e angiografia digital para caracterização.
+## gatilhos: oclusao de ramo m2 da cerebral media | oclusao de ramo distal da cerebral media
+Interrupção da opacificação de ramo {divisao|M2 da divisão superior/M2 da divisão inferior/M3} da artéria cerebral média {lado_f|direita/esquerda}, compatível com oclusão arterial distal.
+## gatilhos: aneurisma pequeno seguimento angio intracraniana | controle de aneurisma pequeno
+Pelas dimensões, sugere-se seguimento por imagem ou avaliação especializada, a critério clínico.

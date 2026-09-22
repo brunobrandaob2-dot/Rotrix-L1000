@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Sistema ventricular
+# gatilhos: derivacao ventricular | cateter de derivacao ventricular | derivacao ventriculoperitoneal | valvula de derivacao
+# conclusao: Cateter de derivação ventricular com extremidade proximal no ventrículo lateral {lado|direito/esquerdo}.
+Sistema ventricular:  cateter de derivação ventricular com extremidade proximal no {posicao_cateter|corno frontal/átrio} do ventrículo lateral {lado|direito/esquerdo}. Sistema ventricular de dimensões {dimensoes_ventriculos|normais/reduzidas/aumentadas}.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vesícula biliar
+# gatilhos: colecistectomia | vesicula ausente | status pos colecistectomia
+# conclusao: Status pós-colecistectomia.
+Vesícula biliar: ausente, com clipes metálicos no leito vesicular, compatível com colecistectomia prévia. Vias biliares sem dilatação.

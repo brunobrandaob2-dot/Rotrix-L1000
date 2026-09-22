@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Articulação trapeziometacarpiana
+# gatilhos: rizartrose | artrose | artrose trapeziometacarpiana | artrose da base do polegar
+Rizartrose, com redução {grau|leve/moderada/acentuada} do espaço articular, osteófitos marginais e esclerose subcondral.

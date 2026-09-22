@@ -1,0 +1,28 @@
+# gatilhos: tomografia de torax com alteracoes da idade | tc de torax com alteracoes da idade | tomografia de torax do idoso | tc de torax do idoso | tc torax idoso | tomografia de torax com alteracoes cronicas | tc de torax com alteracoes cronicas | tc de torax com alteracoes senis | tomografia de torax com alteracoes senis | tomografia de torax de idoso | tomografia de torax idoso | tc de torax de idoso
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multislice e reconstruções multiplanares, {contraste|sem/com/sem e com} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  tênues opacidades em vidro fosco nas regiões pendentes das bases, atribuíveis a hipoventilação/hipoperfusão. Estrias fibroatelectásicas esparsas nas bases pulmonares. Não há consolidações ou nódulos suspeitos.
+Traqueia e brônquios:  calibre e trajetos normais.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  calibre preservado, com ateromatose calcificada parietal e alongamento do arco. Calcificações parietais nas artérias coronárias.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Cúpulas diafragmáticas:  morfologia e posição habituais.
+Estruturas ósseas e partes moles:  alterações degenerativas da coluna torácica, com osteófitos marginais e redução da altura de discos intervertebrais.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Opacidades pendentes nas bases pulmonares, atribuíveis a hipoventilação/hipoperfusão.
+Estrias fibroatelectásicas nas bases pulmonares.
+Ateromatose aórtica e coronariana.
+Espondilose torácica.

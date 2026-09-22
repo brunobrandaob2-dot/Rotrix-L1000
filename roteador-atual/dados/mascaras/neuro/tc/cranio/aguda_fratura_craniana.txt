@@ -1,0 +1,33 @@
+# gatilhos: tomografia de cranio com fratura | tc de cranio com fratura | tc cranio fratura | tomografia de cranio com fratura de calota | tc de cranio com afundamento | tomografia de cranio com pneumoencefalo | tc de cranio com pneumoencefalo
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado, com reconstruções em janelas para parênquima e para osso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  coeficientes de atenuação preservados. Não há contusões ou hematomas intraparenquimatosos identificáveis.
+Substância branca:  sem alterações de atenuação.
+Núcleos da base:  de morfologia e atenuação preservadas.
+Sistema ventricular:  de morfologia, dimensões e topografia normais.
+Cisternas da base e sulcos corticais:  cisternas da base {cisternas|pérvias/parcialmente apagadas/apagadas}. Sem hemorragia subaracnóidea.
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Espaços extra-axiais:  sem coleções.
+Pneumoencéfalo:  {pneumo|ausente/focos gasosos extra-axiais em ___, sem efeito expansivo e sem sinais de pneumoencéfalo hipertensivo}.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  traço de fratura {tipo_fratura|linear, sem afundamento/cominutivo, com afundamento de ___ mm} no osso {osso|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, {base_cranio|sem/com} extensão à base do crânio.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  {seios|normopneumatizados, sem níveis líquidos/com nível líquido em ___, a correlacionar com o traço de fratura}.
+Células mastoides:  {mastoides|normopneumatizadas/com velamento ___, a correlacionar com o traço de fratura}.
+Partes moles extracranianas:  {subgaleal|sem hematoma subgaleal/hematoma subgaleal adjacente ao traço de fratura, com espessura de ___ mm}.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura do osso {osso|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, sem lesões intracranianas agudas associadas identificáveis.
+Linha média: {linha_media_c|centrada/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}. Cisternas da base: {cisternas_c|pérvias/parcialmente apagadas/apagadas}.

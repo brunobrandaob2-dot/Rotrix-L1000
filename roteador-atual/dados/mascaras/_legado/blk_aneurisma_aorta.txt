@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vasos
+# gatilhos: aneurisma de aorta abdominal | aneurisma da aorta | aaa | aorta aneurismatica | dilatacao aneurismatica da aorta
+# conclusao: Aneurisma da aorta abdominal infrarrenal medindo {tamanho} no maior diâmetro transverso, sem sinais de instabilidade no presente estudo.
+Vasos: aorta abdominal com dilatação fusiforme do segmento infrarrenal, medindo {tamanho} no maior diâmetro transverso externo (considera-se aneurisma o diâmetro igual ou superior a 3,0 cm), com extensão longitudinal de ___ cm, iniciando-se ___ cm abaixo da emergência da artéria renal mais baixa e terminando ___ cm acima da bifurcação. Trombo mural concêntrico / excêntrico com espessura máxima de ___ cm e luz pérvia de ___ cm. Ateromatose calcificada parietal difusa. Ausência de hematoma periaórtico, de sinal do crescente hiperdenso na parede, de descontinuidade das calcificações intimais ou de extravasamento do meio de contraste que indiquem instabilidade ou ruptura. Artérias ilíacas de calibres ___. Veia cava inferior de calibre normal.

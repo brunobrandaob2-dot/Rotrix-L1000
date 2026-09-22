@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artéria basilar
+# gatilhos: dolicoectasia vertebrobasilar | dolicoectasia basilar | basilar ectasica | ectasia da basilar
+# conclusao: Dolicoectasia da artéria basilar (diâmetro de {tamanho}; valor de referência até 4,5 mm).
+Artéria basilar:  de calibre aumentado, medindo {tamanho} de diâmetro, com trajeto alongado e tortuoso, {bifurcacao|com bifurcação no plano da cisterna suprasselar/com bifurcação acima do plano da cisterna suprasselar}, sem trombos murais ou dilatações saculares.

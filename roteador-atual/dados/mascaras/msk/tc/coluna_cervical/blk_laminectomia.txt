@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Elementos posteriores
+# gatilhos: laminectomia | laminoplastia | pos laminectomia
+# conclusao: Alterações pós-operatórias de {procedimento|laminectomia/laminoplastia} em {nivel}.
+Elementos posteriores:  alterações pós-operatórias de {procedimento|laminectomia/laminoplastia} em {nivel}. Demais elementos posteriores íntegros.

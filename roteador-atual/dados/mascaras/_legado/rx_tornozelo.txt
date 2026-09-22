@@ -1,0 +1,16 @@
+# gatilhos: raio x de tornozelo | rx de tornozelo | radiografia de tornozelo | rx tornozelo apos trauma | raio x de tornozelo tres incidencias | rx tornozelo
+RADIOGRAFIA DO TORNOZELO {lado|direito/esquerdo}
+
+TÉCNICA: incidências ântero-posterior, perfil e oblíqua (encaixe da mortalha tibiotalar).
+
+INDICAÇÃO CLÍNICA: trauma do tornozelo, com indicação de estudo radiográfico conforme as regras de Ottawa (dor na zona maleolar associada a dor óssea na borda posterior ou na ponta do maléolo lateral ou medial, ou incapacidade de sustentar o peso por quatro passos).
+
+ANÁLISE:
+Alinhamento: encaixe tibiotalar preservado e simétrico, com espaço claro medial de amplitude habitual. Ausência de luxação ou diástase da sindesmose.
+Estruturas ósseas: maléolos medial e lateral, tíbia e fíbula distais com corticais íntegras, sem traços de fratura evidentes ao método. Tálus e demais ossos do retropé com morfologia e densidade preservadas, sem irregularidades osteocondrais caracterizáveis. Base do quinto metatarsal sem sinais de fratura por avulsão.
+Espaços articulares: tibiotalar e subtalar de amplitude preservada, sem esclerose subcondral ou osteófitos significativos.
+Partes moles: ___ (sem alterações significativas / aumento de volume das partes moles periarticulares {lado_a|à direita/à esquerda}). Ausência de corpos estranhos radiopacos ou de gás.
+
+CONCLUSÃO:
+1. Radiografia do tornozelo sem alterações significativas; não se identificam sinais de fratura ou luxação ao método.
+2. A radiografia simples tem sensibilidade limitada para fraturas não desviadas, lesões osteocondrais e lesões ligamentares; se a suspeita clínica persistir, considerar tomografia ou ressonância magnética, ou controle radiográfico em 10 a 14 dias.

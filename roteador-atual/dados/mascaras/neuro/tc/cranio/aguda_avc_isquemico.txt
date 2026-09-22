@@ -1,0 +1,35 @@
+# gatilhos: tomografia de cranio com avc isquemico agudo | tc de cranio com avc isquemico agudo | tc cranio avc agudo | tomografia de cranio com isquemia aguda | tc de cranio com isquemia aguda | tc de cranio com avc isquemico | tomografia de cranio com avc isquemico
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  área de hipoatenuação córtico-subcortical no território da artéria cerebral {territorio|média/anterior/posterior} {lado_f|direita/esquerda}, com perda da diferenciação entre as substâncias branca e cinzenta e apagamento dos sulcos corticais adjacentes, compatível com isquemia aguda. Não há sinais de transformação hemorrágica.
+Escore ASPECTS: {aspects}/10 (aplicável ao território da artéria cerebral média; 10 corresponde a ausência de alterações isquêmicas precoces).
+Substância branca:  sem outras alterações de atenuação.
+Núcleos da base:  {nucleos_base|de atenuação preservada/com hipoatenuação e perda da definição do núcleo lentiforme ipsilateral}.
+Artérias intracranianas:  {arteria_hiperdensa|sem sinal da artéria hiperdensa/hiperatenuação espontânea do segmento ___ da artéria cerebral ___ (sinal da artéria hiperdensa)}.
+Sistema ventricular:  de morfologia, dimensões e topografia normais.
+Cisternas da base e sulcos corticais:  cisternas da base {cisternas|pérvias/parcialmente apagadas/apagadas}. Apagamento dos sulcos corticais restrito à área isquêmica.
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Espaços extra-axiais:  sem coleções.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura ou lesões focais.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sinais de isquemia aguda no território da artéria cerebral {territorio|média/anterior/posterior} {lado_f|direita/esquerda}, com escore ASPECTS {aspects}.
+Não há sinais de transformação hemorrágica.
+Sugere-se angiotomografia arterial intracraniana e cervical para pesquisa de oclusão de grande vaso, a critério clínico.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Substância branca
+# gatilhos: microangiopatia leve | microangiopatia discreta | focos de microangiopatia | fazekas 1
+# conclusao: Alterações microangiopáticas crônicas incipientes da substância branca (Fazekas 1).
+Substância branca:  focos hipoatenuantes esparsos na substância branca periventricular e subcortical, sem efeito expansivo, compatíveis com alterações microangiopáticas crônicas incipientes (Fazekas 1).

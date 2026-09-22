@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Coluna aérea da rinofaringe
+# gatilhos: reducao da coluna aerea | obstrucao da rinofaringe | reducao da rinofaringe | coluna aerea reduzida | obstrucao da coluna aerea
+Redução {grau|discreta/moderada/acentuada} da coluna aérea da rinofaringe.

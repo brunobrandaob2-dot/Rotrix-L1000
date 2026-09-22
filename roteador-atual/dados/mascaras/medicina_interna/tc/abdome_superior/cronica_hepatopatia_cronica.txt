@@ -1,0 +1,32 @@
+# gatilhos: tomografia de abdome superior com hepatopatia cronica | tomografia do abdome superior com hepatopatia cronica | tc do abdome superior com hepatopatia cronica | tc de abdome superior com hepatopatia cronica | tc abdome superior hepatopatia cronica | tomografia de abdome superior com cirrose | tomografia do abdome superior com cirrose | tc do abdome superior com cirrose | tc de abdome superior com cirrose | tc abdome superior cirrose | tomografia de abdome superior com hipertensao portal | tomografia do abdome superior com hipertensao portal | tc do abdome superior com hipertensao portal | tc de abdome superior com hipertensao portal | tc abdome superior hipertensao portal
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome_superior
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões reduzidas, contornos irregulares e lobulados, com hipertrofia do lobo caudado e do segmento lateral do lobo esquerdo e alargamento das fissuras hepáticas, compatível com hepatopatia crônica. Não há lesões focais caracterizáveis no protocolo utilizado.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões aumentadas, medindo {tamanho} no eixo longitudinal, e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Trato gastrointestinal:  segmentos incluídos no estudo sem particularidades no protocolo utilizado.
+Vasos:  veia porta de calibre aumentado, medindo {calibre_porta}, pérvia. Circulação colateral portossistêmica em {colaterais|varizes esofágicas/varizes gastroesofágicas/varizes periesplênicas/veia paraumbilical recanalizada}. Aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  {ascite|ausência de líquido livre/ascite de pequeno volume/ascite de moderado volume/ascite de grande volume}, sem coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sinais de hepatopatia crônica.
+Sinais de hipertensão portal: esplenomegalia, aumento do calibre da veia porta e circulação colateral portossistêmica.
+Estudo não dirigido para rastreamento de carcinoma hepatocelular; para esse fim, está indicada tomografia multifásica ou ressonância magnética com protocolo hepático.

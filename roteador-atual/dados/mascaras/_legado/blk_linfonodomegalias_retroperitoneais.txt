@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Retroperitônio
+# gatilhos: linfonodomegalias retroperitoneais | linfonodos aumentados no retroperitonio | linfonodomegalia abdominal | adenomegalias retroperitoneais
+# conclusao: Linfonodomegalias retroperitoneais, a maior medindo {tamanho} no menor eixo, de natureza indeterminada ao método; a esclarecer.
+Retroperitônio: linfonodos aumentados em número e dimensões nas cadeias ___, o maior medindo {tamanho} no menor eixo (considera-se aumentado o menor eixo superior a 1,0 cm), de contornos ___, com hilo gorduroso ___ e realce homogêneo / heterogêneo, sem componente necrótico central. Ausência de coalescência ou de envolvimento circunferencial dos vasos.

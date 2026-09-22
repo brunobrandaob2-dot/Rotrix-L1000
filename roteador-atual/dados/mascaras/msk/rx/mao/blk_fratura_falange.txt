@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura da falange | fratura | fratura de falange | fratura do dedo
+Fratura {local|da base/da diáfise/do colo/da cabeça/do tufo} da falange {falange} do {dedo} dedo, com desvio de {tamanho}, {articular|sem/com} extensão à superfície articular.

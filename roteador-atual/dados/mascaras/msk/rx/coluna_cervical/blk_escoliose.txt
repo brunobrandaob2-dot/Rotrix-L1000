@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: escoliose | escoliose cervical | desvio lateral | desvio lateral do eixo | desvio lateral do eixo longitudinal | desvio lateral da coluna
+Desvio lateral do eixo longitudinal da coluna cervical, com convexidade para a {lado_f|direita/esquerda}.

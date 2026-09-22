@@ -1,0 +1,3 @@
+# tipo: achado
+# gatilhos: gliose | area de gliose | sequela parenquimatosa encefalica
+Área de hipoatenuação córtico-subcortical no lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, sem efeito expansivo ou realce pelo meio de contraste, compatível com gliose/encefalomalácia. A etiologia não é determinável pelo método isoladamente.

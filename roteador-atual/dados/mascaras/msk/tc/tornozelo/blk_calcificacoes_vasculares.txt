@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: calcificacoes vasculares | ateromatose | calcificacoes arteriais
+# conclusao: Calcificações vasculares.
+Partes moles:  calcificações parietais vasculares {padrao|esparsas/lineares, de padrão medial (Mönckeberg)}.

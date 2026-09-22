@@ -1,0 +1,19 @@
+# gatilhos: raio x de bacia com protese de quadril | rx de bacia com protese de quadril | rx bacia artroplastia de quadril | radiografia de bacia com protese de quadril | raio x de bacia com protese
+# categoria: msk
+# modalidade: rx
+# regiao: bacia
+# tipo_mascara: cronica
+**RADIOGRAFIA DA BACIA**
+
+**TÉCNICA:**  incidência anteroposterior da bacia.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Articulações sacroilíacas preservadas.
+Sínfise púbica sem alterações.
+Artroplastia {tipo_protese|total/parcial} do quadril {lado|direito/esquerdo}, com haste femoral {fixacao|não cimentada/cimentada} e componentes em posição habitual.
+Componente acetabular com inclinação de {inclinacao}° (referência: 30° a 50°).
+Espaço articular coxofemoral contralateral preservado.
+Não há sinais de soltura dos componentes, luxação ou fratura periprotética.
+Densidade óssea preservada.
+{brooker|Partes moles sem alterações/Ossificação heterotópica grau I de Brooker/Ossificação heterotópica grau II de Brooker/Ossificação heterotópica grau III de Brooker/Ossificação heterotópica grau IV de Brooker}.

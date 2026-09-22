@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Achados extratorácicos
+# gatilhos: lesao hepatica incidental | nodulo hepatico na base | lesao focal no figado | imagem hipodensa hepatica
+# conclusao: Lesão hepática focal de {tamanho} no {segmento}, incidental e de caracterização limitada neste estudo, a esclarecer por método dirigido a critério clínico.
+Achados extratorácicos: nos cortes que incluem o abdome superior, observa-se formação nodular hipoatenuante no {segmento} do fígado, medindo {tamanho}, de limites {limites|definidos/parcialmente definidos}, cuja caracterização é limitada por se tratar de estudo não dirigido e sem fases hepáticas dedicadas. Demais órgãos abdominais superiores parcialmente incluídos, sem alterações evidentes.

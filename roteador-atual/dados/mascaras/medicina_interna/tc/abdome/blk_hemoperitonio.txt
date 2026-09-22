@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Peritônio
+# gatilhos: hemoperitonio traumatico | sangue na cavidade | liquido hiperdenso na cavidade | hemoperitonio volumoso
+# conclusao: Hemoperitônio de {volume|pequeno/moderado/grande} volume.
+Peritônio:  hemoperitônio de {volume|pequeno/moderado/grande} volume, com densidade de {densidade} UH, distribuído {distribuicao|no espaço peri-hepático/no recesso periesplênico/nas goteiras parietocólicas e na escavação pélvica}.

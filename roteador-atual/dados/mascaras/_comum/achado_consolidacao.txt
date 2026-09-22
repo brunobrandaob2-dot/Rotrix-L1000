@@ -1,0 +1,3 @@
+# tipo: achado
+# gatilhos: consolidacao | condensacao pulmonar | foco de consolidacao
+Área de consolidação com broncogramas aéreos de permeio no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, de aspecto inespecífico, podendo corresponder a processo infeccioso/inflamatório. Recomendada correlação clínico-laboratorial.

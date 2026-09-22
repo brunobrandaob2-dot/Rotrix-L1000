@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Fígado
+# gatilhos: hepatopatia cronica | cirrose | figado cirrotico | sinais de cirrose
+# conclusao: Sinais de hepatopatia crônica, com alterações morfológicas compatíveis com cirrose e sinais de hipertensão portal.
+Fígado: dimensões reduzidas, com contornos irregulares e bosselados, hipertrofia do lobo caudado e do segmento lateral esquerdo, e alargamento das fissuras. Ausência de lesões focais com realce arterial e washout no presente estudo. Associam-se esplenomegalia, circulação colateral portossistêmica e recanalização da veia umbilical.

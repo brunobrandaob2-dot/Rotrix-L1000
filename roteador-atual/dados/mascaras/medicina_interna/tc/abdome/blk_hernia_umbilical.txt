@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: hernia umbilical | hernia periumbilical | hernia da linha alba | hernia epigastrica
+# conclusao: Hérnia umbilical, sem sinais de encarceramento.
+Estruturas ósseas e partes moles:  hérnia {tipo_hernia|umbilical/periumbilical/epigástrica}, com colo medindo {tamanho}, contendo {conteudo|gordura/alça intestinal}, sem sinais de sofrimento do conteúdo herniado.

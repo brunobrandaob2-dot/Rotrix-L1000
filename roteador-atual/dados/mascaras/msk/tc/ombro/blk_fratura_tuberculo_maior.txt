@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Úmero proximal
+# gatilhos: fratura do tuberculo maior | fratura da tuberosidade maior | fratura do troquiter
+# conclusao: Fratura do tubérculo maior do úmero, com desvio de {tamanho} (desvio superior a 5 mm costuma ter relevância para a indicação cirúrgica).
+Úmero proximal:  fratura do tubérculo maior, com desvio {sentido|superior/posterior/posterossuperior} do fragmento de {tamanho}. Demais segmentos do úmero proximal sem traços de fratura.

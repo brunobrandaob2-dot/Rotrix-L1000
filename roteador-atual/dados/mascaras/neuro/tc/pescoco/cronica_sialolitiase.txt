@@ -1,0 +1,32 @@
+# gatilhos: tomografia de pescoco com sialolitiase | tc de pescoco com sialolitiase | tomografia do pescoco com sialolitiase | tc de pescoco com calculo na submandibular | tomografia de pescoco com calculo salivar
+# categoria: neuro
+# modalidade: tc
+# regiao: pescoco
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO PESCOÇO**
+
+**TÉCNICA:**  aquisição volumétrica da base do crânio à transição cervicotorácica, {contraste|sem/com} injeção intravenosa de contraste iodado, com reconstruções multiplanares.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Nasofaringe:  simétrica, com recessos faríngeos laterais preservados, sem espessamentos parietais ou lesões expansivas.
+Orofaringe:  tonsilas palatinas simétricas e de dimensões habituais. Base da língua e valéculas sem particularidades.
+Hipofaringe e laringe:  seios piriformes livres. Pregas vocais simétricas, espaços paraglóticos e pré-epiglótico preservados. Cartilagens laríngeas sem particularidades.
+Espaços parafaríngeos:  gordura preservada e simétrica.
+Espaços mastigatórios:  musculatura mastigatória simétrica, sem coleções ou densificação.
+Espaço retrofaríngeo e pré-vertebral:  de espessura normal, sem coleções ou densificação.
+Glândulas parótidas:  tópicas, simétricas, de dimensões e densidade habituais, sem nódulos.
+Glândulas submandibulares:  cálculo {local_calculo|no ducto submandibular (de Wharton)/no hilo da glândula/no parênquima da glândula} {lado|direito/esquerdo}, medindo {tamanho}, {dilatacao|sem/com} dilatação ductal a montante. Glândula submandibular ipsilateral {glandula|de dimensões e densidade preservadas/reduzida e hipoatenuante/aumentada, com realce acentuado e densificação da gordura adjacente}. Glândula contralateral sem alterações.
+Tireoide:  tópica, de dimensões e densidade habituais, sem nódulos identificáveis ao método.
+Linfonodos cervicais:  sem linfonodomegalias nos níveis I a VI, bilateralmente.
+Vasos cervicais:  artérias carótidas e veias jugulares internas pérvias e de calibre habitual.
+Traqueia:  centrada, de calibre e trajeto normais.
+Planos gordurosos e partes moles:  preservados, sem coleções, gás ou densificação.
+Estruturas ósseas:  sem lesões líticas ou blásticas.
+Ápices pulmonares:  sem particularidades nos segmentos incluídos no estudo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sialolitíase submandibular {lado_f|direita/esquerda}, com cálculo de {tamanho}, {dilatacao|sem/com} dilatação ductal a montante.

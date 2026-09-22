@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: tendinopatia calcaria | calcificacao tendinea | calcificacao no manguito | tendinite calcaria
+Calcificação {aspecto|amorfa/homogênea e de contornos definidos} no trajeto do tendão {tendao|supraespinhal/infraespinhal/subescapular}, medindo {tamanho}, compatível com tendinopatia calcária.

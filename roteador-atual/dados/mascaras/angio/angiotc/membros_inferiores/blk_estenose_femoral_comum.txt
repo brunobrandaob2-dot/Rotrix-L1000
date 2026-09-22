@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias femorais comuns
+# gatilhos: estenose da femoral comum | estenose femoral comum
+# conclusao: Estenose de ___% da artéria femoral comum {lado_f|direita/esquerda}.
+Artérias femorais comuns:  placa ateromatosa na artéria femoral comum {lado_f|direita/esquerda}, determinando estenose de ___%. Artéria femoral comum contralateral {contralateral|pérvia, sem estenoses significativas/com ___}.

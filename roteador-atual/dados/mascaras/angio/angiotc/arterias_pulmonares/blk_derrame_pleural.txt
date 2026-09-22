@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Derrames
+# gatilhos: derrame pleural | derrame pleural pequeno | derrame na pleura
+# conclusao: Derrame pleural {lado|direito/esquerdo/bilateral} de {volume_derrame|pequeno/moderado/grande} volume.
+Derrames:  derrame pleural {lado|direito/esquerdo/bilateral} de {volume_derrame|pequeno/moderado/grande} volume, com atelectasia passiva adjacente. Ausência de derrame pericárdico.

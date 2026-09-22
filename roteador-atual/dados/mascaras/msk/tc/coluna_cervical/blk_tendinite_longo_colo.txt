@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: tendinite calcaria do longo do colo | calcificacao do longo do colo | tendinite do longo do pescoco
+# conclusao: Achados sugestivos de tendinite calcária do músculo longo do colo.
+Partes moles:  calcificação amorfa anterior a C1-C2, na topografia da inserção do músculo longo do colo, com aumento da espessura das partes moles pré-vertebrais e pequena quantidade de líquido retrofaríngeo, sem coleção organizada.

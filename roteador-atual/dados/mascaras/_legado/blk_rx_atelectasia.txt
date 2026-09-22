@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: atelectasia no rx | atelectasia laminar no rx | colapso lobar no rx | atelectasia na radiografia
+# conclusao: Atelectasia no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, com sinais de perda volumétrica.
+Parênquima pulmonar: opacidade de aspecto retrátil no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, com desvio das cissuras, elevação da cúpula diafragmática ipsilateral e estreitamento dos espaços intercostais, traduzindo perda volumétrica e atelectasia. Demais campos pulmonares com transparência preservada.

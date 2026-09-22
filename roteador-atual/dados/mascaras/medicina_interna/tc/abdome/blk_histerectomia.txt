@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Órgãos pélvicos
+# gatilhos: histerectomia | pos histerectomia | utero ausente
+# conclusao: Status pós-histerectomia.
+Órgãos pélvicos:  útero não caracterizado, compatível com histerectomia prévia. Cúpula vaginal de aspecto habitual. Regiões anexiais sem massas, considerando os limites do método.

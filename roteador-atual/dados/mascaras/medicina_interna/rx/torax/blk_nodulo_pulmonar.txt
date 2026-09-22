@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Campos pulmonares
+# gatilhos: nodulo pulmonar | nodulo | opacidade nodular | imagem nodular
+Opacidade nodular no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, medindo {tamanho}, a esclarecer por tomografia.

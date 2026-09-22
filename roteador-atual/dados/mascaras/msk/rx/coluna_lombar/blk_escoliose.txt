@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: escoliose | escoliose lombar | desvio lateral | desvio lateral do eixo | desvio lateral do eixo longitudinal | desvio lateral da coluna
+Desvio lateral do eixo longitudinal da coluna lombar, com convexidade para a {lado_f|direita/esquerda}.

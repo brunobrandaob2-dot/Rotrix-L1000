@@ -1,0 +1,17 @@
+# gatilhos: raio x de cranio com lesoes liticas | rx de cranio com lesoes liticas | radiografia de cranio com lesoes liticas | rx cranio lesoes liticas | radiografia do cranio com lesoes liticas
+# categoria: neuro
+# modalidade: rx
+# regiao: cranio
+# tipo_mascara: cronica
+**RADIOGRAFIA DO CRÂNIO**
+
+**TÉCNICA:**  incidências posteroanterior e perfil.
+
+**ANÁLISE:**
+Múltiplas lesões líticas {padrao_litico|puntiformes/arredondadas, em saca-bocado} na calota craniana, a maior medindo {tamanho}, de natureza a esclarecer (correlacionar com dados clínico-laboratoriais).
+Não há sinais de fraturas.
+Suturas cranianas de aspecto habitual.
+Sela túrcica de dimensões e contornos normais.
+Seios paranasais normotransparentes.
+Partes moles sem alterações.
+A radiografia não avalia o conteúdo intracraniano.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Sela túrcica
+# gatilhos: sela turcica alargada | sela turcica aumentada | remodelamento da sela turcica
+Sela túrcica de dimensões aumentadas, com remodelamento do assoalho selar; ressonância magnética a critério clínico.

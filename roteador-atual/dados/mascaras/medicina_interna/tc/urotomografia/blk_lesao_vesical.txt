@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Bexiga
+# gatilhos: lesao vesical | espessamento vesical focal | falha de enchimento vesical | lesao na bexiga
+# conclusao: Lesão vesical {aspecto|vegetante/com espessamento parietal focal} na parede {parede|lateral direita/lateral esquerda/posterior/anterior/do trígono}, medindo {tamanho}; sugere-se cistoscopia.
+Bexiga:  de parcial repleção, com {aspecto|lesão vegetante/espessamento parietal focal} na parede {parede|lateral direita/lateral esquerda/posterior/anterior/do trígono}, medindo {tamanho}, com realce pelo meio de contraste e falha de enchimento na fase excretora. Não há densificação da gordura perivesical.

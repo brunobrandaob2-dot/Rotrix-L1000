@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias cerebrais anteriores, médias e posteriores
+# gatilhos: oclusao da cerebral media | oclusao de m1 | oclusao de m2 | trombo na cerebral media
+# conclusao: Oclusão do segmento {segmento_ocluido|M1 proximal/M1 distal/M2 (divisão superior)/M2 (divisão inferior)/T carotídeo, com extensão para M1 e A1} da artéria cerebral média {lado_f|direita/esquerda}, compatível com oclusão de grande vaso — correlacionar com o quadro clínico e o tempo de evolução.
+Artérias cerebrais anteriores, médias e posteriores:  interrupção abrupta da opacificação no segmento {segmento_ocluido|M1 proximal/M1 distal/M2 (divisão superior)/M2 (divisão inferior)/T carotídeo, com extensão para M1 e A1} da artéria cerebral média {lado_f|direita/esquerda}, com extensão estimada do segmento não opacificado de {tamanho}, compatível com oclusão arterial. Demais artérias cerebrais pérvias, com opacificação simétrica.

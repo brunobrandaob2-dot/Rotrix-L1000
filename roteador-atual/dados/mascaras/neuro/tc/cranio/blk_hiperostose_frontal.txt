@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Calota craniana e base do crânio
+# gatilhos: hiperostose frontal interna | hiperostose frontal | espessamento da tabua interna frontal
+# conclusao: Hiperostose frontal interna.
+Calota craniana e base do crânio:  espessamento nodular bilateral e simétrico da tábua interna do osso frontal, poupando a linha média, compatível com hiperostose frontal interna. Sem sinais de fratura ou lesões líticas.

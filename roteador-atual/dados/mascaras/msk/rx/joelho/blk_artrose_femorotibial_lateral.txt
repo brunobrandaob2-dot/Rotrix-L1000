@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: artrose femorotibial lateral | gonartrose lateral | artrose lateral
+Redução do espaço articular femorotibial lateral, com esclerose subcondral e osteófitos marginais.

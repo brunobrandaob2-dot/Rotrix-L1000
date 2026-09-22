@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Baço
+# gatilhos: laceracao esplenica | trauma esplenico | lesao esplenica traumatica
+# conclusao: Lesão esplênica traumática grau {grau_aast|I/II/III/IV/V} (AAST).
+Baço:  laceração no polo {polo|superior/médio/inferior}, com profundidade de {tamanho}, associada a hematoma {hematoma|subcapsular/intraparenquimatoso}, {sangramento|sem extravasamento do meio de contraste/com extravasamento do meio de contraste indicando sangramento ativo/com extravasamento contido de contraste, sugestivo de pseudoaneurisma}.

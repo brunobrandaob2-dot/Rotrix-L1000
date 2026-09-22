@@ -1,0 +1,27 @@
+# gatilhos: tomografia de punho com fratura do escafoide | tomografia do punho com fratura do escafoide | tc de punho com fratura do escafoide | tc do punho com fratura do escafoide | tc punho fratura do escafoide | tomografia de punho com fratura de escafoide | tc de punho com fratura de escafoide | tomografia de punho com escafoide fraturado | tc de punho com escafoide fraturado
+# categoria: msk
+# modalidade: tc
+# regiao: punho
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações radiocarpal e radioulnar distal preservadas. Semilunar {semilunar|em posição neutra/em extensão (padrão DISI)}.
+Rádio distal:  sem traços de fratura, com superfície articular congruente. Inclinação radial e inclinação volar preservadas.
+Ulna distal:  sem traços de fratura, com processo estiloide íntegro.
+Escafoide:  traço de fratura no terço {terco|proximal/médio (cintura)/distal/tubérculo} do escafoide, de orientação {traco|transversa/oblíqua horizontal/oblíqua vertical}, com desvio de {tamanho} entre os fragmentos (desvio superior a 1 mm sugere instabilidade) e {humpback|sem/com} deformidade em flexão (humpback).
+Demais ossos do carpo:  de morfologia, contornos e densidade preservados, sem traços de fratura.
+Espaços articulares:  radiocarpal, mediocarpal e radioulnar distal preservados, sem alterações degenerativas significativas.
+Articulação trapeziometacarpiana:  espaço articular preservado, sem osteófitos.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções ou calcificações, considerando os limites do método para avaliação ligamentar, tendínea e da fibrocartilagem triangular.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura do terço {terco|proximal/médio/distal} do escafoide {desvio_c|sem desvio/com desvio de ___ mm}.
+Recomenda-se seguimento por imagem para avaliação da consolidação: controle radiográfico em 10 a 14 dias ou, se a suspeita de complicação persistir, ressonância magnética (vitalidade do polo proximal).

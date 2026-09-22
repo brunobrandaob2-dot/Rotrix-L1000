@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Complexos ostiomeatais
+# gatilhos: obstrucao do complexo ostiomeatal | complexo ostiomeatal obstruido | obstrucao ostiomeatal
+# conclusao: Obstrução do complexo ostiomeatal {lado_a|à direita/à esquerda}.
+Complexos ostiomeatais:  obstrução {lado_a|à direita/à esquerda} por espessamento mucoso no infundíbulo etmoidal e no hiato semilunar.

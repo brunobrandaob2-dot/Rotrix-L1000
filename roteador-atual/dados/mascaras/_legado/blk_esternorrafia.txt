@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: esternorrafia | fios de esternorrafia | pos operatorio de cirurgia cardiaca
+# conclusao: Status pós-operatório de cirurgia cardíaca, com fios de esternorrafia íntegros.
+Estruturas ósseas e partes moles: fios metálicos de esternorrafia, íntegros e em posição habitual, sem sinais de deiscência ou de coleção no mediastino anterior. Alterações degenerativas da coluna torácica, com osteófitos marginais.

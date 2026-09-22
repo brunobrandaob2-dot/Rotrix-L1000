@@ -1,0 +1,28 @@
+# gatilhos: angiotomografia de arterias pulmonares | angio de arterias pulmonares | angio tc de arterias pulmonares | angiotomografia das arterias pulmonares | angio das arterias pulmonares | angiotomografia de arterias pulmonares normal | angio de arterias pulmonares normal | angio tc de arterias pulmonares normal | angio de tep | angio tep | angio tep negativa | angio tep negativo | angio para tep | angiotomografia para tep | angio de torax para tep | angio de torax protocolo tep | pesquisa de tep | pesquisa de tep negativa | angio pulmonar | angio pulmonar normal | angiotomografia pulmonar | angio de tromboembolismo pulmonar negativa | angio de arterias pulmonares sem tep
+# categoria: angio
+# modalidade: angiotc
+# regiao: arterias_pulmonares
+# tipo_mascara: normal
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS PULMONARES**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fase arterial pulmonar, com reconstruções multiplanares e em projeção de intensidade máxima (MIP), direcionadas para a avaliação da circulação arterial pulmonar.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação adequada das artérias pulmonares, com atenuação de ___ UH no tronco da artéria pulmonar (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise até o nível subsegmentar.
+Tronco da artéria pulmonar:  calibre normal, medindo ___ mm (aumentado quando > 29 mm).
+Artérias pulmonares:  artérias pulmonares principais, lobares, segmentares e subsegmentares pérvias, de calibre preservado e opacificação homogênea, sem falhas de enchimento endoluminais.
+Câmaras cardíacas direitas:  relação entre os diâmetros transversos do ventrículo direito e do ventrículo esquerdo (VD/VE) de ___ (sobrecarga quando > 0,9). Septo interventricular de configuração habitual, sem refluxo de contraste para a veia cava inferior.
+Parênquima pulmonar:  sem consolidações, opacidades periféricas cuneiformes ou padrão de atenuação em mosaico.
+Traqueia e brônquios:  calibre e trajetos normais.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Angiotomografia das artérias pulmonares sem alterações significativas, sem sinais de tromboembolismo pulmonar.

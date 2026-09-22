@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Espaço acromioumeral
+# gatilhos: reducao do espaco acromioumeral | ascensao da cabeca umeral | espaco subacromial reduzido
+# conclusao: Redução do espaço acromioumeral, achado que pode estar associado a lesão crônica do manguito rotador.
+Espaço acromioumeral:  reduzido, medindo {tamanho}, com ascensão da cabeça umeral.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Aorta torácica
+# gatilhos: raros ateromas | raros ateromas calcificados | ateromatose incipiente | ateromatose discreta | ateromatose aortica incipiente
+# conclusao: Ateromatose aórtica incipiente.
+Aorta torácica:  raros ateromas calcificados na aorta e em seus ramos.

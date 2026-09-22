@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vesícula biliar
+# gatilhos: polipo de vesicula | polipo vesicular | imagem polipoide na vesicula
+# conclusao: Imagem polipoide na vesícula biliar medindo {tamanho}, sem sinais de complicação; sugere-se correlação com ultrassonografia, método de escolha para a caracterização e o seguimento.
+Vesícula biliar: de paredes finas, notando-se formação polipoide aderida à parede ___, medindo {tamanho}, sem mobilidade com a mudança de decúbito e sem sombra acústica avaliável ao método, com realce pelo meio de contraste. Ausência de espessamento parietal focal, de densificação pericolecística ou de cálculos no seu interior.

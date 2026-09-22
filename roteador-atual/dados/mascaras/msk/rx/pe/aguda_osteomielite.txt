@@ -1,0 +1,16 @@
+# gatilhos: raio x de pe com osteomielite | rx de pe com osteomielite | radiografia de pe com osteomielite | rx de pe diabetico com osteomielite | raio x de pe com sinais de osteomielite | rx pe osteomielite
+# categoria: msk
+# modalidade: rx
+# regiao: pe
+# tipo_mascara: aguda
+**RADIOGRAFIA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, oblíqua e perfil.
+
+**ANÁLISE:**
+Alinhamento preservado, com articulações tarsometatarsais congruentes.
+Espaços articulares preservados.
+Erosão cortical e rarefação óssea em {osso_acometido}, {periosteal|sem/com} reação periosteal, sugestivas de osteomielite.
+Densidade óssea {densidade|preservada/reduzida regionalmente}.
+Aumento de partes moles adjacentes, {ulcera|sem/com} úlcera e {gas|sem/com} gás.
+A ressonância magnética é mais sensível para osteomielite.

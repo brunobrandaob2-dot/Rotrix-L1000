@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vias excretoras
+# gatilhos: hidronefrose | dilatacao pielocalicinal | ectasia pielocalicinal
+# conclusao: Dilatação pielocalicinal {grau|discreta/moderada/acentuada} {lado_a|à direita/à esquerda}, sem fator obstrutivo definido ao método.
+Vias excretoras:  dilatação pielocalicinal {grau|discreta/moderada/acentuada} {lado_a|à direita/à esquerda}, com ureter ipsilateral de calibre {ureter|normal/aumentado até ___}, sem cálculos, falhas de enchimento ou fator obstrutivo caracterizável. Vias excretoras contralaterais sem particularidades.

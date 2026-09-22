@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Paredes aórticas
+# gatilhos: ulcera penetrante | ulcera aterosclerotica penetrante | ulcera ateromatosa
+# conclusao: Úlcera aterosclerótica penetrante na aorta, com profundidade de ___ mm, sem hematoma intramural associado.
+Paredes aórticas:  placas ateromatosas parietais, com ulceração focal na {localizacao_ulcera|aorta torácica descendente/aorta abdominal/arco aórtico}, projetando-se além do contorno esperado da íntima, com profundidade de ___ mm e colo de ___ mm (maior risco quando profundidade > 10 mm ou largura > 20 mm). Sem hematoma intramural associado.

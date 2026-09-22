@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Acetábulo
+# gatilhos: displasia | displasia acetabular | acetabulo raso
+# conclusao: Displasia acetabular.
+Acetábulo:  raso, com cobertura lateral reduzida da cabeça femoral. Ângulo centro-borda lateral de {angulo_cb}° (referência: < 20° displasia; 20° a 25° limítrofe) e índice acetabular (Tönnis) de {angulo_tonnis}° (referência: até 10°).

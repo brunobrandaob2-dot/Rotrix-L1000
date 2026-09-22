@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura do planalto tibial | fratura do planalto | fratura do plato tibial
+Fratura do planalto tibial {planalto|lateral/medial/bicondilar}, com afundamento articular de {afundamento}, Schatzker {schatzker|I/II/III/IV/V/VI}.

@@ -1,0 +1,28 @@
+# gatilhos: tomografia de joelho com gonartrose | tc de joelho com gonartrose | tc joelho gonartrose | tomografia de joelho com artrose | tc de joelho com artrose | tc joelho artrose
+# categoria: msk
+# modalidade: tc
+# regiao: joelho
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  {eixo|sem desvio axial significativo/com desvio em varo/com desvio em valgo}, considerando o decúbito. Não há luxação ou subluxação.
+Espaço femorotibial medial:  espaço articular {grau_medial|preservado/discretamente reduzido/moderadamente reduzido/acentuadamente reduzido}, com esclerose subcondral, osteófitos marginais e cistos subcondrais.
+Espaço femorotibial lateral:  espaço articular {grau_lateral|preservado/discretamente reduzido/moderadamente reduzido/acentuadamente reduzido}, com esclerose subcondral e osteófitos marginais.
+Articulação femoropatelar:  espaço articular {grau_fp|preservado/discretamente reduzido/moderadamente reduzido/acentuadamente reduzido}, com osteófitos nos polos patelares e nas margens da tróclea femoral.
+Fêmur distal:  côndilos femorais de contornos regulares e densidade habitual, sem traços de fratura.
+Tíbia e fíbula proximais:  planaltos tibiais regulares, sem afundamentos ou traços de fratura. Articulação tibiofibular proximal sem particularidades.
+Patela:  de altura e centragem habituais, contornos regulares, sem traços de fratura.
+Recesso suprapatelar:  {derrame|sem distensão líquida significativa/pequena distensão líquida, compatível com derrame articular}.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  sem particularidades. Não há coleções ou calcificações periarticulares.
+Estruturas capsuloligamentares e meniscais:  avaliação limitada pelo método.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Gonartrose {grau|leve/moderada/acentuada}, com acometimento {compart|femorotibial medial/femorotibial lateral/femoropatelar/tricompartimental}.

@@ -1,0 +1,17 @@
+# gatilhos: angiotomografia de aorta normal | angio de aorta normal | angiotc aorta normal | pesquisa de disseccao normal
+ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA TORÁCICA E ABDOMINAL
+
+TÉCNICA: aquisição volumétrica sem contraste e após injeção endovenosa de contraste iodado em fase arterial sincronizada com ECG, do ápice pulmonar à sínfise púbica, com reconstruções multiplanares, MIP e tridimensionais.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Série sem contraste sem evidências de hematoma intramural, de deslocamento interno de calcificação intimal ou de coleção hemática mediastinal, pleural ou pericárdica.
+Aorta de calibre preservado nos segmentos avaliados, com luz única, contornos regulares e opacificação homogênea. Ausência de flap intimal, de luz falsa, de úlcera penetrante ou de pseudoaneurisma.
+Calibres: raiz aórtica ___ mm; aorta ascendente ___ mm; arco ___ mm; descendente proximal ___ mm; descendente ao nível do diafragma ___ mm; aorta abdominal suprarrenal ___ mm; infrarrenal ___ mm.
+Origem e trajeto habituais do tronco braquiocefálico, da carótida comum esquerda e da subclávia esquerda, pérvios.
+Tronco celíaco, artéria mesentérica superior, artérias renais e artérias ilíacas com origem habitual e pérvios, sem estenoses hemodinamicamente significativas.
+Ausência de derrame pericárdico ou pleural. Mediastino sem alargamento ou densificação.
+
+CONCLUSÃO:
+Estudo angiotomográfico da aorta sem sinais de dissecção, de hematoma intramural, de úlcera penetrante ou de aneurisma.

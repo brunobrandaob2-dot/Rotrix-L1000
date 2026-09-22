@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: alargamento paravertebral | linha paravertebral alargada | hematoma paravertebral
+Alargamento das linhas paravertebrais em {nivel}, podendo corresponder a hematoma no contexto de trauma.

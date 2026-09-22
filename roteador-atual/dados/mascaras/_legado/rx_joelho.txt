@@ -1,0 +1,17 @@
+# gatilhos: raio x de joelho | rx de joelho | radiografia de joelho | rx joelho com artrose | raio x de joelho ap e perfil | rx joelho gonartrose
+RADIOGRAFIA DO JOELHO {lado|direito/esquerdo}
+
+TÉCNICA: incidências ântero-posterior, em ortostase, e perfil.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Alinhamento: eixo femorotibial preservado / com desvio em varo / valgo. Ausência de luxações.
+Espaço femorotibial: redução do espaço articular femorotibial ___ (medial / lateral), com esclerose subcondral e osteófitos marginais nos platôs tibiais e nos côndilos femorais.
+Articulação femoropatelar: redução do espaço femoropatelar, com osteófitos nos polos patelares. Patela de altura e centragem ___ (habituais / alteradas).
+Estruturas ósseas: densidade óssea preservada, sem sinais de fratura, lesão focal ou colapso subcondral evidentes ao método.
+Partes moles: sem derrame articular significativo / distensão do recesso suprapatelar, sugestiva de derrame articular. Ausência de corpos livres calcificados.
+
+CONCLUSÃO:
+1. Gonartrose {lado_a|à direita/à esquerda}, com acometimento femorotibial ___ e femoropatelar, correspondendo ao grau ___ da classificação de Kellgren-Lawrence (escala de 0 a 4).
+2. A radiografia simples não avalia meniscos, ligamentos nem cartilagem; se houver indicação clínica, considerar ressonância magnética.

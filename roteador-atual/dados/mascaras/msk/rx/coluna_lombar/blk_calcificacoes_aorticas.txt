@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: calcificacoes aorticas | ateromatose aortica | aorta calcificada | ateromatose
+Calcificações ateromatosas na aorta abdominal.

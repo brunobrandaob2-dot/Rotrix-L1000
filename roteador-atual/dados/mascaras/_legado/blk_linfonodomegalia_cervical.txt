@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cadeias linfonodais
+# gatilhos: linfonodomegalia cervical | linfonodomegalias cervicais | linfonodos cervicais aumentados | adenomegalia cervical
+# conclusao: Linfonodomegalia cervical no nível ___ {lado_a|à direita/à esquerda}, o maior linfonodo medindo {tamanho} no menor eixo, cuja natureza não é determinável apenas pelo método; recomendada correlação clínica e seguimento.
+Cadeias linfonodais: linfonodos aumentados no nível ___ {lado_a|à direita/à esquerda}, o maior medindo {tamanho} no menor eixo, de contornos regulares e realce homogêneo, sem hipoatenuação central, coalescência ou densificação da gordura adjacente; nos demais níveis (I a VI), linfonodos de dimensões e morfologia preservadas.

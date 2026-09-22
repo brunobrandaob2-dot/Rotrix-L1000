@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: osteossintese | material de sintese | osteossintese da tibia | placa na tibia
+Material de osteossíntese na tíbia proximal ({material|placa e parafusos/parafusos isolados}), sem sinais de soltura, com foco de fratura {consolidacao|em consolidação/consolidado/sem sinais de consolidação}.

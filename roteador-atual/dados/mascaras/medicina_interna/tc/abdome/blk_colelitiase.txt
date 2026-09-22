@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Loja vesicular
+# gatilhos: colelitiase | calculos na vesicula | calculo na vesicula | litiase vesicular
+# conclusao: Colelitíase, sem sinais tomográficos de colecistite aguda.
+Loja vesicular:  vesícula biliar normodistendida, de paredes finas, com cálculos no seu interior, o maior medindo {tamanho}. Não há espessamento parietal ou densificação da gordura pericolecística.

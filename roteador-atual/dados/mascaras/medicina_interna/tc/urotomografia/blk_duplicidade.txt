@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vias excretoras
+# gatilhos: duplicidade pielocalicinal | duplicidade ureteral | ureter duplo | sistema coletor duplo
+# conclusao: Duplicidade {tipo_duplicidade|pielocalicinal/ureteral incompleta/ureteral completa} {lado_a|à direita/à esquerda}, variante anatômica.
+Vias excretoras:  duplicidade {tipo_duplicidade|pielocalicinal/ureteral incompleta/ureteral completa} {lado_a|à direita/à esquerda}, sem dilatação. Opacificação completa e simétrica na fase excretora, sem falhas de enchimento.

@@ -1,0 +1,27 @@
+# tipo: frases
+## gatilhos: raio x de cranio nao exclui lesao intracraniana | limitacao da radiografia de cranio
+A radiografia não avalia o conteúdo intracraniano.
+## gatilhos: raio x de cranio sugere tomografia | radiografia de cranio recomenda tomografia
+Tomografia do crânio a critério clínico.
+## gatilhos: raio x de cranio sem fratura | radiografia de cranio sem traco de fratura
+Não há sinais de fraturas na calota craniana.
+## gatilhos: raio x de cranio fratura com afundamento | radiografia de cranio afundamento
+Traço de fratura no osso {osso|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, com afundamento.
+## gatilhos: raio x de cranio sulcos vasculares proeminentes | radiografia de cranio impressoes vasculares
+Impressões vasculares proeminentes, de aspecto habitual.
+## gatilhos: raio x de cranio calcificacao da pineal | radiografia de cranio pineal calcificada
+Calcificação fisiológica da pineal, em posição mediana.
+## gatilhos: raio x de cranio hiperostose frontal | radiografia de cranio hiperostose
+Hiperostose frontal interna.
+## gatilhos: raio x de cranio lesao litica | radiografia de cranio lesao litica unica
+Lesão lítica no osso {osso|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, medindo {tamanho}, a esclarecer.
+## gatilhos: raio x de cranio lesoes em saca bocado | radiografia de cranio saca bocado
+Múltiplas lesões líticas em saca-bocado na calota craniana.
+## gatilhos: raio x de cranio osteopenia | radiografia de cranio rarefacao ossea
+Redução difusa da densidade óssea da calota craniana.
+## gatilhos: raio x de cranio sela turcica normal | radiografia de cranio sela normal
+Sela túrcica de dimensões e contornos normais.
+## gatilhos: raio x de cranio suturas abertas | radiografia de cranio suturas pervias
+Suturas cranianas pérvias, habituais para a faixa etária.
+## gatilhos: raio x de cranio aumento de partes moles | radiografia de cranio hematoma epicraniano
+Aumento de partes moles epicranianas na região {regiao_partes_moles|frontal/parietal/temporal/occipital} {lado_f|direita/esquerda}.

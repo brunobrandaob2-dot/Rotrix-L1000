@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulação trapeziometacarpiana
+# gatilhos: rizartrose | artrose trapeziometacarpiana | artrose da base do polegar
+# conclusao: Rizartrose (Kellgren-Lawrence {kl|1/2/3/4}).
+Articulação trapeziometacarpiana:  redução {grau|leve/moderada/acentuada} do espaço articular, com osteófitos marginais e esclerose subcondral.

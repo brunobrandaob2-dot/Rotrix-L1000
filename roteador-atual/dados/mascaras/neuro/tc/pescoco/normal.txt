@@ -1,0 +1,32 @@
+# gatilhos: tomografia de pescoco | tomografia do pescoco | tc de pescoco | tc do pescoco | tomografia de pescoco normal | tc de pescoco normal | tc pescoco normal | tomografia de pescoco sem alteracoes | tomografia de pescoco com contraste | tc de pescoco com contraste | tomografia de pescoco sem contraste | tomografia de partes moles do pescoco | tomografia cervical de partes moles | tc de partes moles cervicais
+# categoria: neuro
+# modalidade: tc
+# regiao: pescoco
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DO PESCOÇO**
+
+**TÉCNICA:**  aquisição volumétrica da base do crânio à transição cervicotorácica, {contraste|sem/com} injeção intravenosa de contraste iodado, com reconstruções multiplanares.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Nasofaringe:  simétrica, com recessos faríngeos laterais preservados, sem espessamentos parietais ou lesões expansivas.
+Orofaringe:  tonsilas palatinas simétricas e de dimensões habituais. Base da língua e valéculas sem particularidades.
+Hipofaringe e laringe:  seios piriformes livres. Pregas vocais simétricas, espaços paraglóticos e pré-epiglótico preservados. Cartilagens laríngeas sem particularidades.
+Espaços parafaríngeos:  gordura preservada e simétrica.
+Espaços mastigatórios:  musculatura mastigatória simétrica, sem coleções ou densificação.
+Espaço retrofaríngeo e pré-vertebral:  de espessura normal, sem coleções ou densificação.
+Glândulas parótidas:  tópicas, simétricas, de dimensões e densidade habituais, sem nódulos.
+Glândulas submandibulares:  tópicas, simétricas, de dimensões e realce habituais, sem cálculos ou dilatação ductal.
+Tireoide:  tópica, de dimensões e densidade habituais, sem nódulos identificáveis ao método.
+Linfonodos cervicais:  sem linfonodomegalias nos níveis I a VI, bilateralmente.
+Vasos cervicais:  artérias carótidas e veias jugulares internas pérvias e de calibre habitual.
+Traqueia:  centrada, de calibre e trajeto normais.
+Planos gordurosos e partes moles:  preservados, sem coleções, gás ou densificação.
+Estruturas ósseas:  sem lesões líticas ou blásticas.
+Ápices pulmonares:  sem particularidades nos segmentos incluídos no estudo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

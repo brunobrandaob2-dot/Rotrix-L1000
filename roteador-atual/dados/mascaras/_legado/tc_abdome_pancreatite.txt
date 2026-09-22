@@ -1,0 +1,19 @@
+# gatilhos: abdome com pancreatite | pancreatite aguda | pancreatite edematosa
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Pâncreas: aumento difuso das dimensões, com contornos borrados e realce parenquimatoso homogêneo e preservado em toda a glândula. Densificação da gordura peripancreática e espessamento da fáscia pararrenal anterior {lado_a|à direita/à esquerda/bilateralmente}. Ausência de áreas de não realce que caracterizem necrose. Sem dilatação do ducto pancreático principal.
+Coleções: lâmina líquida peripancreática sem parede definida, compatível com coleção líquida aguda peripancreática.
+Vias biliares: sem dilatação. Vesícula biliar com / sem cálculos.
+Fígado, baço e adrenais sem alterações significativas.
+Vasos: eixo esplenoportal pérvio, sem trombose.
+Peritônio: líquido livre de pequeno volume.
+
+CONCLUSÃO:
+1. **Pancreatite aguda intersticial edematosa**, sem sinais de necrose parenquimatosa (CTSI ___).
+2. Coleção líquida aguda peripancreática.
+3. Ausência de trombose do eixo esplenoportal ou de pseudoaneurisma no presente estudo.

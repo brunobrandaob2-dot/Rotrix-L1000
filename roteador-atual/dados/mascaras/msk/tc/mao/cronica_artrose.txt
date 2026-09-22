@@ -1,0 +1,26 @@
+# gatilhos: tomografia de mao com artrose | tomografia da mao com artrose | tc de mao com artrose | tc da mao com artrose | tc mao artrose | tomografia de mao com artrose interfalangiana | tc de mao com artrose interfalangiana | tomografia de mao com nodulos de heberden | tc de mao com nodulos de heberden | tomografia de mao com artrose nas maos | tc de mao com artrose nas maos
+# categoria: msk
+# modalidade: tc
+# regiao: mao
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA MÃO {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações carpometacarpais, metacarpofalangianas e interfalangianas preservadas, sem luxações ou subluxações.
+Ossos do carpo:  de morfologia e contornos preservados, sem traços de fratura.
+Metacarpos:  de morfologia e contornos preservados, sem traços de fratura ou lesões focais.
+Falanges:  de morfologia e contornos preservados, sem traços de fratura ou lesões focais.
+Articulação trapeziometacarpiana:  {tmc|espaço articular preservado/redução do espaço articular, com osteófitos marginais e esclerose subcondral (rizartrose)}.
+Articulações metacarpofalangianas:  espaços articulares preservados, sem erosões ou osteófitos.
+Articulações interfalangianas:  redução dos espaços articulares, com osteófitos marginais e esclerose subcondral, predominando nas interfalangianas {ifs|distais (nódulos de Heberden)/proximais (nódulos de Bouchard)/proximais e distais}. {erosoes|Não há erosões/Erosões centrais subcondrais, com aspecto em asa de gaivota}.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções, calcificações ou corpos estranhos radiodensos, considerando os limites do método para avaliação tendínea e ligamentar.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artrose interfalangiana (Kellgren-Lawrence {kl|1/2/3/4}).

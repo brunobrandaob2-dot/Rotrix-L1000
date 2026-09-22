@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: anterolistese | espondilolistese | listese
+# conclusao: Anterolistese de {nivel}, de aspecto degenerativo.
+Alinhamento:  anterolistese de {nivel} sobre o nível subjacente, medindo {tamanho}, de aspecto degenerativo, associada a artrose interapofisária.

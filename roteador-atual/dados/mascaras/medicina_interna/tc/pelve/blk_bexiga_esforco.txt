@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Bexiga
+# gatilhos: bexiga de esforco | bexiga de luta | bexiga trabeculada | trabeculacao vesical | diverticulos vesicais pequenos
+# conclusao: Sinais sugestivos de bexiga de esforço, caracterizados por trabeculação parietal difusa e múltiplos pequenos divertículos.
+Bexiga:  paredes com irregularidades e aspecto trabeculado, associadas a pequenos divertículos, sugerindo bexiga de esforço.

@@ -1,0 +1,26 @@
+# gatilhos: tomografia de ombro com protese | tomografia do ombro com protese | tc de ombro com protese | tc do ombro com protese | tc ombro protese | tomografia de ombro com artroplastia | tc de ombro com artroplastia | tomografia de ombro com protese reversa | tc de ombro com protese reversa
+# categoria: msk
+# modalidade: tc
+# regiao: ombro
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  componentes protéticos articulados, sem sinais de luxação.
+Úmero proximal:  componente umeral de artroplastia {tipo|anatômica total/reversa/parcial (hemiartroplastia)}, com haste {fixacao|cimentada/não cimentada}, em posição habitual, sem halo de radiolucência periprotético, fratura periprotética ou sinais de soltura evidentes.
+Glenoide e escápula:  {glenoide|componente glenoidal em posição habitual, sem halo de radiolucência ao redor dos elementos de fixação/glenoide nativa, com superfície articular preservada}. Acrômio e processo coracoide íntegros.
+Articulação glenoumeral:  substituída pela artroplastia. Não há coleções periprotéticas evidentes.
+Articulação acromioclavicular:  congruente, com espaço articular preservado e sem osteófitos significativos.
+Espaço acromioumeral:  preservado.
+Clavícula:  contornos corticais preservados, sem traços de fratura.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções ou ossificações heterotópicas significativas, considerando os artefatos metálicos, que limitam a avaliação das partes moles adjacentes.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artroplastia {tipo|anatômica total/reversa/parcial} do ombro, com componentes em posição habitual e sem sinais de soltura ou complicações evidentes ao método.

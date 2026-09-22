@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: micronodulos centrolobulares | arvore em brotamento | nodulos centrolobulares | padrao de arvore em brotamento | bronquiolite
+# conclusao: Micronódulos centrolobulares com padrão de árvore em brotamento, sugestivos de bronquiolite infecciosa/inflamatória; correlacionar com dados clínicos.
+Parênquima pulmonar:  micronódulos centrolobulares com padrão de árvore em brotamento, predominando no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, associados a espessamento parietal brônquico. Não há consolidações ou cavitações.

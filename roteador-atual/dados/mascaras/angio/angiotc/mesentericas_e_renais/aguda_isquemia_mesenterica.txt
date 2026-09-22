@@ -1,0 +1,30 @@
+# gatilhos: angio de mesentericas com isquemia mesenterica aguda | angio de mesentericas com oclusao da mesenterica superior | angiotomografia de mesentericas com isquemia mesenterica aguda | angio de mesentericas com embolia da mesenterica superior | angio de mesentericas com isquemia aguda | angio de mesentericas e renais com isquemia mesenterica | angio de mesentericas com trombose da mesenterica superior
+# categoria: angio
+# modalidade: angiotc
+# regiao: mesentericas_e_renais
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS {territorio|MESENTÉRICAS E RENAIS/MESENTÉRICAS/RENAIS}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fases arterial e portal, com reconstruções multiplanares, em projeção de intensidade máxima (MIP) e tridimensionais, direcionadas para a avaliação das artérias viscerais abdominais.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na aorta abdominal na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise dos ramos viscerais.
+Aorta abdominal:  trajeto e calibre habituais, sem dilatações, estenoses ou flap intimal.
+Tronco celíaco:  origem e trajeto habituais, pérvio, sem estenose ostial. Artérias hepática comum, esplênica e gástrica esquerda pérvias, com distribuição habitual.
+Artéria mesentérica superior:  falha de enchimento {oclusao_ams|oclusiva/suboclusiva} a ___ cm da origem, {ramos_proximais|poupando/acometendo} os primeiros ramos jejunais e a artéria cólica média, {padrao_ams|com interrupção abrupta, sem ateromatose significativa adjacente/sobre placa ateromatosa ostial}.
+Artéria mesentérica inferior:  pérvia, de calibre habitual.
+Artérias renais:  únicas bilateralmente, de origem e trajeto habituais, pérvias, sem estenoses, irregularidades parietais ou dilatações.
+Rins:  tópicos, de dimensões normais, com realce parenquimatoso simétrico e homogêneo.
+Sistema venoso:  veia porta, veia esplênica e veia mesentérica superior pérvias. {gas_portal|Sem gás no sistema portomesentérico/Gás no sistema portomesentérico}.
+Alças intestinais:  {parede_alcas|espessamento parietal/afinamento parietal} de alças {segmento_alcas|de jejuno/de íleo/de jejuno e íleo/do cólon direito}, com {realce_alcas|redução/ausência} do realce parietal, {pneumatose|sem/com} pneumatose intestinal.
+Demais estruturas abdominais:  líquido livre {liquido|ausente/em pequena quantidade/em moderada quantidade}. {pneumoperitonio|Sem pneumoperitônio/Pneumoperitônio}.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Falha de enchimento {oclusao_ams|oclusiva/suboclusiva} aguda da artéria mesentérica superior, {padrao_conclusao|podendo corresponder a evento embólico/sobre placa ateromatosa, podendo corresponder a trombose in situ}.
+Sinais de sofrimento isquêmico de alças {segmento_alcas|de jejuno/de íleo/de jejuno e íleo/do cólon direito}, {pneumatose|sem/com} pneumatose intestinal, compatíveis com isquemia mesentérica aguda.
+Resultado comunicado à equipe assistente em ___h___, ao(à) Dr(a). ___.

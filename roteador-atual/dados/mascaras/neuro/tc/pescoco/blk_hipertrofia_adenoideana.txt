@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Nasofaringe
+# gatilhos: hipertrofia adenoideana | adenoide aumentada | hipertrofia das adenoides | tecido adenoideano proeminente
+# conclusao: Hipertrofia do tecido adenoideano, com redução da coluna aérea da nasofaringe.
+Nasofaringe:  tecido adenoideano proeminente na parede posterossuperior, simétrico, de densidade homogênea, determinando {reducao|discreta/moderada/acentuada} redução da coluna aérea, sem sinais de infiltração profunda.

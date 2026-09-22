@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento articular
+# gatilhos: luxacao glenoumeral | luxacao | luxacao do ombro | ombro luxado
+# conclusao: Luxação glenoumeral {direcao|anterior/posterior/inferior}.
+Alinhamento articular:  luxação glenoumeral {direcao|anterior/posterior/inferior}, com a cabeça umeral em posição {posicao|subcoracoide/subglenoidal/posterior à glenoide}.

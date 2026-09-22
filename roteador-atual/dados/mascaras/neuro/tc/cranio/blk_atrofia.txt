@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cisternas da base e sulcos corticais
+# gatilhos: atrofia | atrofia encefalica | atrofia cortical | reducao volumetrica encefalica
+# conclusao: Redução volumétrica encefálica {grau_atrofia|compatível com a faixa etária/acentuada para a faixa etária}.
+Cisternas da base e sulcos corticais:  alargamento difuso dos sulcos corticais, das fissuras sylvianas e das cisternas da base, traduzindo redução volumétrica encefálica {grau_atrofia|compatível com a faixa etária/acentuada para a faixa etária}.

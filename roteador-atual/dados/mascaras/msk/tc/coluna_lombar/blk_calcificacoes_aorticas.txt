@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles paravertebrais
+# gatilhos: calcificacoes aorticas | ateromatose aortica | aorta calcificada | ateromatose
+# conclusao: Ateromatose aortoilíaca.
+Partes moles paravertebrais:  sem particularidades. Calcificações ateromatosas parietais na aorta abdominal e nas artérias ilíacas.

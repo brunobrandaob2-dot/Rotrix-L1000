@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tronco celíaco
+# gatilhos: ligamento arqueado | ligamento arqueado mediano | compressao do tronco celiaco
+# conclusao: Estreitamento proximal do tronco celíaco por compressão extrínseca pelo ligamento arqueado mediano, com redução luminal estimada em ___%.
+Tronco celíaco:  estreitamento focal da porção proximal, com angulação superior em aspecto de gancho, determinado por compressão extrínseca pelo ligamento arqueado mediano, com redução luminal estimada em ___% e {pos_estenotica|sem/com} dilatação pós-estenótica. Artérias hepática comum, esplênica e gástrica esquerda pérvias.

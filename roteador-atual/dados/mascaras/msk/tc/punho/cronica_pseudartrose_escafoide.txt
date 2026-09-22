@@ -1,0 +1,27 @@
+# gatilhos: tomografia de punho com pseudartrose do escafoide | tomografia do punho com pseudartrose do escafoide | tc de punho com pseudartrose do escafoide | tc do punho com pseudartrose do escafoide | tc punho pseudartrose do escafoide | tomografia de punho com pseudartrose | tc de punho com pseudartrose | tomografia de punho com escafoide nao consolidado | tc de punho com escafoide nao consolidado
+# categoria: msk
+# modalidade: tc
+# regiao: punho
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações radiocarpal e radioulnar distal preservadas. Semilunar {semilunar|em posição neutra/em extensão (padrão DISI)}.
+Rádio distal:  sem traços de fratura, com superfície articular congruente. Inclinação radial e inclinação volar preservadas.
+Ulna distal:  sem traços de fratura, com processo estiloide íntegro.
+Escafoide:  ausência de consolidação de fratura do terço {terco|proximal/médio (cintura)/distal} do escafoide, com esclerose e reabsorção das margens do foco, cistos adjacentes e afastamento de {tamanho} entre os fragmentos. Deformidade em flexão (humpback) {humpback|ausente/presente, com ângulo intraescafoide lateral de ___°}. Polo proximal {polo|de densidade habitual/com esclerose, que pode corresponder a necrose avascular}.
+Demais ossos do carpo:  de morfologia, contornos e densidade preservados, sem traços de fratura.
+Espaços articulares:  {snac|preservados/com alterações degenerativas em padrão SNAC estágio ___ (I: estiloide radial; II: radioescafoide; III: mediocarpal)}.
+Articulação trapeziometacarpiana:  espaço articular preservado, sem osteófitos.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções ou calcificações, considerando os limites do método para avaliação ligamentar, tendínea e da fibrocartilagem triangular.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Pseudartrose do terço {terco|proximal/médio/distal} do escafoide.
+A ressonância magnética é o método de escolha para avaliação da vitalidade do polo proximal, se houver indicação clínica.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vasos cervicais
+# gatilhos: ateromatose carotidea | placas carotideas | calcificacoes carotideas | ateromas | ateromas calcificados | ateromas calcificados esparsos | placas ateromatosas calcificadas | placas calcificadas
+# conclusao: Ateromatose carotídea — a graduação de estenose requer angiotomografia ou Doppler.
+Vasos cervicais:  artérias carótidas pérvias, com placas ateromatosas {placa|calcificadas/mistas} nos bulbos carotídeos {lado_a|à direita/à esquerda/bilateralmente}; a graduação de estenose não é adequada neste protocolo. Veias jugulares internas pérvias.

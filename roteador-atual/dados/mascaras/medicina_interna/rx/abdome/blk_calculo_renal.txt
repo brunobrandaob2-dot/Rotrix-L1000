@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há imagens cálcicas
+# gatilhos: calculo renal | litiase renal | calcificacao na loja renal | imagem calcica na loja renal
+Imagem cálcica projetada na loja renal {lado_f|direita/esquerda}, medindo {tamanho}, podendo corresponder a cálculo.

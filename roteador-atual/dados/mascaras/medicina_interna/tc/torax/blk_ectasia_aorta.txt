@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Aorta torácica
+# gatilhos: ectasia da aorta | ectasia aortica | ectasia da aorta ascendente | aorta ascendente dilatada | dilatacao da aorta | aorta ascendente ectasiada
+# conclusao: Ectasia da aorta ascendente, medindo {tamanho}.
+Aorta torácica:  ectasia da aorta ascendente, medindo {tamanho}.

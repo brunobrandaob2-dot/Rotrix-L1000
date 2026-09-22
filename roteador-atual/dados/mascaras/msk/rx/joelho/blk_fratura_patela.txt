@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura da patela | fratura patelar
+Fratura {traco|transversa/longitudinal/cominutiva/estrelada/do polo inferior} da patela, com afastamento dos fragmentos de {afastamento}.

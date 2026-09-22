@@ -1,0 +1,17 @@
+# gatilhos: raio x de torax com congestao | rx de torax com congestao | radiografia de torax com congestao pulmonar | rx torax congestao | raio x de torax com edema pulmonar | rx de torax com edema pulmonar | raio x de torax com insuficiencia cardiaca
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: torax
+# tipo_mascara: aguda
+**RADIOGRAFIA DO TÓRAX**
+
+**TÉCNICA:**  incidências posteroanterior e perfil, em ortostase.
+
+**ANÁLISE:**
+Opacidades intersticiais peri-hilares e basais, com linhas B de Kerley, compatíveis com edema intersticial.
+Velamento dos seios costofrênicos por derrame pleural {lado|bilateral/direito/esquerdo} de pequeno volume.
+Área cardíaca {area_cardiaca|aumentada (índice cardiotorácico > 0,5)/dentro dos limites da normalidade}.
+Mediastino centrado, de contornos regulares.
+Hilos pulmonares alargados, com cefalização da trama vascular, sugerindo congestão pulmonar.
+Cúpulas diafragmáticas de contornos regulares e posição habitual.
+Arcabouço ósseo sem alterações.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: nodulos pulmonares | nodulos solidos | nodulos pulmonares solidos | nodulos nao calcificados | multiplos nodulos | nodulos pulmonares solidos nao calcificados
+# conclusao: Nódulos pulmonares sólidos não calcificados, medindo até {tamanho} no {lobo} {lado|direito/esquerdo}.
+Parênquima pulmonar:  nódulos pulmonares sólidos não calcificados, o maior localizado no {lobo} {lado|direito/esquerdo}, medindo cerca de {tamanho}.

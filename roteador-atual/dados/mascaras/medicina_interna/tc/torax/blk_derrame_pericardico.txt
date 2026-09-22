@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Derrames
+# gatilhos: derrame pericardico | liquido pericardico | derrame no pericardio
+# conclusao: Derrame pericárdico de {volume|pequeno/moderado/grande} volume.
+Derrames:  ausência de derrame pleural. Derrame pericárdico de {volume|pequeno/moderado/grande} volume, com espessura máxima de {espessura}.

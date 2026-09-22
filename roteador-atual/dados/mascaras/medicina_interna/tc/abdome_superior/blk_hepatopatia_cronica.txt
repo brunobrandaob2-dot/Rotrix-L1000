@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Fígado
+# gatilhos: hepatopatia cronica | cirrose | figado cirrotico | sinais de cirrose
+# conclusao: Sinais de hepatopatia crônica.
+Fígado:  de dimensões reduzidas, contornos irregulares e lobulados, com hipertrofia do lobo caudado e do segmento lateral do lobo esquerdo e alargamento das fissuras hepáticas, compatível com hepatopatia crônica. Não há lesões focais caracterizáveis no protocolo utilizado.

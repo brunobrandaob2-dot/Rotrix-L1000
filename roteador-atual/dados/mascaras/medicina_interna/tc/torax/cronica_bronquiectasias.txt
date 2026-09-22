@@ -1,0 +1,26 @@
+# gatilhos: tomografia de torax com bronquiectasias | tc de torax com bronquiectasias | tc torax bronquiectasias | tomografia de torax com bronquiectasia | tc de torax com bronquiectasia
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multislice e reconstruções multiplanares, {contraste|sem/com/sem e com} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  sem consolidações ou nódulos suspeitos. {pequenas_vias|Não há sinais de doença de pequenas vias aéreas/Nódulos centrolobulares com padrão de árvore em brotamento adjacentes às bronquiectasias}.
+Traqueia e brônquios:  traqueia de calibre e trajeto normais. Bronquiectasias {morfologia|cilíndricas/varicosas/císticas}, com espessamento parietal, predominando {localizacao|nos lobos inferiores/nos lobos superiores/no lobo médio e na língula/difusamente}, com relação broncoarterial aumentada e ausência de afilamento brônquico periférico. {muco|Não há impactação mucoide/Impactação mucoide em alguns brônquios}.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais, com principais ramos preservados.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Cúpulas diafragmáticas:  morfologia e posição habituais.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Bronquiectasias {morfologia|cilíndricas/varicosas/císticas} com espessamento parietal brônquico, predominando {localizacao|nos lobos inferiores/nos lobos superiores/no lobo médio e na língula/difusamente}.
+Achado inespecífico quanto à etiologia; correlacionar com dados clínicos.

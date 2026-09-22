@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: litiase renal nao obstrutiva | calculos renais sem obstrucao | microcalculos renais
+# conclusao: Litíase renal não obstrutiva {lado_a|à direita/à esquerda}.
+Rins: tópicos, de contornos regulares e espessura parenquimatosa preservada, notando-se cálculo no grupamento calicinal ___ {lado|direito/esquerdo}, medindo {tamanho}, sem dilatação do sistema pielocalicinal a montante.

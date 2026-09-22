@@ -1,0 +1,75 @@
+# Termos que o WHISPER precisa ouvir certo. Com Whisper, o Handy manda só o
+# FIM da lista de vocabulário como "dica" (~70 termos). Estes vão para o fim.
+# Troque à vontade: um termo por linha, com acento. Depois rode APLICAR_ATUALIZACAO.
+fratura
+luxação
+osteófitos
+espondilose
+espondilolistese
+retrolistese
+anterolistese
+discopatia
+uncoartrose
+gonartrose
+coxartrose
+artrose
+subcondral
+esclerose
+osteopenia
+entesopatia
+tendinopatia calcária
+osteossíntese
+artroplastia
+derrame articular
+atelectasia
+atelectasias
+consolidação
+opacidade
+parênquima
+cardiomegalia
+derrame pleural
+pneumotórax
+enfisema
+bronquiectasias
+linfonodomegalia
+nódulo
+hipoatenuante
+hiperatenuante
+hipodenso
+hiperdenso
+realce
+esteatose
+colelitíase
+nefrolitíase
+ureterolitíase
+hidronefrose
+diverticulose
+apendicite
+leucoaraiose
+microangiopatia
+gliose
+hematoma
+subdural
+subaracnóidea
+sinusopatia
+espessamento mucoso
+mastoides
+aorta
+aórtica
+ateromatose
+ateromas
+calcificados
+calcificações
+ateromatosas
+estenose
+ectasia
+aneurisma
+dissecção
+carótidas
+vertebrais
+ilíacas
+forames
+neuroforames
+cavum
+adenoideano
+rinofaringe

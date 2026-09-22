@@ -1,0 +1,34 @@
+# gatilhos: tomografia de abdome com diverticulite complicada | tc de abdome com diverticulite complicada | tc abdome diverticulite complicada | tomografia de abdome total com diverticulite complicada | tc de abdome total com diverticulite complicada | tomografia do abdome com diverticulite complicada | tomografia de abdome com diverticulite com abscesso | tc de abdome com diverticulite com abscesso | tc abdome diverticulite com abscesso | tomografia de abdome com diverticulite perfurada | tc de abdome com diverticulite perfurada | tc abdome diverticulite perfurada | tomografia de abdome com diverticulite aguda complicada
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  divertículos colônicos, com espessamento parietal segmentar do cólon {colon|sigmoide/descendente}, acentuada densificação da gordura pericólica e focos de gás extraluminal adjacentes ao segmento acometido.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  coleção organizada {localizacao_colecao|pericólica/pélvica/à distância}, com paredes espessas e realce periférico, medindo {tamanho}. {pneumoperitonio|Não há/Há} pneumoperitônio livre. {liquido|Ausência de líquido livre difuso/Líquido livre difuso na cavidade peritoneal}.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Diverticulite aguda complicada do cólon {colon|sigmoide/descendente}, com abscesso {localizacao_colecao|pericólico/pélvico/à distância} medindo {tamanho} (Hinchey modificada {hinchey|Ib/II/III/IV}).
+Recomenda-se avaliação colonoscópica após a resolução do quadro agudo, a critério clínico.

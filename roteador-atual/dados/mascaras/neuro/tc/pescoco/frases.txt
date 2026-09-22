@@ -1,0 +1,39 @@
+# tipo: frases
+## gatilhos: nodulo tireoidiano incidental no pescoco | nodulo tireoidiano incidental
+Nódulo tireoidiano incidental no lobo {lado|direito/esquerdo}, medindo {tamanho}. Pelos critérios do ACR para nódulos incidentais, recomenda-se ultrassonografia se ≥ 1,5 cm (≥ 1,0 cm em pacientes com menos de 35 anos) ou se houver características suspeitas.
+## gatilhos: linfonodo cervical necrotico | linfonodo cervical com necrose
+Linfonodo com hipoatenuação central (necrose) no nível {nivel} {lado_a|à direita/à esquerda}, medindo {tamanho} no menor eixo, achado suspeito — correlacionar com o contexto clínico e considerar investigação dirigida.
+## gatilhos: sem linfonodomegalias cervicais | linfonodos cervicais sem alteracoes
+Linfonodos cervicais de dimensões e morfologia preservadas nos níveis I a VI, bilateralmente.
+## gatilhos: criterio de linfonodomegalia cervical | linfonodo cervical criterio de tamanho
+Critério dimensional adotado: menor eixo > 1,5 cm nos níveis I e II e > 1,0 cm nos demais níveis.
+## gatilhos: cisto do ducto tireoglosso | cisto tireoglosso
+Formação cística na linha média {relacao_hioide|supra-hióidea/no nível do osso hioide/infra-hióidea}, medindo {tamanho}, de paredes finas e sem realce significativo, compatível com cisto do ducto tireoglosso.
+## gatilhos: cisto branquial cervical | cisto de segunda fenda branquial
+Formação cística junto à margem anterior do músculo esternocleidomastóideo {lado_a|à direita/à esquerda}, posterior à glândula submandibular, medindo {tamanho}, podendo corresponder a cisto da segunda fenda branquial; em adultos, considerar diagnóstico diferencial com linfonodo metastático cístico.
+## gatilhos: sialoadenite submandibular | submandibular aumentada e densificada
+Glândula submandibular {lado_f|direita/esquerda} aumentada, com realce acentuado e densificação da gordura adjacente, compatível com sialoadenite.
+## gatilhos: sialolitiase parotidea | calculo na parotida
+Cálculo no {local_parotida|ducto parotídeo (de Stensen)/parênquima} da glândula parótida {lado_f|direita/esquerda}, medindo {tamanho}, {dilatacao|sem/com} dilatação ductal a montante.
+## gatilhos: laringocele cervical | laringocele
+Dilatação sacular do ventrículo laríngeo {lado|direito/esquerdo}, com conteúdo {conteudo|aéreo/líquido}, {tipo_laringocele|restrita ao espaço paraglótico (interna)/estendendo-se através da membrana tíreo-hióidea (mista)}, compatível com laringocele.
+## gatilhos: paralisia de prega vocal | prega vocal paralisada
+Sinais de paralisia da prega vocal {lado_f|direita/esquerda}: medialização da prega ariepiglótica e dilatação do seio piriforme e do ventrículo laríngeo ipsilaterais — avaliar o trajeto do nervo laríngeo recorrente.
+## gatilhos: bocio mergulhante cervical | tireoide mergulhante
+Extensão mergulhante da tireoide para o mediastino superior, com componente retroesternal medindo {tamanho}.
+## gatilhos: loja tireoidiana apos tireoidectomia | tireoidectomia no pescoco
+Status pós-tireoidectomia {tireoidectomia|total/parcial}, sem lesões expansivas ou coleções na loja tireoidiana.
+## gatilhos: edema retrofaringeo sem colecao | edema retrofaringeo
+Líquido no espaço retrofaríngeo, sem realce periférico ou efeito de massa, sem configurar coleção organizada.
+## gatilhos: tendinite calcificada do longo do pescoco | tendinite do longus colli
+Calcificação amorfa anterior a C1–C2, no tendão do músculo longo do pescoço, associada a líquido retrofaríngeo sem realce periférico, compatível com tendinite calcificada aguda do longo do pescoço (diagnóstico diferencial de abscesso retrofaríngeo).
+## gatilhos: trombose da veia jugular interna | tromboflebite da jugular
+Falha de enchimento na veia jugular interna {lado_f|direita/esquerda}, com densificação da gordura adjacente, compatível com trombose/tromboflebite.
+## gatilhos: enfisema de partes moles cervical | gas nas partes moles do pescoco
+Enfisema de partes moles cervical {lado_a|à direita/à esquerda/bilateralmente}, dissecando os planos {planos|subcutâneos/musculares/profundos}.
+## gatilhos: corpo estranho no pescoco | espinha de peixe na faringe
+Imagem linear hiperdensa na {local_corpo_estranho|valécula/hipofaringe/transição faringoesofágica}, medindo {tamanho}, podendo corresponder a corpo estranho.
+## gatilhos: ranula no pescoco | ranula mergulhante
+Formação cística no espaço sublingual {lado|direito/esquerdo}, {ranula|restrita a ele/estendendo-se ao espaço submandibular}, medindo {tamanho}, compatível com rânula.
+## gatilhos: lesao expansiva na laringe | espessamento da parede da hipofaringe
+Espessamento parietal/lesão expansiva na {local_lesao|supraglote/glote/subglote/hipofaringe} {lado_a|à direita/à esquerda}, medindo {tamanho}, de natureza indeterminada — recomenda-se avaliação endoscópica.

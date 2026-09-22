@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas
+# gatilhos: protese articular | artroplastia | protese total de quadril | protese de joelho
+# conclusao: Artroplastia {lado_a|à direita/à esquerda}, com componentes em posição habitual e sem sinais de soltura evidentes ao método.
+Estruturas ósseas: componentes protéticos de artroplastia ___ (total / parcial) {lado|direito/esquerdo}, em posição e alinhamento habituais, sem halo de radiolucência periprotético, migração, fratura periprotética ou sinais de soltura evidentes ao método. Ausência de ossificações heterotópicas significativas.

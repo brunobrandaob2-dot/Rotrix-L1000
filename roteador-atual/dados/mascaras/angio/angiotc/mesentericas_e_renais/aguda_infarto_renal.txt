@@ -1,0 +1,30 @@
+# gatilhos: angio de renais com infarto renal | angio de arterias renais com infarto renal | angio de mesentericas e renais com infarto renal | angio de renais com oclusao de arteria renal | angio renal com infarto | angiotomografia de arterias renais com infarto renal | angio renal com embolia
+# categoria: angio
+# modalidade: angiotc
+# regiao: mesentericas_e_renais
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS {territorio|MESENTÉRICAS E RENAIS/MESENTÉRICAS/RENAIS}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fases arterial e portal, com reconstruções multiplanares, em projeção de intensidade máxima (MIP) e tridimensionais, direcionadas para a avaliação das artérias viscerais abdominais.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na aorta abdominal na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise dos ramos viscerais.
+Aorta abdominal:  trajeto e calibre habituais, sem dilatações, estenoses ou flap intimal.
+Tronco celíaco:  origem e trajeto habituais, pérvio, sem estenose ostial. Artérias hepática comum, esplênica e gástrica esquerda pérvias, com distribuição habitual.
+Artéria mesentérica superior:  origem e trajeto habituais, pérvia, com ramos jejunais, ileais e cólicos opacificados.
+Artéria mesentérica inferior:  pérvia, de calibre habitual.
+Artérias renais:  {oclusao_renal|oclusão da artéria renal principal/falha de enchimento em ramo segmentar da artéria renal} {lado_f|direita/esquerda}. Artéria renal contralateral {contralateral|pérvia, sem estenoses significativas/com ___}.
+Rins:  {area_infarto|área cuneiforme/áreas cuneiformes} hipoatenuante(s) sem realce no rim {lado|direito/esquerdo}, de base cortical, acometendo o {polo_renal|polo superior/terço médio/polo inferior/rim de forma difusa}, com {cortical_rim|preservação/ausência} do realce cortical periférico (sinal do anel cortical). Rim contralateral com realce habitual.
+Sistema venoso:  veia porta, veia esplênica, veia mesentérica superior e veias renais pérvias.
+Alças intestinais:  distribuição habitual, sem espessamento parietal, alterações do realce ou pneumatose, no protocolo utilizado.
+Demais estruturas abdominais:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Infarto renal {lado|direito/esquerdo}, por {oclusao_renal|oclusão da artéria renal principal/falha de enchimento em ramo segmentar da artéria renal} {lado_f|direita/esquerda}.
+Sugere-se pesquisa de fonte emboligênica, a critério clínico.
+Resultado comunicado à equipe assistente em ___h___, ao(à) Dr(a). ___.

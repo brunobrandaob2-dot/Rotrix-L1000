@@ -1,0 +1,26 @@
+# gatilhos: angio de cranio e pescoco com disseccao carotidea | angiotomografia de cranio e pescoco com disseccao carotidea | angio tc de cranio e pescoco com disseccao carotidea | angio de cranio e pescoco com dissecao carotidea | angio de cranio e pescoco com disseccao da carotida
+# categoria: neuro
+# modalidade: angiotc
+# regiao: cranio_e_pescoco
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL DE VASOS CERVICAIS E INTRACRANIANOS**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação do sistema arterial cervical e intracraniano.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Artérias carótidas comuns:  trajeto e calibre anatômicos, paredes lisas e opacificação homogênea, sem sinais de estenoses ou oclusões.
+Bulbos carotídeos e bifurcações:  pérvios, sem placas ateromatosas significativas.
+Artérias carótidas internas:  afilamento luminal {afilamento|excêntrico/cônico/filiforme} no segmento cervical da artéria carótida interna {lado_f|direita/esquerda}, iniciando-se cerca de {distancia_bulbo} acima do bulbo e estendendo-se por {tamanho}, com espessamento parietal em crescente, compatível com hematoma intramural. Flap intimal: {flap|não identificado/presente}. Pseudoaneurisma dissecante: {pseudoaneurisma|ausente/presente, medindo ___}. Segmentos petrosos, cavernosos e cerebrais pérvios. Artéria carótida interna contralateral sem alterações.
+Artérias carótidas externas e seus principais ramos:  patência mantida e trajeto habitual.
+Artérias vertebrais:  pérvias, com calibre e trajeto anatômicos em todos os segmentos, terminando na formação da artéria basilar.
+Artéria basilar:  calibre e fluxo anatômicos, sem tortuosidades anômalas ou ectasias.
+Artérias cerebrais anteriores, médias e posteriores:  pérvias, com opacificação simétrica, trajeto habitual e sem áreas de estenose, espasmo ou oclusão vascular.
+Artérias comunicantes anterior e posteriores:  patência anatômica dentro dos limites da resolução do método.
+Polígono de Willis:  conformação anatômica pérvia, sem evidência de dilatações aneurismáticas ou malformações vasculares.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sinais de dissecção do segmento cervical da artéria carótida interna {lado_f|direita/esquerda}, com {reducao|redução luminal leve/redução luminal moderada/redução luminal acentuada/oclusão}.

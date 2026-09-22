@@ -1,0 +1,17 @@
+# gatilhos: raio x de torax do idoso | rx de torax do idoso | radiografia de torax do idoso | rx torax idoso | raio x de torax com alteracoes da idade | rx de torax com alteracoes da idade | rx de torax com alteracoes cronicas | radiografia de torax com alteracoes cronicas
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: torax
+# tipo_mascara: cronica
+**RADIOGRAFIA DO TÓRAX**
+
+**TÉCNICA:**  incidências posteroanterior e perfil, em ortostase.
+
+**ANÁLISE:**
+Acentuação difusa da trama broncovascular, de aspecto crônico.
+Seios costofrênicos livres.
+Área cardíaca dentro dos limites da normalidade.
+Mediastino centrado, com aorta alongada e calcificações parietais no botão aórtico.
+Hilos pulmonares de aspecto habitual.
+Cúpulas diafragmáticas de contornos regulares e posição habitual.
+Alterações degenerativas da coluna torácica, com osteófitos marginais.

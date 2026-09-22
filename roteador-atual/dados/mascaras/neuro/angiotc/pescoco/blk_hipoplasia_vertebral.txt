@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias vertebrais
+# gatilhos: hipoplasia vertebral | vertebral hipoplasica | dominancia vertebral | assimetria das vertebrais
+# conclusao: Hipoplasia da artéria vertebral {lado_f|direita/esquerda}, variante anatômica.
+Artérias vertebrais:  pérvias, com assimetria de calibre, sendo a artéria vertebral {lado_f|direita/esquerda} hipoplásica (diâmetro de {tamanho}), com trajeto anatômico, e a contralateral dominante. Sem estenoses ou irregularidades parietais.

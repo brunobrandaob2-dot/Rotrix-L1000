@@ -1,0 +1,35 @@
+# gatilhos: tomografia de abdome com doenca renal cronica | tc de abdome com doenca renal cronica | tc abdome doenca renal cronica | tomografia de abdome total com doenca renal cronica | tc de abdome total com doenca renal cronica | tomografia do abdome com doenca renal cronica | tomografia de abdome com nefropatia cronica | tc de abdome com nefropatia cronica | tc abdome nefropatia cronica | tomografia de abdome com rins cronicos | tc de abdome com rins cronicos | tc abdome rins cronicos | tomografia de abdome com rins atroficos | tc de abdome com rins atroficos | tc abdome rins atroficos | tomografia de abdome com drc | tc de abdome com drc
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de dimensões reduzidas (rim direito com {medida_rim_direito} e rim esquerdo com {medida_rim_esquerdo} no eixo longitudinal; referência habitual de 9,0 a 12,0 cm), contornos irregulares e adelgaçamento difuso do parênquima. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  sem particularidades no protocolo utilizado.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta de calibre normal, com ateromatose calcificada parietal, estendendo-se aos óstios das artérias renais. Veia cava inferior de calibre normal.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Rins de dimensões reduzidas, com adelgaçamento difuso do parênquima, compatíveis com nefropatia crônica.
+Ateromatose calcificada da aorta abdominal.
+Correlacionar com a função renal e com exames anteriores.

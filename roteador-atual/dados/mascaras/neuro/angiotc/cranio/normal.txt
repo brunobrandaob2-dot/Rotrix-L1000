@@ -1,0 +1,23 @@
+# gatilhos: angiotomografia de cranio | angio de cranio | angio tc de cranio | angiotomografia intracraniana | angio intracraniana | angio tc intracraniana | angiotomografia arterial intracraniana | angiotomografia intracraniana normal | angio intracraniana normal | angio tc intracraniana normal | angio do poligono de willis | angiotomografia do poligono de willis | angio do poligono de willis normal | angio arterial intracraniana | angiotomografia intracraniana sem alteracoes
+# categoria: neuro
+# modalidade: angiotc
+# regiao: cranio
+# tipo_mascara: normal
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL INTRACRANIANA**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação do sistema arterial intracraniano.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Artérias carótidas internas:  segmentos petrosos, cavernosos e supraclinóideos pérvios, com calibre preservado, simétricos, sem ectasias, estenoses ou aneurismas.
+Artérias vertebrais:  segmentos intracranianos (V4) pérvios, com calibre e trajeto anatômicos, terminando na formação da artéria basilar.
+Artéria basilar:  calibre e fluxo anatômicos, sem tortuosidades anômalas ou ectasias.
+Artérias cerebrais anteriores, médias e posteriores:  pérvias, com opacificação simétrica, trajeto habitual e sem áreas de estenose, espasmo ou oclusão vascular.
+Artérias comunicantes anterior e posteriores:  patência anatômica dentro dos limites da resolução do método.
+Polígono de Willis:  conformação anatômica pérvia, sem evidência de dilatações aneurismáticas ou malformações vasculares.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Angiotomografia arterial intracraniana sem alterações significativas.

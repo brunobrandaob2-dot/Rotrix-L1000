@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulação tibiotalar
+# gatilhos: artrose | artrose tibiotalar | artrose do tornozelo | degenerativo tibiotalar
+# conclusao: Artrose tibiotalar.
+Articulação tibiotalar:  redução do espaço articular, com osteófitos marginais e esclerose subcondral.

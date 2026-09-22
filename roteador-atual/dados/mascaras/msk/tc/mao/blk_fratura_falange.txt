@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Falanges
+# gatilhos: fratura da falange | fratura | fratura de falange | fratura do dedo
+# conclusao: Fratura da falange {falange} do {dedo} dedo.
+Falanges:  fratura {local|da base/da diáfise/do colo/da cabeça/do tufo} da falange {falange} do {dedo} dedo, com desvio de {tamanho}. {articular|Sem/Com} extensão à superfície articular.

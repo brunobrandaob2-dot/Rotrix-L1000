@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: lesoes osseas | lesoes osseas mistas | lesoes blasticas | lesoes liticas e blasticas | alteracao difusa da densidade ossea | lesoes secundarias | metastases osseas | lesoes osseas secundarias
+# conclusao: Alterações difusas da densidade óssea com padrão misto (lítico e blástico, com predomínio blástico), devendo-se considerar lesões secundárias entre os diagnósticos diferenciais.
+Estruturas ósseas e partes moles:  alterações difusas da densidade óssea no esqueleto visualizado, de aspecto misto (lítico e esclerótico/blástico), com predomínio blástico.

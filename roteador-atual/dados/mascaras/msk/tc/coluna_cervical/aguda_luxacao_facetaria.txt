@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna cervical com luxacao facetaria | tc de coluna cervical com luxacao facetaria | tc coluna cervical luxacao | tomografia de coluna cervical com subluxacao facetaria | tc de coluna cervical com subluxacao | tc de coluna cervical com facetas travadas | tc de coluna cervical com luxacao
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_cervical
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  anterolistese traumática de {nivel} sobre o nível subjacente, medindo {tamanho}, correspondendo a cerca de {percentual}% do diâmetro anteroposterior do corpo vertebral, com cifose focal.
+Transição craniocervical:  processo odontoide íntegro e centrado em relação às massas laterais de C1. Intervalo atlantodental preservado. Articulações atlanto-occipitais e atlantoaxiais congruentes.
+Corpos vertebrais:  de altura e morfologia preservadas, sem sinais de fratura. {fratura_associada|Sem fratura associada/Fratura associada em ___}.
+Discos intervertebrais:  alargamento posterior do espaço discal em {nivel}.
+Articulações uncovertebrais:  de aspecto habitual.
+Articulações interapofisárias:  luxação facetária em {nivel}, {lado_a|à direita/à esquerda}, com {grau_luxacao|facetas travadas (a faceta inferior do nível superior ultrapassa anteriormente a faceta superior do nível inferior)/facetas empoleiradas (apoiadas ponta a ponta)/subluxação com perda parcial da congruência}.
+Canal vertebral:  redução da amplitude do canal vertebral em {nivel}, secundária ao desalinhamento.
+Forames neurais:  redução da amplitude dos forames neurais em {nivel}.
+Elementos posteriores:  alargamento do espaço interespinhoso em {nivel}, sugerindo lesão do complexo ligamentar posterior.
+Partes moles:  aumento da espessura das partes moles pré-vertebrais no nível da lesão, compatível com hematoma.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Luxação facetária em {nivel}, {lado_a|à direita/à esquerda}, com anterolistese traumática e sinais de lesão do complexo ligamentar posterior (AO Spine subaxial tipo {ao_spine|B2/C}).
+Recomenda-se ressonância magnética para avaliação medular e de hérnia discal traumática, e angiotomografia das artérias vertebrais.

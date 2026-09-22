@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há imagens cálcicas
+# gatilhos: calcificacoes vasculares | ateromatose | ateromatose aortica
+Calcificações parietais na aorta abdominal e nas artérias ilíacas.

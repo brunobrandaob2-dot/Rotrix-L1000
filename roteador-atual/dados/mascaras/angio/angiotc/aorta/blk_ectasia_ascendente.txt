@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Raiz aórtica e aorta ascendente
+# gatilhos: ectasia da aorta ascendente | ectasia da ascendente | ectasia ascendente | aorta ascendente ectasica
+# conclusao: Ectasia da aorta ascendente, medindo {tamanho}, sem critério de aneurisma.
+Raiz aórtica e aorta ascendente:  aorta ascendente com calibre aumentado, medindo {tamanho} no maior diâmetro, sem atingir critério de aneurisma (≥ 4,5 cm), com contornos regulares e opacificação homogênea, sem flap intimal.

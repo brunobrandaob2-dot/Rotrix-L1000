@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Acetábulo
+# gatilhos: displasia | displasia acetabular | acetabulo raso
+Acetábulo raso, com cobertura lateral reduzida da cabeça femoral e ângulo centro-borda de {angulo_cb}° (displasia abaixo de 20°).

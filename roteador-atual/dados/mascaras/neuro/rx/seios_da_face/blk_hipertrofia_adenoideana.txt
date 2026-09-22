@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Rinofaringe
+# gatilhos: hipertrofia adenoideana | adenoide aumentada | hipertrofia das adenoides | hipertrofia de adenoide
+Hipertrofia adenoideana, com redução {grau_reducao|discreta/moderada/acentuada} da coluna aérea da rinofaringe.

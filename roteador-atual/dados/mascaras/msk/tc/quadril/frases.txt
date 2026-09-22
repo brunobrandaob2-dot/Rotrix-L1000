@@ -1,0 +1,35 @@
+# tipo: frases
+## gatilhos: cabeca femoral normal no quadril | quadril com cabeca femoral esferica
+Cabeça femoral esférica, de contornos regulares e densidade habitual, sem sinais de colapso subcondral.
+## gatilhos: espaco articular preservado no quadril tc
+Espaço articular coxofemoral preservado, sem esclerose subcondral ou osteófitos.
+## gatilhos: angulo alfa do quadril na tc | angulo alfa na tomografia de quadril
+Ângulo alfa de {angulo_alfa}° nas reconstruções oblíquas axiais do colo femoral (referência: < 55°).
+## gatilhos: angulo centro borda do quadril na tc
+Ângulo centro-borda lateral de {angulo_cb}° (referência: < 20° displasia; 20° a 25° limítrofe; ≥ 40° sobrecobertura).
+## gatilhos: versao acetabular do quadril
+Versão acetabular de {versao_acetabular}° no plano axial (referência: 15° a 20° de anteversão).
+## gatilhos: versao femoral do quadril | anteversao femoral do quadril
+Anteversão femoral de {versao_femoral}°, medida pelo método de {metodo|Murphy/Reikerås} (referência aproximada: 10° a 20°).
+## gatilhos: cisto de herniacao no quadril | herniation pit no quadril
+Pequeno cisto de herniação sinovial (herniation pit) na transição cabeça-colo femoral anterossuperior, medindo {tamanho}, achado habitualmente incidental, por vezes associado a morfologia de impacto femoroacetabular.
+## gatilhos: os acetabuli no quadril | ossificacao do rebordo acetabular no quadril
+Fragmento ósseo corticado junto ao rebordo acetabular lateral (os acetabuli), podendo corresponder a ossículo acessório ou a fragmentação do rebordo associada a sobrecarga.
+## gatilhos: colapso da cabeca femoral no quadril | osteonecrose com colapso no quadril
+Colapso subcondral da cabeça femoral, com perda da esfericidade e afundamento de {tamanho}, compatível com osteonecrose em estágio avançado (Ficat-Arlet {ficat|III/IV}).
+## gatilhos: ressalva de fratura oculta no quadril tc | fratura oculta do colo na tomografia de quadril
+A tomografia computadorizada tem sensibilidade inferior à da ressonância magnética para fraturas não desviadas do colo femoral no paciente com redução da densidade óssea; se a suspeita clínica persistir, considerar ressonância magnética.
+## gatilhos: fratura por estresse do colo no quadril | fratura por insuficiencia do colo no quadril
+Traço esclerótico linear na cortical medial do colo femoral, sem desvio, podendo corresponder a fratura por estresse ou por insuficiência. A ressonância magnética é mais sensível para a caracterização.
+## gatilhos: derrame articular no quadril tc | derrame coxofemoral na tomografia de quadril
+Distensão líquida da cavidade articular coxofemoral, compatível com derrame articular.
+## gatilhos: corpo livre no quadril | corpo livre intra articular no quadril
+Corpo livre intra-articular calcificado no recesso {recesso|anterior/posterior/da fóvea}, medindo {tamanho}.
+## gatilhos: tendinopatia calcaria glutea no quadril | calcificacao glutea no quadril
+Calcificação amorfa junto à inserção dos tendões glúteos no trocânter maior, medindo {tamanho}, podendo corresponder a tendinopatia calcária.
+## gatilhos: luxacao de protese de quadril | protese de quadril luxada
+Luxação {direcao|posterior/anterior} do componente cefálico da artroplastia do quadril.
+## gatilhos: soltura de protese de quadril | halo na protese de quadril
+Halo de radiolucência de {tamanho} na interface osso-implante do componente {componente|femoral/acetabular}, nas zonas {zonas} (Gruen / DeLee-Charnley), achado sugestivo de soltura. Correlacionar com dados clínicos e laboratoriais e com estudos anteriores.
+## gatilhos: ossificacao heterotopica no quadril | brooker do quadril
+Ossificação heterotópica periarticular no quadril, grau {brooker|I/II/III/IV} da classificação de Brooker.

@@ -1,0 +1,22 @@
+# gatilhos: cranio com avc isquemico | avc isquemico agudo | isquemia aguda cerebral
+TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO
+
+TÉCNICA: aquisição helicoidal, sem injeção de contraste.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Parênquima encefálico: área de hipoatenuação córtico-subcortical no território da artéria cerebral {lado|média/anterior/posterior} {lado_f|direita/esquerda}, com perda da diferenciação entre substância branca e cinzenta e apagamento dos sulcos corticais adjacentes, compatível com isquemia aguda. **ASPECTS = ___**.
+Ausência de transformação hemorrágica.
+Sinal da artéria hiperdensa: presente / ausente em ___.
+Efeito de massa: desvio da linha média de ___ mm / ausente. Cisternas da base pérvias.
+Sistema ventricular de morfologia e dimensões preservadas.
+Ausência de coleções extra-axiais.
+Calota craniana sem sinais de fratura.
+
+CONCLUSÃO:
+1. **Isquemia aguda no território da artéria cerebral {lado|média/anterior/posterior} {lado_f|direita/esquerda}, ASPECTS ___.**
+2. Ausência de transformação hemorrágica no presente estudo.
+3. Sugere-se angiotomografia de vasos intracranianos e cervicais para pesquisa de oclusão de grande vaso, se houver janela terapêutica.
+
+Achado crítico comunicado ao(à) Dr(a). ___ em ___/___/____ às ___h___.

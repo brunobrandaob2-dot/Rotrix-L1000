@@ -1,0 +1,29 @@
+# gatilhos: tomografia de quadril com luxacao | tc de quadril com luxacao | tc quadril luxacao | tomografia de quadril com luxacao posterior | tc de quadril com luxacao posterior
+# categoria: msk
+# modalidade: tc
+# regiao: quadril
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  perda das relações articulares coxofemorais, com deslocamento {direcao|posterior/anterior/central} da cabeça femoral em relação ao acetábulo.
+Acetábulo:  {fratura_parede|sem traços de fratura/com fratura da parede posterior, com fragmento medindo ___}.
+Cabeça femoral:  {pipkin|sem traços de fratura/com fratura da cabeça femoral, tipo ___ da classificação de Pipkin/com impacção da cabeça femoral}.
+Colo femoral:  corticais íntegras, sem traços de fratura. Transição cabeça-colo com concavidade habitual.
+Região trocantérica:  trocânteres maior e menor sem particularidades.
+Espaço articular:  preservado, sem esclerose subcondral, osteófitos ou cistos subcondrais.
+Cavidade articular:  {fragmentos|não há fragmentos ósseos intra-articulares/há fragmentos ósseos intra-articulares, o maior medindo ___}.
+Diáfise femoral proximal:  sem particularidades.
+Ossos pélvicos adjacentes:  sem particularidades.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  edema e hematoma das partes moles periarticulares.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Luxação {direcao|posterior/anterior/central} do quadril.
+Recomenda-se controle tomográfico após a redução para avaliação da congruência articular e pesquisa de fragmentos intra-articulares.

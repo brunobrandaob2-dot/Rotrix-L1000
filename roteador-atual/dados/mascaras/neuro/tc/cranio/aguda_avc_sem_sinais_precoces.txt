@@ -1,0 +1,34 @@
+# gatilhos: tomografia de cranio protocolo avc | tc de cranio protocolo avc | tc cranio protocolo avc | tomografia de cranio codigo avc | tc de cranio codigo avc | tc de cranio protocolo avc sem sinais de isquemia | tomografia de cranio avc sem sinais precoces
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  coeficientes de atenuação preservados, com diferenciação córtico-subcortical mantida, inclusive nas regiões insulares. Não há áreas de hipoatenuação sugestivas de isquemia estabelecida, hemorragia ou lesão expansiva.
+Escore ASPECTS: 10/10.
+Substância branca:  sem alterações de atenuação.
+Núcleos da base:  de morfologia e atenuação preservadas, com núcleos lentiformes bem definidos.
+Artérias intracranianas:  sem sinal da artéria hiperdensa.
+Sistema ventricular:  de morfologia, dimensões e topografia normais.
+Cisternas da base e sulcos corticais:  de amplitude preservada.
+Linha média:  estruturas centradas.
+Espaços extra-axiais:  sem coleções.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura ou lesões focais.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Não há sinais tomográficos de isquemia aguda estabelecida ou de hemorragia intracraniana (ASPECTS 10).
+A tomografia sem contraste tem sensibilidade limitada para isquemia nas primeiras horas do evento; a angiotomografia e a ressonância magnética podem complementar a avaliação, a critério clínico.

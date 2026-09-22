@@ -1,0 +1,27 @@
+# gatilhos: tomografia de coluna toracica com escoliose | tc de coluna toracica com escoliose | tc coluna toracica escoliose | tomografia de coluna toracica com escoliose toracica | tc de coluna dorsal com escoliose | tc de coluna toracica com desvio lateral
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_toracica
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  escoliose torácica de convexidade {convexidade|à direita/à esquerda}, com ápice em {nivel} e ângulo de Cobb estimado em {cobb} graus (de {nivel} a {nivel}), associada a rotação dos corpos vertebrais. A radiografia panorâmica em ortostase é o método de referência para a medida do ângulo.
+Corpos vertebrais:  de altura preservada, sem anomalias de segmentação ou de formação, sem sinais de fratura ou de lesão focal.
+Discos intervertebrais:  redução assimétrica da altura dos espaços discais na concavidade da curva.
+Articulações interapofisárias:  alterações degenerativas na concavidade da curva.
+Articulações costovertebrais:  de aspecto habitual.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, lâminas e processos espinhosos e transversos íntegros.
+Partes moles paravertebrais:  sem particularidades.
+Demais estruturas:  segmentos pulmonares incluídos no campo de visão sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Escoliose torácica de convexidade {convexidade|à direita/à esquerda}, com ângulo de Cobb estimado em {cobb} graus.

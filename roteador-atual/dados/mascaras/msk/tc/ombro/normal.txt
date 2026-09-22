@@ -1,0 +1,26 @@
+# gatilhos: tomografia de ombro | tomografia do ombro | tc de ombro | tc do ombro | tomografia de ombro normal | tomografia do ombro normal | tc de ombro normal | tc do ombro normal | tc ombro normal | tomografia de ombro sem alteracoes | tomografia do ombro sem alteracoes | tomografia computadorizada do ombro
+# categoria: msk
+# modalidade: tc
+# regiao: ombro
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relação glenoumeral preservada, sem sinais de luxação ou subluxação.
+Úmero proximal:  cabeça, colo e tubérculos maior e menor de morfologia e contornos preservados, sem traços de fratura ou lesões ósseas focais.
+Glenoide e escápula:  glenoide de morfologia e versão habituais, com rebordo íntegro. Corpo e espinha da escápula, acrômio e processo coracoide sem particularidades.
+Articulação glenoumeral:  espaço articular preservado, sem osteófitos, esclerose ou cistos subcondrais. Não há derrame articular ou corpos livres intra-articulares evidentes.
+Articulação acromioclavicular:  congruente, com espaço articular preservado e sem osteófitos significativos.
+Espaço acromioumeral:  preservado.
+Clavícula:  contornos corticais preservados, sem traços de fratura.
+Mineralização óssea:  preservada.
+Partes moles:  ventres musculares do manguito rotador e do deltoide de volume e atenuação preservados, sem lipossubstituição significativa. Não há coleções ou calcificações, considerando os limites do método para avaliação tendínea, labral e capsuloligamentar.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

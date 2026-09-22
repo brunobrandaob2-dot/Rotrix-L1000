@@ -1,0 +1,69 @@
+# tipo: frases
+## gatilhos: cisto hepatico simples | cisto simples no figado
+Cisto hepático simples, de conteúdo homogêneo e paredes finas, sem realce, medindo {tamanho}.
+## gatilhos: liquido livre pelvico fisiologico | pequena quantidade de liquido na pelve
+Pequena quantidade de líquido livre na escavação pélvica, de aspecto fisiológico.
+## gatilhos: figado com lesoes pequenas demais para caracterizar | lesoes hepaticas diminutas
+Diminutas imagens hipoatenuantes hepáticas, pequenas demais para caracterização ao método, provavelmente benignas.
+## gatilhos: esteatose hepatica moderada sem contraste | figado com menos de quarenta uh
+Atenuação hepática de {densidade} UH na fase sem contraste; valores inferiores a 40 UH indicam esteatose ao menos moderada.
+## gatilhos: baco acessorio | esplenulo
+Baço acessório junto ao hilo esplênico, medindo {tamanho}.
+## gatilhos: baco com granulomas calcificados | granulomas esplenicos
+Diminutas calcificações esplênicas, de aspecto residual granulomatoso.
+## gatilhos: cisto renal simples bosniak um | rim com cisto simples
+Cisto renal simples {lado_a|à direita/à esquerda}, medindo {tamanho} (Bosniak I), sem necessidade de seguimento.
+## gatilhos: cisto renal hiperdenso | rim com cisto hiperdenso
+Formação cística renal hiperatenuante {lado_a|à direita/à esquerda}, homogênea, medindo {tamanho}, com densidade igual ou superior a 70 UH na fase sem contraste (Bosniak II).
+## gatilhos: angiomiolipoma renal | rim com lesao com gordura
+Nódulo renal {lado_a|à direita/à esquerda} com componente de gordura macroscópica, medindo {tamanho}, compatível com angiomiolipoma.
+## gatilhos: rim em ferradura
+Fusão dos polos renais inferiores anteriormente aos grandes vasos, compatível com rim em ferradura.
+## gatilhos: duplicidade pielocalicinal | rim com duplicidade do sistema coletor
+Duplicidade pielocalicinal {lado_a|à direita/à esquerda}, variante anatômica.
+## gatilhos: flebolitos pelvicos | flebolitos na pelve
+Flebólitos pélvicos.
+## gatilhos: apendice cecal normal | apendice de aspecto normal
+Apêndice cecal de calibre e paredes normais, sem sinais inflamatórios.
+## gatilhos: apendice nao caracterizado | apendice nao visualizado
+Apêndice cecal não caracterizado. Não há sinais inflamatórios na fossa ilíaca direita.
+## gatilhos: coprostase no colon | colon com fezes
+Moderada quantidade de resíduos fecais na moldura colônica.
+## gatilhos: vesicula biliar contraida | vesicula pouco distendida
+Vesícula biliar pouco distendida, o que limita a avaliação de suas paredes.
+## gatilhos: barro biliar na vesicula | vesicula com barro biliar
+Conteúdo espontaneamente hiperatenuante na vesícula biliar, podendo corresponder a barro biliar.
+## gatilhos: aerobilia | ar nas vias biliares
+Aerobilia; correlacionar com antecedente de manipulação ou derivação biliar.
+## gatilhos: aorta com ateromatose leve | ateromatose aortica discreta
+Ateromatose calcificada parietal esparsa da aorta abdominal, sem dilatações.
+## gatilhos: linfonodos mesentericos proeminentes no abdome | linfonodos mesentericos proeminentes
+Linfonodos mesentéricos proeminentes, de dimensões normais, com menor eixo inferior a 1,0 cm.
+## gatilhos: mesenterio nebuloso
+Densificação da gordura na raiz do mesentério, com pequenos linfonodos envoltos por halo de gordura preservada, aspecto de mesentério nebuloso, de significado clínico incerto.
+## gatilhos: abdome com derrame pleural laminar | derrame pleural laminar no abdome
+Derrame pleural laminar {lado_a|à direita/à esquerda}.
+## gatilhos: abdome com atelectasias nas bases | atelectasias laminares nas bases no abdome
+Atelectasias laminares nas bases pulmonares.
+## gatilhos: calcificacoes prostaticas | prostata com calcificacoes
+Calcificações prostáticas grosseiras, sem significado clínico.
+## gatilhos: utero com diu | diu bem posicionado
+Dispositivo intrauterino de posição tópica.
+## gatilhos: ovarios com foliculos | ovarios de aspecto fisiologico
+Ovários de dimensões normais, com pequenos folículos de aspecto fisiológico.
+## gatilhos: bexiga pouco repleta | bexiga vazia
+Bexiga com pequena repleção, o que limita a avaliação de suas paredes.
+## gatilhos: alcas de delgado levemente distendidas no abdome | abdome com leve distensao de delgado
+Discreta distensão gasosa de alças de delgado, sem zona de transição definida, podendo corresponder a íleo adinâmico.
+## gatilhos: diastase dos retos abdominais
+Diástase dos músculos retos abdominais.
+## gatilhos: hernia umbilical pequena com gordura | pequena hernia umbilical
+Pequena hérnia umbilical contendo gordura, sem sinais de complicação.
+## gatilhos: abdome com artefato de movimento | abdome com artefatos respiratorios
+Estudo parcialmente limitado por artefatos de movimento respiratório.
+## gatilhos: abdome sem contraste limitacao | limitacao da tc de abdome sem contraste
+A ausência de contraste intravenoso limita a avaliação de lesões parenquimatosas e de estruturas vasculares.
+## gatilhos: abdome achado critico comunicado | comunicacao de achado critico no abdome
+Achado comunicado ao(à) Dr(a). ___ em ___/___/____, às ___h___.
+## gatilhos: abdome sem sinais de abdome agudo | abdome sem achados agudos
+Não há sinais tomográficos de processo inflamatório, obstrutivo ou perfurativo abdominal.

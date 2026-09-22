@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: artefatos respiratorios | artefatos de movimento | artefatos de movimentos respiratorios | movimentos respiratorios
+# conclusao: Artefatos decorrentes de movimentos respiratórios.
+Parênquima pulmonar:  presença de artefatos de movimentos respiratórios limitando parcialmente a avaliação.

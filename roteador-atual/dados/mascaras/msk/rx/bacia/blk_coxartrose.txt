@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: coxartrose | artrose coxofemoral | artrose dos quadris | alteracoes degenerativas coxofemorais
+Redução do espaço articular coxofemoral {lado_coxo|à direita/à esquerda/bilateralmente}, com esclerose subcondral e osteófitos marginais (Kellgren-Lawrence grau {kl|1/2/3/4}).

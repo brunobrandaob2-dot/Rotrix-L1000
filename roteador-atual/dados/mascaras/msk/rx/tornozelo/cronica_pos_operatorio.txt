@@ -1,0 +1,17 @@
+# gatilhos: raio x de tornozelo com material de sintese | rx de tornozelo com material de sintese | radiografia de tornozelo com material de sintese | rx de tornozelo pos operatorio | raio x de tornozelo com osteossintese | rx tornozelo pos operatorio
+# categoria: msk
+# modalidade: rx
+# regiao: tornozelo
+# tipo_mascara: cronica
+**RADIOGRAFIA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, perfil e mortise (anteroposterior com rotação interna de 15 a 20 graus).
+
+**ANÁLISE:**
+Pinça maleolar {encaixe|congruente/com alargamento do espaço claro medial}.
+Sindesmose tibiofibular sem alargamento.
+Material de osteossíntese ({material|placa e parafusos na fíbula distal/parafusos no maléolo medial/placa e parafusos na fíbula distal e parafusos no maléolo medial/fixação sindesmótica}) em posição habitual, sem sinais de soltura ou fratura do implante.
+Fratura prévia {consolidacao|consolidada/em consolidação/sem sinais de consolidação}, com alinhamento {alinhamento|preservado/com consolidação viciosa}.
+{artrose_pos|Espaços articulares preservados./Artrose tibiotalar pós-traumática.}
+Densidade óssea preservada.
+Partes moles sem alterações.

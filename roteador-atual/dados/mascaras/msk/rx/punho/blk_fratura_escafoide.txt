@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura do escafoide | fratura de escafoide | escafoide fraturado
+Fratura do terço {terco|proximal/médio (cintura)/distal/tubérculo} do escafoide, com desvio de {tamanho}.

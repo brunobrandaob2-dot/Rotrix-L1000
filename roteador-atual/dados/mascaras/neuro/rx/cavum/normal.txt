@@ -1,0 +1,15 @@
+# gatilhos: raio x de cavum | raio x do cavum | rx de cavum | rx do cavum | radiografia de cavum | radiografia do cavum | raio x de cavum normal | rx de cavum normal | radiografia do cavum normal | raio x de adenoide | rx de adenoide | radiografia de adenoide | raio x de rinofaringe | rx de rinofaringe | raio x de perfil de cavum | rx de perfil de cavum
+# categoria: neuro
+# modalidade: rx
+# regiao: cavum
+# tipo_mascara: normal
+**RADIOGRAFIA DO CAVUM**
+
+**TÉCNICA:**  incidência em perfil.
+
+**ANÁLISE:**
+Tecido adenoideano de dimensões normais.
+Coluna aérea da rinofaringe preservada.
+Palato mole de espessura e contornos normais.
+Coluna aérea da orofaringe sem alterações.
+Partes moles pré-vertebrais de espessura normal.

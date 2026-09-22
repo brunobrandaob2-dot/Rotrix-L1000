@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: laceracao renal | trauma renal | lesao renal traumatica
+# conclusao: Lesão renal traumática {lado_a|à direita/à esquerda} grau {grau_aast|I/II/III/IV/V} (AAST).
+Rins:  laceração no terço {terco|superior/médio/inferior} do rim {lado|direito/esquerdo}, com profundidade de {tamanho}, hematoma perirrenal contido pela fáscia de Gerota e {coletor|sem/com} extravasamento de contraste na fase excretora. Pedículo renal pérvio. Rim contralateral sem particularidades.

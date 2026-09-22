@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura da tibia | fratura tibial | traco de fratura na tibia | fratura
+Fratura {traco|transversa/oblíqua/espiral/cominutiva} do terço {terco|proximal/médio/distal} da diáfise tibial, com desvio de {tamanho}.

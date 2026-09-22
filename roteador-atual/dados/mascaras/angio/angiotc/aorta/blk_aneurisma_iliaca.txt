@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias ilíacas
+# gatilhos: aneurisma de iliaca | aneurisma da iliaca comum | aneurisma da arteria iliaca comum | aneurisma iliaco
+# conclusao: Aneurisma da artéria ilíaca comum {lado_f|direita/esquerda}, com diâmetro máximo de {tamanho}.
+Artérias ilíacas:  dilatação aneurismática da artéria ilíaca comum {lado_f|direita/esquerda}, com diâmetro máximo de {tamanho} (critério: ≥ 1,5 vez o diâmetro do segmento normal adjacente), com trombo mural de ___ mm. Demais artérias ilíacas pérvias, com calibre preservado.

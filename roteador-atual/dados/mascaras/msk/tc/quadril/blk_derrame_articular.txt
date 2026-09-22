@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cavidade articular
+# gatilhos: derrame articular | derrame | distensao articular
+# conclusao: Derrame articular coxofemoral.
+Cavidade articular:  distensão líquida da cavidade articular, compatível com derrame articular. Não há corpos livres intra-articulares.

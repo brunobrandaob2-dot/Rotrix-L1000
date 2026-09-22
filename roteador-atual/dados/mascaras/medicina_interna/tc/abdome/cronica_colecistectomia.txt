@@ -1,0 +1,33 @@
+# gatilhos: tomografia de abdome com colecistectomia | tc de abdome com colecistectomia | tc abdome colecistectomia | tomografia de abdome total com colecistectomia | tc de abdome total com colecistectomia | tomografia do abdome com colecistectomia | tomografia de abdome com pos colecistectomia | tc de abdome com pos colecistectomia | tc abdome pos colecistectomia | tomografia de abdome com vesicula ausente | tc de abdome com vesicula ausente | tc abdome vesicula ausente | tomografia de abdome com status pos colecistectomia | tc de abdome com status pos colecistectomia | tc abdome status pos colecistectomia
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  vesícula biliar não caracterizada, com clipes cirúrgicos no leito, compatível com colecistectomia prévia.
+Vias biliares:  sem dilatação significativa, considerando o status pós-colecistectomia.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  sem particularidades no protocolo utilizado.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Status pós-colecistectomia.

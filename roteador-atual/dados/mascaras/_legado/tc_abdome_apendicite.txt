@@ -1,0 +1,21 @@
+# gatilhos: abdome com apendicite | apendicite nao complicada | apendicite aguda
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Trato gastrointestinal: apêndice cecal com calibre aumentado, medindo {tamanho} no maior diâmetro transverso, com espessamento e realce parietal, associado a densificação da gordura periapendicular. Ausência de apendicolito / presença de apendicolito medindo ___ cm. Não há coleções organizadas, pneumoperitônio ou descontinuidade parietal.
+Peritônio: lâmina de líquido livre na pelve e na fossa ilíaca direita.
+Retroperitônio: linfonodos ileocólicos de aspecto reacional.
+Demais órgãos abdominais e pélvicos sem alterações significativas.
+Vasos: aorta e veia cava inferior de calibres normais.
+Estruturas ósseas e partes moles: sem alterações significativas.
+
+CONCLUSÃO:
+1. Achados compatíveis com **apendicite aguda não complicada**.
+2. Lâmina de líquido livre na pelve e linfonodos reacionais adjacentes.
+3. Ausência de sinais de perfuração, abscesso ou pneumoperitônio no presente estudo.
+
+Achado comunicado ao(à) Dr(a). ___ em ___/___/____ às ___h___.

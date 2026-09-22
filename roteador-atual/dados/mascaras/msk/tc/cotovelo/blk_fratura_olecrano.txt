@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Ulna proximal
+# gatilhos: fratura do olecrano | fratura de olecrano
+# conclusao: Fratura do olécrano, tipo {mayo|IA/IB/IIA/IIB/IIIA/IIIB} da classificação da Clínica Mayo.
+Ulna proximal:  traço de fratura {traco|transverso/oblíquo/cominutivo} no olécrano, com diástase de {tamanho} entre os fragmentos. Processo coronoide íntegro.

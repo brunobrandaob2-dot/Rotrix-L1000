@@ -1,0 +1,30 @@
+# gatilhos: angio tep positivo | angio de arterias pulmonares com tep | angiotomografia de arterias pulmonares com tep | angio tep positiva | angio de arterias pulmonares com tromboembolismo pulmonar | angiotomografia de arterias pulmonares com tromboembolismo | angio pulmonar com tep | angio tep sem sobrecarga | angio de tep positiva
+# categoria: angio
+# modalidade: angiotc
+# regiao: arterias_pulmonares
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS PULMONARES**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fase arterial pulmonar, com reconstruções multiplanares e em projeção de intensidade máxima (MIP), direcionadas para a avaliação da circulação arterial pulmonar.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação adequada das artérias pulmonares, com atenuação de ___ UH no tronco da artéria pulmonar (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise até o nível subsegmentar.
+Tronco da artéria pulmonar:  calibre normal, medindo ___ mm (aumentado quando > 29 mm).
+Artérias pulmonares:  falhas de enchimento endoluminais {distribuicao_tep|nas artérias pulmonares direitas/nas artérias pulmonares esquerdas/bilaterais}, com nível mais proximal de acometimento {nivel_tep|no tronco da artéria pulmonar/nas artérias pulmonares principais/nas artérias lobares/nas artérias segmentares/nas artérias subsegmentares}, de caráter {oclusao_tep|parcialmente oclusivo/oclusivo}, centrais ou envoltas por contraste e formando ângulo agudo com a parede arterial, com aspecto de evento agudo.
+Câmaras cardíacas direitas:  relação entre os diâmetros transversos do ventrículo direito e do ventrículo esquerdo (VD/VE) de ___ (sobrecarga quando > 0,9). Septo interventricular de configuração habitual, sem refluxo de contraste para a veia cava inferior.
+Parênquima pulmonar:  sem consolidações, opacidades periféricas cuneiformes ou padrão de atenuação em mosaico.
+Traqueia e brônquios:  calibre e trajetos normais.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Tromboembolismo pulmonar agudo, com falhas de enchimento {distribuicao_tep|nas artérias pulmonares direitas/nas artérias pulmonares esquerdas/bilaterais} e nível mais proximal de acometimento {nivel_tep|no tronco da artéria pulmonar/nas artérias pulmonares principais/nas artérias lobares/nas artérias segmentares/nas artérias subsegmentares}.
+Ausência de sinais tomográficos de sobrecarga de câmaras direitas (relação VD/VE de ___).
+Resultado comunicado à equipe assistente em ___h___, ao(à) Dr(a). ___.

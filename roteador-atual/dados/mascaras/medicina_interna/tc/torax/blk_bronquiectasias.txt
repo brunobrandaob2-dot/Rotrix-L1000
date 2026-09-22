@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Traqueia e brônquios
+# gatilhos: bronquiectasias | bronquiectasia | dilatacao bronquica | bronquiectasias cilindricas
+# conclusao: Bronquiectasias {morfologia|cilíndricas/varicosas/císticas} com espessamento parietal brônquico, predominando {localizacao|nos lobos inferiores/nos lobos superiores/no lobo médio e na língula/difusamente}.
+Traqueia e brônquios:  traqueia de calibre e trajeto normais. Bronquiectasias {morfologia|cilíndricas/varicosas/císticas}, com espessamento parietal, predominando {localizacao|nos lobos inferiores/nos lobos superiores/no lobo médio e na língula/difusamente}, com relação broncoarterial aumentada e ausência de afilamento brônquico periférico.

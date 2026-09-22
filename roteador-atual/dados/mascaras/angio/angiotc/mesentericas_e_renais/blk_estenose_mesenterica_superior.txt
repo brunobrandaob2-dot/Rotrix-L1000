@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artéria mesentérica superior
+# gatilhos: estenose da mesenterica superior | estenose da arteria mesenterica superior | estenose da ams
+# conclusao: Estenose ateromatosa ostial da artéria mesentérica superior, estimada em ___%.
+Artéria mesentérica superior:  placa ateromatosa ostial determinando estenose estimada em ___%, com ramos jejunais, ileais e cólicos opacificados.

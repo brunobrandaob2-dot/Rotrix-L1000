@@ -1,0 +1,16 @@
+# gatilhos: raio x de coluna toracica | raio x da coluna toracica | rx de coluna toracica | rx da coluna toracica | rx coluna toracica | radiografia de coluna toracica | radiografia da coluna toracica | raio x de coluna dorsal | rx de coluna dorsal | rx coluna dorsal | radiografia de coluna dorsal | raio x de coluna toracica normal | rx de coluna toracica normal | rx coluna toracica normal | radiografia de coluna toracica normal | rx de coluna dorsal normal | radiografia de coluna toracica sem alteracoes
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_toracica
+# tipo_mascara: normal
+**RADIOGRAFIA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Alinhamento vertebral preservado.
+Corpos vertebrais com altura preservada, sem sinais de fraturas.
+Espaços discais preservados.
+Elementos posteriores preservados.
+Densidade óssea preservada.
+Partes moles sem alterações.

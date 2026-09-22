@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Arcos plantares
+# gatilhos: pe plano | arco plantar rebaixado | queda do arco
+# conclusao: Redução do arco longitudinal medial (pé plano), com avaliação limitada pela ausência de carga.
+Arcos plantares:  redução da altura do arco longitudinal medial, considerando que o exame é realizado sem carga, o que limita a avaliação.

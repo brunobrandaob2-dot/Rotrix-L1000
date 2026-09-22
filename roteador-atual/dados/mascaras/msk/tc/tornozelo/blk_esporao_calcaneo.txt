@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Calcâneo
+# gatilhos: esporao calcaneo | esporao plantar | esporao do calcaneo
+# conclusao: Esporão calcâneo plantar.
+Calcâneo:  morfologia e densidade normais, com esporão na tuberosidade plantar medial, na origem da fáscia plantar.

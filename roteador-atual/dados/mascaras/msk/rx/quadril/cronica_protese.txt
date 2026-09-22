@@ -1,0 +1,16 @@
+# gatilhos: raio x de quadril com protese | rx de quadril com protese | rx quadril artroplastia | radiografia de quadril com protese | raio x de quadril com artroplastia | rx de quadril com artroplastia
+# categoria: msk
+# modalidade: rx
+# regiao: quadril
+# tipo_mascara: cronica
+**RADIOGRAFIA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil (Lauenstein).
+
+**ANÁLISE:**
+Artroplastia {tipo_protese|total/parcial} do quadril, com componente cefálico centrado e sem luxação.
+Componente acetabular {fixacao_acet|não cimentado/cimentado}, com inclinação de {inclinacao}° (referência: 30° a 50°).
+Haste femoral {fixacao_haste|não cimentada/cimentada}, em alinhamento {alinhamento_haste|neutro/varo/valgo}.
+Não há sinais de soltura, migração ou fratura periprotética.
+Densidade óssea preservada.
+{brooker|Partes moles sem alterações/Ossificação heterotópica grau I de Brooker/Ossificação heterotópica grau II de Brooker/Ossificação heterotópica grau III de Brooker/Ossificação heterotópica grau IV de Brooker}.

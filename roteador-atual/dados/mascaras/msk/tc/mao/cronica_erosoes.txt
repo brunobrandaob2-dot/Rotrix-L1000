@@ -1,0 +1,26 @@
+# gatilhos: tomografia de mao com erosoes | tomografia da mao com erosoes | tc de mao com erosoes | tc da mao com erosoes | tc mao erosoes | tomografia de mao com erosoes osseas | tc de mao com erosoes osseas | tomografia de mao com artropatia inflamatoria | tc de mao com artropatia inflamatoria | tomografia de mao com artrite | tc de mao com artrite
+# categoria: msk
+# modalidade: tc
+# regiao: mao
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA MÃO {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações carpometacarpais, metacarpofalangianas e interfalangianas preservadas, sem luxações ou subluxações.
+Ossos do carpo:  {carpo|sem erosões evidentes/erosões ósseas no ___}. Sem traços de fratura.
+Metacarpos:  de morfologia e contornos preservados, sem traços de fratura ou lesões focais.
+Falanges:  de morfologia e contornos preservados, sem traços de fratura ou lesões focais.
+Articulação trapeziometacarpiana:  espaço articular preservado, sem osteófitos.
+Articulações metacarpofalangianas:  erosões ósseas marginais nas metacarpofalangianas {mcf|___}, com redução {padrao|simétrica/assimétrica} dos espaços articulares.
+Articulações interfalangianas:  {ifs|sem erosões evidentes/erosões ósseas marginais nas interfalangianas ___}.
+Mineralização óssea:  {mineralizacao|preservada/redução periarticular da densidade óssea (osteopenia periarticular)}.
+Partes moles:  {partes|sem alterações evidentes/aumento de volume periarticular das partes moles}, considerando os limites do método para avaliação sinovial e tendínea.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Erosões ósseas marginais nas articulações {articulacoes|metacarpofalangianas/interfalangianas/do carpo}, que podem corresponder a artropatia inflamatória, a correlacionar com dados clínicos e laboratoriais.

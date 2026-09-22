@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: nefrectomia | rim ausente | rim unico | status pos nefrectomia
+# conclusao: Status pós-nefrectomia {lado_a|à direita/à esquerda}, com rim único funcionante contralateral.
+Rins: ausência do rim {lado|direito/esquerdo}, com alças intestinais ocupando a loja renal, compatível com nefrectomia prévia. Rim contralateral tópico, de contornos regulares e espessura parenquimatosa preservada, com hipertrofia compensatória, sem cálculos ou dilatação de vias coletoras.

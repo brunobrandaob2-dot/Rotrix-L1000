@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Clavícula
+# gatilhos: fratura da clavicula | fratura de clavicula | clavicula fraturada
+# conclusao: Fratura do terço {terco|medial/médio/lateral} da clavícula.
+Clavícula:  fratura do terço {terco|medial/médio/lateral} da clavícula, de traço {traco|transverso/oblíquo/cominutivo}, com desvio de {tamanho} entre os fragmentos.

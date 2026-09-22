@@ -1,0 +1,32 @@
+# gatilhos: abdome com doenca renal cronica | tc abdome nefropatia cronica | abdome drc | rins cronicos | abdome com rim atrofico | nefropatia cronica bilateral
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado, em volume ajustado à função renal.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Transição toracoabdominal: sem particularidades.
+Fígado: de dimensões normais, contornos regulares e densidade homogênea.
+Vias biliares: sem dilatação.
+Vesícula biliar: de paredes finas, sem cálculos no seu interior.
+Pâncreas: de dimensões e densidade normais, sem dilatação ductal.
+Baço: de dimensões normais e densidade homogênea.
+Adrenais: de espessura normal e sem nódulos.
+Rins: tópicos, de contornos lobulados e dimensões reduzidas, medindo o direito ___ cm e o esquerdo ___ cm no maior eixo longitudinal (referência habitual de 9,0 a 12,0 cm). Adelgaçamento difuso do parênquima, com espessura de {tamanho} {lado_a|à direita/à esquerda} e de ___ cm no rim contralateral (espessura inferior a 1,0 cm indica adelgaçamento acentuado). Redução da diferenciação corticomedular nas fases contrastadas, com realce parenquimatoso tardio e homogêneo, sem falhas focais. Cistos simples corticais esparsos, de conteúdo homogêneo e sem realce (Bosniak I), o maior {lado_a|à direita/à esquerda} medindo {tamanho}. Não há cálculos, dilatação de vias coletoras ou coleções perirrenais.
+Bexiga: de parcial repleção e conteúdo homogêneo, de paredes com espessura preservada.
+Órgãos pélvicos: sem particularidades, considerando os limites do método.
+Trato gastrointestinal: sem particularidades no protocolo utilizado.
+Vasos: aorta de calibre preservado, com ateromatose calcificada parietal difusa, estendendo-se às artérias renais, onde há placas calcificadas ostiais {lado_a|à direita/à esquerda/bilateralmente}, sem estenose hemodinamicamente significativa caracterizável ao método. Veia cava inferior de calibre normal.
+Retroperitônio: não há evidência de linfonodomegalias.
+Peritônio: ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles: redução difusa da densidade óssea e alterações degenerativas da coluna lombar.
+
+COMPARAÇÃO: estudos anteriores não disponíveis para análise comparativa.
+
+CONCLUSÃO:
+1. **Sinais tomográficos de nefropatia crônica bilateral**: redução volumétrica renal, contornos lobulados, adelgaçamento do parênquima e redução da diferenciação corticomedular.
+2. Cistos renais simples (Bosniak I), sem significado clínico.
+3. Ateromatose calcificada da aorta e das artérias renais, sem estenose hemodinamicamente significativa caracterizável ao método.
+4. Ausência de obstrução do trato urinário ou de coleções no presente estudo.
+5. Correlacionar com a função renal e com exames prévios para avaliação evolutiva.

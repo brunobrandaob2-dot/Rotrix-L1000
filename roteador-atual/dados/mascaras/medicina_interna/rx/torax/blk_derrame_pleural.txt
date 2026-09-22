@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Seios costofrênicos
+# gatilhos: derrame pleural | derrame | velamento do seio costofrenico | seio costofrenico velado
+Velamento do seio costofrênico {lado|direito/esquerdo/bilateral}, compatível com derrame pleural de {volume|pequeno/moderado/grande} volume.

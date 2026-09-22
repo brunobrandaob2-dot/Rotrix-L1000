@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Metacarpos
+# gatilhos: fratura de bennett | fratura de rolando | fratura da base do primeiro metacarpo
+# conclusao: Fratura intra-articular da base do primeiro metacarpo ({padrao|Bennett/Rolando}).
+Metacarpos:  fratura intra-articular da base do primeiro metacarpo, {padrao|com fragmento volar-ulnar e subluxação radial da diáfise (Bennett)/cominutiva, em padrão de Rolando}, com degrau articular de {tamanho}. Demais metacarpos sem traços de fratura.

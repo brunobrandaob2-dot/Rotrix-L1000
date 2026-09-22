@@ -1,0 +1,29 @@
+# gatilhos: tomografia de tornozelo com artrose | tc de tornozelo com artrose | tc tornozelo artrose | tomografia de tornozelo com artrose tibiotalar | tc de tornozelo com artrose tibiotalar
+# categoria: msk
+# modalidade: tc
+# regiao: tornozelo
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento e encaixe da pinça maleolar:  encaixe mantido, sem subluxação do tálus.
+Articulação tibiotalar:  redução {grau|discreta/moderada/acentuada} do espaço articular, com osteófitos marginais tibiais e talares, esclerose subcondral e {cistos|sem cistos subcondrais/pequenos cistos subcondrais}.
+Tíbia distal:  metáfise e plafond tibial sem particularidades.
+Maléolo medial:  íntegro, de contornos regulares.
+Maléolo lateral:  íntegro, de contornos regulares.
+Sindesmose tibiofibular:  relação tibiofibular distal preservada, sem alargamento da incisura fibular.
+Tálus:  morfologia preservada, com esclerose e irregularidade subcondral da cúpula talar.
+Calcâneo:  morfologia e densidade normais.
+Articulação subtalar:  congruente, com espaço articular preservado.
+Demais ossos do tarso:  sem particularidades nos segmentos incluídos.
+Tendões:  trajeto habitual dos tendões ao redor do tornozelo, considerando os limites do método.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artrose tibiotalar {grau_concl|leve/moderada/acentuada}.

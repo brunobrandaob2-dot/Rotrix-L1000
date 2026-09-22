@@ -1,0 +1,32 @@
+# gatilhos: tomografia de abdome com apendicite | tc de abdome com apendicite | tc abdome apendicite | tomografia de abdome total com apendicite | tc de abdome total com apendicite | tomografia do abdome com apendicite | tomografia de abdome com apendicite aguda | tc de abdome com apendicite aguda | tc abdome apendicite aguda | tomografia de abdome com apendicite nao complicada | tc de abdome com apendicite nao complicada | tc abdome apendicite nao complicada
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  apêndice cecal de calibre aumentado, medindo {tamanho} de diâmetro (referência: até 0,6 cm), com espessamento e realce parietal e densificação da gordura periapendicular, {apendicolito|sem/com} apendicolito. Não há gás extraluminal, coleções ou descontinuidade parietal.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  linfonodos ileocólicos de aspecto reacional, sem linfonodomegalias.
+Peritônio:  {liquido|ausência de/pequena quantidade de} líquido livre na fossa ilíaca direita e na escavação pélvica. Não há coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Achados compatíveis com apendicite aguda, sem sinais de complicação.

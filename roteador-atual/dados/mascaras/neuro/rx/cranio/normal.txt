@@ -1,0 +1,17 @@
+# gatilhos: raio x de cranio | rx de cranio | radiografia de cranio | radiografia do cranio | raio x de cranio normal | rx de cranio normal | radiografia de cranio normal | rx cranio normal | raio x do cranio
+# categoria: neuro
+# modalidade: rx
+# regiao: cranio
+# tipo_mascara: normal
+**RADIOGRAFIA DO CRÂNIO**
+
+**TÉCNICA:**  incidências posteroanterior e perfil.
+
+**ANÁLISE:**
+Calota craniana de espessura e densidade normais, sem lesões líticas ou escleróticas.
+Não há sinais de fraturas.
+Suturas cranianas de aspecto habitual.
+Sela túrcica de dimensões e contornos normais.
+Seios paranasais normotransparentes.
+Partes moles sem alterações.
+A radiografia não avalia o conteúdo intracraniano.

@@ -1,0 +1,28 @@
+# gatilhos: tomografia de joelho com protese | tc de joelho com protese | tc joelho artroplastia | tomografia de joelho com artroplastia | tc de joelho com artroplastia | tomografia de joelho com protese total
+# categoria: msk
+# modalidade: tc
+# regiao: joelho
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e técnica de redução de artefatos metálicos. Avaliação parcialmente limitada por artefatos de endurecimento de feixe relacionados ao material protético.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  eixo {eixo|neutro/em varo/em valgo}. Componentes protéticos articulados, sem sinais de luxação.
+Espaço femorotibial medial:  espaço entre os componentes femoral e tibial preservado, sem sinais de desgaste assimétrico do polietileno.
+Espaço femorotibial lateral:  espaço entre os componentes femoral e tibial preservado, sem sinais de desgaste assimétrico do polietileno.
+Articulação femoropatelar:  patela {recapeamento|com/sem} componente protético, centrada no sulco troclear.
+Fêmur distal:  componente femoral em posição habitual, com rotação de {rotacao_femoral}° em relação ao eixo transepicondilar cirúrgico (referência: paralelo ao eixo, 0° ± 3°). Não há halo de radiolucência superior a 2 mm, osteólise ou fratura periprotética.
+Tíbia e fíbula proximais:  componente tibial em posição habitual, com rotação de {rotacao_tibial}° em relação à tuberosidade anterior da tíbia. Não há halo de radiolucência superior a 2 mm, osteólise ou afundamento.
+Patela:  sem traços de fratura.
+Recesso suprapatelar:  sem distensão líquida significativa. Não há nível gordura-líquido.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  sem particularidades. Não há coleções ou calcificações periarticulares.
+Estruturas capsuloligamentares e meniscais:  avaliação limitada pelo método e pelos artefatos metálicos.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artroplastia {tipo_ptj|total/unicompartimental} do joelho, com componentes em posição habitual, sem sinais tomográficos de soltura, osteólise ou fratura periprotética.

@@ -1,0 +1,25 @@
+# gatilhos: tomografia de cotovelo com ossificacao heterotopica | tomografia do cotovelo com ossificacao heterotopica | tc de cotovelo com ossificacao heterotopica | tc do cotovelo com ossificacao heterotopica | tc cotovelo ossificacao heterotopica | tomografia de cotovelo com ossificacoes heterotopicas | tc de cotovelo com ossificacoes heterotopicas | tomografia de cotovelo com rigidez pos traumatica | tc de cotovelo com rigidez pos traumatica
+# categoria: msk
+# modalidade: tc
+# regiao: cotovelo
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO COTOVELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações umeroulnar, umerorradial e radioulnar proximal preservadas, sem sinais de luxação ou subluxação.
+Úmero distal:  côndilos, epicôndilos, capítulo e tróclea de morfologia e contornos preservados, sem traços de fratura.
+Cabeça e colo do rádio:  de morfologia e contornos preservados, sem traços de fratura.
+Ulna proximal:  olécrano e processo coronoide íntegros, sem traços de fratura.
+Espaços articulares:  preservados, sem osteófitos, esclerose subcondral ou corpos livres intra-articulares.
+Derrame articular:  ausente.
+Mineralização óssea:  preservada.
+Partes moles:  ossificação heterotópica {maturidade|madura, corticalizada/imatura} na face {face|anterior/posterior/medial/lateral} do cotovelo, medindo {tamanho}, {ponte|sem/com} ponte óssea entre o úmero e {osso|a ulna/o rádio}, considerando os limites do método para avaliação ligamentar e tendínea.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Ossificação heterotópica na face {face|anterior/posterior/medial/lateral} do cotovelo, {ponte|sem/com} ponte óssea, podendo contribuir para limitação do arco de movimento.

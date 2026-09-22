@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: granuloma calcificado | nodulo calcificado | granuloma | nodulo pulmonar calcificado | granulomas calcificados | granuloma calcificado residual
+# conclusao: Granuloma calcificado residual no {lobo_completo}.
+Parênquima pulmonar:  granuloma calcificado residual no {lobo_completo}, medindo {tamanho}.

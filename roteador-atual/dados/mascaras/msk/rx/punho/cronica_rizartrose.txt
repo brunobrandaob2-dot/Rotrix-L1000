@@ -1,0 +1,17 @@
+# gatilhos: raio x de punho com rizartrose | rx de punho com rizartrose | radiografia de punho com rizartrose | rx do punho com rizartrose | rx punho rizartrose | raio x de punho com artrose | rx de punho com artrose | raio x de punho com artrose trapeziometacarpiana | rx de punho com artrose trapeziometacarpiana | raio x de punho com artrose da base do polegar | rx de punho com artrose da base do polegar
+# categoria: msk
+# modalidade: rx
+# regiao: punho
+# tipo_mascara: cronica
+**RADIOGRAFIA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências posteroanterior, perfil e oblíqua.
+
+**ANÁLISE:**
+Alinhamento carpal preservado.
+Espaços articulares radiocarpal, mediocarpal e radioulnar distal preservados.
+Rizartrose, com redução {grau|leve/moderada/acentuada} do espaço trapeziometacarpiano, osteófitos marginais e esclerose subcondral (Kellgren-Lawrence {kl|1/2/3/4}).
+{subluxacao|Sem/Com} subluxação radial da base do primeiro metacarpo.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

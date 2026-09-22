@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Sistema ventricular
+# gatilhos: dilatacao ventricular ex vacuo | ventriculos ex vacuo | ectasia ventricular compensatoria | dilatacao ventricular compensatoria
+# conclusao: Dilatação ventricular compensatória (ex vacuo), sem sinais de hidrocefalia.
+Sistema ventricular:  dilatação ventricular proporcional à redução volumétrica parenquimatosa (ex vacuo), sem sinais de hidrocefalia ou de transudação liquórica.

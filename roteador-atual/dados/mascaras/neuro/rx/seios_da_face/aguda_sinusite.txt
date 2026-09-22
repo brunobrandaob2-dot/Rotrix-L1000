@@ -1,0 +1,17 @@
+# gatilhos: raio x de seios da face com sinusite | rx de seios da face com sinusite | radiografia de seios da face com sinusite | rx seios da face sinusite | raio x de seios da face com sinusite aguda | rx de seios da face com sinusite aguda
+# categoria: neuro
+# modalidade: rx
+# regiao: seios_da_face
+# tipo_mascara: aguda
+**RADIOGRAFIA DOS SEIOS DA FACE**
+
+**TÉCNICA:**  incidências frontonaso (Caldwell), mentonaso (Waters) e perfil.
+
+**ANÁLISE:**
+Nível hidroaéreo e espessamento mucoso no seio maxilar {lado|direito/esquerdo}, podendo corresponder a sinusopatia aguda no contexto clínico adequado.
+Seios frontais normotransparentes.
+Células etmoidais e seio esfenoidal normotransparentes.
+Cavidade nasal sem alterações evidentes.
+Rinofaringe com coluna aérea preservada.
+Arcabouço ósseo sem alterações.
+A radiografia tem baixa acurácia para células etmoidais e complexos ostiomeatais.

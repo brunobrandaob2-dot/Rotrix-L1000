@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura do colo femoral | fratura do colo do femur | fratura de colo
+Fratura {local_colo|subcapital/transcervical/basocervical} do colo femoral, Garden {garden|I/II/III/IV}.

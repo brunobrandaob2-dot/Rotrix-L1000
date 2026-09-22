@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Retroperitônio
+# gatilhos: linfonodomegalias | linfonodomegalia | linfonodomegalias retroperitoneais | adenomegalias
+# conclusao: Linfonodomegalias {cadeias|retroperitoneais/mesentéricas/ilíacas}, a maior medindo {tamanho} no menor eixo, de natureza indeterminada ao método.
+Retroperitônio:  linfonodos aumentados em cadeias {cadeias|retroperitoneais/mesentéricas/ilíacas}, o maior medindo {tamanho} no menor eixo (referência: até 1,0 cm).

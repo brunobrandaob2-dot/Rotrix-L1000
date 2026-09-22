@@ -1,0 +1,35 @@
+# tipo: frases
+## gatilhos: fratura de bennett na mao
+Fratura-luxação intra-articular da base do primeiro metacarpo, com fragmento volar-ulnar mantido em posição e subluxação radial e dorsal da diáfise (fratura de Bennett).
+## gatilhos: fratura de rolando na mao
+Fratura cominutiva intra-articular da base do primeiro metacarpo (fratura de Rolando).
+## gatilhos: fratura do boxer na mao | fratura do boxeador na mao
+Fratura do colo do {metacarpo|quarto/quinto} metacarpo, com angulação volar do fragmento distal de {angulo}° (fratura do boxeador).
+## gatilhos: mallet osseo na mao | dedo em martelo osseo na mao
+Fratura-avulsão da base dorsal da falange distal do {dedo} dedo, acometendo cerca de {percentual}% da superfície articular, {subluxacao|sem/com} subluxação volar da falange distal (dedo em martelo ósseo).
+## gatilhos: avulsao da placa volar na mao
+Pequeno fragmento ósseo avulsionado da base volar da falange média do {dedo} dedo, podendo corresponder a avulsão da placa volar.
+## gatilhos: polegar do esquiador na mao | avulsao do colateral ulnar do polegar
+Fragmento ósseo avulsionado da face ulnar da base da falange proximal do polegar, na inserção do ligamento colateral ulnar, com desvio de {tamanho} (polegar do esquiador).
+## gatilhos: nodulos de heberden na mao
+Osteófitos marginais nas interfalangianas distais (nódulos de Heberden).
+## gatilhos: nodulos de bouchard na mao
+Osteófitos marginais nas interfalangianas proximais (nódulos de Bouchard).
+## gatilhos: erosoes em asa de gaivota na mao | artrose erosiva na mao
+Erosões centrais subcondrais nas interfalangianas {ifs|proximais/distais}, com aspecto em asa de gaivota, que podem corresponder a osteoartrite erosiva, a correlacionar clinicamente.
+## gatilhos: erosoes marginais na mao
+Erosões ósseas marginais nas articulações {articulacoes}, que podem corresponder a artropatia inflamatória, a correlacionar com dados clínicos e laboratoriais.
+## gatilhos: acroosteolise na mao | reabsorcao dos tufos na mao
+Reabsorção óssea dos tufos das falanges distais (acro-osteólise), a correlacionar clinicamente.
+## gatilhos: calcinose na mao | calcificacoes de partes moles na mao
+Calcificações amorfas nas partes moles {local}, a correlacionar clinicamente.
+## gatilhos: encondroma na mao | lesao litica na falange da mao
+Lesão lítica medular na falange {falange} do {dedo} dedo, de contornos bem definidos, {matriz|sem/com} calcificações de matriz condroide e com afilamento endosteal, medindo {tamanho}, podendo corresponder a encondroma.
+## gatilhos: corpo estranho metalico na mao
+Corpo estranho de densidade metálica nas partes moles {local}, medindo {tamanho}, situado a {distancia} mm da superfície cutânea.
+## gatilhos: corpo estranho de vidro na mao
+Corpo estranho de densidade compatível com vidro nas partes moles {local}, medindo {tamanho}.
+## gatilhos: gas nas partes moles da mao
+Pequenas bolhas gasosas nas partes moles {local}, que podem relacionar-se a ferimento penetrante; na ausência deste, considerar processo infeccioso, a correlacionar clinicamente.
+## gatilhos: limite do metodo na mao | tomografia nao avalia tendoes da mao
+A tomografia computadorizada tem sensibilidade limitada para avaliação de tendões, polias e ligamentos da mão; se houver indicação clínica, considerar ultrassonografia ou ressonância magnética.

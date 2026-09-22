@@ -1,0 +1,29 @@
+# gatilhos: tomografia de quadril com osteonecrose | tc de quadril com osteonecrose | tc quadril necrose avascular | tomografia de quadril com necrose da cabeca femoral | tc de quadril com necrose avascular
+# categoria: msk
+# modalidade: tc
+# regiao: quadril
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  relações articulares coxofemorais preservadas. Não há luxação ou subluxação.
+Acetábulo:  morfologia e cobertura da cabeça femoral habituais. Colunas e paredes acetabulares íntegras.
+Cabeça femoral:  área de esclerose de contornos serpiginosos, com lucências de permeio, na porção {local_necrose|anterossuperior/superior/central} da cabeça femoral (região de carga), {colapso|sem sinais de colapso subcondral/com fratura subcondral (sinal do crescente), sem colapso/com colapso subcondral de ___ e perda da esfericidade}.
+Colo femoral:  corticais íntegras, sem traços de fratura. Transição cabeça-colo com concavidade habitual.
+Região trocantérica:  trocânteres maior e menor sem particularidades.
+Espaço articular:  {espaco|preservado/reduzido, com alterações degenerativas secundárias acetabulares}.
+Cavidade articular:  sem derrame articular significativo. Não há corpos livres intra-articulares.
+Diáfise femoral proximal:  sem particularidades.
+Ossos pélvicos adjacentes:  sem particularidades.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  musculatura periarticular de volume e atenuação habituais. Não há coleções ou calcificações periarticulares.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Alterações da cabeça femoral compatíveis com osteonecrose, estágio {ficat|II/III/IV} da classificação de Ficat-Arlet.
+A ressonância magnética é mais sensível para doença inicial e para avaliação do quadril contralateral, frequentemente acometido.

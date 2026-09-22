@@ -1,0 +1,28 @@
+# gatilhos: tomografia de joelho com condrocalcinose | tc de joelho com condrocalcinose | tc joelho condrocalcinose | tomografia de joelho com calcificacao meniscal | tc de joelho com calcificacao meniscal
+# categoria: msk
+# modalidade: tc
+# regiao: joelho
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  relações articulares femorotibiais e femoropatelares preservadas. Não há luxação ou subluxação.
+Espaço femorotibial medial:  preservado. Calcificações lineares na fibrocartilagem do menisco medial e na cartilagem articular.
+Espaço femorotibial lateral:  preservado. Calcificações lineares na fibrocartilagem do menisco lateral.
+Articulação femoropatelar:  {fp|congruente, com espaço articular preservado/espaço articular reduzido, com esclerose subcondral e osteófitos}.
+Fêmur distal:  côndilos femorais de contornos regulares e densidade habitual, sem traços de fratura.
+Tíbia e fíbula proximais:  planaltos tibiais regulares, sem afundamentos ou traços de fratura. Articulação tibiofibular proximal sem particularidades.
+Patela:  de altura e centragem habituais, contornos regulares, sem traços de fratura.
+Recesso suprapatelar:  sem distensão líquida significativa. Não há nível gordura-líquido.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  sem particularidades. Não há coleções ou calcificações periarticulares.
+Estruturas capsuloligamentares e meniscais:  calcificações meniscais descritas. Demais estruturas com avaliação limitada pelo método.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Condrocalcinose femorotibial, que pode estar relacionada a doença por depósito de pirofosfato de cálcio (CPPD). Correlacionar com dados clínicos.

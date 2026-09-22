@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Coluna aérea da orofaringe
+# gatilhos: amigdalas aumentadas | hipertrofia amigdaliana | tonsilas palatinas aumentadas | hipertrofia das amigdalas | hipertrofia tonsilar
+Aumento das tonsilas palatinas, com redução da coluna aérea da orofaringe.

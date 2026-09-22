@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Maléolo lateral
+# gatilhos: fratura do maleolo lateral | fratura da fibula distal | fratura do maleolo fibular
+# conclusao: Fratura do maléolo lateral, Weber {weber|A/B/C}.
+Maléolo lateral:  fratura {traco|oblíqua/espiral/transversa}, {nivel|abaixo/ao nível/acima} da sindesmose (Weber {weber|A/B/C}), com desvio de {tamanho}.

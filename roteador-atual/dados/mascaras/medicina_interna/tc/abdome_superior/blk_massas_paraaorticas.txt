@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Retroperitônio
+# gatilhos: massas para aorticas | massas paraaorticas | linfonodomegalias para aorticas | conglomerado linfonodal | massas retroperitoneais | linfonodomegalias confluentes | massa para aortica
+# conclusao: Massas retroperitoneais para-aórticas, destacando-se lesão {lado_a|à direita/à esquerda} em íntimo contato com a aorta, compatíveis com linfonodomegalias.
+Retroperitônio:  massas para-aórticas confluentes, a maior situada {lado_a|à direita/à esquerda}, com íntimo contato com a aorta abdominal, medindo cerca de {tamanho} nos seus maiores eixos axiais, de provável etiologia linfonodal (linfonodomegalias).

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cabeça e colo do rádio
+# gatilhos: protese da cabeca radial | protese metalica da cabeca do radio | artroplastia metalica da cabeca do radio | protese
+# conclusao: Artroplastia da cabeça do rádio, sem sinais de soltura evidentes ao método.
+Cabeça e colo do rádio:  prótese da cabeça do rádio em posição habitual, sem halo de radiolucência ao redor da haste ou sinais de soltura evidentes.

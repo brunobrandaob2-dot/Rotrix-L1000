@@ -1,0 +1,16 @@
+# gatilhos: abdome com pielonefrite | pielonefrite aguda | infeccao renal
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Rins: rim {lado|direito/esquerdo} com aumento volumétrico e áreas cuneiformes de hipoatenuação estriada no parênquima, de distribuição segmentar, com vértice medial — padrão nefrográfico estriado. Densificação da gordura perirrenal e espessamento da fáscia de Gerota ipsilateral. Ausência de coleção organizada ou de gás no parênquima.
+Vias coletoras: sem dilatação. Ausência de cálculos obstrutivos.
+Bexiga: paredes de espessura normal, conteúdo homogêneo.
+Demais órgãos abdominais e pélvicos sem alterações significativas.
+
+CONCLUSÃO:
+1. **Pielonefrite aguda** {lado_a|à direita/à esquerda}, sem sinais de abscesso ou de pielonefrite enfisematosa.
+2. Ausência de fator obstrutivo identificável.

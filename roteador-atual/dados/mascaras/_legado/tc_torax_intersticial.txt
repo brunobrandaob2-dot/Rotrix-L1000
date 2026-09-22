@@ -1,0 +1,25 @@
+# gatilhos: torax com doenca intersticial | doenca pulmonar intersticial | pneumopatia intersticial fibrosante | padrao de piu | fibrose pulmonar | torax intersticial | torax fibrose
+TOMOGRAFIA COMPUTADORIZADA DE ALTA RESOLUÇÃO DO TÓRAX
+
+TÉCNICA: aquisição volumétrica com cortes finos e reconstruções multiplanares, complementada por séries em decúbito ventral e em expiração.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Parênquima pulmonar: opacidades reticulares de distribuição predominantemente subpleural e basal, com gradiente ápico-basal, associadas a faveolamento e a bronquiectasias e bronquiolectasias de tração, com distorção da arquitetura pulmonar. Opacidades em vidro fosco de pequena extensão, restritas às áreas de reticulado. Ausência de predomínio peribroncovascular, de cistos fora das áreas de faveolamento, de micronódulos centrolobulares profusos, de consolidações ou de aprisionamento aéreo lobular em três ou mais lobos na série expiratória. Extensão estimada do acometimento: ___% do volume pulmonar.
+Traqueia e brônquios: calibre e trajetos normais, sem estenoses focais.
+Mediastino: sem alterações evidentes. Esôfago de calibre ___ (habitual/aumentado, com conteúdo aéreo).
+Linfonodos mediastinais e hilares: alguns de dimensões limítrofes e aspecto inespecífico, o maior com eixo curto de {tamanho}, sem critérios de linfonodomegalia (eixo curto > 10 mm).
+Aorta torácica: calibre preservado, com ateromas calcificados parietais.
+Coronárias: calcificações parietais.
+Derrames: ausência de derrame pleural ou pericárdico.
+Cúpulas diafragmáticas: morfologia e posição habituais.
+Estruturas ósseas: sem lesões líticas ou blásticas. Alterações degenerativas da coluna torácica.
+Partes moles: sem alterações significativas.
+
+COMPARAÇÃO: estudos anteriores não disponíveis para análise comparativa.
+
+CONCLUSÃO:
+1. Pneumopatia intersticial fibrosante, com reticulado subpleural e basal, faveolamento e bronquiectasias de tração, acompanhados de distorção da arquitetura pulmonar.
+2. Padrão tomográfico classificado como {padrao|PIU típica/provável PIU/indeterminado para PIU/sugestivo de diagnóstico alternativo}, segundo a terminologia do glossário de Fleischner e os critérios de consenso para pneumonia intersticial usual.
+3. Os achados tomográficos, isoladamente, não permitem definição etiológica. Recomendada correlação clínica, laboratorial e discussão multidisciplinar.

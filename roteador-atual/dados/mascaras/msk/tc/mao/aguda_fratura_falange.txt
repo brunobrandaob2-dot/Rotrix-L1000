@@ -1,0 +1,26 @@
+# gatilhos: tomografia de mao com fratura | tomografia da mao com fratura | tc de mao com fratura | tc da mao com fratura | tc mao fratura | tomografia de mao com fratura da falange | tc de mao com fratura da falange | tomografia de mao com fratura de falange | tc de mao com fratura de falange | tomografia de mao com fratura do dedo | tc de mao com fratura do dedo
+# categoria: msk
+# modalidade: tc
+# regiao: mao
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA MÃO {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações carpometacarpais, metacarpofalangianas e interfalangianas preservadas, sem luxações ou subluxações.
+Ossos do carpo:  de morfologia e contornos preservados, sem traços de fratura.
+Metacarpos:  de morfologia e contornos preservados, sem traços de fratura ou lesões focais.
+Falanges:  fratura {local|da base/da diáfise/do colo/da cabeça/do tufo} da falange {falange} do {dedo} dedo, de traço {traco|transverso/oblíquo/espiral/cominutivo}, com desvio de {tamanho}. {articular|Sem/Com} extensão à superfície articular, com degrau de ___ mm.
+Articulação trapeziometacarpiana:  espaço articular preservado, sem osteófitos.
+Articulações metacarpofalangianas:  espaços articulares preservados, sem erosões ou osteófitos.
+Articulações interfalangianas:  espaços articulares preservados, sem erosões ou osteófitos.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções, calcificações ou corpos estranhos radiodensos, considerando os limites do método para avaliação tendínea e ligamentar.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura da falange {falange} do {dedo} dedo da mão {lado_f|direita/esquerda}.

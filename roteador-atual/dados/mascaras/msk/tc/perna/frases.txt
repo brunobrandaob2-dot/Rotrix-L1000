@@ -1,0 +1,35 @@
+# tipo: frases
+## gatilhos: fratura de maisonneuve na perna
+Fratura do terço proximal da fíbula; em associação com lesão do tornozelo, configura o padrão de Maisonneuve, recomendando-se avaliação da sindesmose e do complexo medial do tornozelo.
+## gatilhos: fratura exposta na perna | gas no foco de fratura da perna
+Gás nas partes moles da perna, adjacente ao foco de fratura, podendo corresponder a fratura exposta; correlacionar com o exame clínico.
+## gatilhos: hematoma na perna
+Hematoma nas partes moles da perna, no compartimento {compartimento|anterior/lateral/posterior superficial/posterior profundo}, medindo {tamanho}.
+## gatilhos: sindrome compartimental na perna
+A tomografia não permite o diagnóstico de síndrome compartimental, que é clínico e pode ser complementado pela medida da pressão intracompartimental.
+## gatilhos: enostose na tibia | ilhota de osso compacto na tibia
+Foco esclerótico intramedular na tíbia, de contornos espiculados, medindo {tamanho}, com aspecto de ilhota de osso compacto (enostose).
+## gatilhos: fibroma nao ossificante na tibia | defeito fibroso cortical na tibia
+Lesão lítica cortical excêntrica na metáfise tibial, de contornos escleróticos e lobulados, medindo {tamanho}, com aspecto de fibroma não ossificante.
+## gatilhos: lesao ossea indeterminada na tibia
+Lesão óssea {padrao|lítica/esclerótica/mista} na tíbia, medindo {tamanho}, de natureza indeterminada ao método; sugere-se complementação com ressonância magnética.
+## gatilhos: reacao periosteal na tibia
+Reação periosteal {periosteal|lisa/lamelar/espiculada} na cortical {cortical|anterior/medial/posterior} da tíbia.
+## gatilhos: espessamento cortical na tibia | espessamento cortical da tibia na tc
+Espessamento cortical {cortical|anterior/medial/posterior} da diáfise tibial, podendo corresponder a resposta a estresse crônico; correlacionar clinicamente.
+## gatilhos: fratura consolidada na tibia
+Fratura consolidada na diáfise tibial, com calo ósseo maduro e alinhamento {alinhamento|preservado/com angulação residual}.
+## gatilhos: haste tibial integra na perna
+Haste intramedular tibial com parafusos de bloqueio, íntegra e sem sinais de soltura.
+## gatilhos: edema subcutaneo na perna | celulite na perna
+Densificação difusa do tecido subcutâneo da perna, inespecífica, podendo corresponder a edema ou processo inflamatório; correlacionar clinicamente.
+## gatilhos: atrofia muscular na perna
+Redução volumétrica e lipossubstituição da musculatura do compartimento {compartimento|anterior/lateral/posterior} da perna.
+## gatilhos: calcificacoes nas partes moles da perna | calcinose na perna
+Calcificações nas partes moles da perna, {padrao_calc|amorfas/lineares/em placas}, de aspecto inespecífico.
+## gatilhos: miosite ossificante na perna
+Ossificação em partes moles da perna, com padrão zonal de maturação periférica, podendo corresponder a miosite ossificante; correlacionar com história de trauma.
+## gatilhos: tc de perna sem fratura | perna sem fratura na tomografia
+Não há sinais tomográficos de fratura na tíbia ou na fíbula.
+## gatilhos: flebolitos na perna
+Flebólitos nas partes moles da perna.

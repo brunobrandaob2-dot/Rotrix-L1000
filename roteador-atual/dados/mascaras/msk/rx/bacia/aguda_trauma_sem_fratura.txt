@@ -1,0 +1,18 @@
+# gatilhos: raio x de bacia apos queda | rx de bacia apos queda | radiografia de bacia apos queda | raio x de bacia trauma sem fratura | rx de bacia trauma | raio x de bacia por trauma
+# categoria: msk
+# modalidade: rx
+# regiao: bacia
+# tipo_mascara: aguda
+**RADIOGRAFIA DA BACIA**
+
+**TÉCNICA:**  incidência anteroposterior da bacia.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Articulações sacroilíacas preservadas.
+Sínfise púbica sem alterações.
+Espaços articulares coxofemorais preservados.
+Não há sinais de fraturas ou luxações.
+A radiografia não exclui fratura oculta do colo femoral; se a suspeita persistir, considerar ressonância magnética.
+Densidade óssea preservada.
+Partes moles sem alterações.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Núcleos da base
+# gatilhos: lacunas | lacuna | infartos lacunares | imagens lacunares
+# conclusao: Infartos lacunares crônicos {lado_a|à direita/à esquerda}.
+Núcleos da base:  imagens lacunares hipoatenuantes, de limites definidos e sem efeito expansivo, {topografia_lacunas|nos núcleos lentiformes/nos tálamos/nas cápsulas internas/___} {lado_a|à direita/à esquerda}, a maior medindo {tamanho}, compatíveis com infartos lacunares crônicos.

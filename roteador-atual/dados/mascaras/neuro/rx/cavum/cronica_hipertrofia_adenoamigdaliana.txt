@@ -1,0 +1,15 @@
+# gatilhos: raio x de cavum com hipertrofia adenoamigdaliana | rx de cavum com hipertrofia adenoamigdaliana | rx de cavum com adenoide e amigdalas aumentadas | raio x de cavum com hipertrofia de adenoide e amigdalas | rx cavum adenoamigdaliana
+# categoria: neuro
+# modalidade: rx
+# regiao: cavum
+# tipo_mascara: cronica
+**RADIOGRAFIA DO CAVUM**
+
+**TÉCNICA:**  incidência em perfil.
+
+**ANÁLISE:**
+Hipertrofia {grau|discreta/moderada/acentuada} do tecido adenoideano.
+Redução {grau|discreta/moderada/acentuada} da coluna aérea da rinofaringe.
+Palato mole de espessura e contornos normais.
+Aumento das tonsilas palatinas, com redução da coluna aérea da orofaringe.
+Partes moles pré-vertebrais de espessura normal.

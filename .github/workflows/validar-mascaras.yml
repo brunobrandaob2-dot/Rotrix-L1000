@@ -1,0 +1,25 @@
+name: Validar máscaras
+
+on:
+  push:
+    paths: ["roteador-atual/**", ".github/workflows/validar-mascaras.yml"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: roteador-atual
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Gerar o banco
+        run: LAUDO_BASE=/tmp/base.sqlite LAUDO_CATALOGO=/tmp/catalogo.txt python construir_base.py
+      - name: Validar todas as regiões
+        run: |
+          regioes=$(find dados/mascaras -name normal.txt -printf '%h\n' | sort)
+          python validar_regiao.py $regioes

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: nodulo de schmorl | nodulos de schmorl | schmorl
+# conclusao: Nódulos de Schmorl em {nivel}.
+Corpos vertebrais:  de altura preservada, com depressões corticais nas plataformas vertebrais de {nivel}, de margens escleróticas, compatíveis com nódulos de Schmorl. Sem sinais de fratura ou de lesão focal.

@@ -1,0 +1,23 @@
+# tipo: frases
+## gatilhos: osteopenia periarticular na mao
+Osteopenia periarticular nas metacarpofalangianas e interfalangianas proximais.
+## gatilhos: reducao simetrica do espaco articular na mao
+Redução simétrica dos espaços articulares {articulacoes}, padrão que pode ser visto em artropatias inflamatórias.
+## gatilhos: desvio ulnar dos dedos na mao
+Desvio ulnar dos dedos nas metacarpofalangianas.
+## gatilhos: deformidade em pescoco de cisne na mao
+Deformidade em pescoço de cisne do {dedo} dedo.
+## gatilhos: deformidade em botoeira na mao
+Deformidade em botoeira do {dedo} dedo.
+## gatilhos: erosao em saca bocado na mao
+Erosões justarticulares com bordas escleróticas (em saca-bocado), podendo corresponder a gota.
+## gatilhos: fratura do tufo da falange distal na mao
+Fratura do tufo da falange distal do {dedo} dedo, {cominuicao|sem/com} cominuição.
+## gatilhos: fratura do colo do quinto metacarpo na mao
+Fratura do colo do quinto metacarpo, com angulação volar de {angulo}°.
+## gatilhos: limite do rx na mao | radiografia nao detecta corpo estranho da mao
+A radiografia tem sensibilidade limitada para fraturas sem desvio e não detecta corpos estranhos radiotransparentes.
+## gatilhos: corpo estranho radiopaco na mao
+Corpo estranho radiopaco nas partes moles {local}, medindo {tamanho}.
+## gatilhos: aumento de partes moles na mao
+Aumento de volume das partes moles {local}.

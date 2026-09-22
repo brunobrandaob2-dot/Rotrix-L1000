@@ -1,0 +1,29 @@
+# gatilhos: tomografia de pescoco | tc de pescoco com contraste | pescoco com contraste | tc cervical partes moles | tomografia cervical com contraste
+TOMOGRAFIA COMPUTADORIZADA DO PESCOÇO
+
+TÉCNICA: aquisição volumétrica após injeção intravenosa de contraste iodado, da base do crânio à abertura torácica superior, com reconstruções multiplanares.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Cadeias linfonodais: ausência de linfonodomegalias nos níveis I a VI, bilateralmente / linfonodos aumentados no nível ___ {lado_a|à direita/à esquerda}, o maior medindo {tamanho} no menor eixo.
+Nível I (submentual e submandibular): linfonodos de dimensões e morfologia preservadas / aumentados {lado_a|à direita/à esquerda}.
+Níveis II, III e IV (jugulares superior, médio e inferior): linfonodos de dimensões e morfologia preservadas / aumentados {lado_a|à direita/à esquerda}, o maior com {tamanho} no menor eixo.
+Nível V (triângulo posterior): linfonodos de dimensões e morfologia preservadas / aumentados {lado_a|à direita/à esquerda}.
+Nível VI (compartimento central): linfonodos de dimensões e morfologia preservadas / aumentados.
+Glândulas salivares: parótidas e submandibulares tópicas, simétricas, de densidade homogênea e realce habitual, sem nódulos, cálculos ou dilatação ductal. Glândulas sublinguais sem alterações.
+Tireoide: tópica, de dimensões e realce habituais, sem nódulos identificáveis ao método. Ausência de componente mergulhante ou de compressão traqueal.
+Espaço parafaríngeo: gordura preservada e simétrica bilateralmente, sem abaulamentos ou densificação.
+Espaço mastigatório: musculatura pterigoidea e masseterina simétrica, sem coleções ou densificação. Ramos mandibulares íntegros.
+Espaço carotídeo: vasos carotídeos e jugulares pérvios e de calibre preservado, sem trombose ou irregularidades parietais significativas.
+Espaço retrofaríngeo e pré-vertebral: amplitude preservada, sem coleções ou densificação. Musculatura pré-vertebral simétrica.
+Espaço visceral: faringe e laringe com luz pérvia e simétrica, sem espessamentos parietais focais. Pregas vocais simétricas. Traqueia de calibre e trajeto normais, centrada.
+Glândulas e demais partes moles: planos gordurosos cervicais preservados, sem coleções, enfisema de partes moles ou corpos estranhos.
+Estruturas ósseas: coluna cervical com alterações degenerativas / sem alterações significativas. Ausência de lesões líticas ou blásticas.
+Ápices pulmonares: sem alterações significativas nos segmentos incluídos no estudo.
+
+CONCLUSÃO:
+1. Ausência de linfonodomegalias cervicais nos níveis I a VI / linfonodomegalia no nível ___ {lado_a|à direita/à esquerda}, o maior linfonodo com {tamanho} no menor eixo, cuja natureza não é determinável apenas pelo método.
+2. Glândulas salivares e tireoide sem alterações significativas no presente estudo.
+3. Espaços cervicais profundos preservados, sem coleções ou sinais de processo inflamatório em atividade.
+4. Recomendada correlação clínica e, se necessário, ultrassonografia cervical para caracterização adicional dos achados linfonodais e tireoidianos.

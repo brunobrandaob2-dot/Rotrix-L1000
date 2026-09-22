@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vasos
+# gatilhos: aneurisma de aorta | aneurisma da aorta | aneurisma da aorta abdominal | aneurisma aortico
+# conclusao: Aneurisma fusiforme da aorta abdominal infrarrenal, medindo {tamanho} no maior diâmetro transverso, sem sinais de instabilidade.
+Vasos:  aorta abdominal infrarrenal com dilatação fusiforme, medindo {tamanho} no maior diâmetro transverso externo (aneurisma: igual ou superior a 3,0 cm), com extensão longitudinal de {extensao}, trombo mural {trombo|excêntrico/concêntrico} e ateromatose calcificada parietal. Não há hematoma periaórtico, sinal do crescente hiperatenuante ou outros sinais de instabilidade. Veia cava inferior de calibre normal.

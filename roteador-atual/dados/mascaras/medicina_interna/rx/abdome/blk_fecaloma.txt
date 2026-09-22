@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Conteúdo fecal
+# gatilhos: fecaloma | retencao fecal | coprostase acentuada | carga fecal aumentada
+Acentuada retenção fecal, com fecaloma {local_fecaloma|na ampola retal/no sigmoide} medindo {tamanho}.

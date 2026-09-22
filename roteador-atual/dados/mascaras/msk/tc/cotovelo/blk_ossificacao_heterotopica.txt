@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: ossificacao heterotopica | ossificacoes heterotopicas
+# conclusao: Ossificação heterotópica na face {face|anterior/posterior/medial/lateral} do cotovelo.
+Partes moles:  ossificação heterotópica na face {face|anterior/posterior/medial/lateral} do cotovelo, medindo {tamanho}, {ponte|sem/com} ponte óssea, considerando os limites do método para avaliação ligamentar e tendínea.

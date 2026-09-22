@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: hernia de parede | hernia umbilical | hernia da parede abdominal
+# conclusao: Hérnia da parede abdominal anterior com colo de {tamanho}, sem sinais de encarceramento.
+Estruturas ósseas e partes moles: defeito da camada musculoaponeurótica da parede abdominal anterior, com colo medindo {tamanho}, por onde se insinua saco herniário contendo gordura pré-peritoneal, sem espessamento parietal, alteração de realce ou líquido no seu interior. Ausência de dilatação de alças a montante.

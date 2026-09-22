@@ -1,0 +1,16 @@
+# gatilhos: raio x de cotovelo com derrame articular | rx de cotovelo com derrame articular | radiografia de cotovelo com derrame articular | rx do cotovelo com derrame articular | rx cotovelo derrame articular | raio x de cotovelo com sinal do coxim gorduroso | rx de cotovelo com sinal do coxim gorduroso | raio x de cotovelo com coxim gorduroso | rx de cotovelo com coxim gorduroso
+# categoria: msk
+# modalidade: rx
+# regiao: cotovelo
+# tipo_mascara: aguda
+**RADIOGRAFIA DO COTOVELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Espaços articulares preservados.
+Não há sinais de fraturas ou luxações nas incidências realizadas.
+Elevação do coxim gorduroso anterior (sinal da vela) e visualização do coxim posterior, indicando derrame articular.
+No contexto de trauma, o derrame pode indicar fratura oculta; se a suspeita persistir, considerar controle radiográfico em 10 a 14 dias ou tomografia.
+Densidade óssea preservada.
+Partes moles sem alterações.

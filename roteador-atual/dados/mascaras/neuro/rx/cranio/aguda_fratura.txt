@@ -1,0 +1,17 @@
+# gatilhos: raio x de cranio com fratura | rx de cranio com fratura | radiografia de cranio com fratura | rx cranio fratura | radiografia do cranio com fratura
+# categoria: neuro
+# modalidade: rx
+# regiao: cranio
+# tipo_mascara: aguda
+**RADIOGRAFIA DO CRÂNIO**
+
+**TÉCNICA:**  incidências posteroanterior e perfil.
+
+**ANÁLISE:**
+Calota craniana de espessura e densidade normais, sem lesões líticas ou escleróticas.
+Traço de fratura no osso {osso|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, {afundamento|sem/com} sinais de afundamento.
+Suturas cranianas de aspecto habitual, sem diástase.
+Sela túrcica de dimensões e contornos normais.
+Seios paranasais normotransparentes.
+Partes moles {partes_moles|sem alterações/com aumento epicraniano adjacente ao traço de fratura}.
+A radiografia não avalia o conteúdo intracraniano; tomografia recomendada para pesquisa de lesões associadas.

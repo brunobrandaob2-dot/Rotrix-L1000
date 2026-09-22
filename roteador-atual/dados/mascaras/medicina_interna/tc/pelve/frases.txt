@@ -1,0 +1,15 @@
+# tipo: frases
+## gatilhos: artefatos de movimento na pelve | artefatos de movimentacao na tomografia da pelve
+Presença de artefatos de movimentação do paciente durante a aquisição.
+## gatilhos: bexiga de esforco na pelve | trabeculacao vesical na pelve
+Paredes vesicais com irregularidades e aspecto trabeculado, associadas a pequenos divertículos, sugerindo bexiga de esforço.
+## gatilhos: diverticulo vesical septado na pelve
+Formação sacular com septos internos, comunicando-se com o lúmen vesical por colo, sugestiva de divertículo vesical septado.
+## gatilhos: bexiga com pouca replecao na pelve | bexiga pouco repleta na pelve
+Bexiga com baixa repleção, o que limita a avaliação de suas paredes.
+## gatilhos: sonda vesical na pelve | cateter vesical na pelve
+Sonda vesical de demora com balonete no interior da bexiga.
+## gatilhos: prostata com calcificacoes na tomografia da pelve
+Calcificações grosseiras no parênquima prostático, de aspecto habitual.
+## gatilhos: diverticulose do sigmoide na pelve | diverticulos no sigmoide
+Divertículos no cólon sigmoide, sem sinais inflamatórios associados.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: retrolistese | retrolistese degenerativa
+# conclusao: Retrolistese de {nivel}, de natureza degenerativa.
+Alinhamento:  retrolistese de {nivel} sobre o nível subjacente, medindo {tamanho}, de aspecto degenerativo. Retificação da lordose lombar fisiológica.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Mediastino
+# gatilhos: nodulo tireoidiano | nodulo de tireoide | nodulo na tireoide | nodulo tireoideano
+# conclusao: Nódulo no lobo {lado|direito/esquerdo} da tireoide, medindo {tamanho}; a tomografia não caracteriza nódulos tireoidianos — como referência, o ACR recomenda ultrassonografia para nódulos incidentais ≥ 1,5 cm (≥ 1,0 cm abaixo de 35 anos) ou com características suspeitas.
+Mediastino:  sem alterações evidentes. Nódulo {densidade_nodulo|hipoatenuante/isoatenuante/com calcificações} no lobo {lado|direito/esquerdo} da tireoide, incluído no campo de estudo, medindo {tamanho}, sem extensão extratireoidiana ou desvio traqueal.

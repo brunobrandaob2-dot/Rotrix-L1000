@@ -1,0 +1,17 @@
+# gatilhos: raio x de perna com material de sintese | rx de perna com material de sintese | radiografia de perna com material de sintese | rx de perna com haste intramedular | raio x de perna pos operatorio | rx perna pos operatorio
+# categoria: msk
+# modalidade: rx
+# regiao: perna
+# tipo_mascara: cronica
+**RADIOGRAFIA DA PERNA {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Alinhamento {alinhamento|preservado/com desvio angular residual de ___°}.
+Material de osteossíntese ({material|haste intramedular tibial com parafusos de bloqueio/placa e parafusos na tíbia/placa e parafusos na fíbula}) em posição habitual, sem sinais de soltura ou fratura do implante.
+Fratura prévia no terço {terco|proximal/médio/distal} da diáfise tibial, {consolidacao|consolidada/em consolidação/sem sinais de consolidação}.
+Fíbula {fibula|sem alterações/com fratura prévia consolidada/com fratura prévia em consolidação}.
+Articulações do joelho e do tornozelo sem alterações nas porções incluídas.
+Densidade óssea preservada.
+Partes moles sem alterações.

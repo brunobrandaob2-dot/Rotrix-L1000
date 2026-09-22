@@ -1,0 +1,26 @@
+# gatilhos: tomografia de punho com fratura | tomografia do punho com fratura | tc de punho com fratura | tc do punho com fratura | tc punho fratura | tomografia de punho com fratura do radio distal | tc de punho com fratura do radio distal | tomografia de punho com fratura do radio | tc de punho com fratura do radio | tomografia de punho com fratura intra articular do radio | tc de punho com fratura intra articular do radio
+# categoria: msk
+# modalidade: tc
+# regiao: punho
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  articulação radioulnar distal {rud|congruente/incongruente, com subluxação ___ da ulna}. Relações mediocarpal e carpometacarpais preservadas.
+Rádio distal:  fratura {padrao|extra-articular/intra-articular} do rádio distal, com {fragmentos|dois/três/quatro ou mais} fragmentos principais e {cominuicao|sem/com} cominuição metafisária {cortical|dorsal/volar}. Degrau articular de {tamanho} e afastamento (gap) de ___ mm. Inclinação radial de ___°, inclinação {sentido|volar/dorsal} de ___° e altura radial de ___ mm. {faceta|Sem/Com} fragmento isolado da faceta semilunar volar.
+Ulna distal:  {ulna|sem traços de fratura, com processo estiloide íntegro/fratura da ponta do processo estiloide/fratura da base do processo estiloide}.
+Escafoide:  contornos corticais preservados, sem traços de fratura.
+Demais ossos do carpo:  de morfologia, contornos e densidade preservados, sem traços de fratura.
+Espaços articulares:  radiocarpal, mediocarpal e radioulnar distal preservados, sem alterações degenerativas significativas.
+Articulação trapeziometacarpiana:  espaço articular preservado, sem osteófitos.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções ou calcificações, considerando os limites do método para avaliação ligamentar, tendínea e da fibrocartilagem triangular.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura {padrao|extra-articular/intra-articular} do rádio distal {lado|direito/esquerdo}, com degrau articular de {tamanho} (valores superiores a 2 mm associam-se a maior risco de artrose pós-traumática).

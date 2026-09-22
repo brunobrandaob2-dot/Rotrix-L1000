@@ -1,0 +1,33 @@
+# gatilhos: tomografia de cranio com hemorragia intraparenquimatosa | tc de cranio com hemorragia intraparenquimatosa | tc cranio hematoma intraparenquimatoso | tomografia de cranio com hematoma intraparenquimatoso | tc de cranio com hematoma intraparenquimatoso | tomografia de cranio com avc hemorragico | tc de cranio com avc hemorragico
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  hematoma intraparenquimatoso espontaneamente hiperatenuante no {topografia|núcleo lentiforme/tálamo/lobo frontal/lobo parietal/lobo temporal/lobo occipital/hemisfério cerebelar} {lado|direito/esquerdo}, medindo {medidas} cm nos maiores eixos, com volume estimado de {volume} mL (método ABC/2), circundado por halo hipoatenuante de edema perilesional.
+Substância branca:  sem outras alterações de atenuação.
+Núcleos da base:  sem outras alterações.
+Sistema ventricular:  {extensao_ventricular|sem/com} extensão intraventricular do sangramento. {hidrocefalia|Sem/Com} sinais de hidrocefalia.
+Cisternas da base e sulcos corticais:  cisternas da base {cisternas|pérvias/parcialmente apagadas/apagadas}. Apagamento dos sulcos corticais adjacentes ao hematoma.
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Espaços extra-axiais:  sem coleções.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura ou lesões focais.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Hematoma intraparenquimatoso no {topografia|núcleo lentiforme/tálamo/lobo frontal/lobo parietal/lobo temporal/lobo occipital/hemisfério cerebelar} {lado|direito/esquerdo}, com volume estimado de {volume} mL.
+Linha média: {linha_media_c|centrada/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}. Cisternas da base: {cisternas_c|pérvias/parcialmente apagadas/apagadas}.
+A etiologia do sangramento não é determinável pelo método isoladamente; a angiotomografia e a ressonância magnética podem complementar a investigação, conforme o contexto clínico.

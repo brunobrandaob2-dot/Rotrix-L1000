@@ -1,0 +1,24 @@
+# gatilhos: angio cervical com estenose carotidea | angiotomografia cervical com estenose carotidea | angio de pescoco com estenose carotidea | angio tc cervical com estenose carotidea | angio cervical com ateromatose carotidea | angio das carotidas com estenose | angio cervical com placa carotidea
+# categoria: neuro
+# modalidade: angiotc
+# regiao: pescoco
+# tipo_mascara: cronica
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL DE VASOS CERVICAIS**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação do sistema arterial cervical, do arco aórtico à base do crânio.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Arco aórtico e origens dos troncos supra-aórticos:  arco aórtico de configuração habitual, com origens do tronco braquiocefálico e das artérias carótida comum e subclávia esquerdas pérvias, sem estenoses.
+Artérias carótidas comuns:  trajeto e calibre anatômicos, paredes lisas e opacificação homogênea, sem sinais de estenoses ou oclusões.
+Bulbos carotídeos e bifurcações:  placa ateromatosa {placa|calcificada/não calcificada/mista} no bulbo e na origem da artéria carótida interna {lado_f|direita/esquerda}, de superfície {superficie|regular/irregular/ulcerada}, determinando estenose {grau|leve (< 50%)/moderada (50–69%)/acentuada (70–99%)}, estimada em {percentual}% pelo critério NASCET (diâmetro luminal residual de {tamanho}; diâmetro da artéria carótida interna cervical distal normal de {diametro_distal}). Bifurcação contralateral {contralateral|sem placas ateromatosas significativas/com placas sem estenose significativa (< 50%)}.
+Artérias carótidas internas:  segmentos cervicais pérvios até a base do crânio, com calibre preservado, simétricos, sem ectasias, estenoses ou irregularidades parietais.
+Artérias carótidas externas e seus principais ramos:  patência mantida e trajeto habitual.
+Artérias vertebrais:  pérvias, com calibre e trajeto anatômicos nos segmentos cervicais (V1 a V3), sem estenoses ou irregularidades parietais.
+Demais estruturas cervicais:  sem particularidades nos segmentos incluídos no estudo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Ateromatose carotídea, com estenose {grau|leve (< 50%)/moderada (50–69%)/acentuada (70–99%)} da origem da artéria carótida interna {lado_f|direita/esquerda}, estimada em {percentual}% pelo critério NASCET.

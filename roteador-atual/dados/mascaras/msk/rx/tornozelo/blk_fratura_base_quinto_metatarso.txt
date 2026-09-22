@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura da base do quinto metatarso | fratura do quinto metatarso | fratura da tuberosidade do quinto metatarso
+Fratura da base do quinto metatarso, {zona|zona 1 (tuberosidade)/zona 2 (Jones)/zona 3 (diáfise proximal)}, com desvio de {tamanho}.

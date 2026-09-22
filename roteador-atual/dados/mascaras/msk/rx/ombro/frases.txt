@@ -1,0 +1,25 @@
+# tipo: frases
+## gatilhos: sinal da lampada no ombro | suspeita de luxacao posterior do ombro
+Rotação interna fixa da cabeça umeral (sinal da lâmpada), sugerindo luxação posterior; recomenda-se incidência axilar ou tomografia.
+## gatilhos: espaco acromioumeral normal no ombro
+Espaço acromioumeral preservado, medindo {tamanho}.
+## gatilhos: espaco acromioumeral reduzido no ombro
+Espaço acromioumeral reduzido, medindo {tamanho}, sugerindo lesão crônica do manguito rotador.
+## gatilhos: artropatia do manguito no ombro | classificacao de hamada no ombro
+Artropatia do manguito rotador, grau {hamada|1/2/3/4A/4B/5} de Hamada.
+## gatilhos: radiografia nao avalia manguito do ombro | limite do rx no ombro
+A radiografia não avalia tendões, lábio glenoidal nem bursas.
+## gatilhos: distancia coracoclavicular no ombro
+Distância coracoclavicular de {tamanho} (referência até cerca de 13 mm).
+## gatilhos: depressao da cabeca umeral no ombro | provavel hill sachs no ombro
+Depressão cortical na cabeça umeral, podendo corresponder a lesão de Hill-Sachs.
+## gatilhos: fratura do terco medio da clavicula no ombro
+Fratura do terço médio da clavícula, de traço {traco|transverso/oblíquo/cominutivo}, com desvio de {tamanho} e cavalgamento dos fragmentos.
+## gatilhos: fratura do terco lateral da clavicula no ombro
+Fratura do terço lateral da clavícula, tipo {neer|I/II/III} de Neer.
+## gatilhos: ombro reduzido apos luxacao | controle pos reducao do ombro
+Relação glenoumeral restabelecida após a redução, sem sinais de fraturas.
+## gatilhos: calcificacao em reabsorcao no ombro
+Calcificação tendínea de contornos mal definidos, podendo corresponder a fase de reabsorção.
+## gatilhos: osteofito umeral inferior no ombro
+Osteófito marginal na face inferior da cabeça umeral, medindo {tamanho}.

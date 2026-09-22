@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: halux valgo | hallux valgus | joanete
+Hálux valgo, com ângulo do hálux valgo de {angulo_hv}° (normal < 15°) e intermetatarsal 1–2 de {angulo_im}° (normal < 9°).

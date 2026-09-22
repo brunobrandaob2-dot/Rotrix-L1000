@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: osteossintese | material de sintese | placa volar
+Osteossíntese do rádio distal com {material|placa volar bloqueada e parafusos/fios de Kirschner/fixador externo}, sem sinais de soltura ou quebra, com foco de fratura {consolidacao|consolidado/em consolidação/sem sinais de consolidação}.

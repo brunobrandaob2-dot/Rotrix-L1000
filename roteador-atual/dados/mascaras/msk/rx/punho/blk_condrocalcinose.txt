@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: condrocalcinose | calcificacao da fibrocartilagem triangular
+Calcificação linear na fibrocartilagem triangular, compatível com condrocalcinose.

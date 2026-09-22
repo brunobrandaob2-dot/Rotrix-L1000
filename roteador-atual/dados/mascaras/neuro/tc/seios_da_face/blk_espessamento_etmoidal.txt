@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Seios etmoidais
+# gatilhos: espessamento mucoso etmoidal | sinusopatia etmoidal | velamento etmoidal
+# conclusao: Espessamento mucoso nas células etmoidais {lado_a|à direita/à esquerda}.
+Seios etmoidais:  espessamento mucoso nas células etmoidais {celulas_etmoidais|anteriores/posteriores/anteriores e posteriores} {lado_a|à direita/à esquerda}. Lâminas papiráceas íntegras.

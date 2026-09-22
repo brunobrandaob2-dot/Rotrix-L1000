@@ -1,0 +1,34 @@
+# gatilhos: tomografia de seios da face com complicacao orbitaria | tc de seios da face com complicacao orbitaria | tc seios da face celulite orbitaria | tomografia de seios da face com celulite orbitaria | tc de seios da face com celulite orbitaria | tomografia de seios da face com abscesso subperiosteal
+# categoria: neuro
+# modalidade: tc
+# regiao: seios_da_face
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DOS SEIOS DA FACE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado, com reconstruções multiplanares em filtros para partes moles e para osso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Seios maxilares:  {maxilares|normopneumatizados/espessamento mucoso ___}.
+Seios etmoidais:  velamento das células etmoidais {lado_a|à direita/à esquerda}.
+Seios frontais:  {frontais|normopneumatizados/espessamento mucoso ___}.
+Seios esfenoidais:  {esfenoidais|normopneumatizados/espessamento mucoso ___}.
+Complexos ostiomeatais:  obstrução {lado_a|à direita/à esquerda}.
+Recessos frontais:  pérvios.
+Recessos esfenoetmoidais:  pérvios.
+Cavidade nasal:  sem lesões expansivas.
+Septo nasal:  centrado.
+Conchas nasais:  de dimensões e morfologia habituais.
+Variantes anatômicas:  sem variantes anatômicas de relevância.
+Base anterior do crânio:  teto etmoidal e lâminas cribriformes íntegros, sem sinais de extensão intracraniana ao método.
+Estruturas ósseas:  lâmina papirácea {lado_f|direita/esquerda} {lamina|íntegra/com descontinuidade}.
+Órbitas:  densificação da gordura {compartimento|pré-septal/pré e pós-septal} da órbita {lado_f|direita/esquerda}, {abscesso|sem coleção subperiosteal/com coleção subperiosteal junto à parede medial, medindo ___, deslocando o músculo reto medial}. {proptose|Sem/Com} proptose. Classificação de Chandler: {chandler|I/II/III/IV/V}.
+Rinofaringe:  pérvia, sem lesões expansivas.
+Partes moles:  espessamento e densificação das partes moles periorbitárias {lado_a|à direita/à esquerda}.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sinusopatia etmoidal {lado_a|à direita/à esquerda} com sinais de complicação orbitária (Chandler {chandler|I/II/III/IV/V}).
+Na suspeita de complicação intracraniana ou de trombose do seio cavernoso, a ressonância magnética com contraste é o método mais sensível.

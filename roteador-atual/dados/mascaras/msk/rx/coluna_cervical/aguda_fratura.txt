@@ -1,0 +1,20 @@
+# gatilhos: raio x de coluna cervical com fratura | rx de coluna cervical com fratura | rx coluna cervical fratura | radiografia de coluna cervical com fratura | rx de coluna cervical com fratura aguda | rx de coluna cervical trauma | rx de coluna cervical com luxacao
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_cervical
+# tipo_mascara: aguda
+**RADIOGRAFIA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+{alinhamento|Retificação da lordose cervical, sem listeses/Anterolistese de ___ sobre o nível subjacente, medindo ___}.
+Linhas vertebrais anterior, posterior e espinolaminar {linhas|contínuas/com descontinuidade em ___}.
+Transição craniocervical sem alterações.
+Fratura do corpo vertebral de {nivel}, com perda de altura de {percentual}% e contornos angulados, de aspecto agudo ou recente.
+Espaços discais preservados.
+Articulações uncovertebrais e interapofisárias preservadas.
+{posteriores|Processos espinhosos alinhados, sem alargamento interespinhoso/Alargamento do espaço interespinhoso em ___}.
+Densidade óssea preservada.
+Aumento das partes moles pré-vertebrais em {nivel}, medindo {tamanho} (referência: até 7 mm em C2 e 22 mm em C6).
+A radiografia tem sensibilidade limitada para fraturas cervicais; recomenda-se tomografia computadorizada.

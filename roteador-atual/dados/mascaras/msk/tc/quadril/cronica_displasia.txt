@@ -1,0 +1,28 @@
+# gatilhos: tomografia de quadril com displasia | tc de quadril com displasia | tc quadril displasia acetabular | tomografia de quadril com displasia acetabular | tc de quadril com displasia acetabular
+# categoria: msk
+# modalidade: tc
+# regiao: quadril
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  {subluxacao|cabeça femoral centrada no acetábulo/discreta lateralização da cabeça femoral, com subluxação superolateral}.
+Acetábulo:  raso, com cobertura lateral reduzida da cabeça femoral. Ângulo centro-borda lateral de {angulo_cb}° (referência: < 20° displasia; 20° a 25° limítrofe). Índice acetabular (ângulo de Tönnis) de {angulo_tonnis}° (referência: até 10°). Versão acetabular de {versao_acetabular}° no plano axial (referência: 15° a 20°).
+Cabeça femoral:  esférica, de contornos regulares e densidade habitual, sem sinais de colapso subcondral.
+Colo femoral:  corticais íntegras, sem traços de fratura. Transição cabeça-colo com concavidade habitual.
+Região trocantérica:  trocânteres maior e menor sem particularidades.
+Espaço articular:  {espaco|preservado/reduzido no segmento superolateral, com esclerose subcondral e osteófitos}.
+Cavidade articular:  sem derrame articular significativo. Não há corpos livres intra-articulares.
+Diáfise femoral proximal:  sem particularidades.
+Ossos pélvicos adjacentes:  sem particularidades.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  musculatura periarticular de volume e atenuação habituais. Não há coleções ou calcificações periarticulares.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Displasia acetabular, com ângulo centro-borda lateral de {angulo_cb}° e índice acetabular de {angulo_tonnis}°.

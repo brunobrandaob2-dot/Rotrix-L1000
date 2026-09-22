@@ -1,0 +1,1983 @@
+# Handy Radiology rules v2
+# TYPE<TAB>SOURCE<TAB>TARGET
+CMD	ponto parágrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	ponto paragrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	ponto final parágrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	ponto final paragrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	ponto novo parágrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	ponto novo paragrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	ponto final novo parágrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	ponto final novo paragrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	parágrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	paragrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	novo parágrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	novo paragrafo nova linha	__HANDY_PARAGRAPH_BLANK__
+CMD	nova linha dupla	__HANDY_BLANKLINE__
+CMD	duas novas linhas	__HANDY_BLANKLINE__
+CMD	novo parágrafo	__HANDY_PARAGRAPH__
+CMD	novo paragrafo	__HANDY_PARAGRAPH__
+CMD	parágrafo novo	__HANDY_PARAGRAPH__
+CMD	paragrafo novo	__HANDY_PARAGRAPH__
+CMD	parágrafo	__HANDY_PARAGRAPH__
+CMD	paragrafo	__HANDY_PARAGRAPH__
+CMD	nova linha	__HANDY_NL__
+CMD	linha nova	__HANDY_NL__
+CMD	quebra de linha	__HANDY_NL__
+CMD	ponto e vírgula	;
+CMD	ponto e virgula	;
+CMD	ponto final	.
+CMD	dois pontos	:
+CMD	ponto de interrogação	?
+CMD	ponto de interrogacao	?
+CMD	interrogação	?
+CMD	interrogacao	?
+CMD	ponto de exclamação	!
+CMD	ponto de exclamacao	!
+CMD	exclamação	!
+CMD	exclamacao	!
+CMD	vírgula	,
+CMD	virgula	,
+CMD	abre parênteses	(
+CMD	abre parenteses	(
+CMD	abrir parênteses	(
+CMD	abrir parenteses	(
+CMD	fecha parênteses	)
+CMD	fecha parenteses	)
+CMD	fechar parênteses	)
+CMD	fechar parenteses	)
+CMD	abre colchetes	[
+CMD	abrir colchetes	[
+CMD	fecha colchetes	]
+CMD	fechar colchetes	]
+CMD	abre chaves	{
+CMD	abrir chaves	{
+CMD	fecha chaves	}
+CMD	fechar chaves	}
+CMD	abre aspas	"
+CMD	abrir aspas	"
+CMD	fecha aspas	"
+CMD	fechar aspas	"
+CMD	reticências	…
+CMD	reticencias	…
+CMD	barra invertida	\
+CMD	barra	/
+CMD	sinal de hífen	-
+CMD	sinal de hifen	-
+CMD	hífen	-
+CMD	hifen	-
+CMD	travessão	—
+CMD	travessao	—
+CMD	sinal de mais	+
+CMD	sinal de menos	-
+CMD	sinal de igual	=
+CMD	sinal de porcentagem	%
+CMD	símbolo de grau	°
+CMD	simbolo de grau	°
+CMD	arroba	@
+CMD	cerquilha	#
+CMD	hashtag	#
+CMD	ampersand	&
+ALIAS	grau	grau
+ALIAS	pi rads 2	PI-RADS 2
+ALIAS	pi rads dois	PI-RADS 2
+ALIAS	pi rads 3	PI-RADS 3
+ALIAS	pi rads tres	PI-RADS 3
+ALIAS	pi rads três	PI-RADS 3
+ALIAS	pi rads 4	PI-RADS 4
+ALIAS	pi rads quatro	PI-RADS 4
+ALIAS	pi rads 5	PI-RADS 5
+ALIAS	pi rads cinco	PI-RADS 5
+ALIAS	pi rads	PI-RADS
+ALIAS	pirads	PI-RADS
+ALIAS	bi rads 3	BI-RADS 3
+ALIAS	bi rads 4	BI-RADS 4
+ALIAS	bi rads 5	BI-RADS 5
+ALIAS	bi rads 6	BI-RADS 6
+ALIAS	bi rads	BI-RADS
+ALIAS	birads	BI-RADS
+ALIAS	li rads	LI-RADS
+ALIAS	lirads	LI-RADS
+ALIAS	o rads	O-RADS
+ALIAS	orads	O-RADS
+ALIAS	ti rads	TI-RADS
+ALIAS	tirads	TI-RADS
+ALIAS	renal score	R.E.N.A.L. score
+ALIAS	renal escore	R.E.N.A.L. score
+ALIAS	recist 1.1	RECIST 1.1
+ALIAS	irecist	iRECIST
+ALIAS	d w i	DWI
+ALIAS	a d c	ADC
+ALIAS	s w i	SWI
+ALIAS	f l a i r	FLAIR
+ALIAS	s t i r	STIR
+ALIAS	m r f	MRF
+ALIAS	e m v i	EMVI
+ALIAS	p s a	PSA
+MAP	deiscencia do canal semicircular superior	deiscência do canal semicircular superior
+MAP	histiocitose de celulas de Langerhans	histiocitose de células de Langerhans
+MAP	malformacao arteriovenosa pulmonar	malformação arteriovenosa pulmonar
+MAP	infiltracao gordurosa pancreatica	infiltração gordurosa pancreática
+MAP	espectro de acretismo placentario	espectro de acretismo placentário
+MAP	tenossinovite de celulas gigantes	tenossinovite de células gigantes
+MAP	malformacao adenomatoide cistica	malformação adenomatoide cística
+MAP	tumor neuroendocrino pancreatico	tumor neuroendócrino pancreático
+MAP	tendao da cabeca longa do biceps	tendão da cabeça longa do bíceps
+MAP	microcalcificacoes pleomorficas	microcalcificações pleomórficas
+MAP	estenose hipertrofica do piloro	estenose hipertrófica do piloro
+MAP	fistula arteriovenosa pulmonar	fístula arteriovenosa pulmonar
+MAP	esteatonecrose peripancreatica	esteatonecrose peripancreática
+MAP	hiperplasia prostatica benigna	hiperplasia prostática benigna
+MAP	tumor de celulas da granulosa	tumor de células da granulosa
+MAP	articulacao acromioclavicular	articulação acromioclavicular
+MAP	cisto de inclusao peritoneal	cisto de inclusão peritoneal
+MAP	compressao do tronco celiaco	compressão do tronco celíaco
+MAP	microcalcificacoes agrupadas	microcalcificações agrupadas
+MAP	recanalizacao paraumbilical	recanalização paraumbilical
+MAP	carcinoma de celulas renais	carcinoma de células renais
+MAP	excissao total do mesorreto	excissão total do mesorreto
+MAP	malformacao de Dandy-Walker	malformação de Dandy-Walker
+MAP	fistula arteriovenosa dural	fístula arteriovenosa dural
+MAP	neoplasia cistica mucinosa	neoplasia cística mucinosa
+MAP	tumor solido pseudopapilar	tumor sólido pseudopapilar
+MAP	musculo levantador do anus	músculo levantador do ânus
+MAP	desmielinizacao tumefativa	desmielinização tumefativa
+MAP	cisterna perimesencefalica	cisterna perimesencefálica
+MAP	arteria cerebral posterior	artéria cerebral posterior
+MAP	trombose portomesenterica	trombose portomesentérica
+MAP	transformacao hemorragica	transformação hemorrágica
+MAP	malformacao arteriovenosa	malformação arteriovenosa
+MAP	arteria cerebral anterior	artéria cerebral anterior
+MAP	artropatia interfacetaria	artropatia interfacetária
+MAP	fratura por insuficiencia	fratura por insuficiência
+MAP	tumor de celulas gigantes	tumor de células gigantes
+MAP	invasao venosa extramural	invasão venosa extramural
+MAP	ossificacao heterotopica	ossificação heterotópica
+MAP	dilatacao intra-hepatica	dilatação intra-hepática
+MAP	dilatacao extra-hepatica	dilatação extra-hepática
+MAP	neoplasia cistica serosa	neoplasia cística serosa
+MAP	doenca de pequenos vasos	doença de pequenos vasos
+MAP	herniacao transtentorial	herniação transtentorial
+MAP	fistula traqueoesofagica	fístula traqueoesofágica
+MAP	calcificacao distrofica	calcificação distrófica
+MAP	ducto hepatico esquerdo	ducto hepático esquerdo
+MAP	necrose peripancreatica	necrose peripancreática
+MAP	colecao peripancreatica	coleção peripancreática
+MAP	colecao necrotica aguda	coleção necrótica aguda
+MAP	IPMN de ramo secundario	IPMN de ramo secundário
+MAP	desmoplasia mesenterica	desmoplasia mesentérica
+MAP	microangiopatia cronica	microangiopatia crônica
+MAP	linfoma primario do SNC	linfoma primário do SNC
+MAP	metastase osteoblastica	metástase osteoblástica
+MAP	sindrome de May-Thurner	síndrome de May-Thurner
+MAP	endoprotese aortoiliaca	endoprótese aortoilíaca
+MAP	calcificacao grosseira	calcificação grosseira
+MAP	varizes periesplenicas	varizes periesplênicas
+MAP	ducto hepatico direito	ducto hepático direito
+MAP	invaginacao intestinal	invaginação intestinal
+MAP	paniculite mesenterica	paniculite mesentérica
+MAP	extensao extracapsular	extensão extracapsular
+MAP	metastases encefalicas	metástases encefálicas
+MAP	arteria cerebral media	artéria cerebral média
+MAP	concha media paradoxal	concha média paradoxal
+MAP	abscesso retrofaringeo	abscesso retrofaríngeo
+MAP	artropatia neuropatica	artropatia neuropática
+MAP	sindrome de Nutcracker	síndrome de Nutcracker
+MAP	distorcao arquitetural	distorção arquitetural
+MAP	linfonodo intramamario	linfonodo intramamário
+MAP	teratoma sacrococcigeo	teratoma sacrococcígeo
+MAP	varizes perigastricas	varizes perigástricas
+MAP	shunt portossistemico	shunt portossistêmico
+MAP	vesicula em porcelana	vesícula em porcelana
+MAP	linfangioma esplenico	linfangioma esplênico
+MAP	juncao ureteropelvica	junção ureteropélvica
+MAP	diverticulo de Zenker	divertículo de Zenker
+MAP	malrotacao intestinal	malrotação intestinal
+MAP	ma rotacao intestinal	má rotação intestinal
+MAP	pneumorretroperitonio	pneumorretroperitônio
+MAP	metastase hemorragica	metástase hemorrágica
+MAP	angulo pontocerebelar	ângulo pontocerebelar
+MAP	apoplexia hipofisaria	apoplexia hipofisária
+MAP	malformacao cavernosa	malformação cavernosa
+MAP	abscesso parafaringeo	abscesso parafaríngeo
+MAP	neurinoma do acustico	neurinoma do acústico
+MAP	fratura osteoporotica	fratura osteoporótica
+MAP	metastase osteolitica	metástase osteolítica
+MAP	fistula arteriovenosa	fístula arteriovenosa
+MAP	malformacao linfatica	malformação linfática
+MAP	implantes secundarios	implantes secundários
+MAP	invasao linfovascular	invasão linfovascular
+MAP	diverticulo de Meckel	divertículo de Meckel
+MAP	restricao difusional	restrição difusional
+MAP	arvore em brotamento	árvore em brotamento
+MAP	aprisionamento aereo	aprisionamento aéreo
+MAP	atenuacao em mosaico	atenuação em mosaico
+MAP	hipertensao pulmonar	hipertensão pulmonar
+MAP	metastases hepaticas	metástases hepáticas
+MAP	ducto hepatico comum	ducto hepático comum
+MAP	subcapsular hepatico	subcapsular hepático
+MAP	hemangioma esplenico	hemangioma esplênico
+MAP	trabeculacao vesical	trabeculação vesical
+MAP	obstrucao intestinal	obstrução intestinal
+MAP	isquemia mesenterica	isquemia mesentérica
+MAP	gas portomesenterico	gás portomesentérico
+MAP	retropneumoperitonio	retropneumoperitônio
+MAP	retracao mesenterica	retração mesentérica
+MAP	encefalite herpetica	encefalite herpética
+MAP	contusao hemorragica	contusão hemorrágica
+MAP	herniacao subfalcina	herniação subfalcina
+MAP	infundibulo etmoidal	infundíbulo etmoidal
+MAP	espaco retrofaringeo	espaço retrofaríngeo
+MAP	compressao radicular	compressão radicular
+MAP	osteofitos marginais	osteófitos marginais
+MAP	tendao quadricipital	tendão quadricipital
+MAP	estenose mesenterica	estenose mesentérica
+MAP	malformacao vascular	malformação vascular
+MAP	progressao de doenca	progressão de doença
+MAP	cortico-subcorticais	córtico-subcorticais
+MAP	restricao a difusao	restrição à difusão
+MAP	pleurodiafragmatico	pleurodiafragmático
+MAP	derrame pericardico	derrame pericárdico
+MAP	hepatopatia cronica	hepatopatia crônica
+MAP	colangite piogenica	colangite piogênica
+MAP	pancreatite cronica	pancreatite crônica
+MAP	necrose pancreatica	necrose pancreática
+MAP	atrofia pancreatica	atrofia pancreática
+MAP	hamartoma esplenico	hamartoma esplênico
+MAP	ureteropielolitiase	ureteropielolitíase
+MAP	diverticulo vesical	divertículo vesical
+MAP	utriculo prostatico	utrículo prostático
+MAP	neuromielite optica	neuromielite óptica
+MAP	espaco parafaringeo	espaço parafaríngeo
+MAP	edema medular osseo	edema medular ósseo
+MAP	triangulo de Codman	triângulo de Codman
+MAP	somatorio diametral	somatório diametral
+MAP	implante secundario	implante secundário
+MAP	megacolon congenito	megacólon congênito
+MAP	duplicacao enterica	duplicação entérica
+MAP	cortico-subcortical	córtico-subcortical
+MAP	realce heterogeneo	realce heterogêneo
+MAP	bronquiolocentrico	bronquiolocêntrico
+MAP	bronquiolocentrica	bronquiolocêntrica
+MAP	impactacao mucoide	impactação mucoide
+MAP	mucocele bronquica	mucocele brônquica
+MAP	hipertensao portal	hipertensão portal
+MAP	varizes esofagicas	varizes esofágicas
+MAP	metastase hepatica	metástase hepática
+MAP	abscesso esplenico	abscesso esplênico
+MAP	ponto de transicao	ponto de transição
+MAP	prostatite cronica	prostatite crônica
+MAP	vesiculas seminais	vesículas seminais
+MAP	ducto ejaculatorio	ducto ejaculatório
+MAP	depositos tumorais	depósitos tumorais
+MAP	esclerose multipla	esclerose múltipla
+MAP	encefalite limbica	encefalite límbica
+MAP	restricao cortical	restrição cortical
+MAP	herniacao tonsilar	herniação tonsilar
+MAP	disseccao arterial	dissecção arterial
+MAP	poligono de Willis	polígono de Willis
+MAP	bocio multinodular	bócio multinodular
+MAP	Legg-Calve-Perthes	Legg-Calvé-Perthes
+MAP	malformacao venosa	malformação venosa
+MAP	realce nao nodular	realce não nodular
+MAP	realce periferico	realce periférico
+MAP	artefato metalico	artefato metálico
+MAP	microcalcificacao	microcalcificação
+MAP	macrocalcificacao	macrocalcificação
+MAP	fibroatelectasico	fibroatelectásico
+MAP	fibroatelectasica	fibroatelectásica
+MAP	broncograma aereo	broncograma aéreo
+MAP	bocio mergulhante	bócio mergulhante
+MAP	aneurisma aortico	aneurisma aórtico
+MAP	disseccao aortica	dissecção aórtica
+MAP	varizes gastricas	varizes gástricas
+MAP	abscesso hepatico	abscesso hepático
+MAP	ducto pancreatico	ducto pancreático
+MAP	infarto esplenico	infarto esplênico
+MAP	fascia mesorretal	fáscia mesorretal
+MAP	esfincter interno	esfíncter interno
+MAP	esfincter externo	esfíncter externo
+MAP	celulas de Haller	células de Haller
+MAP	espaco mastigador	espaço mastigador
+MAP	nodulo de Schmorl	nódulo de Schmorl
+MAP	sindrome de Hoffa	síndrome de Hoffa
+MAP	reacao periosteal	reação periosteal
+MAP	zona de transicao	zona de transição
+MAP	atresia esofagica	atresia esofágica
+MAP	neovascularizacao	neovascularização
+MAP	realce homogeneo	realce homogêneo
+MAP	hidropneumotorax	hidropneumotórax
+MAP	pneumopericardio	pneumopericárdio
+MAP	pseudocoarctacao	pseudocoarctação
+MAP	portomesenterico	portomesentérico
+MAP	portomesenterica	portomesentérica
+MAP	cistos hepaticos	cistos hepáticos
+MAP	dilatacao biliar	dilatação biliar
+MAP	pancreas divisum	pâncreas divisum
+MAP	fascia de Gerota	fáscia de Gerota
+MAP	cistite actinica	cistite actínica
+MAP	volvulo sigmoide	vólvulo sigmoide
+MAP	megacolon toxico	megacólon tóxico
+MAP	apice prostatico	ápice prostático
+MAP	juncao anorretal	junção anorretal
+MAP	deposito tumoral	depósito tumoral
+MAP	lacuna isquemica	lacuna isquêmica
+MAP	oclusao arterial	oclusão arterial
+MAP	celulas de Onodi	células de Onodi
+MAP	espaco carotideo	espaço carotídeo
+MAP	glomus timpanico	glomus timpânico
+MAP	protrusao discal	protrusão discal
+MAP	migracao cranial	migração cranial
+MAP	impactacao ossea	impactação óssea
+MAP	mieloma multiplo	mieloma múltiplo
+MAP	lesao geografica	lesão geográfica
+MAP	varizes pelvicas	varizes pélvicas
+MAP	pseudoprogressao	pseudoprogressão
+MAP	oligometastatico	oligometastático
+MAP	oligometastatica	oligometastática
+MAP	invasao vascular	invasão vascular
+MAP	lesao espiculada	lesão espiculada
+MAP	biliopancreatico	biliopancreático
+MAP	biliopancreatica	biliopancreática
+MAP	subcentimetrico	subcentimétrico
+MAP	ectasia aortica	ectasia aórtica
+MAP	coledocolitiase	coledocolitíase
+MAP	pericolecistico	pericolecístico
+MAP	pericolecistica	pericolecística
+MAP	ileite terminal	ileíte terminal
+MAP	dolicomegacolon	dolicomegacólon
+MAP	pneumoperitonio	pneumoperitônio
+MAP	peripancreatico	peripancreático
+MAP	zona periferica	zona periférica
+MAP	trigono vesical	trígono vesical
+MAP	base prostatica	base prostática
+MAP	torcao ovariana	torção ovariana
+MAP	encefalomalacia	encefalomalácia
+MAP	herniacao uncal	herniação uncal
+MAP	arteria basilar	artéria basilar
+MAP	espaco visceral	espaço visceral
+MAP	higroma cistico	higroma cístico
+MAP	extrusao discal	extrusão discal
+MAP	migracao caudal	migração caudal
+MAP	sequestro osseo	sequestro ósseo
+MAP	hiperprogressao	hiperprogressão
+MAP	oligoprogressao	oligoprogressão
+MAP	lesoes nao alvo	lesões não alvo
+MAP	caracteristicas	características
+MAP	cervicotoracico	cervicotorácico
+MAP	peripancreatica	peripancreática
+MAP	gastroesofagico	gastroesofágico
+MAP	gastroesofagica	gastroesofágica
+MAP	broncocentrico	broncocêntrico
+MAP	traqueomalacia	traqueomalácia
+MAP	cisto hepatico	cisto hepático
+MAP	hepatocoledoco	hepatocolédoco
+MAP	baco acessorio	baço acessório
+MAP	ureterolitiase	ureterolitíase
+MAP	celulas claras	células claras
+MAP	volvo gastrico	volvo gástrico
+MAP	intussuscepcao	intussuscepção
+MAP	retroperitonio	retroperitônio
+MAP	glandula media	glândula média
+MAP	torsao anexial	torsão anexial
+MAP	torcao anexial	torção anexial
+MAP	neuro-hipofise	neuro-hipófise
+MAP	esporao septal	esporão septal
+MAP	interfacetaria	interfacetária
+MAP	osteite pubica	osteíte púbica
+MAP	lesao em rampa	lesão em rampa
+MAP	tendao patelar	tendão patelar
+MAP	lesao blastica	lesão blástica
+MAP	doenca estavel	doença estável
+MAP	lesao nao alvo	lesão não alvo
+MAP	curva cinetica	curva cinética
+MAP	hiperecogenico	hiperecogênico
+MAP	hiperecogenica	hiperecogênica
+MAP	caracteristica	característica
+MAP	subependimario	subependimário
+MAP	subependimaria	subependimária
+MAP	periprostatico	periprostático
+MAP	periprostatica	periprostática
+MAP	intra-hepatico	intra-hepático
+MAP	intra-hepatica	intra-hepática
+MAP	extra-hepatico	extra-hepático
+MAP	extra-hepatica	extra-hepática
+MAP	reformatacoes	reformatações
+MAP	paramagnetico	paramagnético
+MAP	perilinfatico	perilinfático
+MAP	cardiofrenico	cardiofrênico
+MAP	paraesofagico	paraesofágico
+MAP	broncomalacia	broncomalácia
+MAP	broncolitiase	broncolitíase
+MAP	ducto cistico	ducto cístico
+MAP	ablacao renal	ablação renal
+MAP	hernia hiatal	hérnia hiatal
+MAP	volvulo cecal	vólvulo cecal
+MAP	hemoperitonio	hemoperitônio
+MAP	quloperitonio	quloperitônio
+MAP	pseudocapsula	pseudocápsula
+MAP	torus uterino	tórus uterino
+MAP	adenohipofise	adenohipófise
+MAP	espondilolise	espondilólise
+MAP	condromalacia	condromalácia
+MAP	alca de balde	alça de balde
+MAP	linfoma osseo	linfoma ósseo
+MAP	calcificacoes	calcificações
+MAP	administracao	administração
+MAP	pos-contraste	pós-contraste
+MAP	pre-contraste	pré-contraste
+MAP	hipoecogenico	hipoecogênico
+MAP	hipoecogenica	hipoecogênica
+MAP	sacrococcigeo	sacrococcígeo
+MAP	sacrococcigea	sacrococcígea
+MAP	subaracnoideo	subaracnóideo
+MAP	subaracnoidea	subaracnóidea
+MAP	reformatacao	reformatação
+MAP	centimetrico	centimétrico
+MAP	consolidacao	consolidação
+MAP	costofrenico	costofrênico
+MAP	pre-vascular	pré-vascular
+MAP	arco aortico	arco aórtico
+MAP	nefrolitiase	nefrolitíase
+MAP	nefrometrico	nefrométrico
+MAP	nefrometrica	nefrométrica
+MAP	alca fechada	alça fechada
+MAP	jejunoileite	jejunoileíte
+MAP	perigastrico	perigástrico
+MAP	sela turcica	sela túrcica
+MAP	sialolitiase	sialolitíase
+MAP	mielomalacia	mielomalácia
+MAP	lesao labral	lesão labral
+MAP	epifisiolise	epifisiólise
+MAP	lesao litica	lesão lítica
+MAP	calcificacao	calcificação
+MAP	hipertrofico	hipertrófico
+MAP	hipertrofica	hipertrófica
+MAP	articulacoes	articulações
+MAP	sacroiliacas	sacroilíacas
+MAP	heterogeneos	heterogêneos
+MAP	heterogeneas	heterogêneas
+MAP	volumetrica	volumétrica
+MAP	milimetrico	milimétrico
+MAP	pneumotorax	pneumotórax
+MAP	colelitiase	colelitíase
+MAP	crioablacao	crioablação
+MAP	megaesofago	megaesôfago
+MAP	dolicocolon	dolicocólon
+MAP	paraaortico	paraaórtico
+MAP	retropulsao	retropulsão
+MAP	sacroiliite	sacroiliíte
+MAP	edema osseo	edema ósseo
+MAP	endoprotese	endoprótese
+MAP	lesoes-alvo	lesões-alvo
+MAP	invaginacao	invaginação
+MAP	diagnostica	diagnóstica
+MAP	diagnostico	diagnóstico
+MAP	pancreatico	pancreático
+MAP	pancreatica	pancreática
+MAP	parenquimas	parênquimas
+MAP	hemorragico	hemorrágico
+MAP	hemorragica	hemorrágica
+MAP	neoplasicos	neoplásicos
+MAP	neoplasicas	neoplásicas
+MAP	oncologicos	oncológicos
+MAP	oncologicas	oncológicas
+MAP	secundarios	secundários
+MAP	secundarias	secundárias
+MAP	articulacao	articulação
+MAP	sacroiliaca	sacroilíaca
+MAP	ventriculos	ventrículos
+MAP	centimetros	centímetros
+MAP	perifericos	periféricos
+MAP	perifericas	periféricas
+MAP	heterogeneo	heterogêneo
+MAP	heterogenea	heterogênea
+MAP	morfologico	morfológico
+MAP	morfologica	morfológica
+MAP	compativeis	compatíveis
+MAP	parametrios	paramétrios
+MAP	aortoiliaco	aortoilíaco
+MAP	aortoiliaca	aortoilíaca
+MAP	mesenterico	mesentérico
+MAP	mesenterica	mesentérica
+MAP	isotropico	isotrópico
+MAP	isotropica	isotrópica
+MAP	geografico	geográfico
+MAP	endofitico	endofítico
+MAP	liquefacao	liquefação
+MAP	hidrotorax	hidrotórax
+MAP	quilotorax	quilotórax
+MAP	coarctacao	coarctação
+MAP	suboclusao	suboclusão
+MAP	mesenterio	mesentério
+MAP	pericolico	pericólico
+MAP	lobo medio	lobo médio
+MAP	endometrio	endométrio
+MAP	parametrio	paramétrio
+MAP	lesao SLAP	lesão SLAP
+MAP	lesao-alvo	lesão-alvo
+MAP	metastases	metástases
+MAP	malrotacao	malrotação
+MAP	alteracoes	alterações
+MAP	parenquima	parênquima
+MAP	encefalico	encefálico
+MAP	encefalica	encefálica
+MAP	neoplasico	neoplásico
+MAP	neoplasica	neoplásica
+MAP	oncologico	oncológico
+MAP	oncologica	oncológica
+MAP	secundario	secundário
+MAP	secundaria	secundária
+MAP	comparacao	comparação
+MAP	progressao	progressão
+MAP	osteofitos	osteófitos
+MAP	compressao	compressão
+MAP	pericardio	pericárdio
+MAP	ventriculo	ventrículo
+MAP	substancia	substância
+MAP	milimetros	milímetros
+MAP	centimetro	centímetro
+MAP	periferico	periférico
+MAP	periferica	periférica
+MAP	homogeneos	homogêneos
+MAP	homogeneas	homogêneas
+MAP	anatomicos	anatômicos
+MAP	anatomicas	anatômicas
+MAP	evidencias	evidências
+MAP	compativel	compatível
+MAP	subcutaneo	subcutâneo
+MAP	subcutanea	subcutânea
+MAP	linfaticos	linfáticos
+MAP	linfaticas	linfáticas
+MAP	pericolica	pericólica
+MAP	ileocolico	ileocólico
+MAP	ileocolica	ileocólica
+MAP	prostatico	prostático
+MAP	prostatica	prostática
+MAP	gadolinio	gadolínio
+MAP	exofitico	exofítico
+MAP	hemotorax	hemotórax
+MAP	cirrotico	cirrótico
+MAP	cirrotica	cirrótica
+MAP	cromofobo	cromófobo
+MAP	megacolon	megacólon
+MAP	mesocolon	mesocólon
+MAP	miometrio	miométrio
+MAP	facetaria	facetária
+MAP	disseccao	dissecção
+MAP	metastase	metástase
+MAP	formacoes	formações
+MAP	alteracao	alteração
+MAP	restricao	restrição
+MAP	conclusao	conclusão
+MAP	impressao	impressão
+MAP	toracicos	torácicos
+MAP	toracicas	torácicas
+MAP	hepaticos	hepáticos
+MAP	hepaticas	hepáticas
+MAP	esplenico	esplênico
+MAP	esplenica	esplênica
+MAP	isquemico	isquêmico
+MAP	isquemica	isquêmica
+MAP	primarios	primários
+MAP	primarias	primárias
+MAP	provaveis	prováveis
+MAP	avaliacao	avaliação
+MAP	osteofito	osteófito
+MAP	vertebras	vértebras
+MAP	peritonio	peritônio
+MAP	glandulas	glândulas
+MAP	bronquios	brônquios
+MAP	milimetro	milímetro
+MAP	homogeneo	homogêneo
+MAP	homogenea	homogênea
+MAP	ecogenico	ecogênico
+MAP	ecogenica	ecogênica
+MAP	atenuacao	atenuação
+MAP	anatomico	anatômico
+MAP	anatomica	anatômica
+MAP	dimensoes	dimensões
+MAP	evidencia	evidência
+MAP	linfatico	linfático
+MAP	linfatica	linfática
+MAP	perfusao	perfusão
+MAP	coledoco	colédoco
+MAP	hipofise	hipófise
+MAP	formacao	formação
+MAP	colecoes	coleções
+MAP	relacoes	relações
+MAP	pelvicos	pélvicos
+MAP	pelvicas	pélvicas
+MAP	toracico	torácico
+MAP	toracica	torácica
+MAP	hepatico	hepático
+MAP	hepatica	hepática
+MAP	vesicula	vesícula
+MAP	arterias	artérias
+MAP	musculos	músculos
+MAP	cisticos	císticos
+MAP	cisticas	císticas
+MAP	liquidos	líquidos
+MAP	liquidas	líquidas
+MAP	primario	primário
+MAP	primaria	primária
+MAP	provavel	provável
+MAP	sugestao	sugestão
+MAP	evolucao	evolução
+MAP	vertebra	vértebra
+MAP	pancreas	pâncreas
+MAP	prostata	próstata
+MAP	estomago	estômago
+MAP	apendice	apêndice
+MAP	glandula	glândula
+MAP	bronquio	brônquio
+MAP	encefalo	encéfalo
+MAP	capsulas	cápsulas
+MAP	extensao	extensão
+MAP	ausencia	ausência
+MAP	presenca	presença
+MAP	colonico	colônico
+MAP	colonica	colônica
+MAP	difusao	difusão
+MAP	volvulo	vólvulo
+MAP	cervice	cérvice
+MAP	acromio	acrômio
+MAP	troclea	tróclea
+MAP	colecao	coleção
+MAP	relacao	relação
+MAP	tecnica	técnica
+MAP	analise	análise
+MAP	clinica	clínica
+MAP	pelvico	pélvico
+MAP	pelvica	pélvica
+MAP	arteria	artéria
+MAP	musculo	músculo
+MAP	fascias	fáscias
+MAP	cistico	cístico
+MAP	cistica	cística
+MAP	solidos	sólidos
+MAP	solidas	sólidas
+MAP	liquido	líquido
+MAP	liquida	líquida
+MAP	reducao	redução
+MAP	estavel	estável
+MAP	tendoes	tendões
+MAP	sinfise	sínfise
+MAP	ovarios	ovários
+MAP	esofago	esôfago
+MAP	pulmoes	pulmões
+MAP	coracao	coração
+MAP	cerebro	cérebro
+MAP	nucleos	núcleos
+MAP	capsula	cápsula
+MAP	celiaco	celíaco
+MAP	celiaca	celíaca
+MAP	ileite	ileíte
+MAP	ranula	rânula
+MAP	lesoes	lesões
+MAP	orgaos	órgãos
+MAP	fascia	fáscia
+MAP	cranio	crânio
+MAP	solido	sólido
+MAP	solida	sólida
+MAP	osseos	ósseos
+MAP	osseas	ósseas
+MAP	tendao	tendão
+MAP	coccix	cóccix
+MAP	pubica	púbica
+MAP	pubico	púbico
+MAP	fibula	fíbula
+MAP	figado	fígado
+MAP	ovario	ovário
+MAP	pulmao	pulmão
+MAP	talamo	tálamo
+MAP	nucleo	núcleo
+MAP	cortex	córtex
+MAP	medios	médios
+MAP	medias	médias
+MAP	plato	platô
+MAP	lesao	lesão
+MAP	orgao	órgão
+MAP	osseo	ósseo
+MAP	ossea	óssea
+MAP	femur	fêmur
+MAP	tibia	tíbia
+MAP	umero	úmero
+MAP	radio	rádio
+MAP	utero	útero
+MAP	colon	cólon
+MAP	medio	médio
+MAP	media	média
+MAP	baco	baço
+MAP	ileo	íleo
+MAP	fratura por avulsao do quinto metatarso	fratura por avulsão do quinto metatarso
+MAP	fratura em alca de balde metafisaria	fratura em alça de balde metafisária
+ALIAS	fratura intra articular do calcaneo	fratura intra-articular do calcâneo
+MAP	necrose avascular da cabeca femoral	necrose avascular da cabeça femoral
+ALIAS	tendinopatia insercional de aquiles	tendinopatia insercional de Aquiles
+MAP	fratura por compressao vertebral	fratura por compressão vertebral
+MAP	relacoes articulares preservadas	relações articulares preservadas
+MAP	articulacao metacarpofalangeana	articulação metacarpofalangeana
+MAP	articulacao radioulnar proximal	articulação radioulnar proximal
+MAP	calcificacao fibrocartilaginosa	calcificação fibrocartilaginosa
+MAP	espacos articulares preservados	espaços articulares preservados
+MAP	espinha iliaca posterossuperior	espinha ilíaca posterossuperior
+MAP	reducao da interlinha articular	redução da interlinha articular
+MAP	epifisiolise da cabeca femoral	epifisiólise da cabeça femoral
+MAP	espinha iliaca anterossuperior	espinha ilíaca anterossuperior
+MAP	espinha iliaca posteroinferior	espinha ilíaca posteroinferior
+MAP	fratura avulsao da placa volar	fratura avulsão da placa volar
+MAP	reacao periosteal ininterrupta	reação periosteal ininterrupta
+MAP	reacao periosteal interrompida	reação periosteal interrompida
+MAP	articulacao esternoclavicular	articulação esternoclavicular
+MAP	articulacao radioulnar distal	articulação radioulnar distal
+MAP	calcificacao em aneis e arcos	calcificação em anéis e arcos
+MAP	calcificacoes de partes moles	calcificações de partes moles
+ALIAS	classificacao de lauge hansen	classificação de Lauge Hansen
+MAP	coluna posterior do acetabulo	coluna posterior do acetábulo
+MAP	epifisiolise femoral proximal	epifisiólise femoral proximal
+MAP	espinha iliaca anteroinferior	espinha ilíaca anteroinferior
+ALIAS	fratura tipo iii do odontoide	fratura tipo III do odontoide
+MAP	parede posterior do acetabulo	parede posterior do acetábulo
+MAP	calcificacao de partes moles	calcificação de partes moles
+MAP	coluna anterior do acetabulo	coluna anterior do acetábulo
+MAP	fratura de canto metafisario	fratura de canto metafisário
+MAP	fratura diafisaria da fibula	fratura diafisária da fíbula
+MAP	fratura do epicondilo medial	fratura do epicôndilo medial
+MAP	fratura do maleolo posterior	fratura do maléolo posterior
+MAP	fratura metafisaria classica	fratura metafisária clássica
+ALIAS	fratura tipo ii do odontoide	fratura tipo II do odontoide
+MAP	luxacao posterior do quadril	luxação posterior do quadril
+MAP	parede anterior do acetabulo	parede anterior do acetábulo
+MAP	reacao periosteal espiculada	reação periosteal espiculada
+ALIAS	sem extensao intra articular	sem extensão intra-articular
+MAP	articulacao interfalangeana	articulação interfalangeana
+MAP	fratura diafisaria da tibia	fratura diafisária da tíbia
+MAP	fratura em espiral da tibia	fratura em espiral da tíbia
+ALIAS	fratura tipo i do odontoide	fratura tipo I do odontoide
+MAP	lesao osteocondral do talus	lesão osteocondral do tálus
+MAP	luxacao anterior do quadril	luxação anterior do quadril
+MAP	ossificacao de partes moles	ossificação de partes moles
+ALIAS	partes moles pre vertebrais	partes moles pré-vertebrais
+MAP	processo posterior do talus	processo posterior do tálus
+MAP	reacao periosteal agressiva	reação periosteal agressiva
+MAP	reducao do espaco articular	redução do espaço articular
+MAP	separacao acromioclavicular	separação acromioclavicular
+MAP	subluxacao da cabeca radial	subluxação da cabeça radial
+MAP	terco proximal da clavicula	terço proximal da clavícula
+MAP	triade terrivel do cotovelo	tríade terrível do cotovelo
+MAP	cardiomegalia radiografica	cardiomegalia radiográfica
+ALIAS	classificacao de meyerding	classificação de Meyerding
+ALIAS	classificacao de schatzker	classificação de Schatzker
+MAP	coalizao calcaneonavicular	coalizão calcaneonavicular
+ALIAS	componente intra articular	componente intra-articular
+MAP	diastase da sinfise pubica	diástase da sínfise púbica
+MAP	distancia coracoclavicular	distância coracoclavicular
+ALIAS	doenca de osgood schlatter	doença de Osgood Schlatter
+MAP	elevacao hemidiafragmatica	elevação hemidiafragmática
+MAP	epicondilo femoral lateral	epicôndilo femoral lateral
+MAP	fratura do condilo lateral	fratura do côndilo lateral
+MAP	fratura do maleolo lateral	fratura do maléolo lateral
+MAP	fratura do tuberculo maior	fratura do tubérculo maior
+MAP	fratura do tuberculo menor	fratura do tubérculo menor
+ALIAS	histiocitose de langerhans	histiocitose de Langerhans
+MAP	lesao metafisaria classica	lesão metafisária clássica
+MAP	luxacao posterior do ombro	luxação posterior do ombro
+MAP	pseudoartrose hipertrofica	pseudoartrose hipertrófica
+MAP	reacao periosteal laminada	reação periosteal laminada
+MAP	zona de transicao estreita	zona de transição estreita
+MAP	achatamento diafragmatico	achatamento diafragmático
+MAP	articulacao patelofemoral	articulação patelofemoral
+MAP	articulacoes sacroiliacas	articulações sacroilíacas
+MAP	avulsao da espinha tibial	avulsão da espinha tibial
+MAP	cisto osseo aneurismatico	cisto ósseo aneurismático
+ALIAS	classificacao de gartland	classificação de Gartland
+ALIAS	classificacao de rockwood	classificação de Rockwood
+MAP	colapso da cabeca femoral	colapso da cabeça femoral
+MAP	epicondilo femoral medial	epicôndilo femoral medial
+MAP	fratura do colo cirurgico	fratura do colo cirúrgico
+MAP	fratura do condilo medial	fratura do côndilo medial
+MAP	fratura do maleolo medial	fratura do maléolo medial
+MAP	fratura dos ramos pubicos	fratura dos ramos púbicos
+MAP	fratura intertrocanterica	fratura intertrocantérica
+MAP	fratura proximal do umero	fratura proximal do úmero
+MAP	fratura transtrocanterica	fratura transtrocantérica
+ALIAS	indice de caton deschamps	índice de Caton Deschamps
+MAP	luxacao acromioclavicular	luxação acromioclavicular
+MAP	luxacao anterior do ombro	luxação anterior do ombro
+MAP	luxacao inferior do ombro	luxação inferior do ombro
+MAP	magnificacao radiografica	magnificação radiográfica
+MAP	processo lateral do talus	processo lateral do tálus
+MAP	reacao periosteal lamelar	reação periosteal lamelar
+MAP	retificacao diafragmatica	retificação diafragmática
+MAP	sinal do cachorro escoces	sinal do cachorro escocês
+MAP	sindesmofito nao marginal	sindesmófito não marginal
+MAP	sobreposicao tibiofibular	sobreposição tibiofibular
+MAP	supinacao rotacao externa	supinação rotação externa
+MAP	terco distal da clavicula	terço distal da clavícula
+MAP	tumefacao de partes moles	tumefação de partes moles
+MAP	alteracoes degenerativas	alterações degenerativas
+MAP	articulacao femorotibial	articulação femorotibial
+MAP	calcificacao do manguito	calcificação do manguito
+ALIAS	classificacao de hawkins	classificação de Hawkins
+ALIAS	classificacao de pauwels	classificação de Pauwels
+MAP	eventracao diafragmatica	eventração diafragmática
+ALIAS	extensao intra articular	extensão intra-articular
+ALIAS	falso perfil de lequesne	falso perfil de Lequesne
+MAP	fratura com sobreposicao	fratura com sobreposição
+MAP	fratura da cabeca radial	fratura da cabeça radial
+MAP	fratura do colo do talus	fratura do colo do tálus
+MAP	hiperinsuflacao pulmonar	hiperinsuflação pulmonar
+ALIAS	incidencia de lowenstein	incidência de Lowenstein
+ALIAS	indice de insall salvati	índice de Insall Salvati
+MAP	mineralizacao preservada	mineralização preservada
+MAP	pneumotorax hipertensivo	pneumotórax hipertensivo
+MAP	pronacao rotacao externa	pronação rotação externa
+MAP	reacao periosteal solida	reação periosteal sólida
+MAP	regiao transtrocanterica	região transtrocantérica
+MAP	sem evidencia de fratura	sem evidência de fratura
+ALIAS	sinding larsen johansson	Sinding Larsen Johansson
+MAP	terco medio da clavicula	terço médio da clavícula
+MAP	tuberosidade do calcaneo	tuberosidade do calcâneo
+MAP	variancia ulnar negativa	variância ulnar negativa
+MAP	variancia ulnar positiva	variância ulnar positiva
+MAP	apagamento costofrenico	apagamento costofrênico
+ALIAS	articulacao de lisfranc	articulação de Lisfranc
+MAP	articulacao glenoumeral	articulação glenoumeral
+MAP	articulacao sacroiliaca	articulação sacroilíaca
+MAP	artropatia inflamatoria	artropatia inflamatória
+MAP	calcificacao puntiforme	calcificação puntiforme
+ALIAS	classificacao de garden	classificação de Garden
+MAP	condilo femoral lateral	côndilo femoral lateral
+MAP	consolidacao incompleta	consolidação incompleta
+MAP	densidade mineral ossea	densidade mineral óssea
+MAP	deslizamento epifisario	deslizamento epifisário
+MAP	desvio do eixo mecanico	desvio do eixo mecânico
+MAP	dissociacao escafolunar	dissociação escafolunar
+MAP	distancia atlantodental	distância atlantodental
+MAP	eminencia intercondilar	eminência intercondilar
+MAP	fibroma nao ossificante	fibroma não ossificante
+MAP	fragmento intermediario	fragmento intermediário
+MAP	fratura do anel pelvico	fratura do anel pélvico
+MAP	fratura do pilao tibial	fratura do pilão tibial
+MAP	fratura do plato tibial	fratura do platô tibial
+ALIAS	fratura extra articular	fratura extra-articular
+ALIAS	fratura intra articular	fratura intra-articular
+MAP	fratura subtrocanterica	fratura subtrocantérica
+ALIAS	incidencia de rosenberg	incidência de Rosenberg
+MAP	incongruencia articular	incongruência articular
+ALIAS	lesao de essex lopresti	lesão de Essex Lopresti
+MAP	mineralizacao condroide	mineralização condroide
+MAP	osteolise periprotetica	osteólise periprotética
+MAP	projecoes radiograficas	projeções radiográficas
+MAP	redistribuicao vascular	redistribuição vascular
+MAP	retardo de consolidacao	retardo de consolidação
+MAP	zona de transicao ampla	zona de transição ampla
+MAP	adelgacamento cortical	adelgaçamento cortical
+MAP	afrouxamento protetico	afrouxamento protético
+MAP	alinhamento do retrope	alinhamento do retropé
+MAP	alteracao degenerativa	alteração degenerativa
+ALIAS	articulacao de chopart	articulação de Chopart
+MAP	atraso de consolidacao	atraso de consolidação
+MAP	ausencia de gas distal	ausência de gás distal
+MAP	calcificacao salpicada	calcificação salpicada
+MAP	centros de ossificacao	centros de ossificação
+MAP	cisto osseo unicameral	cisto ósseo unicameral
+ALIAS	classificacao de mason	classificação de Mason
+ALIAS	classificacao de weber	classificação de Weber
+MAP	componentes proteticos	componentes protéticos
+MAP	condilo femoral medial	côndilo femoral medial
+ALIAS	deformidade de haglund	deformidade de Haglund
+MAP	desmineralizacao ossea	desmineralização óssea
+ALIAS	fratura de maisonneuve	fratura de Maisonneuve
+MAP	fratura metadiafisaria	fratura metadiafisária
+MAP	fratura por compressao	fratura por compressão
+MAP	fratura por impactacao	fratura por impactação
+MAP	granuloma eosinofilico	granuloma eosinofílico
+ALIAS	incidencia de merchant	incidência de Merchant
+MAP	inclinacao do calcaneo	inclinação do calcâneo
+MAP	infeccao periprotetica	infecção periprotética
+MAP	irregularidade fisaria	irregularidade fisária
+MAP	nucleos de ossificacao	núcleos de ossificação
+MAP	ossificacao incompleta	ossificação incompleta
+MAP	osteocondrite do talus	osteocondrite do tálus
+MAP	padrao reticulonodular	padrão reticulonodular
+MAP	pseudoartrose atrofica	pseudoartrose atrófica
+MAP	radiografia panoramica	radiografia panorâmica
+MAP	regiao subtrocanterica	região subtrocantérica
+MAP	relacao cardiotoracica	relação cardiotorácica
+MAP	tuberculo do escafoide	tubérculo do escafoide
+MAP	velamento costofrenico	velamento costofrênico
+ALIAS	artropatia de charcot	artropatia de Charcot
+ALIAS	aumento pre vertebral	aumento pré-vertebral
+MAP	calcificacao vascular	calcificação vascular
+MAP	centro de ossificacao	centro de ossificação
+ALIAS	classificacao de neer	classificação de Neer
+MAP	coalizao talocalcanea	coalizão talocalcânea
+MAP	congruencia articular	congruência articular
+MAP	consolidacao em curso	consolidação em curso
+MAP	cuneiforme intermedio	cuneiforme intermédio
+MAP	diastase tibiofibular	diástase tibiofibular
+MAP	estresse radiografico	estresse radiográfico
+MAP	fratura com distracao	fratura com distração
+MAP	fratura periprotetica	fratura periprotética
+MAP	indice cardiotoracico	índice cardiotorácico
+MAP	juncao craniocervical	junção craniocervical
+ALIAS	linha de hilgenreiner	linha de Hilgenreiner
+MAP	marcador radiografico	marcador radiográfico
+MAP	maturacao esqueletica	maturação esquelética
+MAP	nivel gordura liquido	nível gordura líquido
+MAP	nucleo de ossificacao	núcleo de ossificação
+MAP	osteofitos vertebrais	osteófitos vertebrais
+MAP	padrao nao obstrutivo	padrão não obstrutivo
+MAP	padrao roido de traca	padrão roído de traça
+MAP	projecao com estresse	projeção com estresse
+MAP	projecao radiografica	projeção radiográfica
+ALIAS	sinal de terry thomas	sinal de Terry Thomas
+MAP	sinal do grao de cafe	sinal do grão de café
+MAP	sindesmofito marginal	sindesmófito marginal
+MAP	subsidencia protetica	subsidência protética
+MAP	superficie subcondral	superfície subcondral
+MAP	sustentaculo do talus	sustentáculo do tálus
+MAP	tendinopatia calcaria	tendinopatia calcária
+MAP	alinhamento mecanico	alinhamento mecânico
+MAP	arqueamento plastico	arqueamento plástico
+MAP	calcificacao condral	calcificação condral
+MAP	cefalizacao vascular	cefalização vascular
+MAP	coluna sacrococcigea	coluna sacrococcígea
+MAP	componente protetico	componente protético
+MAP	consolidacao viciosa	consolidação viciosa
+MAP	deformidade plastica	deformidade plástica
+MAP	diafise metacarpiana	diáfise metacarpiana
+MAP	diastase escafolunar	diástase escafolunar
+MAP	fratura com diastase	fratura com diástase
+ALIAS	fratura de jefferson	fratura de Jefferson
+ALIAS	fratura de monteggia	fratura de Monteggia
+MAP	fratura do odontoide	fratura do odontóide
+MAP	fratura nao desviada	fratura não desviada
+MAP	gas subdiafragmatico	gás subdiafragmático
+MAP	linha ilioisquiatica	linha ilioisquiática
+MAP	luxacao do semilunar	luxação do semilunar
+MAP	osteomielite cronica	osteomielite crônica
+MAP	pincamento articular	pinçamento articular
+MAP	plato tibial lateral	platô tibial lateral
+MAP	protrusao acetabular	protrusão acetabular
+MAP	radiografia de torax	radiografia de tórax
+MAP	radiografia portatil	radiografia portátil
+MAP	ramo pubico inferior	ramo púbico inferior
+MAP	ramo pubico superior	ramo púbico superior
+MAP	retificacao cervical	retificação cervical
+MAP	superficie articular	superfície articular
+ALIAS	tecido pre vertebral	tecido pré-vertebral
+MAP	trauma nao acidental	trauma não acidental
+ALIAS	triangulos de codman	triângulos de Codman
+MAP	alargamento fisario	alargamento fisário
+MAP	angulo centro borda	ângulo centro borda
+MAP	angulo femorotibial	ângulo femorotibial
+MAP	angulo talocalcaneo	ângulo talocalcâneo
+MAP	ar subdiafragmatico	ar subdiafragmático
+MAP	cabeca do metacarpo	cabeça do metacarpo
+MAP	calculos radiopacos	cálculos radiopacos
+MAP	cisto osseo simples	cisto ósseo simples
+MAP	depressao articular	depressão articular
+MAP	entesofito calcaneo	entesófito calcâneo
+MAP	espaco claro medial	espaço claro medial
+MAP	espaco tibiofibular	espaço tibiofibular
+MAP	espinha da escapula	espinha da escápula
+MAP	fratura com rotacao	fratura com rotação
+ALIAS	fratura de galeazzi	fratura de Galeazzi
+ALIAS	fratura de lisfranc	fratura de Lisfranc
+MAP	fratura do calcaneo	fratura do calcâneo
+MAP	fratura do olecrano	fratura do olécrano
+MAP	fratura em explosao	fratura em explosão
+MAP	fratura metafisaria	fratura metafisária
+MAP	fratura por avulsao	fratura por avulsão
+MAP	gas em partes moles	gás em partes moles
+ALIAS	incidencia de judet	incidência de Judet
+MAP	incidencia em tunel	incidência em túnel
+MAP	insuflacao cortical	insuflação cortical
+MAP	lesao nao acidental	lesão não acidental
+MAP	lesao osteoblastica	lesão osteoblástica
+MAP	luxacao do cotovelo	luxação do cotovelo
+MAP	luxacao glenoumeral	luxação glenoumeral
+MAP	material de sintese	material de síntese
+MAP	membrana interossea	membrana interóssea
+MAP	mineralizacao ossea	mineralização óssea
+MAP	navicular acessorio	navicular acessório
+MAP	osteofito vertebral	osteófito vertebral
+MAP	penetracao adequada	penetração adequada
+MAP	plato tibial medial	platô tibial medial
+MAP	posicao ortostatica	posição ortostática
+ALIAS	projecao de grashey	projeção de Grashey
+MAP	projecao tangencial	projeção tangencial
+MAP	rebordo esclerotico	rebordo esclerótico
+MAP	regiao trocanterica	região trocantérica
+MAP	remodelamento osseo	remodelamento ósseo
+MAP	rotacao do paciente	rotação do paciente
+MAP	seios costofrenicos	seios costofrênicos
+MAP	separacao articular	separação articular
+MAP	stress radiografico	stress radiográfico
+ALIAS	triangulo de codman	triângulo de Codman
+MAP	tunel intercondilar	túnel intercondilar
+ALIAS	abscesso de brodie	abscesso de Brodie
+MAP	angulo capitolunar	ângulo capitolunar
+MAP	angulo escafolunar	ângulo escafolunar
+MAP	artrite psoriasica	artrite psoriásica
+MAP	congestao vascular	congestão vascular
+MAP	consolidacao lobar	consolidação lobar
+MAP	consolidacao ossea	consolidação óssea
+MAP	corticais integras	corticais íntegras
+MAP	dedo em telescopio	dedo em telescópio
+MAP	diafise clavicular	diáfise clavicular
+MAP	diastase articular	diástase articular
+MAP	dilatacao de alcas	dilatação de alças
+MAP	distensao de alcas	distensão de alças
+MAP	epicondilo lateral	epicôndilo lateral
+MAP	escoliose toracica	escoliose torácica
+MAP	espaco glenoumeral	espaço glenoumeral
+MAP	fechamento fisario	fechamento fisário
+MAP	fratura apofisaria	fratura apofisária
+ALIAS	fratura de bennett	fratura de Bennett
+ALIAS	fratura de hangman	fratura de Hangman
+ALIAS	fratura de rolando	fratura de Rolando
+ALIAS	fratura de tillaux	fratura de Tillaux
+ALIAS	fratura de toddler	fratura de Toddler
+MAP	fratura diafisaria	fratura diafisária
+MAP	fratura epifisaria	fratura epifisária
+MAP	fratura patologica	fratura patológica
+ALIAS	hill sachs reverso	Hill Sachs reverso
+MAP	hipertransparencia	hipertransparência
+ALIAS	incidencia de dunn	incidência de Dunn
+MAP	incidencia lateral	incidência lateral
+MAP	incidencia skyline	incidência skyline
+MAP	incidencia sunrise	incidência sunrise
+MAP	juncao cabeca colo	junção cabeça colo
+MAP	lagrima acetabular	lágrima acetabular
+MAP	laminas vertebrais	lâminas vertebrais
+ALIAS	legg calve perthes	Legg Calvé Perthes
+MAP	lesao sindesmotica	lesão sindesmótica
+MAP	lingua do calcaneo	língua do calcâneo
+MAP	linha iliopectinea	linha iliopectínea
+ALIAS	linhas b de kerley	linhas B de Kerley
+ALIAS	luxacao de chopart	luxação de Chopart
+MAP	luxacao do quadril	luxação do quadril
+MAP	margem esclerotica	margem esclerótica
+MAP	migracao protetica	migração protética
+MAP	niveis hidroaereos	níveis hidroaéreos
+MAP	osteofito marginal	osteófito marginal
+MAP	pneumotorax apical	pneumotórax apical
+MAP	projecao lordotica	projeção lordótica
+MAP	projecao transoral	projeção transoral
+MAP	radiotransparencia	radiotransparência
+MAP	retificacao lombar	retificação lombar
+ALIAS	reverse hill sachs	reverse Hill Sachs
+MAP	rotacao inadequada	rotação inadequada
+MAP	tendinite calcaria	tendinite calcária
+MAP	trabeculacao ossea	trabeculação óssea
+ALIAS	triangulo de kager	triângulo de Kager
+ALIAS	tuberculo de gerdy	tubérculo de Gerdy
+MAP	alcas distendidas	alças distendidas
+MAP	angulo acetabular	ângulo acetabular
+ALIAS	angulo de gissane	ângulo de Gissane
+MAP	calculo radiopaco	cálculo radiopaco
+MAP	corpo da escapula	corpo da escápula
+ALIAS	doenca de perthes	doença de Perthes
+MAP	epicondilo medial	epicôndilo medial
+MAP	erosoes marginais	erosões marginais
+MAP	fenomeno do vacuo	fenômeno do vácuo
+ALIAS	fios de kirschner	fios de Kirschner
+MAP	fratura acetabulo	fratura acetábulo
+MAP	fratura clavicula	fratura clavícula
+MAP	fratura da fibula	fratura da fíbula
+ALIAS	fratura de barton	fratura de Barton
+ALIAS	fratura de chance	fratura de Chance
+ALIAS	fratura de colles	fratura de Colles
+ALIAS	fratura de segond	fratura de Segond
+MAP	hipotransparencia	hipotransparência
+MAP	incidencia axilar	incidência axilar
+MAP	indice acetabular	índice acetabular
+ALIAS	lesao de lisfranc	lesão de Lisfranc
+MAP	lesao esclerotica	lesão esclerótica
+MAP	lesao insuflativa	lesão insuflativa
+MAP	lesao osteolitica	lesão osteolítica
+ALIAS	linha b de kerley	linha B de Kerley
+MAP	luxacao perilunar	luxação perilunar
+MAP	maleolo posterior	maléolo posterior
+MAP	metastases osseas	metástases ósseas
+MAP	padrao geografico	padrão geográfico
+MAP	padrao obstrutivo	padrão obstrutivo
+MAP	padrao permeativo	padrão permeativo
+ALIAS	pellegrini stieda	Pellegrini Stieda
+MAP	pincamento discal	pinçamento discal
+MAP	platos vertebrais	platôs vertebrais
+ALIAS	projecao de zanca	projeção de Zanca
+MAP	projecao em carga	projeção em carga
+MAP	protese articular	prótese articular
+MAP	ramo isquiopubico	ramo isquiopúbico
+MAP	remodelacao ossea	remodelação óssea
+ALIAS	salter harris iii	Salter Harris III
+MAP	seio costofrenico	seio costofrênico
+MAP	silhueta cardiaca	silhueta cardíaca
+MAP	soltura protetica	soltura protética
+ALIAS	tanner whitehouse	Tanner Whitehouse
+ALIAS	tipo rockwood iii	tipo Rockwood III
+MAP	trabeculado osseo	trabeculado ósseo
+MAP	tracos de fratura	traços de fratura
+MAP	trigono posterior	trígono posterior
+MAP	vacuo intradiscal	vácuo intradiscal
+MAP	vertebra quadrada	vértebra quadrada
+MAP	vidro fosco osseo	vidro fosco ósseo
+ALIAS	angulo de bohler	ângulo de Böhler
+ALIAS	angulo de tonnis	ângulo de Tönnis
+ALIAS	angulo de wiberg	ângulo de Wiberg
+MAP	boxer s fracture	boxer's fracture
+MAP	cabeca da fibula	cabeça da fíbula
+MAP	cicatriz fisaria	cicatriz fisária
+MAP	colo da escapula	colo da escápula
+MAP	corticais osseas	corticais ósseas
+MAP	decubito lateral	decúbito lateral
+MAP	decubito ventral	decúbito ventral
+MAP	erosao endosteal	erosão endosteal
+MAP	erosoes centrais	erosões centrais
+MAP	espiculas osseas	espículas ósseas
+MAP	esporao calcaneo	esporão calcâneo
+ALIAS	fio de kirschner	fio de Kirschner
+MAP	fratura calcaneo	fratura calcâneo
+MAP	fratura da tibia	fratura da tíbia
+ALIAS	fratura de jones	fratura de Jones
+ALIAS	fratura de smith	fratura de Smith
+MAP	fratura escapula	fratura escápula
+MAP	fratura instavel	fratura instável
+ALIAS	gordura de hoffa	gordura de Hoffa
+ALIAS	gordura de kager	gordura de Kager
+MAP	halo esclerotico	halo esclerótico
+MAP	inclinacao talar	inclinação talar
+MAP	lamina vertebral	lâmina vertebral
+ALIAS	lesao de bankart	lesão de Bankart
+MAP	lesao permeativa	lesão permeativa
+ALIAS	linha de shenton	linha de Shenton
+ALIAS	linhas de kerley	linhas de Kerley
+MAP	nivel hidroaereo	nível hidroaéreo
+ALIAS	osgood schlatter	Osgood-Schlatter
+MAP	padrao reticular	padrão reticular
+MAP	pescoco de cisne	pescoço de cisne
+MAP	pronacao abducao	pronação abdução
+ALIAS	salter harris ii	Salter Harris II
+ALIAS	salter harris iv	Salter Harris IV
+ALIAS	sarcoma de ewing	sarcoma de Ewing
+MAP	supinacao aducao	supinação adução
+ALIAS	tipo rockwood ii	tipo Rockwood II
+ALIAS	tipo rockwood iv	tipo Rockwood IV
+ALIAS	tipo rockwood vi	tipo Rockwood VI
+MAP	traco de fratura	traço de fratura
+MAP	valgo do retrope	valgo do retropé
+ALIAS	angulo de meary	ângulo de Meary
+MAP	anquilose ossea	anquilose óssea
+ALIAS	arco de shenton	arco de Shenton
+MAP	artrite septica	artrite séptica
+MAP	balanco sagital	balanço sagital
+MAP	cabeca do radio	cabeça do rádio
+MAP	cabeca do talus	cabeça do tálus
+ALIAS	caton deschamps	Caton-Deschamps
+MAP	coalizao tarsal	coalizão tarsal
+MAP	coluna toracica	coluna torácica
+MAP	congestao hilar	congestão hilar
+MAP	decubito dorsal	decúbito dorsal
+MAP	densidade ossea	densidade óssea
+MAP	diafise femoral	diáfise femoral
+MAP	diafise fibular	diáfise fibular
+ALIAS	doenca por cppd	doença por CPPD
+MAP	erosao cortical	erosão cortical
+MAP	erosao marginal	erosão marginal
+MAP	escassez de gas	escassez de gás
+MAP	esclerose ossea	esclerose óssea
+MAP	espacos discais	espaços discais
+MAP	fibula proximal	fíbula proximal
+MAP	fragmento osseo	fragmento ósseo
+MAP	fratura estavel	fratura estável
+MAP	fratura fisaria	fratura fisária
+ALIAS	fratura luxacao	fratura-luxação
+MAP	fratura obliqua	fratura oblíqua
+MAP	hiperinsuflacao	hiperinsuflação
+MAP	hiperpenetracao	hiperpenetração
+MAP	ileo paralitico	íleo paralítico
+MAP	involucro osseo	invólucro ósseo
+ALIAS	lesao de stener	lesão de Stener
+MAP	lesao expansiva	lesão expansiva
+ALIAS	linha de perkin	linha de Perkin
+ALIAS	lipo hemartrose	lipo-hemartrose
+MAP	maleolo lateral	maléolo lateral
+MAP	metadiafisarias	metadiafisárias
+MAP	metadiafisarios	metadiafisários
+MAP	metastase ossea	metástase óssea
+ALIAS	meyers mckeever	Meyers McKeever
+MAP	obliqua externa	oblíqua externa
+MAP	obliqua interna	oblíqua interna
+MAP	obliquo externo	oblíquo externo
+MAP	obliquo interno	oblíquo interno
+MAP	padrao alveolar	padrão alveolar
+MAP	plato vertebral	platô vertebral
+MAP	projecao apical	projeção apical
+MAP	projecao axilar	projeção axilar
+MAP	projecao outlet	projeção outlet
+MAP	rarefacao ossea	rarefação óssea
+MAP	regiao proximal	região proximal
+ALIAS	salter harris i	Salter Harris I
+ALIAS	salter harris v	Salter Harris V
+ALIAS	sinal de rigler	sinal de Rigler
+ALIAS	sinal de risser	sinal de Risser
+ALIAS	tipo rockwood i	tipo Rockwood I
+ALIAS	tipo rockwood v	tipo Rockwood V
+MAP	trocanter maior	trocânter maior
+MAP	trocanter menor	trocânter menor
+MAP	troclea femoral	tróclea femoral
+MAP	tuberculo maior	tubérculo maior
+MAP	tuberculo menor	tubérculo menor
+MAP	variancia ulnar	variância ulnar
+MAP	varo do retrope	varo do retropé
+ALIAS	acro osteolise	acro-osteólise
+MAP	alca sentinela	alça sentinela
+ALIAS	angulo de cobb	ângulo de Cobb
+MAP	cabeca femoral	cabeça femoral
+MAP	colo anatomico	colo anatômico
+MAP	colo cirurgico	colo cirúrgico
+MAP	colo da fibula	colo da fíbula
+MAP	cortical ossea	cortical óssea
+ALIAS	coxim de hoffa	coxim de Hoffa
+ALIAS	coxim de kager	coxim de Kager
+MAP	diafise radial	diáfise radial
+MAP	diafise tibial	diáfise tibial
+MAP	diafise umeral	diáfise umeral
+MAP	eixo anatomico	eixo anatômico
+MAP	epimetafisaria	epimetafisária
+MAP	epimetafisario	epimetafisário
+MAP	erosao central	erosão central
+MAP	erosoes osseas	erosões ósseas
+MAP	espicula ossea	espícula óssea
+ALIAS	essex lopresti	Essex-Lopresti
+MAP	expansao ossea	expansão óssea
+MAP	femur proximal	fêmur proximal
+MAP	fratura coccix	fratura cóccix
+MAP	fratura fibula	fratura fíbula
+MAP	hipopenetracao	hipopenetração
+MAP	ileo adinamico	íleo adinâmico
+ALIAS	insall salvati	Insall-Salvati
+ALIAS	linha de klein	linha de Klein
+MAP	maleolo medial	maléolo medial
+MAP	metadiafisaria	metadiafisária
+MAP	metadiafisario	metadiafisário
+MAP	outlet pelvico	outlet pélvico
+MAP	pinca maleolar	pinça maleolar
+MAP	posicao supina	posição supina
+MAP	projecao axial	projeção axial
+MAP	projecao inlet	projeção inlet
+MAP	reducao discal	redução discal
+ALIAS	reverse segond	reverse Segond
+MAP	roido de traca	roído de traça
+MAP	segond reverso	Segond reverso
+MAP	sem subluxacao	sem subluxação
+MAP	sinfise pubica	sínfise púbica
+MAP	superexposicao	superexposição
+MAP	terco proximal	terço proximal
+MAP	tibia proximal	tíbia proximal
+MAP	torax instavel	tórax instável
+MAP	troclea umeral	tróclea umeral
+MAP	acroosteolise	acroosteólise
+MAP	aneis e arcos	anéis e arcos
+MAP	bankart osseo	Bankart ósseo
+MAP	barton dorsal	Barton dorsal
+MAP	botao aortico	botão aórtico
+MAP	cabeca umeral	cabeça umeral
+MAP	colo do radio	colo do rádio
+MAP	colo do talus	colo do tálus
+MAP	crista iliaca	crista ilíaca
+MAP	diafise ulnar	diáfise ulnar
+MAP	eixo mecanico	eixo mecânico
+MAP	espaco discal	espaço discal
+MAP	falange media	falange média
+MAP	fratura femur	fratura fêmur
+MAP	fratura radio	fratura rádio
+MAP	fratura talus	fratura tálus
+MAP	fratura tibia	fratura tíbia
+MAP	fratura umero	fratura úmero
+MAP	fusao fisaria	fusão fisária
+ALIAS	greulich pyle	Greulich Pyle
+ALIAS	incidencia ap	incidência AP
+ALIAS	incidencia pa	incidência PA
+MAP	incongruencia	incongruência
+MAP	inlet pelvico	inlet pélvico
+MAP	lapis em taca	lápis em taça
+MAP	lesao fisaria	lesão fisária
+MAP	linha fisaria	linha fisária
+MAP	medular ossea	medular óssea
+ALIAS	meyerding iii	Meyerding III
+MAP	osteossintese	osteossíntese
+MAP	placa fisaria	placa fisária
+MAP	posicao de ra	posição de rã
+MAP	radiograficas	radiográficas
+MAP	radiograficos	radiográficos
+MAP	regiao distal	região distal
+ALIAS	salter harris	Salter Harris
+ALIAS	schatzker iii	Schatzker III
+MAP	sindesmofitos	sindesmófitos
+ALIAS	stryker notch	Stryker notch
+MAP	troclea talar	tróclea talar
+MAP	ancora ossea	âncora óssea
+MAP	anel pelvico	anel pélvico
+MAP	barton volar	Barton volar
+ALIAS	bony bankart	bony Bankart
+MAP	cloaca ossea	cloaca óssea
+MAP	entesopatica	entesopática
+MAP	entesopatico	entesopático
+MAP	erosao ossea	erosão óssea
+MAP	femur distal	fêmur distal
+MAP	gota tofacea	gota tofácea
+MAP	grao de cafe	grão de café
+MAP	halux rigido	hálux rígido
+ALIAS	hilgenreiner	Hilgenreiner
+ALIAS	lauge hansen	Lauge-Hansen
+MAP	metafisarias	metafisárias
+MAP	metafisarios	metafisários
+ALIAS	meyerding ii	Meyerding II
+ALIAS	meyerding iv	Meyerding IV
+MAP	pilao tibial	pilão tibial
+MAP	plato tibial	platô tibial
+ALIAS	pseudo jones	pseudo Jones
+MAP	radio distal	rádio distal
+MAP	radiografica	radiográfica
+MAP	radiografico	radiográfico
+ALIAS	schatzker ii	Schatzker II
+ALIAS	schatzker iv	Schatzker IV
+ALIAS	schatzker vi	Schatzker VI
+MAP	sindesmofito	sindesmófito
+MAP	sobreposicao	sobreposição
+MAP	subexposicao	subexposição
+MAP	superposicao	superposição
+MAP	terco distal	terço distal
+ALIAS	terry thomas	Terry Thomas
+MAP	diafisarias	diafisárias
+MAP	diafisarios	diafisários
+MAP	entesofitos	entesófitos
+MAP	epifisarias	epifisárias
+MAP	epifisarios	epifisários
+MAP	epimetafise	epimetáfise
+MAP	halux valgo	hálux valgo
+MAP	idade ossea	idade óssea
+MAP	incidencias	incidências
+MAP	lesao mista	lesão mista
+ALIAS	maisonneuve	Maisonneuve
+MAP	metadiafise	metadiáfise
+MAP	metafisaria	metafisária
+MAP	metafisario	metafisário
+ALIAS	meyerding i	Meyerding I
+ALIAS	meyerding v	Meyerding V
+ALIAS	pauwels iii	Pauwels III
+MAP	pelve ossea	pelve óssea
+ALIAS	schatzker i	Schatzker I
+ALIAS	schatzker v	Schatzker V
+MAP	sem luxacao	sem luxação
+MAP	terco medio	terço médio
+MAP	y escapular	Y escapular
+ALIAS	angulo hka	ângulo HKA
+MAP	apofisaria	apofisária
+MAP	apofisario	apofisário
+MAP	asa iliaca	asa ilíaca
+MAP	calo osseo	calo ósseo
+MAP	diafisaria	diafisária
+MAP	diafisario	diafisário
+MAP	entesofito	entesófito
+MAP	epifisaria	epifisária
+MAP	epifisario	epifisário
+MAP	flebolitos	flebólitos
+ALIAS	garden iii	Garden III
+MAP	gas distal	gás distal
+ALIAS	hill sachs	Hill Sachs
+ALIAS	hutchinson	Hutchinson
+MAP	ilha ossea	ilha óssea
+MAP	impactacao	impactação
+MAP	incidencia	incidência
+ALIAS	lowenstein	Lowenstein
+ALIAS	pauwels ii	Pauwels II
+MAP	subluxacao	subluxação
+MAP	translacao	translação
+ALIAS	west point	West Point
+MAP	acetabulo	acetábulo
+MAP	angulacao	angulação
+MAP	cavitacao	cavitação
+MAP	clavicula	clavícula
+MAP	colimacao	colimação
+MAP	flebolito	flebólito
+ALIAS	garden ii	Garden II
+ALIAS	garden iv	Garden IV
+ALIAS	jefferson	Jefferson
+ALIAS	monteggia	Monteggia
+MAP	nao uniao	não união
+ALIAS	pauwels i	Pauwels I
+MAP	pediculos	pedículos
+MAP	periosteo	periósteo
+ALIAS	rosenberg	Rosenberg
+MAP	troquiter	troquíter
+MAP	calcaneo	calcâneo
+MAP	capitulo	capítulo
+MAP	diastase	diástase
+MAP	escapula	escápula
+MAP	fisarias	fisárias
+MAP	fisarios	fisários
+ALIAS	galeazzi	Galeazzi
+ALIAS	garden i	Garden I
+ALIAS	gartland	Gartland
+ALIAS	lequesne	Lequesne
+ALIAS	lisfranc	Lisfranc
+MAP	ma uniao	má união
+MAP	maleolos	maléolos
+MAP	manubrio	manúbrio
+ALIAS	merchant	Merchant
+MAP	metafise	metáfise
+MAP	olecrano	olécrano
+MAP	pe plano	pé plano
+MAP	pediculo	pedículo
+ALIAS	rockwood	Rockwood
+MAP	trapezio	trapézio
+MAP	apofise	apófise
+ALIAS	bennett	Bennett
+ALIAS	chopart	Chopart
+MAP	diafise	diáfise
+MAP	epifise	epífise
+MAP	fisaria	fisária
+MAP	fisario	fisário
+ALIAS	gissane	Gissane
+ALIAS	grashey	Grashey
+ALIAS	haglund	Haglund
+ALIAS	hangman	Hangman
+ALIAS	hawkins	Hawkins
+MAP	luxacao	luxação
+MAP	mediope	mediopé
+MAP	pe cavo	pé cavo
+MAP	retrope	retropé
+ALIAS	rolando	Rolando
+ALIAS	shenton	Shenton
+ALIAS	tillaux	Tillaux
+ALIAS	weber a	Weber A
+ALIAS	weber b	Weber B
+ALIAS	weber c	Weber C
+MAP	antepe	antepé
+ALIAS	bohler	Böhler
+ALIAS	chance	Chance
+ALIAS	colles	Colles
+MAP	iliaco	ilíaco
+MAP	isquio	ísquio
+ALIAS	perkin	Perkin
+ALIAS	rigler	Rigler
+ALIAS	risser	Risser
+ALIAS	segond	Segond
+ALIAS	stener	Stener
+ALIAS	tonnis	Tönnis
+ALIAS	wiberg	Wiberg
+ALIAS	gerdy	Gerdy
+MAP	halux	hálux
+ALIAS	jones	Jones
+ALIAS	judet	Judet
+ALIAS	klein	Klein
+ALIAS	mason	Mason
+ALIAS	meary	Meary
+MAP	pubis	púbis
+ALIAS	smith	Smith
+MAP	talus	tálus
+ALIAS	zanca	Zanca
+MAP	axis	áxis
+ALIAS	cobb	Cobb
+ALIAS	cppd	CPPD
+ALIAS	disi	DISI
+ALIAS	dunn	Dunn
+ALIAS	neer	Neer
+ALIAS	scfe	SCFE
+ALIAS	visi	VISI
+ALIAS	salter harris	Salter-Harris
+ALIAS	salter harris i	Salter-Harris I
+ALIAS	salter harris ii	Salter-Harris II
+ALIAS	salter harris iii	Salter-Harris III
+ALIAS	salter harris iv	Salter-Harris IV
+ALIAS	salter harris v	Salter-Harris V
+ALIAS	hill sachs	Hill-Sachs
+ALIAS	legg calve perthes	Legg-Calvé-Perthes
+ALIAS	meyers mckeever	Meyers-McKeever
+ALIAS	pellegrini stieda	Pellegrini-Stieda
+ALIAS	sinding larsen johansson	Sinding-Larsen-Johansson
+ALIAS	pseudo jones	pseudo-Jones
+MAP	coxins	coxins
+MAP	coxim	coxim
+MAP	fratura distal do umero	fratura distal do úmero
+MAP	fratura diafisaria do umero	fratura diafisária do úmero
+MAP	fratura metafisaria do umero	fratura metafisária do úmero
+MAP	fratura epifisaria do umero	fratura epifisária do úmero
+MAP	fratura metadiafisaria do umero	fratura metadiafisária do úmero
+MAP	fratura proximal do radio	fratura proximal do rádio
+MAP	fratura distal do radio	fratura distal do rádio
+MAP	fratura diafisaria do radio	fratura diafisária do rádio
+MAP	fratura metafisaria do radio	fratura metafisária do rádio
+MAP	fratura epifisaria do radio	fratura epifisária do rádio
+MAP	fratura metadiafisaria do radio	fratura metadiafisária do rádio
+MAP	fratura proximal da ulna	fratura proximal da ulna
+MAP	fratura distal da ulna	fratura distal da ulna
+MAP	fratura diafisaria da ulna	fratura diafisária da ulna
+MAP	fratura metafisaria da ulna	fratura metafisária da ulna
+MAP	fratura epifisaria da ulna	fratura epifisária da ulna
+MAP	fratura metadiafisaria da ulna	fratura metadiafisária da ulna
+MAP	fratura proximal do femur	fratura proximal do fêmur
+MAP	fratura distal do femur	fratura distal do fêmur
+MAP	fratura diafisaria do femur	fratura diafisária do fêmur
+MAP	fratura metafisaria do femur	fratura metafisária do fêmur
+MAP	fratura epifisaria do femur	fratura epifisária do fêmur
+MAP	fratura metadiafisaria do femur	fratura metadiafisária do fêmur
+MAP	fratura proximal da tibia	fratura proximal da tíbia
+MAP	fratura distal da tibia	fratura distal da tíbia
+MAP	fratura metafisaria da tibia	fratura metafisária da tíbia
+MAP	fratura epifisaria da tibia	fratura epifisária da tíbia
+MAP	fratura metadiafisaria da tibia	fratura metadiafisária da tíbia
+MAP	fratura proximal da fibula	fratura proximal da fíbula
+MAP	fratura distal da fibula	fratura distal da fíbula
+MAP	fratura metafisaria da fibula	fratura metafisária da fíbula
+MAP	fratura epifisaria da fibula	fratura epifisária da fíbula
+MAP	fratura metadiafisaria da fibula	fratura metadiafisária da fíbula
+MAP	transfisaria	transfisária
+MAP	transfisario	transfisário
+MAP	transfisarias	transfisárias
+MAP	transfisarios	transfisários
+MAP	pelaterais	bilaterais
+MAP	pelateral	bilateral
+MAP	bilaterias	bilaterais
+MAP	bi laterais	bilaterais
+MAP	bi lateral	bilateral
+MAP	canula	cânula
+MAP	canulas	cânulas
+MAP	canula endotraqueal	cânula endotraqueal
+MAP	canulas endotraqueais	cânulas endotraqueais
+MAP	canula orotraqueal	cânula orotraqueal
+MAP	canula nasotraqueal	cânula nasotraqueal
+MAP	canula de traqueostomia	cânula de traqueostomia
+MAP	canulas de traqueostomia	cânulas de traqueostomia
+MAP	canula traqueal	cânula traqueal
+MAP	cateter subclavio	cateter subclávio
+MAP	cateter braquiocefalico	cateter braquiocefálico
+MAP	cateter duplo lumen	cateter duplo lúmen
+MAP	cateter triplo lumen	cateter triplo lúmen
+MAP	cateter de duplo lumen	cateter de duplo lúmen
+MAP	cateter de triplo lumen	cateter de triplo lúmen
+MAP	cateter tunelizado	cateter tunelizado
+MAP	cateter venoso tunelizado	cateter venoso tunelizado
+MAP	cateter de longa permanencia	cateter de longa permanência
+MAP	cateter totalmente implantavel	cateter totalmente implantável
+MAP	reservatorio subcutaneo	reservatório subcutâneo
+MAP	camara subcutanea	câmara subcutânea
+MAP	camara implantavel	câmara implantável
+MAP	cateter central de insercao periferica	cateter central de inserção periférica
+MAP	cateter central perifericamente inserido	cateter central perifericamente inserido
+MAP	cateter epicutaneo	cateter epicutâneo
+MAP	cateter epicutaneo-cava	cateter epicutâneo-cava
+MAP	cateter de hemodialise	cateter de hemodiálise
+MAP	cateter para hemodialise	cateter para hemodiálise
+MAP	cateter dialitico	cateter dialítico
+MAP	cateter de dialise	cateter de diálise
+MAP	cateter de arteria pulmonar	cateter de artéria pulmonar
+MAP	cateter de pressao pulmonar	cateter de pressão pulmonar
+MAP	juncao cavoatrial	junção cavoatrial
+MAP	atrio direito	átrio direito
+MAP	veia braquiocefalica	veia braquiocefálica
+MAP	balao intra aortico	balão intra-aórtico
+MAP	balao intra-aortico	balão intra-aórtico
+MAP	bomba balao intra aortica	bomba-balão intra-aórtica
+MAP	bomba balao intra-aortica	bomba-balão intra-aórtica
+MAP	sonda nasogastrica	sonda nasogástrica
+MAP	sondas nasogastricas	sondas nasogástricas
+MAP	sonda orogastrica	sonda orogástrica
+MAP	sondas orogastricas	sondas orogástricas
+MAP	sonda nasoenteral	sonda nasoenteral
+MAP	sonda nasojejunal	sonda nasojejunal
+MAP	sonda de alimentacao	sonda de alimentação
+MAP	orificio lateral da sonda	orifício lateral da sonda
+MAP	orificio proximal da sonda	orifício proximal da sonda
+MAP	juncao gastroesofagica	junção gastroesofágica
+MAP	cardia gastrica	cárdia gástrica
+MAP	corpo gastrico	corpo gástrico
+MAP	antro gastrico	antro gástrico
+MAP	gastrostomia endoscopica percutanea	gastrostomia endoscópica percutânea
+MAP	balao intragastrico	balão intragástrico
+MAP	banda gastrica	banda gástrica
+MAP	anel gastrico	anel gástrico
+MAP	dreno toracico	dreno torácico
+MAP	drenos toracicos	drenos torácicos
+MAP	dreno de torax	dreno de tórax
+MAP	dreno pericardico	dreno pericárdico
+MAP	cateter pericardico	cateter pericárdico
+MAP	dreno subfrenico	dreno subfrênico
+MAP	dreno pelvico	dreno pélvico
+MAP	dreno cirurgico	dreno cirúrgico
+MAP	marcapasso temporario	marcapasso temporário
+MAP	marcapasso transvenoso	marcapasso transvenoso
+MAP	marcapasso unicameral	marcapasso unicameral
+MAP	marcapasso bicameral	marcapasso bicameral
+MAP	marcapasso tricameral	marcapasso tricameral
+MAP	eletrodo epicardico	eletrodo epicárdico
+MAP	eletrodos epicardicos	eletrodos epicárdicos
+MAP	cardiodesfibrilador implantavel	cardiodesfibrilador implantável
+MAP	desfibrilador implantavel	desfibrilador implantável
+MAP	ressincronizador cardiaco	ressincronizador cardíaco
+MAP	terapia de ressincronizacao cardiaca	terapia de ressincronização cardíaca
+MAP	monitor cardiaco implantavel	monitor cardíaco implantável
+MAP	registrador de eventos implantavel	registrador de eventos implantável
+MAP	protese valvar	prótese valvar
+MAP	proteses valvares	próteses valvares
+MAP	protese valvar aortica	prótese valvar aórtica
+MAP	protese valvar mitral	prótese valvar mitral
+MAP	protese valvar tricuspide	prótese valvar tricúspide
+MAP	protese valvar pulmonar	prótese valvar pulmonar
+MAP	valva mecanica	valva mecânica
+MAP	protese valvar mecanica	prótese valvar mecânica
+MAP	bioprotese valvar	bioprótese valvar
+MAP	bioprotese aortica	bioprótese aórtica
+MAP	bioprotese mitral	bioprótese mitral
+MAP	protese aortica transcateter	prótese aórtica transcateter
+MAP	anel de anuloplastia tricuspide	anel de anuloplastia tricúspide
+MAP	oclusor do apendice atrial esquerdo	oclusor do apêndice atrial esquerdo
+MAP	oclusor de apendice atrial esquerdo	oclusor de apêndice atrial esquerdo
+MAP	clipes cirurgicos	clipes cirúrgicos
+MAP	clip cirurgico	clipe cirúrgico
+MAP	grampos cirurgicos	grampos cirúrgicos
+MAP	grampo cirurgico	grampo cirúrgico
+MAP	material de sutura metalico	material de sutura metálico
+MAP	molas de embolizacao	molas de embolização
+MAP	coil de embolizacao	coil de embolização
+MAP	coils de embolizacao	coils de embolização
+MAP	endoprotese vascular	endoprótese vascular
+MAP	endoprotese aortica	endoprótese aórtica
+MAP	endoprotese toracica	endoprótese torácica
+MAP	protese biliar	prótese biliar
+MAP	proteses biliares	próteses biliares
+MAP	stent pancreatico	stent pancreático
+MAP	stents pancreaticos	stents pancreáticos
+MAP	protese pancreatica	prótese pancreática
+MAP	drenagem biliar percutanea	drenagem biliar percutânea
+MAP	drenagem transhepatica percutanea	drenagem trans-hepática percutânea
+MAP	cateter transhepatico	cateter trans-hepático
+MAP	dreno nasobiliar	dreno nasobiliar
+MAP	cateter nasobiliar	cateter nasobiliar
+MAP	colecistostomia percutanea	colecistostomia percutânea
+MAP	shunt portossistemico intra-hepatico transjugular	shunt portossistêmico intra-hepático transjugular
+MAP	nefrostomia percutanea	nefrostomia percutânea
+MAP	cateter suprapubico	cateter suprapúbico
+MAP	sonda suprapubica	sonda suprapúbica
+MAP	cistostomia suprapubica	cistostomia suprapúbica
+MAP	dispositivo intrauterino	dispositivo intrauterino
+MAP	diu hormonal	DIU hormonal
+MAP	diu de cobre	DIU de cobre
+MAP	pessario	pessário
+MAP	protese peniana	prótese peniana
+MAP	protese testicular	prótese testicular
+MAP	derivacao ventriculoperitoneal	derivação ventriculoperitoneal
+MAP	derivacao ventriculoatrial	derivação ventriculoatrial
+MAP	derivacao ventriculopleural	derivação ventriculopleural
+MAP	derivacao lomboperitoneal	derivação lomboperitoneal
+MAP	valvula de derivacao	válvula de derivação
+MAP	valvula programavel	válvula programável
+MAP	reservatorio de derivacao	reservatório de derivação
+MAP	estimulador do nervo vago	estimulador do nervo vago
+MAP	neuroestimulador vagal	neuroestimulador vagal
+MAP	eletrodos epidurais	eletrodos epidurais
+MAP	gerador de neuroestimulacao	gerador de neuroestimulação
+MAP	material de osteossintese	material de osteossíntese
+MAP	fixacao interna	fixação interna
+MAP	fixacao externa	fixação externa
+MAP	implante ortopedico	implante ortopédico
+MAP	implantes ortopedicos	implantes ortopédicos
+MAP	placa de compressao	placa de compressão
+MAP	placa de reconstrucao	placa de reconstrução
+MAP	parafuso interfragmentario	parafuso interfragmentário
+MAP	parafuso de compressao	parafuso de compressão
+MAP	parafuso sindesmotico	parafuso sindesmótico
+MAP	parafuso iliossacro	parafuso iliossacro
+MAP	parafuso sacroiliaco	parafuso sacroilíaco
+MAP	parafuso pedicular	parafuso pedicular
+MAP	fixador externo monolateral	fixador externo monolateral
+MAP	fixador externo circular	fixador externo circular
+MAP	pino percutaneo	pino percutâneo
+MAP	pinos percutaneos	pinos percutâneos
+MAP	cerclagem	cerclagem
+MAP	ancora de sutura	âncora de sutura
+MAP	ancoras de sutura	âncoras de sutura
+MAP	botao cortical	botão cortical
+MAP	parafuso interferencial	parafuso interferencial
+MAP	cimento osseo	cimento ósseo
+MAP	substituto osseo	substituto ósseo
+MAP	enxerto osseo	enxerto ósseo
+MAP	esferulas de antibiotico	esférulas de antibiótico
+MAP	espacador com antibiotico	espaçador com antibiótico
+MAP	parafuso deslizante do quadril	parafuso deslizante do quadril
+MAP	haste trocanterica	haste trocantérica
+MAP	parafuso cefalico	parafuso cefálico
+MAP	parafuso deslizante cefalico	parafuso deslizante cefálico
+MAP	artroplastia total do quadril	artroplastia total do quadril
+MAP	protese total do quadril	prótese total do quadril
+MAP	protese de quadril	prótese de quadril
+MAP	protese bipolar	prótese bipolar
+MAP	protese unipolar	prótese unipolar
+MAP	haste femoral protetica	haste femoral protética
+MAP	cabeca femoral protetica	cabeça femoral protética
+MAP	cupula acetabular	cúpula acetabular
+MAP	protese cimentada	prótese cimentada
+MAP	protese nao cimentada	prótese não cimentada
+MAP	artroplastia unicompartimental	artroplastia unicompartimental
+MAP	protese unicompartimental	prótese unicompartimental
+MAP	componente patelar	componente patelar
+MAP	espacador articular	espaçador articular
+MAP	placa de tibia proximal	placa de tíbia proximal
+MAP	placa de tibia distal	placa de tíbia distal
+MAP	placa de fibula distal	placa de fíbula distal
+MAP	botao de sindesmose	botão de sindesmose
+MAP	artrodese tibiotalar	artrodese tibiotalar
+MAP	artrodese do primeiro metatarsofalangico	artrodese do primeiro metatarsofalângico
+MAP	protese de tornozelo	prótese de tornozelo
+MAP	artroplastia do ombro	artroplastia do ombro
+MAP	protese de ombro	prótese de ombro
+MAP	protese reversa do ombro	prótese reversa do ombro
+MAP	componente glenoidal	componente glenoidal
+MAP	componente umeral	componente umeral
+MAP	placa de clavicula	placa de clavícula
+MAP	placa de umero proximal	placa de úmero proximal
+MAP	placa de umero distal	placa de úmero distal
+MAP	placa de radio distal	placa de rádio distal
+MAP	placa volar do radio	placa volar do rádio
+MAP	placa de radio	placa de rádio
+MAP	protese de cabeca radial	prótese de cabeça radial
+MAP	protese total do cotovelo	prótese total do cotovelo
+MAP	protese de punho	prótese de punho
+MAP	artrodese toracica	artrodese torácica
+MAP	placa cervical anterior	placa cervical anterior
+MAP	barras longitudinais	barras longitudinais
+MAP	barra de conexao	barra de conexão
+MAP	conector transversal	conector transversal
+MAP	cage intersomatico	cage intersomático
+MAP	espacador intersomatico	espaçador intersomático
+MAP	dispositivo intersomatico	dispositivo intersomático
+MAP	protese discal	prótese discal
+MAP	protese de disco intervertebral	prótese de disco intervertebral
+MAP	cifoplastia	cifoplastia
+MAP	cimento vertebral	cimento vertebral
+MAP	imobilizacao gessada	imobilização gessada
+MAP	tala gessada	tala gessada
+MAP	ortese	órtese
+MAP	projetil metalico	projétil metálico
+MAP	projeteis metalicos	projéteis metálicos
+MAP	fragmento metalico	fragmento metálico
+MAP	corpo estranho metalico	corpo estranho metálico
+MAP	clipes de colecistectomia	clipes de colecistectomia
+MAP	grampos de anastomose	grampos de anastomose
+MAP	linha de grampeamento	linha de grampeamento
+MAP	dispositivo bem posicionado	dispositivo bem posicionado
+MAP	dispositivo mal posicionado	dispositivo mal posicionado
+MAP	cateter bem posicionado	cateter bem posicionado
+MAP	cateter mal posicionado	cateter mal posicionado
+MAP	ponta adequadamente posicionada	ponta adequadamente posicionada
+MAP	ponta mal posicionada	ponta mal posicionada
+MAP	malposicionamento do cateter	malposicionamento do cateter
+MAP	migracao do cateter	migração do cateter
+MAP	retracao do cateter	retração do cateter
+MAP	avanco do cateter	avanço do cateter
+MAP	enovelamento do cateter	enovelamento do cateter
+MAP	acotovelamento do cateter	acotovelamento do cateter
+MAP	fratura do cateter	fratura do cateter
+MAP	descontinuidade do cateter	descontinuidade do cateter
+MAP	rotura do cateter	rotura do cateter
+MAP	ruptura do cateter	ruptura do cateter
+MAP	desconexao do cateter	desconexão do cateter
+MAP	exteriorizacao do cateter	exteriorização do cateter
+MAP	migracao do dispositivo	migração do dispositivo
+MAP	fratura do dispositivo	fratura do dispositivo
+MAP	descontinuidade do dispositivo	descontinuidade do dispositivo
+MAP	integridade do dispositivo	integridade do dispositivo
+MAP	ponta ao nivel de	ponta ao nível de
+MAP	extremidade distal ao nivel de	extremidade distal ao nível de
+MAP	incidencia waters	incidência Waters
+MAP	projecao waters	projeção Waters
+MAP	incidencia caldwell	incidência Caldwell
+MAP	projecao caldwell	projeção Caldwell
+MAP	incidencia towne	incidência Towne
+MAP	projecao towne	projeção Towne
+MAP	incidencia stenvers	incidência Stenvers
+MAP	projecao stenvers	projeção Stenvers
+MAP	incidencia lauenstein	incidência Lauenstein
+MAP	projecao lauenstein	projeção Lauenstein
+MAP	incidencia schuller	incidência Schüller
+MAP	projecao schuller	projeção Schüller
+MAP	incidencia transoral	incidência transoral
+MAP	incidencia do nadador	incidência do nadador
+MAP	projecao sunrise	projeção sunrise
+MAP	projecao skyline	projeção skyline
+MAP	incidencia axial de patela	incidência axial de patela
+MAP	incidencia tangencial de patela	incidência tangencial de patela
+MAP	incidencia axilar de ombro	incidência axilar de ombro
+MAP	incidencia velpeau	incidência Velpeau
+MAP	projecao velpeau	projeção Velpeau
+MAP	incidencia west point	incidência West Point
+MAP	projecao west point	projeção West Point
+MAP	incidencia outlet	incidência outlet
+MAP	incidencia inlet	incidência inlet
+MAP	incidencia flamingo	incidência Flamingo
+MAP	radiografia sob estresse	radiografia sob estresse
+MAP	radiografia em carga	radiografia em carga
+MAP	radiografia sem carga	radiografia sem carga
+MAP	radiografia ortostatica	radiografia ortostática
+MAP	radiografia em decubito	radiografia em decúbito
+MAP	decubito lateral com raios horizontais	decúbito lateral com raios horizontais
+ALIAS	port a cath	Port-a-Cath
+ALIAS	port cath	Port-a-Cath
+ALIAS	portacath	Port-a-Cath
+ALIAS	port-a-cath	Port-a-Cath
+ALIAS	picc	PICC
+ALIAS	cateter picc	cateter PICC
+ALIAS	cvc	CVC
+ALIAS	swan ganz	Swan-Ganz
+ALIAS	swan-ganz	Swan-Ganz
+ALIAS	iabp	IABP
+ALIAS	bia	BIA
+ALIAS	ecmo	ECMO
+ALIAS	lvad	LVAD
+ALIAS	rvad	RVAD
+ALIAS	vad	VAD
+ALIAS	cdi	CDI
+ALIAS	icd	ICD
+ALIAS	crt	CRT
+ALIAS	crt p	CRT-P
+ALIAS	crt-p	CRT-P
+ALIAS	crt d	CRT-D
+ALIAS	crt-d	CRT-D
+ALIAS	tavi	TAVI
+ALIAS	tavr	TAVR
+ALIAS	mitraclip	MitraClip
+ALIAS	amplatzer	Amplatzer
+ALIAS	watchman	Watchman
+ALIAS	peg	PEG
+ALIAS	ptbd	PTBD
+ALIAS	enbd	ENBD
+ALIAS	tips	TIPS
+ALIAS	diu	DIU
+ALIAS	dvp	DVP
+ALIAS	dlp	DLP
+ALIAS	dhs	DHS
+ALIAS	dcs	DCS
+ALIAS	pfna	PFNA
+ALIAS	pfn	PFN
+ALIAS	pmma	PMMA
+ALIAS	alif	ALIF
+ALIAS	plif	PLIF
+ALIAS	tlif	TLIF
+ALIAS	xlif	XLIF
+ALIAS	llif	LLIF
+ALIAS	endobutton	EndoButton
+ALIAS	tightrope	TightRope
+ALIAS	ilizarov	Ilizarov
+ALIAS	dobbhoff	Dobbhoff
+ALIAS	dobhoff	Dobhoff
+ALIAS	hickman	Hickman
+ALIAS	broviac	Broviac
+ALIAS	permcath	Permcath
+ALIAS	shaldon	Shaldon
+ALIAS	impella	Impella
+MAP	cavum	cavum
+MAP	nasofaringe	nasofaringe
+MAP	coluna aerea	coluna aérea
+MAP	coluna aerea nasofaringea	coluna aérea nasofaríngea
+MAP	abobada craniana	abóbada craniana
+MAP	calcificacoes intracranianas	calcificações intracranianas
+MAP	calcificacao intracraniana	calcificação intracraniana
+MAP	espessamento de mucosas	espessamento de mucosas
+MAP	septo nasal	septo nasal
+MAP	cavidade glenoide	cavidade glenoide
+MAP	cavidades glenoides	cavidades glenoides
+MAP	condilo mandibular	côndilo mandibular
+MAP	condilos mandibulares	côndilos mandibulares
+MAP	articulacao temporomandibular	articulação temporomandibular
+MAP	articulacoes temporomandibulares	articulações temporomandibulares
+MAP	mobilidade temporomandibular	mobilidade temporomandibular
+MAP	articulacoes interapofisarias	articulações interapofisárias
+MAP	articulacao interapofisaria	articulação interapofisária
+MAP	articulacoes uncovertebrais	articulações uncovertebrais
+MAP	articulacao uncovertebral	articulação uncovertebral
+MAP	forames neurais de conjugacao	forames neurais de conjugação
+MAP	forames de conjugacao	forames de conjugação
+MAP	pediculos vertebrais	pedículos vertebrais
+MAP	laminas e pediculos	lâminas e pedículos
+MAP	artrodese metalica anterior	artrodese metálica anterior
+MAP	artrodese metalica posterior	artrodese metálica posterior
+MAP	reducao do espaco discal	redução do espaço discal
+MAP	reducao da altura discal	redução da altura discal
+MAP	altura do espaco discal	altura do espaço discal
+MAP	erosoes subcondrais interapofisarias	erosões subcondrais interapofisárias
+MAP	forames sacrais	forames sacrais
+MAP	sacrococcix	sacrocóccix
+MAP	irregularidades osteocondrais	irregularidades osteocondrais
+MAP	trapeziometacarpiano	trapeziometacarpiano
+MAP	articulacao trapeziometacarpiana	articulação trapeziometacarpiana
+MAP	articulacoes metacarpofalangianas	articulações metacarpofalangianas
+MAP	interfalangianas proximais	interfalangianas proximais
+MAP	articulacoes interfalangianas	articulações interfalangianas
+MAP	deformidade em z	deformidade em Z
+MAP	primeiro dedo em z	primeiro dedo em Z
+MAP	placas e parafusos metalicos	placas e parafusos metálicos
+MAP	placa e parafusos metalicos	placa e parafusos metálicos
+MAP	sem sinais de soltura	sem sinais de soltura
+MAP	soltura do material	soltura do material
+MAP	material metalico	material metálico
+MAP	razao cardiotoracica	razão cardiotorácica
+MAP	silhueta cardiotimica	silhueta cardiotímica
+MAP	parenquima pulmonar	parênquima pulmonar
+MAP	parenquima normotransparente	parênquima normotransparente
+MAP	pulmoes hiperinsuflados	pulmões hiperinsuflados
+MAP	retificacao dos hemidiafragmas	retificação dos hemidiafragmas
+MAP	acentuacao da trama	acentuação da trama
+MAP	diametro lateral da traqueia	diâmetro lateral da traqueia
+MAP	torax em tonel	tórax em tonel
+MAP	fissuras interlobares	fissuras interlobares
+MAP	linhas septais	linhas septais
+MAP	proeminencia vascular	proeminência vascular
+MAP	arcabouco osseo costal	arcabouço ósseo costal
+MAP	canula de intubacao	cânula de intubação
+MAP	extremidade gastrica	extremidade gástrica
+MAP	litiase urinaria radiopaca	litíase urinária radiopaca
+MAP	distribuicao dos gases	distribuição dos gases
+MAP	distribuicao gasosa	distribuição gasosa
+MAP	visceromegalia	visceromegalia
+MAP	visceromegalias	visceromegalias
+MAP	pneumoperitoneo	pneumoperitônio
+MAP	regiao de carga	região de carga
+MAP	carga femoroacetabular	carga femoroacetabular
+MAP	regiao femoroacetabular	região femoroacetabular
+MAP	articulacao coxofemoral	articulação coxofemoral
+MAP	articulacoes coxofemorais	articulações coxofemorais
+MAP	artroprotese metalica	artroprótese metálica
+MAP	artroprotese total	artroprótese total
+MAP	artroprotese de quadril	artroprótese de quadril
+MAP	compartimento femorotibial medial	compartimento femorotibial medial
+MAP	esporao osseo plantar	esporão ósseo plantar
+MAP	esporao osseo posterior	esporão ósseo posterior
+MAP	primeira falange proximal	primeira falange proximal
+MAP	sesamoides do halux	sesamoides do hálux
+MAP	subluxacao dos sesamoides	subluxação dos sesamoides
+MAP	subluxacao lateral dos sesamoides	subluxação lateral dos sesamoides
+MAP	metatarsofalangiana	metatarsofalangiana
+MAP	primeira metatarsofalangiana	primeira metatarsofalangiana
+MAP	atlas de greulich	atlas de Greulich
+MAP	greulich e pyle	Greulich e Pyle
+MAP	greulich	Greulich
+MAP	pyle	Pyle
+MAP	maturacao ossea	maturação óssea
+MAP	esclerose ossea subcondral	esclerose óssea subcondral
+MAP	cistos subcondrais	cistos subcondrais
+MAP	espaco articular	espaço articular
+MAP	espacos articulares	espaços articulares
+MAP	estrutura ossea	estrutura óssea
+MAP	elementos osseos	elementos ósseos
+MAP	estruturas osseas	estruturas ósseas
+MAP	relacoes articulares	relações articulares
+MAP	fratura com osteossintese	fratura com osteossíntese
+ALIAS	greulich e pyle	Greulich e Pyle
+ALIAS	greulich	Greulich
+ALIAS	pyle	Pyle

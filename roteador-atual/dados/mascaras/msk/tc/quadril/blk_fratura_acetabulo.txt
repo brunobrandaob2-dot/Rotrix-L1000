@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Acetábulo
+# gatilhos: fratura do acetabulo | fratura acetabular | fratura da parede posterior
+# conclusao: Fratura do acetábulo, padrão {letournel|de parede posterior/de coluna posterior/de coluna anterior/transverso/em T/de ambas as colunas/___} da classificação de Judet-Letournel.
+Acetábulo:  traço de fratura acometendo {componente|a parede posterior/a parede anterior/a coluna anterior/a coluna posterior/ambas as colunas/o teto acetabular}, com degrau articular máximo de {medida_degrau} e afastamento máximo de {medida_afastamento}.

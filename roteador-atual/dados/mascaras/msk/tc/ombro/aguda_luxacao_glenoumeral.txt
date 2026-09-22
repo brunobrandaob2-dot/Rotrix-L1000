@@ -1,0 +1,28 @@
+# gatilhos: tomografia de ombro com luxacao | tomografia do ombro com luxacao | tc de ombro com luxacao | tc do ombro com luxacao | tc ombro luxacao | tomografia de ombro com luxacao glenoumeral | tc de ombro com luxacao glenoumeral | tomografia de ombro com hill sachs | tc de ombro com hill sachs | tomografia de ombro com bankart | tc de ombro com bankart | tomografia de ombro com instabilidade | tc de ombro com instabilidade
+# categoria: msk
+# modalidade: tc
+# regiao: ombro
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  {alinhamento|luxação glenoumeral anterior, com a cabeça umeral em posição subcoracoide/luxação glenoumeral posterior/relação glenoumeral restabelecida}.
+Úmero proximal:  fratura-impactação na face posterossuperolateral da cabeça umeral (lesão de Hill-Sachs), medindo {tamanho} de extensão e ___ mm de profundidade. Não há outros traços de fratura.
+Glenoide e escápula:  fratura do rebordo anteroinferior da glenoide (Bankart ósseo), com fragmento {desvio|sem desvio significativo/desviado medialmente}. Perda óssea glenoidal estimada em {perda}% da largura, pelo método do círculo inferior (best-fit). Acrômio e processo coracoide sem particularidades.
+Articulação glenoumeral:  {derrame|Sem derrame articular significativo/Derrame articular}. Não há corpos livres intra-articulares evidentes.
+Articulação acromioclavicular:  congruente, com espaço articular preservado e sem osteófitos significativos.
+Espaço acromioumeral:  preservado.
+Clavícula:  contornos corticais preservados, sem traços de fratura.
+Mineralização óssea:  preservada.
+Partes moles:  ventres musculares do manguito rotador e do deltoide de volume e atenuação preservados, sem lipossubstituição significativa. Não há coleções ou calcificações, considerando os limites do método para avaliação tendínea, labral e capsuloligamentar.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+{alinhamento_c|Luxação glenoumeral anterior/Luxação glenoumeral posterior/Sinais de luxação glenoumeral prévia, com relação articular restabelecida}.
+Lesão de Hill-Sachs na cabeça umeral.
+Fratura do rebordo anteroinferior da glenoide (Bankart ósseo), com perda óssea glenoidal estimada em {perda}% (perda acima de 20% é tradicionalmente considerada crítica; entre 13,5% e 20%, subcrítica).

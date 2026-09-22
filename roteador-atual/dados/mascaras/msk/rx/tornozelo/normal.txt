@@ -1,0 +1,16 @@
+# gatilhos: raio x de tornozelo | rx de tornozelo | radiografia de tornozelo | raio x do tornozelo | rx do tornozelo | radiografia do tornozelo | raio x de tornozelo normal | rx de tornozelo normal | radiografia de tornozelo normal | rx tornozelo normal | rx tornozelo | rx tornozelo apos trauma | raio x de tornozelo tres incidencias
+# categoria: msk
+# modalidade: rx
+# regiao: tornozelo
+# tipo_mascara: normal
+**RADIOGRAFIA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, perfil e mortise (anteroposterior com rotação interna de 15 a 20 graus).
+
+**ANÁLISE:**
+Pinça maleolar congruente, com espaço claro medial preservado.
+Sindesmose tibiofibular sem alargamento.
+Espaços articulares preservados.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

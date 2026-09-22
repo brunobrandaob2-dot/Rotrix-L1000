@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vasos
+# gatilhos: aortoectasia | aorta ectasica | dilatacao da aorta
+# conclusao: Aortoectasia abdominal infrarrenal, medindo {tamanho}, sem critérios de aneurisma.
+Vasos: aorta abdominal com calibre aumentado no segmento infrarrenal, medindo {tamanho} no maior diâmetro transverso, com ateromatose calcificada parietal difusa e trombo mural excêntrico. Ausência de sinais de instabilidade ou de ruptura.

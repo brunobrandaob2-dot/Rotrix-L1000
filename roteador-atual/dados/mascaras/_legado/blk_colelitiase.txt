@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vesícula biliar
+# gatilhos: colelitiase | calculos na vesicula | litiase vesicular
+# conclusao: Colelitíase, sem sinais de colecistite aguda.
+Vesícula biliar: distendida, de paredes finas, com cálculos no seu interior, o maior medindo {tamanho}. Ausência de espessamento parietal, densificação pericolecística ou realce parietal anômalo.

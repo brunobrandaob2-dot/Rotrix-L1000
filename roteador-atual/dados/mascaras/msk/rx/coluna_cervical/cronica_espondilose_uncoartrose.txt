@@ -1,0 +1,17 @@
+# gatilhos: raio x de coluna cervical com espondilose | rx de coluna cervical com espondilose | rx coluna cervical espondilose | radiografia de coluna cervical com espondilose | rx de coluna cervical degenerativa | rx de coluna cervical com uncoartrose | raio x de coluna cervical com alteracoes degenerativas | rx de coluna cervical com artrose | rx de coluna cervical com discopatia
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_cervical
+# tipo_mascara: cronica
+**RADIOGRAFIA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Retificação da lordose cervical, sem listeses.
+Transição craniocervical sem alterações.
+Espondilose, com osteófitos marginais nos corpos vertebrais, mais evidentes em {nivel}.
+Redução dos espaços discais em {nivel}, com esclerose das plataformas vertebrais.
+Uncoartrose e artrose interapofisária em {nivel}.
+Densidade óssea preservada.
+Partes moles pré-vertebrais com espessura normal.

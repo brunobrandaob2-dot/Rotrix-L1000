@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Tecido adenoideano
+# gatilhos: hipertrofia adenoideana | hipertrofia de adenoide | adenoide aumentada | adenoides aumentadas | aumento da adenoide | hipertrofia das adenoides
+Hipertrofia {grau|discreta/moderada/acentuada} do tecido adenoideano.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Conchas nasais
+# gatilhos: concha bolhosa | concha media bolhosa | pneumatizacao da concha media
+# conclusao: Concha média bolhosa {lado_a|à direita/à esquerda}.
+Conchas nasais:  pneumatização da concha média {lado_a|à direita/à esquerda} (concha bolhosa), sem sinais de obstrução do meato médio.

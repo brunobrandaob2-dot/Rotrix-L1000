@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Substância branca
+# gatilhos: microangiopatia | alteracoes microangiopaticas | leucoaraiose | fazekas | leucoencefalopatia microangiopatica
+# conclusao: Alterações microangiopáticas crônicas da substância branca, grau {fazekas|1/2/3} na escala de Fazekas.
+Substância branca:  hipoatenuações na substância branca periventricular e profunda dos hemisférios cerebrais, de distribuição simétrica e sem efeito expansivo, compatíveis com alterações microangiopáticas crônicas, correspondendo ao grau {fazekas|1/2/3} da escala de Fazekas (1: focos puntiformes; 2: início de confluência; 3: áreas confluentes).

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Bexiga
+# gatilhos: calculo vesical | litiase vesical | calculo na bexiga
+# conclusao: Cálculo vesical medindo {tamanho}.
+Bexiga:  de parcial repleção, com cálculo no seu interior, medindo {tamanho}. Paredes finas, sem outras falhas de enchimento na fase excretora.

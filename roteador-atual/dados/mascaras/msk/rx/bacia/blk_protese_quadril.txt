@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: protese de quadril | artroplastia de quadril | artroplastia do quadril | protese do quadril
+Artroplastia {tipo_protese|total/parcial} do quadril {lado_prot|direito/esquerdo}, com componentes em posição habitual e sem sinais de soltura.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: litiase ureteral | calculo ureteral com hidronefrose | hidronefrose obstrutiva | calculo obstrutivo do ureter | ureterolitiase
+# conclusao: Cálculo ureteral {lado_a|à direita/à esquerda} medindo {tamanho}, com hidronefrose e sinais inflamatórios perirrenais a montante.
+Rins: rim {lado|direito/esquerdo} com dilatação pielocalicinal e do ureter a montante de cálculo situado no terço ___ do ureter ipsilateral, medindo {tamanho} no maior eixo e com densidade de ___ UH, associando-se densificação da gordura perirrenal e periureteral e espessura do parênquima preservada. Rim contralateral tópico, sem cálculos ou dilatação de vias coletoras.

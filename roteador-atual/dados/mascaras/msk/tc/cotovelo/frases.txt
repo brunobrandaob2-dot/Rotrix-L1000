@@ -1,0 +1,35 @@
+# tipo: frases
+## gatilhos: triade terrivel do cotovelo
+Luxação do cotovelo associada a fraturas da cabeça do rádio e do processo coronoide, configurando a tríade terrível do cotovelo.
+## gatilhos: lesao de essex lopresti no cotovelo | avaliar radioulnar distal no cotovelo
+Na vigência de fratura cominutiva da cabeça do rádio, recomenda-se avaliação da articulação radioulnar distal, para exclusão de lesão de Essex-Lopresti.
+## gatilhos: fratura de monteggia no cotovelo | lesao de monteggia
+Fratura da diáfise proximal da ulna associada a luxação da cabeça do rádio (lesão de Monteggia, tipo {bado|I/II/III/IV} de Bado).
+## gatilhos: corpo livre no cotovelo
+Corpo livre intra-articular no recesso {recesso|anterior/posterior (fossa olecraniana)}, medindo {tamanho}.
+## gatilhos: osteofito no olecrano do cotovelo
+Osteófitos na ponta do olécrano e na fossa olecraniana, que podem contribuir para limitação da extensão.
+## gatilhos: osteofito do coronoide no cotovelo
+Osteófitos na ponta do processo coronoide e na fossa coronoide, que podem contribuir para limitação da flexão.
+## gatilhos: osteocondrite dissecante do capitulo no cotovelo | lesao osteocondral do capitulo
+Lesão osteocondral no capítulo umeral, com fragmento {fragmento|in situ/parcialmente destacado/destacado} medindo {tamanho}; a ressonância magnética avalia melhor a estabilidade do fragmento.
+## gatilhos: entesopatia do epicondilo lateral no cotovelo | calcificacao do epicondilo lateral no cotovelo
+Pequena calcificação junto ao epicôndilo lateral, na origem dos tendões extensores comuns, que pode estar associada a epicondilopatia lateral, a correlacionar clinicamente.
+## gatilhos: entesofito do triceps no cotovelo
+Entesófito na inserção do tendão tricipital no olécrano.
+## gatilhos: sequela de fratura da cabeca do radio no cotovelo | fratura consolidada da cabeca do radio
+Sinais de fratura consolidada da cabeça do rádio, com irregularidade e degrau residual de {tamanho} da superfície articular.
+## gatilhos: fratura do epicondilo medial no cotovelo
+Fratura-avulsão do epicôndilo medial, com desvio de {tamanho} do fragmento, {encarceramento|sem/com} fragmento encarcerado na articulação.
+## gatilhos: ossificacao heterotopica madura no cotovelo
+Ossificação heterotópica madura na face {face|anterior/posterior/medial/lateral} do cotovelo, {ponte|sem/com} ponte óssea, podendo limitar o arco de movimento.
+## gatilhos: lipo hemartrose no cotovelo | nivel liquido gorduroso no cotovelo
+Lipo-hemartrose no cotovelo, com nível líquido-gorduroso, achado que sugere fratura intra-articular.
+## gatilhos: derrame articular pequeno no cotovelo | pequeno derrame no cotovelo
+Pequeno derrame articular no cotovelo.
+## gatilhos: degrau articular na cabeca do radio
+Degrau articular de {tamanho} na superfície da cabeça do rádio (desvio superior a 2 mm tem relevância para a conduta).
+## gatilhos: fratura do capitulo no cotovelo
+Fratura do capítulo umeral, tipo {bryan|I (Hahn-Steinthal)/II (Kocher-Lorenz)/III (cominutiva)/IV (McKee)} de Bryan-Morrey, com desvio de {tamanho}.
+## gatilhos: limite do metodo no cotovelo | tomografia nao avalia ligamentos do cotovelo
+A tomografia computadorizada tem sensibilidade limitada para avaliação ligamentar, tendínea e da cartilagem articular do cotovelo; se houver indicação clínica, a ressonância magnética é o método de escolha.

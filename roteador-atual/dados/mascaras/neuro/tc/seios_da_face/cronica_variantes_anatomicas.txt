@@ -1,0 +1,36 @@
+# gatilhos: tomografia de seios da face com variantes anatomicas | tc de seios da face com variantes anatomicas | tc seios da face variantes anatomicas | tomografia de seios da face com variacoes anatomicas
+# categoria: neuro
+# modalidade: tc
+# regiao: seios_da_face
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DOS SEIOS DA FACE**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado, com reconstruções multiplanares em filtro para osso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Seios maxilares:  normopneumatizados, com paredes ósseas íntegras.
+Seios etmoidais:  células etmoidais anteriores e posteriores normopneumatizadas. Lâminas papiráceas íntegras.
+Seios frontais:  normopneumatizados, com paredes ósseas íntegras.
+Seios esfenoidais:  normopneumatizados, com paredes ósseas íntegras.
+Complexos ostiomeatais:  pérvios. Célula etmoidal infraorbitária (célula de Haller) {lado_haller|à direita/à esquerda/bilateralmente}, reduzindo a amplitude do infundíbulo etmoidal.
+Recessos frontais:  pérvios. Célula de agger nasi {lado_agger|à direita/à esquerda/bilateralmente}, reduzindo a amplitude do recesso frontal.
+Recessos esfenoetmoidais:  pérvios.
+Cavidade nasal:  sem lesões expansivas.
+Septo nasal:  desvio com convexidade {lado_septo|à direita/à esquerda}, {esporao|sem/com} esporão ósseo em contato com a concha inferior homolateral.
+Conchas nasais:  pneumatização da concha média {lado_concha|à direita/à esquerda/bilateralmente} (concha bolhosa).
+Variantes anatômicas:  descritas nos respectivos itens.
+Base anterior do crânio:  teto etmoidal e lâminas cribriformes íntegros. Fossas olfatórias com profundidade classificada como Keros tipo {keros|I/II/III}.
+Estruturas ósseas:  sem sinais de fratura ou lesões focais.
+Órbitas:  conteúdo orbitário sem alterações evidentes.
+Rinofaringe:  pérvia, sem lesões expansivas.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Desvio do septo nasal com convexidade {lado_septo|à direita/à esquerda}.
+Concha média bolhosa {lado_concha|à direita/à esquerda/bilateralmente}.
+Célula de Haller {lado_haller|à direita/à esquerda/bilateralmente} e célula de agger nasi {lado_agger|à direita/à esquerda/bilateralmente}.
+Seios paranasais normopneumatizados.

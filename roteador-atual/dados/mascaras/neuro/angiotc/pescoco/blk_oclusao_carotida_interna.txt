@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias carótidas internas
+# gatilhos: oclusao da carotida interna | carotida interna ocluida | oclusao carotidea
+# conclusao: Oclusão da artéria carótida interna {lado_f|direita/esquerda} a partir da origem; a cronologia não é determinável pelo método — correlacionar com o quadro clínico e, se indicado, avaliar a circulação intracraniana.
+Artérias carótidas internas:  ausência de opacificação da artéria carótida interna {lado_f|direita/esquerda} a partir da origem, {coto|com coto em fundo cego/com afilamento cônico}, sem opacificação dos segmentos cervicais até a base do crânio. Artéria carótida interna contralateral pérvia, com calibre preservado.

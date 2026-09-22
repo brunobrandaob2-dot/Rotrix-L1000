@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Retropé
+# gatilhos: esporao calcaneo | esporao plantar | esporao do calcaneo
+# conclusao: Esporão calcâneo plantar.
+Retropé:  tálus sem particularidades. Calcâneo com esporão na tuberosidade plantar medial, na origem da fáscia plantar. Articulações subtalar e talonavicular congruentes.

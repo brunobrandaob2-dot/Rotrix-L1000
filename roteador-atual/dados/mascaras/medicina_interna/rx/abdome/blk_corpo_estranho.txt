@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há corpos estranhos
+# gatilhos: corpo estranho | corpo estranho radiopaco | corpo estranho metalico
+Corpo estranho radiopaco projetado {localizacao_ce}, medindo {tamanho}.

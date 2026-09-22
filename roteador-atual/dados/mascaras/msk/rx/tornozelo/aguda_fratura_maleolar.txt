@@ -1,0 +1,17 @@
+# gatilhos: raio x de tornozelo com fratura maleolar | rx de tornozelo com fratura maleolar | radiografia de tornozelo com fratura maleolar | rx tornozelo fratura maleolar | raio x de tornozelo com fratura bimaleolar | raio x de tornozelo com fratura trimaleolar | rx de tornozelo com fratura do maleolo
+# categoria: msk
+# modalidade: rx
+# regiao: tornozelo
+# tipo_mascara: aguda
+**RADIOGRAFIA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, perfil e mortise (anteroposterior com rotação interna de 15 a 20 graus).
+
+**ANÁLISE:**
+Pinça maleolar {encaixe|congruente, com espaço claro medial preservado/incongruente, com alargamento do espaço claro medial e subluxação lateral do tálus}.
+Fratura {traco|oblíqua/espiral/transversa/cominutiva} do maléolo lateral, {nivel|abaixo/ao nível/acima} da sindesmose (Weber {weber|A/B/C}), com desvio de {tamanho}.
+Maléolo medial {mm|íntegro/com fratura transversa/com fratura oblíqua/com fratura por avulsão da ponta}.
+Maléolo posterior {mp|sem sinais de fratura/com fratura acometendo cerca de ___% da superfície articular}.
+{sindesmose|Sindesmose tibiofibular sem alargamento, porém a radiografia sem estresse não exclui lesão sindesmótica./Alargamento da sindesmose tibiofibular, sugerindo lesão sindesmótica.}
+Densidade óssea preservada.
+Aumento de partes moles perimaleolares.

@@ -1,0 +1,51 @@
+# tipo: frases
+## gatilhos: coluna lombar sem alteracoes na tomografia | tc coluna lombar sem alteracoes
+Estruturas ósseas da coluna lombar de altura, morfologia e alinhamento preservados, sem sinais de fratura ou de lesão focal.
+## gatilhos: retificacao da lordose lombar | lordose lombar retificada
+Retificação da lordose lombar fisiológica.
+## gatilhos: hiperlordose lombar | acentuacao da lordose lombar
+Acentuação da lordose lombar fisiológica.
+## gatilhos: vacuo discal lombar | fenomeno de vacuo discal lombar
+Fenômeno de vácuo discal em {nivel}, relacionado a degeneração discal.
+## gatilhos: abaulamento discal difuso lombar | abaulamentos discais lombares
+Abaulamento discal difuso em {nivel}, que toca a face ventral do saco dural, sem compressão radicular evidente ao método.
+## gatilhos: ressalva ressonancia disco lombar | ressonancia para disco lombar
+A tomografia tem sensibilidade limitada para a avaliação dos discos intervertebrais e das raízes; a ressonância magnética é o método de escolha para esta avaliação, se houver indicação clínica.
+## gatilhos: hernia discal lombar extrusa | extrusao discal lombar com migracao
+Extrusão discal {localizacao|posterolateral/foraminal/central} {lado_a|à direita/à esquerda} em {nivel}, com migração {migracao|cranial/caudal} de fragmento, medindo {tamanho}, que comprime a raiz de {raiz}.
+## gatilhos: hernia discal lombar calcificada | calcificacao discal lombar
+Hérnia discal calcificada em {nivel}, medindo {tamanho}, que reduz a amplitude do canal vertebral.
+## gatilhos: espessamento dos ligamentos amarelos lombar | hipertrofia do ligamento amarelo lombar
+Espessamento dos ligamentos amarelos em {nivel}, que contribui para a redução da amplitude do canal vertebral.
+## gatilhos: cisto sinovial facetario lombar | cisto facetario lombar
+Formação cística junto à articulação interapofisária {lado_f|direita/esquerda} de {nivel}, medindo {tamanho}, podendo corresponder a cisto sinovial facetário, com impressão sobre o saco dural (melhor caracterizada por ressonância magnética).
+## gatilhos: estenose de recesso lateral lombar | recesso lateral lombar reduzido
+Redução da amplitude do recesso lateral {lado_a|à direita/à esquerda} em {nivel}, por componente disco-osteofitário e hipertrofia facetária.
+## gatilhos: espondilolistese lombar grau i | anterolistese lombar grau i
+Anterolistese de {nivel} sobre o nível subjacente, grau I de Meyerding (até 25%).
+## gatilhos: espondilolise lombar sem listese | espondilolise lombar isolada
+Espondilólise de {nivel}, {lado|bilateral/direito/esquerdo}, sem listese associada.
+## gatilhos: fratura lombar aguda com muro posterior integro | fratura lombar sem retropulsao
+Muro posterior íntegro, sem retropulsão de fragmentos para o canal vertebral.
+## gatilhos: fratura lombar com retropulsao | retropulsao de fragmento lombar
+Fragmento ósseo retropulso do muro posterior de {nivel}, medindo {tamanho}, que reduz a amplitude do canal vertebral em cerca de {comprometimento_canal}%.
+## gatilhos: fratura lombar antiga consolidada | fratura antiga da coluna lombar
+Fratura antiga do corpo vertebral de {nivel}, com margens escleróticas e remodeladas, sem sinais de agudização.
+## gatilhos: fenda de vacuo intrassomatica lombar | kummell lombar
+Fenda de vácuo intrassomática em {nivel}, sugerindo pseudoartrose/osteonecrose do corpo vertebral (doença de Kümmell).
+## gatilhos: fratura do sacro na tc de coluna lombar | fratura sacral na tomografia lombar
+Traço de fratura na asa sacral {lado_f|direita/esquerda}, de margens nítidas, aspecto agudo, sem desvio significativo.
+## gatilhos: fratura por insuficiencia sacral lombar | fratura de insuficiencia do sacro
+Traços de fratura com esclerose linear nas asas sacrais, com orientação vertical, podendo corresponder a fratura por insuficiência.
+## gatilhos: lesao litica vertebral lombar | lesao osteolitica na coluna lombar
+Lesão osteolítica no corpo vertebral de {nivel}, medindo {tamanho}, de natureza indeterminada, a ser correlacionada com os dados clínicos e com ressonância magnética.
+## gatilhos: lesao blastica vertebral lombar | ilhota ossea lombar
+Foco de esclerose óssea no corpo vertebral de {nivel}, medindo {tamanho}, de margens espiculadas, podendo corresponder a ilhota óssea (enostose).
+## gatilhos: sacroileite na tc lombar | erosoes sacroiliacas lombar
+Erosões e esclerose subcondral nas margens ilíacas das articulações sacroilíacas, {lado_f|bilateral/direita/esquerda}, a correlacionar com hipótese de sacroileíte.
+## gatilhos: ateromatose aortica na tc lombar | calcificacoes aorticas coluna lombar
+Calcificações ateromatosas parietais na aorta abdominal e nas artérias ilíacas.
+## gatilhos: parafuso pedicular lombar solto | soltura de parafuso lombar
+Halo de radiolucência ao redor do parafuso pedicular {lado|direito/esquerdo} de {nivel}, medindo {tamanho}, sugestivo de soltura.
+## gatilhos: hematoma paravertebral lombar | partes moles paravertebrais lombares densificadas
+Densificação e aumento volumétrico das partes moles paravertebrais em {nivel}, compatíveis com hematoma.

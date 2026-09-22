@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Aorta torácica
+# gatilhos: ateromatose toracica | ateromas na aorta toracica | calcificacoes coronarianas | ateromatose coronariana
+# conclusao: Ateromatose calcificada da aorta torácica e das artérias coronárias.
+Aorta torácica: calibre preservado, com ateromas calcificados parietais e alongamento do arco. Calcificações parietais nas artérias coronárias.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Líquido livre
+# gatilhos: liquido livre | liquido livre na pelve | ascite | liquido na pelve
+# conclusao: Pequena quantidade de líquido livre na pelve.
+Líquido livre:  pequena quantidade de líquido livre na escavação pélvica.

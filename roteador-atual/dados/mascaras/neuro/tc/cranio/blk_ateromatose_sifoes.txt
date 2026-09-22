@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Calcificações intracranianas
+# gatilhos: ateromatose dos sifoes carotideos | calcificacoes nos sifoes carotideos | ateromatose intracraniana | ateromatose carotidea intracraniana | ateromas | ateromas calcificados | ateromas calcificados esparsos | placas ateromatosas calcificadas | placas calcificadas
+# conclusao: Calcificações ateromatosas nos segmentos intracranianos das artérias {arterias_ateromatose|carótidas internas/carótidas internas e vertebrais}.
+Calcificações intracranianas:  calcificações parietais ateromatosas nos segmentos intracranianos das artérias {arterias_ateromatose|carótidas internas/carótidas internas e vertebrais}. Sem outras calcificações de aspecto patológico.

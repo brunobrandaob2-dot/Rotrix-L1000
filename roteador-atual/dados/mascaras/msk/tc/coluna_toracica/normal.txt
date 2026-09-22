@@ -1,0 +1,27 @@
+# gatilhos: tomografia de coluna toracica | tomografia da coluna toracica | tc de coluna toracica | tc da coluna toracica | tc coluna toracica | tomografia de coluna dorsal | tc de coluna dorsal | tomografia de coluna toracica normal | tomografia da coluna toracica normal | tc de coluna toracica normal | tc da coluna toracica normal | tc coluna toracica normal | tc de coluna dorsal normal | coluna toracica normal na tomografia | tomografia de coluna toracica sem alteracoes | tc de coluna toracica sem contraste | tc de coluna toracica com contraste | tomografia de coluna toracica sem contraste | tomografia de coluna toracica com contraste
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_toracica
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  cifose torácica fisiológica preservada. Ausência de listeses ou de desvios laterais significativos.
+Corpos vertebrais:  de altura e morfologia preservadas, sem sinais de fratura ou de lesão focal.
+Discos intervertebrais:  espaços discais de altura preservada, considerando os limites do método.
+Articulações interapofisárias:  congruentes, com espaços articulares preservados.
+Articulações costovertebrais:  de aspecto habitual.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, lâminas e processos espinhosos e transversos íntegros.
+Partes moles paravertebrais:  sem particularidades.
+Demais estruturas:  segmentos pulmonares incluídos no campo de visão sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

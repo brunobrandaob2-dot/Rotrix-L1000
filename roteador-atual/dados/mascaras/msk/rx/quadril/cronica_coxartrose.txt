@@ -1,0 +1,17 @@
+# gatilhos: raio x de quadril com coxartrose | rx de quadril com coxartrose | rx quadril coxartrose | radiografia de quadril com coxartrose | raio x de quadril com artrose | rx de quadril com artrose
+# categoria: msk
+# modalidade: rx
+# regiao: quadril
+# tipo_mascara: cronica
+**RADIOGRAFIA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil (Lauenstein).
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Coxartrose, com redução do espaço articular de predomínio {predominio|superolateral/superomedial/concêntrico}, esclerose subcondral, osteófitos marginais e cistos subcondrais (Kellgren-Lawrence grau {kl|1/2/3/4}).
+Acetábulo com cobertura habitual da cabeça femoral.
+Transição cabeça-colo femoral com concavidade habitual.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

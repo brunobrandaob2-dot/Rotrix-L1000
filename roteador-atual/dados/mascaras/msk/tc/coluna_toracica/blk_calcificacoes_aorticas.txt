@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Demais estruturas
+# gatilhos: calcificacoes aorticas | ateromatose aortica | aorta calcificada | ateromatose
+# conclusao: Ateromatose aórtica.
+Demais estruturas:  segmentos pulmonares incluídos no campo de visão sem particularidades. Calcificações ateromatosas parietais na aorta torácica.

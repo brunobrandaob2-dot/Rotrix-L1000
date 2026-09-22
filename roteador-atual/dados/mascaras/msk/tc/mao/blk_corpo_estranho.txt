@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: corpo estranho | corpo estranho metalico | fragmento metalico
+# conclusao: Corpo estranho radiodenso nas partes moles {local}.
+Partes moles:  corpo estranho radiodenso nas partes moles {local}, medindo {tamanho}, situado a ___ mm da superfície cutânea.

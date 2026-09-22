@@ -1,0 +1,17 @@
+# gatilhos: raio x de seios da face com sinusopatia cronica | rx de seios da face com sinusopatia cronica | radiografia de seios da face com sinusopatia cronica | rx seios da face sinusopatia cronica | radiografia de seios da face com sinusopatia
+# categoria: neuro
+# modalidade: rx
+# regiao: seios_da_face
+# tipo_mascara: cronica
+**RADIOGRAFIA DOS SEIOS DA FACE**
+
+**TÉCNICA:**  incidências frontonaso (Caldwell), mentonaso (Waters) e perfil.
+
+**ANÁLISE:**
+Espessamento mucoso maxilar {lado_a|à direita/à esquerda}, sem níveis hidroaéreos, de aspecto inflamatório inespecífico.
+Seios frontais normotransparentes.
+Células etmoidais e seio esfenoidal normotransparentes.
+Cavidade nasal sem alterações evidentes.
+Rinofaringe com coluna aérea preservada.
+Arcabouço ósseo sem alterações.
+A radiografia tem baixa acurácia para células etmoidais e complexos ostiomeatais.

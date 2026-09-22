@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Derrames
+# gatilhos: espessamento pleural | espessamento pleural apical | paquipleuris | espessamento pleuroparenquimatoso
+# conclusao: Espessamento pleural {lado_a|à direita/à esquerda/bilateralmente}, de aspecto residual.
+Derrames:  ausência de derrame pleural ou pericárdico. Espessamento pleural {localizacao_espessamento|apical/basal/difuso} {lado_a|à direita/à esquerda/bilateralmente}, liso, de aspecto residual, sem componente de partes moles associado.

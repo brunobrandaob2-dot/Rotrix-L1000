@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações metacarpofalangianas
+# gatilhos: erosoes | erosoes osseas | erosoes marginais | artropatia inflamatoria
+# conclusao: Erosões ósseas marginais, que podem corresponder a artropatia inflamatória, a correlacionar com dados clínicos e laboratoriais.
+Articulações metacarpofalangianas:  erosões ósseas marginais nas metacarpofalangianas {mcf|___}, com redução {padrao|simétrica/assimétrica} dos espaços articulares.

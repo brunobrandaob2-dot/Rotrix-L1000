@@ -1,0 +1,32 @@
+# gatilhos: tomografia de abdome com apendicite complicada | tc de abdome com apendicite complicada | tc abdome apendicite complicada | tomografia de abdome total com apendicite complicada | tc de abdome total com apendicite complicada | tomografia do abdome com apendicite complicada | tomografia de abdome com apendicite perfurada | tc de abdome com apendicite perfurada | tc abdome apendicite perfurada | tomografia de abdome com apendicite com abscesso | tc de abdome com apendicite com abscesso | tc abdome apendicite com abscesso | tomografia de abdome com abscesso apendicular | tc de abdome com abscesso apendicular | tc abdome abscesso apendicular | tomografia de abdome com apendicite aguda complicada | tc de abdome com apendicite aguda complicada
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  apêndice cecal de calibre aumentado, medindo {diametro_apendice}, com espessamento parietal, falha focal do realce parietal no seu terço {terco|proximal/médio/distal} e acentuada densificação da gordura periapendicular, {apendicolito|sem/com} apendicolito. Espessamento parietal reacional do ceco e das alças ileais adjacentes.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  linfonodos ileocólicos de aspecto reacional.
+Peritônio:  coleção organizada periapendicular na fossa ilíaca direita, com paredes espessas e realce periférico, medindo {tamanho}, com focos gasosos de permeio. Líquido livre na escavação pélvica. {pneumoperitonio|Não há/Há} pneumoperitônio livre.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Apendicite aguda complicada, com sinais de perfuração e abscesso periapendicular medindo {tamanho}.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Arcabouço ósseo
+# gatilhos: fratura de arco costal | fratura de costela | fratura costal | fraturas costais
+Fratura do {arco_costal} arco costal {lado|direito/esquerdo}, {desvio|sem desvio significativo/com desvio dos fragmentos}.

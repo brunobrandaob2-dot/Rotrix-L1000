@@ -1,0 +1,25 @@
+# gatilhos: tomografia de pe com charcot | tc de pe com charcot | tc pe neuroartropatia | tomografia de pe com neuroartropatia de charcot | tomografia de pe com artropatia de charcot
+# categoria: msk
+# modalidade: tc
+# regiao: pe
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  alterado, com {subluxacao|subluxação/luxação} nas articulações {artic_charcot|tarsometatarsais/de Chopart/talonavicular}.
+Retropé:  tálus e calcâneo de morfologia e densidade normais. Articulações subtalar e talonavicular congruentes.
+Mediopé:  fragmentação e esclerose óssea, com fragmentos periarticulares e desorganização articular, predominando {local|no mediopé/no retropé/no antepé}.
+Antepé:  metatarsos e falanges sem particularidades. Articulações metatarsofalângicas e interfalângicas congruentes.
+Arcos plantares:  colapso do arco longitudinal medial, {mata_borrao|sem/com} deformidade em mata-borrão (rocker-bottom).
+Tendões:  trajeto habitual, considerando os limites do método.
+Partes moles:  sem gás ou coleções caracterizáveis ao método.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Alterações de neuroartropatia de Charcot {fase|em fase de fragmentação/em fase de coalescência/em fase de reconstrução}, predominando {local|no mediopé/no retropé/no antepé}.
+A diferenciação com osteomielite sobreposta é limitada à tomografia; a ressonância magnética é mais sensível.

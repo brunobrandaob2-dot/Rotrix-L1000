@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Cúpulas diafragmáticas
+# gatilhos: elevacao da cupula | cupula elevada | elevacao de hemicupula | elevacao diafragmatica
+Elevação da cúpula diafragmática {lado_f|direita/esquerda}.

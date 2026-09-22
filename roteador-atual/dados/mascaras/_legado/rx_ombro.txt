@@ -1,0 +1,19 @@
+# gatilhos: raio x de ombro | rx de ombro | radiografia de ombro | rx ombro com artrose | raio x de ombro ap e perfil | rx ombro
+RADIOGRAFIA DO OMBRO {lado|direito/esquerdo}
+
+TÉCNICA: incidências ântero-posterior com rotação interna e externa e perfil de escápula.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Alinhamento: relação glenoumeral preservada, sem sinais de luxação ou subluxação.
+Espaço acromioumeral: medindo ___ mm (valores inferiores a 7 mm sugerem ascensão da cabeça umeral, associada a lesão crônica do manguito rotador).
+Articulação acromioclavicular: redução do espaço articular, com esclerose subcondral e osteófitos marginais, compatível com alterações degenerativas.
+Estruturas ósseas: cabeça umeral, glenoide, acrômio e clavícula com morfologia e densidade preservadas, sem sinais de fratura ou lesão focal evidentes ao método.
+Partes moles: calcificações amorfas projetadas no trajeto dos tendões do manguito rotador, adjacentes ao tubérculo ___ (maior / menor), medindo {tamanho}, compatíveis com tendinopatia calcária. Demais partes moles sem alterações.
+
+CONCLUSÃO:
+1. Artrose acromioclavicular {lado_a|à direita/à esquerda}.
+2. Calcificações tendíneas do manguito rotador, compatíveis com tendinopatia calcária.
+3. Espaço acromioumeral medindo ___ mm (referência: < 7 mm sugere lesão crônica do manguito rotador).
+4. A radiografia simples não avalia tendões, lábio nem bursas; se houver indicação clínica, considerar ultrassonografia ou ressonância magnética.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura da cabeca do radio | fratura | fratura do colo do radio
+Fratura da {local|cabeça/colo} do rádio, com desvio de {tamanho}, tipo {mason|I/II/III/IV} de Mason.

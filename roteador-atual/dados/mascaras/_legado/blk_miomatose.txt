@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Órgãos pélvicos
+# gatilhos: miomatose | miomas uterinos | utero miomatoso
+# conclusao: Útero miomatoso.
+Órgãos pélvicos: útero aumentado de volume, com contornos lobulados e nódulos hipodensos intramurais, alguns com calcificações grosseiras, o maior medindo {tamanho}, compatíveis com leiomiomas. Regiões anexiais sem massas ou coleções, considerando os limites do método.

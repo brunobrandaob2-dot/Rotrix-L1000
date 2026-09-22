@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento articular
+# gatilhos: luxacao | luxacao interfalangiana | luxacao do dedo | luxacao metacarpofalangiana
+# conclusao: Luxação {direcao|dorsal/volar/lateral} da articulação {articulacao|interfalangiana proximal/interfalangiana distal/metacarpofalangiana} do {dedo} dedo.
+Alinhamento articular:  luxação {direcao|dorsal/volar/lateral} da articulação {articulacao|interfalangiana proximal/interfalangiana distal/metacarpofalangiana} do {dedo} dedo. Demais relações articulares preservadas.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias poplíteas
+# gatilhos: aneurisma de poplitea | aneurisma da poplitea | aneurisma da arteria poplitea
+# conclusao: Aneurisma da artéria poplítea {lado_f|direita/esquerda}, com diâmetro máximo de {tamanho}.
+Artérias poplíteas:  dilatação aneurismática da artéria poplítea {lado_f|direita/esquerda}, com diâmetro máximo de {tamanho} (critério: > 2,0 cm ou ≥ 1,5 vez o diâmetro do segmento adjacente) e extensão de ___ cm, com trombo mural {trombo_poplitea|ausente/excêntrico, com luz pérvia de ___ mm}. Artéria poplítea contralateral {contralateral|de calibre normal/com ___}.

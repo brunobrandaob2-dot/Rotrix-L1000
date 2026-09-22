@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tronco celíaco
+# gatilhos: aneurisma da esplenica | aneurisma de arteria esplenica | aneurisma da arteria esplenica
+# conclusao: Aneurisma da artéria esplênica, medindo {tamanho}.
+Tronco celíaco:  origem e trajeto habituais, pérvio. Dilatação aneurismática {morfologia|sacular/fusiforme} no terço {terco|proximal/médio/distal} da artéria esplênica, medindo {tamanho}, {calcificacao_aneurisma|sem/com} calcificações parietais. Artérias hepática comum e gástrica esquerda pérvias.

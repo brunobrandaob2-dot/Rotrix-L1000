@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Densidade óssea
+# gatilhos: osteopenia | reducao da densidade ossea | osteopenia periarticular
+Redução da densidade óssea, de padrão {padrao|difuso/periarticular}.

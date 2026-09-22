@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: nodulo renal | nodulo renal solido | lesao renal solida | massa renal
+# conclusao: Nódulo renal sólido {lado_a|à direita/à esquerda} com realce, sem gordura macroscópica, medindo {tamanho}; sugere-se avaliação urológica.
+Rins:  tópicos. Nódulo sólido no terço {terco|superior/médio/inferior} {lado_a|à direita/à esquerda}, medindo {tamanho}, com densidade de {densidade_sem} UH na fase sem contraste e {densidade_nefro} UH na fase nefrográfica (realce igual ou superior a 20 UH), sem gordura macroscópica. Veia renal pérvia. Não há cálculos.

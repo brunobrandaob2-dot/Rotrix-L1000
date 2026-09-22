@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Glenoide e escápula
+# gatilhos: fratura da escapula | fratura de escapula | fratura da glenoide | fratura do acromio
+# conclusao: Fratura {local|do corpo/do colo/da glenoide/do acrômio/do processo coracoide} da escápula.
+Glenoide e escápula:  traço de fratura acometendo {local|o corpo/o colo/a glenoide/o acrômio/o processo coracoide} da escápula, com desvio de {tamanho}. {articular|Sem/Com} extensão à superfície articular glenoidal.

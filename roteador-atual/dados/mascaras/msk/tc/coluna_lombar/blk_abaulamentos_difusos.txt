@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: abaulamentos discais | abaulamento discal difuso | abaulamentos discais difusos | abaulamento difuso | abaulamentos
+# conclusao: Abaulamentos discais difusos em {nivel}, com redução difusa dos espaços intervertebrais.
+Discos intervertebrais:  redução difusa da altura dos espaços discais associada a abaulamentos discais difusos nos níveis {nivel}.

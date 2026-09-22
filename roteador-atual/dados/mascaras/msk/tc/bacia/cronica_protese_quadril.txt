@@ -1,0 +1,29 @@
+# gatilhos: tomografia de bacia com protese de quadril | tc de bacia com protese de quadril | tc bacia artroplastia de quadril | tomografia de bacia com artroplastia | tc de bacia com protese
+# categoria: msk
+# modalidade: tc
+# regiao: bacia
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA BACIA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e técnica de redução de artefatos metálicos. Avaliação parcialmente limitada por artefatos de endurecimento de feixe relacionados ao material protético.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Anel pélvico:  íntegro, simétrico e alinhado, sem traços de fratura ou diástases.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares, sem erosões ou esclerose subcondral significativa.
+Sínfise púbica:  alinhada, de amplitude preservada e superfícies regulares.
+Sacro e cóccix:  sem particularidades. Forames sacrais livres.
+Ossos ilíacos:  contornos regulares e densidade habitual.
+Ramos púbicos e ísquios:  contornos regulares, sem traços de fratura.
+Acetábulos:  componente acetabular protético {lado_a|à direita/à esquerda}, em posição habitual, sem osteólise periacetabular ou migração. Acetábulo contralateral de morfologia habitual.
+Articulações coxofemorais:  artroplastia {tipo_protese|total/parcial} do quadril {lado|direito/esquerdo}, com componente cefálico centrado, sem sinais de luxação. Articulação coxofemoral contralateral com espaço articular preservado.
+Fêmures proximais:  haste femoral {fixacao|não cimentada/cimentada} {lado_a|à direita/à esquerda}, centrada no canal medular, sem halo de radiolucência superior a 2 mm na interface osso-implante, osteólise ou fratura periprotética. Fêmur proximal contralateral sem particularidades.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  sem coleções periprotéticas. {brooker|Sem ossificação heterotópica significativa/Ossificação heterotópica periarticular grau I de Brooker/Ossificação heterotópica periarticular grau II de Brooker/Ossificação heterotópica periarticular grau III de Brooker/Ossificação heterotópica periarticular grau IV de Brooker}.
+Estruturas pélvicas incluídas no estudo:  sem particularidades, considerando os limites do método.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artroplastia {tipo_protese|total/parcial} do quadril {lado|direito/esquerdo}, com componentes em posição habitual, sem sinais tomográficos de soltura, osteólise ou fratura periprotética.

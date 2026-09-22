@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Alças intestinais
+# gatilhos: distensao de delgado | distensao de alcas de delgado | niveis hidroaereos | alcas de delgado distendidas
+Alças de delgado distendidas, com calibre de até {tamanho} (normal até 3,0 cm) e níveis hidroaéreos {niveis|múltiplos e escalonados/esparsos}.

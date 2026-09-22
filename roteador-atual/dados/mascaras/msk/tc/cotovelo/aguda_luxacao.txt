@@ -1,0 +1,26 @@
+# gatilhos: tomografia de cotovelo com luxacao | tomografia do cotovelo com luxacao | tc de cotovelo com luxacao | tc do cotovelo com luxacao | tc cotovelo luxacao | tomografia de cotovelo com luxacao do cotovelo | tc de cotovelo com luxacao do cotovelo | tomografia de cotovelo com triade terrivel | tc de cotovelo com triade terrivel
+# categoria: msk
+# modalidade: tc
+# regiao: cotovelo
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO COTOVELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  {alinhamento|luxação posterior do cotovelo/luxação posterolateral do cotovelo/relações articulares restabelecidas}.
+Úmero distal:  côndilos, epicôndilos, capítulo e tróclea de morfologia e contornos preservados, sem traços de fratura.
+Cabeça e colo do rádio:  {radio|sem traços de fratura/traço de fratura na cabeça do rádio, com desvio de ___ mm}.
+Ulna proximal:  olécrano íntegro. {coronoide|Processo coronoide sem fratura/Fratura do processo coronoide, tipo ___ de Regan-Morrey}.
+Espaços articulares:  preservados, sem osteófitos, esclerose subcondral ou corpos livres intra-articulares.
+Derrame articular:  {derrame|lipo-hemartrose, com nível líquido-gorduroso/derrame articular/ausente}.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções, calcificações ou alterações significativas, considerando os limites do método para avaliação ligamentar e tendínea.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+{alinhamento_c|Luxação posterior do cotovelo/Luxação posterolateral do cotovelo/Sinais de luxação do cotovelo, com relações articulares restabelecidas}.
+{fraturas_assoc|Sem fraturas associadas evidentes/Fraturas associadas da cabeça do rádio e do processo coronoide, configurando a tríade terrível do cotovelo}.

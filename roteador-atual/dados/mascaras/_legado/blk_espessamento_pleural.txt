@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Derrames
+# gatilhos: espessamento pleural | placas pleurais | paquipleuris
+# conclusao: Espessamento pleural residual, sem derrame associado.
+Derrames: ausência de derrame pleural ou pericárdico. Espessamento pleural focal {lado|à direita/à esquerda}, de aspecto residual, sem componente de partes moles associado.

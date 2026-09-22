@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Derrames
+# gatilhos: placas pleurais | placa pleural | placas pleurais calcificadas | calcificacoes pleurais
+# conclusao: Placas pleurais {lado_a|à direita/à esquerda/bilateralmente}; se bilaterais, podem relacionar-se a exposição prévia ao asbesto — correlacionar com a história ocupacional.
+Derrames:  ausência de derrame pleural ou pericárdico. Placas pleurais parietais {calcificacao|calcificadas/não calcificadas/algumas calcificadas} {lado_a|à direita/à esquerda/bilateralmente}, {localizacao_placas|na pleura diafragmática/na pleura costal posterolateral/na pleura diafragmática e costal}.

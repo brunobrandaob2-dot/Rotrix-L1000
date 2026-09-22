@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Peritônio
+# gatilhos: pneumoperitonio | gas livre | ar livre na cavidade | perfuracao de viscera oca
+# conclusao: Pneumoperitônio, sugestivo de perfuração de víscera oca; achado de comunicação imediata.
+Peritônio:  gás livre na cavidade peritoneal, predominando {local_gas|no andar superior do abdome/na região periumbilical/no andar inframesocólico}, com {liquido|ausência de/pequena quantidade de/moderada quantidade de} líquido livre. Sítio de perfuração não definido ao método.

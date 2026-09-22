@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Úmero proximal
+# gatilhos: hill sachs | lesao de hill sachs | fratura de hill sachs
+# conclusao: Lesão de Hill-Sachs na cabeça umeral.
+Úmero proximal:  fratura-impactação na face posterossuperolateral da cabeça umeral (lesão de Hill-Sachs), medindo {tamanho} de extensão. Demais segmentos do úmero proximal sem traços de fratura.

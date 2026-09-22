@@ -1,0 +1,29 @@
+# gatilhos: angio tep cronico | angio de arterias pulmonares com tep cronico | angiotomografia de arterias pulmonares com tep cronico | angio de arterias pulmonares com tromboembolismo cronico | angio tep com sinais de cronicidade | angiotomografia de arterias pulmonares com tromboembolismo pulmonar cronico
+# categoria: angio
+# modalidade: angiotc
+# regiao: arterias_pulmonares
+# tipo_mascara: cronica
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS PULMONARES**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fase arterial pulmonar, com reconstruções multiplanares e em projeção de intensidade máxima (MIP), direcionadas para a avaliação da circulação arterial pulmonar.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação adequada das artérias pulmonares, com atenuação de ___ UH no tronco da artéria pulmonar (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise até o nível subsegmentar.
+Tronco da artéria pulmonar:  medindo ___ mm (aumentado quando > 29 mm).
+Artérias pulmonares:  alterações de padrão crônico {distribuicao_cronico|nas artérias pulmonares direitas/nas artérias pulmonares esquerdas/bilaterais}: falhas de enchimento excêntricas aderidas à parede, formando ângulo obtuso, {calcificacao_trombo|sem/com} calcificações, redes e bandas intraluminais, estreitamentos abruptos e oclusões de ramos {nivel_cronico|lobares/segmentares/subsegmentares}, com redução do calibre distal.
+Câmaras cardíacas direitas:  relação VD/VE de ___ (sobrecarga quando > 0,9). {vd_cronico|Ventrículo direito de espessura parietal habitual/Hipertrofia da parede livre do ventrículo direito}.
+Parênquima pulmonar:  padrão de atenuação em mosaico, com vasos de menor calibre nas áreas hipoatenuantes, compatível com perfusão em mosaico. {cicatrizes|Sem opacidades cicatriciais periféricas/Opacidades lineares periféricas de base pleural, podendo corresponder a sequela de infartos}.
+Traqueia e brônquios:  calibre e trajetos normais.
+Mediastino:  {arterias_bronquicas|artérias brônquicas de calibre habitual/artérias brônquicas hipertrofiadas e tortuosas, com circulação colateral sistêmica}.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Alterações arteriais pulmonares de padrão crônico (falhas de enchimento excêntricas, redes, bandas e estreitamentos), com perfusão em mosaico, compatíveis com tromboembolismo pulmonar crônico. Sem sinais de evento agudo superajuntado.
+Tronco da artéria pulmonar medindo ___ mm. A caracterização de hipertensão pulmonar tromboembólica crônica depende de avaliação hemodinâmica; sugere-se correlação com cintilografia de ventilação/perfusão e ecocardiograma.

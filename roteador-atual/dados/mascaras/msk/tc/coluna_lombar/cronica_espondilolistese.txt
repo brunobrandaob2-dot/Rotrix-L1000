@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna lombar com espondilolistese | tc de coluna lombar com espondilolistese | tc coluna lombar espondilolistese | tomografia de coluna lombar com anterolistese | tc de coluna lombar com anterolistese | tc de coluna lombar com espondilolise | tomografia de coluna lombar com espondilolise
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_lombar
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  anterolistese de {nivel} sobre o nível subjacente, medindo {tamanho}, correspondendo ao grau {grau_meyerding|I/II/III/IV/V} de Meyerding (I: até 25%; II: 26 a 50%; III: 51 a 75%; IV: 76 a 100%; V: espondiloptose).
+Corpos vertebrais:  de altura preservada, sem sinais de fratura ou de lesão focal. Osteófitos marginais no nível da listese.
+Discos intervertebrais:  redução da altura discal em {nivel}, com fenômeno de vácuo discal e pseudoabaulamento discal relacionado à listese.
+Articulações interapofisárias:  artrose interapofisária em {nivel}, com redução dos espaços articulares e osteófitos.
+Canal vertebral:  redução da amplitude do canal vertebral em {nivel}, com diâmetro anteroposterior de {diametro} mm.
+Forames neurais:  redução da amplitude dos forames neurais em {nivel}, {lado_a|à direita/à esquerda}, com alongamento no sentido craniocaudal.
+Elementos posteriores:  {espondilolise|descontinuidade dos istmos (pars interarticularis) de ___, bilateral, com margens escleróticas, compatível com espondilólise/istmos íntegros, listese de natureza degenerativa}.
+Transição lombossacra:  de configuração habitual.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares.
+Partes moles paravertebrais:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Anterolistese de {nivel}, grau {grau_meyerding|I/II/III/IV/V} de Meyerding, {etiologia|ístmica, associada a espondilólise/degenerativa}.
+Redução da amplitude do canal vertebral e dos forames neurais em {nivel}.

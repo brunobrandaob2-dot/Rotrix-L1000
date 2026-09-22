@@ -1,0 +1,26 @@
+# gatilhos: tomografia de perna com pseudartrose | tc de perna com pseudartrose | tc perna pseudartrose | tomografia de perna com retardo de consolidacao
+# categoria: msk
+# modalidade: tc
+# regiao: perna
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA PERNA {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  preservado.
+Tíbia:  traço de fratura persistente no terço {terco|proximal/médio/distal} da diáfise, com bordas escleróticas e {calo|ausência de calo ósseo em ponte/calo ósseo hipertrófico sem ponte óssea}, sem continuidade trabecular através do foco.
+Ponte óssea cortical em {corticais_ponte} de 4 corticais nas reconstruções ortogonais.
+Fíbula:  morfologia, contornos corticais e densidade normais em toda a extensão.
+Material de síntese:  {material|ausente/haste intramedular íntegra/placa e parafusos íntegros/com sinais de falha (fratura ou soltura)}.
+Articulações tibiofibulares proximal e distal:  congruentes.
+Articulações adjacentes:  porções incluídas do joelho e do tornozelo sem particularidades.
+Musculatura:  volume e densidade preservados nos compartimentos da perna.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Ausência de consolidação da fratura da diáfise tibial, com aspecto de pseudartrose {tipo_pseud|hipertrófica/atrófica/oligotrófica}; correlacionar com o tempo de evolução.

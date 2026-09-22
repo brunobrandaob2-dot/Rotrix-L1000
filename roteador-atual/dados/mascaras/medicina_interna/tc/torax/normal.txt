@@ -1,0 +1,25 @@
+# gatilhos: tomografia de torax | tomografia do torax | tomografia de torax normal | tomografia do torax normal | tc de torax | tc de torax normal | tc torax normal | torax normal | tomografia de torax sem alteracoes | tomografia de torax com contraste | tomografia de torax sem contraste | tc de torax com contraste | tc de torax sem contraste | tc do torax | tc torax | tomografia computadorizada do torax | tomografia computadorizada de torax | tc de torax sem alteracoes | tomografia do torax sem alteracoes | tc do torax normal
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multislice e reconstruções multiplanares, {contraste|sem/com/sem e com} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  sem alterações significativas.
+Traqueia e brônquios:  calibre e trajetos normais.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais, com principais ramos preservados.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Cúpulas diafragmáticas:  morfologia e posição habituais.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Estudo sem anormalidades evidentes.

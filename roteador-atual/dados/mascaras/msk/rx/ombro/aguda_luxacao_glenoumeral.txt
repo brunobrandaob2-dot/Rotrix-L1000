@@ -1,0 +1,17 @@
+# gatilhos: raio x de ombro com luxacao | rx de ombro com luxacao | radiografia de ombro com luxacao | rx do ombro com luxacao | rx ombro luxacao | raio x de ombro com luxacao glenoumeral | rx de ombro com luxacao glenoumeral | raio x de ombro com luxacao anterior | rx de ombro com luxacao anterior | raio x de ombro com ombro luxado | rx de ombro com ombro luxado
+# categoria: msk
+# modalidade: rx
+# regiao: ombro
+# tipo_mascara: aguda
+**RADIOGRAFIA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior em rotação interna e externa e perfil da escápula.
+
+**ANÁLISE:**
+Luxação glenoumeral {direcao|anterior, com a cabeça umeral em posição subcoracoide/posterior/inferior (luxatio erecta)}.
+Articulação acromioclavicular sem alterações.
+Não há sinais de fraturas nas incidências realizadas.
+A pesquisa de lesão de Hill-Sachs e de fratura do rebordo glenoidal é limitada na posição atual.
+Densidade óssea preservada.
+Partes moles sem alterações.
+Recomenda-se controle radiográfico após a redução.

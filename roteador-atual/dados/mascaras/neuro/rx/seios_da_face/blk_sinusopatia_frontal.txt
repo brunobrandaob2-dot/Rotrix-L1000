@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Seios frontais
+# gatilhos: sinusopatia frontal | velamento frontal | seio frontal velado
+Redução da transparência do seio frontal {lado|direito/esquerdo}.

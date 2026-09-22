@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima encefálico
+# gatilhos: lacunas | infartos lacunares | imagens lacunares | lacuna nos nucleos da base
+# conclusao: Infartos lacunares crônicos nos núcleos da base e na substância branca profunda.
+Parênquima encefálico: imagens lacunares hipoatenuantes, de limites definidos e sem efeito expansivo, nos núcleos da base e na coroa radiada {lado_a|à direita/à esquerda}, a maior medindo {tamanho}, compatíveis com infartos lacunares crônicos. Ausência de áreas de isquemia aguda, hemorragia ou lesão expansiva.

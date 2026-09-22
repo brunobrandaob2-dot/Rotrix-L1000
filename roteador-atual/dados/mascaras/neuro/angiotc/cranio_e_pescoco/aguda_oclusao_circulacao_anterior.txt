@@ -1,0 +1,28 @@
+# gatilhos: angio de cranio e pescoco com oclusao da cerebral media | angiotomografia de cranio e pescoco com oclusao da cerebral media | angio tc de cranio e pescoco com oclusao da cerebral media | angio de cranio e pescoco com oclusao de m1 | angio de cranio e pescoco com oclusao de m2 | angio de cranio e pescoco com oclusao de grande vaso | angio de cranio e pescoco com oclusao do t carotideo | angio de cranio e pescoco com oclusao da carotida terminal
+# categoria: neuro
+# modalidade: angiotc
+# regiao: cranio_e_pescoco
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL DE VASOS CERVICAIS E INTRACRANIANOS**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação do sistema arterial cervical e intracraniano.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Artérias carótidas comuns:  trajeto e calibre anatômicos, paredes lisas e opacificação homogênea, sem sinais de estenoses ou oclusões.
+Bulbos carotídeos e bifurcações:  pérvios, sem placas ateromatosas significativas.
+Artérias carótidas internas:  segmentos cervicais, petrosos e cavernosos pérvios, com calibre preservado. Segmento terminal da artéria carótida interna {lado_f|direita/esquerda} {aci_terminal|pérvio/não opacificado, com oclusão do T carotídeo}. Artéria carótida interna contralateral pérvia em todos os segmentos.
+Artérias carótidas externas e seus principais ramos:  patência mantida e trajeto habitual.
+Artérias vertebrais:  pérvias, com calibre e trajeto anatômicos em todos os segmentos, terminando na formação da artéria basilar.
+Artéria basilar:  calibre e fluxo anatômicos, sem tortuosidades anômalas ou ectasias.
+Artérias cerebrais anteriores, médias e posteriores:  interrupção abrupta da opacificação no segmento {segmento_ocluido|M1 proximal/M1 distal/M2 (divisão superior)/M2 (divisão inferior)/T carotídeo, com extensão para M1 e A1} da artéria cerebral média {lado_f|direita/esquerda}, com extensão estimada do segmento não opacificado de {tamanho}, compatível com oclusão arterial. Demais artérias cerebrais pérvias, com opacificação simétrica.
+Artérias comunicantes anterior e posteriores:  patência anatômica dentro dos limites da resolução do método.
+Polígono de Willis:  conformação anatômica pérvia, sem evidência de dilatações aneurismáticas ou malformações vasculares.
+Circulação colateral:  opacificação retrógrada de ramos leptomeníngeos no território da artéria cerebral média {lado_f|direita/esquerda}, graduada como {tan|0 (ausente)/1 (≤ 50%)/2 (> 50% e < 100%)/3 (100%)} na escala de Tan.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Oclusão do segmento {segmento_ocluido|M1 proximal/M1 distal/M2 (divisão superior)/M2 (divisão inferior)/T carotídeo, com extensão para M1 e A1} da artéria cerebral média {lado_f|direita/esquerda}, compatível com oclusão de grande vaso — correlacionar com o quadro clínico e o tempo de evolução.
+Circulação colateral leptomeníngea graduada como {tan|0 (ausente)/1 (≤ 50%)/2 (> 50% e < 100%)/3 (100%)} na escala de Tan.

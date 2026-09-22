@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Traqueia e brônquios
+# gatilhos: bronquiectasias cilindricas | bronquiectasias com espessamento parietal | dilatacao bronquica | bronquiectasias varicosas
+# conclusao: Bronquiectasias com espessamento parietal brônquico, traduzindo doença inflamatória crônica das vias aéreas.
+Traqueia e brônquios: traqueia de calibre e trajeto normais; bronquiectasias {morfologia|cilíndricas/varicosas/císticas} com espessamento parietal, de predomínio nos {lobo|lobos superiores/lobos inferiores} e {lado_a|à direita/à esquerda/bilateralmente}, caracterizadas por relação broncoarterial aumentada e ausência de afilamento brônquico progressivo, algumas com conteúdo mucoide de permeio.

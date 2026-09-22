@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Ulna proximal
+# gatilhos: fratura do coronoide | fratura do processo coronoide | regan morrey
+# conclusao: Fratura do processo coronoide, tipo {regan|I/II/III} de Regan-Morrey.
+Ulna proximal:  olécrano íntegro. Fratura do processo coronoide, com fragmento medindo {tamanho}.

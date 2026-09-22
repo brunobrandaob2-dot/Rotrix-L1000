@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Seios maxilares
+# gatilhos: bola fungica | micetoma | sinusopatia fungica
+# conclusao: Velamento do seio maxilar {lado|direito/esquerdo} com conteúdo hiperatenuante e calcificações centrais, aspecto que pode corresponder a bola fúngica.
+Seios maxilares:  velamento do seio maxilar {lado|direito/esquerdo} por conteúdo espontaneamente hiperatenuante com calcificações puntiformes centrais, associado a espessamento e esclerose das paredes ósseas, sem erosões, aspecto que pode corresponder a bola fúngica (micetoma).

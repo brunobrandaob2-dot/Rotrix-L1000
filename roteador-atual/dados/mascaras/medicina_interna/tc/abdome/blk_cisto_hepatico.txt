@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Fígado
+# gatilhos: cisto hepatico | cistos hepaticos | cisto no figado | cistos no figado
+# conclusao: Cisto hepático simples.
+Fígado:  de dimensões normais, contornos regulares e densidade normal, com cisto no {segmento}, de conteúdo homogêneo com densidade de líquido, paredes finas e sem realce, medindo {tamanho}.

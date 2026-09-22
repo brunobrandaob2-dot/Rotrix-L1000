@@ -1,0 +1,18 @@
+# gatilhos: raio x de quadril com impacto femoroacetabular | rx de quadril com impacto femoroacetabular | rx quadril impacto | radiografia de quadril com impacto femoroacetabular | raio x de quadril com impacto | rx de quadril com impacto
+# categoria: msk
+# modalidade: rx
+# regiao: quadril
+# tipo_mascara: cronica
+**RADIOGRAFIA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil (Lauenstein).
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Espaço articular preservado.
+{pincer|Acetábulo com cobertura habitual da cabeça femoral/Sinal do cruzamento e da parede posterior, sugestivos de retroversão acetabular/Sobrecobertura acetabular (coxa profunda)}, com ângulo centro-borda de {angulo_cb}° (referência: 25° a 39°).
+{cam|Proeminência óssea na transição cabeça-colo femoral (morfologia cam)/Transição cabeça-colo femoral com concavidade habitual}, com ângulo alfa de {angulo_alfa}° (referência: abaixo de 55°).
+Achados que podem predispor ao impacto femoroacetabular; a radiografia não avalia o lábio nem a cartilagem.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

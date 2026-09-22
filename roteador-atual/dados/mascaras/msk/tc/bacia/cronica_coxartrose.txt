@@ -1,0 +1,29 @@
+# gatilhos: tomografia de bacia com coxartrose | tc de bacia com coxartrose | tc bacia coxartrose | tomografia da bacia com coxartrose | tomografia de bacia com artrose dos quadris | tc de bacia com artrose
+# categoria: msk
+# modalidade: tc
+# regiao: bacia
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA BACIA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Anel pélvico:  íntegro, simétrico e alinhado, sem traços de fratura ou diástases.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares, sem erosões ou esclerose subcondral significativa.
+Sínfise púbica:  alinhada, de amplitude preservada e superfícies regulares.
+Sacro e cóccix:  sem particularidades. Forames sacrais livres.
+Ossos ilíacos:  contornos regulares e densidade habitual.
+Ramos púbicos e ísquios:  contornos regulares, sem traços de fratura.
+Acetábulos:  morfologia e cobertura habituais. Osteófitos no rebordo acetabular e cistos subcondrais no teto acetabular {lado_a|à direita/à esquerda}.
+Articulações coxofemorais:  redução do espaço articular coxofemoral {lado_a|à direita/à esquerda}, de predomínio {predominio|superolateral/superomedial/concêntrico}, com esclerose subcondral e osteófitos marginais acetabulares e femorais.
+Fêmures proximais:  cabeças femorais de contornos preservados, sem sinais de colapso subcondral. Colos femorais e regiões trocantéricas sem particularidades.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  musculatura pélvica, glútea e da raiz das coxas de volume e atenuação habituais. Não há coleções ou hematomas.
+Estruturas pélvicas incluídas no estudo:  sem particularidades, considerando os limites do método.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Coxartrose {grau|leve/moderada/acentuada} {lado_f|direita/esquerda}.

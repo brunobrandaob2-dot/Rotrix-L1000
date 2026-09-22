@@ -1,0 +1,24 @@
+# gatilhos: tomografia de pe com artrose do mediope | tc de pe com artrose do mediope | tc pe artrose mediope | tomografia de pe com artrose | tc de pe com artrose
+# categoria: msk
+# modalidade: tc
+# regiao: pe
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  {alinhamento|preservado, sem subluxações/com perda parcial do alinhamento tarsometatarsal}.
+Retropé:  tálus e calcâneo de morfologia e densidade normais. Articulações subtalar e talonavicular congruentes.
+Mediopé:  redução dos espaços articulares {artic|tarsometatarsais/naviculocuneiformes/talonaviculares/intercuneiformes}, com osteófitos marginais dorsais, esclerose e cistos subcondrais.
+Antepé:  metatarsos e falanges sem particularidades. Articulações metatarsofalângicas e interfalângicas congruentes.
+Arcos plantares:  preservados, considerando que o exame é realizado sem carga.
+Tendões:  trajeto habitual, considerando os limites do método.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artrose do mediopé, predominando nas articulações {artic|tarsometatarsais/naviculocuneiformes/talonaviculares/intercuneiformes}.

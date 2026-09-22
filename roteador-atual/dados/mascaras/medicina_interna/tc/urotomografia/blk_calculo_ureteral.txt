@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vias excretoras
+# gatilhos: calculo ureteral | litiase ureteral | ureterolitiase | calculo no ureter
+# conclusao: Cálculo em {local|terço proximal/terço médio/terço distal/junção ureterovesical} do ureter {lado|direito/esquerdo}, medindo {tamanho}, com dilatação ureteropielocalicinal {grau|discreta/moderada/acentuada} a montante.
+Vias excretoras:  dilatação ureteropielocalicinal {grau|discreta/moderada/acentuada} {lado_a|à direita/à esquerda} a montante de cálculo localizado em {local|terço proximal/terço médio/terço distal/junção ureterovesical} do ureter, medindo {tamanho}, com densidade de {densidade} UH. Vias excretoras contralaterais de calibre normal, com opacificação completa na fase excretora.

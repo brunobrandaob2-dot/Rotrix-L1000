@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alças intestinais
+# gatilhos: distensao de alcas de delgado | alcas de delgado distendidas | niveis hidroaereos em delgado | distensao de alcas no rx
+# conclusao: Distensão de alças de delgado com níveis hidroaéreos, sugestiva de obstrução intestinal. A radiografia simples tem sensibilidade limitada para definir o nível e a causa da obstrução; se a suspeita clínica persistir, considerar tomografia.
+Alças intestinais: alças de delgado distendidas, de disposição central e com calibre máximo de {tamanho}, apresentando pregas coniventes bem definidas e múltiplos níveis hidroaéreos escalonados na incidência em ortostase. Escassez de gás no arcabouço colônico a jusante.

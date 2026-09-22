@@ -1,0 +1,16 @@
+# gatilhos: raio x de mao | raio x da mao | rx de mao | rx da mao | radiografia de mao | radiografia da mao | raio x de mao normal | rx de mao normal | rx da mao normal | radiografia de mao normal | rx mao normal | raio x de mao sem alteracoes | radiografia da mao sem alteracoes
+# categoria: msk
+# modalidade: rx
+# regiao: mao
+# tipo_mascara: normal
+**RADIOGRAFIA DA MÃO {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  incidências posteroanterior e oblíqua.
+
+**ANÁLISE:**
+Espaços articulares preservados.
+Superfícies articulares regulares, sem erosões.
+Articulação trapeziometacarpiana preservada.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

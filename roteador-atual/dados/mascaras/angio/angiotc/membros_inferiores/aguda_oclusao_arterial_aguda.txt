@@ -1,0 +1,32 @@
+# gatilhos: angio de membros inferiores com oclusao arterial aguda | angio de membros inferiores com embolia | angiotomografia de membros inferiores com oclusao arterial aguda | angio de membros inferiores com isquemia aguda | angio de membros inferiores com embolia arterial | angio de mmii com oclusao aguda | angio de mmii com embolia | angio de membros inferiores com oclusao aguda
+# categoria: angio
+# modalidade: angiotc
+# regiao: membros_inferiores
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL DOS MEMBROS INFERIORES**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fase arterial, da aorta abdominal aos pés, com reconstruções multiplanares, em projeção de intensidade máxima (MIP) e tridimensionais, direcionadas para a avaliação do sistema arterial dos membros inferiores.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada até os segmentos distais, sem artefatos que limitem a análise.
+Oclusão aguda:  interrupção abrupta da coluna de contraste na artéria {vaso_ocluido|___} à {lado_ocluido|direita/esquerda}, com falha de enchimento de contorno convexo proximal (sinal do menisco), em segmento com {ateromatose_local|ausência de/discreta/extensa} ateromatose parietal e escassa circulação colateral, com {reabitacao|reabitação distal em ___/ausência de reabitação distal caracterizável}.
+Aorta abdominal infrarrenal:  {seg_aorta|pérvia, sem estenoses significativas/com estenose de ___%/ocluída}.
+Artérias ilíacas comuns:  {seg_iliaca_comum|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias ilíacas internas:  {seg_iliaca_interna|pérvias/com estenose de ___% à ___/ocluída à ___}.
+Artérias ilíacas externas:  {seg_iliaca_externa|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias femorais comuns:  {seg_femoral_comum|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias femorais profundas:  {seg_femoral_profunda|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias femorais superficiais:  {seg_femoral_superficial|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias poplíteas:  {seg_poplitea|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias da perna:  {seg_perna|troncos tibiofibulares, artérias tibiais anteriores, tibiais posteriores e fibulares pérvios/vaso(s) pérvio(s) até o tornozelo à direita: ___; à esquerda: ___}.
+Artérias do pé:  {seg_pe|artérias dorsais do pé e arcos plantares opacificados/opacificação reduzida das artérias do pé à ___}.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Oclusão arterial aguda da artéria {vaso_ocluido|___} à {lado_ocluido|direita/esquerda}, com {reabitacao|reabitação distal em ___/ausência de reabitação distal caracterizável}.
+{etiologia|Aspecto podendo corresponder a evento embólico, a correlacionar com pesquisa de fonte emboligênica/Oclusão sobre segmento com ateromatose, podendo corresponder a trombose in situ}.
+Resultado comunicado à equipe assistente em ___h___, ao(à) Dr(a). ___.

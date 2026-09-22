@@ -1,0 +1,29 @@
+# gatilhos: cranio com hidrocefalia | hidrocefalia | dilatacao ventricular | ventriculomegalia | tc cranio hidrocefalia
+TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO
+
+TÉCNICA: aquisição helicoidal, sem injeção de contraste.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Sistema ventricular: dilatação dos ventrículos laterais e do terceiro ventrículo, com abaulamento das paredes e arredondamento dos cornos frontais. **Índice de Evans = ___ (valores superiores a 0,30 caracterizam dilatação ventricular).** Cornos temporais com amplitude de ___ mm {lado_a|à direita/à esquerda}, alargados / preservados.
+Quarto ventrículo e aqueduto: de dimensões preservadas, sugerindo padrão comunicante / quarto ventrículo de dimensões normais com dilatação supratentorial a montante, sugerindo obstrução ao nível do aqueduto do mesencéfalo.
+Nível obstrutivo: não identificado ao método / imagem em ___ determinando bloqueio da circulação liquórica, medindo {tamanho}.
+Transudação liquórica transependimária: presente, sob a forma de hipoatenuação periventricular halo-símile nos cornos frontais e occipitais, sugerindo componente de hidrocefalia em atividade / ausente.
+Parênquima encefálico: sem áreas de isquemia aguda, hemorragia ou lesão expansiva identificáveis ao método.
+Núcleos da base: sem alterações de atenuação.
+Cisternas da base e sulcos corticais: cisternas pérvias; sulcos corticais da convexidade apagados de forma desproporcional à dilatação ventricular, achado que favorece hidrocefalia em relação à dilatação ex-vacuo / sulcos alargados de forma proporcional, achado que favorece dilatação ventricular ex-vacuo por redução volumétrica parenquimatosa.
+Estruturas da linha média: centradas.
+Coleções extra-axiais: ausentes.
+Seios paranasais: pneumatizados, sem velamento.
+Células mastoides: pneumatizadas e simétricas, sem velamento.
+Derivação ventricular: ausente / cateter de derivação ventriculoperitoneal com extremidade proximal no corno frontal {lado|direito/esquerdo}, em topografia adequada, sem sinais de descontinuidade no trajeto avaliado.
+Calota craniana sem sinais de fratura ou lesão focal.
+
+CONCLUSÃO:
+1. **Dilatação do sistema ventricular supratentorial, com índice de Evans de ___ (referência: > 0,30).**
+2. Padrão comunicante (quarto ventrículo e aqueduto pérvios) / padrão obstrutivo, com nível de bloqueio em ___.
+3. Sinais de transudação liquórica transependimária, sugerindo hidrocefalia em atividade / ausentes no presente estudo.
+4. Recomenda-se ressonância magnética do encéfalo com estudo do fluxo liquórico para determinação do nível e da causa da obstrução, e correlação com o quadro clínico.
+
+Achado comunicado ao(à) Dr(a). ___ em ___/___/____ às ___h___.

@@ -1,0 +1,24 @@
+# gatilhos: angiotomografia de torax com tromboembolismo | angio de torax tep | tromboembolismo pulmonar | embolia pulmonar | tep positivo | angiotc das arterias pulmonares com falhas de enchimento
+ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS PULMONARES
+
+TÉCNICA: aquisição volumétrica após injeção endovenosa de contraste iodado, em fase arterial pulmonar, com reconstruções multiplanares e MIP.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Qualidade do estudo: opacificação adequada das artérias pulmonares, com atenuação média no tronco da artéria pulmonar de ___ UH (considerada adequada quando ≥ 200 UH), sem artefatos de movimento ou de endurecimento do feixe que limitem a análise até o nível subsegmentar.
+Artérias pulmonares: falhas de enchimento endoluminais {lado_a|à direita/à esquerda/bilateralmente}, com nível mais proximal de acometimento em {nivel|tronco da artéria pulmonar/artérias lobares/artérias segmentares/artérias subsegmentares}, de caráter {oclusao|parcialmente oclusivo/oclusivo}, envoltas por contraste e formando ângulo agudo com a parede arterial. Ausência de sinais sugestivos de cronicidade, tais como falhas periféricas de margens obtusas, bandas e teias intraluminais, calcificação do material endoluminal ou redução abrupta do calibre arterial.
+Sinais de sobrecarga de câmaras direitas: relação entre os maiores diâmetros transversos do ventrículo direito e do ventrículo esquerdo (VD/VE) de ___, aferida em plano de quatro câmaras reconstruído — considerada alterada quando > 0,9. Retificação/abaulamento do septo interventricular para a esquerda. Refluxo de contraste para a veia cava inferior e veias hepáticas. Tronco da artéria pulmonar com ___ mm de diâmetro.
+Parênquima pulmonar: opacidade de morfologia cuneiforme e base pleural no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho}, com hipoatenuação central e sem realce significativo, compatível com infarto pulmonar. Demais segmentos sem consolidações ou nódulos suspeitos.
+Traqueia e brônquios: calibre e trajetos normais.
+Mediastino: sem alterações evidentes, à exceção dos achados cardiovasculares descritos.
+Linfonodos mediastinais e hilares: de dimensões limítrofes, com eixo curto inferior a 10 mm, sem critérios de linfonodomegalia.
+Aorta torácica: trajeto e calibre habituais, sem falhas de enchimento.
+Derrames: derrame pleural {lado|direito/esquerdo/bilateral} de pequeno volume. Ausência de derrame pericárdico.
+Estruturas ósseas e partes moles: sem alterações significativas.
+
+CONCLUSÃO:
+1. Tromboembolismo pulmonar, com falhas de enchimento {lado_a|à direita/à esquerda/bilateralmente} e nível mais proximal de acometimento em {nivel|tronco da artéria pulmonar/artérias lobares/artérias segmentares/artérias subsegmentares}, com aspecto tomográfico de evento agudo.
+2. Relação VD/VE de ___ (alterada quando > 0,9), com retificação do septo interventricular e refluxo de contraste para a veia cava inferior, traduzindo sinais tomográficos de sobrecarga de câmaras direitas. Recomendada correlação com marcadores de disfunção ventricular e estratificação de gravidade a critério clínico.
+3. Opacidade cuneiforme de base pleural no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho}, compatível com infarto pulmonar.
+4. Derrame pleural {lado|direito/esquerdo/bilateral} de pequeno volume.

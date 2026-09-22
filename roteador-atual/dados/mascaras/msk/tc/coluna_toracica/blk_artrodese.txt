@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: material de artrodese | parafusos pediculares | fixacao pedicular | artrodese toracica
+# conclusao: Artrodese torácica de {nivel} a {nivel}, sem sinais de soltura ou fratura dos implantes.
+Corpos vertebrais:  material de artrodese de {nivel} a {nivel}, constituído por parafusos pediculares e hastes longitudinais, em posição habitual, sem sinais de fratura, soltura ou halo de radiolucência ao redor dos parafusos.

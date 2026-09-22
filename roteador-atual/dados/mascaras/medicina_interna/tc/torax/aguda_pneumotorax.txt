@@ -1,0 +1,26 @@
+# gatilhos: tomografia de torax com pneumotorax | tc de torax com pneumotorax | tc torax pneumotorax | tomografia do torax com pneumotorax
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multislice e reconstruções multiplanares, {contraste|sem/com/sem e com} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  colapso parcial do pulmão {lado|direito/esquerdo}, sem consolidações ou nódulos. {bolhas|Não há bolhas ou cistos subpleurais evidentes/Bolhas subpleurais apicais}.
+Traqueia e brônquios:  calibre e trajetos normais.
+Mediastino:  centrado, sem desvio contralateral. Não há pneumomediastino.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais, com principais ramos preservados.
+Derrames:  pneumotórax {lado|direito/esquerdo}, com distância interpleural máxima de {tamanho}. Ausência de derrame pleural ou pericárdico.
+Cúpulas diafragmáticas:  morfologia e posição habituais.
+Estruturas ósseas e partes moles:  sem traços de fratura. Não há enfisema subcutâneo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Pneumotórax {lado|direito/esquerdo}, com distância interpleural máxima de {tamanho}.
+Não há sinais tomográficos de pneumotórax hipertensivo.

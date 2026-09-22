@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vias excretoras
+# gatilhos: falha de enchimento | lesao urotelial | espessamento urotelial | falha de enchimento no ureter
+# conclusao: {achado_urotelial|Falha de enchimento/Espessamento parietal focal} em {local_urotelial|cálice/pelve renal/ureter proximal/ureter médio/ureter distal} {lado_a|à direita/à esquerda}, indeterminado; lesão urotelial não pode ser excluída. Sugere-se avaliação urológica.
+Vias excretoras:  {achado_urotelial|falha de enchimento/espessamento parietal focal} em {local_urotelial|cálice/pelve renal/ureter proximal/ureter médio/ureter distal} {lado_a|à direita/à esquerda}, medindo {tamanho}, com realce na fase nefrográfica. Demais segmentos das vias excretoras com opacificação completa.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tireoide
+# gatilhos: bocio multinodular | bocio | tireoide aumentada | bocio mergulhante
+# conclusao: Aumento volumétrico da tireoide, com múltiplos nódulos (bócio multinodular), {mergulhante|sem/com} componente mergulhante.
+Tireoide:  aumentada de volume, de contornos lobulados e textura heterogênea, contendo múltiplos nódulos bilaterais, o maior no lobo {lado|direito/esquerdo}, medindo {tamanho}. {mergulhante|Sem extensão mergulhante/Com extensão mergulhante para o mediastino superior}.

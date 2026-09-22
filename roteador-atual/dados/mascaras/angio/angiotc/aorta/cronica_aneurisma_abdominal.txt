@@ -1,0 +1,31 @@
+# gatilhos: angio de aorta com aneurisma abdominal | angio de aorta com aneurisma de aorta abdominal | angiotomografia de aorta com aneurisma abdominal | angio de aorta abdominal com aneurisma | angio de aorta com aneurisma infrarrenal | angiotomografia de aorta abdominal com aneurisma | angio de aorta com aaa
+# categoria: angio
+# modalidade: angiotc
+# regiao: aorta
+# tipo_mascara: cronica
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA {segmento_aortico|TORÁCICA E ABDOMINAL/TORÁCICA/ABDOMINAL}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, em fase arterial, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação da aorta e de seus ramos. Diâmetros aferidos de parede externa a parede externa, em plano perpendicular ao eixo longitudinal do vaso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na luz aórtica na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise.
+Fase sem contraste:  sem evidências de hematoma intramural, de deslocamento interno de calcificações intimais ou de coleções hemáticas periaórticas.
+Raiz aórtica e aorta ascendente:  calibre preservado, contornos regulares e opacificação homogênea.
+Arco aórtico e ramos supra-aórticos:  conformação habitual, com origem e trajeto preservados do tronco braquiocefálico, da artéria carótida comum esquerda e da artéria subclávia esquerda, pérvios.
+Aorta torácica descendente:  trajeto e calibre habituais, com opacificação homogênea.
+Aorta abdominal:  dilatação aneurismática {morfologia|fusiforme/sacular} do segmento infrarrenal, com diâmetro máximo de {tamanho} (critério de aneurisma: ≥ 3,0 cm) e extensão longitudinal de ___ cm. Colo proximal com ___ cm de extensão a partir da artéria renal mais baixa, ___ mm de diâmetro e angulação de ___ graus. {limite_distal|Termina acima da bifurcação aórtica/Estende-se às artérias ilíacas comuns}.
+Paredes aórticas:  trombo mural {trombo_mural|circunferencial/excêntrico} no saco aneurismático, com espessura máxima de ___ cm e luz pérvia de ___ cm. Ausência de crescente hiperatenuante na parede, de descontinuidade focal de calcificações ou de densificação periaórtica.
+Ramos viscerais:  tronco celíaco, artéria mesentérica superior, artérias renais e artéria mesentérica inferior com origem habitual e pérvios, sem estenoses significativas.
+Artérias ilíacas:  artérias ilíacas comuns com diâmetros de ___ mm à direita e ___ mm à esquerda, pérvias. Artérias ilíacas internas e externas pérvias.
+Diâmetros aórticos:  seios de Valsalva ___ mm; aorta ascendente ___ mm; arco ___ mm; descendente proximal ___ mm; descendente no hiato diafragmático ___ mm; aorta abdominal suprarrenal ___ mm; infrarrenal ___ mm.
+Mediastino e retroperitônio:  sem hematomas, densificações ou coleções periaórticas.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Demais estruturas:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Aneurisma {morfologia|fusiforme/sacular} da aorta abdominal infrarrenal, com diâmetro máximo de {tamanho}, sem sinais tomográficos de instabilidade ou ruptura.

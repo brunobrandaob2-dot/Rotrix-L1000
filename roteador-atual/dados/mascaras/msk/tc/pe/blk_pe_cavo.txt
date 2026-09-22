@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Arcos plantares
+# gatilhos: pe cavo | arco plantar elevado | cavismo
+# conclusao: Aumento do arco longitudinal medial (pé cavo), com avaliação limitada pela ausência de carga.
+Arcos plantares:  aumento da altura do arco longitudinal medial, considerando que o exame é realizado sem carga, o que limita a avaliação.

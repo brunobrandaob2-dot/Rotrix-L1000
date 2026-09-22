@@ -1,0 +1,19 @@
+# gatilhos: raio x de ombro com luxacao acromioclavicular | rx de ombro com luxacao acromioclavicular | radiografia de ombro com luxacao acromioclavicular | rx do ombro com luxacao acromioclavicular | rx ombro luxacao acromioclavicular | raio x de ombro com disjuncao acromioclavicular | rx de ombro com disjuncao acromioclavicular | raio x de ombro com rockwood | rx de ombro com rockwood
+# categoria: msk
+# modalidade: rx
+# regiao: ombro
+# tipo_mascara: aguda
+**RADIOGRAFIA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior em rotação interna e externa e perfil da escápula.
+
+**ANÁLISE:**
+Espaço articular glenoumeral preservado.
+Luxação acromioclavicular, com elevação da extremidade distal da clavícula em relação ao acrômio.
+Distância coracoclavicular de {tamanho} (referência até cerca de 13 mm).
+Aspecto compatível com Rockwood tipo {rockwood|I/II/III/IV/V/VI}.
+Espaço acromioumeral preservado.
+Não há sinais de fraturas.
+Densidade óssea preservada.
+Partes moles sem alterações.
+A incidência comparativa com o lado contralateral pode auxiliar na classificação.

@@ -1,0 +1,30 @@
+# gatilhos: tomografia de bacia com sacroiliite | tc de bacia com sacroiliite | tc bacia sacroiliite | tomografia da bacia com sacroiliite | tomografia de bacia com alteracoes sacroiliacas
+# categoria: msk
+# modalidade: tc
+# regiao: bacia
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA BACIA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Anel pélvico:  íntegro, simétrico e alinhado, sem traços de fratura ou diástases.
+Articulações sacroilíacas:  erosões subcondrais, esclerose e irregularidade das superfícies articulares {lado_a|à direita/à esquerda}, predominando na vertente ilíaca, com pseudoalargamento focal do espaço articular. {anquilose|Não há anquilose óssea/Há pontes ósseas transarticulares parciais/Há anquilose óssea}.
+Sínfise púbica:  alinhada, de amplitude preservada e superfícies regulares.
+Sacro e cóccix:  sem particularidades. Forames sacrais livres.
+Ossos ilíacos:  contornos regulares e densidade habitual.
+Ramos púbicos e ísquios:  contornos regulares, sem traços de fratura.
+Acetábulos:  morfologia e cobertura habituais. Colunas e paredes acetabulares íntegras.
+Articulações coxofemorais:  congruentes, com espaços articulares preservados e simétricos.
+Fêmures proximais:  cabeças femorais esféricas e de densidade habitual. Colos femorais e regiões trocantéricas sem particularidades.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  musculatura pélvica, glútea e da raiz das coxas de volume e atenuação habituais. Não há coleções ou hematomas.
+Estruturas pélvicas incluídas no estudo:  sem particularidades, considerando os limites do método.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Erosões, esclerose subcondral e irregularidade das superfícies das articulações sacroilíacas {lado_a|à direita/à esquerda}, achados que podem corresponder a sacroiliíte. Correlacionar com dados clínicos e laboratoriais.
+A ressonância magnética é o método de escolha para pesquisa de atividade inflamatória (edema ósseo subcondral), se clinicamente indicado.

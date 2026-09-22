@@ -1,0 +1,16 @@
+# gatilhos: raio x de quadril com fratura do colo femoral | rx de quadril com fratura do colo femoral | rx quadril fratura colo | radiografia de quadril com fratura do colo femoral | raio x de quadril com fratura do colo do femur | rx de quadril com fratura de colo
+# categoria: msk
+# modalidade: rx
+# regiao: quadril
+# tipo_mascara: aguda
+**RADIOGRAFIA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil (Lauenstein).
+
+**ANÁLISE:**
+{alinhamento_colo|Interrupção do arco de Shenton, sem encurtamento significativo/Interrupção do arco de Shenton, com encurtamento e rotação externa do fêmur}.
+Espaço articular preservado.
+Acetábulo com cobertura habitual da cabeça femoral.
+Fratura {local_colo|subcapital/transcervical/basocervical} do colo femoral, {desvio_colo|incompleta ou impactada em valgo/completa sem desvio/completa com desvio parcial/completa com desvio total} (Garden {garden|I/II/III/IV}).
+{densidade|Densidade óssea preservada/Redução difusa da densidade óssea}.
+Partes moles sem alterações.

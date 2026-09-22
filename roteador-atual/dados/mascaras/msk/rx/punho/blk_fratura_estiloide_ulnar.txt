@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura do estiloide ulnar | fratura do processo estiloide da ulna | fratura da ulna
+Fratura da {local|ponta/base} do processo estiloide ulnar.

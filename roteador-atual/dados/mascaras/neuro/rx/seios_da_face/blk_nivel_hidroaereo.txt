@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Seios maxilares
+# gatilhos: nivel hidroaereo | nivel hidroaereo maxilar | nivel liquido maxilar
+Nível hidroaéreo no seio maxilar {lado|direito/esquerdo}.

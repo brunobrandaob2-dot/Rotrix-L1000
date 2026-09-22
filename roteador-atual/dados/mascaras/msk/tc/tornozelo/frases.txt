@@ -1,0 +1,41 @@
+# tipo: frases
+## gatilhos: derrame articular no tornozelo | derrame no tornozelo
+Pequeno derrame articular tibiotalar.
+## gatilhos: corpo livre no tornozelo | corpo livre intra articular no tornozelo
+Corpo livre intra-articular no recesso {recesso|anterior/posterior} da articulação tibiotalar, medindo {tamanho}.
+## gatilhos: fratura do processo lateral do talus no tornozelo
+Fratura do processo lateral do tálus, com fragmento medindo {tamanho}.
+## gatilhos: fratura do colo do talus no tornozelo
+Fratura do colo do tálus, Hawkins {hawkins|I/II/III/IV}.
+## gatilhos: fratura de tillaux no tornozelo
+Fratura de Tillaux: avulsão da margem anterolateral da epífise tibial distal, com desvio de {tamanho}.
+## gatilhos: fratura triplanar do tornozelo | fratura triplanar da tibia
+Fratura triplanar da tíbia distal, com componentes nos planos sagital, axial e coronal.
+## gatilhos: fratura do maleolo posterior do tornozelo
+Fratura do maléolo posterior, com fragmento acometendo cerca de {percentual}% da superfície articular do plafond tibial.
+## gatilhos: diastase da sindesmose do tornozelo | sindesmose alargada no tornozelo
+Alargamento do espaço tibiofibular distal, medindo {tamanho}, podendo corresponder a lesão sindesmótica; a ressonância magnética avalia diretamente os ligamentos.
+## gatilhos: sindesmose preservada no tornozelo
+Relação tibiofibular distal preservada, sem sinais tomográficos de diástase da sindesmose.
+## gatilhos: pinca maleolar congruente no tornozelo | encaixe do tornozelo preservado
+Encaixe da pinça maleolar preservado, com espaço claro medial simétrico.
+## gatilhos: luxacao dos tendoes fibulares no tornozelo
+Tendões fibulares deslocados lateralmente em relação ao sulco retromaleolar, podendo corresponder a luxação; a ressonância magnética é mais adequada para a avaliação tendínea.
+## gatilhos: avulsao da ponta do maleolo lateral no tornozelo
+Pequeno fragmento ósseo junto à ponta do maléolo lateral, podendo corresponder a avulsão ligamentar recente ou ossículo sequelar; correlacionar com o tempo de evolução.
+## gatilhos: os subfibulare no tornozelo
+Ossículo de contornos corticais regulares junto à ponta do maléolo lateral (os subfibulare), sem sinais de fratura recente.
+## gatilhos: coalizao talocalcanea no tornozelo
+Coalizão talocalcânea {natureza|óssea/fibrocartilaginosa} na faceta média, com irregularidade e esclerose das superfícies articulares justapostas.
+## gatilhos: fratura do calcaneo com extensao a subtalar | fratura intra articular do calcaneo
+Traço de fratura do calcâneo com extensão à faceta posterior da articulação subtalar.
+## gatilhos: calcaneo e coluna toracolombar | fratura do calcaneo por queda de altura
+Fraturas do calcâneo por queda de altura podem se associar a fraturas da coluna toracolombar; correlacionar clinicamente.
+## gatilhos: lesao osteocondral do talus no tornozelo
+Lesão osteocondral na vertente {vertente|medial/lateral} da cúpula talar, medindo {tamanho}.
+## gatilhos: osteopenia de desuso no tornozelo
+Rarefação óssea difusa e subcondral no tornozelo, podendo corresponder a osteopenia de desuso; correlacionar com o tempo de imobilização.
+## gatilhos: artefatos metalicos no tornozelo
+Artefatos metálicos relacionados ao material de síntese limitam a avaliação das estruturas adjacentes.
+## gatilhos: tc de tornozelo sem fratura | tornozelo sem fratura na tomografia
+Não há sinais tomográficos de fratura ou luxação.

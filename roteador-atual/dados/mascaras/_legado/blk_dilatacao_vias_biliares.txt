@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vias biliares
+# gatilhos: dilatacao de vias biliares | colestase | via biliar dilatada | dilatacao do coledoco
+# conclusao: Dilatação das vias biliares intra e extra-hepáticas, com colédoco de {tamanho}, de causa não definida ao método; sugere-se complementação com colangiorressonância.
+Vias biliares: dilatação das vias biliares intra-hepáticas de forma difusa e simétrica, com colédoco medindo {tamanho} no maior diâmetro transverso (referência habitual de até 0,6 cm, admitindo-se até 1,0 cm em pacientes colecistectomizados), afilando-se em ___. Não se identifica ao método cálculo radiopaco, massa ou espessamento parietal focal que justifique a obstrução.

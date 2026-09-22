@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Linfonodos cervicais
+# gatilhos: linfonodos reacionais | linfonodos proeminentes | linfonodos de aspecto reacional
+# conclusao: Linfonodos cervicais proeminentes, de morfologia preservada, de aspecto reacional — correlacionar com o contexto clínico.
+Linfonodos cervicais:  linfonodos proeminentes, em número aumentado, nos níveis {niveis|IB e II/II/II e III/II a V} {lado_a|à direita/à esquerda/bilateralmente}, o maior medindo {tamanho} no menor eixo, de morfologia ovalada, com hilo gorduroso preservado e realce homogêneo, sem necrose central, calcificações ou sinais de extensão extranodal.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura da fibula | fratura fibular | fratura do perone
+Fratura {traco|transversa/oblíqua/espiral/cominutiva} do terço {terco|proximal/médio/distal} da fíbula, com desvio de {tamanho}.

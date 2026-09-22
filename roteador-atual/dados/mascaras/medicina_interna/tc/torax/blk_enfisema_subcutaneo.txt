@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: enfisema subcutaneo | enfisema de partes moles | ar no subcutaneo
+# conclusao: Enfisema subcutâneo na parede torácica {lado_f|direita/esquerda}.
+Estruturas ósseas e partes moles:  enfisema subcutâneo na parede torácica {lado_f|direita/esquerda}. Não há traços de fratura.

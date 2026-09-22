@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaço articular
+# gatilhos: condrocalcinose | calcificacao condral | calcificacao do labio
+Espaço articular preservado, com calcificações lineares na cartilagem e no lábio acetabular, compatíveis com condrocalcinose.

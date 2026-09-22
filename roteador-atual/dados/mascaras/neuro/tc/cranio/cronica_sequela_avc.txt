@@ -1,0 +1,32 @@
+# gatilhos: tomografia de cranio com sequela de avc | tc de cranio com sequela de avc | tc cranio sequela de avc | tomografia de cranio com avc antigo | tc de cranio com avc antigo | tomografia de cranio com sequela isquemica | tc de cranio com sequela isquemica
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  área de encefalomalácia com gliose marginal no lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, em território da artéria cerebral {territorio|anterior/média/posterior}, medindo {tamanho}, sem efeito expansivo, compatível com sequela de insulto isquêmico. Não há áreas de isquemia aguda ou hemorragia.
+Substância branca:  sem outras alterações de atenuação.
+Núcleos da base:  de morfologia e atenuação preservadas.
+Sistema ventricular:  dilatação ex vacuo do ventrículo lateral {lado|direito/esquerdo} adjacente à área de encefalomalácia, sem sinais de hidrocefalia.
+Cisternas da base e sulcos corticais:  cisternas da base pérvias. Alargamento dos sulcos corticais adjacentes à área sequelar.
+Linha média:  estruturas centradas.
+Espaços extra-axiais:  sem coleções.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura ou lesões focais.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Área de encefalomalácia e gliose no lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, em território da artéria cerebral {territorio|anterior/média/posterior}, compatível com sequela de insulto isquêmico.
+Não há sinais de lesões agudas no presente estudo.

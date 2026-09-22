@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Planos gordurosos e partes moles
+# gatilhos: celulite cervical | celulite | densificacao de partes moles | fleimao cervical
+# conclusao: Densificação de partes moles cervicais {lado_a|à direita/à esquerda/bilateralmente}, compatível com processo inflamatório (celulite), sem coleções drenáveis.
+Planos gordurosos e partes moles:  densificação da gordura e espessamento do tecido celular subcutâneo no espaço {espaco|submandibular/cervical anterior/cervical posterior} {lado_a|à direita/à esquerda/bilateralmente}, sem coleções organizadas ou gás.

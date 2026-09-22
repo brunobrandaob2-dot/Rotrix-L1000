@@ -1,0 +1,33 @@
+# gatilhos: tomografia de cranio com hemorragia subaracnoidea | tc de cranio com hemorragia subaracnoidea | tc cranio hemorragia subaracnoidea | tomografia de cranio com hsa | tc de cranio com hsa | tc cranio hsa
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  diferenciação córtico-subcortical mantida. Não há hematoma intraparenquimatoso ou áreas de isquemia estabelecida.
+Substância branca:  sem alterações de atenuação.
+Núcleos da base:  de morfologia e atenuação preservadas.
+Sistema ventricular:  {hemoventriculo|sem/com} conteúdo hemático intraventricular. {hidrocefalia|Sem sinais de hidrocefalia/Dilatação ventricular com índice de Evans de ___, compatível com hidrocefalia aguda}.
+Cisternas da base e sulcos corticais:  conteúdo hiperatenuante preenchendo {distribuicao|as cisternas suprasselar, interpeduncular e ambiens e as fissuras sylvianas/as cisternas perimesencefálicas e pré-pontina/os sulcos corticais da convexidade}, compatível com hemorragia subaracnóidea, de espessura {espessura_hsa|fina (inferior a 1 mm)/espessa (igual ou superior a 1 mm)}.
+Escala de Fisher modificada: grau {fisher|1/2/3/4} (1: fina, sem hemoventrículo; 2: fina, com hemoventrículo; 3: espessa, sem hemoventrículo; 4: espessa, com hemoventrículo).
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Espaços extra-axiais:  sem coleções.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura ou lesões focais.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Hemorragia subaracnóidea, grau {fisher|1/2/3/4} na escala de Fisher modificada.
+Sugere-se angiotomografia arterial intracraniana para pesquisa de aneurisma ou malformação vascular.

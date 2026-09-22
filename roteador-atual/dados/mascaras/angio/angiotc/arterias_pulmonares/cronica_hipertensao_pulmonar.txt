@@ -1,0 +1,29 @@
+# gatilhos: angio de arterias pulmonares com hipertensao pulmonar | angio tep com hipertensao pulmonar | angiotomografia de arterias pulmonares com hipertensao pulmonar | angio tep negativo com tronco dilatado | angio de arterias pulmonares com tronco dilatado
+# categoria: angio
+# modalidade: angiotc
+# regiao: arterias_pulmonares
+# tipo_mascara: cronica
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS PULMONARES**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fase arterial pulmonar, com reconstruções multiplanares e em projeção de intensidade máxima (MIP), direcionadas para a avaliação da circulação arterial pulmonar.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação adequada das artérias pulmonares, com atenuação de ___ UH no tronco da artéria pulmonar (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise até o nível subsegmentar.
+Tronco da artéria pulmonar:  dilatado, medindo ___ mm (aumentado quando > 29 mm), com relação entre os diâmetros do tronco da artéria pulmonar e da aorta ascendente de ___ (aumentada quando > 1). Artérias pulmonares principais {principais_dilatadas|de calibre habitual/dilatadas}.
+Artérias pulmonares:  artérias pulmonares principais, lobares, segmentares e subsegmentares pérvias, de calibre preservado e opacificação homogênea, sem falhas de enchimento endoluminais.
+Câmaras cardíacas direitas:  relação VD/VE de ___ (sobrecarga quando > 0,9). {vd_cronico|Ventrículo direito de espessura parietal habitual/Hipertrofia da parede livre do ventrículo direito}.
+Parênquima pulmonar:  sem consolidações, opacidades periféricas cuneiformes ou padrão de atenuação em mosaico.
+Traqueia e brônquios:  calibre e trajetos normais.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Ausência de sinais de tromboembolismo pulmonar.
+Dilatação do tronco da artéria pulmonar (___ mm), com relação tronco pulmonar/aorta ascendente de ___, sinal tomográfico indireto de hipertensão pulmonar, a correlacionar com ecocardiograma.

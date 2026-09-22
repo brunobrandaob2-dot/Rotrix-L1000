@@ -1,0 +1,17 @@
+# gatilhos: raio x de mao com erosoes | rx de mao com erosoes | radiografia de mao com erosoes | rx da mao com erosoes | rx mao erosoes | raio x de mao com erosoes osseas | rx de mao com erosoes osseas | raio x de mao com artropatia inflamatoria | rx de mao com artropatia inflamatoria | raio x de mao com artrite | rx de mao com artrite
+# categoria: msk
+# modalidade: rx
+# regiao: mao
+# tipo_mascara: cronica
+**RADIOGRAFIA DA MÃO {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  incidências posteroanterior e oblíqua.
+
+**ANÁLISE:**
+Erosões ósseas marginais nas metacarpofalangianas {mcf|___}, com redução {padrao|simétrica/assimétrica} dos espaços articulares.
+{ifs|Interfalangianas sem erosões/Erosões ósseas marginais nas interfalangianas ___}.
+{carpo|Ossos do carpo sem erosões/Erosões ósseas no ___}.
+Achados que podem corresponder a artropatia inflamatória, a correlacionar com dados clínicos e laboratoriais.
+Não há sinais de fraturas ou luxações.
+{mineralizacao|Densidade óssea preservada/Osteopenia periarticular}.
+{partes|Partes moles sem alterações/Aumento de volume periarticular das partes moles}.

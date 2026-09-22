@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: escoliose | escoliose lombar | desvio lateral
+# conclusao: Escoliose lombar de convexidade {convexidade|à direita/à esquerda}, com ângulo de Cobb de {cobb} graus.
+Alinhamento:  escoliose lombar de convexidade {convexidade|à direita/à esquerda}, com ápice em {nivel} e ângulo de Cobb estimado em {cobb} graus, associada a rotação vertebral. Ausência de listeses. A radiografia panorâmica em ortostase é o método de referência para a medida do ângulo.

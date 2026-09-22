@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Antepé
+# gatilhos: halux valgo | hallux valgus | joanete
+# conclusao: Hálux valgo, com medidas angulares obtidas sem carga.
+Antepé:  desvio lateral do hálux, com ângulo do hálux valgo de {angulo_hv}° e ângulo intermetatarsal 1–2 de {angulo_im}°, medidos sem carga. Demais metatarsos e falanges sem particularidades.

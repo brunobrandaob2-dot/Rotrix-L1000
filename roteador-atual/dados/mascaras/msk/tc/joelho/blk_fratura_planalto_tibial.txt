@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tíbia e fíbula proximais
+# gatilhos: fratura do planalto tibial | fratura do planalto | fratura do plato tibial
+# conclusao: Fratura do planalto tibial {planalto|lateral/medial/bicondilar}, tipo {schatzker|I/II/III/IV/V/VI} da classificação de Schatzker.
+Tíbia e fíbula proximais:  traço de fratura no planalto tibial {planalto|lateral/medial/bicondilar}, com afundamento articular máximo de {afundamento}. Cabeça da fíbula {fibula|sem traços de fratura/com traço de fratura}.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Seios frontais
+# gatilhos: seio frontal hipoplasico | hipoplasia do seio frontal | agenesia do seio frontal
+{desenvolvimento_frontal|Hipoplasia/Agenesia} do seio frontal {lado|direito/esquerdo}, variante anatômica.

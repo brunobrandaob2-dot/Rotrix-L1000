@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Ulna proximal
+# gatilhos: osteossintese | material de sintese | banda de tensao
+# conclusao: Alterações pós-operatórias de osteossíntese do olécrano, sem sinais de falha do material evidentes ao método.
+Ulna proximal:  material de osteossíntese no olécrano, constituído por {material|fios de Kirschner e cerclagem em banda de tensão/placa e parafusos/parafuso intramedular}, em posição habitual, sem sinais de soltura, quebra ou migração. Foco de fratura {consolidacao|consolidado/em consolidação/sem sinais de consolidação}.

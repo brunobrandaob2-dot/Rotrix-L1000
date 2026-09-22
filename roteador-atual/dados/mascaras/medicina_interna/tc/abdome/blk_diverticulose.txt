@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Trato gastrointestinal
+# gatilhos: diverticulose | diverticulos | diverticulose colonica | diverticulos colonicos
+# conclusao: Diverticulose colônica, sem sinais de diverticulite.
+Trato gastrointestinal:  divertículos colônicos esparsos, de predomínio no cólon {colon|sigmoide/descendente}, sem espessamento parietal ou densificação da gordura pericólica que sugiram diverticulite. Não há sinais inflamatórios na região ileocecoapendicular.

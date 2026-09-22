@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Ramos púbicos e ísquios
+# gatilhos: entesopatia | entesofitos | entesopatia isquiatica
+# conclusao: Entesopatia nas tuberosidades isquiáticas.
+Ramos púbicos e ísquios:  contornos regulares, sem traços de fratura. Entesófitos nas tuberosidades isquiáticas {lado_ent|à direita/à esquerda/bilateralmente}, compatíveis com entesopatia.

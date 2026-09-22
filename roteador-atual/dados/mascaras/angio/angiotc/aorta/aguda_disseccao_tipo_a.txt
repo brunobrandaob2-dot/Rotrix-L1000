@@ -1,0 +1,34 @@
+# gatilhos: angio de aorta com disseccao tipo a | angio de aorta com disseccao stanford a | angiotomografia de aorta com disseccao tipo a | angio de aorta com disseccao de aorta ascendente | angiotomografia de aorta com disseccao stanford a | angio de aorta com disseccao aortica tipo a
+# categoria: angio
+# modalidade: angiotc
+# regiao: aorta
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA {segmento_aortico|TORÁCICA E ABDOMINAL/TORÁCICA/ABDOMINAL}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, em fase arterial, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação da aorta e de seus ramos. Diâmetros aferidos de parede externa a parede externa, em plano perpendicular ao eixo longitudinal do vaso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na luz aórtica na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise.
+Fase sem contraste:  {him_associado|sem/com} hematoma intramural associado. {calcificacao_deslocada|Sem/Com} deslocamento interno de calcificações intimais.
+Raiz aórtica e aorta ascendente:  flap intimal na aorta ascendente, separando luz verdadeira, de menor calibre e opacificação mais precoce, e luz falsa, de maior calibre, com sinal do bico em sua extremidade. Porta de entrada principal na zona 0. {raiz|Flap sem extensão à raiz aórtica/Flap estendendo-se à raiz aórtica, com possível comprometimento de óstio coronariano, a correlacionar}.
+Arco aórtico e ramos supra-aórticos:  {arco_disseccao|flap poupando o arco aórtico/flap intimal em continuidade no arco aórtico}. Tronco braquiocefálico, artéria carótida comum esquerda e artéria subclávia esquerda com origem {ramos_arco|na luz verdadeira/na luz falsa/acometida pelo flap}, pérvios.
+Aorta torácica descendente:  {descendente_disseccao|sem flap intimal/flap intimal em continuidade}.
+Aorta abdominal:  {abdominal_disseccao|sem flap intimal/flap intimal em continuidade, com extensão distal até a zona ___}.
+Paredes aórticas:  luz falsa {luz_falsa|pérvia/parcialmente trombosada/totalmente trombosada}.
+Ramos viscerais:  tronco celíaco, artéria mesentérica superior e artérias renais com origem {ramos_viscerais|na luz verdadeira/na luz falsa/acometida pelo flap}, {ma_perfusao|sem sinais de má perfusão de órgão-alvo ao método/com sinais de má perfusão ___}.
+Artérias ilíacas:  {iliacas_disseccao|sem extensão do flap intimal/com extensão do flap à artéria ilíaca comum ___}.
+Diâmetros aórticos:  seios de Valsalva ___ mm; aorta ascendente ___ mm; arco ___ mm; descendente proximal ___ mm; descendente no hiato diafragmático ___ mm; aorta abdominal suprarrenal ___ mm; infrarrenal ___ mm.
+Mediastino e retroperitônio:  {hemomediastino|sem hemomediastino ou hematoma periaórtico/com hemomediastino}.
+Derrames:  derrame pericárdico {pericardio|ausente/de pequeno volume/de moderado a grande volume}. Derrame pleural {derrame_pleural|ausente/à direita/à esquerda/bilateral}.
+Demais estruturas:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Dissecção aórtica aguda do tipo A de Stanford (DeBakey {debakey|I/II}), com porta de entrada na zona 0 e extensão distal até a zona {zona_distal|0 a 11} (zonas aórticas SVS/STS), com luz falsa {luz_falsa|pérvia/parcialmente trombosada/totalmente trombosada}.
+Ramos supra-aórticos com origem {ramos_arco|na luz verdadeira/na luz falsa/acometida pelo flap} e ramos viscerais com origem {ramos_viscerais|na luz verdadeira/na luz falsa/acometida pelo flap}.
+Derrame pericárdico {pericardio|ausente/de pequeno volume/de moderado a grande volume}.
+Resultado comunicado à equipe assistente em ___h___, ao(à) Dr(a). ___.

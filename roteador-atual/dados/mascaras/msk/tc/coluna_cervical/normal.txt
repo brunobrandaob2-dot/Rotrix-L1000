@@ -1,0 +1,27 @@
+# gatilhos: tomografia de coluna cervical | tomografia da coluna cervical | tc de coluna cervical | tc da coluna cervical | tc coluna cervical | tomografia de coluna cervical normal | tomografia da coluna cervical normal | tc de coluna cervical normal | tc da coluna cervical normal | tc coluna cervical normal | coluna cervical normal na tomografia | tomografia de coluna cervical sem alteracoes | tc de coluna cervical sem contraste | tc de coluna cervical com contraste | tomografia de coluna cervical sem contraste | tomografia de coluna cervical com contraste | tc de coluna cervical trauma sem fratura | tomografia de coluna cervical no trauma
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_cervical
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  lordose cervical fisiológica preservada. Ausência de listeses.
+Transição craniocervical:  processo odontoide íntegro e centrado em relação às massas laterais de C1. Intervalo atlantodental preservado. Articulações atlanto-occipitais e atlantoaxiais congruentes.
+Corpos vertebrais:  de altura e morfologia preservadas, sem sinais de fratura ou de lesão focal.
+Discos intervertebrais:  espaços discais de altura preservada, considerando os limites do método.
+Articulações uncovertebrais:  de aspecto habitual.
+Articulações interapofisárias:  congruentes, com espaços articulares preservados.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, massas laterais, lâminas e processos espinhosos íntegros.
+Partes moles:  espessura das partes moles pré-vertebrais preservada. Partes moles paravertebrais sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

@@ -1,0 +1,17 @@
+# gatilhos: raio x de coluna toracica com fratura | rx de coluna toracica com fratura | rx coluna toracica fratura | radiografia de coluna toracica com fratura | rx de coluna toracica com fratura aguda | rx de coluna dorsal com fratura | rx de coluna toracica trauma | rx de coluna toracica com acunhamento agudo
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_toracica
+# tipo_mascara: aguda
+**RADIOGRAFIA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Cifose focal em {nivel}, sem listeses.
+Fratura do corpo vertebral de {nivel}, com afundamento da plataforma {plataforma|superior/inferior} e perda de altura estimada em {percentual}%, de aspecto agudo ou recente.
+Espaços discais preservados.
+Distância interpedicular preservada.
+Densidade óssea preservada.
+{linha_paravertebral|Partes moles sem alterações/Alargamento das linhas paravertebrais no nível da fratura, podendo corresponder a hematoma}.
+Recomenda-se tomografia computadorizada para caracterização da fratura.

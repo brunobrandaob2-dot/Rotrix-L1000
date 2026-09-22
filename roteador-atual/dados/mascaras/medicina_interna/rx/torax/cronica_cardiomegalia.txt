@@ -1,0 +1,17 @@
+# gatilhos: raio x de torax com cardiomegalia | rx de torax com cardiomegalia | radiografia de torax com cardiomegalia | rx torax cardiomegalia | raio x de torax com aumento da area cardiaca | rx de torax com area cardiaca aumentada
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: torax
+# tipo_mascara: cronica
+**RADIOGRAFIA DO TÓRAX**
+
+**TÉCNICA:**  incidências posteroanterior e perfil, em ortostase.
+
+**ANÁLISE:**
+Campos pulmonares sem opacidades focais.
+Seios costofrênicos livres.
+Área cardíaca aumentada, com índice cardiotorácico estimado em {indice_cardiotoracico} (normal até 0,5).
+Mediastino centrado, de contornos regulares.
+Hilos pulmonares de aspecto habitual.
+Cúpulas diafragmáticas de contornos regulares e posição habitual.
+Arcabouço ósseo sem alterações.

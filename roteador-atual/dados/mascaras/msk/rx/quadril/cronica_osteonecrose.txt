@@ -1,0 +1,19 @@
+# gatilhos: raio x de quadril com osteonecrose | rx de quadril com osteonecrose | rx quadril necrose avascular | radiografia de quadril com osteonecrose | raio x de quadril com necrose da cabeca femoral
+# categoria: msk
+# modalidade: rx
+# regiao: quadril
+# tipo_mascara: cronica
+**RADIOGRAFIA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil (Lauenstein).
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+{espaco|Espaço articular preservado/Redução do espaço articular, com alterações degenerativas secundárias}.
+Acetábulo com cobertura habitual da cabeça femoral.
+Esclerose e lucência na porção {local_necrose|anterossuperior/superior} da cabeça femoral, {colapso|sem colapso/com sinal do crescente/com colapso subcondral e perda da esfericidade}, compatíveis com osteonecrose (Ficat-Arlet {ficat|II/III/IV}).
+A ressonância magnética é mais sensível e avalia o quadril contralateral.
+Transição cabeça-colo femoral com concavidade habitual.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

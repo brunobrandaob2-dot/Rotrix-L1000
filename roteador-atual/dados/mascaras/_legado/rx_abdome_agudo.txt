@@ -1,0 +1,20 @@
+# gatilhos: raio x de abdome agudo | rx de abdome agudo | radiografia de abdome agudo | rx abdome em duas incidencias | raio x de abdome simples | rx abdome agudo
+RADIOGRAFIA DE ABDOME AGUDO
+
+TÉCNICA: incidências de abdome em decúbito dorsal e em ortostase, complementadas por radiografia das cúpulas diafragmáticas.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Distribuição gasosa: distribuição gasosa intestinal ___ (habitual / alterada), sem estase gasosa significativa.
+Alças intestinais: alças de delgado de calibre ___ (preservado / aumentado, medindo até {tamanho}), com níveis hidroaéreos ___ (ausentes / esparsos e de mesmo nível / múltiplos e escalonados) na incidência em ortostase.
+Cólon e ampola retal: gás distribuído até a ampola retal, com conteúdo fecal de volume habitual.
+Pneumoperitônio: não se identifica gás livre subdiafragmático nas incidências realizadas.
+Opacidades e calcificações: ausência de imagens calcificadas com projeção sobre as lojas renais, os trajetos ureterais ou a pelve.
+Contornos dos psoas e lojas renais: preservados e simétricos.
+Estruturas ósseas: sem sinais de fratura ou lesão focal evidentes ao método.
+Partes moles: sem alterações significativas.
+
+CONCLUSÃO:
+1. Radiografia de abdome sem alterações significativas: distribuição gasosa intestinal sem sinais de obstrução e ausência de pneumoperitônio nas incidências realizadas.
+2. A radiografia simples tem sensibilidade limitada para pneumoperitônio de pequeno volume, isquemia mesentérica e processos inflamatórios abdominais; se a suspeita clínica persistir, considerar tomografia.

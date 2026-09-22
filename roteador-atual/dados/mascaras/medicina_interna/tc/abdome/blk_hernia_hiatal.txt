@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Transição toracoabdominal
+# gatilhos: hernia hiatal | hernia de hiato | hernia hiatal por deslizamento
+# conclusao: Hérnia hiatal.
+Transição toracoabdominal:  alargamento do hiato esofágico, com herniação da junção esofagogástrica e de parte do fundo gástrico para o mediastino posterior (hérnia hiatal {tipo_hernia|por deslizamento/paraesofágica/mista}).

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: espondilose | espondilose toracica | osteofitos marginais | osteofitos
+Corpos vertebrais com altura preservada e osteófitos marginais, mais evidentes em {nivel}.

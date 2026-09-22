@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: traco de fratura linear | traco de fratura | linha de fratura
+Traço de fratura no osso {osso|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}.

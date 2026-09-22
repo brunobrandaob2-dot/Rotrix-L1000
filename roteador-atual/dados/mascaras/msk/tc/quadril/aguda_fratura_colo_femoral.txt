@@ -1,0 +1,28 @@
+# gatilhos: tomografia de quadril com fratura do colo femoral | tc de quadril com fratura do colo femoral | tc quadril fratura colo | tomografia de quadril com fratura do colo do femur | tc de quadril com fratura do colo do femur
+# categoria: msk
+# modalidade: tc
+# regiao: quadril
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  {alinhamento_colo|relações coxofemorais preservadas/encurtamento e rotação externa do fragmento distal}. Não há luxação.
+Acetábulo:  morfologia e cobertura da cabeça femoral habituais. Colunas e paredes acetabulares íntegras.
+Cabeça femoral:  sem traços de fratura, congruente com o acetábulo.
+Colo femoral:  traço de fratura {local_colo|subcapital/transcervical/basocervical}, {desvio_colo|incompleto ou impactado em valgo/completo sem desvio/completo com desvio parcial/completo com desvio total} dos fragmentos.
+Região trocantérica:  trocânteres maior e menor sem particularidades.
+Espaço articular:  preservado, sem esclerose subcondral, osteófitos ou cistos subcondrais.
+Cavidade articular:  {derrame_colo|sem derrame articular significativo/distensão líquida da cavidade articular, podendo corresponder a hemartrose}.
+Diáfise femoral proximal:  sem particularidades.
+Ossos pélvicos adjacentes:  sem particularidades.
+Densidade óssea:  {densidade|preservada/difusamente reduzida}. Não há lesões líticas ou blásticas focais que sugiram fratura patológica.
+Partes moles:  edema e densificação das partes moles periarticulares.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura {local_colo|subcapital/transcervical/basocervical} do colo femoral, tipo {garden|I/II/III/IV} da classificação de Garden.

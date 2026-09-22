@@ -1,0 +1,71 @@
+# tipo: frases
+## gatilhos: cranio sem sinais de isquemia aguda | cranio sem isquemia aguda
+Não há sinais tomográficos de isquemia aguda estabelecida, ressalvada a sensibilidade limitada do método nas primeiras horas do evento.
+## gatilhos: cranio sem sangramento intracraniano | cranio sem hemorragia intracraniana
+Não há sinais de sangramento intracraniano.
+## gatilhos: cranio linha media centrada e cisternas pervias | cranio sem desvio da linha media
+Estruturas da linha média centradas e cisternas da base pérvias.
+## gatilhos: sinal da arteria hiperdensa no cranio | cranio arteria cerebral media hiperdensa
+Hiperatenuação espontânea do segmento {segmento_arterial|M1/M2} da artéria cerebral média {lado_f|direita/esquerda}, compatível com sinal da artéria hiperdensa, sugerindo trombo intraluminal.
+## gatilhos: escore aspects no cranio | cranio aspects
+Escore ASPECTS: {aspects}/10.
+## gatilhos: perda da definicao do nucleo lentiforme no cranio | cranio nucleo lentiforme apagado
+Hipoatenuação com perda da definição do núcleo lentiforme {lado|direito/esquerdo}, sinal precoce de isquemia.
+## gatilhos: apagamento da fita insular no cranio | cranio sinal da fita insular
+Perda da diferenciação córtico-subcortical da fita insular {lado_f|direita/esquerda}, sinal precoce de isquemia.
+## gatilhos: transformacao hemorragica no cranio | cranio infarto com transformacao hemorragica
+Focos hiperatenuantes de permeio à área isquêmica, compatíveis com transformação hemorrágica.
+## gatilhos: hemoventriculo no cranio | cranio sangue intraventricular
+Conteúdo hiperatenuante declive nos cornos occipitais dos ventrículos laterais, compatível com hemoventrículo.
+## gatilhos: hemorragia subaracnóidea perimesencefalica no cranio | cranio hsa perimesencefalica
+Hemorragia subaracnóidea restrita às cisternas perimesencefálicas e pré-pontina (padrão perimesencefálico). A angiotomografia é recomendada para exclusão de aneurisma.
+## gatilhos: hemorragia subaracnóidea traumatica no cranio | cranio hsa traumatica
+Hiperatenuação em sulcos corticais da convexidade {lobo_cerebral|frontal/parietal/temporal/occipital} {lado_f|direita/esquerda}, compatível com hemorragia subaracnóidea traumática.
+## gatilhos: edema cerebral difuso no cranio | cranio edema difuso
+Apagamento difuso dos sulcos corticais e das cisternas da base, com redução da diferenciação córtico-subcortical, sugerindo edema cerebral difuso.
+## gatilhos: edema vasogenico no cranio | cranio edema perilesional
+Hipoatenuação digitiforme da substância branca adjacente, compatível com edema vasogênico.
+## gatilhos: herniacao subfalcina no cranio | cranio herniacao subfalcina
+Herniação subfalcina do giro do cíngulo, com desvio das estruturas da linha média de {desvio_mm} mm.
+## gatilhos: herniacao uncal no cranio | cranio herniacao transtentorial
+Apagamento da cisterna suprasselar e da cisterna ambiens {lado_f|direita/esquerda}, com compressão do mesencéfalo, sugerindo herniação transtentorial descendente (uncal).
+## gatilhos: pneumoencefalo no cranio | cranio focos de gas intracranianos
+Focos gasosos extra-axiais em {localizacao_gas|___}, compatíveis com pneumoencéfalo, sem efeito expansivo significativo.
+## gatilhos: pneumoencefalo hipertensivo no cranio | cranio sinal do monte fuji
+Coleção gasosa bifrontal com compressão e separação dos polos frontais (sinal do monte Fuji), sugerindo pneumoencéfalo hipertensivo.
+## gatilhos: sinal do redemoinho no cranio | cranio hematoma com sangramento ativo
+Áreas hipoatenuantes de permeio à coleção hiperatenuante (sinal do redemoinho), que podem indicar sangramento ativo.
+## gatilhos: hematoma subdural de densidades mistas no cranio | cranio subdural com ressangramento
+Coleção subdural com componentes de densidades mistas e nível hematócrito, sugerindo hematoma subdural crônico com ressangramento.
+## gatilhos: hematoma subgaleal no cranio | cranio hematoma de couro cabeludo
+Hematoma subgaleal na região {lobo_cerebral|frontal/parietal/temporal/occipital} {lado_f|direita/esquerda}, com espessura de {tamanho}.
+## gatilhos: fratura linear da calota craniana | cranio fratura linear sem afundamento
+Traço de fratura linear no osso {osso|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, sem afundamento.
+## gatilhos: calota craniana sem fratura | cranio sem fraturas
+Calota craniana e base do crânio sem sinais de fratura.
+## gatilhos: calcificacoes fisiologicas no cranio | cranio calcificacao da pineal
+Calcificações de aspecto fisiológico na glândula pineal e nos plexos coroides.
+## gatilhos: ateromatose intracraniana no cranio | cranio calcificacoes carotideas intracranianas
+Calcificações parietais ateromatosas nos segmentos intracranianos das artérias carótidas internas.
+## gatilhos: transudacao ependimaria no cranio | cranio transudacao liquorica
+Hipoatenuação periventricular com aspecto de halo, sugestiva de transudação liquórica transependimária.
+## gatilhos: indice de evans no cranio | cranio indice de evans
+Índice de Evans de {evans} (referência: até 0,30).
+## gatilhos: degeneracao walleriana no cranio | cranio reducao do pedunculo cerebral
+Redução volumétrica do pedúnculo cerebral {lado|direito/esquerdo}, sugerindo degeneração walleriana.
+## gatilhos: atrofia cerebelar no cranio | cranio reducao volumetrica cerebelar
+Alargamento dos sulcos cerebelares, traduzindo redução volumétrica cerebelar.
+## gatilhos: espacos perivasculares no cranio | cranio espacos perivasculares proeminentes
+Espaços perivasculares proeminentes nos núcleos da base, sem significado patológico habitual.
+## gatilhos: sela turcica parcialmente vazia no cranio | cranio sela vazia
+Sela túrcica parcialmente preenchida por líquido cefalorraquidiano (sela parcialmente vazia), achado frequentemente incidental.
+## gatilhos: cranio derivacao ventricular sem dilatacao | derivacao ventricular normoposicionada no cranio
+Cateter de derivação ventricular com extremidade proximal no corno frontal do ventrículo lateral {lado|direito/esquerdo}, sem sinais de dilatação ventricular.
+## gatilhos: artefato de movimento no cranio | cranio artefatos de movimento
+Artefatos de movimento limitam parcialmente a avaliação do estudo.
+## gatilhos: controle evolutivo do cranio | cranio controle tomografico
+Sugere-se controle tomográfico evolutivo, a critério clínico.
+## gatilhos: ressonancia complementar do cranio | cranio complementar com ressonancia
+A ressonância magnética do encéfalo pode complementar a avaliação, a critério clínico.
+## gatilhos: achado critico comunicado no cranio | cranio comunicacao de achado critico
+Achado crítico comunicado ao(à) Dr(a). ___ em ___/___/______, às ___h___.

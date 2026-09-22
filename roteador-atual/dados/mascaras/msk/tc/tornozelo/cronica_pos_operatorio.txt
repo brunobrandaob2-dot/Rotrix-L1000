@@ -1,0 +1,32 @@
+# gatilhos: tomografia de tornozelo com material de sintese | tc de tornozelo com material de sintese | tc tornozelo pos operatorio | tomografia de tornozelo pos operatoria | tomografia de tornozelo com osteossintese
+# categoria: msk
+# modalidade: tc
+# regiao: tornozelo
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares. Artefatos metálicos limitam parcialmente a avaliação das estruturas adjacentes ao material de síntese.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento e encaixe da pinça maleolar:  encaixe {encaixe|preservado/com alargamento do espaço claro medial}.
+Articulação tibiotalar:  {artrose_pos|espaço articular preservado/redução do espaço articular com osteófitos, compatível com artrose pós-traumática}.
+Tíbia distal:  metáfise e plafond tibial sem particularidades.
+Maléolo medial:  sem sinais de fratura recente.
+Maléolo lateral:  sem sinais de fratura recente.
+Sindesmose tibiofibular:  relação tibiofibular distal preservada, sem alargamento da incisura fibular.
+Material de síntese:  {material|placa e parafusos na fíbula distal/parafusos no maléolo medial/placa e parafusos na fíbula distal e parafusos no maléolo medial/fixação sindesmótica com parafuso ou botão de sutura}, em posição habitual, sem sinais de fratura do implante, soltura ou migração.
+Traço de fratura prévia {consolidacao|consolidado/em consolidação/sem sinais de consolidação}, com alinhamento {alinhamento|preservado/com consolidação viciosa}.
+Tálus:  morfologia e densidade normais, com cúpula talar de contornos regulares.
+Calcâneo:  morfologia e densidade normais.
+Articulação subtalar:  congruente, com espaço articular preservado.
+Demais ossos do tarso:  sem particularidades nos segmentos incluídos.
+Tendões:  trajeto habitual dos tendões ao redor do tornozelo, considerando os limites do método.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Material de osteossíntese no tornozelo, sem sinais de falha ou soltura.
+Fratura prévia {consolidacao|consolidada/em consolidação/sem sinais de consolidação}.

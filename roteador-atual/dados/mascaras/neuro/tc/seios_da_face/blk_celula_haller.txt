@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Complexos ostiomeatais
+# gatilhos: celula de haller | celulas de haller | celula etmoidal infraorbitaria
+# conclusao: Célula de Haller {lado_a|à direita/à esquerda}.
+Complexos ostiomeatais:  pérvios. Célula etmoidal infraorbitária (célula de Haller) {lado_a|à direita/à esquerda}, reduzindo a amplitude do infundíbulo etmoidal.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias cerebrais anteriores, médias e posteriores
+# gatilhos: estenose intracraniana | estenose da cerebral media | estenose de m1 | ateromatose intracraniana
+# conclusao: Estenose {grau|leve (< 50%)/moderada (50–69%)/acentuada (70–99%)} do segmento {segmento_arterial|M1/M2/A1/P1/P2} da artéria cerebral {arteria|média/anterior/posterior} {lado_f|direita/esquerda}, estimada em {percentual}% (método WASID).
+Artérias cerebrais anteriores, médias e posteriores:  redução luminal focal no segmento {segmento_arterial|M1/M2/A1/P1/P2} da artéria cerebral {arteria|média/anterior/posterior} {lado_f|direita/esquerda}, com estenose {grau|leve (< 50%)/moderada (50–69%)/acentuada (70–99%)}, estimada em {percentual}% (método WASID), com opacificação preservada a jusante. Demais artérias cerebrais pérvias, com opacificação simétrica.

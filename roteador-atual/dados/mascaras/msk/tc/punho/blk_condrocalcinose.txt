@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: condrocalcinose | calcificacao da fibrocartilagem triangular | calcificacao do complexo fibrocartilaginoso
+# conclusao: Calcificação da fibrocartilagem triangular (condrocalcinose), que pode estar associada a doença por deposição de pirofosfato de cálcio, a correlacionar clinicamente.
+Partes moles:  calcificação linear na topografia da fibrocartilagem triangular (condrocalcinose). Não há coleções, considerando os limites do método para avaliação ligamentar e tendínea.

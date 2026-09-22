@@ -1,0 +1,34 @@
+# gatilhos: tomografia de seios da face com polipose nasossinusal | tc de seios da face com polipose nasossinusal | tc seios da face polipose | tomografia de seios da face com polipose | tc de seios da face com polipose
+# categoria: neuro
+# modalidade: tc
+# regiao: seios_da_face
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DOS SEIOS DA FACE**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado, com reconstruções multiplanares em filtro para osso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Seios maxilares:  velamento {velamento_maxilar|parcial/completo} bilateral, com conteúdo de partes moles de contornos polipoides.
+Seios etmoidais:  velamento das células etmoidais anteriores e posteriores bilateralmente, com afilamento das trabéculas etmoidais.
+Seios frontais:  {frontais|normopneumatizados/velamento parcial/velamento completo}.
+Seios esfenoidais:  {esfenoidais|normopneumatizados/velamento parcial/velamento completo}.
+Complexos ostiomeatais:  obstrução bilateral, com alargamento dos infundíbulos etmoidais.
+Recessos frontais:  {recessos_frontais|pérvios/obstruídos bilateralmente}.
+Recessos esfenoetmoidais:  {recessos_esfenoetmoidais|pérvios/obstruídos bilateralmente}.
+Cavidade nasal:  formações polipoides preenchendo os meatos médios e as fossas nasais bilateralmente, {rinofaringe_polipos|sem/com} extensão à rinofaringe. {hiperatenuacao|Sem/Com} áreas de conteúdo espontaneamente hiperatenuante de permeio.
+Septo nasal:  centrado.
+Conchas nasais:  de morfologia habitual, parcialmente envolvidas pelas formações polipoides.
+Variantes anatômicas:  sem variantes anatômicas de relevância.
+Base anterior do crânio:  teto etmoidal e lâminas cribriformes íntegros. Fossas olfatórias com profundidade classificada como Keros tipo {keros|I/II/III}.
+Estruturas ósseas:  remodelamento das paredes sinusais, sem erosões ósseas.
+Órbitas:  conteúdo orbitário sem alterações evidentes.
+Rinofaringe:  pérvia.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Velamento extenso dos seios paranasais associado a formações polipoides nas fossas nasais, bilateralmente, compatível com polipose nasossinusal.
+Escore de Lund-Mackay: {lund_mackay}/24.

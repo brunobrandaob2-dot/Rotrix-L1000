@@ -1,0 +1,33 @@
+# gatilhos: abdome com trauma | trauma abdominal fechado | tc abdome trauma | politrauma abdominal | trauma contuso do abdome | lesao de orgao solido
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica em protocolo de trauma, antes e após a injeção intravenosa de contraste iodado, com fases arterial, portal e tardia (excretora).
+
+INDICAÇÃO CLÍNICA: trauma abdominal fechado.
+
+ANÁLISE:
+Transição toracoabdominal: ausência / presença de derrame pleural {lado_a|à direita/à esquerda/bilateralmente} e de contusões nas bases pulmonares incluídas no estudo.
+Fígado: laceração no {segmento}, medindo {tamanho} de profundidade e comprometendo aproximadamente ___ % do parênquima do lobo acometido, associada a hematoma subcapsular com extensão de ___ % da superfície. Ausência / presença de extravasamento focal do meio de contraste na fase arterial, com aumento do foco na fase tardia, indicando sangramento ativo. Ausência de lesão vascular hilar. **Lesão hepática grau ___ (AAST-OIS).**
+Vias biliares: sem dilatação. Ausência de coleções biliares caracterizáveis.
+Vesícula biliar: de paredes finas, sem distensão anômala ou conteúdo hiperdenso.
+Pâncreas: de densidade e realce preservados, sem laceração, sem líquido peripancreático ou descontinuidade ductal caracterizáveis. **Lesão pancreática grau ___ (AAST-OIS), quando presente.**
+Baço: laceração no polo ___, medindo {tamanho}, com hematoma subcapsular / intraparenquimatoso ocupando aproximadamente ___ % da superfície ou do parênquima. Ausência / presença de foco de extravasamento contido do meio de contraste (pseudoaneurisma) ou de sangramento ativo com extensão ao peritônio. **Lesão esplênica grau ___ (AAST-OIS).**
+Adrenais: ausência / presença de hematoma adrenal {lado_a|à direita/à esquerda}, medindo {tamanho}.
+Rins: laceração do rim {lado|direito/esquerdo} no terço ___, medindo {tamanho} de profundidade, com hematoma perirrenal contido pela fáscia de Gerota. Ausência / presença de extravasamento de contraste na fase excretora, indicando lesão do sistema coletor. Realce parenquimatoso preservado / com áreas de não realce sugestivas de infarto segmentar. Pedículo renal pérvio. **Lesão renal grau ___ (AAST-OIS).** Rim contralateral sem alterações.
+Bexiga: de paredes íntegras e conteúdo homogêneo, sem extravasamento de contraste na fase excretora.
+Órgãos pélvicos: sem particularidades, considerando os limites do método.
+Trato gastrointestinal: alças de calibre preservado, com paredes de espessura e realce normais. Ausência de pneumoperitônio, de líquido livre interalças desproporcional às lesões de órgão sólido, de descontinuidade parietal ou de densificação mesentérica focal que sugiram lesão de víscera oca.
+Vasos: aorta e veia cava inferior de calibres normais, pérvias, sem irregularidades parietais, dissecção ou extravasamento. Ausência / presença de foco de sangramento ativo arterial em ___, caracterizado por extravasamento do meio de contraste na fase arterial com aumento progressivo nas fases subsequentes.
+Retroperitônio: ausência / presença de hematoma retroperitoneal em ___, medindo {tamanho}.
+Peritônio: hemoperitônio de pequeno / moderado / grande volume, com densidade de ___ UH, distribuído nos recessos ___ e na pelve.
+Estruturas ósseas e partes moles: ausência / presença de fraturas em ___. Hematoma / enfisema subcutâneo na parede abdominal em ___.
+
+CONCLUSÃO:
+1. **Lesão traumática do baço grau ___ (AAST-OIS)**, conforme descrito.
+2. **Lesão traumática do fígado grau ___ (AAST-OIS)**, conforme descrito.
+3. **Lesão traumática do rim {lado|direito/esquerdo} grau ___ (AAST-OIS)**, conforme descrito.
+4. Ausência / **presença de sangramento ativo** em ___, caracterizado por extravasamento do meio de contraste com progressão nas fases tardias.
+5. Hemoperitônio de ___ volume.
+6. Ausência de sinais diretos de lesão de víscera oca no presente estudo; a tomografia apresenta sensibilidade limitada para essas lesões, sendo indispensável a correlação clínica seriada.
+
+Achado comunicado ao(à) Dr(a). ___ em ___/___/____ às ___h___.

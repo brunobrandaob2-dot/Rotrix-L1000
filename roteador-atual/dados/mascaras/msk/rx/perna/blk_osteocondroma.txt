@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: osteocondroma | exostose | exostose ossea
+Exostose {forma|séssil/pediculada} na metáfise {metafise|proximal/distal} da tíbia, medindo {tamanho}, com aspecto de osteocondroma.

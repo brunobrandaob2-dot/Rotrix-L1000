@@ -1,0 +1,30 @@
+# gatilhos: tomografia do abdome superior | tomografia de abdome superior normal | tc do abdome superior | tomografia do abdome superior normal | tc de abdome superior normal | tc do abdome superior normal | tc abdome superior | tc abdome superior normal | tomografia de abdome superior sem alteracoes | tomografia do abdome superior com contraste | tomografia do abdome superior sem contraste | tomografia so do abdome superior | tomografia de abdome superior sem pelve
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome_superior
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Trato gastrointestinal:  segmentos incluídos no estudo sem particularidades no protocolo utilizado.
+Vasos:  aorta e veia cava inferior de calibres normais. Eixo esplenomesentérico-portal pérvio.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções no andar superior do abdome.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

@@ -1,0 +1,26 @@
+# gatilhos: tomografia de torax com nodulo em seguimento | tc de torax com nodulo em seguimento | tomografia de torax controle de nodulo | tc de torax controle de nodulo | tomografia de torax para seguimento de nodulo | tc de torax seguimento de nodulo | tc torax nodulo estavel | tomografia de torax com nodulo estavel
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: torax
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO TÓRAX**
+
+**TÉCNICA:**  exame realizado com técnica multislice e reconstruções multiplanares, {contraste|sem/com/sem e com} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima pulmonar:  nódulo {natureza|sólido/em vidro fosco/parcialmente sólido} no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, de contornos {contornos|regulares/lobulados}, medindo {tamanho} (diâmetro médio), {evolucao|sem alteração significativa em relação ao estudo anterior/com aumento em relação ao estudo anterior, quando média ___}. Não há outros nódulos ou consolidações.
+Traqueia e brônquios:  calibre e trajetos normais.
+Mediastino:  sem alterações evidentes.
+Linfonodos mediastinais e hilares:  dentro dos limites da normalidade.
+Aorta torácica:  trajeto e calibre habituais, com principais ramos preservados.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Cúpulas diafragmáticas:  morfologia e posição habituais.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  comparado com a tomografia de {data_estudo_anterior}.
+
+**CONCLUSÃO:**
+Nódulo pulmonar {natureza|sólido/em vidro fosco/parcialmente sólido} no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, medindo {tamanho}, {evolucao_conclusao|estável em relação ao estudo anterior/com crescimento em relação ao estudo anterior}.
+Como referência, as recomendações da Sociedade Fleischner (2017) para nódulos incidentais em adultos a partir de 35 anos consideram benigna a estabilidade por 2 anos no nódulo sólido e por 5 anos no nódulo subsólido; o intervalo de seguimento fica a critério clínico.

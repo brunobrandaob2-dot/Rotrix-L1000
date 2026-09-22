@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: massa pulmonar | massa no pulmao | lesao expansiva pulmonar
+# conclusao: Massa pulmonar no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho}, de aspecto indeterminado e natureza a esclarecer, recomendando-se investigação dirigida a critério clínico.
+Parênquima pulmonar: formação expansiva sólida de margens espiculadas no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, medindo {tamanho} nos maiores eixos, com realce heterogêneo pelo meio de contraste, área central hipoatenuante sugestiva de necrose e retração pleural adjacente. Contato com {estrutura|a pleura/o mediastino/a parede torácica} em extensão de ___ mm, sem sinais inequívocos de invasão ao método. Ausência de outros nódulos ou consolidações.

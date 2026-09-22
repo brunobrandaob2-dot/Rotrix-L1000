@@ -1,0 +1,35 @@
+# gatilhos: tomografia de abdome com trauma hepatico | tc de abdome com trauma hepatico | tc abdome trauma hepatico | tomografia de abdome total com trauma hepatico | tc de abdome total com trauma hepatico | tomografia do abdome com trauma hepatico | tomografia de abdome com lesao hepatica traumatica | tc de abdome com lesao hepatica traumatica | tc abdome lesao hepatica traumatica | tomografia de abdome com laceracao hepatica | tc de abdome com laceracao hepatica | tc abdome laceracao hepatica
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica em protocolo de trauma, com injeção intravenosa de contraste iodado, nas fases arterial, portal e tardia.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  {derrame|sem derrame pleural ou contusões nas bases pulmonares/derrame pleural ___}.
+Fígado:  laceração no {segmento}, com profundidade de {tamanho}, associada a hematoma {hematoma|subcapsular/intraparenquimatoso} ocupando cerca de {percentual} % {referencia|da superfície/do parênquima}, {sangramento|sem extravasamento do meio de contraste/com extravasamento do meio de contraste indicando sangramento ativo}. Veias hepáticas e veia cava inferior retro-hepática pérvias.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  sem particularidades no protocolo utilizado.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  hemoperitônio de {volume|pequeno/moderado/grande} volume, com densidade de {densidade} UH, predominando no espaço peri-hepático e no espaço hepatorrenal.
+Estruturas ósseas e partes moles:  {fraturas|não há fraturas caracterizáveis/fratura de ___}. Partes moles sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Lesão hepática traumática grau {grau_aast|I/II/III/IV/V} (AAST), no {segmento}.
+Hemoperitônio de {volume|pequeno/moderado/grande} volume.
+A tomografia tem sensibilidade limitada para lesões de víscera oca e mesentério; recomenda-se correlação clínica seriada.

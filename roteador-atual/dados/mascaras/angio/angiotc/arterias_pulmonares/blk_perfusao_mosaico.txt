@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: perfusao em mosaico | atenuacao em mosaico | mosaico
+# conclusao: Padrão de atenuação em mosaico, podendo corresponder a perfusão em mosaico.
+Parênquima pulmonar:  padrão de atenuação em mosaico, com vasos de menor calibre nas áreas hipoatenuantes, podendo corresponder a perfusão em mosaico de origem vascular.

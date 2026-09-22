@@ -1,0 +1,18 @@
+# gatilhos: torax com bronquiectasias | bronquiectasias | torax bronquiectasico
+TOMOGRAFIA COMPUTADORIZADA DO TÓRAX
+
+TÉCNICA: aquisição volumétrica com reconstruções multiplanares.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Parênquima pulmonar: bronquiectasias cilíndricas com espessamento parietal, de predomínio nos {lobo|lobos inferiores/lobos superiores}, algumas com conteúdo mucoide de permeio. Nódulos centrolobulares com padrão de árvore em brotamento adjacentes, traduzindo doença de pequenas vias aéreas. Áreas de atenuação em mosaico por aprisionamento aéreo.
+Traqueia e brônquios: espessamento parietal difuso.
+Mediastino: sem alterações evidentes.
+Linfonodos mediastinais e hilares: dimensões limítrofes, aspecto reacional.
+Derrames: ausentes.
+Estruturas ósseas e partes moles: sem alterações significativas.
+
+CONCLUSÃO:
+1. Bronquiectasias cilíndricas com espessamento parietal e sinais de doença de pequenas vias aéreas.
+2. Achados podem traduzir doença inflamatória crônica das vias aéreas; recomendada correlação clínica e, se pertinente, investigação etiológica.

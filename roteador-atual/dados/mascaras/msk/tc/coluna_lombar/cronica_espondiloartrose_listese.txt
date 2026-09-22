@@ -1,0 +1,29 @@
+# gatilhos: tomografia de coluna lombar com espondiloartrose | tc de coluna lombar com espondiloartrose | tc coluna lombar espondiloartrose | tomografia de coluna lombar com espondilodiscoartrose | tc de coluna lombar com espondilodiscoartrose | tomografia de coluna lombar com espondilose e listese | tc de coluna lombar com espondilose e listese | tomografia de coluna lombar com degenerativa difusa
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_lombar
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  aquisição volumétrica por tomografia computadorizada multidetectores da coluna lombar, sem a administração endovenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  anterolistese degenerativa grau {grau_listese|1/2} de ___ sobre ___.
+Corpos vertebrais:  osteófitos marginais somáticos proeminentes difusos. Altura e densidade óssea dos demais corpos vertebrais preservadas.
+Discos intervertebrais:  redução difusa da altura dos espaços discais associada a abaulamentos discais difusos nos níveis ___.
+Articulações interapofisárias:  artrose interapofisária caracterizada por irregularidade das superfícies articulares, esclerose subcondral e hipertrofia facetária em ___.
+Canal vertebral:  dimensões preservadas nos níveis avaliados.
+Forames neurais:  dimensões preservadas nos níveis avaliados.
+Elementos posteriores:  pedículos, istmos, lâminas e processos espinhosos e transversos íntegros.
+Transição lombossacra:  de configuração habitual.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares.
+Partes moles paravertebrais:  planos paravertebrais com espessura e densidade preservadas.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Espondilose lombar difusa associada a artrose interapofisária em ___.
+Anterolistese degenerativa grau {grau_listese|1/2} de ___ sobre ___.
+Abaulamentos discais difusos em ___, com redução difusa dos espaços intervertebrais.

@@ -1,0 +1,17 @@
+# gatilhos: raio x de seios da face | rx de seios da face | radiografia de seios da face | radiografia dos seios da face | raio x de seios da face normal | rx de seios da face normal | radiografia de seios da face normal | rx seios da face normal | raio x de seios paranasais | rx de seios paranasais
+# categoria: neuro
+# modalidade: rx
+# regiao: seios_da_face
+# tipo_mascara: normal
+**RADIOGRAFIA DOS SEIOS DA FACE**
+
+**TÉCNICA:**  incidências frontonaso (Caldwell), mentonaso (Waters) e perfil.
+
+**ANÁLISE:**
+Seios maxilares normotransparentes.
+Seios frontais normotransparentes.
+Células etmoidais e seio esfenoidal normotransparentes.
+Cavidade nasal sem alterações evidentes.
+Rinofaringe com coluna aérea preservada.
+Arcabouço ósseo sem alterações.
+A radiografia tem baixa acurácia para células etmoidais e complexos ostiomeatais.

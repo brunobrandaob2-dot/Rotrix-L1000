@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Acetábulo
+# gatilhos: morfologia pincer | impacto pincer | sobrecobertura acetabular | retroversao acetabular
+# conclusao: Sobrecobertura acetabular (morfologia do tipo pincer), que pode predispor ao impacto femoroacetabular. Correlacionar com dados clínicos.
+Acetábulo:  sobrecobertura da cabeça femoral (morfologia do tipo pincer). Ângulo centro-borda lateral de {angulo_cb}° (referência: 25° a 39°). Versão acetabular de {versao_acetabular}° no plano axial (referência: 15° a 20° de anteversão).

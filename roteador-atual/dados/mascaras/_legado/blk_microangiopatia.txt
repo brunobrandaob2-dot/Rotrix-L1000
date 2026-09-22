@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima encefálico
+# gatilhos: microangiopatia | alteracoes microangiopaticas | gliose periventricular | leucoaraiose
+# conclusao: Alterações microangiopáticas crônicas da substância branca, compatíveis com a faixa etária.
+Parênquima encefálico: hipoatenuações confluentes na substância branca periventricular e no centro semioval, de distribuição simétrica e sem efeito expansivo, compatíveis com alterações microangiopáticas crônicas.

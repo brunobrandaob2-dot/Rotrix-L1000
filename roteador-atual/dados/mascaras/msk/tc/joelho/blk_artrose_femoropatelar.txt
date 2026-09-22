@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulação femoropatelar
+# gatilhos: artrose femoropatelar | alteracoes degenerativas femoropatelares | artrose patelar
+# conclusao: Artrose femoropatelar.
+Articulação femoropatelar:  redução do espaço articular, com esclerose subcondral e osteófitos nos polos patelares e nas margens da tróclea femoral.

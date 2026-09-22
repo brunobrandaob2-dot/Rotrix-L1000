@@ -1,0 +1,5 @@
+# tipo: adendo
+# gatilhos: dado clinico novo | adendo de correcao | informacao posterior ao laudo
+ADENDO AO LAUDO — Em ___ de ___________ de ______, às ___h___.
+
+Informada, posteriormente à emissão do laudo, história de ___________, não constante da solicitação. À luz desse dado, ___________ não pode ser caracterizada como ___________, e a hipótese de ___________ não se sustenta. Persiste ___________, traduzindo processo ___________ de natureza inespecífica, não caracterizável pelo método. Recomendada correlação clínico-laboratorial e, se necessário, controle evolutivo.

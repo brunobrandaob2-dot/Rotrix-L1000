@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Glenoide e escápula
+# gatilhos: bankart osseo | fratura de bankart | lesao de bankart ossea
+# conclusao: Fratura do rebordo anteroinferior da glenoide (Bankart ósseo), com perda óssea glenoidal estimada em {perda}%.
+Glenoide e escápula:  fratura do rebordo anteroinferior da glenoide (Bankart ósseo), com fragmento medindo {tamanho}, {desvio|sem desvio significativo/desviado medialmente}. Perda óssea glenoidal estimada em {perda}% da largura, pelo método do círculo inferior (best-fit).

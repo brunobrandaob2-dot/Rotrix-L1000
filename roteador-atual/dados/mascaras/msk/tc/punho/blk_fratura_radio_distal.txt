@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rádio distal
+# gatilhos: fratura do radio distal | fratura | fratura do radio | fratura de colles
+# conclusao: Fratura {padrao|extra-articular/intra-articular} do rádio distal, com degrau articular de {tamanho}.
+Rádio distal:  fratura {padrao|extra-articular/intra-articular} do rádio distal, com degrau articular de {tamanho}, inclinação {sentido|volar/dorsal} de ___° e {cominuicao|sem/com} cominuição metafisária.

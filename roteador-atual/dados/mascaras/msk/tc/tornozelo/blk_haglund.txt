@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Calcâneo
+# gatilhos: deformidade de haglund | haglund | proeminencia posterossuperior do calcaneo
+# conclusao: Deformidade de Haglund.
+Calcâneo:  proeminência da tuberosidade posterossuperior (deformidade de Haglund), {entesofito|sem/com} entesófito na inserção do tendão calcâneo.

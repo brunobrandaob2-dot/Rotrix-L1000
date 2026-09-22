@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Fígado
+# gatilhos: nodulo hepatico | nodulo hepatico indeterminado | lesao hepatica indeterminada | lesao hepatica a esclarecer
+# conclusao: Nódulo hepático no {segmento}, medindo {tamanho}, indeterminado ao método; sugere-se complementação com ressonância magnética.
+Fígado:  de dimensões normais e contornos regulares, com nódulo no {segmento}, medindo {tamanho}, de limites {limites|definidos/imprecisos}, {atenuacao|hipoatenuante/isoatenuante/hiperatenuante} em relação ao parênquima, sem características que permitam caracterização definitiva no protocolo utilizado.

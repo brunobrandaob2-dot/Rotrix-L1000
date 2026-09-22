@@ -1,0 +1,33 @@
+# tipo: frases
+## gatilhos: kellgren lawrence do joelho | gonartrose kellgren no joelho
+Artrose femorotibial grau {kl|1/2/3/4} de Kellgren-Lawrence.
+## gatilhos: ressalva de carga no raio x de joelho | kellgren sem carga no joelho
+A graduação do espaço articular é mais fiel em incidências com carga.
+## gatilhos: limite do raio x de joelho | meniscos no raio x de joelho
+A radiografia não avalia meniscos, ligamentos e cartilagem; considerar ressonância magnética se indicado.
+## gatilhos: derrame articular no raio x de joelho
+Distensão do recesso suprapatelar, sugestiva de derrame articular.
+## gatilhos: lipo hemartrose no raio x de joelho
+Nível gordura-líquido no recesso suprapatelar, compatível com lipo-hemartrose.
+## gatilhos: fratura de segond no raio x de joelho
+Fratura de Segond na margem lateral do planalto tibial, associada a lesão do ligamento cruzado anterior.
+## gatilhos: patela bipartida no raio x de joelho
+Patela bipartida, variante anatômica.
+## gatilhos: patela alta no raio x de joelho
+Patela alta, com índice de Insall-Salvati de {insall} (normal 0,8 a 1,2).
+## gatilhos: patela baixa no joelho
+Patela baixa, com índice de Insall-Salvati de {insall} (normal 0,8 a 1,2).
+## gatilhos: condrocalcinose no raio x de joelho
+Calcificações meniscais, compatíveis com condrocalcinose.
+## gatilhos: osgood schlatter no joelho
+Fragmentação da tuberosidade anterior da tíbia, podendo corresponder a doença de Osgood-Schlatter.
+## gatilhos: fabela no raio x de joelho
+Fabela, variante anatômica.
+## gatilhos: osteocondroma no joelho | exostose no joelho
+Exostose na metáfise {osso|femoral distal/tibial proximal/fibular proximal}, com aspecto de osteocondroma.
+## gatilhos: pellegrini stieda no joelho
+Calcificação na inserção femoral do ligamento colateral medial (Pellegrini-Stieda).
+## gatilhos: enostose no raio x de joelho
+Enostose no {local}, medindo {tamanho}.
+## gatilhos: calcificacoes vasculares no raio x de joelho
+Calcificações vasculares na topografia da artéria poplítea.

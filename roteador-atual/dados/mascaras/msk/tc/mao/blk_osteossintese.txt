@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Metacarpos
+# gatilhos: osteossintese | material de sintese | fios de kirschner
+# conclusao: Alterações pós-operatórias de osteossíntese na mão, sem sinais de falha do material evidentes ao método.
+Metacarpos:  material de osteossíntese no {osso|___ metacarpo/___ falange do ___ dedo}, constituído por {material|placa e parafusos/parafusos/fios de Kirschner}, em posição habitual, sem sinais de soltura, quebra ou migração.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Musculatura
+# gatilhos: lipossubstituicao muscular | liposubstituicao muscular | atrofia muscular
+# conclusao: Lipossubstituição muscular no compartimento {compartimento|anterior/lateral/posterior} da perna.
+Musculatura:  redução volumétrica e lipossubstituição da musculatura do compartimento {compartimento|anterior/lateral/posterior}.

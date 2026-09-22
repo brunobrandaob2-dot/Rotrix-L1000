@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cúpulas diafragmáticas
+# gatilhos: hernia hiatal | hernia de hiato | hernia hiatal por deslizamento
+# conclusao: Hérnia hiatal {tipo_hernia|por deslizamento/paraesofágica/mista}.
+Cúpulas diafragmáticas:  morfologia e posição habituais. Alargamento do hiato esofágico, com herniação de porção do estômago para o mediastino posterior, configurando hérnia hiatal {tipo_hernia|por deslizamento/paraesofágica/mista}.

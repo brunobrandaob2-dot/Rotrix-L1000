@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna cervical com fratura do odontoide | tc de coluna cervical com fratura do odontoide | tc coluna cervical odontoide | tomografia de coluna cervical com fratura de c2 | tc de coluna cervical com fratura de c2 | tc de coluna cervical com fratura do dente do axis | tc de coluna cervical com fratura do processo odontoide
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_cervical
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  lordose cervical fisiológica preservada. Ausência de listeses nos segmentos subaxiais.
+Transição craniocervical:  traço de fratura no processo odontoide do áxis (C2), {local_odontoide|restrito ao ápice/na base do processo odontoide/estendendo-se ao corpo de C2}, de margens nítidas, sem esclerose, aspecto agudo, correspondendo ao tipo {anderson|I/II/III} de Anderson e D'Alonzo (I: ápice; II: base do odontoide; III: extensão ao corpo de C2). Desvio {desvio|anterior/posterior} do fragmento de {tamanho}, com angulação de {angulo} graus. Massas laterais de C1 alinhadas com C2.
+Corpos vertebrais:  de altura e morfologia preservadas, sem outros sinais de fratura.
+Discos intervertebrais:  espaços discais de altura preservada, considerando os limites do método.
+Articulações uncovertebrais:  de aspecto habitual.
+Articulações interapofisárias:  congruentes, com espaços articulares preservados.
+Canal vertebral:  de amplitude preservada no nível de C1-C2.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, massas laterais, lâminas e processos espinhosos íntegros.
+Partes moles:  aumento da espessura das partes moles pré-vertebrais no nível de C2, compatível com hematoma.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura do processo odontoide de C2, de aspecto agudo, tipo {anderson|I/II/III} de Anderson e D'Alonzo.
+Recomenda-se ressonância magnética para avaliação ligamentar e medular, a critério clínico.

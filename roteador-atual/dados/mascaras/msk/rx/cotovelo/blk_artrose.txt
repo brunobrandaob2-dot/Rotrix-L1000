@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: artrose | artrose do cotovelo | alteracoes degenerativas do cotovelo
+Artrose do cotovelo, com redução {grau|leve/moderada/acentuada} dos espaços umeroulnar e umerorradial e osteófitos marginais (Kellgren-Lawrence {kl|1/2/3/4}).

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: fratura de arco costal | fratura de costela | fraturas costais | traco de fratura costal
+# conclusao: Fratura de arco costal {lado_a|à direita/à esquerda}, {fase|de aspecto agudo/em fase de consolidação}, sem desalinhamento significativo dos fragmentos.
+Estruturas ósseas e partes moles: traço de fratura no arco costal ___ {lado|direito/esquerdo}, em seu terço {terco|anterior/lateral/posterior}, {desvio|sem desvio significativo dos fragmentos/com desvio de ___ mm dos fragmentos}, sem sinais de consolidação óssea. Ausência de hematoma extrapleural, de pneumotórax ou de contusão pulmonar adjacente. Demais arcos costais, esterno, clavículas e coluna torácica sem traços de fratura.

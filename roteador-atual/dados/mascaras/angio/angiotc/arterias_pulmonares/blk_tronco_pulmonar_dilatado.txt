@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tronco da artéria pulmonar
+# gatilhos: tronco pulmonar dilatado | dilatacao do tronco pulmonar | tronco da pulmonar aumentado
+# conclusao: Dilatação do tronco da artéria pulmonar (___ mm), sinal indireto de hipertensão pulmonar.
+Tronco da artéria pulmonar:  dilatado, medindo ___ mm (aumentado quando > 29 mm), com relação tronco pulmonar/aorta ascendente de ___ (aumentada quando > 1).

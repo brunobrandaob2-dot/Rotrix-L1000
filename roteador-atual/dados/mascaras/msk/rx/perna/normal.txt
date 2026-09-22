@@ -1,0 +1,16 @@
+# gatilhos: raio x de perna | raio x da perna | rx de perna | rx da perna | radiografia de perna | radiografia da perna | raio x de perna normal | rx de perna normal | radiografia de perna normal | rx perna normal | rx de perna direita | rx de perna esquerda | raio x de perna direita | raio x de perna esquerda | radiografia de perna direita | radiografia de perna esquerda
+# categoria: msk
+# modalidade: rx
+# regiao: perna
+# tipo_mascara: normal
+**RADIOGRAFIA DA PERNA {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Alinhamento preservado.
+Tíbia e fíbula com contornos corticais regulares.
+Não há sinais de fraturas ou lesões ósseas focais.
+Articulações do joelho e do tornozelo sem alterações nas porções incluídas.
+Densidade óssea preservada.
+Partes moles sem alterações.

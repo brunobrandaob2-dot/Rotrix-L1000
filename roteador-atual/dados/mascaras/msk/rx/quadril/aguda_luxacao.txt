@@ -1,0 +1,18 @@
+# gatilhos: raio x de quadril com luxacao | rx de quadril com luxacao | rx quadril luxacao | radiografia de quadril com luxacao | raio x de quadril com luxacao de protese
+# categoria: msk
+# modalidade: rx
+# regiao: quadril
+# tipo_mascara: aguda
+**RADIOGRAFIA DO QUADRIL {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil (Lauenstein).
+
+**ANÁLISE:**
+Luxação {direcao|posterossuperior/anterior/central} da cabeça femoral {protese_lux|nativa/protética}.
+Espaço articular preservado.
+Acetábulo com cobertura habitual da cabeça femoral.
+Transição cabeça-colo femoral com concavidade habitual.
+{fratura_parede|Não há sinais de fraturas/Fragmento ósseo junto ao rebordo acetabular posterior, sugestivo de fratura da parede posterior}.
+Considerar tomografia após a redução, para pesquisa de fraturas e fragmentos intra-articulares.
+Densidade óssea preservada.
+Partes moles sem alterações.

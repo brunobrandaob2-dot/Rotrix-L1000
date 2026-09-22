@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: espondilolistese | anterolistese | retrolistese | listese meyerding | grau de meyerding
+# conclusao: Espondilolistese em {nivel_vertebral}, grau ___ de Meyerding.
+Alinhamento: anterolistese / retrolistese de {nivel_vertebral} sobre o nível subjacente, de ___ mm, correspondendo ao grau ___ de Meyerding (I: até 25%; II: 26 a 50%; III: 51 a 75%; IV: 76 a 100%; V: espondiloptose), associada a espondilólise ístmica bilateral / a artrose interapofisária avançada, com retificação da lordose fisiológica.

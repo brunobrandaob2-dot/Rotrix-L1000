@@ -1,0 +1,16 @@
+# gatilhos: raio x de perna com consolidacao viciosa | rx de perna com consolidacao viciosa | radiografia de perna com consolidacao viciosa | rx perna consolidacao viciosa
+# categoria: msk
+# modalidade: rx
+# regiao: perna
+# tipo_mascara: cronica
+**RADIOGRAFIA DA PERNA {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Fratura prévia consolidada no terço {terco|proximal/médio/distal} da diáfise tibial, com consolidação viciosa e desvio angular de {angulo_desvio}° {plano_desvio|em varo/em valgo/em antecurvato/em recurvato}.
+Fíbula {fibula|sem alterações/com fratura prévia consolidada}.
+Articulações do joelho e do tornozelo sem alterações nas porções incluídas.
+Densidade óssea preservada.
+Partes moles sem alterações.
+Considerar escanometria dos membros inferiores para avaliar eixo e comprimento.

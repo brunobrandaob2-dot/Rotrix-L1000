@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Arco aórtico e origens dos troncos supra-aórticos
+# gatilhos: ateromatose do arco aortico | placas no arco aortico | ateromatose dos troncos supra aorticos | ateromas | ateromas calcificados | ateromas calcificados esparsos | placas ateromatosas calcificadas | placas calcificadas
+# conclusao: Ateromatose do arco aórtico, sem estenoses significativas nas origens dos troncos supra-aórticos.
+Arco aórtico e origens dos troncos supra-aórticos:  arco aórtico de configuração habitual, com placas ateromatosas {placa|calcificadas/não calcificadas/mistas} parietais, sem estenoses significativas nas origens dos troncos supra-aórticos.

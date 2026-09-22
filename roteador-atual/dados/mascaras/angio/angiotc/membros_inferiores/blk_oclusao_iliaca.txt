@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias ilíacas comuns
+# gatilhos: oclusao da iliaca comum | oclusao iliaca
+# conclusao: Oclusão da artéria ilíaca comum {lado_f|direita/esquerda}, com reabitação distal por colaterais.
+Artérias ilíacas comuns:  oclusão da artéria ilíaca comum {lado_f|direita/esquerda}, com extensão de ___ cm, com reabitação {reabitacao_iliaca|da artéria ilíaca externa/da artéria femoral comum} por circulação colateral. Artéria ilíaca comum contralateral {contralateral|pérvia, sem estenoses significativas/com ___}.

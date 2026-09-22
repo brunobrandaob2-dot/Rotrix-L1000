@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Espaços extra-axiais
+# gatilhos: pequeno hematoma subdural cronico | pequena colecao subdural cronica | colecao subdural cronica laminar
+# conclusao: Hematoma subdural crônico laminar na convexidade cerebral {lado_f|direita/esquerda}, sem efeito expansivo significativo.
+Espaços extra-axiais:  coleção extra-axial laminar em crescente ao longo da convexidade cerebral {lado_f|direita/esquerda}, hipoatenuante em relação ao parênquima, com espessura máxima de {tamanho}, sem efeito expansivo significativo, compatível com hematoma subdural crônico.

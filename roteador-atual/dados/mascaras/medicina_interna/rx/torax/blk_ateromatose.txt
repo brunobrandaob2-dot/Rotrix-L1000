@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Mediastino
+# gatilhos: ateromatose aortica | ateromatose | aorta alongada | botao aortico calcificado
+Mediastino centrado, com aorta alongada e calcificações parietais no botão aórtico.

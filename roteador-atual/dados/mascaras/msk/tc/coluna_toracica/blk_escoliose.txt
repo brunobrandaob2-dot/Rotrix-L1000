@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: escoliose | escoliose toracica | desvio lateral
+# conclusao: Escoliose torácica de convexidade {convexidade|à direita/à esquerda}, com ângulo de Cobb estimado em {cobb} graus.
+Alinhamento:  escoliose torácica de convexidade {convexidade|à direita/à esquerda}, com ápice em {nivel} e ângulo de Cobb estimado em {cobb} graus. Ausência de listeses.

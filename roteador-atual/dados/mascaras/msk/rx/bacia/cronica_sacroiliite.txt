@@ -1,0 +1,18 @@
+# gatilhos: raio x de bacia com sacroiliite | rx de bacia com sacroiliite | rx bacia sacroiliite | radiografia de bacia com sacroiliite | raio x de bacia com alteracoes sacroiliacas
+# categoria: msk
+# modalidade: rx
+# regiao: bacia
+# tipo_mascara: cronica
+**RADIOGRAFIA DA BACIA**
+
+**TÉCNICA:**  incidência anteroposterior da bacia.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Irregularidade das superfícies articulares sacroilíacas {lado_a|à direita/à esquerda}, com esclerose subcondral e {espaco_si|pseudoalargamento/redução} do espaço articular, podendo corresponder a sacroiliíte (grau {ny|1/2/3/4} de Nova York modificado).
+A ressonância magnética é mais sensível para alterações iniciais e atividade inflamatória.
+Sínfise púbica sem alterações.
+Espaços articulares coxofemorais preservados.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

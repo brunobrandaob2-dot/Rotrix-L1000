@@ -1,0 +1,18 @@
+# gatilhos: raio x de torax com pneumotorax | rx de torax com pneumotorax | radiografia de torax com pneumotorax | rx torax pneumotorax | raio x do torax com pneumotorax
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: torax
+# tipo_mascara: aguda
+**RADIOGRAFIA DO TÓRAX**
+
+**TÉCNICA:**  incidências posteroanterior e perfil, em ortostase.
+
+**ANÁLISE:**
+Campos pulmonares sem opacidades focais.
+Pneumotórax {lado|direito/esquerdo}, com afastamento pleural de {tamanho} {nivel_medida|no ápice/no nível do hilo} (volumoso se ≥ 2 cm no nível do hilo).
+Seios costofrênicos livres.
+Área cardíaca dentro dos limites da normalidade.
+Mediastino centrado, sem desvio contralateral.
+Hilos pulmonares de aspecto habitual.
+Cúpulas diafragmáticas de contornos regulares e posição habitual.
+Arcabouço ósseo sem alterações.

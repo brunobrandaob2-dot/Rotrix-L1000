@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cisternas da base e sulcos corticais
+# gatilhos: atrofia cortical difusa | atrofia corticossubcortical | alargamento dos sulcos corticais | sulcos corticais alargados
+# conclusao: Redução volumétrica córtico-subcortical difusa, com dilatação ventricular ex-vacuo.
+Cisternas da base e sulcos corticais: alargamento dos sulcos corticais, das fissuras silvianas e das cisternas, de distribuição difusa e predomínio ___, com dilatação ventricular proporcional à perda volumétrica, traduzindo redução volumétrica córtico-subcortical sem sinais de hidrocefalia.

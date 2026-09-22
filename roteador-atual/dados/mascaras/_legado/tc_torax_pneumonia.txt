@@ -1,0 +1,18 @@
+# gatilhos: torax com pneumonia | processo infeccioso pulmonar | consolidacao infecciosa | torax pneumonia
+TOMOGRAFIA COMPUTADORIZADA DO TÓRAX
+
+TÉCNICA: aquisição volumétrica com reconstruções multiplanares.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Parênquima pulmonar: área de consolidação com broncogramas aéreos de permeio no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo}, associada a opacidades em vidro fosco no parênquima circunjacente e a nódulos centrolobulares com padrão de árvore em brotamento. Ausência de cavitação ou de nódulos suspeitos a distância.
+Traqueia e brônquios: calibre e trajetos normais.
+Mediastino: sem alterações evidentes.
+Linfonodos mediastinais e hilares: linfonodos de dimensões limítrofes, de aspecto reacional.
+Derrames: ausência / presença de derrame pleural {lado|direito/esquerdo} de pequeno volume.
+Estruturas ósseas e partes moles: sem alterações significativas.
+
+CONCLUSÃO:
+1. Consolidação no {lobo|lobo superior/médio/inferior} {lado|direito/esquerdo} com sinais de disseminação broncogênica, compatível com processo infeccioso. Recomendada correlação clínico-laboratorial.
+2. Linfonodos mediastinais de aspecto reacional.

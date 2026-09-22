@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: hernia inguinal | hernia inguinoescrotal | hernia na regiao inguinal | hernia femoral
+# conclusao: Hérnia inguinal {lado_a|à direita/à esquerda}, com colo de {tamanho}, sem sinais de encarceramento ou de sofrimento do conteúdo herniado.
+Estruturas ósseas e partes moles: hérnia inguinal {lado_a|à direita/à esquerda}, com trajeto ___ em relação aos vasos epigástricos inferiores, colo medindo {tamanho}, contendo gordura pré-peritoneal e alça ___, cujas paredes apresentam espessura e realce preservados, sem líquido no saco herniário. Ausência de dilatação de alças a montante ou de sinais de encarceramento. Região inguinal contralateral sem hérnias.

@@ -1,0 +1,29 @@
+# tipo: frases
+## gatilhos: rx coluna cervical sem alteracoes | radiografia de coluna cervical sem fraturas
+Coluna cervical com alinhamento e altura dos corpos vertebrais preservados, sem sinais de fraturas.
+## gatilhos: rx cervical retificacao da lordose | lordose cervical retificada no rx
+Retificação da lordose cervical.
+## gatilhos: rx cervical ressalva fratura | radiografia cervical limitada para fratura
+A radiografia tem sensibilidade limitada para fraturas cervicais; se houver suspeita clínica, recomenda-se tomografia computadorizada.
+## gatilhos: rx cervical ressalva disco | radiografia cervical nao avalia disco
+A radiografia não avalia discos, medula nem raízes; se houver indicação clínica, considerar ressonância magnética.
+## gatilhos: rx cervical c7 nao visualizada | transicao cervicotoracica nao visualizada
+Transição cervicotorácica (C7-T1) não visualizada no perfil, por sobreposição dos ombros.
+## gatilhos: rx cervical transoral normal | transoral sem alteracoes
+Processo odontoide íntegro e centrado na incidência transoral.
+## gatilhos: rx cervical intervalo atlantodental aumentado | atlantodental aumentado no rx
+Intervalo atlantodental de {adi} mm (normal até 3 mm), sugerindo instabilidade atlantoaxial.
+## gatilhos: rx cervical instabilidade nas dinamicas | instabilidade cervical nas dinamicas
+Translação de {translacao} mm em {nivel} entre flexão e extensão, sugerindo instabilidade segmentar.
+## gatilhos: rx cervical sem instabilidade nas dinamicas | dinamicas cervicais sem instabilidade
+Sem sinais de instabilidade nas incidências em flexão e extensão.
+## gatilhos: rx cervical costela cervical | costela cervical no rx
+Costela cervical {lado_f|direita/esquerda}.
+## gatilhos: rx cervical fusao congenita | bloco vertebral cervical no rx
+Bloco vertebral congênito em {nivel}.
+## gatilhos: rx cervical fratura do processo espinhoso | fratura de clay shoveler
+Fratura do processo espinhoso de {nivel} (fratura do cavador de argila).
+## gatilhos: rx cervical partes moles pre vertebrais normais | partes moles pre vertebrais cervicais normais
+Partes moles pré-vertebrais com espessura normal.
+## gatilhos: rx cervical calcificacao do ligamento nucal | ossiculo nucal no rx
+Calcificação no ligamento nucal, sem significado patológico.

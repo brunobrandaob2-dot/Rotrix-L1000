@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: hemangioma vertebral | hemangioma
+Corpos vertebrais com altura preservada e trabeculado vertical grosseiro em {nivel}, sugestivo de hemangioma.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Mediastino
+# gatilhos: cardiomegalia | aumento cardiaco | aumento das dimensoes cardiacas | coracao aumentado
+# conclusao: Aumento das dimensões cardíacas.
+Mediastino:  aumento das dimensões cardíacas. Demais estruturas mediastinais sem alterações evidentes.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Úmero proximal
+# gatilhos: osteossintese | material de sintese | placa bloqueada | haste intramedular
+# conclusao: Alterações pós-operatórias de osteossíntese do úmero proximal, sem sinais de falha do material evidentes ao método.
+Úmero proximal:  material de osteossíntese no úmero proximal, constituído por {material|placa bloqueada e parafusos/haste intramedular/parafusos/fios de Kirschner}, em posição habitual, sem sinais de soltura, quebra ou migração, e sem penetração da superfície articular pelos parafusos. Foco de fratura {consolidacao|consolidado/em consolidação/sem sinais de consolidação}.

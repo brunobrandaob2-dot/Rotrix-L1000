@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Mediastino
+# gatilhos: cardiomegalia | aumento da area cardiaca | coracao aumentado
+# conclusao: Aumento da área cardíaca, com predomínio de câmaras esquerdas.
+Mediastino: aumento da área cardíaca, com predomínio de câmaras esquerdas. Demais estruturas mediastinais sem alterações evidentes.

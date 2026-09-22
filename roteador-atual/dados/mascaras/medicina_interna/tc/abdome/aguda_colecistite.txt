@@ -1,0 +1,33 @@
+# gatilhos: tomografia de abdome com colecistite | tc de abdome com colecistite | tc abdome colecistite | tomografia de abdome total com colecistite | tc de abdome total com colecistite | tomografia do abdome com colecistite | tomografia de abdome com colecistite aguda | tc de abdome com colecistite aguda | tc abdome colecistite aguda | tomografia de abdome com colecistite aguda litiasica | tc de abdome com colecistite aguda litiasica | tc abdome colecistite aguda litiasica
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  vesícula biliar distendida, com espessamento parietal difuso, densificação da gordura pericolecística e cálculo no infundíbulo, medindo {tamanho}. Não há gás intramural, descontinuidade parietal ou coleções pericolecísticas.
+Vias biliares:  sem dilatação. Não há cálculos caracterizáveis no colédoco, considerando a sensibilidade limitada do método para cálculos não calcificados.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  sem particularidades no protocolo utilizado.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Achados compatíveis com colecistite aguda litiásica, sem sinais de complicação.

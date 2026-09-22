@@ -1,0 +1,34 @@
+# gatilhos: angio de aorta com hematoma intramural | angiotomografia de aorta com hematoma intramural | angio tc de aorta com hematoma intramural | angio de aorta com hematoma intramural tipo a | angio de aorta com hematoma intramural tipo b
+# categoria: angio
+# modalidade: angiotc
+# regiao: aorta
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA {segmento_aortico|TORÁCICA E ABDOMINAL/TORÁCICA/ABDOMINAL}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, em fase arterial, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação da aorta e de seus ramos. Diâmetros aferidos de parede externa a parede externa, em plano perpendicular ao eixo longitudinal do vaso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na luz aórtica na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise.
+Fase sem contraste:  espessamento parietal aórtico em crescente, hiperatenuante, na {localizacao_him|aorta ascendente/aorta ascendente e arco/aorta torácica descendente}, com espessura máxima de {tamanho} (critério ≥ 5 mm), sem deslocamento de calcificações intimais para a luz.
+Raiz aórtica e aorta ascendente:  calibre preservado, contornos regulares e opacificação homogênea.
+Arco aórtico e ramos supra-aórticos:  conformação habitual, com origem e trajeto preservados do tronco braquiocefálico, da artéria carótida comum esquerda e da artéria subclávia esquerda, pérvios.
+Aorta torácica descendente:  trajeto e calibre habituais, com opacificação homogênea.
+Aorta abdominal:  trajeto e calibre habituais, com opacificação homogênea.
+Paredes aórticas:  espessamento parietal sem realce, sem flap intimal ou luz falsa opacificada. {projecao_ulceriforme|Sem projeções ulceriformes/Com projeção ulceriforme medindo ___ mm}.
+Achados de alto risco:  espessura do hematoma ≥ 10 mm, diâmetro aórtico ≥ 50 mm ou projeção ulceriforme: {alto_risco|ausentes/presentes: ___}.
+Ramos viscerais:  tronco celíaco, artéria mesentérica superior, artérias renais e artéria mesentérica inferior com origem habitual e pérvios, sem estenoses significativas.
+Artérias ilíacas:  artérias ilíacas comuns, internas e externas pérvias, com calibre e trajeto anatômicos.
+Diâmetros aórticos:  seios de Valsalva ___ mm; aorta ascendente ___ mm; arco ___ mm; descendente proximal ___ mm; descendente no hiato diafragmático ___ mm; aorta abdominal suprarrenal ___ mm; infrarrenal ___ mm.
+Mediastino e retroperitônio:  {hemomediastino|sem hemomediastino ou hematoma periaórtico/com hemomediastino}.
+Derrames:  derrame pericárdico {pericardio|ausente/de pequeno volume/de moderado a grande volume}. Derrame pleural {derrame_pleural|ausente/à direita/à esquerda/bilateral}.
+Demais estruturas:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Hematoma intramural aórtico na {localizacao_him|aorta ascendente/aorta ascendente e arco/aorta torácica descendente}, Stanford {stanford_him|A/B}, com espessura máxima de {tamanho}, configurando síndrome aórtica aguda.
+Achados de alto risco {alto_risco|ausentes/presentes: ___}.
+Resultado comunicado à equipe assistente em ___h___, ao(à) Dr(a). ___.

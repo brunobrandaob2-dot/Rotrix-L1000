@@ -1,0 +1,17 @@
+# gatilhos: raio x de torax com derrame pleural | rx de torax com derrame pleural | radiografia de torax com derrame pleural | rx de torax com derrame | raio x de torax com derrame | rx torax derrame pleural
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: torax
+# tipo_mascara: aguda
+**RADIOGRAFIA DO TÓRAX**
+
+**TÉCNICA:**  incidências posteroanterior e perfil, em ortostase.
+
+**ANÁLISE:**
+Campos pulmonares sem opacidades focais nas áreas avaliáveis.
+Velamento do seio costofrênico {lado|direito/esquerdo}, com limite superior côncavo, compatível com derrame pleural de {volume|pequeno/moderado/grande} volume.
+Área cardíaca dentro dos limites da normalidade.
+Mediastino centrado, de contornos regulares.
+Hilos pulmonares de aspecto habitual.
+Cúpula diafragmática {lado_f|direita/esquerda} apagada pelo derrame.
+Arcabouço ósseo sem alterações.

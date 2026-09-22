@@ -1,0 +1,30 @@
+# gatilhos: tomografia de tornozelo com fratura do calcaneo | tc de tornozelo com fratura do calcaneo | tomografia de calcaneo com fratura | tc de calcaneo com fratura | tc calcaneo fratura
+# categoria: msk
+# modalidade: tc
+# regiao: tornozelo
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento e encaixe da pinça maleolar:  preservados, com espaço claro medial de amplitude habitual.
+Articulação tibiotalar:  superfícies articulares regulares, sem redução do espaço articular, osteófitos ou derrame articular significativo.
+Tíbia distal:  metáfise e plafond tibial sem particularidades.
+Maléolo medial:  íntegro, de contornos regulares.
+Maléolo lateral:  íntegro, de contornos regulares.
+Sindesmose tibiofibular:  relação tibiofibular distal preservada, sem alargamento da incisura fibular.
+Tálus:  morfologia e densidade normais, com cúpula talar de contornos regulares.
+Calcâneo:  fratura {tipo|intra-articular/extra-articular}, com acometimento da faceta posterior e {n_fragmentos} fragmento(s) articular(es) (Sanders {sanders|I/II/III/IV}), degrau articular de {tamanho} e {alargamento|sem/com} alargamento e perda de altura do corpo.
+Ângulo de Böhler medindo {angulo_bohler}° (referência 20–40°) e ângulo crítico de Gissane medindo {angulo_gissane}° (referência 120–145°).
+Articulação subtalar:  incongruência da faceta posterior relacionada à fratura.
+Demais ossos do tarso:  {calcaneocuboide|sem particularidades/com extensão do traço à articulação calcaneocuboide}.
+Tendões:  {fibulares|tendões fibulares em topografia habitual/tendões fibulares deslocados lateralmente em relação ao maléolo lateral, podendo corresponder a luxação}, considerando os limites do método.
+Partes moles:  aumento de volume e edema das partes moles do retropé.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura {tipo|intra-articular/extra-articular} do calcâneo, Sanders {sanders|I/II/III/IV}, com ângulo de Böhler de {angulo_bohler}°.

@@ -1,0 +1,29 @@
+# gatilhos: tomografia de coluna toracica com espondilose | tc de coluna toracica com espondilose | tc coluna toracica espondilose | tomografia de coluna toracica degenerativa | tc de coluna toracica degenerativa | tc de coluna toracica com alteracoes degenerativas | tc de coluna dorsal com espondilose | tc de coluna toracica com discopatia
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_toracica
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  acentuação da cifose torácica fisiológica. Ausência de listeses.
+Corpos vertebrais:  de altura preservada, com osteófitos marginais anteriores e laterais, mais evidentes em {nivel}, sem sinais de fratura ou de lesão focal.
+Discos intervertebrais:  redução da altura dos espaços discais em {nivel}, com fenômeno de vácuo discal.
+Articulações interapofisárias:  artrose interapofisária em {nivel}, com redução dos espaços articulares e esclerose subcondral.
+Articulações costovertebrais:  alterações degenerativas das articulações costovertebrais e costotransversárias em {nivel}.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, lâminas e processos espinhosos e transversos íntegros.
+Partes moles paravertebrais:  sem particularidades.
+Demais estruturas:  segmentos pulmonares incluídos no campo de visão sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Espondilose torácica, mais evidente em {nivel}.
+Discopatia degenerativa em {nivel}.
+Artrose interapofisária e costovertebral.

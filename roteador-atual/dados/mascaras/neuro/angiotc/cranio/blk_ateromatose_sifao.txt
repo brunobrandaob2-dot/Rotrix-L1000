@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias carótidas internas
+# gatilhos: ateromatose do sifao carotideo | calcificacoes nos sifoes carotideos | ateromatose dos sifoes | placas nos sifoes | ateromas | ateromas calcificados | ateromas calcificados esparsos | placas ateromatosas calcificadas | placas calcificadas
+# conclusao: Ateromatose calcificada dos sifões carotídeos, {estenose_sifao|sem estenose significativa/com estenose estimada em ___%}.
+Artérias carótidas internas:  segmentos petrosos pérvios, com calibre preservado. Placas ateromatosas calcificadas nos segmentos cavernosos e supraclinóideos (sifões carotídeos), {lado_a|à direita/à esquerda/bilateralmente}, {estenose_sifao|sem estenose significativa/com estenose estimada em ___%}. Sem ectasias ou aneurismas.

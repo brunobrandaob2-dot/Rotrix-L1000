@@ -1,0 +1,20 @@
+# gatilhos: cranio com hematoma subdural cronico | subdural cronico | colecao subdural
+TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO
+
+TÉCNICA: aquisição helicoidal, sem injeção de contraste.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Coleção extra-axial em crescente na convexidade {lado_f|direita/esquerda}, de densidade predominantemente hipoatenuante, com espessura máxima de {tamanho}, apresentando componentes de maior densidade de permeio, compatível com hematoma subdural crônico com sinais de ressangramento.
+Efeito de massa: apagamento dos sulcos corticais subjacentes e desvio das estruturas da linha média de ___ mm para {lado|a direita/a esquerda}.
+Sistema ventricular com compressão do ventrículo lateral ipsilateral.
+Cisternas da base pérvias.
+Parênquima encefálico sem áreas de isquemia aguda ou hemorragia intraparenquimatosa.
+Calota craniana sem sinais de fratura.
+
+CONCLUSÃO:
+1. **Hematoma subdural crônico na convexidade {lado_f|direita/esquerda}**, com espessura máxima de {tamanho} e componentes de ressangramento.
+2. Desvio das estruturas da linha média de ___ mm.
+
+Achado crítico comunicado ao(à) Dr(a). ___ em ___/___/____ às ___h___.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura do maleolo lateral | fratura da fibula distal | fratura do maleolo fibular
+Fratura {traco|oblíqua/espiral/transversa} do maléolo lateral, {nivel|abaixo/ao nível/acima} da sindesmose (Weber {weber|A/B/C}), com desvio de {tamanho}.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: fratura antiga | acunhamento | acunhamento antigo | fratura consolidada
+# conclusao: Fratura antiga do corpo vertebral de {nivel}, com perda de altura estimada em {percentual}%, sem sinais de agudização.
+Corpos vertebrais:  acunhamento anterior do corpo vertebral de {nivel}, com perda de altura estimada em {percentual}%, com margens escleróticas e remodeladas, sem traço de fratura agudo ou aumento das partes moles pré-vertebrais, aspecto de fratura antiga.

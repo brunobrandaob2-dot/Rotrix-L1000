@@ -1,0 +1,3 @@
+# tipo: achado
+# gatilhos: cisto hepatico | imagem cistica no figado | lesao cistica hepatica
+Formação nodular hipodensa, de limites definidos e sem realce significativo pelo meio de contraste, no {segmento} do fígado, medindo {tamanho}, de aspecto inespecífico, podendo corresponder a cisto hepático pela prevalência.

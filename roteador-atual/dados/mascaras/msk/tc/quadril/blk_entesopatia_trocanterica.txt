@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Região trocantérica
+# gatilhos: entesopatia | entesopatia trocanterica | calcificacao peritrocanterica | entesofitos
+# conclusao: Entesopatia glútea no trocânter maior.
+Região trocantérica:  entesófitos e irregularidade cortical no trocânter maior, junto às inserções dos tendões glúteos médio e mínimo, compatíveis com entesopatia. {calc_troc|Não há calcificações peritrocantéricas/Calcificação amorfa peritrocantérica medindo ___, podendo corresponder a tendinopatia calcária}.

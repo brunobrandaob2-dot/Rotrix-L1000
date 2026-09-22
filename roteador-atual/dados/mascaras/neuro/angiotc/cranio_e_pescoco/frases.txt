@@ -1,0 +1,35 @@
+# tipo: frases
+## gatilhos: angio de cranio e pescoco sem oclusao de grande vaso | sem oclusao de grande vaso | ausencia de oclusao de grande vaso
+Não há evidência de oclusão arterial de grande vaso nos territórios carotídeo e vertebrobasilar.
+## gatilhos: lesao em tandem carotida | oclusao em tandem | tandem carotideo
+Estenose acentuada/oclusão da origem da artéria carótida interna {lado_f|direita/esquerda} associada a oclusão intracraniana ipsilateral no segmento {segmento_ocluido|M1/M2/T carotídeo}, configurando lesão em tandem.
+## gatilhos: colaterais da cerebral media escala de tan | circulacao colateral da cerebral media | colaterais leptomeningeas
+Opacificação retrógrada de ramos leptomeníngeos no território da artéria cerebral média {lado_f|direita/esquerda}, graduada como {tan|0 (ausente)/1 (≤ 50%)/2 (> 50% e < 100%)/3 (100%)} na escala de Tan.
+## gatilhos: ateromatose carotidea bilateral sem estenose | carotidas com placas sem estenose
+Ateromatose carotídea bilateral, sem estenoses significativas (< 50% pelo critério NASCET).
+## gatilhos: suboclusao da carotida interna | sinal do fio na carotida | near occlusion da carotida
+Estenose suboclusiva da artéria carótida interna {lado_f|direita/esquerda}, com colapso do lúmen distal (sinal do fio), correspondendo a quase-oclusão (near-occlusion); nesta situação o percentual NASCET não se aplica.
+## gatilhos: oclusao cronica da carotida interna | carotida interna ocluida com reconstituicao
+Oclusão da artéria carótida interna {lado_f|direita/esquerda} desde a origem, com reconstituição do segmento {segmento|cavernoso/supraclinóideo} por colaterais; a cronologia não é determinável pelo método.
+## gatilhos: vertebral terminando na pica | arteria vertebral terminando na cerebelar posteroinferior
+Artéria vertebral {lado_f|direita/esquerda} de pequeno calibre, terminando na artéria cerebelar posteroinferior, variante anatômica.
+## gatilhos: ateromatose difusa cervical e intracraniana | ateromatose difusa carotidas e vertebrais
+Ateromatose difusa dos vasos cervicais e intracranianos, sem estenoses significativas.
+## gatilhos: sugerir doppler de carotidas e vertebrais | correlacao com doppler das carotidas
+Sugere-se correlação com ultrassonografia com Doppler das artérias carótidas e vertebrais.
+## gatilhos: resultado critico angio de cranio e pescoco | achado critico comunicado avc
+Resultado crítico comunicado a ___ em ___, às ___.
+## gatilhos: parenquima encefalico angio de cranio e pescoco | parenquima avaliar com tc sem contraste
+A avaliação do parênquima encefálico deve ser feita em conjunto com a tomografia sem contraste e, se disponível, com o estudo de perfusão.
+## gatilhos: oclusao da carotida comum | carotida comum ocluida
+Ausência de opacificação da artéria carótida comum {lado_f|direita/esquerda} a partir de {origem_ocl|sua origem/___}, com reconstituição {reconstituicao|da bifurcação por colaterais da carótida externa/não caracterizada}.
+## gatilhos: roubo da subclavia | estenose da subclavia proximal a vertebral
+Estenose acentuada/oclusão do segmento proximal da artéria subclávia {lado_f|direita/esquerda}, proximal à origem da artéria vertebral, achado que pode se associar a fenômeno de roubo da subclávia — correlacionar com Doppler.
+## gatilhos: seios venosos nao avaliados na angio de cranio e pescoco | angio de cranio e pescoco nao avalia trombose venosa
+Estudo adquirido em fase arterial, não adequado para a avaliação dos seios venosos durais e das veias cerebrais; na suspeita de trombose venosa cerebral, recomenda-se angiotomografia venosa (venografia por TC) ou ressonância magnética com venografia.
+## gatilhos: angio de cranio e pescoco com artefatos | artefatos na angio de cranio e pescoco
+Estudo parcialmente limitado por artefatos de {artefato|movimento/endurecimento de feixe/opacificação venosa precoce}, reduzindo a sensibilidade para lesões de pequenas dimensões.
+## gatilhos: disseccao sugerir ressonancia com supressao de gordura | complementar disseccao com ressonancia
+Para a caracterização do hematoma intramural, sugere-se complementação com ressonância magnética com sequência T1 com supressão de gordura.
+## gatilhos: aneurisma encaminhar para avaliacao especializada | aneurisma sugerir neurocirurgia
+Sugere-se avaliação pela neurocirurgia/neurorradiologia intervencionista e, a critério, angiografia digital para planejamento terapêutico.

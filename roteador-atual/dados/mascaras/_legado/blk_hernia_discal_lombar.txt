@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: hernia discal lombar | hernia de disco lombar | protrusao discal lombar | extrusao discal lombar
+# conclusao: Hérnia discal em {nivel_vertebral}, de localização póstero-lateral {lado_a|à direita/à esquerda}, com contato radicular; recomenda-se ressonância magnética para avaliação discorradicular.
+Discos intervertebrais: hérnia discal em {nivel_vertebral}, de localização póstero-lateral {lado_a|à direita/à esquerda}, medindo {tamanho} em seu maior componente, com redução da amplitude do recesso lateral homolateral e contato com a raiz emergente de ___; nos demais níveis, redução da altura discal em ___ e abaulamentos difusos, sem hérnias focais caracterizáveis ao método.

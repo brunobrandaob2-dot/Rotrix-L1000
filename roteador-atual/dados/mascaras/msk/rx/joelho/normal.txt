@@ -1,0 +1,15 @@
+# gatilhos: raio x de joelho | raio x do joelho | rx de joelho | rx do joelho | radiografia de joelho | radiografia do joelho | raio x de joelho normal | rx de joelho normal | rx joelho normal | radiografia de joelho normal | raio x de joelho sem alteracoes | rx joelho | raio x de joelho ap e perfil | raio x de joelho com axial de patela
+# categoria: msk
+# modalidade: rx
+# regiao: joelho
+# tipo_mascara: normal
+**RADIOGRAFIA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, perfil e axial de patela.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Espaços articulares preservados e superfícies articulares regulares.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

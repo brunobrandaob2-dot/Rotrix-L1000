@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaço articular
+# gatilhos: coxartrose | artrose | artrose do quadril | alteracoes degenerativas
+Redução do espaço articular coxofemoral, com esclerose subcondral e osteófitos marginais (Kellgren-Lawrence grau {kl|1/2/3/4}).

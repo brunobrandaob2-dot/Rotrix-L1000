@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: vidro fosco | vidro fosco esparso | opacidades em vidro fosco | vidro fosco inespecifico | opacidades em vidro fosco esparsas
+# conclusao: Opacidades com atenuação em vidro fosco esparsas, inespecíficas.
+Parênquima pulmonar:  opacidades com atenuação em vidro fosco esparsas, inespecíficas.

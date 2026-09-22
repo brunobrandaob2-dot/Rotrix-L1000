@@ -1,0 +1,31 @@
+# tipo: frases
+## gatilhos: ressalva de fratura oculta no raio x de quadril | fratura oculta do colo femoral no quadril
+A radiografia não exclui fratura oculta do colo femoral; se a suspeita persistir, considerar ressonância magnética.
+## gatilhos: arco de shenton continuo no quadril
+Arco de Shenton contínuo.
+## gatilhos: arco de shenton interrompido no quadril
+Interrupção do arco de Shenton.
+## gatilhos: kellgren lawrence do quadril | coxartrose kellgren no quadril
+Coxartrose, Kellgren-Lawrence grau {kl|1/2/3/4}.
+## gatilhos: deformidade em cabo de pistola no quadril
+Deformidade em cabo de pistola na transição cabeça-colo femoral (morfologia cam).
+## gatilhos: sinal do cruzamento no quadril | retroversao acetabular no quadril
+Sinal do cruzamento, podendo corresponder a retroversão acetabular.
+## gatilhos: angulo centro borda no raio x de quadril | angulo de wiberg do quadril
+Ângulo centro-borda de {angulo_cb}° (displasia abaixo de 20°; sobrecobertura acima de 40°).
+## gatilhos: angulo alfa no raio x de quadril
+Ângulo alfa de {angulo_alfa}° (referência: abaixo de 55°).
+## gatilhos: sinal do crescente no quadril
+Sinal do crescente na cabeça femoral, compatível com osteonecrose (Ficat-Arlet III).
+## gatilhos: osteonecrose incipiente no raio x de quadril
+Esclerose e lucência na cabeça femoral, sem colapso, podendo corresponder a osteonecrose; a ressonância magnética é mais sensível.
+## gatilhos: protese de quadril sem soltura no raio x
+Artroplastia do quadril com componentes em posição habitual, sem sinais de soltura.
+## gatilhos: inclinacao do componente acetabular do quadril
+Componente acetabular com inclinação de {inclinacao}° (referência: 30° a 50°).
+## gatilhos: fratura do trocanter maior no quadril
+Fratura do trocânter maior, {desvio|sem desvio significativo/com desvio de ___}.
+## gatilhos: calcificacao peritrocanterica no raio x de quadril
+Calcificação peritrocantérica medindo {tamanho}, podendo corresponder a tendinopatia calcária.
+## gatilhos: enostose no colo do quadril
+Enostose no colo femoral, medindo {tamanho}.

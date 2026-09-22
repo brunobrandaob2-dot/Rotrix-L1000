@@ -1,0 +1,33 @@
+# gatilhos: tomografia de cranio com hidrocefalia comunicante | tc de cranio com hidrocefalia comunicante | tc cranio hidrocefalia comunicante | tomografia de cranio com hidrocefalia | tc de cranio com hidrocefalia | tc cranio hidrocefalia
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  diferenciação córtico-subcortical mantida. Não há áreas de isquemia aguda, hemorragia ou lesão expansiva.
+Substância branca:  {transudacao|sem hipoatenuação periventricular sugestiva de transudação liquórica/hipoatenuação periventricular com aspecto de halo, sugestiva de transudação liquórica transependimária}.
+Núcleos da base:  de morfologia e atenuação preservadas.
+Sistema ventricular:  dilatação dos ventrículos laterais, do terceiro e do quarto ventrículos, com arredondamento dos cornos frontais. Índice de Evans de {evans} (referência: até 0,30). Cornos temporais alargados.
+Não se identifica lesão obstrutiva ao longo das vias liquóricas.
+Cisternas da base e sulcos corticais:  cisternas da base pérvias. Sulcos corticais da convexidade {sulcos|apagados de forma desproporcional à dilatação ventricular, achado que favorece hidrocefalia/alargados de forma proporcional, achado que favorece dilatação ex vacuo}.
+Linha média:  estruturas centradas.
+Espaços extra-axiais:  sem coleções.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura ou lesões focais.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Dilatação do sistema ventricular supra e infratentorial, com índice de Evans de {evans} (referência: até 0,30), sugerindo hidrocefalia de padrão comunicante.
+Correlacionar com o quadro clínico; a ressonância magnética pode complementar a avaliação.

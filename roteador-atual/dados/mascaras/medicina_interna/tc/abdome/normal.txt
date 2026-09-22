@@ -1,0 +1,33 @@
+# gatilhos: tomografia de abdome superior e pelve | tomografia de abdome superior e pelve normal | tomografia do abdome total | tomografia de abdome total | tomografia de abdome total normal | tomografia do abdome total normal | tc de abdome total | tc de abdome total normal | tc de abdome e pelve | tc de abdome e pelve normal | tomografia de abdome e pelve | tomografia de abdome e pelve normal | tomografia de abdome | tomografia do abdome | tomografia de abdome normal | tc de abdome | tc de abdome normal | tc abdome normal | abdome total normal | abdome e pelve normal | tomografia de abdome total com contraste | tomografia do abdome total com contraste | tomografia de abdome sem contraste | tomografia de abdome sem alteracoes | tomografia de abdome com contraste | tc de abdome com contraste | tc de abdome sem contraste | tc de abdome total com contraste | tc de abdome total sem contraste | tomografia de abdome total sem contraste | tomografia de abdome e pelve com contraste | tc de abdome e pelve com contraste | tc de abdome superior e pelve | tc de abdome superior e pelve normal | tomografia de abdome superior e pelve com contraste | tc de abdome total sem alteracoes
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  sem particularidades no protocolo utilizado.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

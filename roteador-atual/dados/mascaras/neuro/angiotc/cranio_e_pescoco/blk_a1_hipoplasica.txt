@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias cerebrais anteriores, médias e posteriores
+# gatilhos: a1 hipoplasica | hipoplasia de a1 | a1 hipoplasico | a1 ausente
+# conclusao: Segmento A1 da artéria cerebral anterior {lado_f|direita/esquerda} {a1|hipoplásico/aplásico}, variante anatômica.
+Artérias cerebrais anteriores, médias e posteriores:  pérvias, com trajeto habitual e sem áreas de estenose, espasmo ou oclusão vascular. Segmento A1 da artéria cerebral anterior {lado_f|direita/esquerda} {a1|hipoplásico/aplásico}, com opacificação de ambas as artérias cerebrais anteriores a partir do A1 contralateral, por meio da artéria comunicante anterior.

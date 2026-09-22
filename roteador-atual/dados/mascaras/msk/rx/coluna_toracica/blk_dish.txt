@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: dish | hiperostose | hiperostose esqueletica | doenca de forestier
+Pontes ósseas contínuas anterolaterais de {nivel} a {nivel}, compatíveis com hiperostose esquelética idiopática difusa (DISH).

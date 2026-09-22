@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Mediastino
+# gatilhos: alargamento do mediastino | mediastino alargado | alargamento mediastinal
+Alargamento do mediastino superior, medindo {tamanho} no nível do botão aórtico; tomografia a critério clínico.

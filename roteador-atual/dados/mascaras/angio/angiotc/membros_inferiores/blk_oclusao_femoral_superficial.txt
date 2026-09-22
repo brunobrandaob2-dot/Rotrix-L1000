@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias femorais superficiais
+# gatilhos: oclusao da femoral superficial | oclusao femoral superficial
+# conclusao: Oclusão da artéria femoral superficial {lado_f|direita/esquerda}, com extensão de ___ cm e reabitação distal por colaterais.
+Artérias femorais superficiais:  oclusão da artéria femoral superficial {lado_f|direita/esquerda} a partir do terço {terco|proximal/médio/distal}, com extensão de ___ cm, e reabitação {reabitacao_fs|da artéria poplítea supragenicular/do canal dos adutores} por colaterais da artéria femoral profunda. Artéria femoral superficial contralateral {contralateral|pérvia, sem estenoses significativas/com ___}.

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura de metatarso | fratura do metatarso | fratura metatarsal
+Fratura {traco|transversa/oblíqua/espiral/cominutiva} {segmento_mt|da base/da diáfise/do colo/da cabeça} do {metatarso|1º/2º/3º/4º/5º} metatarso, com desvio de {tamanho}.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: fratura aguda | fratura vertebral | fratura por compressao | fratura
+# conclusao: Fratura por compressão do corpo vertebral de {nivel}, de aspecto agudo, com perda de altura estimada em {percentual}% e muro posterior íntegro.
+Corpos vertebrais:  fratura do corpo vertebral de {nivel}, com afundamento da plataforma {plataforma|superior/inferior} e perda de altura estimada em {percentual}%. Traço de fratura de margens nítidas, sem esclerose, aspecto de fratura aguda. Muro posterior íntegro, sem retropulsão de fragmentos.

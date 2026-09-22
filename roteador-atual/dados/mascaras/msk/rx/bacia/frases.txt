@@ -1,0 +1,29 @@
+# tipo: frases
+## gatilhos: linhas pelvicas continuas na bacia | linhas iliopectineas preservadas na bacia
+Linhas iliopectíneas e ilioisquiáticas contínuas.
+## gatilhos: arcos de shenton continuos na bacia
+Arcos de Shenton contínuos.
+## gatilhos: ressalva de fratura oculta no raio x de bacia | fratura oculta do colo femoral na bacia
+A radiografia não exclui fratura oculta do colo femoral; se a suspeita persistir, considerar ressonância magnética.
+## gatilhos: sacro com sobreposicao gasosa na bacia | sacro prejudicado no raio x de bacia
+Sacro parcialmente encoberto por gases e fezes.
+## gatilhos: coxartrose kellgren na bacia | kellgren lawrence da bacia
+Coxartrose {lado_f|direita/esquerda}, Kellgren-Lawrence grau {kl|1/2/3/4}.
+## gatilhos: sacroiliite no raio x de bacia | criterios de nova york na bacia
+Irregularidade e esclerose subcondral nas sacroilíacas, podendo corresponder a sacroiliíte (grau {ny|1/2/3/4} de Nova York modificado).
+## gatilhos: entesofitos no raio x de bacia | entesopatia no raio x de bacia
+Entesófitos nas cristas ilíacas, tuberosidades isquiáticas e trocânteres maiores.
+## gatilhos: condrocalcinose da sinfise na bacia
+Condrocalcinose na sínfise púbica.
+## gatilhos: protese de quadril na bacia sem soltura
+Artroplastia {tipo|total/parcial} do quadril {lado|direito/esquerdo}, sem sinais de soltura.
+## gatilhos: displasia do quadril na bacia | angulo centro borda reduzido na bacia
+Cobertura acetabular reduzida {lado_a|à direita/à esquerda}, com ângulo centro-borda de {angulo_cb}° (displasia abaixo de 20°).
+## gatilhos: osteopenia no raio x de bacia
+Redução difusa da densidade óssea.
+## gatilhos: fratura dos ramos pubicos no raio x de bacia
+Fratura dos ramos iliopúbico e isquiopúbico {lado_a|à direita/à esquerda}, {desvio|sem desvio significativo/com desvio de ___}.
+## gatilhos: calcificacoes vasculares no raio x de bacia
+Calcificações vasculares nas artérias ilíacas e femorais.
+## gatilhos: enostose no raio x de bacia
+Enostose no osso ilíaco {lado|direito/esquerdo}, medindo {tamanho}.

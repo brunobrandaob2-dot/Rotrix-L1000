@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Seios paranasais
+# gatilhos: sinusopatia | sinusopatia inflamatoria | espessamento mucoso dos seios paranasais
+# conclusao: Espessamento mucoso nos seios paranasais, de aspecto inflamatório inespecífico.
+Seios paranasais:  espessamento mucoso parietal nos seios {seios|maxilares/etmoidais/frontais/esfenoidais} {lado_a|à direita/à esquerda}, sem níveis hidroaéreos, nos segmentos incluídos no estudo.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: aprisionamento aereo | air trapping | atenuacao em mosaico com aprisionamento | serie expiratoria com aprisionamento
+# conclusao: Aprisionamento aéreo na série expiratória, traduzindo doença de pequenas vias aéreas.
+Parênquima pulmonar: áreas de atenuação em mosaico, com acentuação na série em expiração, configurando aprisionamento aéreo de distribuição {distribuicao|lobular difusa/predominante nos lobos inferiores/predominante nos lobos superiores}, acompanhadas de espessamento parietal brônquico. Ausência de consolidações, de nódulos suspeitos ou de reticulado com distorção arquitetural.

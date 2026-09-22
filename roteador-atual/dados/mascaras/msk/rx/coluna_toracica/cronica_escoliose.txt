@@ -1,0 +1,16 @@
+# gatilhos: raio x de coluna toracica com escoliose | rx de coluna toracica com escoliose | rx coluna toracica escoliose | radiografia de coluna toracica com escoliose | rx de coluna dorsal com escoliose | rx de coluna toracica com desvio lateral
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_toracica
+# tipo_mascara: cronica
+**RADIOGRAFIA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Desvio lateral do eixo longitudinal da coluna torácica, com convexidade para a {lado_f|direita/esquerda}.
+Corpos vertebrais com altura preservada, sem sinais de fraturas.
+Redução assimétrica dos espaços discais na concavidade da curva.
+Elementos posteriores preservados.
+Densidade óssea preservada.
+Partes moles sem alterações.

@@ -1,0 +1,26 @@
+# gatilhos: tomografia de punho | tomografia do punho | tc de punho | tc do punho | tomografia de punho normal | tomografia do punho normal | tc de punho normal | tc do punho normal | tc punho normal | tomografia de punho sem alteracoes | tomografia do punho sem alteracoes | tomografia computadorizada do punho
+# categoria: msk
+# modalidade: tc
+# regiao: punho
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações radiocarpal, radioulnar distal, mediocarpal e carpometacarpais preservadas, sem sinais de luxação ou subluxação.
+Rádio distal:  sem traços de fratura, com superfície articular congruente. Inclinação radial e inclinação volar preservadas.
+Ulna distal:  sem traços de fratura, com processo estiloide íntegro.
+Escafoide:  contornos corticais preservados, sem traços de fratura.
+Demais ossos do carpo:  de morfologia, contornos e densidade preservados, sem traços de fratura.
+Espaços articulares:  radiocarpal, mediocarpal e radioulnar distal preservados, sem alterações degenerativas significativas.
+Articulação trapeziometacarpiana:  espaço articular preservado, sem osteófitos.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções ou calcificações, considerando os limites do método para avaliação ligamentar, tendínea e da fibrocartilagem triangular.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

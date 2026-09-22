@@ -1,0 +1,30 @@
+# gatilhos: tomografia de coluna toracica com fratura antiga | tc de coluna toracica com fratura antiga | tc coluna toracica fratura antiga | tomografia de coluna toracica com fratura osteoporotica | tc de coluna toracica com fratura osteoporotica | tc de coluna toracica com acunhamento | tc de coluna toracica com acunhamento vertebral
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_toracica
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  acentuação da cifose torácica, com cifose focal em {nivel}. Ausência de listeses.
+Corpos vertebrais:  acunhamento anterior do corpo vertebral de {nivel}, com perda de altura estimada em {percentual}% (Genant grau 1: 20 a 25%; grau 2: 25 a 40%; grau 3: acima de 40%). Margens escleróticas e contornos remodelados, sem traço de fratura agudo, aspecto de fratura antiga. Redução difusa da densidade óssea.
+Muro posterior sem retropulsão significativa.
+Discos intervertebrais:  espaços discais de altura preservada, considerando os limites do método.
+Articulações interapofisárias:  congruentes, com espaços articulares preservados.
+Articulações costovertebrais:  de aspecto habitual.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, lâminas e processos espinhosos e transversos íntegros.
+Partes moles paravertebrais:  sem densificação ou hematoma adjacente às vértebras acometidas.
+Demais estruturas:  segmentos pulmonares incluídos no campo de visão sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura antiga por insuficiência do corpo vertebral de {nivel}, com perda de altura estimada em {percentual}% (Genant grau {genant|1/2/3}), sem sinais de agudização.
+Redução difusa da densidade óssea; sugere-se densitometria óssea, se houver indicação clínica.
+Na dúvida sobre a datação, a ressonância magnética com sequências sensíveis a edema (STIR) diferencia fratura aguda de antiga.

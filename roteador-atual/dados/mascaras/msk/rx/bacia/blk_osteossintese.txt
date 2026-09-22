@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: osteossintese | material de sintese | haste cefalomedular | dhs
+Material de osteossíntese no fêmur proximal {lado_sint|direito/esquerdo} ({material|haste cefalomedular/parafuso deslizante e placa lateral (DHS)/parafusos canulados}), sem sinais de soltura ou fratura do implante.

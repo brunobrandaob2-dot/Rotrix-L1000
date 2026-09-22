@@ -1,0 +1,31 @@
+# gatilhos: tomografia de bacia com fratura | tc de bacia com fratura | tc bacia fratura | tomografia de bacia com fratura do anel pelvico | tc de bacia com fratura do anel pelvico | tomografia de bacia trauma | tc de bacia trauma
+# categoria: msk
+# modalidade: tc
+# regiao: bacia
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA BACIA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Anel pélvico:  descontinuidade do anel pélvico, com os traços de fratura descritos a seguir. Padrão sugestivo de mecanismo de {young_burgess|compressão lateral/compressão anteroposterior/cisalhamento vertical/mecanismo combinado} (classificação de Young-Burgess).
+Articulações sacroilíacas:  {sacroiliacas|congruentes, sem alargamento dos espaços articulares/com alargamento do espaço articular sacroilíaco ___, medindo ___, sugestivo de lesão ligamentar}.
+Sínfise púbica:  {sinfise|alinhada, de amplitude preservada/com diástase de ___}.
+Sacro e cóccix:  traço de fratura na asa sacral {lado_sacro|direita/esquerda}, na zona {denis|I/II/III} de Denis, {desvio_sacro|sem desvio significativo/com desvio de ___}.
+Ossos ilíacos:  contornos regulares e densidade habitual.
+Ramos púbicos e ísquios:  traços de fratura nos ramos iliopúbico e isquiopúbico {lado_ramos|direitos/esquerdos/bilaterais}, {desvio_ramos|sem desvio significativo/com desvio de ___}.
+Acetábulos:  morfologia e cobertura habituais. Colunas e paredes acetabulares íntegras.
+Articulações coxofemorais:  congruentes, com espaços articulares preservados e simétricos.
+Fêmures proximais:  cabeças femorais esféricas e de densidade habitual. Colos femorais e regiões trocantéricas sem particularidades.
+Densidade óssea:  preservada. Não há lesões líticas ou blásticas focais.
+Partes moles:  hematoma extraperitoneal pélvico {hematoma|de pequeno volume/de moderado volume/volumoso} adjacente aos focos de fratura. Densificação da gordura e edema das partes moles regionais.
+Estruturas pélvicas incluídas no estudo:  sem particularidades, considerando os limites do método.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura do anel pélvico, com traços na asa sacral {lado_sacro|direita/esquerda} e nos ramos iliopúbico e isquiopúbico {lado_ramos|direitos/esquerdos/bilaterais}.
+Padrão sugestivo de mecanismo de {young_burgess|compressão lateral/compressão anteroposterior/cisalhamento vertical/mecanismo combinado} (Young-Burgess).
+Hematoma extraperitoneal pélvico. A pesquisa de sangramento ativo e de lesão do trato urinário requer estudo com contraste endovenoso dirigido, se clinicamente indicado.

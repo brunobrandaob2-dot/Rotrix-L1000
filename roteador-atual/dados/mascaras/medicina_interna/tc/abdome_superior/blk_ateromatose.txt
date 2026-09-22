@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vasos
+# gatilhos: ateromatose | ateromatose aortica | ateromatose calcificada | ateromas | ateromas calcificados | ateromas calcificados na aorta | ateromas calcificados na aorta e ramos | calcificacoes ateromatosas | placas calcificadas
+# conclusao: Ateromatose calcificada na aorta abdominal e seus ramos.
+Vasos:  ateromatose calcificada na aorta abdominal e em seus ramos. Veia cava inferior, veia porta e veias hepáticas pérvias.

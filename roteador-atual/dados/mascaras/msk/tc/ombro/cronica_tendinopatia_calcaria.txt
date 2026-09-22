@@ -1,0 +1,26 @@
+# gatilhos: tomografia de ombro com tendinopatia calcaria | tomografia do ombro com tendinopatia calcaria | tc de ombro com tendinopatia calcaria | tc do ombro com tendinopatia calcaria | tc ombro tendinopatia calcaria | tomografia de ombro com calcificacao tendinea | tc de ombro com calcificacao tendinea | tomografia de ombro com calcificacao no manguito | tc de ombro com calcificacao no manguito
+# categoria: msk
+# modalidade: tc
+# regiao: ombro
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO OMBRO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relação glenoumeral preservada, sem sinais de luxação ou subluxação.
+Úmero proximal:  cabeça, colo e tubérculos maior e menor de morfologia e contornos preservados, sem traços de fratura ou lesões ósseas focais.
+Glenoide e escápula:  glenoide de morfologia e versão habituais, com rebordo íntegro. Corpo e espinha da escápula, acrômio e processo coracoide sem particularidades.
+Articulação glenoumeral:  espaço articular preservado, sem osteófitos, esclerose ou cistos subcondrais. Não há derrame articular ou corpos livres intra-articulares evidentes.
+Articulação acromioclavicular:  congruente, com espaço articular preservado e sem osteófitos significativos.
+Espaço acromioumeral:  preservado.
+Clavícula:  contornos corticais preservados, sem traços de fratura.
+Mineralização óssea:  preservada.
+Partes moles:  calcificação {aspecto|amorfa/homogênea e de contornos definidos} no trajeto do tendão {tendao|supraespinhal/infraespinhal/subescapular/redondo menor}, próxima à sua inserção no tubérculo {tuberculo|maior/menor}, medindo {tamanho}, sem erosão cortical do tubérculo adjacente. Ventres musculares do manguito rotador e do deltoide de volume e atenuação preservados, considerando os limites do método para avaliação tendínea.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Calcificação no tendão {tendao|supraespinhal/infraespinhal/subescapular/redondo menor}, compatível com tendinopatia calcária.

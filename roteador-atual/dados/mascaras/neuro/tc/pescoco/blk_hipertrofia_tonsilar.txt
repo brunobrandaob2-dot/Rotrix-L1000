@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Orofaringe
+# gatilhos: hipertrofia tonsilar | hipertrofia das tonsilas palatinas | amigdalas aumentadas | hipertrofia amigdaliana
+# conclusao: Hipertrofia das tonsilas palatinas, sem coleções.
+Orofaringe:  tonsilas palatinas aumentadas, {simetria|simétricas/assimétricas, maior à direita/assimétricas, maior à esquerda}, de realce homogêneo, sem coleções, determinando {reducao|discreta/moderada} redução da luz orofaríngea. Base da língua e valéculas sem particularidades.

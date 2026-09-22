@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Úmero distal
+# gatilhos: fratura do umero distal | fratura supracondiliana | fratura do epicondilo | fratura do capitulo
+# conclusao: Fratura do úmero distal ({local|supracondiliana/intercondiliana/epicôndilo medial/epicôndilo lateral/capítulo}).
+Úmero distal:  traço de fratura acometendo {local|a região supracondiliana/a região intercondiliana/o epicôndilo medial/o epicôndilo lateral/o capítulo} do úmero, com desvio de {tamanho}. {articular|Sem/Com} extensão à superfície articular.

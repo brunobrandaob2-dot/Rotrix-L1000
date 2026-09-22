@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações costovertebrais
+# gatilhos: artrose costovertebral | artrose costotransversaria | costovertebrais degenerativas
+# conclusao: Artrose costovertebral em {nivel}.
+Articulações costovertebrais:  alterações degenerativas das articulações costovertebrais e costotransversárias em {nivel}, com osteófitos e esclerose subcondral.

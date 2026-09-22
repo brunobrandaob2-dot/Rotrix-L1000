@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento articular
+# gatilhos: luxacao do cotovelo | luxacao | cotovelo luxado
+# conclusao: Luxação {direcao|posterior/posterolateral/anterior} do cotovelo.
+Alinhamento articular:  luxação {direcao|posterior/posterolateral/anterior} do cotovelo.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Seios maxilares
+# gatilhos: nivel hidroaereo | nivel hidroaereo maxilar | nivel liquido maxilar
+# conclusao: Nível hidroaéreo no seio maxilar {lado|direito/esquerdo}; no contexto clínico adequado, favorece rinossinusite aguda.
+Seios maxilares:  espessamento mucoso com nível hidroaéreo no seio maxilar {lado|direito/esquerdo}. Paredes ósseas íntegras.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias vertebrais
+# gatilhos: estenose vertebral | estenose da vertebral | estenose do ostio vertebral | estenose da origem da vertebral
+# conclusao: Estenose {grau|leve (< 50%)/moderada (50–69%)/acentuada (70–99%)} do segmento {segmento_vertebral|V1 (óstio)/V2/V3/V4} da artéria vertebral {lado_f|direita/esquerda}, estimada em {percentual}%.
+Artérias vertebrais:  placa ateromatosa {placa|calcificada/não calcificada/mista} no segmento {segmento_vertebral|V1 (óstio)/V2/V3/V4} da artéria vertebral {lado_f|direita/esquerda}, determinando estenose {grau|leve (< 50%)/moderada (50–69%)/acentuada (70–99%)}, estimada em {percentual}%, com opacificação preservada a jusante. Artéria vertebral contralateral pérvia, com calibre e trajeto anatômicos. Ambas terminam na formação da artéria basilar.

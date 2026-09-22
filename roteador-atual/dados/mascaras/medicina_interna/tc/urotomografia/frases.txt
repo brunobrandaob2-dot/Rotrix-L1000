@@ -1,0 +1,33 @@
+# tipo: frases
+## gatilhos: ureter com opacificacao incompleta por peristaltismo | opacificacao incompleta do ureter
+Opacificação incompleta de segmento do ureter {lado|direito/esquerdo}, sem dilatação a montante, atribuível a peristaltismo.
+## gatilhos: ureter retrocaval | ureter circuncaval
+Ureter direito de trajeto retrocaval, variante anatômica.
+## gatilhos: estenose da juncao ureteropielica | estenose de jup
+Dilatação pielocalicinal {lado_a|à direita/à esquerda} com transição abrupta na junção ureteropielocalicinal e ureter de calibre normal, sugestiva de estenose da junção ureteropiélica.
+## gatilhos: pelve renal extrarrenal | rim com pelve extrarrenal
+Pelve renal extrarrenal {lado_a|à direita/à esquerda}, variante anatômica, sem dilatação calicinal.
+## gatilhos: diverticulo caliceal | diverticulo calicinal
+Divertículo calicinal {lado_a|à direita/à esquerda}, com opacificação na fase excretora, medindo {tamanho}.
+## gatilhos: necrose de papila renal | papila renal necrotica
+Imagens de contraste em cavidades papilares {lado_a|à direita/à esquerda}, podendo corresponder a necrose de papila; correlacionar clinicamente.
+## gatilhos: rim esponja medular | nefrocalcinose medular
+Calcificações medulares renais {lado_a|à direita/à esquerda}, compatíveis com nefrocalcinose medular.
+## gatilhos: ureterocele
+Dilatação cística do ureter intramural {lado|direito/esquerdo}, com aspecto em cabeça de cobra na fase excretora, compatível com ureterocele.
+## gatilhos: diverticulo vesical | bexiga com diverticulo
+Divertículo vesical na parede {parede|lateral direita/lateral esquerda/posterior}, medindo {tamanho}.
+## gatilhos: cateter duplo j bem posicionado | cateter duplo j na urotomografia
+Cateter ureteral duplo J {lado_a|à direita/à esquerda}, com extremidades proximal na pelve renal e distal na bexiga.
+## gatilhos: excrecao renal retardada | nefrograma retardado
+Retardo na excreção do contraste {lado_a|à direita/à esquerda}, com nefrograma persistente.
+## gatilhos: jatos ureterais simetricos na bexiga | urotomografia com opacificacao vesical completa
+Opacificação vesical completa na fase excretora, sem falhas de enchimento.
+## gatilhos: artefato de mistura na bexiga | bexiga com nivel de contraste
+Nível contraste-urina na bexiga, sem significado patológico.
+## gatilhos: urotomografia limitacao para lesoes planas | limitacao da urotomografia
+A urotomografia tem sensibilidade limitada para lesões uroteliais planas e para pequenas lesões vesicais.
+## gatilhos: arteria renal acessoria | arterias renais multiplas
+Artéria renal acessória {lado_a|à direita/à esquerda}, variante anatômica.
+## gatilhos: veia renal esquerda retroaortica | veia renal retroaortica
+Veia renal esquerda de trajeto retroaórtico, variante anatômica.

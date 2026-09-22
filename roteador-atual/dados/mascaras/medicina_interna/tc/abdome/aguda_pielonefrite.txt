@@ -1,0 +1,33 @@
+# gatilhos: tomografia de abdome com pielonefrite | tc de abdome com pielonefrite | tc abdome pielonefrite | tomografia de abdome total com pielonefrite | tc de abdome total com pielonefrite | tomografia do abdome com pielonefrite | tomografia de abdome com pielonefrite aguda | tc de abdome com pielonefrite aguda | tc abdome pielonefrite aguda | tomografia de abdome com infeccao renal | tc de abdome com infeccao renal | tc abdome infeccao renal
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, com injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  rim {lado|direito/esquerdo} de dimensões aumentadas, com áreas cuneiformes de hipoatenuação no parênquima após o contraste (nefrograma estriado) e densificação da gordura perirrenal. Não há coleções, gás no parênquima, cálculos ou dilatação de vias coletoras. Rim contralateral sem particularidades.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  sem particularidades no protocolo utilizado.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Achados compatíveis com pielonefrite aguda {lado_a|à direita/à esquerda}, sem sinais de abscesso ou de obstrução.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Baço
+# gatilhos: esplenomegalia | baco aumentado | aumento do baco
+# conclusao: Esplenomegalia, com eixo longitudinal de {tamanho}, a esclarecer.
+Baço: aumentado de volume, com eixo longitudinal de {tamanho} (referência habitual de até 12,0 cm) e densidade homogênea, sem lesões focais ou falhas de realce. Ausência de calcificações ou de baços acessórios.

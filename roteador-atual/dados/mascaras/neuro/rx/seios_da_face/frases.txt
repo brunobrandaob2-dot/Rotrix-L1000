@@ -1,0 +1,25 @@
+# tipo: frases
+## gatilhos: raio x de seios da face baixa acuracia | limitacao da radiografia de seios da face
+A radiografia tem baixa acurácia para doenças nasossinusais; tomografia a critério clínico.
+## gatilhos: raio x de seios da face sugere tomografia | radiografia de seios da face recomenda tomografia
+Tomografia dos seios da face a critério clínico.
+## gatilhos: raio x de seios da face nivel hidroaereo maxilar | radiografia de seios da face nivel liquido
+Nível hidroaéreo no seio maxilar {lado|direito/esquerdo}.
+## gatilhos: raio x de seios da face velamento maxilar | radiografia de seios da face seio maxilar velado
+Velamento {grau_velamento|parcial/completo} do seio maxilar {lado|direito/esquerdo}.
+## gatilhos: raio x de seios da face espessamento mucoso | radiografia de seios da face espessamento mucoso maxilar
+Espessamento mucoso no seio maxilar {lado|direito/esquerdo}.
+## gatilhos: raio x de seios da face cisto de retencao | radiografia de seios da face imagem arredondada
+Imagem convexa no assoalho do seio maxilar {lado|direito/esquerdo}, podendo corresponder a cisto de retenção ou pólipo.
+## gatilhos: raio x de seios da face seio frontal velado | radiografia de seios da face sinusopatia frontal
+Redução da transparência do seio frontal {lado|direito/esquerdo}.
+## gatilhos: raio x de seios da face seio frontal hipoplasico | radiografia de seios da face agenesia frontal
+{desenvolvimento_frontal|Hipoplasia/Agenesia} do seio frontal {lado|direito/esquerdo}, variante anatômica.
+## gatilhos: raio x de seios da face hipertrofia adenoideana | radiografia de seios da face adenoide
+Hipertrofia adenoideana, com redução da coluna aérea.
+## gatilhos: raio x de seios da face seios normotransparentes | radiografia de seios da face sem sinusopatia
+Seios paranasais normotransparentes.
+## gatilhos: raio x de seios da face desvio septal | radiografia de seios da face septo desviado
+Sinais sugestivos de desvio do septo nasal.
+## gatilhos: raio x de seios da face seios em desenvolvimento | radiografia de seios da face crianca
+Seios paranasais em desenvolvimento, com pneumatização habitual para a faixa etária.

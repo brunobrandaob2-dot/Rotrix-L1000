@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias carótidas internas
+# gatilhos: disseccao carotidea | disseccao da carotida | dissecao carotidea | hematoma intramural carotideo
+# conclusao: Sinais de dissecção do segmento cervical da artéria carótida interna {lado_f|direita/esquerda}, com {reducao|redução luminal leve/redução luminal moderada/redução luminal acentuada/oclusão}.
+Artérias carótidas internas:  afilamento luminal {afilamento|excêntrico/cônico/filiforme} no segmento cervical da artéria carótida interna {lado_f|direita/esquerda}, iniciando-se cerca de {distancia_bulbo} acima do bulbo e estendendo-se por {tamanho}, com espessamento parietal em crescente, compatível com hematoma intramural. Flap intimal: {flap|não identificado/presente}. Pseudoaneurisma dissecante: {pseudoaneurisma|ausente/presente, medindo ___}. Segmento distal na base do crânio {base|pérvio/acometido}. Artéria carótida interna contralateral sem alterações.

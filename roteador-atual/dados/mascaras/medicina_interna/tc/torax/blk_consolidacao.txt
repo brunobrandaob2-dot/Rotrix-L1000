@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: consolidacao | consolidacao pulmonar | pneumonia | condensacao | condensacao pulmonar
+# conclusao: Consolidação no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, sugestiva de processo infeccioso no contexto clínico adequado.
+Parênquima pulmonar:  consolidação com broncogramas aéreos no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, com opacidades em vidro fosco no parênquima adjacente. Não há cavitação. Demais segmentos sem consolidações.

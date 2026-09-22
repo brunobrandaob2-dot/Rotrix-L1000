@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura do metacarpo | fratura de metacarpo | fratura do boxer | fratura do boxeador
+Fratura {local|da base/da diáfise/do colo/da cabeça} do {metacarpo} metacarpo, com {desvio|angulação volar de ___°/encurtamento de ___ mm/desvio de ___ mm}.

@@ -1,0 +1,18 @@
+# gatilhos: raio x de mao com fratura | rx de mao com fratura | radiografia de mao com fratura | rx da mao com fratura | rx mao fratura | raio x de mao com fratura da falange | rx de mao com fratura da falange | raio x de mao com fratura de falange | rx de mao com fratura de falange | raio x de mao com fratura do dedo | rx de mao com fratura do dedo
+# categoria: msk
+# modalidade: rx
+# regiao: mao
+# tipo_mascara: aguda
+**RADIOGRAFIA DA MÃO {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  incidências posteroanterior e oblíqua.
+
+**ANÁLISE:**
+Espaços articulares preservados.
+Superfícies articulares regulares, sem erosões.
+Articulação trapeziometacarpiana preservada.
+Fratura {local|da base/da diáfise/do colo/da cabeça/do tufo} da falange {falange} do {dedo} dedo, de traço {traco|transverso/oblíquo/espiral/cominutivo}, com desvio de {tamanho}, {articular|sem/com} extensão à superfície articular.
+Não há sinais de luxações.
+Incidências dedicadas do dedo podem auxiliar na avaliação.
+Densidade óssea preservada.
+Partes moles sem alterações.

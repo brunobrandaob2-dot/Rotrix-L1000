@@ -1,0 +1,31 @@
+# gatilhos: cranio com tce | traumatismo cranioencefalico | tc cranio trauma | cranio pos trauma | tce | cranio traumatico
+TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO
+
+TÉCNICA: aquisição helicoidal, sem injeção de contraste, com reconstruções em filtros para parênquima e para osso.
+
+INDICAÇÃO CLÍNICA: traumatismo cranioencefálico.
+
+ANÁLISE:
+Parênquima encefálico: focos hiperatenuantes córtico-subcorticais no lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}, com halo hipoatenuante perilesional, compatíveis com contusões hemorrágicas; o maior foco mede {tamanho}. Ausência / presença de contusões por contragolpe em ___. Não há hematoma intraparenquimatoso com efeito expansivo dominante / identifica-se hematoma intraparenquimatoso em ___ medindo ___ x ___ x ___ cm.
+Coleções extra-axiais: coleção extra-axial hiperatenuante na convexidade do hemisfério {lado|direito/esquerdo}, de morfologia biconvexa e limitada por suturas, sugestiva de hematoma epidural / em crescente e ultrapassando as suturas, sugestiva de hematoma subdural agudo, com espessura máxima de {tamanho} e extensão craniocaudal de ___ cm. Ausência de coleções na fossa posterior / coleção adjacente ao tentório em ___.
+Espaço subaracnóideo: hiperatenuação preenchendo sulcos corticais e cisternas em ___, compatível com hemorragia subaracnóidea de provável natureza traumática / ausência de hemorragia subaracnóidea.
+Sistema ventricular: de morfologia e dimensões preservadas, sem conteúdo hemático / com hiperatenuação declive nos cornos occipitais, traduzindo hemoventrículo. Ausência de hidrocefalia aguda / dilatação ventricular com índice de Evans de ___.
+Estruturas da linha média: centradas / desviadas em ___ mm para {lado_a|à direita/à esquerda}.
+Cisternas da base: pérvias e simétricas / parcialmente apagadas / apagadas, sem / com sinais de herniação uncal ou transtentorial descendente.
+Pneumoencéfalo: ausente / focos de gás extra-axial em ___, com volume estimado de ___ mL, sem configurar padrão de tensão (sinal do monte Fuji ausente).
+Calota craniana e base do crânio: traço de fratura linear no osso ___ {lado|direito/esquerdo}, sem afundamento / com afundamento de ___ mm da tábua interna. Ausência / presença de traço estendendo-se à base do crânio e às paredes dos seios paranasais.
+Seios paranasais: pneumatizados, sem velamento / com nível hidroaéreo em ___, a ser correlacionado com o traço de fratura descrito.
+Células mastoides: pneumatizadas e simétricas, sem velamento.
+Órbitas e partes moles extracranianas: hematoma subgaleal em região ___ {lado_a|à direita/à esquerda}, medindo {tamanho} de espessura. Órbitas sem sinais de fratura de paredes ou de conteúdo hemático intraorbitário.
+
+CONCLUSÃO:
+1. **Contusões hemorrágicas córtico-subcorticais no lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}.**
+2. **Coleção extra-axial na convexidade do hemisfério {lado|direito/esquerdo}, com espessura máxima de {tamanho}, de aspecto compatível com hematoma epidural / subdural agudo.**
+3. Hemorragia subaracnóidea de provável natureza traumática em ___ / ausente.
+4. **Desvio das estruturas da linha média de ___ mm para {lado_a|à direita/à esquerda} / estruturas da linha média centradas.**
+5. **Cisternas da base pérvias / parcialmente apagadas / apagadas.**
+6. Pneumoencéfalo em ___ / ausente.
+7. Fratura do osso ___ {lado|direito/esquerdo}, com / sem afundamento de ___ mm.
+8. Recomenda-se controle tomográfico evolutivo conforme a evolução clínica.
+
+Achado crítico comunicado ao(à) Dr(a). ___ em ___/___/____ às ___h___.

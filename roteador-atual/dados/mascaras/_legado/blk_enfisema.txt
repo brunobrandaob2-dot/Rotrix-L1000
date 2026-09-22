@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: enfisema | alteracoes enfisematosas | enfisema centrolobular
+# conclusao: Enfisema pulmonar de grau ___, com sinais de hiperinsuflação.
+Parênquima pulmonar: áreas de hipoatenuação sem paredes definidas, de distribuição centrolobular e predomínio nos lobos superiores, compatíveis com enfisema. Espessamento parietal brônquico difuso. Ausência de consolidações ou nódulos suspeitos.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Peritônio
+# gatilhos: ascite | liquido livre | liquido livre na cavidade | liquido livre abdominal
+# conclusao: Ascite de {volume|pequeno/moderado/grande} volume.
+Peritônio:  líquido livre na cavidade peritoneal, de {volume|pequeno/moderado/grande} volume, distribuído pelos recessos peri-hepático e periesplênico, goteiras parietocólicas e escavação pélvica. Não há coleções, espessamento ou nodularidade peritoneal caracterizáveis.

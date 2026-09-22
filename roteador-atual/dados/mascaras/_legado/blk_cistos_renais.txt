@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: cistos renais | cistos corticais renais | bosniak um
+# conclusao: Cistos renais simples bilaterais (Bosniak I), sem significado clínico.
+Rins: tópicos, de contornos regulares e espessura parenquimatosa preservada, com cistos simples corticais bilaterais, o maior à {lado_f|direita/esquerda} medindo {tamanho}, de conteúdo homogêneo e sem realce (Bosniak I). Sem cálculos ou dilatação de vias coletoras.

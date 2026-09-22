@@ -1,0 +1,24 @@
+# gatilhos: angio cervical com oclusao da carotida interna | angiotomografia cervical com oclusao da carotida interna | angio de pescoco com oclusao da carotida interna | angio cervical com oclusao carotidea | angio cervical com carotida ocluida
+# categoria: neuro
+# modalidade: angiotc
+# regiao: pescoco
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL DE VASOS CERVICAIS**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação do sistema arterial cervical, do arco aórtico à base do crânio.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Arco aórtico e origens dos troncos supra-aórticos:  arco aórtico de configuração habitual, com origens do tronco braquiocefálico e das artérias carótida comum e subclávia esquerdas pérvias, sem estenoses.
+Artérias carótidas comuns:  trajeto e calibre anatômicos, paredes lisas e opacificação homogênea, sem sinais de estenoses ou oclusões.
+Bulbos carotídeos e bifurcações:  pérvios, sem placas ateromatosas significativas.
+Artérias carótidas internas:  ausência de opacificação da artéria carótida interna {lado_f|direita/esquerda} a partir da origem, {coto|com coto em fundo cego/com afilamento cônico}, sem opacificação dos segmentos cervicais até a base do crânio. Artéria carótida interna contralateral pérvia, com calibre preservado.
+Artérias carótidas externas e seus principais ramos:  patência mantida e trajeto habitual.
+Artérias vertebrais:  pérvias, com calibre e trajeto anatômicos nos segmentos cervicais (V1 a V3), sem estenoses ou irregularidades parietais.
+Demais estruturas cervicais:  sem particularidades nos segmentos incluídos no estudo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Oclusão da artéria carótida interna {lado_f|direita/esquerda} a partir da origem; a cronologia não é determinável pelo método — correlacionar com o quadro clínico e, se indicado, avaliar a circulação intracraniana.

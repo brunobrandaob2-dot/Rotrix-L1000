@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Patela
+# gatilhos: patela bipartida | patela multipartida
+# conclusao: Patela bipartida (variante anatômica).
+Patela:  de altura e centragem habituais. Fragmento acessório de contornos corticados no polo superolateral, compatível com patela bipartida.

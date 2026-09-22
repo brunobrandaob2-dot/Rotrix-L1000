@@ -1,0 +1,26 @@
+# gatilhos: tomografia de punho com rizartrose | tomografia do punho com rizartrose | tc de punho com rizartrose | tc do punho com rizartrose | tc punho rizartrose | tomografia de punho com artrose | tc de punho com artrose | tomografia de punho com artrose trapeziometacarpiana | tc de punho com artrose trapeziometacarpiana | tomografia de punho com artrose da base do polegar | tc de punho com artrose da base do polegar
+# categoria: msk
+# modalidade: tc
+# regiao: punho
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações radiocarpal, radioulnar distal, mediocarpal e carpometacarpais preservadas, sem sinais de luxação ou subluxação.
+Rádio distal:  sem traços de fratura, com superfície articular congruente. Inclinação radial e inclinação volar preservadas.
+Ulna distal:  sem traços de fratura, com processo estiloide íntegro.
+Escafoide:  contornos corticais preservados, sem traços de fratura.
+Demais ossos do carpo:  de morfologia, contornos e densidade preservados, sem traços de fratura.
+Espaços articulares:  radiocarpal, mediocarpal e radioulnar distal preservados, sem alterações degenerativas significativas.
+Articulação trapeziometacarpiana:  redução {grau|leve/moderada/acentuada} do espaço articular, com osteófitos marginais, esclerose subcondral e subluxação {subluxacao|ausente/radial de ___ mm} da base do primeiro metacarpo. Articulação escafotrapeziotrapezoidal {stt|preservada/com alterações degenerativas}.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções ou calcificações, considerando os limites do método para avaliação ligamentar, tendínea e da fibrocartilagem triangular.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Rizartrose (Kellgren-Lawrence {kl|1/2/3/4}).

@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: hill sachs | lesao de hill sachs
+Depressão cortical na face posterossuperolateral da cabeça umeral, podendo corresponder a lesão de Hill-Sachs.

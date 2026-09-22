@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tendões
+# gatilhos: entesopatia do aquiles | tendinopatia insercional do aquiles | entesofito do aquiles | calcificacao do tendao calcaneo
+# conclusao: Entesopatia do tendão calcâneo (Aquiles).
+Tendões:  espessamento da porção insercional do tendão calcâneo, com entesófito e calcificações na tuberosidade posterior do calcâneo. Demais tendões com trajeto habitual, considerando os limites do método.

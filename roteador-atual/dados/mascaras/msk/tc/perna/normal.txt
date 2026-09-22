@@ -1,0 +1,24 @@
+# gatilhos: tomografia de perna | tomografia da perna | tc de perna | tc da perna | tomografia de perna normal | tomografia da perna normal | tc de perna normal | tc perna normal | tomografia de perna sem alteracoes | tomografia de perna direita | tomografia de perna esquerda | tc de perna direita | tc de perna esquerda | tomografia da perna direita | tomografia da perna esquerda
+# categoria: msk
+# modalidade: tc
+# regiao: perna
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DA PERNA {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  preservado.
+Tíbia:  morfologia, contornos corticais e densidade normais em toda a extensão.
+Fíbula:  morfologia, contornos corticais e densidade normais em toda a extensão.
+Articulações tibiofibulares proximal e distal:  congruentes.
+Articulações adjacentes:  porções incluídas do joelho e do tornozelo sem particularidades.
+Musculatura:  volume e densidade preservados nos compartimentos da perna.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

@@ -1,0 +1,27 @@
+# gatilhos: urotomografia com hematuria | uro tc com hematuria | urotc com hematuria | urotomografia hematuria | urotomografia com lesao urotelial | uro tc com lesao urotelial | urotc com lesao urotelial | urotomografia lesao urotelial | urotomografia com falha de enchimento | uro tc com falha de enchimento | urotc com falha de enchimento | urotomografia falha de enchimento | urotomografia com espessamento urotelial | uro tc com espessamento urotelial | urotc com espessamento urotelial | urotomografia espessamento urotelial
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: urotomografia
+# tipo_mascara: cronica
+**UROTOMOGRAFIA COMPUTADORIZADA**
+
+**TÉCNICA:**  aquisição volumétrica sem contraste, seguida das fases nefrográfica e excretora após injeção intravenosa de contraste iodado, com reconstruções multiplanares.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Nefrograma homogêneo e simétrico, sem lesões focais. Não há cálculos.
+Vias excretoras:  {achado_urotelial|falha de enchimento/espessamento parietal focal} em {local_urotelial|cálice/pelve renal/ureter proximal/ureter médio/ureter distal} {lado_a|à direita/à esquerda}, medindo {tamanho}, com realce na fase nefrográfica, sem dilatação a montante. Demais segmentos das vias excretoras com opacificação completa, sem falhas de enchimento.
+Bexiga:  de parcial repleção, de paredes finas e regulares, sem falhas de enchimento na fase excretora, considerando os limites do método para lesões vesicais planas ou pequenas.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Demais órgãos abdominais:  fígado, vesícula biliar, pâncreas, baço e adrenais sem particularidades no protocolo utilizado.
+Vasos:  aorta e veia cava inferior de calibres normais.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+{achado_urotelial|Falha de enchimento/Espessamento parietal focal} em {local_urotelial|cálice/pelve renal/ureter proximal/ureter médio/ureter distal} {lado_a|à direita/à esquerda}, medindo {tamanho}, com realce, indeterminado; lesão urotelial não pode ser excluída. Sugere-se avaliação urológica.
+A urotomografia tem sensibilidade limitada para lesões uroteliais planas e para pequenas lesões vesicais; a cistoscopia é complementar na investigação de hematúria.

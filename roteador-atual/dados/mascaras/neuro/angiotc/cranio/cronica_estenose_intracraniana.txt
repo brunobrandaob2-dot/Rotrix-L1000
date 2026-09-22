@@ -1,0 +1,23 @@
+# gatilhos: angio intracraniana com estenose intracraniana | angiotomografia intracraniana com estenose intracraniana | angio tc intracraniana com estenose intracraniana | angio intracraniana com ateromatose | angio intracraniana com estenose da cerebral media | angiotomografia intracraniana com ateromatose
+# categoria: neuro
+# modalidade: angiotc
+# regiao: cranio
+# tipo_mascara: cronica
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL INTRACRANIANA**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação do sistema arterial intracraniano.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Artérias carótidas internas:  segmentos petrosos, cavernosos e supraclinóideos pérvios, {sifoes|sem placas significativas/com placas ateromatosas calcificadas nos sifões carotídeos, sem estenose significativa}. Sem ectasias ou aneurismas.
+Artérias vertebrais:  segmentos intracranianos (V4) pérvios, com calibre e trajeto anatômicos, terminando na formação da artéria basilar.
+Artéria basilar:  calibre e fluxo anatômicos, sem tortuosidades anômalas ou ectasias.
+Artérias cerebrais anteriores, médias e posteriores:  redução luminal focal no segmento {segmento_arterial|M1/M2/A1/P1/P2} da artéria cerebral {arteria|média/anterior/posterior} {lado_f|direita/esquerda}, com estenose {grau|leve (< 50%)/moderada (50–69%)/acentuada (70–99%)}, estimada em {percentual}% (método WASID), com opacificação preservada a jusante. Demais artérias cerebrais pérvias, com opacificação simétrica.
+Artérias comunicantes anterior e posteriores:  patência anatômica dentro dos limites da resolução do método.
+Polígono de Willis:  conformação anatômica pérvia, sem evidência de dilatações aneurismáticas ou malformações vasculares.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Estenose {grau|leve (< 50%)/moderada (50–69%)/acentuada (70–99%)} do segmento {segmento_arterial|M1/M2/A1/P1/P2} da artéria cerebral {arteria|média/anterior/posterior} {lado_f|direita/esquerda}, estimada em {percentual}% (método WASID).

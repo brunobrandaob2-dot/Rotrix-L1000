@@ -1,0 +1,17 @@
+# gatilhos: raio x de abdome com pneumoperitonio | rx de abdome com pneumoperitonio | radiografia de abdome com pneumoperitonio | rx abdome pneumoperitonio | raio x de abdome com gas livre | rx de abdome com gas livre | radiografia de abdome com gas livre | rx abdome gas livre | raio x de abdome com ar livre subdiafragmatico | rx de abdome com ar livre subdiafragmatico | radiografia de abdome com ar livre subdiafragmatico | rx abdome ar livre subdiafragmatico
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: abdome
+# tipo_mascara: aguda
+**RADIOGRAFIA DE ABDOME**
+
+**TÉCNICA:**  incidências em decúbito dorsal e ortostase, complementadas por radiografia do tórax em PA.
+
+**ANÁLISE:**
+Distribuição gasosa intestinal habitual, com gás até a ampola retal.
+Alças intestinais de calibre normal, sem níveis hidroaéreos anômalos.
+Conteúdo fecal em quantidade habitual.
+Imagem gasosa em crescente sob a cúpula diafragmática {lado_f|direita/esquerda}, compatível com pneumoperitônio.
+Não há imagens cálcicas projetadas nas lojas renais ou nos trajetos ureterais.
+Não há corpos estranhos radiopacos.
+Arcabouço ósseo sem alterações.

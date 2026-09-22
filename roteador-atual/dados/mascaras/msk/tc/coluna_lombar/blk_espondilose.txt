@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: espondilose | espondilose lombar | osteofitos marginais | bicos de papagaio | osteofitos | alteracoes degenerativas na coluna | alteracoes degenerativas da coluna | osteofitos na coluna | espondiloartrose | espondilartrose | alteracoes degenerativas
+# conclusao: Espondilose lombar.
+Corpos vertebrais:  de altura preservada, com osteófitos marginais anteriores e laterais, mais evidentes em {nivel}, sem sinais de fratura ou de lesão focal.

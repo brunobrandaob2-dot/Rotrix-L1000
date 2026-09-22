@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Transição lombossacra
+# gatilhos: vertebra transicional | sacralizacao | lombarizacao | megapofise transversa
+# conclusao: Vértebra transicional lombossacra (Castellvi tipo {castellvi|IA/IB/IIA/IIB/IIIA/IIIB/IV}).
+Transição lombossacra:  vértebra transicional lombossacra, com megapófise transversa {lado_f|direita/esquerda} {tipo_contato|que forma neoarticulação com a asa sacral/fundida à asa sacral}, correspondendo ao tipo {castellvi|IA/IB/IIA/IIB/IIIA/IIIB/IV} de Castellvi. A numeração vertebral deve ser correlacionada com estudo da coluna total ou com a contagem a partir de C2.

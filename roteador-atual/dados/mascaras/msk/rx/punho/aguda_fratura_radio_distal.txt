@@ -1,0 +1,19 @@
+# gatilhos: raio x de punho com fratura | rx de punho com fratura | radiografia de punho com fratura | rx do punho com fratura | rx punho fratura | raio x de punho com fratura do radio distal | rx de punho com fratura do radio distal | raio x de punho com fratura do radio | rx de punho com fratura do radio | raio x de punho com fratura de colles | rx de punho com fratura de colles
+# categoria: msk
+# modalidade: rx
+# regiao: punho
+# tipo_mascara: aguda
+**RADIOGRAFIA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências posteroanterior, perfil e oblíqua.
+
+**ANÁLISE:**
+Alinhamento carpal preservado.
+Espaços articulares radiocarpal, mediocarpal e radioulnar distal preservados.
+Articulação trapeziometacarpiana preservada.
+Fratura {padrao|extra-articular/intra-articular} do rádio distal, com desvio {sentido|dorsal/volar} do fragmento distal, {cominuicao|sem/com} cominuição.
+Inclinação radial de ___°, inclinação {inclinacao|volar/dorsal} de ___° e encurtamento radial de ___ mm.
+{ulna|Processo estiloide ulnar íntegro/Fratura da ponta do processo estiloide ulnar/Fratura da base do processo estiloide ulnar}.
+A tomografia pode auxiliar na avaliação do componente articular.
+Densidade óssea preservada.
+{partes|Partes moles sem alterações/Aumento de volume das partes moles adjacentes ao foco de fratura}.

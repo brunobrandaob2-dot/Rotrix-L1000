@@ -1,0 +1,7 @@
+# tipo: adendo
+# gatilhos: variante anatomica | adendo de variante anatomica | estrutura apontada como suspeita
+ADENDO AO LAUDO — Em ___ de ___________ de ______, às ___h___.
+
+Em atenção ao pedido de revisão deste exame, esclareço que a estrutura apontada como suspeita de ___________ corresponde a ___________ — variante anatômica de ocorrência habitual, situada em ___________, de contornos regulares e limites definidos, com densidade e comportamento de realce idênticos aos de ___________ em todas as fases adquiridas. Não há, no presente estudo, qualquer critério de imagem que sustente natureza neoplásica.
+
+Caso haja necessidade de avaliação dirigida a essa ou a qualquer outra estrutura, solicito que a demanda seja transmitida na história clínica e no pedido de exame, acompanhada do critério clínico que a justifique.

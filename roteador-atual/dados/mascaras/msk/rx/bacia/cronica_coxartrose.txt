@@ -1,0 +1,17 @@
+# gatilhos: raio x de bacia com coxartrose | rx de bacia com coxartrose | rx bacia coxartrose | radiografia de bacia com coxartrose | raio x de bacia com artrose | rx bacia com coxartrose
+# categoria: msk
+# modalidade: rx
+# regiao: bacia
+# tipo_mascara: cronica
+**RADIOGRAFIA DA BACIA**
+
+**TÉCNICA:**  incidência anteroposterior da bacia.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Articulações sacroilíacas preservadas.
+Sínfise púbica sem alterações.
+Coxartrose {lado_f|direita/esquerda}, com redução do espaço articular de predomínio {predominio|superolateral/superomedial/concêntrico}, esclerose subcondral, osteófitos marginais e cistos subcondrais (Kellgren-Lawrence grau {kl|1/2/3/4}).
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

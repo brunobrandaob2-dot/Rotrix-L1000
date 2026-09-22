@@ -1,0 +1,33 @@
+# gatilhos: angio de membros inferiores com doenca arterial obstrutiva | angio de membros inferiores com doenca obstrutiva cronica | angiotomografia de membros inferiores com doenca arterial obstrutiva | angio de membros inferiores com doao | angio de mmii com doao | angio de membros inferiores com daop | angio de mmii com doenca arterial obstrutiva | angio de membros inferiores com ateromatose difusa
+# categoria: angio
+# modalidade: angiotc
+# regiao: membros_inferiores
+# tipo_mascara: cronica
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL DOS MEMBROS INFERIORES**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fase arterial, da aorta abdominal aos pés, com reconstruções multiplanares, em projeção de intensidade máxima (MIP) e tridimensionais, direcionadas para a avaliação do sistema arterial dos membros inferiores.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada até os segmentos distais. Calcificações parietais extensas podem superestimar o grau de estenose, sobretudo nas artérias da perna.
+Graduação das estenoses:  redução luminal em diâmetro, classificada em leve (< 50%), moderada (50–69%), acentuada (70–99%) e oclusão; estenoses ≥ 50% são consideradas hemodinamicamente significativas.
+Ateromatose:  placas ateromatosas calcificadas e não calcificadas, de distribuição {distribuicao_doao|difusa/predominante no segmento aortoilíaco/predominante no segmento femoropoplíteo/predominante no segmento infrapatelar}.
+Aorta abdominal infrarrenal:  {seg_aorta|pérvia, sem estenoses significativas/com estenose de ___%/ocluída}.
+Artérias ilíacas comuns:  {seg_iliaca_comum|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias ilíacas internas:  {seg_iliaca_interna|pérvias/com estenose de ___% à ___/ocluída à ___}.
+Artérias ilíacas externas:  {seg_iliaca_externa|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias femorais comuns:  {seg_femoral_comum|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias femorais profundas:  {seg_femoral_profunda|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias femorais superficiais:  {seg_femoral_superficial|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias poplíteas:  {seg_poplitea|pérvias, sem estenoses significativas/com estenose de ___% à ___/com oclusão à ___, de ___ cm de extensão}.
+Artérias da perna:  {seg_perna|troncos tibiofibulares, artérias tibiais anteriores, tibiais posteriores e fibulares pérvios/vaso(s) pérvio(s) até o tornozelo à direita: ___; à esquerda: ___}.
+Artérias do pé:  {seg_pe|artérias dorsais do pé e arcos plantares opacificados/opacificação reduzida das artérias do pé à ___}.
+Circulação colateral:  {colaterais|sem circulação colateral significativa/circulação colateral desenvolvida a partir de ___, com reabitação distal em ___}.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Doença arterial obstrutiva ateromatosa dos membros inferiores, de distribuição {distribuicao_doao|difusa/predominante no segmento aortoilíaco/predominante no segmento femoropoplíteo/predominante no segmento infrapatelar}.
+Lesões hemodinamicamente significativas: ___.

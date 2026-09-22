@@ -1,0 +1,30 @@
+# gatilhos: tomografia de coluna lombar com fratura explosao | tc de coluna lombar com fratura explosao | tc coluna lombar fratura explosao | tomografia de coluna lombar com fratura em explosao | tc de coluna lombar com fratura em explosao | tc de coluna lombar com burst | tc de coluna lombar com retropulsao
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_lombar
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  cifose focal em {nivel}, com ângulo de {angulo} graus. Ausência de translação.
+Corpos vertebrais:  fratura cominutiva do corpo vertebral de {nivel}, com acometimento da plataforma {plataforma|superior/inferior/superior e inferior} e do muro posterior, com perda de altura estimada em {percentual}%. Traço de fratura de margens nítidas, sem esclerose, aspecto de fratura aguda.
+Fragmento ósseo retropulso do muro posterior, medindo {tamanho}, que reduz a amplitude do canal vertebral.
+Discos intervertebrais:  espaços discais adjacentes de altura preservada.
+Articulações interapofisárias:  congruentes, sem diástase ou luxação.
+Canal vertebral:  redução da amplitude do canal vertebral em {nivel} por retropulsão de fragmento, com diâmetro anteroposterior residual de {diametro} mm, correspondendo a comprometimento estimado de {comprometimento_canal}% em relação aos níveis adjacentes.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  {elementos_posteriores|pedículos, lâminas e processos espinhosos íntegros, sem alargamento interespinhoso/traço de fratura na lâmina de ___, com alargamento da distância interpedicular}.
+Transição lombossacra:  de configuração habitual.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares.
+Partes moles paravertebrais:  densificação e aumento volumétrico das partes moles paravertebrais adjacentes à fratura, compatíveis com hematoma.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura em explosão do corpo vertebral de {nivel}, de aspecto agudo, com perda de altura estimada em {percentual}% e acometimento do muro posterior (AO Spine tipo {ao_spine|A3/A4}).
+Retropulsão de fragmento ósseo com redução da amplitude do canal vertebral, diâmetro anteroposterior residual de {diametro} mm.
+Recomenda-se ressonância magnética para avaliação do complexo ligamentar posterior e do conteúdo do canal vertebral.

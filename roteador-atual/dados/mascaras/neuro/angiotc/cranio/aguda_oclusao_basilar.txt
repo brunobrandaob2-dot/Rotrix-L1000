@@ -1,0 +1,23 @@
+# gatilhos: angio intracraniana com oclusao da basilar | angiotomografia intracraniana com oclusao da basilar | angio tc intracraniana com oclusao da basilar | angio intracraniana com trombose da basilar
+# categoria: neuro
+# modalidade: angiotc
+# regiao: cranio
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA ARTERIAL INTRACRANIANA**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação do sistema arterial intracraniano.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Artérias carótidas internas:  segmentos petrosos, cavernosos e supraclinóideos pérvios, com calibre preservado, simétricos, sem ectasias, estenoses ou aneurismas.
+Artérias vertebrais:  segmentos intracranianos (V4) pérvios, com calibre e trajeto anatômicos, terminando na formação da artéria basilar.
+Artéria basilar:  ausência de opacificação do segmento {segmento_basilar|proximal/médio/distal (topo da basilar)/proximal ao distal} da artéria basilar, com extensão estimada de {tamanho}, compatível com oclusão arterial.
+Artérias cerebrais anteriores, médias e posteriores:  artérias cerebrais anteriores e médias pérvias, com opacificação simétrica. Artérias cerebrais posteriores {acp|opacificadas por meio das artérias comunicantes posteriores/com opacificação reduzida/não opacificadas}.
+Artérias comunicantes anterior e posteriores:  artéria comunicante anterior pérvia. Artérias comunicantes posteriores {acomp|pérvias, com fluxo colateral para o território posterior/não caracterizadas}.
+Polígono de Willis:  conformação anatômica pérvia, sem evidência de dilatações aneurismáticas ou malformações vasculares.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Oclusão do segmento {segmento_basilar|proximal/médio/distal (topo da basilar)/proximal ao distal} da artéria basilar, compatível com oclusão de grande vaso da circulação posterior — correlacionar com o quadro clínico e o tempo de evolução.

@@ -1,0 +1,36 @@
+# gatilhos: tomografia de abdome com alteracoes cronicas | tc de abdome com alteracoes cronicas | tc abdome alteracoes cronicas | tomografia de abdome total com alteracoes cronicas | tc de abdome total com alteracoes cronicas | tomografia do abdome com alteracoes cronicas | tomografia de abdome com alteracoes da idade | tc de abdome com alteracoes da idade | tc abdome alteracoes da idade | tomografia de abdome com alteracoes relacionadas a idade | tc de abdome com alteracoes relacionadas a idade | tc abdome alteracoes relacionadas a idade | tomografia de abdome do idoso | tc de abdome do idoso | abdome do idoso | tomografia de abdome com alteracoes cronicas relacionadas a idade
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: abdome
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Transição toracoabdominal:  sem particularidades.
+Fígado:  de dimensões normais, contornos regulares e densidade normal.
+Loja vesicular:  sem particularidades.
+Vias biliares:  sem dilatação.
+Pâncreas:  de dimensões e densidade normais, sem dilatação ductal.
+Baço:  de dimensões normais e densidade homogênea.
+Adrenais:  de espessura normal e sem nódulos.
+Rins:  tópicos, de contornos regulares, dimensões e espessura do parênquima normais. Cisto cortical {lado_a|à direita/à esquerda}, medindo {tamanho}, de conteúdo homogêneo, paredes finas, sem septos ou realce (Bosniak I). Não há cálculos ou dilatação de vias coletoras.
+Bexiga:  de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos:  sem particularidades, considerando os limites do método.
+Trato gastrointestinal:  divertículos colônicos esparsos, sem espessamento parietal ou densificação da gordura pericólica que sugiram diverticulite.
+Não há sinais inflamatórios na região ileocecoapendicular.
+Vasos:  aorta de calibre normal, com ateromatose calcificada parietal, estendendo-se às artérias ilíacas comuns. Veia cava inferior de calibre normal.
+Retroperitônio:  não há evidência de linfonodomegalias.
+Peritônio:  ausência de líquido livre ou coleções.
+Estruturas ósseas e partes moles:  alterações degenerativas da coluna lombar, com osteófitos marginais nos corpos vertebrais, redução de espaços discais e artrose interapofisária. Partes moles sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Ateromatose calcificada da aorta abdominal e das artérias ilíacas.
+Diverticulose colônica, sem sinais de diverticulite.
+Cisto renal simples {lado_a|à direita/à esquerda} (Bosniak I), sem necessidade de seguimento.
+Espondilose lombar.

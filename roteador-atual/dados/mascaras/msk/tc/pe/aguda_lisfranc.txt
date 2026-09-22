@@ -1,0 +1,26 @@
+# gatilhos: tomografia de pe com lesao de lisfranc | tc de pe com lisfranc | tc pe lisfranc | tomografia de pe com fratura luxacao de lisfranc | tomografia de pe com lisfranc
+# categoria: msk
+# modalidade: tc
+# regiao: pe
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  alterado, com {desalinhamento|diástase/subluxação dorsolateral/luxação} na articulação tarsometatarsal e perda do alinhamento da margem medial da base do segundo metatarso com o cuneiforme intermédio (Myerson {myerson|A/B1/B2/C1/C2}).
+Retropé:  tálus e calcâneo de morfologia e densidade normais. Articulações subtalar e talonavicular congruentes.
+Mediopé:  alargamento do espaço entre a base do primeiro e do segundo metatarsos, medindo {tamanho}, {fleck|sem/com} fragmento ósseo avulsionado no primeiro espaço intermetatarsal (fleck sign).
+Fraturas associadas: {fraturas_assoc|ausentes/nas bases dos metatarsos/nos cuneiformes/no cuboide}.
+Antepé:  metatarsos e falanges sem particularidades. Articulações metatarsofalângicas e interfalângicas congruentes.
+Arcos plantares:  preservados, considerando que o exame é realizado sem carga.
+Tendões:  trajeto habitual, considerando os limites do método.
+Partes moles:  aumento de volume e edema das partes moles dorsais do mediopé.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Lesão do complexo tarsometatarsal (Lisfranc), com diástase de {tamanho} entre as bases do primeiro e do segundo metatarsos.
+A ressonância magnética avalia diretamente o ligamento de Lisfranc.

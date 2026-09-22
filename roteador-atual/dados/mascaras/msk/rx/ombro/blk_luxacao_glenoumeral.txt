@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: luxacao glenoumeral | luxacao | luxacao do ombro
+Luxação glenoumeral {direcao|anterior, com a cabeça umeral em posição subcoracoide/posterior/inferior}.

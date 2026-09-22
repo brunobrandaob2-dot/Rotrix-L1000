@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Núcleos da base
+# gatilhos: calcificacoes dos nucleos da base | calcificacao dos ganglios da base | calcificacoes dos globos palidos | nucleos da base calcificados
+# conclusao: Calcificações bilaterais e simétricas dos núcleos da base, sem repercussão expansiva.
+Núcleos da base: calcificações bilaterais e simétricas nos globos pálidos, sem efeito expansivo ou edema adjacente, achado de ocorrência habitual nesta topografia; quando exuberantes ou associadas a calcificações denteadas e subcorticais, recomenda-se correlação com o metabolismo fosfocálcico.

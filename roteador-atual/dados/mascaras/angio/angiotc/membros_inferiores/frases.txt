@@ -1,0 +1,37 @@
+# tipo: frases
+## gatilhos: arterias femorais superficiais pervias | femorais superficiais sem estenoses
+Artérias femorais superficiais pérvias, com calibre preservado, sem estenoses ou oclusões.
+## gatilhos: tres vasos pervios ate o tornozelo | arterias da perna pervias ate o tornozelo
+Artérias tibiais anteriores, tibiais posteriores e fibulares pérvias, com opacificação contínua até o tornozelo.
+## gatilhos: estenose significativa da femoral superficial | estenose acentuada da femoral superficial
+Estenose acentuada (≥ 70%) da artéria femoral superficial {lado_f|direita/esquerda}.
+## gatilhos: oclusao curta da femoral superficial | oclusao segmentar da femoral superficial
+Oclusão segmentar da artéria femoral superficial {lado_f|direita/esquerda}, com extensão de ___ cm e reabitação distal por colaterais.
+## gatilhos: reabitacao da poplitea por colaterais | poplitea reabitada por colaterais
+Reabitação da artéria poplítea {lado_f|direita/esquerda} por colaterais da artéria femoral profunda.
+## gatilhos: calcificacoes extensas nas arterias da perna | calcificacao que limita a avaliacao das tibiais
+Calcificações parietais extensas nas artérias da perna, que limitam a graduação das estenoses e podem superestimá-las.
+## gatilhos: aneurisma da poplitea com trombo | aneurisma de poplitea trombosado
+Aneurisma da artéria poplítea {lado_f|direita/esquerda}, medindo {tamanho}, com trombo mural.
+## gatilhos: estenose ostial da femoral profunda | estenose da origem da femoral profunda
+Estenose ostial da artéria femoral profunda {lado_f|direita/esquerda}, estimada em ___%.
+## gatilhos: oclusao da tibial anterior | tibial anterior ocluida
+Oclusão da artéria tibial anterior {lado_f|direita/esquerda} a partir do terço {terco|proximal/médio/distal}.
+## gatilhos: fibular como vaso dominante ate o tornozelo | fibular unico vaso pervio
+Artéria fibular {lado_f|direita/esquerda} como único vaso pérvio até o tornozelo, com reabitação das artérias do pé por ramos colaterais.
+## gatilhos: enxerto femoropopliteo pervio | ponte femoropoplitea pervia
+Enxerto femoropoplíteo {lado_a|à direita/à esquerda} pérvio, com anastomoses sem estenoses, pseudoaneurismas ou coleções.
+## gatilhos: stent na femoral superficial pervio | stent femoral pervio
+Stent na artéria femoral superficial {lado_f|direita/esquerda} pérvio, sem estenoses intra-stent significativas.
+## gatilhos: reestenose intra stent femoral | reestenose do stent da femoral
+Hiperplasia intimal no stent da artéria femoral superficial {lado_f|direita/esquerda}, determinando reestenose de ___%.
+## gatilhos: pseudoaneurisma da femoral comum | pseudoaneurisma pos puncao femoral
+Pseudoaneurisma da artéria femoral comum {lado_f|direita/esquerda}, medindo {tamanho}, com colo de ___ mm.
+## gatilhos: embolia na bifurcacao femoral | embolo na bifurcacao da femoral comum
+Falha de enchimento na bifurcação da artéria femoral comum {lado_f|direita/esquerda}, com interrupção abrupta da coluna de contraste, podendo corresponder a êmbolo.
+## gatilhos: oclusao aortoiliaca | sindrome de leriche
+Oclusão da aorta infrarrenal e das artérias ilíacas comuns, com reabitação das artérias femorais comuns por circulação colateral (padrão de Leriche).
+## gatilhos: estenose ostial da iliaca comum | estenose da origem da iliaca comum
+Estenose ostial da artéria ilíaca comum {lado_f|direita/esquerda}, estimada em ___%.
+## gatilhos: circulacao colateral da femoral profunda | colaterais da femoral profunda
+Circulação colateral desenvolvida a partir da artéria femoral profunda {lado_f|direita/esquerda}.

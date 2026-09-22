@@ -1,0 +1,18 @@
+# gatilhos: raio x de bacia com fratura | rx de bacia com fratura | rx bacia fratura | raio x de bacia com fratura dos ramos pubicos | rx de bacia com fratura dos ramos pubicos | raio x de bacia com fratura do anel pelvico
+# categoria: msk
+# modalidade: rx
+# regiao: bacia
+# tipo_mascara: aguda
+**RADIOGRAFIA DA BACIA**
+
+**TÉCNICA:**  incidência anteroposterior da bacia.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Articulações sacroilíacas preservadas.
+Sínfise púbica {sinfise|alinhada/com diástase de ___}.
+Espaços articulares coxofemorais preservados.
+Fratura dos ramos iliopúbico e isquiopúbico {lado_ramos|direitos/esquerdos/bilaterais}, {desvio_ramos|sem desvio significativo/com desvio de ___}.
+A radiografia tem sensibilidade limitada para o anel pélvico posterior; considerar tomografia computadorizada.
+Densidade óssea preservada.
+Partes moles sem alterações.

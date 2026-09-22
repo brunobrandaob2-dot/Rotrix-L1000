@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Peritônio
+# gatilhos: ascite | liquido livre na cavidade | derrame peritoneal | liquido livre abdominal
+# conclusao: Ascite de ___ volume, com densidade de ___ UH, de etiologia a esclarecer.
+Peritônio: líquido livre na cavidade peritoneal, de pequeno / moderado / grande volume, com densidade de ___ UH, distribuído pelos recessos peri-hepático, periesplênico, goteiras parietocólicas e escavação pélvica. Folhetos peritoneais de espessura preservada, sem realce anômalo, nodulações ou implantes caracterizáveis ao método. Ausência de septações ou de focos gasosos de permeio.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: artrose do punho | artrose radiocarpal | alteracoes degenerativas do punho
+# conclusao: Alterações degenerativas {local|radiocarpais/mediocarpais/radioulnares distais/escafotrapeziotrapezoidais} (Kellgren-Lawrence {kl|1/2/3/4}).
+Espaços articulares:  redução do espaço articular {local|radiocarpal/mediocarpal/radioulnar distal/escafotrapeziotrapezoidal}, com osteófitos marginais, esclerose e cistos subcondrais.

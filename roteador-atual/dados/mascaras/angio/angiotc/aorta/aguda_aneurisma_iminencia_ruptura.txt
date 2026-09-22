@@ -1,0 +1,32 @@
+# gatilhos: angio de aorta com iminencia de ruptura | angio de aorta com aneurisma com sinais de iminencia de ruptura | angiotomografia de aorta com iminencia de ruptura | angio de aorta com aneurisma instavel | angio de aorta com sinal do crescente
+# categoria: angio
+# modalidade: angiotc
+# regiao: aorta
+# tipo_mascara: aguda
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA {segmento_aortico|TORÁCICA E ABDOMINAL/TORÁCICA/ABDOMINAL}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores, antes e após a administração intravenosa de meio de contraste iodado, em fase arterial, com reconstruções multiplanares e tridimensionais direcionadas para a avaliação da aorta e de seus ramos. Diâmetros aferidos de parede externa a parede externa, em plano perpendicular ao eixo longitudinal do vaso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na luz aórtica na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise.
+Fase sem contraste:  crescente hiperatenuante na parede do aneurisma, em relação à atenuação da luz aórtica, na parede {parede_crescente|posterior/lateral esquerda/lateral direita/anterior}.
+Raiz aórtica e aorta ascendente:  calibre preservado, contornos regulares e opacificação homogênea.
+Arco aórtico e ramos supra-aórticos:  conformação habitual, com origem e trajeto preservados do tronco braquiocefálico, da artéria carótida comum esquerda e da artéria subclávia esquerda, pérvios.
+Aorta torácica descendente:  trajeto e calibre habituais, com opacificação homogênea.
+Aorta abdominal:  dilatação aneurismática {morfologia|fusiforme/sacular} do segmento infrarrenal, com diâmetro máximo de {tamanho} e extensão longitudinal de ___ cm.
+Paredes aórticas:  trombo mural de ___ cm. {sinais_iminencia|Descontinuidade focal de calcificações parietais/Contato da parede posterior com a coluna vertebral, amoldando-se ao seu contorno (sinal da aorta drapeada)/Descontinuidade focal de calcificações e sinal da aorta drapeada}.
+Ramos viscerais:  tronco celíaco, artéria mesentérica superior, artérias renais e artéria mesentérica inferior com origem habitual e pérvios, sem estenoses significativas.
+Artérias ilíacas:  artérias ilíacas comuns, internas e externas pérvias, com calibre e trajeto anatômicos.
+Diâmetros aórticos:  seios de Valsalva ___ mm; aorta ascendente ___ mm; arco ___ mm; descendente proximal ___ mm; descendente no hiato diafragmático ___ mm; aorta abdominal suprarrenal ___ mm; infrarrenal ___ mm.
+Mediastino e retroperitônio:  {densificacao|sem hematoma retroperitoneal/densificação da gordura periaórtica, sem hematoma organizado}.
+Derrames:  ausência de derrame pleural ou pericárdico.
+Demais estruturas:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Aneurisma da aorta abdominal infrarrenal com diâmetro máximo de {tamanho}, com sinais tomográficos de instabilidade e iminência de ruptura, sem hematoma retroperitoneal no presente estudo.
+Resultado comunicado à equipe assistente em ___h___, ao(à) Dr(a). ___.

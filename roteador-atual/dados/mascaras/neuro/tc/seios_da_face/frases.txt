@@ -1,0 +1,51 @@
+# tipo: frases
+## gatilhos: espessamento mucoso no seio maxilar | espessamento mucoso do seio maxilar
+Espessamento mucoso parietal no seio maxilar {lado|direito/esquerdo}, com espessura máxima de {tamanho}.
+## gatilhos: cisto de retencao no seio maxilar | cisto mucoso no seio maxilar
+Formação de contornos convexos e densidade de partes moles no seio maxilar {lado|direito/esquerdo}, medindo {tamanho}, compatível com cisto de retenção mucoso ou pólipo.
+## gatilhos: nivel hidroaereo no seio maxilar | nivel liquido no seio maxilar
+Espessamento mucoso com nível hidroaéreo no seio maxilar {lado|direito/esquerdo}.
+## gatilhos: velamento completo do seio maxilar | seio maxilar velado
+Velamento completo do seio maxilar {lado|direito/esquerdo}, sem erosões ósseas.
+## gatilhos: bola fungica no seio maxilar | seio maxilar com conteudo hiperatenuante
+Velamento do seio maxilar {lado|direito/esquerdo} por conteúdo hiperatenuante com calcificações centrais e esclerose das paredes, aspecto que pode corresponder a bola fúngica.
+## gatilhos: seio maxilar hipoplasico | hipoplasia do seio maxilar
+Hipoplasia do seio maxilar {lado|direito/esquerdo}, variante anatômica.
+## gatilhos: espessamento mucoso etmoidal nos seios da face | seios da face etmoide espessado
+Espessamento mucoso nas células etmoidais {lado_a|à direita/à esquerda}.
+## gatilhos: espessamento mucoso no seio esfenoidal | seio esfenoidal espessado
+Espessamento mucoso no seio esfenoidal {lado|direito/esquerdo}.
+## gatilhos: seio frontal hipoplasico nos seios da face | agenesia do seio frontal nos seios da face
+{desenvolvimento_frontal|Hipoplasia/Agenesia} do seio frontal {lado|direito/esquerdo}, variante anatômica.
+## gatilhos: complexo ostiomeatal obstruido nos seios da face | seios da face obstrucao ostiomeatal
+Obstrução do complexo ostiomeatal {lado_a|à direita/à esquerda} por espessamento mucoso no infundíbulo etmoidal.
+## gatilhos: complexos ostiomeatais pervios nos seios da face | seios da face ostiomeatais pervios
+Complexos ostiomeatais pérvios bilateralmente.
+## gatilhos: desvio do septo nasal nos seios da face | seios da face desvio septal
+Desvio do septo nasal com convexidade {lado_septo|à direita/à esquerda}.
+## gatilhos: esporao septal nos seios da face | seios da face esporao do septo nasal
+Esporão ósseo septal {lado_esporao|à direita/à esquerda}, em contato com a concha inferior homolateral.
+## gatilhos: concha media bolhosa nos seios da face | seios da face concha bolhosa
+Pneumatização da concha média {lado_f|direita/esquerda} (concha bolhosa).
+## gatilhos: concha media paradoxal nos seios da face | seios da face concha paradoxal
+Curvatura paradoxal da concha média {lado_f|direita/esquerda}.
+## gatilhos: celula de haller nos seios da face | seios da face celula infraorbitaria
+Célula etmoidal infraorbitária (célula de Haller) {lado_a|à direita/à esquerda}, reduzindo a amplitude do infundíbulo etmoidal.
+## gatilhos: celula de agger nasi nos seios da face | seios da face agger nasi
+Célula de agger nasi {lado_a|à direita/à esquerda}, reduzindo a amplitude do recesso frontal.
+## gatilhos: celula de onodi nos seios da face | seios da face onodi
+Célula esfenoetmoidal (célula de Onodi) {lado_a|à direita/à esquerda}, em íntima relação com o canal óptico.
+## gatilhos: classificacao de keros nos seios da face | seios da face keros
+Fossas olfatórias com profundidade classificada como Keros tipo {keros|I/II/III}.
+## gatilhos: assimetria do teto etmoidal nos seios da face | seios da face teto etmoidal assimetrico
+Assimetria do teto etmoidal, mais baixo {lado_a|à direita/à esquerda}, dado relevante para o planejamento cirúrgico.
+## gatilhos: deiscencia da lamina papiracea nos seios da face | seios da face lamina papiracea deiscente
+Deiscência da lâmina papirácea {lado_f|direita/esquerda}, dado relevante para o planejamento cirúrgico.
+## gatilhos: escore de lund mackay nos seios da face | seios da face lund mackay
+Escore de Lund-Mackay: {lund_mackay}/24.
+## gatilhos: lesao nasal unilateral nos seios da face | seios da face massa unilateral
+Formação expansiva unilateral na fossa nasal {lado_f|direita/esquerda}, de natureza indeterminada; o diagnóstico diferencial inclui papiloma invertido, sendo recomendada avaliação endoscópica e ressonância magnética.
+## gatilhos: seios da face sem sinais de sinusopatia | seios paranasais normopneumatizados na tc de face
+Seios paranasais normopneumatizados, sem sinais de sinusopatia.
+## gatilhos: hemossinus nos seios da face | seios da face conteudo hematico
+Conteúdo hiperatenuante no seio {seio|maxilar/frontal/esfenoidal} {lado|direito/esquerdo}, compatível com hemossinus no contexto de trauma.

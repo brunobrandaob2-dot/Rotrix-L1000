@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Vasos
+# gatilhos: aortoectasia | ectasia da aorta | aorta ectasica
+# conclusao: Ectasia da aorta abdominal, medindo {tamanho}, sem critério para aneurisma.
+Vasos:  aorta abdominal infrarrenal de calibre discretamente aumentado, medindo {tamanho} no maior diâmetro transverso (inferior ao limiar de 3,0 cm para aneurisma), com ateromatose calcificada parietal. Veia cava inferior de calibre normal.

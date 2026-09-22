@@ -1,0 +1,17 @@
+# gatilhos: raio x de coluna lombar com escoliose | rx de coluna lombar com escoliose | rx coluna lombar escoliose | radiografia de coluna lombar com escoliose | rx de coluna lombossacra com escoliose | rx de coluna lombar com desvio lateral | rx de coluna toracolombar com escoliose
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_lombar
+# tipo_mascara: cronica
+**RADIOGRAFIA DA COLUNA LOMBOSSACRA**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Desvio lateral do eixo longitudinal da coluna lombar, com convexidade para a {lado_f|direita/esquerda}.
+Corpos vertebrais com altura preservada, sem sinais de fraturas.
+Redução assimétrica dos espaços discais na concavidade da curva.
+Artrose interapofisária na concavidade da curva.
+Articulações sacroilíacas preservadas.
+Densidade óssea preservada.
+Partes moles sem alterações.

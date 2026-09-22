@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias cerebrais anteriores, médias e posteriores
+# gatilhos: vasoespasmo | vasoespasmo cerebral | espasmo arterial | sinais de vasoespasmo
+# conclusao: Redução segmentar do calibre de artérias intracranianas, podendo corresponder a vasoespasmo — correlacionar com o contexto clínico e o Doppler transcraniano.
+Artérias cerebrais anteriores, médias e posteriores:  pérvias, com redução segmentar e difusa do calibre {espasmo_local|dos segmentos M1 e A1/dos segmentos M1, M2 e A1/de ___} {lado_a|à direita/à esquerda/bilateralmente}, sem oclusões, podendo corresponder a vasoespasmo.

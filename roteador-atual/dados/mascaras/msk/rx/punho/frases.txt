@@ -1,0 +1,27 @@
+# tipo: frases
+## gatilhos: variancia ulnar positiva no punho
+Variância ulnar positiva, de {tamanho}.
+## gatilhos: variancia ulnar negativa no punho
+Variância ulnar negativa, de {tamanho}.
+## gatilhos: variancia ulnar neutra no punho
+Variância ulnar neutra.
+## gatilhos: fratura de colles no punho
+Fratura extra-articular do rádio distal, com desvio dorsal (padrão de Colles).
+## gatilhos: fratura de smith no punho
+Fratura do rádio distal, com desvio volar (padrão de Smith).
+## gatilhos: fratura de barton no punho
+Fratura-luxação intra-articular da margem {margem|dorsal/volar} do rádio distal (padrão de Barton).
+## gatilhos: fratura do estiloide radial no punho | fratura do chauffeur no punho
+Fratura do processo estiloide do rádio (fratura do chauffeur), com extensão articular.
+## gatilhos: sinal de terry thomas no punho
+Alargamento do intervalo escafossemilunar, medindo {tamanho} (sinal de Terry-Thomas).
+## gatilhos: sinal do anel cortical no punho
+Sinal do anel cortical do escafoide, sugestivo de flexão do escafoide.
+## gatilhos: angulo escafossemilunar no punho
+Ângulo escafossemilunar de {angulo}° (referência: 30° a 60°).
+## gatilhos: obliteracao do coxim do escafoide no punho
+Obliteração do coxim adiposo do escafoide.
+## gatilhos: ressalva do escafoide no punho | fratura oculta do escafoide no punho
+A radiografia tem sensibilidade limitada para fraturas ocultas do escafoide; se a suspeita persistir, recomenda-se controle em 10 a 14 dias ou ressonância magnética.
+## gatilhos: rizartrose eaton littler no punho | classificacao de eaton no punho
+Rizartrose, estágio {eaton|I/II/III/IV} de Eaton-Littler.

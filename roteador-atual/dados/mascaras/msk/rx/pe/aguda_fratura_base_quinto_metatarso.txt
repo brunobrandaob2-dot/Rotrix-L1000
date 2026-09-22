@@ -1,0 +1,17 @@
+# gatilhos: raio x de pe com fratura da base do quinto metatarso | rx de pe com fratura do quinto metatarso | radiografia de pe com fratura do quinto metatarso | rx pe fratura quinto metatarso | raio x de pe com fratura de jones | rx de pe com fratura de jones
+# categoria: msk
+# modalidade: rx
+# regiao: pe
+# tipo_mascara: aguda
+**RADIOGRAFIA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, oblíqua e perfil.
+
+**ANÁLISE:**
+Alinhamento preservado, com articulações tarsometatarsais congruentes.
+Espaços articulares preservados.
+Arco longitudinal medial de altura preservada.
+Fratura {traco|transversa/oblíqua} da base do quinto metatarso, {zona|zona 1 (tuberosidade)/zona 2 (Jones)/zona 3 (diáfise proximal)}, com desvio de {tamanho}.
+Fraturas das zonas 2 e 3 têm maior risco de retardo de consolidação.
+Densidade óssea preservada.
+Aumento de partes moles na borda lateral do pé.

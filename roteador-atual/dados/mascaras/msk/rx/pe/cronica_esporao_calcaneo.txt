@@ -1,0 +1,17 @@
+# gatilhos: raio x de pe com esporao calcaneo | rx de pe com esporao | radiografia de pe com esporao calcaneo | rx pe esporao | raio x de pe com esporao plantar | rx de pe com haglund | raio x de pe com entesopatia do aquiles
+# categoria: msk
+# modalidade: rx
+# regiao: pe
+# tipo_mascara: cronica
+**RADIOGRAFIA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, oblíqua e perfil.
+
+**ANÁLISE:**
+Alinhamento preservado, com articulações tarsometatarsais congruentes.
+Espaços articulares preservados.
+Arco longitudinal medial de altura preservada.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Entesopatia calcificada {local_ent|plantar/posterior/plantar e posterior} no calcâneo.
+Demais partes moles sem alterações.

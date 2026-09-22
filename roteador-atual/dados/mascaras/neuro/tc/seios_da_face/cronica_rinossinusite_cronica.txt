@@ -1,0 +1,34 @@
+# gatilhos: tomografia de seios da face com rinossinusite cronica | tc de seios da face com rinossinusite cronica | tc seios da face rinossinusite cronica | tomografia de seios da face com sinusopatia cronica | tc de seios da face com sinusopatia cronica
+# categoria: neuro
+# modalidade: tc
+# regiao: seios_da_face
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DOS SEIOS DA FACE**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado, com reconstruções multiplanares em filtro para osso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Seios maxilares:  espessamento mucoso parietal {lado_maxilar|à direita/à esquerda/bilateralmente}, com espessura máxima de {tamanho}, associado a espessamento e esclerose das paredes ósseas (osteíte), sem níveis hidroaéreos.
+Seios etmoidais:  espessamento mucoso nas células etmoidais {celulas_etmoidais|anteriores/posteriores/anteriores e posteriores} {lado_etmoidal|à direita/à esquerda/bilateralmente}. Lâminas papiráceas íntegras.
+Seios frontais:  normopneumatizados, com paredes ósseas íntegras.
+Seios esfenoidais:  normopneumatizados, com paredes ósseas íntegras.
+Complexos ostiomeatais:  {ostiomeatal|pérvios/obstrução à direita/obstrução à esquerda/obstrução bilateral} por espessamento mucoso no infundíbulo etmoidal.
+Recessos frontais:  pérvios.
+Recessos esfenoetmoidais:  pérvios.
+Cavidade nasal:  sem formações polipoides ou lesões expansivas.
+Septo nasal:  centrado.
+Conchas nasais:  de dimensões e morfologia habituais.
+Variantes anatômicas:  sem variantes anatômicas de relevância.
+Base anterior do crânio:  teto etmoidal e lâminas cribriformes íntegros. Fossas olfatórias com profundidade classificada como Keros tipo {keros|I/II/III}.
+Estruturas ósseas:  sem sinais de fratura ou lesões focais.
+Órbitas:  conteúdo orbitário sem alterações evidentes.
+Rinofaringe:  pérvia, sem lesões expansivas.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Espessamento mucoso nos seios maxilares e nas células etmoidais, com espessamento ósseo das paredes, compatível com rinossinusite crônica.
+Escore de Lund-Mackay: {lund_mackay}/24.

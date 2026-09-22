@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Sacro e cóccix
+# gatilhos: fratura por insuficiencia do sacro | fratura por insuficiencia sacral | fratura de insuficiencia do sacro
+# conclusao: Fratura por insuficiência do sacro.
+Sacro e cóccix:  traço de fratura com esclerose linear na asa sacral {lado_sacro|direita/esquerda/bilateralmente}, paralelo à articulação sacroilíaca, sem desvio significativo.

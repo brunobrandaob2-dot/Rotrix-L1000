@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Calcificações intracranianas
+# gatilhos: calcificacoes dos nucleos da base | calcificacoes nos nucleos da base | calcificacao dos globos palidos | nucleos da base calcificados
+# conclusao: Calcificações bilaterais e simétricas dos globos pálidos, de aspecto habitualmente fisiológico.
+Calcificações intracranianas:  calcificações bilaterais e simétricas nos globos pálidos, sem efeito expansivo, achado de ocorrência habitual nesta topografia. Quando exuberantes ou associadas a calcificações denteadas e subcorticais, recomenda-se correlação com o metabolismo fosfocálcico.

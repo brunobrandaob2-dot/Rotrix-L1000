@@ -1,0 +1,37 @@
+# tipo: frases
+## gatilhos: anel pelvico integro na bacia | bacia sem fratura do anel
+Anel pélvico íntegro, sem traços de fratura ou diástases.
+## gatilhos: sacroiliacas normais na bacia | bacia com sacroiliacas preservadas
+Articulações sacroilíacas com espaços articulares preservados e superfícies regulares, sem erosões ou anquilose.
+## gatilhos: sacroiliite na tomografia de bacia | erosoes sacroiliacas na bacia
+Erosões subcondrais e esclerose nas articulações sacroilíacas, predominando na vertente ilíaca, achados que podem corresponder a sacroiliíte. Correlacionar com dados clínicos e laboratoriais.
+## gatilhos: anquilose sacroiliaca na bacia
+Anquilose óssea da articulação sacroilíaca {lado_f|direita/esquerda}.
+## gatilhos: fratura dos ramos pubicos na bacia | fratura do ramo isquiopubico na bacia
+Fratura dos ramos iliopúbico e isquiopúbico {lado_a|à direita/à esquerda}, {desvio|sem desvio significativo/com desvio de ___}.
+## gatilhos: fratura da asa sacral na bacia | fratura do sacro na bacia
+Traço de fratura na asa sacral {lado_f|direita/esquerda}, na zona {denis|I/II/III} de Denis, sem desvio significativo.
+## gatilhos: diastase da sinfise pubica na bacia | bacia com diastase da sinfise
+Diástase da sínfise púbica, medindo {tamanho}. Afastamento superior a 2,5 cm associa-se a lesão dos ligamentos sacroilíacos anteriores.
+## gatilhos: hematoma pelvico na bacia | hematoma extraperitoneal na bacia
+Hematoma extraperitoneal pélvico adjacente aos focos de fratura, medindo {tamanho}. A pesquisa de sangramento ativo requer estudo com contraste endovenoso.
+## gatilhos: fratura por insuficiencia sacral na bacia | fratura por insuficiencia do sacro na bacia
+Traços de fratura com esclerose linear nas asas sacrais, paralelos às articulações sacroilíacas, compatíveis com fraturas por insuficiência.
+## gatilhos: coxartrose bilateral na bacia | artrose dos quadris na bacia
+Redução dos espaços articulares coxofemorais, com esclerose subcondral, osteófitos marginais e cistos subcondrais bilaterais, compatível com coxartrose.
+## gatilhos: osteite pubica na bacia | artropatia da sinfise pubica na bacia
+Irregularidade e esclerose das superfícies articulares da sínfise púbica, com pequenos cistos subcondrais, achados que podem corresponder a artropatia degenerativa ou osteíte púbica. Correlacionar com dados clínicos.
+## gatilhos: entesopatia da crista iliaca na bacia | entesofitos na bacia
+Entesófitos nas cristas ilíacas e nas tuberosidades isquiáticas, compatíveis com entesopatia.
+## gatilhos: enostose no iliaco na bacia | ilhota ossea na bacia
+Foco esclerótico de contornos espiculados no osso ilíaco {lado|direito/esquerdo}, medindo {tamanho}, com aspecto de enostose (ilhota de osso compacto).
+## gatilhos: lesao ossea indeterminada na bacia
+Lesão óssea {padrao|lítica/esclerótica/mista} no {local}, medindo {tamanho}, de natureza indeterminada ao método. Sugere-se correlação com ressonância magnética e dados clínicos.
+## gatilhos: ateromatose iliaca na bacia | calcificacoes vasculares na bacia
+Calcificações ateromatosas parietais nas artérias ilíacas.
+## gatilhos: flebolitos na bacia
+Flebólitos pélvicos.
+## gatilhos: osteopenia difusa na bacia
+Redução difusa da densidade óssea, com afilamento das corticais.
+## gatilhos: fratura da parede posterior do acetabulo | fratura da parede acetabular posterior
+Fratura da parede posterior do acetábulo {lado|direito/esquerdo}, com fragmento medindo {tamanho}, {subluxacao|sem/com} subluxação posterior da cabeça femoral.

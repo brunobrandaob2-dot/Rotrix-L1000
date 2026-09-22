@@ -1,0 +1,15 @@
+# gatilhos: raio x de cavum com alargamento pre vertebral | rx de cavum com alargamento de partes moles pre vertebrais | raio x de cavum com suspeita de abscesso retrofaringeo | rx de cavum com abscesso retrofaringeo
+# categoria: neuro
+# modalidade: rx
+# regiao: cavum
+# tipo_mascara: aguda
+**RADIOGRAFIA DO CAVUM**
+
+**TÉCNICA:**  incidência em perfil.
+
+**ANÁLISE:**
+Tecido adenoideano de dimensões normais.
+Coluna aérea da rinofaringe preservada.
+Palato mole de espessura e contornos normais.
+Coluna aérea da orofaringe sem alterações.
+Alargamento das partes moles pré-vertebrais, medindo {tamanho}. Na correlação clínica, considerar processo inflamatório/infeccioso retrofaríngeo; a tomografia computadorizada com contraste é o método indicado para melhor avaliação.

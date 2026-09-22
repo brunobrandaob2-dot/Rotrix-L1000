@@ -1,0 +1,31 @@
+# gatilhos: tomografia de tornozelo com fratura do pilao tibial | tc de tornozelo com fratura do pilao | tc tornozelo fratura de pilao | tomografia de tornozelo com fratura do plafond
+# categoria: msk
+# modalidade: tc
+# regiao: tornozelo
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento e encaixe da pinça maleolar:  {encaixe|encaixe preservado/encaixe alterado, com subluxação do tálus}.
+Articulação tibiotalar:  incongruência articular relacionada à fratura, {fragmentos|sem/com} fragmentos ósseos livres intra-articulares.
+Tíbia distal:  fratura cominutiva da metáfise distal com extensão ao plafond tibial, com {n_fragmentos} fragmentos articulares principais, degrau articular de {tamanho} e {impaccao|sem/com} impacção central da superfície articular (Rüedi-Allgöwer {ruedi|I/II/III}).
+Traços de fratura orientados predominantemente no plano {plano|coronal/sagital/coronal e sagital}.
+Maléolo medial:  {mm|íntegro/com traço de fratura em continuidade com o plafond}.
+Maléolo lateral:  {fibula|íntegro/com fratura associada da fíbula distal}.
+Sindesmose tibiofibular:  relação tibiofibular distal preservada, sem alargamento da incisura fibular.
+Tálus:  morfologia e densidade normais, com cúpula talar de contornos regulares.
+Calcâneo:  morfologia e densidade normais.
+Articulação subtalar:  congruente, com espaço articular preservado.
+Demais ossos do tarso:  sem particularidades nos segmentos incluídos.
+Tendões:  trajeto habitual dos tendões ao redor do tornozelo, considerando os limites do método.
+Partes moles:  aumento de volume e edema das partes moles periarticulares.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura do pilão tibial com extensão articular (Rüedi-Allgöwer {ruedi|I/II/III}), com degrau articular de {tamanho}.
+{fibula_concl|Fíbula distal sem fratura/Fratura associada da fíbula distal}.

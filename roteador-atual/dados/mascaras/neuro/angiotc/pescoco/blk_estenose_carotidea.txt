@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Bulbos carotídeos e bifurcações
+# gatilhos: estenose carotidea | estenose da carotida | estenose na carotida interna | placa carotidea com estenose
+# conclusao: Ateromatose carotídea, com estenose {grau|leve (< 50%)/moderada (50–69%)/acentuada (70–99%)} da origem da artéria carótida interna {lado_f|direita/esquerda}, estimada em {percentual}% pelo critério NASCET.
+Bulbos carotídeos e bifurcações:  placa ateromatosa {placa|calcificada/não calcificada/mista} no bulbo e na origem da artéria carótida interna {lado_f|direita/esquerda}, de superfície {superficie|regular/irregular/ulcerada}, determinando estenose {grau|leve (< 50%)/moderada (50–69%)/acentuada (70–99%)}, estimada em {percentual}% pelo critério NASCET (diâmetro luminal residual de {tamanho}; diâmetro da artéria carótida interna cervical distal normal de {diametro_distal}). Bifurcação contralateral {contralateral|sem placas ateromatosas significativas/com placas sem estenose significativa (< 50%)}.

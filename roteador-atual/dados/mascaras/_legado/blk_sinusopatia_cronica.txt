@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Seios paranasais
+# gatilhos: sinusopatia cronica | rinossinusite cronica | espessamento mucoso cronico | sinusopatia de aspecto cronico
+# conclusao: Rinossinusite crônica, de aspecto inespecífico. Recomendada correlação clínica.
+Seios paranasais: espessamento mucoso parietal nos seios ___ {lado_a|à direita/à esquerda}, com espessura máxima de {tamanho}, associado a hiperatenuação do conteúdo e a esclerose e espessamento das paredes ósseas adjacentes, sem níveis hidroaéreos ou erosões, achados que traduzem processo inflamatório de aspecto crônico.

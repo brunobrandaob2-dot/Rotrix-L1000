@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Pleura e seios costofrênicos
+# gatilhos: derrame pleural no rx | derrame pleural na radiografia | velamento do seio costofrenico | derrame pleural rx
+# conclusao: Derrame pleural {lado_a|à direita/à esquerda/bilateralmente}, com velamento do seio costofrênico correspondente.
+Pleura e seios costofrênicos: velamento do seio costofrênico {lado|direito/esquerdo/bilateral}, com opacidade homogênea de limite superior côncavo (curva de Damoiseau), compatível com derrame pleural de pequeno a moderado volume. Não se identificam sinais de pneumotórax.

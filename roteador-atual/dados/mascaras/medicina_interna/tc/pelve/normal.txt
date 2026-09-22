@@ -1,0 +1,26 @@
+# gatilhos: tomografia da pelve | tomografia de pelve | tomografia da pelve normal | tomografia de pelve normal | tc da pelve | tc de pelve | tc pelve normal | tomografia pelvica | tomografia da pelve masculina | tc de pelve masculina | tomografia da pelve com contraste | tomografia da pelve sem contraste
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: pelve
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DA PELVE**
+
+**TÉCNICA:**  exame realizado com técnica multidetectores com reconstruções multiplanares, {contraste|sem/com/antes e após} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Bexiga:  de paredes finas e regulares, com conteúdo homogêneo.
+Rins e ureteres:  segmentos incluídos no estudo sem dilatação do sistema coletor.
+Vasos ilíacos:  de calibre e trajeto habituais.
+Estruturas ósseas pélvicas:  sem alterações significativas.
+Próstata e vesículas seminais:  sem alterações significativas ao método.
+Reto e sigmoide:  sem espessamentos parietais significativos.
+Linfonodos pélvicos:  sem dimensões aumentadas.
+Líquido livre:  ausente na pelve.
+Planos musculares e tecido celular subcutâneo:  preservados.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

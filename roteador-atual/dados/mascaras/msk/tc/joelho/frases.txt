@@ -1,0 +1,37 @@
+# tipo: frases
+## gatilhos: espacos articulares preservados no joelho tc | joelho sem artrose na tc
+Espaços articulares femorotibiais e femoropatelar preservados.
+## gatilhos: schatzker do joelho | classificacao de schatzker no joelho
+Fratura do planalto tibial tipo {schatzker|I/II/III/IV/V/VI} da classificação de Schatzker.
+## gatilhos: afundamento do planalto no joelho
+Afundamento articular do planalto tibial {planalto|lateral/medial}, medindo {tamanho} no ponto de maior depressão.
+## gatilhos: fratura da eminencia intercondilar do joelho
+Fratura-avulsão da eminência intercondilar {eminencia|anterior/posterior}, com fragmento medindo {tamanho}, tipo {meyers|I/II/III} da classificação de Meyers-McKeever.
+## gatilhos: fratura de segond no joelho
+Pequeno fragmento ósseo avulsionado da margem lateral do planalto tibial (fratura de Segond), achado fortemente associado a lesão do ligamento cruzado anterior. Considerar ressonância magnética.
+## gatilhos: sinal do arco no joelho | avulsao da cabeca da fibula no joelho
+Fragmento ósseo avulsionado da cabeça da fíbula (sinal do arco), associado a lesão do canto posterolateral. Considerar ressonância magnética.
+## gatilhos: lipo hemartrose no joelho tc
+Distensão do recesso suprapatelar com nível gordura-líquido, compatível com lipo-hemartrose, indicativa de fratura intra-articular.
+## gatilhos: patela bipartida no joelho tc
+Patela bipartida, com fragmento acessório de contornos corticados no polo superolateral, variante anatômica.
+## gatilhos: patela alta no joelho | indice de insall salvati no joelho
+Patela alta, com índice de Insall-Salvati de {insall} (referência: 0,8 a 1,2).
+## gatilhos: distancia ta gt do joelho | distancia tat tg do joelho
+Distância entre a tuberosidade anterior da tíbia e a garganta troclear (TA-GT) de {tamanho} (referência: até 15 mm; acima de 20 mm considerada patológica).
+## gatilhos: displasia troclear do joelho
+Displasia da tróclea femoral, tipo {dejour|A/B/C/D} da classificação de Dejour.
+## gatilhos: condrocalcinose no joelho tc
+Calcificações lineares na fibrocartilagem meniscal, compatíveis com condrocalcinose.
+## gatilhos: corpo livre no joelho tc | corpo livre intra articular do joelho
+Corpo livre intra-articular calcificado no recesso {recesso|suprapatelar/posterior/intercondilar}, medindo {tamanho}.
+## gatilhos: osteocondrite dissecante do joelho
+Lesão osteocondral no côndilo femoral {condilo|medial/lateral}, com fragmento medindo {tamanho}, podendo corresponder a osteocondrite dissecante. A ressonância magnética é o método adequado para avaliação da estabilidade do fragmento.
+## gatilhos: fabela no joelho
+Fabela, sesamoide no tendão da cabeça lateral do gastrocnêmio, variante anatômica.
+## gatilhos: calcificacoes vasculares no joelho | ateromatose poplitea no joelho
+Calcificações ateromatosas parietais na artéria poplítea.
+## gatilhos: soltura de protese do joelho | halo na protese do joelho
+Halo de radiolucência de {tamanho} na interface osso-implante do componente {componente|tibial/femoral}, sugestivo de soltura. Correlacionar com dados clínicos e laboratoriais e com estudos anteriores.
+## gatilhos: rotacao do componente femoral do joelho
+Componente femoral com rotação {sentido|externa/interna} de {rotacao}° em relação ao eixo transepicondilar cirúrgico.

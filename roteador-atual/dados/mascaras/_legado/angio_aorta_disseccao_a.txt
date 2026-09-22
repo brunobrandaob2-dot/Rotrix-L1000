@@ -1,0 +1,24 @@
+# gatilhos: angiotomografia de aorta com disseccao stanford a | disseccao aortica tipo a | disseccao de aorta ascendente | disseccao stanford a | angio de aorta com flap intimal | disseccao aortica
+ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA TORÁCICA E ABDOMINAL
+
+TÉCNICA: aquisição volumétrica sem contraste e após injeção endovenosa de contraste iodado em fase arterial sincronizada com ECG, do ápice pulmonar à sínfise púbica, com reconstruções multiplanares, MIP e tridimensionais.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Qualidade do estudo: opacificação arterial adequada, com atenuação média de ___ UH na aorta ascendente e de ___ UH na aorta abdominal na fase arterial, sem artefatos de movimento que limitem a análise da raiz aórtica.
+Série sem contraste: {hematoma|ausência de/presença de} hematoma intramural, caracterizado por espessamento parietal hiperatenuante em crescente. Deslocamento interno de calcificação intimal {presenca|ausente/presente}. Coleção hemática mediastinal, pleural ou pericárdica {presenca|ausente/presente}.
+Aorta: flap intimal identificado desde a {zona_i|zona 0 a 11} até a {zona_f|zona 0 a 11}, segundo a nomenclatura de zonas aórticas de Ishimaru/SVS-STS, configurando dissecção do tipo A de Stanford (DeBakey {debakey|I/II}). A luz verdadeira apresenta-se de menor calibre, contígua à parede com calcificação intimal e com opacificação mais precoce; a luz falsa é de maior calibre, com opacificação mais tardia e sinal do bico ("beak sign") em sua extremidade. Porta de entrada aparente {zona_e|na aorta ascendente/no arco/na aorta descendente proximal}. Luz falsa {trombose|pérvia/parcialmente trombosada/totalmente trombosada}.
+Calibres: raiz aórtica ___ mm; aorta ascendente ___ mm; arco ___ mm; descendente proximal ___ mm; descendente ao nível do diafragma ___ mm; aorta abdominal suprarrenal ___ mm; infrarrenal ___ mm.
+Ramos: tronco braquiocefálico, carótida comum esquerda e subclávia esquerda com origem {ramos_arco|preservada na luz verdadeira/acometida pelo flap intimal}, pérvios. Tronco celíaco, artéria mesentérica superior, artérias renais e artérias ilíacas com origem {ramos_abd|preservada na luz verdadeira/acometida pelo flap intimal}, pérvios, sem sinais de má perfusão de órgão-alvo ao método.
+Coração e pericárdio: derrame pericárdico {pericardio|ausente/de pequeno volume/de moderado a grande volume, com sinais de repercussão sobre as câmaras direitas}. Raiz aórtica com {insuficiencia|coaptação valvar preservada/afastamento dos folhetos e extensão do flap ao plano valvar, sugerindo insuficiência aórtica}, a ser confirmada ao ecocardiograma.
+Sinais de instabilidade: {instabilidade|ausentes/presentes} — hemopericárdio, hemomediastino, hemotórax, extravasamento ativo de contraste, ulceração focal da luz falsa ou aumento do calibre aórtico em relação a estudo prévio.
+Parênquima pulmonar e pleura: derrame pleural {lado|direito/esquerdo/bilateral} de pequeno volume, com atelectasia passiva adjacente. Ausência de consolidações.
+Estruturas ósseas e partes moles: sem alterações significativas.
+
+CONCLUSÃO:
+1. Dissecção aórtica do tipo A de Stanford, com flap intimal estendendo-se da {zona_i|zona 0 a 11} à {zona_f|zona 0 a 11} (nomenclatura de zonas aórticas de Ishimaru/SVS-STS), com luz falsa {trombose|pérvia/parcialmente trombosada/totalmente trombosada}.
+2. Acometimento dos ramos do arco aórtico {ramos_arco|preservada na luz verdadeira/acometida pelo flap intimal} e dos ramos viscerais e ilíacos {ramos_abd|preservada na luz verdadeira/acometida pelo flap intimal}, sem sinais de má perfusão de órgão-alvo caracterizáveis ao método.
+3. Derrame pericárdico {pericardio|ausente/de pequeno volume/de moderado a grande volume, com sinais de repercussão sobre as câmaras direitas}.
+4. Sinais de instabilidade {instabilidade|ausentes/presentes}.
+5. Achados de indicação cirúrgica de urgência. Resultado comunicado à equipe assistente em ___h___, ao(à) Dr(a). ___.

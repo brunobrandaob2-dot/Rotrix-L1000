@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Área cardíaca
+# gatilhos: cardiomegalia | aumento da area cardiaca | area cardiaca aumentada | coracao aumentado
+Área cardíaca aumentada, com índice cardiotorácico estimado em {indice_cardiotoracico} (normal até 0,5).

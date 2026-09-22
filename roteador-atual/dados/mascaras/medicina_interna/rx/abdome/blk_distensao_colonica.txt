@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Alças intestinais
+# gatilhos: distensao colonica | distensao do colon | colon distendido
+Distensão gasosa do cólon, com calibre de até {tamanho} no {segmento_colon|ceco/cólon transverso/sigmoide} (normal até 6,0 cm; ceco até 9,0 cm).

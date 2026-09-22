@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: espessamento pleuroapical acentuado | espessamento pleuroapical com distorcao | sequela pleuroapical | sequela apical | distorcao arquitetural dos lobos superiores | sequela pulmonar
+# conclusao: Espessamento pleuroapical bilateral {grau|discreto/moderado/acentuado} com distorção arquitetural e redução volumétrica dos lobos superiores, associado a opacidades fibroatelectásicas difusas e estrias basais, de aspecto sequelar.
+Parênquima pulmonar:  espessamento pleuroapical bilateral {grau|discreto/moderado/acentuado}, determinando distorção arquitetural dos lobos superiores e discreta redução volumétrica correspondente. Opacidades fibroatelectásicas difusas e estrias basais.

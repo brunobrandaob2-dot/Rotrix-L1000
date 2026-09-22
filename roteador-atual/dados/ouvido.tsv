@@ -1,0 +1,52 @@
+# OUVIDO - o que o reconhecimento de voz costuma escrever errado -> o certo
+# Uma regra por linha: errado<TAB>certo. Sem acento e minúsculas no lado errado.
+# Vale para TODO ditado do Ctrl+Alt+Espaço, antes de procurar no banco.
+# Acrescente aqui o que você perceber que ele erra sempre.
+na horta	na aorta
+da horta	da aorta
+a horta	a aorta
+horta abdominal	aorta abdominal
+horta toracica	aorta torácica
+antiroma	ateroma
+antiromas	ateromas
+anti romas	ateromas
+anti roma	ateroma
+atiromas	ateromas
+ateromas falsificados	ateromas calcificados
+falsificados	calcificados
+falsificadas	calcificadas
+falsificacoes	calcificações
+falsificacao	calcificação
+ateroma tose	ateromatose
+atero matose	ateromatose
+espondilo se	espondilose
+osteo fitos	osteófitos
+osteofitos	osteófitos
+anjomografia	angiotomografia
+anjo tomografia	angiotomografia
+anjo tc	angio tc
+tem dinopatia	tendinopatia
+tendino patia	tendinopatia
+esteratose	esteatose
+aterromas	ateromas
+aterroma	ateroma
+a teromas	ateromas
+teromas	ateromas
+ateromas classificados	ateromas calcificados
+espondilortrose	espondiloartrose
+nuit total	abdome total
+na opte	na aorta
+na ópte	na aorta
+visar laudo	revisar laudo
+visa laudo	revisar laudo
+revisa laudo	revisar laudo
+calcificados espacos	calcificados esparsos
+raio x de cavo	raio x de cavum
+rx de cavo	rx de cavum
+radiografia de cavo	radiografia de cavum
+radiografia do cavo	radiografia do cavum
+cavun	cavum
+kavum	cavum
+cavon	cavum
+calcanho	calcâneo
+calcaneu	calcâneo

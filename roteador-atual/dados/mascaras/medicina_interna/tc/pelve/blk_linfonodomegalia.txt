@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Linfonodos pélvicos
+# gatilhos: linfonodomegalias | linfonodomegalia | linfonodos aumentados | linfonodomegalia iliaca
+# conclusao: Linfonodomegalias pélvicas.
+Linfonodos pélvicos:  linfonodos de dimensões aumentadas, o maior medindo {tamanho} no menor eixo.

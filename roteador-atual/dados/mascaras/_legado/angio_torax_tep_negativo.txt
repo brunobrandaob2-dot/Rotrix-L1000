@@ -1,0 +1,23 @@
+# gatilhos: angiotomografia de torax sem tromboembolismo | angio de torax tep negativo | tep negativo | pesquisa de tromboembolismo pulmonar normal | angiotc das arterias pulmonares normal | sem sinais de embolia pulmonar
+ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS PULMONARES
+
+TÉCNICA: aquisição volumétrica após injeção endovenosa de contraste iodado, em fase arterial pulmonar, com reconstruções multiplanares e MIP.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Qualidade do estudo: opacificação homogênea e adequada das artérias pulmonares, com atenuação média no tronco da artéria pulmonar de ___ UH (considerada adequada quando ≥ 200 UH), sem artefatos de movimento respiratório, de endurecimento do feixe ou de ruído que limitem a análise, que se estendeu até o nível subsegmentar.
+Artérias pulmonares: tronco, artérias lobares, segmentares e subsegmentares pérvios e de calibre preservado, com opacificação homogênea. Ausência de falhas de enchimento endoluminais que caracterizem tromboembolismo pulmonar agudo ou crônico.
+Sinais de sobrecarga de câmaras direitas: relação entre os maiores diâmetros transversos do ventrículo direito e do ventrículo esquerdo (VD/VE) de ___, aferida em plano de quatro câmaras reconstruído — dentro dos limites da normalidade quando ≤ 0,9. Septo interventricular de configuração habitual, sem refluxo de contraste para a veia cava inferior. Tronco da artéria pulmonar com ___ mm de diâmetro.
+Parênquima pulmonar: sem consolidações, opacidades cuneiformes de base pleural, nódulos suspeitos ou áreas de atenuação em mosaico de distribuição vascular.
+Traqueia e brônquios: calibre e trajetos normais.
+Mediastino: sem alterações evidentes.
+Linfonodos mediastinais e hilares: dentro dos limites da normalidade, com eixo curto inferior a 10 mm.
+Aorta torácica: trajeto e calibre habituais, sem falhas de enchimento ou flap intimal.
+Derrames: ausência de derrame pleural ou pericárdico.
+Estruturas ósseas e partes moles: sem alterações significativas.
+
+CONCLUSÃO:
+1. Estudo angiotomográfico das artérias pulmonares sem sinais de tromboembolismo pulmonar, em exame de qualidade técnica adequada para a avaliação até o nível subsegmentar.
+2. Ausência de sinais tomográficos de sobrecarga de câmaras direitas.
+3. Ausência de outros achados torácicos que justifiquem o quadro clínico ao método. Recomendada correlação clínica.

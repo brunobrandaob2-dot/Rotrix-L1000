@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: artrose interfalangiana | artrose | artrose dos dedos | nodulos de heberden
+Artrose interfalangiana, com redução dos espaços articulares e osteófitos marginais, predominando nas interfalangianas {ifs|distais/proximais/proximais e distais}.

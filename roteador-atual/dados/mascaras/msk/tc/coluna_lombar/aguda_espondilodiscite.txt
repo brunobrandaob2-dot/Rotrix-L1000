@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna lombar com espondilodiscite | tc de coluna lombar com espondilodiscite | tc coluna lombar espondilodiscite | tomografia de coluna lombar com discite | tc de coluna lombar com discite | tc de coluna lombar com infeccao | tomografia de coluna lombar com espondilodiscite infecciosa
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_lombar
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, {contraste|sem/com} injeção intravenosa de contraste iodado, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  lordose lombar fisiológica preservada. Ausência de listeses.
+Corpos vertebrais:  erosões e irregularidades das plataformas vertebrais contíguas ao disco {nivel}, com áreas de rarefação óssea subcondral, sem colapso vertebral significativo.
+Discos intervertebrais:  redução da altura do espaço discal {nivel}, com hipoatenuação do disco.
+Articulações interapofisárias:  de aspecto habitual, com espaços articulares preservados.
+Canal vertebral:  {canal|de amplitude preservada/com componente de partes moles no espaço epidural anterior em ___, que reduz a amplitude do canal vertebral}.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, istmos, lâminas e processos espinhosos e transversos íntegros.
+Transição lombossacra:  de configuração habitual.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares.
+Partes moles paravertebrais:  densificação e aumento das partes moles paravertebrais em {nivel}, {colecao|sem coleções organizadas/com coleção no músculo psoas ___, medindo ___}.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Achados sugestivos de espondilodiscite em {nivel}, a correlacionar com dados clínicos e laboratoriais.
+A ressonância magnética com contraste é o método de escolha para a confirmação diagnóstica e para a avaliação de abscessos epidurais e paravertebrais; a tomografia pode ser normal nas fases iniciais.

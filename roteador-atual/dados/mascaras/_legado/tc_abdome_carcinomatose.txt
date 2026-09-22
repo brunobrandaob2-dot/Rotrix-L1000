@@ -1,0 +1,33 @@
+# gatilhos: abdome com carcinomatose | carcinomatose peritoneal | implantes peritoneais | omental cake | disseminacao peritoneal
+TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR E PELVE
+
+TÉCNICA: aquisição volumétrica, antes e após a injeção intravenosa de contraste iodado, com fase portal.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Transição toracoabdominal: lâmina de derrame pleural {lado_a|à direita/à esquerda/bilateralmente}, de pequeno volume.
+Fígado: de dimensões normais e contornos regulares. Superfície hepática com nodulações de contorno, sugestivas de implantes na cápsula {lado_a|à direita/à esquerda}. Ausência / presença de lesões focais no parênquima, a maior no {segmento} medindo {tamanho}.
+Vias biliares: sem dilatação.
+Vesícula biliar: de paredes finas, sem cálculos no seu interior.
+Pâncreas: de dimensões e densidade normais, sem dilatação ductal.
+Baço: de dimensões normais, com nodulações subcapsulares sugestivas de implantes na sua superfície.
+Adrenais: de espessura normal e sem nódulos.
+Rins: tópicos, de contornos regulares, sem cálculos ou dilatação de vias coletoras.
+Bexiga: de parcial repleção e conteúdo homogêneo.
+Órgãos pélvicos: espessamento nodular do fundo de saco posterior, medindo {tamanho}, com realce pelo meio de contraste.
+Trato gastrointestinal: espessamento parietal segmentar em ___, com estreitamento luminal e distensão de alças a montante, com calibre máximo de ___ cm. Não há pneumatose parietal, gás portal ou pneumoperitônio.
+Vasos: aorta e veia cava inferior de calibres normais, pérvias.
+Retroperitônio: linfonodomegalias em cadeias ___, a maior medindo {tamanho} no menor eixo.
+Peritônio: ascite de moderado volume, distribuída pelos recessos peri-hepático, periesplênico, goteiras parietocólicas e pelve. Espessamento difuso e nodular dos folhetos peritoneais, com realce pelo meio de contraste, e infiltração nodular confluente do grande omento, configurando aspecto de "omental cake" na região ___. Nodulações mesentéricas com densificação e retração das pregas adjacentes. Implantes na superfície diafragmática {lado_a|à direita/à esquerda}.
+Estruturas ósseas e partes moles: sem lesões líticas ou blásticas caracterizáveis ao método.
+
+COMPARAÇÃO: estudos anteriores não disponíveis para análise comparativa.
+
+CONCLUSÃO:
+1. **Ascite associada a espessamento nodular e realce peritoneal difuso, implantes mesentéricos e infiltração do grande omento ("omental cake")**, achados que, em conjunto, sugerem disseminação peritoneal secundária. O sítio primário não é definido ao presente estudo.
+2. Implantes na superfície hepática, esplênica e diafragmática {lado_a|à direita/à esquerda}.
+3. Espessamento parietal segmentar em ___, com distensão de alças a montante, compatível com componente obstrutivo associado. Ausência de sinais de sofrimento de alça no presente estudo.
+4. Linfonodomegalias retroperitoneais, a maior medindo {tamanho} no menor eixo.
+5. Derrame pleural {lado_a|à direita/à esquerda/bilateralmente}, de pequeno volume.
+6. Sugere-se correlação clínica, laboratorial (marcadores tumorais) e com investigação anatomopatológica para definição etiológica.

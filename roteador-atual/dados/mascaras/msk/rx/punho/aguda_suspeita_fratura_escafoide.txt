@@ -1,0 +1,17 @@
+# gatilhos: raio x de punho com suspeita de fratura do escafoide | rx de punho com suspeita de fratura do escafoide | radiografia de punho com suspeita de fratura do escafoide | rx do punho com suspeita de fratura do escafoide | rx punho suspeita de fratura do escafoide | raio x de punho com trauma sem fratura | rx de punho com trauma sem fratura | raio x de punho com dor na tabaqueira anatomica | rx de punho com dor na tabaqueira anatomica
+# categoria: msk
+# modalidade: rx
+# regiao: punho
+# tipo_mascara: aguda
+**RADIOGRAFIA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências posteroanterior, perfil e oblíqua, complementadas por incidência específica para o escafoide.
+
+**ANÁLISE:**
+Alinhamento carpal preservado.
+Espaços articulares radiocarpal, mediocarpal e radioulnar distal preservados.
+Articulação trapeziometacarpiana preservada.
+Não há sinais de fraturas ou luxações nas incidências realizadas.
+A radiografia tem sensibilidade limitada para fraturas ocultas do escafoide; se a suspeita persistir, recomenda-se controle em 10 a 14 dias ou ressonância magnética.
+Densidade óssea preservada.
+{coxim|Coxim adiposo do escafoide preservado/Obliteração do coxim adiposo do escafoide}.

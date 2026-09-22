@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Espaço articular
+# gatilhos: coxartrose | artrose | artrose do quadril | alteracoes degenerativas
+# conclusao: Coxartrose {grau|leve/moderada/acentuada}.
+Espaço articular:  redução do espaço articular, de predomínio {predominio|superolateral/superomedial/concêntrico}, com esclerose subcondral, osteófitos marginais acetabulares e femorais e cistos subcondrais.

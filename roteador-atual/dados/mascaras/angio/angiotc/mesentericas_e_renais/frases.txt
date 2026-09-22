@@ -1,0 +1,41 @@
+# tipo: frases
+## gatilhos: tronco celiaco pervio sem estenose | tronco celiaco sem alteracoes
+Tronco celíaco pérvio, de origem e trajeto habituais, sem estenose ostial.
+## gatilhos: mesenterica superior pervia | arteria mesenterica superior sem alteracoes
+Artéria mesentérica superior pérvia, com ramos jejunais, ileais e cólicos opacificados.
+## gatilhos: arterias renais unicas bilateralmente | arterias renais sem alteracoes
+Artérias renais únicas bilateralmente, pérvias, sem estenoses, irregularidades parietais ou dilatações.
+## gatilhos: arteria renal acessoria polar | renal acessoria para o polo inferior
+Artéria renal acessória {lado_f|direita/esquerda}, com origem na aorta abdominal e destinada ao polo {polo|superior/inferior} renal.
+## gatilhos: compressao do tronco celiaco pelo ligamento arqueado | tronco celiaco em gancho
+Estreitamento proximal do tronco celíaco com aspecto em gancho, por compressão extrínseca pelo ligamento arqueado mediano, que se acentua na expiração.
+## gatilhos: arcadas pancreaticoduodenais proeminentes | colaterais pancreaticoduodenais
+Arcadas pancreaticoduodenais proeminentes, com circulação colateral entre os territórios da artéria mesentérica superior e do tronco celíaco.
+## gatilhos: arco de riolan proeminente | arcada de riolan
+Arco de Riolan proeminente, com circulação colateral entre os territórios das artérias mesentéricas superior e inferior.
+## gatilhos: estenose ostial da mesenterica superior | placa ostial na mesenterica superior
+Placa ateromatosa ostial na artéria mesentérica superior, determinando estenose estimada em ___%.
+## gatilhos: oclusao embolica da mesenterica superior | embolo na mesenterica superior
+Falha de enchimento com interrupção abrupta da artéria mesentérica superior a ___ cm da origem, sem ateromatose significativa adjacente, podendo corresponder a êmbolo.
+## gatilhos: pneumatose intestinal com gas portal | gas no sistema porta na isquemia mesenterica
+Pneumatose intestinal associada a gás no sistema portomesentérico, sinais de isquemia transmural.
+## gatilhos: alcas com realce reduzido na isquemia mesenterica | hipoperfusao de alcas intestinais
+Redução do realce parietal de alças {segmento_alcas|de jejuno/de íleo/do cólon direito}, sugestiva de hipoperfusão.
+## gatilhos: displasia fibromuscular da arteria renal | colar de contas na arteria renal
+Alternância de segmentos estenóticos e pequenas dilatações nos terços médio e distal da artéria renal {lado_f|direita/esquerda}, com aspecto em colar de contas, sugestiva de displasia fibromuscular.
+## gatilhos: estenose ateromatosa da arteria renal | estenose ostial da arteria renal
+Placa ateromatosa ostial na artéria renal {lado_f|direita/esquerda}, determinando estenose estimada em ___%.
+## gatilhos: infarto renal cuneiforme | area de infarto no rim
+Área cuneiforme hipoatenuante sem realce no rim {lado|direito/esquerdo}, de base cortical, compatível com infarto renal.
+## gatilhos: aneurisma da arteria esplenica calcificado | aneurisma esplenico calcificado
+Aneurisma sacular da artéria esplênica, medindo {tamanho}, com calcificações parietais.
+## gatilhos: arteria hepatica direita da mesenterica superior | hepatica direita substituida
+Variante anatômica: artéria hepática direita originada da artéria mesentérica superior.
+## gatilhos: tronco celiacomesenterico | origem comum do tronco celiaco e mesenterica superior
+Variante anatômica: tronco celiacomesentérico (origem comum do tronco celíaco e da artéria mesentérica superior).
+## gatilhos: disseccao isolada da mesenterica superior | disseccao da arteria mesenterica superior
+Flap intimal na artéria mesentérica superior, iniciando-se a ___ cm da origem, com extensão de ___ cm, compatível com dissecção isolada, {luz_ams|com luz verdadeira pérvia/com trombose da luz falsa}.
+## gatilhos: compressao da veia renal esquerda pela mesenterica | pincamento da veia renal esquerda
+Redução do calibre da veia renal esquerda no seu trajeto entre a aorta e a artéria mesentérica superior, com dilatação do segmento pré-compressão, a correlacionar com síndrome de quebra-nozes.
+## gatilhos: trombose da veia mesenterica superior | trombo na veia mesenterica superior
+Falha de enchimento na veia mesentérica superior, compatível com trombose venosa.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins e ureteres
+# gatilhos: ectasia do sistema coletor | ectasia pielocalicinal | ectasia coletora | ectasia do sistema coletor bilateral | hidronefrose leve
+# conclusao: Ectasia do sistema coletor {lado_a|à direita/à esquerda/bilateralmente}, sem sinais de uropatia obstrutiva evidentes ao exame.
+Rins e ureteres:  ectasia do sistema coletor {lado_a|à direita/à esquerda/bilateralmente}, sem fator obstrutivo evidente pelo método.

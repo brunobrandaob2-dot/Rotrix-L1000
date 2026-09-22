@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: osteossintese | material de sintese | fios de kirschner
+Osteossíntese {osso|do ___ metacarpo/da ___ falange do ___ dedo} com {material|placa e parafusos/parafusos/fios de Kirschner}, sem sinais de soltura, quebra ou migração.

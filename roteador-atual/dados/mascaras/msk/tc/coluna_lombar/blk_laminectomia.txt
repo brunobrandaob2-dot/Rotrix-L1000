@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Elementos posteriores
+# gatilhos: laminectomia | hemilaminectomia | pos laminectomia
+# conclusao: Alterações pós-operatórias de laminectomia em {nivel}.
+Elementos posteriores:  ausência cirúrgica das lâminas {lado_f|direita/esquerda} de {nivel}, compatível com laminectomia. Demais elementos posteriores íntegros.

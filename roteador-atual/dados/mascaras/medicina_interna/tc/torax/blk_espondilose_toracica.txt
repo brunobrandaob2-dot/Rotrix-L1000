@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: alteracoes degenerativas na coluna dorsal | espondilose dorsal | espondilose toracica | espondilose | osteofitos | alteracoes degenerativas da coluna | alteracoes degenerativas na coluna | osteofitos na coluna | espondiloartrose | espondilartrose | alteracoes degenerativas
+# conclusao: Alterações degenerativas na coluna torácica.
+Estruturas ósseas e partes moles:  alterações osteodegenerativas na coluna torácica. Partes moles da parede torácica sem particularidades.

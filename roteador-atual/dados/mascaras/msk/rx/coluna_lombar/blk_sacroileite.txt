@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Articulações sacroilíacas
+# gatilhos: sacroileite | sacroiliite | erosoes sacroiliacas
+Esclerose e irregularidade das margens das articulações sacroilíacas, {lado_f|bilateral/direita/esquerda}, a correlacionar com sacroileíte.

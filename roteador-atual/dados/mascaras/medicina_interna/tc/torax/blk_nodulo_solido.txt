@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: nodulo solido | nodulo pulmonar solido | nodulo pulmonar | nodulo no pulmao
+# conclusao: Nódulo pulmonar sólido no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, medindo {tamanho}, indeterminado; como referência, os critérios de Fleischner (2017) orientam o seguimento conforme o tamanho e o risco do paciente, a critério clínico.
+Parênquima pulmonar:  nódulo sólido no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, de contornos {contornos|regulares/lobulados/espiculados}, medindo {tamanho} (diâmetro médio), sem calcificações ou gordura de permeio. Demais segmentos sem consolidações ou outros nódulos.

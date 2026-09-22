@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Pleura e seios costofrênicos
+# gatilhos: pneumotorax no rx | pneumotorax na radiografia | linha pleural visivel | pneumotorax no raio x
+# conclusao: Pneumotórax {lado_a|à direita/à esquerda}, com faixa de despregamento pleural de {tamanho}. **Achado de comunicação imediata.**
+Pleura e seios costofrênicos: linha pleural visceral visível no hemitórax {lado|direito/esquerdo}, com ausência de trama vascular perifericamente a ela, caracterizando pneumotórax, com faixa de despregamento de {tamanho} no seu maior eixo. Mediastino centrado, sem sinais de desvio contralateral que sugiram hipertensão.

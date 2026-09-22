@@ -1,0 +1,17 @@
+# gatilhos: raio x de mao com fratura do metacarpo | rx de mao com fratura do metacarpo | radiografia de mao com fratura do metacarpo | rx da mao com fratura do metacarpo | rx mao fratura do metacarpo | raio x de mao com fratura de metacarpo | rx de mao com fratura de metacarpo | raio x de mao com fratura do boxer | rx de mao com fratura do boxer | raio x de mao com fratura de bennett | rx de mao com fratura de bennett
+# categoria: msk
+# modalidade: rx
+# regiao: mao
+# tipo_mascara: aguda
+**RADIOGRAFIA DA MÃO {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  incidências posteroanterior e oblíqua.
+
+**ANÁLISE:**
+Espaços articulares preservados.
+Superfícies articulares regulares, sem erosões.
+Articulação trapeziometacarpiana preservada.
+Fratura {local|da base/da diáfise/do colo/da cabeça} do {metacarpo} metacarpo, de traço {traco|transverso/oblíquo/espiral/cominutivo}, com {desvio|angulação volar de ___°/encurtamento de ___ mm/desvio de ___ mm}, {articular|sem/com} extensão à superfície articular.
+Não há sinais de luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

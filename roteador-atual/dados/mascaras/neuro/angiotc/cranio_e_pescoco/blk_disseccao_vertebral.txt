@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias vertebrais
+# gatilhos: disseccao vertebral | disseccao da vertebral | dissecao vertebral | hematoma intramural vertebral
+# conclusao: Sinais de dissecção do segmento {segmento_vertebral|V1 (óstio)/V2/V3/V4} da artéria vertebral {lado_f|direita/esquerda}, com {reducao|redução luminal leve/redução luminal moderada/redução luminal acentuada/oclusão}.
+Artérias vertebrais:  afilamento luminal irregular no segmento {segmento_vertebral|V1 (óstio)/V2/V3/V4} da artéria vertebral {lado_f|direita/esquerda}, com extensão de {tamanho} e espessamento parietal em crescente, compatível com hematoma intramural. Flap intimal: {flap|não identificado/presente}. Pseudoaneurisma dissecante: {pseudoaneurisma|ausente/presente, medindo ___}. Artéria vertebral contralateral pérvia, com calibre e trajeto anatômicos.

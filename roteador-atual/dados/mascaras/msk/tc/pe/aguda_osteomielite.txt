@@ -1,0 +1,25 @@
+# gatilhos: tomografia de pe com osteomielite | tc de pe com osteomielite | tc pe osteomielite | tomografia de pe diabetico com osteomielite | tomografia de pe com sinais de osteomielite
+# categoria: msk
+# modalidade: tc
+# regiao: pe
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, {contraste|sem/com} injeção intravenosa de contraste iodado, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  preservado, sem subluxações.
+Retropé:  tálus e calcâneo de morfologia e densidade normais. Articulações subtalar e talonavicular congruentes.
+Mediopé:  navicular, cuboide e cuneiformes sem particularidades. Articulações tarsometatarsais (Lisfranc) congruentes.
+Antepé:  erosão cortical e rarefação medular em {osso_acometido}, subjacentes à úlcera, {periosteal|sem/com} reação periosteal e {sequestro|sem/com} sequestro ósseo. Demais segmentos sem particularidades.
+Arcos plantares:  preservados, considerando que o exame é realizado sem carga.
+Tendões:  trajeto habitual, considerando os limites do método.
+Partes moles:  {ulcera|úlcera/descontinuidade cutânea} na face {face|plantar/dorsal/medial/lateral} do {regiao_pe|antepé/mediopé/retropé}, com densificação do subcutâneo, {gas|sem/com} gás e {colecao|sem/com} coleção nas partes moles.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Erosão cortical e rarefação óssea em {osso_acometido}, subjacentes à úlcera, suspeitas para osteomielite; correlacionar com dados clínicos e laboratoriais.
+A ressonância magnética é mais sensível e específica para o diagnóstico de osteomielite e para a diferenciação com neuroartropatia; a tomografia pode subestimar a extensão do acometimento medular.

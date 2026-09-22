@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: patela bipartida | patela multipartida
+Patela bipartida, variante anatômica, sem sinais de fraturas ou luxações.

@@ -1,0 +1,29 @@
+# tipo: frases
+## gatilhos: distribuicao gasosa normal do abdome | distribuicao gasosa habitual no raio x
+Distribuição gasosa intestinal habitual.
+## gatilhos: flebolitos no raio x de abdome | flebolitos na radiografia de abdome
+Flebólitos pélvicos.
+## gatilhos: coprostase no raio x de abdome | fezes no colon no raio x
+Moderada quantidade de conteúdo fecal na moldura colônica.
+## gatilhos: clipes de colecistectomia no raio x | clipes cirurgicos no hipocondrio direito
+Clipes cirúrgicos no hipocôndrio direito, compatíveis com colecistectomia prévia.
+## gatilhos: ausencia de pneumoperitonio no raio x de abdome | sem pneumoperitonio no raio x
+Não há sinais de pneumoperitônio.
+## gatilhos: limitacao do raio x de abdome | raio x de abdome sensibilidade limitada
+A radiografia simples tem sensibilidade limitada para ___.
+## gatilhos: alca sentinela no abdome | alca sentinela
+Alça de delgado distendida isolada (alça sentinela).
+## gatilhos: sinal de rigler no abdome | sinal de rigler
+Sinal de Rigler, sugestivo de pneumoperitônio.
+## gatilhos: cateter duplo j no raio x de abdome | duplo j no raio x
+Cateter duplo J {lado_a|à direita/à esquerda}, com extremidades na loja renal e na pelve.
+## gatilhos: diu no raio x de abdome | dispositivo intrauterino no raio x
+Dispositivo intrauterino projetado na pelve.
+## gatilhos: calcificacoes pancreaticas no raio x | pancreas calcificado no raio x
+Calcificações no epigástrio, podendo corresponder a calcificações pancreáticas.
+## gatilhos: apagamento da linha do psoas | psoas apagado no raio x
+Apagamento da linha do psoas {lado|direito/esquerdo}.
+## gatilhos: gas na ampola retal no raio x | gas ate o reto no raio x
+Gás presente na ampola retal.
+## gatilhos: abdome com pouco gas no raio x | abdome sem gas no raio x
+Escassez de gás intestinal, limitando a avaliação.

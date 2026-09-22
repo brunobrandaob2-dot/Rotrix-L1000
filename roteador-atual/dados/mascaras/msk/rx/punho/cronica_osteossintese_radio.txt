@@ -1,0 +1,18 @@
+# gatilhos: raio x de punho com osteossintese do radio | rx de punho com osteossintese do radio | radiografia de punho com osteossintese do radio | rx do punho com osteossintese do radio | rx punho osteossintese do radio | raio x de punho com placa volar | rx de punho com placa volar | raio x de punho com material de sintese | rx de punho com material de sintese | raio x de punho com osteossintese | rx de punho com osteossintese
+# categoria: msk
+# modalidade: rx
+# regiao: punho
+# tipo_mascara: cronica
+**RADIOGRAFIA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências posteroanterior, perfil e oblíqua.
+
+**ANÁLISE:**
+Alinhamento carpal preservado.
+Espaços articulares radiocarpal, mediocarpal e radioulnar distal preservados.
+Articulação trapeziometacarpiana preservada.
+Osteossíntese do rádio distal com {material|placa volar bloqueada e parafusos/fios de Kirschner/fixador externo}, sem sinais de soltura, quebra ou migração.
+{penetracao|Sem/Com} sinais de penetração articular pelos parafusos, considerando os limites do método.
+Foco de fratura {consolidacao|consolidado/em consolidação/sem sinais de consolidação}.
+Densidade óssea preservada.
+Partes moles sem alterações.

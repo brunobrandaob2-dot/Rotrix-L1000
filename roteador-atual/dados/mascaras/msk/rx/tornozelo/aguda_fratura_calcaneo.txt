@@ -1,0 +1,18 @@
+# gatilhos: raio x de tornozelo com fratura do calcaneo | rx de tornozelo com fratura do calcaneo | radiografia de tornozelo com fratura do calcaneo | raio x de calcaneo com fratura | rx de calcaneo com fratura | radiografia de calcaneo com fratura
+# categoria: msk
+# modalidade: rx
+# regiao: tornozelo
+# tipo_mascara: aguda
+**RADIOGRAFIA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, perfil e mortise (anteroposterior com rotação interna de 15 a 20 graus).
+
+**ANÁLISE:**
+Pinça maleolar congruente, com espaço claro medial preservado.
+Sindesmose tibiofibular sem alargamento.
+Espaço articular tibiotalar preservado.
+Fratura {tipo|intra-articular/extra-articular} do calcâneo, {achatamento|sem/com} achatamento do corpo.
+Ângulo de Böhler de {angulo_bohler}° (normal 20 a 40°) e ângulo de Gissane de {angulo_gissane}° (normal 120 a 145°).
+A tomografia avalia melhor a faceta posterior da subtalar.
+Densidade óssea preservada.
+Aumento de partes moles do retropé.

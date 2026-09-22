@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna toracica com fratura | tc de coluna toracica com fratura | tc coluna toracica fratura | tomografia de coluna toracica com fratura aguda | tc de coluna toracica com fratura aguda | tc de coluna toracica com fratura por compressao | tc de coluna dorsal com fratura | tc de coluna toracica com acunhamento agudo
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_toracica
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  cifose focal em {nivel}. Ausência de listeses ou translações.
+Corpos vertebrais:  fratura do corpo vertebral de {nivel}, com acunhamento anterior e afundamento da plataforma {plataforma|superior/inferior}, com perda de altura estimada em {percentual}% (Genant grau 1: 20 a 25%; grau 2: 25 a 40%; grau 3: acima de 40%). Traço de fratura de margens nítidas, sem esclerose, com condensação trabecular subjacente à plataforma, aspectos que favorecem fratura aguda ou recente. Não há esclerose das margens nem fenda de vácuo intrassomática, que sugeririam fratura antiga. Muro posterior íntegro, sem retropulsão de fragmentos.
+Discos intervertebrais:  espaços discais de altura preservada, considerando os limites do método.
+Articulações interapofisárias:  congruentes, sem diástase.
+Articulações costovertebrais:  de aspecto habitual.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, lâminas e processos espinhosos e transversos íntegros. Sem alargamento do espaço interespinhoso.
+Partes moles paravertebrais:  discreta densificação das partes moles paravertebrais adjacentes à fratura, podendo corresponder a componente hemático.
+Demais estruturas:  segmentos pulmonares incluídos no campo de visão sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura por compressão do corpo vertebral de {nivel}, com perda de altura estimada em {percentual}%, muro posterior íntegro, com aspecto de fratura aguda ou recente (AO Spine tipo {ao_spine|A1/A2}).
+A datação da fratura não é definível com segurança apenas pela tomografia; a ressonância magnética com sequências sensíveis a edema (STIR) pode confirmar a fase aguda, se houver indicação clínica.

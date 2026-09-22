@@ -1,0 +1,28 @@
+# gatilhos: tomografia de coluna toracica com espondilodiscite | tc de coluna toracica com espondilodiscite | tc coluna toracica espondilodiscite | tomografia de coluna toracica com discite | tc de coluna toracica com discite | tc de coluna toracica com infeccao | tc de coluna dorsal com espondilodiscite
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_toracica
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, {contraste|sem/com} injeção intravenosa de contraste iodado, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  cifose torácica fisiológica preservada. Ausência de listeses.
+Corpos vertebrais:  erosões e irregularidades das plataformas vertebrais contíguas ao disco {nivel}, com áreas de rarefação óssea subcondral, {colapso|sem colapso vertebral significativo/com colapso parcial do corpo vertebral de ___}.
+Discos intervertebrais:  redução da altura do espaço discal {nivel}, com hipoatenuação do disco.
+Articulações interapofisárias:  congruentes, com espaços articulares preservados.
+Articulações costovertebrais:  de aspecto habitual.
+Canal vertebral:  {canal|de amplitude preservada/com componente de partes moles no espaço epidural anterior em ___, que reduz a amplitude do canal vertebral}.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  pedículos, lâminas e processos espinhosos e transversos íntegros.
+Partes moles paravertebrais:  densificação e aumento das partes moles paravertebrais em {nivel}, {colecao|sem coleções organizadas/com coleção paravertebral medindo ___}.
+Demais estruturas:  segmentos pulmonares incluídos no campo de visão sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Achados sugestivos de espondilodiscite em {nivel}, a correlacionar com dados clínicos e laboratoriais.
+A ressonância magnética com contraste é o método de escolha para a confirmação diagnóstica e para a avaliação de abscessos epidurais e paravertebrais; a tomografia pode ser normal nas fases iniciais.

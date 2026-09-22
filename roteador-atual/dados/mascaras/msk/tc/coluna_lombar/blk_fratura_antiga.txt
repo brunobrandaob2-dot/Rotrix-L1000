@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: fratura antiga | acunhamento | fratura osteoporotica | acunhamento antigo
+# conclusao: Fratura antiga por insuficiência do corpo vertebral de {nivel}, com perda de altura estimada em {percentual}%, sem sinais de agudização.
+Corpos vertebrais:  acunhamento anterior do corpo vertebral de {nivel}, com perda de altura estimada em {percentual}% (Genant grau 1: 20 a 25%; grau 2: 25 a 40%; grau 3: acima de 40%), com margens escleróticas e remodeladas, sem traço de fratura agudo ou densificação das partes moles adjacentes, aspecto de fratura antiga. Muro posterior sem retropulsão.

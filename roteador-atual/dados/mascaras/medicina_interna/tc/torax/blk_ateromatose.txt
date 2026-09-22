@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Aorta torácica
+# gatilhos: ateromas parietais calcificados | ateromas parietais | ateromatose aortica | ateromatose | ateromatose toracica | ateromas | ateromas calcificados | ateromas calcificados na aorta | ateromas calcificados na aorta e ramos | ateromas calcificados esparsos | placas ateromatosas calcificadas | placas calcificadas
+# conclusao: Ateromatose aórtica e de seus principais ramos.
+Aorta torácica:  ateromatose aórtica caracterizada por calcificações parietais na aorta torácica e na emergência de seus principais ramos. Trajeto e calibre habituais.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Derrames
+# gatilhos: espessamento pleuroapical | espessamento pleuroapical bilateral | espessamento apical | pleura apical espessada
+# conclusao: Espessamento pleuroapical bilateral.
+Derrames:  espessamento pleuroapical bilateral. Ausência de derrame pleural ou pericárdico.

@@ -1,0 +1,29 @@
+# gatilhos: tomografia de coluna lombar com fratura de chance | tc de coluna lombar com fratura de chance | tc coluna lombar chance | tomografia de coluna lombar com fratura por flexao distracao | tc de coluna lombar com flexao distracao | tc de coluna lombar com fratura do cinto de seguranca
+# categoria: msk
+# modalidade: tc
+# regiao: coluna_lombar
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas para osso e para partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  cifose focal em {nivel}, com abertura posterior. Ausência de translação.
+Corpos vertebrais:  traço de fratura horizontal que atravessa o corpo vertebral de {nivel}, de margens nítidas e sem esclerose, aspecto de fratura aguda, com perda de altura anterior estimada em {percentual}%. Muro posterior {muro|íntegro/acometido, sem retropulsão significativa/acometido, com retropulsão de fragmento medindo ___}.
+Discos intervertebrais:  espaços discais de altura preservada.
+Articulações interapofisárias:  diástase das articulações interapofisárias em {nivel}, sem luxação.
+Canal vertebral:  de amplitude preservada.
+Forames neurais:  de amplitude preservada.
+Elementos posteriores:  traço de fratura horizontal que se estende pelos pedículos, lâminas e processo espinhoso de {nivel}, com alargamento do espaço interespinhoso, compatível com lesão por flexão-distração.
+Transição lombossacra:  de configuração habitual.
+Articulações sacroilíacas:  espaços articulares preservados e simétricos, com superfícies regulares.
+Partes moles paravertebrais:  densificação das partes moles paravertebrais posteriores ao nível da fratura, compatível com hematoma.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura por flexão-distração (fratura de Chance) de {nivel}, de aspecto agudo, com acometimento do corpo vertebral e dos elementos posteriores (AO Spine tipo {ao_spine|B1/B2}).
+Lesão instável; recomenda-se ressonância magnética para avaliação do complexo ligamentar posterior.
+Este mecanismo associa-se a lesões de vísceras abdominais e intestinais; correlacionar com avaliação abdominal.

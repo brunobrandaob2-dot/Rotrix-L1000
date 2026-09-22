@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias vertebrais
+# gatilhos: hipoplasia vertebral | vertebral hipoplasica | dominancia vertebral | assimetria das vertebrais
+# conclusao: Hipoplasia da artéria vertebral {lado_f|direita/esquerda}, variante anatômica.
+Artérias vertebrais:  segmentos intracranianos (V4) pérvios, com assimetria de calibre, sendo a artéria vertebral {lado_f|direita/esquerda} hipoplásica (diâmetro de {tamanho}) e a contralateral dominante. {terminacao|Ambas terminam na formação da artéria basilar/A artéria hipoplásica termina na artéria cerebelar posteroinferior}.

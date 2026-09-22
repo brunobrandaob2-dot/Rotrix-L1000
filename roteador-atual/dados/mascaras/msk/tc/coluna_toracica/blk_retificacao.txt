@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: retificacao | retificacao da cifose | perda da cifose | retificacao toracica
+# conclusao: Retificação da cifose torácica fisiológica.
+Alinhamento:  retificação da cifose torácica fisiológica. Ausência de listeses ou de desvios laterais significativos.

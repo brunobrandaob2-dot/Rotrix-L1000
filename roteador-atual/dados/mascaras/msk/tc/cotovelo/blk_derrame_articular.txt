@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Derrame articular
+# gatilhos: derrame articular | derrame no cotovelo | hemartrose | lipo hemartrose
+# conclusao: Derrame articular no cotovelo.
+Derrame articular:  {volume|pequeno/moderado/volumoso}, {nivel|sem/com} nível líquido-gorduroso.

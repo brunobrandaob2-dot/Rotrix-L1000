@@ -1,0 +1,39 @@
+# tipo: frases
+## gatilhos: alteracao perfusional hepatica transitoria | figado com alteracao perfusional
+Área de realce heterogêneo transitório na fase arterial, sem correspondência nas demais fases, compatível com alteração perfusional hepática.
+## gatilhos: area de preservacao gordurosa hepatica | figado com area poupada de esteatose
+Área hepática de atenuação preservada adjacente ao leito vesicular, compatível com área poupada de esteatose.
+## gatilhos: infiltracao gordurosa focal no figado | esteatose focal hepatica
+Área hipoatenuante hepática de limites geográficos, sem efeito de massa sobre os vasos, compatível com infiltração gordurosa focal.
+## gatilhos: granuloma hepatico calcificado | calcificacao hepatica residual
+Calcificação hepática puntiforme, de aspecto residual granulomatoso.
+## gatilhos: varizes esofagogastricas | varizes gastricas
+Varizes esofagogástricas.
+## gatilhos: recanalizacao da veia umbilical | veia paraumbilical recanalizada
+Recanalização da veia paraumbilical, sinal de hipertensão portal.
+## gatilhos: shunt esplenorrenal espontaneo | derivacao esplenorrenal
+Derivação portossistêmica esplenorrenal espontânea.
+## gatilhos: infarto esplenico | baco com infarto
+Área cuneiforme hipoatenuante periférica no baço, sem realce, compatível com infarto esplênico.
+## gatilhos: cisto esplenico | baco com cisto
+Cisto esplênico simples, medindo {tamanho}.
+## gatilhos: ducto pancreatico dilatado | dilatacao do ducto de wirsung
+Ducto pancreático principal dilatado, medindo {tamanho} (referência: até 0,3 cm), sem causa obstrutiva caracterizável ao método.
+## gatilhos: lesao cistica pancreatica | cisto pancreatico
+Lesão cística pancreática no {regiao_pancreas|cabeça/corpo/cauda}, medindo {tamanho}, sem componente sólido ou dilatação ductal; sugere-se caracterização com ressonância magnética.
+## gatilhos: pancreas divisum
+Aspecto sugestivo de pâncreas divisum, variante anatômica.
+## gatilhos: hiperplasia adrenal | adrenais espessadas
+Espessamento difuso dos ramos adrenais {lado_a|à direita/à esquerda}, sem nódulos definidos, podendo corresponder a hiperplasia; correlacionar com a função hormonal.
+## gatilhos: mielolipoma adrenal | adrenal com gordura macroscopica
+Nódulo adrenal {lado_a|à direita/à esquerda} com gordura macroscópica, medindo {tamanho}, compatível com mielolipoma.
+## gatilhos: vesicula em porcelana | calcificacao da parede da vesicula
+Calcificação parietal da vesícula biliar (vesícula em porcelana).
+## gatilhos: adenomiomatose da vesicula | adenomiomatose vesicular
+Espessamento parietal fúndico da vesícula biliar, podendo corresponder a adenomiomatose; correlacionar com ultrassonografia.
+## gatilhos: tips pervio | derivacao portossistemica intra hepatica
+Derivação portossistêmica intra-hepática transjugular (TIPS) de posição adequada, pérvia.
+## gatilhos: figado com contornos nodulares | contornos hepaticos nodulares
+Contornos hepáticos finamente nodulares.
+## gatilhos: artefatos respiratorios no abdome | artefatos de movimento no abdome superior
+Presença de artefatos de movimentos respiratórios, que reduzem parcialmente a resolução espacial do método sem invalidar o estudo.

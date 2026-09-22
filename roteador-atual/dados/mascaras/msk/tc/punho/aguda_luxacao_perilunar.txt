@@ -1,0 +1,27 @@
+# gatilhos: tomografia de punho com luxacao perilunar | tomografia do punho com luxacao perilunar | tc de punho com luxacao perilunar | tc do punho com luxacao perilunar | tc punho luxacao perilunar | tomografia de punho com luxacao do semilunar | tc de punho com luxacao do semilunar | tomografia de punho com luxacao do carpo | tc de punho com luxacao do carpo
+# categoria: msk
+# modalidade: tc
+# regiao: punho
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  {luxacao|luxação perilunar dorsal, com o capitato deslocado dorsalmente em relação ao semilunar, que se mantém articulado com o rádio/luxação volar do semilunar, que se encontra rodado anteriormente e desarticulado do rádio (sinal da xícara derramada)}. Ruptura dos arcos carpais de Gilula.
+Rádio distal:  sem traços de fratura, com superfície articular congruente. Inclinação radial e inclinação volar preservadas.
+Ulna distal:  sem traços de fratura, com processo estiloide íntegro.
+Escafoide:  {escafoide|sem traços de fratura/fratura do terço médio (lesão transescafoperilunar)}.
+Demais ossos do carpo:  {carpo|sem outros traços de fratura/fratura associada do ___}.
+Espaços articulares:  radiocarpal, mediocarpal e radioulnar distal preservados, sem alterações degenerativas significativas.
+Articulação trapeziometacarpiana:  espaço articular preservado, sem osteófitos.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções ou calcificações, considerando os limites do método para avaliação ligamentar, tendínea e da fibrocartilagem triangular.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+{luxacao_c|Luxação perilunar dorsal/Luxação volar do semilunar/Fratura-luxação transescafoperilunar} (estágio {mayfield|I/II/III/IV} de Mayfield).
+Recomenda-se controle por imagem após a redução, para pesquisa de fraturas associadas e de instabilidade residual.

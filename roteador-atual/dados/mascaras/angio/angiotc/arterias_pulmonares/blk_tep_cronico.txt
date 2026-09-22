@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias pulmonares
+# gatilhos: tromboembolismo pulmonar cronico | tromboembolismo cronico | tep cronico | embolia pulmonar cronica
+# conclusao: Alterações arteriais pulmonares de padrão crônico, compatíveis com tromboembolismo pulmonar crônico.
+Artérias pulmonares:  falhas de enchimento excêntricas aderidas à parede, formando ângulo obtuso, redes e bandas intraluminais e estreitamentos abruptos de ramos {nivel_cronico|lobares/segmentares/subsegmentares}, com redução do calibre distal, de padrão crônico.

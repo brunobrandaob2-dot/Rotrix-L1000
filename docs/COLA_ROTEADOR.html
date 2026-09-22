@@ -1,0 +1,52 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cola do Roteador</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{--ink:#1b2430;--mute:#5b6675;--line:#d5dbe3;--bg:#ffffff;--soft:#f2f5f8;--acc:#0f6e74;--rx:#0f6e74;--tc:#7a4b12;--warn:#a3321f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.45 "IBM Plex Sans",Segoe UI,Arial,sans-serif;padding-inline:16px}
+.wrap{max-width:1040px;margin:0 auto;padding-block:20px 28px}
+h1{font-size:22px;margin:0 0 2px;letter-spacing:-.01em}
+.sub{color:var(--mute);margin:0 0 16px}
+.topo{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-bottom:16px}
+.box{background:var(--soft);border-radius:8px;padding:10px 12px}
+.box h3{margin:0 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mute)}
+kbd{font:500 12px "IBM Plex Mono",Consolas,monospace;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 5px;background:#fff}
+.formula{font:500 15px "IBM Plex Mono",Consolas,monospace;color:var(--acc)}
+h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--mute);border-bottom:1px solid var(--line);padding-bottom:4px;margin:18px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:8px}
+.card{border:1px solid var(--line);border-radius:6px;padding:8px 10px;break-inside:avoid}
+.exame{font-weight:600;font-size:14px;display:flex;gap:6px;align-items:center}
+.mod{font:600 10px "IBM Plex Mono",monospace;color:#fff;border-radius:3px;padding:1px 4px}
+.mod-rx{background:var(--rx)} .mod-tc{background:var(--tc)}
+.achs{margin-top:5px;display:flex;flex-wrap:wrap;gap:4px}
+.ach{background:var(--soft);border-radius:3px;padding:0 5px;font-size:12px}
+.ex{margin-top:5px;color:var(--mute);font-size:12px;font-style:italic}
+ul{margin:0;padding-left:18px} li{margin:2px 0}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.tela code{font:500 12px "IBM Plex Mono",monospace;background:#fff3f0;color:var(--warn);padding:0 4px;border-radius:3px}
+@media print{body{font-size:10.5px;padding:0} .wrap{padding:0;max-width:none} h2{margin:10px 0 5px} .card{padding:5px 7px} @page{size:A4;margin:10mm}}
+</style></head><body><div class="wrap">
+<h1>Cola do Roteador de Laudos</h1>
+<p class="sub">Fale o que está entre aspas. Acentos e "de/do/da" não importam, e as formas longas ("raio x do joelho", "tomografia de crânio") também funcionam.</p>
+<div class="topo">
+ <div class="box"><h3>Atalho</h3><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Espaço</kbd> máscaras<br><kbd>Ctrl</kbd>+<kbd>Espaço</kbd> só ditado, sem máscara<br><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>A</kbd> revisa o laudo inteiro na nuvem</div>
+ <div class="box"><h3>A fórmula</h3><span class="formula">exame + lado + com achado, achado e achado</span></div>
+ <div class="box"><h3>Lado e contraste</h3>Diga "direito/esquerdo" no exame ou no achado, e "sem" ou "com contraste" na TC. O que você não disser fica em branco.</div>
+</div>
+<h2>Radiografia: exame e achados que encaixam</h2><div class="grid"><div class='card'><div class='exame'><span class='mod mod-rx'>RX</span>rx tórax</div><div class=achs><span class='ach'>cardiomegalia</span> <span class='ach'>atelectasia</span> <span class='ach'>pneumonia</span> <span class='ach'>derrame</span> <span class='ach'>ateromatose</span> <span class='ach'>nódulo</span> <span class='ach'>fratura costal</span> <span class='ach'>espondilose</span></div><div class='ex'>“rx tórax com cardiomegalia e ateromatose”</div></div><div class='card'><div class='exame'><span class='mod mod-rx'>RX</span>rx coluna lombar</div><div class=achs><span class='ach'>osteófitos</span> <span class='ach'>discopatia</span> <span class='ach'>artrose</span> <span class='ach'>listese</span> <span class='ach'>escoliose</span> <span class='ach'>retificação</span> <span class='ach'>osteopenia</span> <span class='ach'>acunhamento</span></div><div class='ex'>“rx coluna lombar com osteófitos, discopatia e artrose”</div></div><div class='card'><div class='exame'><span class='mod mod-rx'>RX</span>rx coluna cervical</div><div class=achs><span class='ach'>retificação</span> <span class='ach'>osteófitos</span> <span class='ach'>uncoartrose</span> <span class='ach'>discopatia</span> <span class='ach'>artrose</span></div><div class='ex'>“rx coluna cervical com retificação e uncoartrose”</div></div><div class='card'><div class='exame'><span class='mod mod-rx'>RX</span>rx joelho direito</div><div class=achs><span class='ach'>artrose medial</span> <span class='ach'>artrose lateral</span> <span class='ach'>artrose patelar</span> <span class='ach'>derrame</span> <span class='ach'>osteopenia</span> <span class='ach'>entesopatia</span></div><div class='ex'>“rx joelho esquerdo com artrose medial e derrame”</div></div><div class='card'><div class='exame'><span class='mod mod-rx'>RX</span>rx ombro direito</div><div class=achs><span class='ach'>tendinite calcária</span> <span class='ach'>artrose</span> <span class='ach'>artrose do ombro</span> <span class='ach'>osteopenia</span></div><div class='ex'>“rx ombro direito com tendinite calcária”</div></div><div class='card'><div class='exame'><span class='mod mod-rx'>RX</span>rx quadril direito</div><div class=achs><span class='ach'>artrose</span> <span class='ach'>displasia</span> <span class='ach'>entesopatia</span> <span class='ach'>osteopenia</span> <span class='ach'>prótese</span></div><div class='ex'>“rx quadril esquerdo com artrose”</div></div><div class='card'><div class='exame'><span class='mod mod-rx'>RX</span>rx pé direito</div><div class=achs><span class='ach'>joanete</span> <span class='ach'>artrose</span> <span class='ach'>osteopenia</span> <span class='ach'>barra tarsal</span></div><div class='ex'>“rx pé esquerdo com joanete”</div></div><div class='card'><div class='exame'><span class='mod mod-rx'>RX</span>rx tornozelo direito</div><div class=achs><span class='ach'>esporão plantar</span> <span class='ach'>edema de partes moles</span> <span class='ach'>osteopenia</span></div><div class='ex'>“rx tornozelo direito com esporão plantar”</div></div><div class='card'><div class='exame'><span class='mod mod-rx'>RX</span>rx abdome</div><div class=achs><span class='ach'>fecaloma</span> <span class='ach'>níveis hidroaéreos</span> <span class='ach'>cálculo renal</span> <span class='ach'>ateromatose</span> <span class='ach'>gás livre</span></div><div class='ex'>“rx abdome com fecaloma”</div></div><div class='card'><div class='exame'><span class='mod mod-rx'>RX</span>rx seios da face</div><div class=achs><span class='ach'>espessamento mucoso</span> <span class='ach'>cisto de retenção</span> <span class='ach'>nível hidroaéreo</span> <span class='ach'>velamento maxilar</span></div><div class='ex'>“rx seios da face com espessamento mucoso”</div></div></div>
+<h2>Tomografia</h2><div class="grid"><div class='card'><div class='exame'><span class='mod mod-tc'>TC</span>tc crânio</div><div class=achs><span class='ach'>atrofia</span> <span class='ach'>fazekas</span> <span class='ach'>lacuna</span> <span class='ach'>gliose</span> <span class='ach'>ateromatose intracraniana</span> <span class='ach'>sinusopatia</span></div><div class='ex'>“tc crânio com atrofia e fazekas”</div></div><div class='card'><div class='exame'><span class='mod mod-tc'>TC</span>tc tórax</div><div class=achs><span class='ach'>enfisema</span> <span class='ach'>ateromatose</span> <span class='ach'>nódulo sólido</span> <span class='ach'>granuloma</span> <span class='ach'>bronquiectasia</span> <span class='ach'>derrame</span> <span class='ach'>cardiomegalia</span> <span class='ach'>hérnia hiatal</span></div><div class='ex'>“tc tórax com enfisema e granuloma”</div></div><div class='card'><div class='exame'><span class='mod mod-tc'>TC</span>tc abdome</div><div class=achs><span class='ach'>esteatose</span> <span class='ach'>colelitíase</span> <span class='ach'>cisto renal</span> <span class='ach'>cisto hepático</span> <span class='ach'>nefrolitíase</span> <span class='ach'>divertículos</span> <span class='ach'>ateromatose</span> <span class='ach'>hérnia inguinal</span></div><div class='ex'>“tc abdome com esteatose, colelitíase e cisto renal”</div></div><div class='card'><div class='exame'><span class='mod mod-tc'>TC</span>tc coluna lombar</div><div class=achs><span class='ach'>protrusão</span> <span class='ach'>hérnia</span> <span class='ach'>artrose</span> <span class='ach'>osteófitos</span> <span class='ach'>canal estreito</span> <span class='ach'>listese</span></div><div class='ex'>“tc coluna lombar com protrusão e artrose”</div></div></div>
+<div class="cols">
+ <div><h2>Angio</h2>“angio crânio” · “angio pescoço” · “angio crânio e pescoço”</div>
+ <div><h2>Máscaras alteradas prontas</h2><ul><li>“tc crânio com avc isquêmico agudo”</li><li>“rx tórax com pneumotórax”</li><li>“rx tórax com pneumonia”</li><li>“rx coluna lombar com espondilose”</li><li>“tc abdome com apendicite”</li></ul></div>
+</div>
+<div class="cols">
+ <div><h2>Frase solta: comece com "frase"</h2><ul><li>“frase cisto hepático simples”</li><li>“frase derrame articular no raio x de joelho”</li><li>“frase cisto de baker”</li></ul></div>
+ <div><h2>Revisão pela nuvem</h2>No fim do laudo, com o cursor no campo: <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>A</kbd>. O bipe agudo quer dizer que colou. Por voz: selecione o laudo e diga "revisar laudo".<br>Com instrução: <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Espaço</kbd> e fale, por exemplo, “revise e faça uma melhor descrição do AVC”, “melhore a conclusão” ou “resuma a análise”.</div>
+</div>
+<div class="tela"><h2>O que pode aparecer na tela</h2><ul>
+<li><code>[direito/esquerdo]</code> ou <code>___</code>: o lado ou a medida não foi ditado. Complete na hora.</li>
+<li><code>[não encontrado no banco — completar: …]</code>: esse achado não existe no banco. O que você ditou fica ali para completar.</li>
+<li>Saiu a máscara errada ou nada? Fale o nome do exame primeiro, sem nada antes dele. Para conferir, abra o TESTAR.ps1. A lista completa está no CATALOGO.txt.</li>
+</ul></div>
+</div></body></html>

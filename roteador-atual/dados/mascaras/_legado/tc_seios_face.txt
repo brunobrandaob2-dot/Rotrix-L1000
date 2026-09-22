@@ -1,0 +1,25 @@
+# gatilhos: tomografia de seios da face | tc de seios paranasais | seios da face | rinossinusite | tc seios da face
+TOMOGRAFIA COMPUTADORIZADA DOS SEIOS PARANASAIS
+
+TÉCNICA: aquisição volumétrica em alta resolução, sem injeção de contraste, com reconstruções nos planos axial, coronal e sagital em filtro para osso.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Seios maxilares: pneumatizados e simétricos / espessamento mucoso parietal {lado_a|à direita/à esquerda}, com espessura máxima de {tamanho}. Nível hidroaéreo ausente / presente {lado_a|à direita/à esquerda}. Paredes ósseas íntegras, sem esclerose ou erosões.
+Seios etmoidais: células anteriores e posteriores pneumatizadas / com espessamento mucoso {lado_a|à direita/à esquerda}, sem velamento completo. Lamela papirácea íntegra bilateralmente.
+Seios frontais: pneumatizados e simétricos / hipoplásicos / com espessamento mucoso {lado_a|à direita/à esquerda}. Paredes íntegras.
+Seios esfenoidais: pneumatizados / com espessamento mucoso {lado_a|à direita/à esquerda} / com nível hidroaéreo. Septação intersinusal com inserção ___. Paredes do canal carotídeo e do canal óptico íntegras.
+Complexo ostiomeatal: pérvio bilateralmente / obstruído {lado_a|à direita/à esquerda}, por espessamento mucoso e aposição de superfícies mucosas no infundíbulo e no hiato semilunar.
+Recesso frontal: pérvio / obstruído {lado_a|à direita/à esquerda}.
+Fossas nasais e septo nasal: desvio do septo nasal para {lado_a|à direita/à esquerda}, com esporão ósseo em contato com o corneto inferior homolateral / septo centrado. Hipertrofia dos cornetos inferiores {lado_a|à direita/à esquerda}. Ausência de pólipos ou massas obstrutivas identificáveis ao método.
+Variantes anatômicas: concha bolhosa {lado_a|à direita/à esquerda}, de {tamanho}; célula de Haller {lado_a|à direita/à esquerda}, reduzindo a amplitude do infundíbulo; célula de Agger nasi {lado_a|à direita/à esquerda}, reduzindo a amplitude do recesso frontal; células de Onodi ausentes / presentes.
+Estruturas ósseas: paredes sinusais e rebordos orbitários íntegros, sem traços de fratura ou lesões líticas / blásticas.
+Rinofaringe e partes moles: rinofaringe pérvia, com recessos faríngeos simétricos. Partes moles cervicais altas sem alterações significativas ao método.
+Órbitas: conteúdo orbitário sem alterações. Ausência de densificação da gordura periorbitária ou de coleções subperiosteais.
+
+CONCLUSÃO:
+1. Espessamento mucoso parietal nos seios ___ {lado_a|à direita/à esquerda}, com nível hidroaéreo em ___, traduzindo rinossinusite; a diferenciação entre processo agudo e crônico depende da correlação clínica.
+2. Obstrução do complexo ostiomeatal {lado_a|à direita/à esquerda} / complexo ostiomeatal pérvio bilateralmente.
+3. Variantes anatômicas: desvio do septo nasal para {lado_a|à direita/à esquerda}, concha bolhosa {lado_a|à direita/à esquerda}, célula de Haller {lado_a|à direita/à esquerda} e célula de Agger nasi {lado_a|à direita/à esquerda}, com potencial de contribuir para a obstrução da drenagem sinusal.
+4. Ausência de sinais de complicação — erosão óssea, coleção orbitária ou extensão intracraniana — no presente estudo.

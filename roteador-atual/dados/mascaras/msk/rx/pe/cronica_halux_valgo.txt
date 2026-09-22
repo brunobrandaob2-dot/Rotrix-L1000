@@ -1,0 +1,17 @@
+# gatilhos: raio x de pe com halux valgo | rx de pe com halux valgo | radiografia de pe com halux valgo | rx pe halux valgo | raio x de pe com joanete | rx de pe com joanete | raio x de pe com hallux valgus
+# categoria: msk
+# modalidade: rx
+# regiao: pe
+# tipo_mascara: cronica
+**RADIOGRAFIA DO PÉ {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, oblíqua e perfil.
+
+**ANÁLISE:**
+Hálux valgo {grau|leve/moderado/acentuado}, com ângulo do hálux valgo de {angulo_hv}° (normal < 15°) e intermetatarsal 1–2 de {angulo_im}° (normal < 9°).
+{sesamoides|Sesamoides em posição habitual./Subluxação lateral dos sesamoides.}
+{mtf1|Espaços articulares preservados./Artrose da primeira metatarsofalângica.}
+Arco longitudinal medial de altura preservada.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

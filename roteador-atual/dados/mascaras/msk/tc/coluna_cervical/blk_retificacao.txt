@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: retificacao | retificacao da lordose | retificacao cervical | perda da lordose
+# conclusao: Retificação da lordose cervical fisiológica.
+Alinhamento:  retificação da lordose cervical fisiológica. Ausência de listeses.

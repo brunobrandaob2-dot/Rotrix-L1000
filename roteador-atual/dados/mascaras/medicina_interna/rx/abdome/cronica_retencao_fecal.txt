@@ -1,0 +1,17 @@
+# gatilhos: raio x de abdome com fecaloma | rx de abdome com fecaloma | radiografia de abdome com fecaloma | rx abdome fecaloma | raio x de abdome com retencao fecal | rx de abdome com retencao fecal | radiografia de abdome com retencao fecal | rx abdome retencao fecal | raio x de abdome com coprostase | rx de abdome com coprostase | radiografia de abdome com coprostase | rx abdome coprostase
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: abdome
+# tipo_mascara: cronica
+**RADIOGRAFIA DE ABDOME**
+
+**TÉCNICA:**  incidência anteroposterior em decúbito dorsal.
+
+**ANÁLISE:**
+Distribuição gasosa intestinal habitual, com gás até a ampola retal.
+Alças intestinais de calibre normal, sem níveis hidroaéreos anômalos.
+Acentuada retenção fecal na moldura colônica, com fecaloma {local_fecaloma|na ampola retal/no sigmoide} medindo {tamanho}.
+Não há sinais de pneumoperitônio.
+Não há imagens cálcicas projetadas nas lojas renais ou nos trajetos ureterais.
+Não há corpos estranhos radiopacos.
+Arcabouço ósseo sem alterações.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Patela
+# gatilhos: fratura da patela | fratura patelar
+# conclusao: Fratura {traco|transversa/longitudinal/cominutiva/estrelada/do polo inferior} da patela.
+Patela:  traço de fratura {traco|transverso/longitudinal/cominutivo/estrelado/do polo inferior}, com afastamento dos fragmentos de {afastamento} e degrau articular de {degrau}.

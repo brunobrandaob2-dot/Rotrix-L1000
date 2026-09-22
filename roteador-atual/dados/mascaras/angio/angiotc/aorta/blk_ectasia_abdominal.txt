@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Aorta abdominal
+# gatilhos: ectasia da aorta abdominal | ectasia abdominal | aortoectasia abdominal | aortoectasia
+# conclusao: Ectasia da aorta abdominal infrarrenal, medindo {tamanho}, sem critério de aneurisma.
+Aorta abdominal:  segmento infrarrenal com calibre aumentado, medindo {tamanho} no maior diâmetro, sem atingir critério de aneurisma (≥ 3,0 cm), com opacificação homogênea.

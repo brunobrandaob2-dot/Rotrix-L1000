@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Espaços extra-axiais
+# gatilhos: meningioma | provavel meningioma | meningioma incidental | lesao extra axial de base dural
+# conclusao: Lesão extra-axial de base dural medindo {tamanho}, com aspecto sugestivo de meningioma; a ressonância magnética com contraste pode complementar a caracterização.
+Espaços extra-axiais:  sem coleções. Lesão expansiva extra-axial de base dural {localizacao_meningioma|na convexidade frontal/na convexidade parietal/junto à foice cerebral/na asa do esfenoide/___} {lado_a|à direita/à esquerda}, espontaneamente hiperatenuante, de contornos regulares, {calcificacoes|sem/com} calcificações de permeio, medindo {tamanho}, {edema|sem/com} edema vasogênico no parênquima adjacente, com aspecto sugestivo de meningioma.

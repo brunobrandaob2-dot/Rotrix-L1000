@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Canal vertebral
+# gatilhos: estenose de canal lombar | estenose do canal vertebral | canal lombar estreito | reducao da amplitude do canal vertebral
+# conclusao: Estenose do canal vertebral em {nivel_vertebral}, de etiologia degenerativa, com diâmetro ântero-posterior de ___ mm.
+Canal vertebral: redução da amplitude do canal vertebral em {nivel_vertebral}, com diâmetro ântero-posterior de ___ mm — valores inferiores a 10 mm caracterizam estenose absoluta e entre 10 e 12 mm, estenose relativa —, por componente degenerativo combinado, com abaulamento discal, hipertrofia facetária e espessamento do ligamento amarelo.

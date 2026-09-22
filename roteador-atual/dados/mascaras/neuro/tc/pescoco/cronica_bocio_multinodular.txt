@@ -1,0 +1,33 @@
+# gatilhos: tomografia de pescoco com bocio multinodular | tc de pescoco com bocio multinodular | tomografia do pescoco com bocio multinodular | tomografia de pescoco com bocio | tc de pescoco com bocio | tc de pescoco com bocio mergulhante
+# categoria: neuro
+# modalidade: tc
+# regiao: pescoco
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO PESCOÇO**
+
+**TÉCNICA:**  aquisição volumétrica da base do crânio à transição cervicotorácica, {contraste|sem/com} injeção intravenosa de contraste iodado, com reconstruções multiplanares.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Nasofaringe:  simétrica, com recessos faríngeos laterais preservados, sem espessamentos parietais ou lesões expansivas.
+Orofaringe:  tonsilas palatinas simétricas e de dimensões habituais. Base da língua e valéculas sem particularidades.
+Hipofaringe e laringe:  seios piriformes livres. Pregas vocais simétricas, espaços paraglóticos e pré-epiglótico preservados. Cartilagens laríngeas sem particularidades.
+Espaços parafaríngeos:  gordura preservada e simétrica.
+Espaços mastigatórios:  musculatura mastigatória simétrica, sem coleções ou densificação.
+Espaço retrofaríngeo e pré-vertebral:  de espessura normal, sem coleções ou densificação.
+Glândulas parótidas:  tópicas, simétricas, de dimensões e densidade habituais, sem nódulos.
+Glândulas submandibulares:  tópicas, simétricas, de dimensões e realce habituais, sem cálculos ou dilatação ductal.
+Tireoide:  aumentada de volume, de contornos lobulados e textura heterogênea, contendo múltiplos nódulos bilaterais, o maior no lobo {lado|direito/esquerdo}, medindo {tamanho}. {mergulhante|Sem extensão mergulhante/Com extensão mergulhante para o mediastino superior}.
+Linfonodos cervicais:  sem linfonodomegalias nos níveis I a VI, bilateralmente.
+Vasos cervicais:  artérias carótidas e veias jugulares internas pérvias e de calibre habitual.
+Traqueia:  {traqueia|centrada, de calibre normal/desviada para o lado contralateral ao maior volume tireoidiano, sem redução significativa do calibre/desviada e com redução do calibre, medindo ___ no menor diâmetro}.
+Planos gordurosos e partes moles:  preservados, sem coleções, gás ou densificação.
+Estruturas ósseas:  sem lesões líticas ou blásticas.
+Ápices pulmonares:  sem particularidades nos segmentos incluídos no estudo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Aumento volumétrico da tireoide, com múltiplos nódulos (bócio multinodular), {mergulhante|sem/com} componente mergulhante.
+A caracterização dos nódulos tireoidianos é limitada pelo método — sugere-se correlação com ultrassonografia e função tireoidiana.

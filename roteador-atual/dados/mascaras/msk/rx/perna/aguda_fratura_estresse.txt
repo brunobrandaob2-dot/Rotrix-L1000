@@ -1,0 +1,17 @@
+# gatilhos: raio x de perna com fratura por estresse | rx de perna com fratura por estresse | radiografia de perna com fratura por estresse | rx perna fratura de estresse
+# categoria: msk
+# modalidade: rx
+# regiao: perna
+# tipo_mascara: aguda
+**RADIOGRAFIA DA PERNA {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Alinhamento preservado.
+Reação periosteal {periosteal|lisa/lamelar} e espessamento cortical na face {cortical|posteromedial/anterior} do terço {terco|proximal/médio/distal} da diáfise tibial, {linha|sem/com} linha radiotransparente cortical, sugestivos de fratura por estresse.
+Fíbula com contornos corticais regulares.
+Articulações do joelho e do tornozelo sem alterações nas porções incluídas.
+Densidade óssea preservada.
+Partes moles sem alterações.
+A ressonância magnética é mais sensível para fratura por estresse.

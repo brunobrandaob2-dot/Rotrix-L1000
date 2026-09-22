@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias renais
+# gatilhos: arteria renal acessoria | arterias renais acessorias | renal acessoria
+# conclusao: Artéria renal acessória {lado_f|direita/esquerda}, variante anatômica.
+Artérias renais:  artéria renal acessória {lado_f|direita/esquerda}, com origem na aorta abdominal e destinada ao polo {polo|superior/inferior} renal, pérvia. Artérias renais principais pérvias, sem estenoses, irregularidades parietais ou dilatações.

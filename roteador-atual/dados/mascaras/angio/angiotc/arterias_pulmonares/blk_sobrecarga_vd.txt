@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Câmaras cardíacas direitas
+# gatilhos: sobrecarga de ventriculo direito | sobrecarga de camaras direitas | relacao vd ve aumentada | disfuncao de ventriculo direito
+# conclusao: Sinais tomográficos de sobrecarga de câmaras direitas (relação VD/VE de ___, > 0,9).
+Câmaras cardíacas direitas:  relação entre os diâmetros transversos do ventrículo direito e do ventrículo esquerdo (VD/VE) de ___, superior a 0,9, com {septo|retificação/abaulamento em direção ao ventrículo esquerdo} do septo interventricular, {refluxo_vci|com/sem} refluxo de contraste para a veia cava inferior e veias hepáticas.

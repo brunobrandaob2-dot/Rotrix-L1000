@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Sínfise púbica
+# gatilhos: condrocalcinose | condrocalcinose da sinfise | calcificacao da sinfise
+Calcificações lineares na fibrocartilagem da sínfise púbica, compatíveis com condrocalcinose.

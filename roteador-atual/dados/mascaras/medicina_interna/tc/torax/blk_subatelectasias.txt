@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Parênquima pulmonar
+# gatilhos: subatelectasias | opacidades subatelectasicas | estrias basais | subatelectasias e estrias | opacidades subatelectasicas e estrias basais
+# conclusao: Opacidades subatelectásicas esparsas e estrias basais bilaterais.
+Parênquima pulmonar:  opacidades subatelectásicas esparsas e estrias basais bilaterais.

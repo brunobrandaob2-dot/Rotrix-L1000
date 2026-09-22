@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Arco aórtico e origens dos troncos supra-aórticos
+# gatilhos: arco bovino | tronco bicarotideo | origem comum do tronco braquiocefalico | variante do arco aortico
+# conclusao: Origem comum do tronco braquiocefálico e da artéria carótida comum esquerda (arco bovino), variante anatômica.
+Arco aórtico e origens dos troncos supra-aórticos:  origem comum do tronco braquiocefálico e da artéria carótida comum esquerda (arco bovino), variante anatômica. Origens dos troncos supra-aórticos pérvias, sem estenoses.

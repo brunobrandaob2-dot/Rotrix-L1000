@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: dish | hiperostose | hiperostose esqueletica | doenca de forestier
+# conclusao: Hiperostose esquelética idiopática difusa (DISH) na coluna cervical.
+Corpos vertebrais:  ossificações fluidas ao longo da face anterior dos corpos vertebrais, formando pontes ósseas de {nivel} a {nivel}, com espaços discais relativamente preservados. Sem sinais de fratura.

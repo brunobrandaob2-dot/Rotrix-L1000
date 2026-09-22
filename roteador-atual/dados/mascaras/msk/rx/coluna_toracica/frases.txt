@@ -1,0 +1,29 @@
+# tipo: frases
+## gatilhos: rx coluna toracica sem alteracoes | radiografia de coluna toracica sem fraturas
+Coluna torácica com altura e alinhamento preservados, sem sinais de fraturas.
+## gatilhos: rx toracica cifose acentuada | hipercifose toracica no rx
+Acentuação da cifose torácica.
+## gatilhos: rx toracica ressalva fratura | radiografia toracica limitada para fratura
+A radiografia tem sensibilidade limitada para fraturas sem desvio; se houver suspeita, sugere-se tomografia.
+## gatilhos: rx toracica ressalva disco | radiografia toracica nao avalia disco
+A radiografia não avalia discos, medula nem raízes.
+## gatilhos: rx toracica osteofitos | osteofitos toracicos no rx
+Osteófitos marginais nos corpos vertebrais torácicos.
+## gatilhos: rx toracica multiplos acunhamentos | varios acunhamentos toracicos no rx
+Acunhamentos antigos de múltiplos corpos vertebrais torácicos ({nivel}), com perda de altura máxima de {percentual}%.
+## gatilhos: rx toracica escoliose leve | escoliose toracica discreta no rx
+Discreta escoliose torácica de convexidade {convexidade|à direita/à esquerda}.
+## gatilhos: rx toracica nodulos de schmorl | schmorl toracico no rx
+Nódulos de Schmorl em {nivel}.
+## gatilhos: rx toracica scheuermann | doenca de scheuermann toracica
+Acunhamento anterior de três ou mais corpos vertebrais consecutivos ({nivel}), com nódulos de Schmorl, compatível com doença de Scheuermann.
+## gatilhos: rx toracica dish | hiperostose toracica no rx
+Pontes ósseas contínuas anterolaterais nos corpos vertebrais torácicos, compatíveis com DISH.
+## gatilhos: rx toracica calcificacoes aorticas | ateromatose aortica toracica no rx
+Calcificações ateromatosas na aorta torácica.
+## gatilhos: rx toracica pediculo nao visualizado | sinal da coruja cega toracico
+Pedículo {lado|direito/esquerdo} de {nivel} não caracterizado (sinal da "coruja cega"); sugere-se complementação com tomografia ou ressonância magnética.
+## gatilhos: rx toracica fratura antiga | acunhamento antigo toracico no rx
+Acunhamento do corpo vertebral de {nivel}, de aspecto antigo.
+## gatilhos: angulo de cobb na coluna toracica
+Ângulo de Cobb de ___ graus, com ápice em ___.

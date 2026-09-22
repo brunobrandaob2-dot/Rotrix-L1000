@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Bexiga
+# gatilhos: bexiga trabeculada | bexiga de esforco | espessamento parietal vesical difuso | bexiga de luta
+# conclusao: Bexiga com paredes espessadas e trabeculadas, compatível com esforço miccional crônico.
+Bexiga: de parcial repleção, com paredes difusamente espessadas, medindo até {tamanho}, e contornos internos irregulares e trabeculados, com pequenos divertículos parietais, o maior medindo ___ cm. Conteúdo homogêneo, sem cálculos ou falhas de enchimento caracterizáveis. Volume residual pós-miccional de ___ mL.

@@ -1,0 +1,24 @@
+# gatilhos: tomografia de perna com consolidacao viciosa | tc de perna com consolidacao viciosa | tc perna consolidacao viciosa | tomografia de perna com fratura consolidada com desvio
+# categoria: msk
+# modalidade: tc
+# regiao: perna
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA PERNA {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  desvio angular de {angulo_desvio}° {plano_desvio|em varo/em valgo/em antecurvato/em recurvato} no foco de fratura prévia.
+Tíbia:  fratura prévia consolidada no terço {terco|proximal/médio/distal} da diáfise, com calo ósseo maduro e consolidação em posição viciosa.
+Fíbula:  {fibula|sem particularidades/com fratura prévia consolidada}.
+Articulações tibiofibulares proximal e distal:  congruentes.
+Articulações adjacentes:  porções incluídas do joelho e do tornozelo sem particularidades.
+Musculatura:  volume e densidade preservados nos compartimentos da perna.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Consolidação viciosa de fratura prévia da diáfise tibial, com desvio angular de {angulo_desvio}° {plano_desvio|em varo/em valgo/em antecurvato/em recurvato}.

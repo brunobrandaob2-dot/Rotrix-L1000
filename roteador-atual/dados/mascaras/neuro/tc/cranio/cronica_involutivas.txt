@@ -1,0 +1,33 @@
+# gatilhos: tomografia de cranio com alteracoes involutivas | tc de cranio com alteracoes involutivas | tc cranio involutivo | tomografia de cranio com alteracoes da idade | tc de cranio com alteracoes da idade | tomografia de cranio do idoso | tc de cranio do idoso | cranio involutivo
+# categoria: neuro
+# modalidade: tc
+# regiao: cranio
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO**
+
+**TÉCNICA:**  aquisição volumétrica, {contraste|sem/com} injeção intravenosa de contraste iodado.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Parênquima encefálico:  diferenciação córtico-subcortical mantida. Não há áreas de isquemia aguda, hemorragia ou lesão expansiva.
+Substância branca:  hipoatenuações na substância branca periventricular e profunda dos hemisférios cerebrais, de distribuição simétrica e sem efeito expansivo, compatíveis com alterações microangiopáticas crônicas, correspondendo ao grau {fazekas|1/2/3} da escala de Fazekas.
+Núcleos da base:  de morfologia e atenuação preservadas.
+Sistema ventricular:  dilatação ventricular proporcional à redução volumétrica parenquimatosa (ex vacuo), sem sinais de hidrocefalia.
+Cisternas da base e sulcos corticais:  alargamento difuso dos sulcos corticais, das fissuras sylvianas e das cisternas da base, traduzindo redução volumétrica encefálica.
+Linha média:  estruturas centradas.
+Espaços extra-axiais:  sem coleções.
+Fossa posterior:  tronco encefálico e hemisférios cerebelares de atenuação preservada.
+Calcificações intracranianas:  sem calcificações de aspecto patológico.
+Calota craniana e base do crânio:  sem sinais de fratura ou lesões focais.
+Órbitas:  sem alterações evidentes nos segmentos incluídos no estudo.
+Seios paranasais:  normopneumatizados nos segmentos incluídos no estudo.
+Células mastoides:  normopneumatizadas.
+Partes moles extracranianas:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Redução volumétrica encefálica difusa {grau_atrofia|compatível com a faixa etária/acentuada para a faixa etária}, com dilatação ventricular compensatória.
+Alterações microangiopáticas crônicas da substância branca, grau {fazekas|1/2/3} na escala de Fazekas.
+Não há sinais de lesões agudas no presente estudo.

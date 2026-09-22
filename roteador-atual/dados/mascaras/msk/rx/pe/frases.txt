@@ -1,0 +1,33 @@
+# tipo: frases
+## gatilhos: rx de pe sem fratura | pe sem fratura no rx
+Não há sinais de fraturas ou luxações no pé.
+## gatilhos: halux rigido no pe | artrose da primeira metatarsofalangica do pe
+Artrose da primeira metatarsofalângica (hálux rígido).
+## gatilhos: calcificacoes vasculares no rx do pe
+Calcificações vasculares no pé.
+## gatilhos: arcos do pe sem carga | pe sem carga limita arcos
+Incidências sem carga, que limitam a avaliação dos arcos plantares.
+## gatilhos: doenca de freiberg no pe | freiberg no metatarso
+Achatamento e esclerose da cabeça do {metatarso|2º/3º} metatarso, compatível com doença de Freiberg.
+## gatilhos: dedos em garra no pe | deformidade em garra dos dedos do pe
+Dedos em garra.
+## gatilhos: joanete do quinto dedo do pe | bunionete no pe
+Joanete do quinto dedo.
+## gatilhos: ressalva fratura por estresse no pe | fratura por estresse no metatarso rx normal
+A radiografia inicial pode ser normal na fratura por estresse; considerar ressonância magnética ou controle em 10 a 14 dias.
+## gatilhos: reacao periosteal no metatarso
+Reação periosteal {periosteal|lisa/lamelar} na diáfise do {metatarso|2º/3º/4º} metatarso, podendo corresponder a fratura por estresse.
+## gatilhos: ressalva osteomielite no pe | osteomielite no pe rm mais sensivel
+A ressonância magnética é mais sensível que a radiografia para osteomielite.
+## gatilhos: sem corpo estranho no pe | corpo estranho nao visto no pe
+Não há corpos estranhos radiopacos; a radiografia não exclui corpos estranhos radiotransparentes.
+## gatilhos: aumento de partes moles no pe | edema de partes moles no pe
+Aumento de partes moles do {regiao_pe|antepé/mediopé/retropé}.
+## gatilhos: os vesalianum no pe
+Os vesalianum, variante anatômica.
+## gatilhos: apofise do quinto metatarso | apofise normal do quinto metatarso no pe
+Apófise da base do quinto metatarso de aspecto habitual.
+## gatilhos: os peroneum no pe
+Os peroneum, variante anatômica.
+## gatilhos: erosoes de gota no pe | gota no pe
+Erosões justarticulares na primeira metatarsofalângica, podendo corresponder a gota.

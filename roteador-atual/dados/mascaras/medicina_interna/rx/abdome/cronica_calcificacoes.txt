@@ -1,0 +1,19 @@
+# gatilhos: raio x de abdome com calcificacoes | rx de abdome com calcificacoes | radiografia de abdome com calcificacoes | rx abdome calcificacoes | raio x de abdome com calculo renal | rx de abdome com calculo renal | radiografia de abdome com calculo renal | rx abdome calculo renal | raio x de abdome com imagem calcica | rx de abdome com imagem calcica | radiografia de abdome com imagem calcica | rx abdome imagem calcica
+# categoria: medicina_interna
+# modalidade: rx
+# regiao: abdome
+# tipo_mascara: cronica
+**RADIOGRAFIA DE ABDOME**
+
+**TÉCNICA:**  incidência anteroposterior em decúbito dorsal.
+
+**ANÁLISE:**
+Distribuição gasosa intestinal habitual, com gás até a ampola retal.
+Alças intestinais de calibre normal, sem níveis hidroaéreos anômalos.
+Conteúdo fecal em quantidade habitual.
+Não há sinais de pneumoperitônio.
+Imagem cálcica projetada na loja renal {lado_f|direita/esquerda}, medindo {tamanho}, podendo corresponder a cálculo.
+Flebólitos pélvicos.
+Calcificações parietais na aorta abdominal e nas artérias ilíacas.
+Não há corpos estranhos radiopacos.
+Alterações degenerativas da coluna lombar, com osteófitos marginais.

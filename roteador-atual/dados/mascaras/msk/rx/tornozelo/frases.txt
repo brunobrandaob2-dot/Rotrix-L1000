@@ -1,0 +1,31 @@
+# tipo: frases
+## gatilhos: edema de partes moles perimaleolar no tornozelo | partes moles aumentadas no tornozelo
+Aumento de partes moles perimaleolares {face|laterais/mediais}, sem sinais de fratura.
+## gatilhos: rx de tornozelo sem fratura | tornozelo sem sinais de fratura no rx
+Não há sinais de fraturas ou luxações.
+## gatilhos: limite do rx no tornozelo | limitacao da radiografia no tornozelo
+A radiografia tem sensibilidade limitada para fraturas sem desvio, lesões osteocondrais e ligamentares.
+## gatilhos: regras de ottawa no tornozelo | indicacao ottawa tornozelo
+Trauma do tornozelo com dor maleolar (regras de Ottawa).
+## gatilhos: espaco claro medial alargado no tornozelo
+Alargamento do espaço claro medial, medindo {tamanho}, sugerindo lesão do ligamento deltoide.
+## gatilhos: os trigonum no tornozelo
+Os trigonum, variante anatômica.
+## gatilhos: os subtibiale no tornozelo | ossiculo na ponta do maleolo medial no tornozelo
+Os subtibiale, variante anatômica.
+## gatilhos: avulsao dorsal do talus no tornozelo
+Pequeno fragmento ósseo na face dorsal do colo do tálus, podendo corresponder a avulsão capsular.
+## gatilhos: entesofito do tendao calcaneo | entesofito do aquiles no tornozelo
+Entesófito na inserção do tendão calcâneo.
+## gatilhos: triangulo de kager apagado no tornozelo
+Apagamento do triângulo de Kager, podendo corresponder a lesão do tendão calcâneo.
+## gatilhos: derrame articular no rx de tornozelo | sinal da lagrima no tornozelo
+Aumento de densidade anterior à articulação tibiotalar, sugestivo de derrame articular.
+## gatilhos: osteofitos tibiotalares anteriores no tornozelo | impacto anterior do tornozelo
+Osteófitos na margem anterior da tíbia distal e no colo do tálus.
+## gatilhos: controle pos reducao do tornozelo
+Pinça maleolar congruente após redução, com alinhamento {alinhamento|anatômico/aceitável/com desvio residual} dos fragmentos.
+## gatilhos: imobilizacao gessada no tornozelo | gesso no tornozelo
+Imobilização gessada, que reduz a definição dos detalhes ósseos.
+## gatilhos: calcificacoes vasculares no tornozelo
+Calcificações vasculares no tornozelo.

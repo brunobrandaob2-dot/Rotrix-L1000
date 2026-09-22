@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas e partes moles
+# gatilhos: espondilose lombar | alteracoes degenerativas da coluna lombar | coluna cronica | espondilose
+# conclusao: Espondilose da coluna lombar.
+Estruturas ósseas e partes moles: alterações degenerativas da coluna lombar, com osteófitos marginais, redução da altura dos discos intervertebrais e artrose interapofisária. Redução difusa da densidade óssea. Partes moles sem alterações significativas.

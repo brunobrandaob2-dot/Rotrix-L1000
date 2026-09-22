@@ -1,0 +1,25 @@
+# gatilhos: fratura vertebral | coluna com fratura | fratura de corpo vertebral | acunhamento vertebral | perda de altura vertebral
+TOMOGRAFIA COMPUTADORIZADA DA COLUNA ___
+
+TÉCNICA: aquisição volumétrica com reconstruções multiplanares, em filtros para osso e para partes moles.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Alinhamento: preservado / com cifose focal ao nível de {nivel_vertebral}, de ___ graus. Ausência de listeses traumáticas.
+Corpos vertebrais: fratura do corpo vertebral de {nivel_vertebral}, de morfologia em cunha anterior / bicôncava / em esmagamento, com perda de altura estimada em ___% do corpo vertebral (grau 1: 20 a 25%; grau 2: 25 a 40%; grau 3: superior a 40%). Traço de fratura acometendo a plataforma superior / inferior, estendendo-se ao pedículo {lado|direito/esquerdo} / restrito ao corpo vertebral. Demais corpos vertebrais com altura e morfologia preservadas / com perda de altura adicional em ___.
+Muro posterior: íntegro, sem retropulsão de fragmentos / acometido, com fragmento ósseo retropulso medindo {tamanho}, determinando redução de ___% da amplitude do canal vertebral.
+Aspecto temporal: traço de fratura de limites nítidos, com fenômeno de vácuo intrassomático ausente e sem esclerose das margens, achados que favorecem evento agudo / recente / margens escleróticas, remodelamento dos contornos e fenômeno de vácuo intrassomático, achados que favorecem fratura de aspecto crônico, já consolidada. A datação não é definível apenas pela tomografia.
+Elementos posteriores: pedículos, lâminas e processos espinhosos íntegros / com traço de fratura em ___ {lado|direito/esquerdo}.
+Canal vertebral: amplitude preservada / reduzida ao nível de {nivel_vertebral}, com diâmetro ântero-posterior residual de ___ mm.
+Discos intervertebrais: alturas preservadas nos níveis adjacentes / redução da altura discal em ___.
+Partes moles paravertebrais: sem densificação / densificação da gordura e aumento volumétrico das partes moles paravertebrais ao nível de {nivel_vertebral}, sugerindo componente hemático, achado que favorece evento agudo.
+Densidade óssea: preservada / redução difusa da densidade óssea, a ser correlacionada com densitometria.
+
+CONCLUSÃO:
+1. **Fratura do corpo vertebral de {nivel_vertebral}, de morfologia em cunha anterior / bicôncava / em esmagamento, com perda de altura estimada em ___%.**
+2. Muro posterior íntegro / acometido, com fragmento retropulso determinando redução de ___% da amplitude do canal vertebral.
+3. Achados que favorecem aspecto agudo / recente / crônico, já consolidado; a datação não é definível apenas pelo método.
+4. Recomenda-se ressonância magnética com sequências sensíveis a edema (STIR) para datação da fratura e avaliação do conteúdo do canal vertebral, além de correlação com o quadro clínico e com a densidade óssea.
+
+Achado comunicado ao(à) Dr(a). ___ em ___/___/____ às ___h___.

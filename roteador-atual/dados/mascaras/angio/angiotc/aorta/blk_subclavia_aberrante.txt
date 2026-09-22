@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Arco aórtico e ramos supra-aórticos
+# gatilhos: subclavia direita aberrante | arteria lusoria | subclavia aberrante
+# conclusao: Variante anatômica: artéria subclávia direita aberrante (artéria lusória).
+Arco aórtico e ramos supra-aórticos:  artéria subclávia direita com origem aberrante, como último ramo do arco aórtico, com trajeto retroesofágico (artéria lusória), variante anatômica. {kommerell|Sem/Com} dilatação de sua origem (divertículo de Kommerell). Demais ramos com origem habitual e pérvios.

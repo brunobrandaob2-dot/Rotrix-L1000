@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Opacidades e calcificações
+# gatilhos: corpo estranho radiopaco | corpo estranho no rx | imagem metalica de corpo estranho | corpo estranho na radiografia
+# conclusao: Corpo estranho radiopaco projetado em ___, medindo {tamanho}. Recomendada correlação clínica quanto à sua localização exata.
+Opacidades e calcificações: imagem de densidade metálica, de limites bem definidos e contornos ___ (regulares / irregulares), medindo {tamanho}, projetada em ___, compatível com corpo estranho radiopaco. As incidências realizadas permitem apenas a localização por projeção; corpos estranhos radiotransparentes não são caracterizáveis ao método.

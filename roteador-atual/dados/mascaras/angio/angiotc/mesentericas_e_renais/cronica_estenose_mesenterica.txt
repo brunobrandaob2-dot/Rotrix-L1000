@@ -1,0 +1,30 @@
+# gatilhos: angio de mesentericas com estenose ostial | angio de mesentericas com estenose do tronco celiaco | angio de mesentericas com estenose da mesenterica superior | angiotomografia de mesentericas com estenose ostial | angio de mesentericas com isquemia mesenterica cronica | angio de mesentericas e renais com estenose mesenterica
+# categoria: angio
+# modalidade: angiotc
+# regiao: mesentericas_e_renais
+# tipo_mascara: cronica
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS {territorio|MESENTÉRICAS E RENAIS/MESENTÉRICAS/RENAIS}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fases arterial e portal, com reconstruções multiplanares, em projeção de intensidade máxima (MIP) e tridimensionais, direcionadas para a avaliação das artérias viscerais abdominais.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na aorta abdominal na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise dos ramos viscerais.
+Aorta abdominal:  trajeto e calibre habituais, sem dilatações, estenoses ou flap intimal.
+Tronco celíaco:  {tc_mes|pérvio, sem estenose significativa/placa ateromatosa ostial determinando estenose estimada em ___%/ocluído na origem, com reabitação por colaterais}.
+Artéria mesentérica superior:  {ams_mes|pérvia, sem estenose significativa/placa ateromatosa ostial determinando estenose estimada em ___%/ocluída na origem, com reabitação por colaterais}.
+Artéria mesentérica inferior:  {ami_mes|pérvia, de calibre habitual/pérvia e hipertrofiada, com arco de Riolan proeminente/ocluída}.
+Circulação colateral:  {colaterais_mes|sem circulação colateral significativa/arcadas pancreaticoduodenais proeminentes/arco de Riolan proeminente/arcadas pancreaticoduodenais e arco de Riolan proeminentes}.
+Artérias renais:  únicas bilateralmente, de origem e trajeto habituais, pérvias, sem estenoses, irregularidades parietais ou dilatações.
+Rins:  tópicos, de dimensões normais, com realce parenquimatoso simétrico e homogêneo.
+Sistema venoso:  veia porta, veia esplênica, veia mesentérica superior e veias renais pérvias.
+Alças intestinais:  distribuição habitual, sem espessamento parietal, alterações do realce ou pneumatose, no protocolo utilizado.
+Demais estruturas abdominais:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Doença ateromatosa ostial dos troncos viscerais: tronco celíaco {tc_mes|pérvio, sem estenose significativa/placa ateromatosa ostial determinando estenose estimada em ___%/ocluído na origem, com reabitação por colaterais}; artéria mesentérica superior {ams_mes|pérvia, sem estenose significativa/placa ateromatosa ostial determinando estenose estimada em ___%/ocluída na origem, com reabitação por colaterais}.
+Estenose acentuada (≥ 70%) de dois ou mais troncos viscerais associa-se a isquemia mesentérica crônica; correlacionar com o quadro clínico.

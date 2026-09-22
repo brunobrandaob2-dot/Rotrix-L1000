@@ -1,0 +1,37 @@
+# tipo: frases
+## gatilhos: rx coluna lombar sem alteracoes | radiografia de coluna lombar sem fraturas
+Coluna lombar com altura e alinhamento preservados, sem sinais de fraturas.
+## gatilhos: rx lombar retificacao da lordose | lordose lombar retificada no rx
+Retificação da lordose lombar.
+## gatilhos: rx lombar ressalva disco | radiografia lombar nao avalia disco
+A radiografia não avalia discos, raízes nem canal vertebral.
+## gatilhos: rx lombar ressalva fratura | radiografia lombar limitada para fratura
+A radiografia tem sensibilidade limitada para fraturas sem desvio; se houver suspeita, sugere-se tomografia.
+## gatilhos: rx lombar osteofitos anteriores | osteofitos lombares no rx
+Osteófitos marginais nos corpos vertebrais lombares.
+## gatilhos: rx lombar espondilolistese grau i | anterolistese lombar grau i no rx
+Anterolistese de {nivel}, grau I de Meyerding.
+## gatilhos: rx lombar espondilolise | sinal do cao escoces lombar
+Descontinuidade do istmo de {nivel} nas incidências oblíquas, sugestiva de espondilólise.
+## gatilhos: rx lombar instabilidade nas dinamicas | instabilidade lombar nas dinamicas
+Translação de {translacao} mm e variação angular de {angulo} graus em {nivel} entre flexão e extensão, sugerindo instabilidade.
+## gatilhos: rx lombar sem instabilidade nas dinamicas | dinamicas lombares sem instabilidade
+Não há sinais de instabilidade entre flexão e extensão.
+## gatilhos: rx lombar escoliose leve | escoliose lombar discreta no rx
+Discreta escoliose lombar de convexidade {convexidade|à direita/à esquerda}.
+## gatilhos: rx lombar vertebra transicional | sacralizacao de l5 no rx
+Vértebra transicional lombossacra, com megapófise transversa {lado_f|direita/esquerda} articulada com a asa sacral.
+## gatilhos: rx lombar espinha bifida oculta | espinha bifida oculta lombossacra
+Espinha bífida oculta em {nivel}.
+## gatilhos: rx lombar sacroileite | sacroileite no rx lombar
+Esclerose e irregularidade das articulações sacroilíacas, {lado_f|bilateral/direita/esquerda}, a correlacionar com sacroileíte.
+## gatilhos: rx lombar calcificacoes aorticas | ateromatose aortica no rx lombar
+Calcificações ateromatosas na aorta abdominal.
+## gatilhos: rx lombar fratura antiga | acunhamento antigo lombar no rx
+Acunhamento do corpo vertebral de {nivel}, de aspecto antigo.
+## gatilhos: rx lombar sinal da coruja cega | pediculo lombar nao visualizado
+Pedículo {lado|direito/esquerdo} de {nivel} não caracterizado (sinal da "coruja cega"); sugere-se complementação com tomografia ou ressonância magnética.
+## gatilhos: rx lombar soltura de parafuso | halo ao redor de parafuso lombar
+Halo de radiolucência ao redor do parafuso {lado|direito/esquerdo} de {nivel}, sugestivo de soltura.
+## gatilhos: angulo de cobb na coluna lombar
+Ângulo de Cobb de ___ graus, com ápice em ___.

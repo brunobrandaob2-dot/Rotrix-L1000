@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Loja vesicular
+# gatilhos: colecistectomia | pos colecistectomia | vesicula ausente | vesicula operada
+# conclusao: Status pós-colecistectomia.
+Loja vesicular:  vesícula biliar não caracterizada, com clipes cirúrgicos no leito, compatível com colecistectomia prévia.

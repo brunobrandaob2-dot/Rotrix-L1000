@@ -1,0 +1,20 @@
+# gatilhos: raio x de torax com dpoc | rx de torax com dpoc | radiografia de torax com hiperinsuflacao | rx torax enfisema pulmonar | raio x de torax hiperinsuflado | rx torax dpoc
+RADIOGRAFIA DO TÓRAX
+
+TÉCNICA: incidências póstero-anterior e perfil, em ortostase.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Parênquima pulmonar: hipertransparência difusa e simétrica dos campos pulmonares, com rarefação da trama vascular periférica, sobretudo nos terços superiores. Ausência de consolidações ou nódulos evidentes ao método.
+Hilos e vasos pulmonares: hilos de densidade habitual, com afilamento progressivo dos vasos para a periferia.
+Volumes pulmonares: hiperinsuflação, com contagem de ___ arcos costais anteriores acima da cúpula diafragmática direita e alargamento dos espaços intercostais.
+Área cardíaca e mediastino: área cardíaca de dimensões reduzidas, com aspecto verticalizado ("coração em gota"). Mediastino centrado.
+Pleura e seios costofrênicos: seios costofrênicos livres, de abertura aumentada. Ausência de derrame pleural ou pneumotórax.
+Cúpulas diafragmáticas: retificadas e rebaixadas, com aumento do espaço retroesternal no perfil, medindo {tamanho}.
+Estruturas ósseas: sem sinais de fratura ou lesão focal evidentes ao método.
+Partes moles: sem alterações significativas.
+
+CONCLUSÃO:
+1. Sinais de hiperinsuflação pulmonar, com retificação das cúpulas diafragmáticas e aumento do espaço retroesternal, achados compatíveis com doença pulmonar obstrutiva crônica. Recomendada correlação clínica e funcional.
+2. A radiografia simples tem sensibilidade limitada para enfisema, bolhas e bronquiectasias; se a suspeita clínica persistir, considerar tomografia.

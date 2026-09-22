@@ -1,0 +1,18 @@
+# gatilhos: raio x de coluna lombar com artrodese | rx de coluna lombar com artrodese | rx coluna lombar artrodese | radiografia de coluna lombar com artrodese | rx de coluna lombar pos operatorio | rx de coluna lombossacra com artrodese | rx de coluna lombar com parafusos pediculares | rx de coluna lombar com material de sintese
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_lombar
+# tipo_mascara: cronica
+**RADIOGRAFIA DA COLUNA LOMBOSSACRA**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Retificação da lordose lombar, sem listeses.
+Material de artrodese de {nivel} a {nivel}, com parafusos pediculares e hastes, {espacador|com espaçador intersomático em ___/sem espaçador intersomático}.
+Implantes em posição habitual, sem sinais de soltura ou fratura.
+Redução do espaço discal no nível adjacente ({nivel}).
+Alterações pós-operatórias nos elementos posteriores.
+Articulações sacroilíacas preservadas.
+Densidade óssea preservada.
+Partes moles sem alterações.

@@ -1,0 +1,29 @@
+# gatilhos: angio de renais com estenose de arteria renal | angio de arterias renais com estenose | angio de mesentericas e renais com estenose renal | angio renal com estenose | angio de arterias renais com estenose ateromatosa | angiotomografia de arterias renais com estenose | angio de renais com estenose
+# categoria: angio
+# modalidade: angiotc
+# regiao: mesentericas_e_renais
+# tipo_mascara: cronica
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS {territorio|MESENTÉRICAS E RENAIS/MESENTÉRICAS/RENAIS}**
+
+**TÉCNICA:**  aquisição helicoidal com múltiplos detectores após a administração intravenosa de meio de contraste iodado, em fases arterial e portal, com reconstruções multiplanares, em projeção de intensidade máxima (MIP) e tridimensionais, direcionadas para a avaliação das artérias viscerais abdominais.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  opacificação arterial adequada, com atenuação de ___ UH na aorta abdominal na fase arterial (estudo diagnóstico quando ≥ 200 UH), sem artefatos que limitem a análise dos ramos viscerais.
+Aorta abdominal:  trajeto e calibre habituais, sem dilatações, estenoses ou flap intimal.
+Tronco celíaco:  origem e trajeto habituais, pérvio, sem estenose ostial. Artérias hepática comum, esplênica e gástrica esquerda pérvias, com distribuição habitual.
+Artéria mesentérica superior:  origem e trajeto habituais, pérvia, com ramos jejunais, ileais e cólicos opacificados.
+Artéria mesentérica inferior:  pérvia, de calibre habitual.
+Artérias renais:  placa ateromatosa {local_placa|ostial/proximal} na artéria renal {lado_f|direita/esquerda}, determinando estenose estimada em ___% ({grau_renal|< 50%/50–69%/≥ 70%}), {pos_estenotica|sem/com} dilatação pós-estenótica. Artéria renal contralateral {contralateral|pérvia, sem estenoses significativas/com ___}.
+Rins:  rim {lado|direito/esquerdo} medindo ___ cm no eixo longitudinal, {dimensao_rim|de dimensões preservadas/de dimensões reduzidas, com afilamento cortical}, com realce parenquimatoso {realce_rim|simétrico ao contralateral/reduzido em relação ao contralateral}. Rim contralateral medindo ___ cm.
+Sistema venoso:  veia porta, veia esplênica, veia mesentérica superior e veias renais pérvias.
+Alças intestinais:  distribuição habitual, sem espessamento parietal, alterações do realce ou pneumatose, no protocolo utilizado.
+Demais estruturas abdominais:  sem alterações significativas no protocolo angiográfico.
+Estruturas ósseas e partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Estenose ateromatosa {local_placa|ostial/proximal} da artéria renal {lado_f|direita/esquerda}, estimada em ___%.
+Estenoses ≥ 70% são potencialmente significativas do ponto de vista hemodinâmico; correlacionar com Doppler das artérias renais e com o quadro clínico.

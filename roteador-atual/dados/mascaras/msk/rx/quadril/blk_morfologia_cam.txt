@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Transição cabeça-colo
+# gatilhos: morfologia cam | impacto cam | deformidade cam | cabo de pistola
+Proeminência óssea na transição cabeça-colo femoral (morfologia cam), com ângulo alfa de {angulo_alfa}° (referência: abaixo de 55°).

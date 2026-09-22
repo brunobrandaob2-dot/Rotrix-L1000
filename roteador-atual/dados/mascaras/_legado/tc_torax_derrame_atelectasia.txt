@@ -1,0 +1,18 @@
+# gatilhos: torax com derrame pleural e atelectasia | derrame pleural com atelectasia | torax derrame
+TOMOGRAFIA COMPUTADORIZADA DO TÓRAX
+
+TÉCNICA: aquisição volumétrica com reconstruções multiplanares.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Parênquima pulmonar: atelectasia passiva do lobo inferior {lado|direito/esquerdo}, adjacente ao derrame, com realce homogêneo e sem sinais de consolidação subjacente caracterizável ao método. Demais segmentos sem alterações significativas.
+Pleura: derrame pleural {lado|direito/esquerdo/bilateral}, de {tamanho} de espessura máxima, de densidade líquida e sem septações ou espessamento pleural evidentes.
+Traqueia e brônquios: calibre e trajetos normais, sem obstrução endoluminal.
+Mediastino: sem desvio das estruturas da linha média.
+Derrame pericárdico: ausente.
+Estruturas ósseas e partes moles: sem alterações significativas.
+
+CONCLUSÃO:
+1. Derrame pleural {lado|direito/esquerdo/bilateral} com atelectasia passiva do lobo inferior adjacente.
+2. Ausência de sinais de obstrução brônquica ou de consolidação subjacente caracterizáveis ao método.

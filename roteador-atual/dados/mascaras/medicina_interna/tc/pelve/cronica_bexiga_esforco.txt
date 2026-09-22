@@ -1,0 +1,30 @@
+# gatilhos: tomografia da pelve com alteracoes cronicas | tc de pelve com alteracoes cronicas | tomografia da pelve de idoso | tc de pelve de idoso | tomografia da pelve com bexiga de esforco e diverticulo | tc de pelve com bexiga de esforco e diverticulo
+# categoria: medicina_interna
+# modalidade: tc
+# regiao: pelve
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DA PELVE**
+
+**TÉCNICA:**  exame realizado com técnica multidetectores com reconstruções multiplanares, {contraste|sem/com/antes e após} administração de contraste iodado endovenoso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Bexiga:  paredes com irregularidades e aspecto trabeculado, associadas a pequenos divertículos nos terços posteriores, sugerindo bexiga de esforço. Formação sacular com septos internos em seu terço superior parietal, medindo {tamanho} nos maiores eixos, comunicando-se com o lúmen vesical por colo que mede ___ de diâmetro, sugestiva de divertículo vesical septado.
+Rins e ureteres:  ectasia do sistema coletor bilateral, sem fator obstrutivo evidente pelo método.
+Vasos ilíacos:  ateromas calcificados no trajeto vascular.
+Estruturas ósseas pélvicas:  alterações degenerativas na coluna lombar e bacia.
+Próstata e vesículas seminais:  sem alterações significativas ao método.
+Reto e sigmoide:  sem espessamentos parietais significativos.
+Linfonodos pélvicos:  sem dimensões aumentadas.
+Líquido livre:  ausente na pelve.
+Planos musculares e tecido celular subcutâneo:  preservados.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sinais sugestivos de bexiga de esforço, caracterizados por trabeculação parietal difusa e múltiplos pequenos divertículos nos terços posteriores.
+Formação sacular septada no terço superior parietal da bexiga, comunicando-se por colo com o lúmen vesical, compatível com divertículo vesical septado.
+Ectasia do sistema coletor bilateral, sem sinais de uropatia obstrutiva evidentes ao exame.
+Ateromatose ilíaca.
+Alterações degenerativas osteoarticulares na coluna e pelve.

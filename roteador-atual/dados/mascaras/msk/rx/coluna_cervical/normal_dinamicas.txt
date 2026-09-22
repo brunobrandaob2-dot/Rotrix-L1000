@@ -1,0 +1,18 @@
+# gatilhos: raio x de coluna cervical com dinamicas | rx de coluna cervical com dinamicas | rx coluna cervical dinamica | radiografia de coluna cervical com dinamicas | rx de coluna cervical com flexao e extensao | rx de coluna cervical dinamica normal
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_cervical
+# tipo_mascara: normal
+**RADIOGRAFIA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  incidências anteroposterior, perfil neutro e perfis dinâmicos em flexão e extensão.
+
+**ANÁLISE:**
+Alinhamento vertebral preservado.
+Transição craniocervical sem alterações.
+Corpos vertebrais com altura preservada.
+Espaços discais preservados.
+Articulações uncovertebrais e interapofisárias preservadas.
+Densidade óssea preservada.
+Sem sinais de instabilidade nas incidências em flexão e extensão.
+Partes moles pré-vertebrais com espessura normal.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Rins
+# gatilhos: lesao renal indeterminada | cisto renal complexo | bosniak tres | nodulo renal a esclarecer | lesao renal a esclarecer
+# conclusao: Lesão renal {lado_a|à direita/à esquerda} de caráter indeterminado ao método, a esclarecer; sugere-se complementação com ressonância magnética ou protocolo renal dedicado.
+Rins: tópicos, de contornos regulares e espessura parenquimatosa preservada, notando-se {lado_a|à direita/à esquerda}, no terço ___, lesão medindo {tamanho}, de limites ___, com septos espessados e realce parietal após o meio de contraste, correspondendo a Bosniak ___. As características não permitem caracterização definitiva ao presente método. Sem cálculos ou dilatação de vias coletoras.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Elementos posteriores
+# gatilhos: fratura do processo transverso | fratura de processo transverso | fratura dos processos transversos
+# conclusao: Fratura do processo transverso {lado|direito/esquerdo} de {nivel} (AO Spine tipo A0).
+Elementos posteriores:  traço de fratura no processo transverso {lado|direito/esquerdo} de {nivel}, de margens nítidas, aspecto agudo, com discreto desvio do fragmento. Demais elementos posteriores íntegros.

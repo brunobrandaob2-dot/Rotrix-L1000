@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Sistema ventricular
+# gatilhos: cavum do septo pelucido | cavum septo pelucido | cavum vergae
+# conclusao: Cavum do septo pelúcido, variante anatômica.
+Sistema ventricular:  de morfologia, dimensões e topografia normais. {cavum|Cavum do septo pelúcido/Cavum do septo pelúcido e cavum vergae}, variante anatômica sem significado patológico.

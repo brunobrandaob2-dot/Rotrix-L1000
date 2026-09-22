@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Órgãos pélvicos
+# gatilhos: hiperplasia prostatica | prostata aumentada | hpb
+# conclusao: Aumento volumétrico prostático, com impressão sobre o assoalho vesical.
+Órgãos pélvicos: próstata aumentada de volume, medindo ___ x ___ x ___ cm (volume estimado de ___ mL), com contornos regulares e impressão sobre o assoalho vesical. Vesículas seminais simétricas.

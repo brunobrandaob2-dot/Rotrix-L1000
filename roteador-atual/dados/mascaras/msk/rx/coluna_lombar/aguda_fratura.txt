@@ -1,0 +1,18 @@
+# gatilhos: raio x de coluna lombar com fratura | rx de coluna lombar com fratura | rx coluna lombar fratura | radiografia de coluna lombar com fratura | rx de coluna lombar com fratura aguda | rx de coluna lombossacra com fratura | rx de coluna lombar com acunhamento agudo | rx de coluna lombar trauma
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_lombar
+# tipo_mascara: aguda
+**RADIOGRAFIA DA COLUNA LOMBOSSACRA**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Cifose focal em {nivel}, sem listeses.
+Fratura do corpo vertebral de {nivel}, com afundamento da plataforma {plataforma|superior/inferior} e perda de altura estimada em {percentual}%, de aspecto agudo ou recente.
+Espaços discais preservados.
+Distância interpedicular preservada.
+Articulações sacroilíacas preservadas.
+Densidade óssea preservada.
+Partes moles sem alterações.
+Recomenda-se tomografia computadorizada para caracterização da fratura.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tronco celíaco
+# gatilhos: estenose do tronco celiaco | estenose ostial do tronco celiaco | estenose celiaca
+# conclusao: Estenose ateromatosa ostial do tronco celíaco, estimada em ___%.
+Tronco celíaco:  placa ateromatosa ostial determinando estenose estimada em ___%, {pos_estenotica|sem/com} dilatação pós-estenótica. Artérias hepática comum, esplênica e gástrica esquerda pérvias.

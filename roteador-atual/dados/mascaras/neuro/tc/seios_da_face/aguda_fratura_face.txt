@@ -1,0 +1,34 @@
+# gatilhos: tomografia de seios da face com fratura | tc de seios da face com fratura | tc seios da face fratura | tomografia de seios da face trauma | tc de seios da face trauma | tomografia de seios da face com fratura de orbita
+# categoria: neuro
+# modalidade: tc
+# regiao: seios_da_face
+# tipo_mascara: aguda
+**TOMOGRAFIA COMPUTADORIZADA DOS SEIOS DA FACE**
+
+**TÉCNICA:**  aquisição volumétrica, sem injeção intravenosa de contraste iodado, com reconstruções multiplanares em filtros para partes moles e para osso.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Seios maxilares:  traço de fratura na parede {parede_maxilar|anterior/posterolateral/medial/superior (assoalho orbitário)} do seio maxilar {lado|direito/esquerdo}, com conteúdo hiperatenuante no seio (hemossinus).
+Seios etmoidais:  {etmoidais|normopneumatizados/com conteúdo hemático ___}. Lâminas papiráceas {laminas|íntegras/com traço de fratura ___}.
+Seios frontais:  {frontais|normopneumatizados, com paredes íntegras/com traço de fratura na parede ___}.
+Seios esfenoidais:  normopneumatizados, com paredes ósseas íntegras.
+Complexos ostiomeatais:  pérvios.
+Recessos frontais:  pérvios.
+Recessos esfenoetmoidais:  pérvios.
+Cavidade nasal:  sem lesões expansivas.
+Septo nasal:  {septo|centrado, sem sinais de fratura/com traço de fratura ___}.
+Conchas nasais:  de dimensões e morfologia habituais.
+Variantes anatômicas:  sem variantes anatômicas de relevância.
+Base anterior do crânio:  teto etmoidal e lâminas cribriformes íntegros.
+Estruturas ósseas:  {outras_fraturas|arcos zigomáticos, ossos próprios nasais e processos pterigoides sem sinais de fratura/traço de fratura em ___}.
+Órbitas:  {orbita|sem herniação do conteúdo orbitário/herniação da gordura orbitária através do assoalho, com o músculo reto inferior ___}. {enfisema_orbitario|Sem/Com} enfisema orbitário. Globo ocular de contornos preservados.
+Rinofaringe:  pérvia.
+Partes moles:  {partes_moles|sem particularidades/edema e enfisema de partes moles na região ___}.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Fratura da parede {parede_maxilar|anterior/posterolateral/medial/superior (assoalho orbitário)} do seio maxilar {lado|direito/esquerdo}, com hemossinus.
+{orbita_c|Sem/Com} sinais de herniação do conteúdo orbitário.

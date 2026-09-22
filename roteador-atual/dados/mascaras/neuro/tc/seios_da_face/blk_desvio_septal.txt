@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Septo nasal
+# gatilhos: desvio septal | desvio do septo nasal | septo nasal desviado
+# conclusao: Desvio do septo nasal com convexidade {lado_septo|à direita/à esquerda}.
+Septo nasal:  desvio com convexidade {lado_septo|à direita/à esquerda}, {esporao|sem/com} esporão ósseo em contato com a concha inferior homolateral.

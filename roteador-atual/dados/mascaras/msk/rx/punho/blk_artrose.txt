@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Espaços articulares
+# gatilhos: artrose radiocarpal | artrose do punho | alteracoes degenerativas do punho
+Redução do espaço articular {local|radiocarpal/mediocarpal/radioulnar distal/escafotrapeziotrapezoidal}, com osteófitos marginais e esclerose subcondral.

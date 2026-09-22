@@ -1,0 +1,16 @@
+# gatilhos: raio x de joelho com gonartrose | rx de joelho com gonartrose | rx joelho gonartrose | radiografia de joelho com gonartrose | raio x de joelho com artrose | rx de joelho com artrose | rx joelho com artrose
+# categoria: msk
+# modalidade: rx
+# regiao: joelho
+# tipo_mascara: cronica
+**RADIOGRAFIA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior, perfil e axial de patela.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Redução do espaço articular femorotibial {compartimento|medial/lateral/medial e lateral}, com esclerose subcondral e osteófitos marginais.
+Osteófitos marginais na articulação femoropatelar.
+Não há sinais de fraturas ou luxações.
+Densidade óssea preservada.
+Partes moles sem alterações.

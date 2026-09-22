@@ -1,0 +1,29 @@
+# gatilhos: tomografia de tornozelo | tomografia do tornozelo | tc de tornozelo | tc do tornozelo | tomografia de tornozelo normal | tomografia do tornozelo normal | tc de tornozelo normal | tc tornozelo normal | tomografia de tornozelo sem alteracoes
+# categoria: msk
+# modalidade: tc
+# regiao: tornozelo
+# tipo_mascara: normal
+**TOMOGRAFIA COMPUTADORIZADA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores, sem injeção intravenosa de contraste, com reconstruções multiplanares em janelas óssea e de partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento e encaixe da pinça maleolar:  preservados, com espaço claro medial de amplitude habitual.
+Articulação tibiotalar:  superfícies articulares regulares, sem redução do espaço articular, osteófitos ou derrame articular significativo.
+Tíbia distal:  metáfise e plafond tibial sem particularidades.
+Maléolo medial:  íntegro, de contornos regulares.
+Maléolo lateral:  íntegro, de contornos regulares.
+Sindesmose tibiofibular:  relação tibiofibular distal preservada, sem alargamento da incisura fibular.
+Tálus:  morfologia e densidade normais, com cúpula talar de contornos regulares.
+Calcâneo:  morfologia e densidade normais.
+Articulação subtalar:  congruente, com espaço articular preservado.
+Demais ossos do tarso:  sem particularidades nos segmentos incluídos.
+Tendões:  trajeto habitual dos tendões ao redor do tornozelo, considerando os limites do método.
+Partes moles:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

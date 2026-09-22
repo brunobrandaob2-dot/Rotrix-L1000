@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Escafoide
+# gatilhos: fratura do escafoide | fratura de escafoide | escafoide fraturado
+# conclusao: Fratura do terço {terco|proximal/médio/distal} do escafoide. Recomenda-se seguimento por imagem (controle radiográfico em 10 a 14 dias ou ressonância magnética, se houver suspeita de complicação).
+Escafoide:  traço de fratura no terço {terco|proximal/médio (cintura)/distal/tubérculo} do escafoide, com desvio de {tamanho} entre os fragmentos (desvio superior a 1 mm sugere instabilidade).

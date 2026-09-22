@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Campos pulmonares
+# gatilhos: consolidacao | consolidacao pulmonar | condensacao | pneumonia
+Consolidação com broncogramas aéreos no {lobo|lobo superior/lobo médio/lobo inferior} {lado|direito/esquerdo}, sugestiva de processo infeccioso no contexto clínico adequado.

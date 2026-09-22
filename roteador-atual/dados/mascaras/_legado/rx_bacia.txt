@@ -1,0 +1,19 @@
+# gatilhos: raio x de bacia | rx de bacia | radiografia de bacia | rx bacia com coxartrose | raio x de bacia apos queda | rx bacia
+RADIOGRAFIA DA BACIA
+
+TÉCNICA: incidência ântero-posterior da bacia, complementada por incidência do quadril {lado|direito/esquerdo} em perfil.
+
+INDICAÇÃO CLÍNICA:
+
+ANÁLISE:
+Alinhamento: anel pélvico íntegro e simétrico. Linhas iliopectínea e ilioisquiática contínuas. Arco de Shenton preservado bilateralmente.
+Articulações coxofemorais: redução do espaço articular {lado_a|à direita/à esquerda}, com esclerose subcondral, osteófitos marginais acetabulares e femorais e cistos subcondrais, compatível com coxartrose.
+Colos femorais: contornos corticais preservados, sem traço de fratura, angulação ou impacção trabecular evidentes ao método. Ângulo cervicodiafisário preservado.
+Estruturas ósseas: ramos isquiopúbicos, asas ilíacas e sacro sem sinais de fratura ou lesão focal evidentes ao método. Densidade óssea ___ (preservada / difusamente reduzida).
+Sacroilíacas: espaços articulares preservados e simétricos.
+Partes moles: sem alterações significativas. Ausência de calcificações anômalas.
+
+CONCLUSÃO:
+1. Coxartrose {lado_a|à direita/à esquerda}, com redução do espaço articular e osteófitos marginais.
+2. Sem alterações significativas dos colos femorais e do anel pélvico; não se identificam traços de fratura ao método.
+3. A radiografia simples tem sensibilidade limitada para fraturas ocultas do colo femoral e do anel pélvico, sobretudo no paciente idoso e osteopênico; se a suspeita clínica persistir, considerar tomografia ou ressonância magnética.

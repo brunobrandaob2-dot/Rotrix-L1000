@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Articulações sacroilíacas
+# gatilhos: sacroiliite | alteracoes sacroiliacas | erosoes sacroiliacas | irregularidade das sacroiliacas
+Irregularidade e esclerose subcondral nas articulações sacroilíacas {lado_si|à direita/à esquerda/bilateralmente}, podendo corresponder a sacroiliíte.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Derrames
+# gatilhos: pneumotorax | ar no espaco pleural | pneumotorax laminar
+# conclusao: Pneumotórax {lado_a|à direita/à esquerda/bilateralmente}, com lâmina de {tamanho} de espessura máxima, sem sinais de hipertensão.
+Derrames: pneumotórax {lado|direito/esquerdo/bilateral}, com lâmina de até {tamanho} de espessura máxima na porção {topografia|anterior/apical/lateral}, associado a colapso parcial do parênquima adjacente. Ausência de desvio das estruturas mediastinais, de rebaixamento da cúpula diafragmática ou de outros sinais de hipertensão. Ausência de derrame pleural ou pericárdico.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Estruturas ósseas
+# gatilhos: fratura | traco de fratura | fratura ossea no rx | descontinuidade cortical
+# conclusao: Fratura do {osso} {lado_a|à direita/à esquerda}. A radiografia simples tem sensibilidade limitada para fraturas não desviadas e ocultas; se a suspeita clínica persistir, considerar tomografia.
+Estruturas ósseas: traço de fratura com descontinuidade cortical no {osso} {lado|direito/esquerdo}, em seu terço ___ (proximal / médio / distal), de traço ___ (transverso / oblíquo / cominutivo), com desvio ___ (ausente / de {tamanho}) dos fragmentos e ___ (sem / com) extensão à superfície articular. Demais estruturas ósseas sem sinais de fratura evidentes ao método.

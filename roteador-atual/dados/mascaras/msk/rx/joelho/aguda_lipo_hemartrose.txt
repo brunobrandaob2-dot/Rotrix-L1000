@@ -1,0 +1,16 @@
+# gatilhos: raio x de joelho com lipo hemartrose | rx de joelho com lipo hemartrose | rx joelho nivel gordura liquido | radiografia de joelho com lipo hemartrose | raio x de joelho com lipohemartrose
+# categoria: msk
+# modalidade: rx
+# regiao: joelho
+# tipo_mascara: aguda
+**RADIOGRAFIA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil, este com raios horizontais.
+
+**ANÁLISE:**
+Alinhamento articular preservado.
+Espaços articulares preservados e superfícies articulares regulares.
+Não há traço de fratura evidente ao método.
+Densidade óssea preservada.
+Nível gordura-líquido no recesso suprapatelar, compatível com lipo-hemartrose, indicativa de fratura intra-articular.
+Considerar tomografia ou ressonância magnética para pesquisa de fratura oculta.

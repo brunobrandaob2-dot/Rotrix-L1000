@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura transtrocanterica | fratura trocanterica | fratura intertrocanterica
+Fratura transtrocantérica do fêmur proximal, {cominuicao|sem/com} cominuição posteromedial (AO/OTA {ao|31A1/31A2/31A3}).

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artérias da perna
+# gatilhos: doenca infrapatelar | doenca das arterias da perna | estenose infrapatelar | oclusao das tibiais
+# conclusao: Doença arterial obstrutiva infrapatelar, com ___ vaso(s) pérvio(s) até o tornozelo à direita e ___ à esquerda.
+Artérias da perna:  ateromatose calcificada das artérias da perna, com {infrapatelar|estenoses e oclusões segmentares ___}. Vaso(s) pérvio(s) até o tornozelo à direita: ___; à esquerda: ___.

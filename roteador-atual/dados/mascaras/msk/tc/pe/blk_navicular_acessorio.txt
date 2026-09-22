@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Mediopé
+# gatilhos: navicular acessorio | os naviculare | os tibial externo | osso navicular acessorio
+# conclusao: Navicular acessório tipo {tipo_nav|I/II/III}.
+Mediopé:  ossículo acessório na face medial da tuberosidade do navicular (navicular acessório, tipo {tipo_nav|I/II/III}), de contornos corticais regulares. Cuboide e cuneiformes sem particularidades. Articulações tarsometatarsais congruentes.

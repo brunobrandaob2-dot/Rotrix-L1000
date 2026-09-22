@@ -1,0 +1,4 @@
+# tipo: bloco
+# secao: Não há sinais de fraturas
+# gatilhos: fratura da clavicula | fratura de clavicula | clavicula fraturada
+Fratura do terço {terco|medial/médio/lateral} da clavícula, de traço {traco|transverso/oblíquo/cominutivo}, com desvio de {tamanho}.

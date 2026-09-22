@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações coxofemorais
+# gatilhos: coxartrose | artrose coxofemoral | artrose dos quadris | alteracoes degenerativas coxofemorais
+# conclusao: Coxartrose {lado_coxo_c|direita/esquerda/bilateral}.
+Articulações coxofemorais:  redução do espaço articular coxofemoral {lado_coxo|à direita/à esquerda/bilateralmente}, com esclerose subcondral, osteófitos marginais e cistos subcondrais.

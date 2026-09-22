@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Colo femoral
+# gatilhos: morfologia cam | impacto cam | deformidade cam | giba femoral
+# conclusao: Morfologia do tipo cam, que pode predispor ao impacto femoroacetabular. Correlacionar com dados clínicos.
+Colo femoral:  proeminência óssea na transição cabeça-colo femoral anterossuperior, com redução da concavidade (morfologia do tipo cam). Ângulo alfa de {angulo_alfa}° nas reconstruções oblíquas axiais (referência: < 55°).

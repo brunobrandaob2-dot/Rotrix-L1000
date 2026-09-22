@@ -1,0 +1,26 @@
+# gatilhos: tomografia de punho com sequela de fratura do radio | tomografia do punho com sequela de fratura do radio | tc de punho com sequela de fratura do radio | tc do punho com sequela de fratura do radio | tc punho sequela de fratura do radio | tomografia de punho com fratura consolidada do radio | tc de punho com fratura consolidada do radio | tomografia de punho com consolidacao viciosa do radio | tc de punho com consolidacao viciosa do radio
+# categoria: msk
+# modalidade: tc
+# regiao: punho
+# tipo_mascara: cronica
+**TOMOGRAFIA COMPUTADORIZADA DO PUNHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  aquisição volumétrica sem injeção intravenosa de contraste, com reconstruções multiplanares e tridimensionais em janelas para osso e partes moles.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento articular:  relações radiocarpal, radioulnar distal, mediocarpal e carpometacarpais preservadas, sem sinais de luxação ou subluxação.
+Rádio distal:  sinais de fratura consolidada, com deformidade residual. Inclinação radial de {inclinacao}° (referência: cerca de 22°), inclinação {sentido|volar/dorsal} de ___° (referência: volar de cerca de 11°) e altura radial de ___ mm (referência: cerca de 11 mm). Degrau articular residual de {tamanho}.
+Ulna distal:  variância ulnar {variancia|neutra/positiva, de ___ mm/negativa, de ___ mm}. Processo estiloide {estiloide|íntegro/com pseudartrose da base/com fratura consolidada}.
+Escafoide:  contornos corticais preservados, sem traços de fratura.
+Demais ossos do carpo:  de morfologia, contornos e densidade preservados, sem traços de fratura.
+Espaços articulares:  radiocarpal {degenerativo|preservado/com alterações degenerativas pós-traumáticas}. Radioulnar distal {rud|congruente/incongruente}.
+Articulação trapeziometacarpiana:  espaço articular preservado, sem osteófitos.
+Mineralização óssea:  preservada.
+Partes moles:  sem coleções ou calcificações, considerando os limites do método para avaliação ligamentar, tendínea e da fibrocartilagem triangular.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Sinais de fratura consolidada do rádio distal, com {deformidade|consolidação viciosa em inclinação dorsal/encurtamento radial/degrau articular residual}.
