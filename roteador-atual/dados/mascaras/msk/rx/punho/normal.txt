@@ -1,4 +1,4 @@
-# gatilhos: raio x de punho | raio x do punho | rx de punho | rx do punho | radiografia de punho | radiografia do punho | raio x de punho normal | rx de punho normal | rx do punho normal | radiografia de punho normal | rx punho normal | raio x de punho sem alteracoes | radiografia do punho sem alteracoes
+# gatilhos: raio x de punho | raio x do punho | rx de punho | rx do punho | radiografia de punho | radiografia do punho | raio x de punho normal | rx de punho normal | rx do punho normal | radiografia de punho normal | rx punho normal | raio x de punho sem alteracoes | radiografia do punho sem alteracoes | raio x de escafoide | raio x do escafoide | rx de escafoide | rx do escafoide | radiografia do escafoide | serie de escafoide
 # categoria: msk
 # modalidade: rx
 # regiao: punho

@@ -1,4 +1,4 @@
-# gatilhos: raio x de bacia | raio x da bacia | rx de bacia | rx da bacia | radiografia de bacia | radiografia da bacia | raio x de bacia normal | rx de bacia normal | rx bacia normal | radiografia de bacia normal | raio x de bacia sem alteracoes | rx bacia | raio x de bacia ap | raio x dos quadris | rx dos quadris
+# gatilhos: raio x de bacia | raio x da bacia | rx de bacia | rx da bacia | radiografia de bacia | radiografia da bacia | raio x de bacia normal | rx de bacia normal | rx bacia normal | radiografia de bacia normal | raio x de bacia sem alteracoes | rx bacia | raio x de bacia ap | raio x dos quadris | rx dos quadris | raio x de pelve | raio x da pelve | rx de pelve | rx da pelve | radiografia de pelve | radiografia da pelve
 # categoria: msk
 # modalidade: rx
 # regiao: bacia

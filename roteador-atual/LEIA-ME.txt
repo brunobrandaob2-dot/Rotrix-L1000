@@ -131,7 +131,9 @@ Cada região tem:
     BLOCOS             achados que se encaixam na máscara
     FRASES             repertório de frases prontas
 
-Hoje: 47 regiões, ~6.500 gatilhos. Lista completa: CATALOGO.txt.
+Hoje: 59 regiões. Radiografia também de fêmur, úmero,
+antebraço, clavícula, calcâneo, arcos costais, esterno, sacro e
+cóccix, sacroilíacas, coluna total, ossos da face e ossos nasais. Lista completa: CATALOGO.txt.
 
 
 ────────────────────────────────────────────────────────────────
@@ -158,12 +160,37 @@ vírgula ou "com" / "e". Cada bloco entra na linha certa; a conclusão
      derrame articular"
     Dois achados da mesma estrutura SOMAM na mesma linha.
 
+RADIOGRAFIA — as SUAS palavras, na linha certa (RX literal):
+    Dite o exame e depois os achados em sequência, como no dia a dia:
+    "raio x de tórax no leito, com tubo orotraqueal, sonda enteral,
+     cateter venoso central à direita, opacidades pulmonares
+     bilaterais, dreno de tórax à direita"
+    - O começo ("raio x de tórax no leito") acha a máscara.
+    - Cada achado entra com as palavras que você disse, sem conclusão
+      e sem grau que você não ditou. A frase normal da mesma estrutura
+      sai ("Campos pulmonares sem opacidades focais." vira
+      "Opacidades pulmonares bilaterais.").
+    - Dispositivos (tubo, sonda, cateter, dreno, marcapasso, prótese,
+      placa, parafusos...) abrem a análise, um por linha.
+    - "raio x da bacia com coxartrose bilateral" sai "Coxartrose
+      bilateral." na linha dos espaços coxofemorais.
+    - Rótulo genérico continua mandando a máscara pronta: "com
+      alterações crônicas", "do idoso", "com alterações degenerativas",
+      "após queda", "no leito".
+    - Quer a frase pronta do banco? Diga "descrever" antes do achado:
+      "raio x de joelho direito, descrever gonartrose do compartimento
+      medial" -> "Artrose femorotibial medial do joelho, grau [1/2/3/4]
+      de Kellgren-Lawrence."
+    - Para voltar ao modo antigo (blocos do banco), ponha
+      "rx_literal": false no config.json.
+
 FRASE SOLTA — prefixo "frase":
     "frase derrame articular no raio x de joelho"
     "frase cisto hepático simples"
 
 Achado que não existe no banco NÃO some: aparece no fim da análise
-como [não encontrado no banco — completar: ...].
+como [não encontrado no banco — completar: ...]. (Na radiografia, o
+achado entra com as suas palavras; não há essa marcação.)
 
 
 ────────────────────────────────────────────────────────────────
@@ -188,8 +215,8 @@ RADIOGRAFIA tem formato próprio, mais enxuto:
     Não há sinais de fraturas ou luxações.
 
 Sem indicação, comparação ou conclusão, e sem "Rótulo:" — frases
-diretas, uma por linha. O bloco ditado ("com artrose medial") troca a
-frase normal correspondente.
+diretas, uma por linha. O achado ditado ("com artrose medial") troca a
+frase normal correspondente, com as suas palavras.
 
 Cabeçalhos em CAIXA ALTA, com dois-pontos e em NEGRITO. O negrito é
 feito pelo processador de colagem: ele coloca no clipboard a versão

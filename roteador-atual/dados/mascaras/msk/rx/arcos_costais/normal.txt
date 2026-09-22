@@ -1,0 +1,16 @@
+# gatilhos: raio x de arcos costais | raio x dos arcos costais | rx de arcos costais | rx dos arcos costais | radiografia de arcos costais | radiografia dos arcos costais | raio x de gradil costal | rx de gradil costal | radiografia de gradil costal | raio x de costelas | raio x das costelas | rx de costelas | rx das costelas
+# categoria: msk
+# modalidade: rx
+# regiao: arcos_costais
+# tipo_mascara: normal
+**RADIOGRAFIA DOS ARCOS COSTAIS**
+
+**TÉCNICA:**  incidências anteroposterior e oblíqua.
+
+**ANÁLISE:**
+Arcos costais com contornos corticais regulares.
+Não há sinais de fraturas.
+Não há lesões ósseas focais.
+Campos pulmonares incluídos sem alterações evidentes.
+Seios costofrênicos livres.
+Partes moles sem alterações.

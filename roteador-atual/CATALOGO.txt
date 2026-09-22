@@ -319,6 +319,12 @@ Frases saem soltas: "frase <gatilho>".
                  "frase raio x de cranio suturas abertas"
                  "frase raio x de cranio aumento de partes moles"
 
+   OSSOS DA FACE
+     normal    "raio x de ossos da face"
+
+   OSSOS NASAIS
+     normal    "raio x de ossos nasais"
+
    SEIOS DA FACE
      normal    "raio x de seios da face"
      crônicas  "raio x de seios da face com sinusopatia cronica"
@@ -559,6 +565,12 @@ Frases saem soltas: "frase <gatilho>".
 
   ── RADIOGRAFIA ────────────────────────────────────────
 
+   ANTEBRACO
+     normal    "raio x de antebraco"
+
+   ARCOS COSTAIS
+     normal    "raio x de arcos costais"
+
    BACIA
      normal    "raio x de bacia"
      crônicas  "raio x de bacia com coxartrose"  |  "raio x de bacia com protese de quadril"  |  "raio x de bacia com sacroiliite"
@@ -579,6 +591,12 @@ Frases saem soltas: "frase <gatilho>".
                  "frase fratura dos ramos pubicos no raio x de bacia"
                  "frase calcificacoes vasculares no raio x de bacia"
                  "frase enostose no raio x de bacia"
+
+   CALCANEO
+     normal    "raio x de calcaneo"
+
+   CLAVICULA
+     normal    "raio x de clavicula"
 
    COLUNA CERVICAL
      normal    "raio x de coluna cervical"  |  "raio x de coluna cervical com dinamicas"
@@ -647,6 +665,9 @@ Frases saem soltas: "frase <gatilho>".
                  "frase rx toracica fratura antiga"
                  "frase angulo de cobb na coluna toracica"
 
+   COLUNA TOTAL
+     normal    "raio x de coluna total"
+
    COTOVELO
      normal    "raio x de cotovelo"
      crônicas  "raio x de cotovelo com artrose"  |  "raio x de cotovelo com osteossintese"
@@ -665,6 +686,12 @@ Frases saem soltas: "frase <gatilho>".
                  "frase entesofito do olecrano no cotovelo"
                  "frase calcificacao ligamentar medial no cotovelo"
                  "frase incidencia da cabeca do radio no cotovelo"
+
+   ESTERNO
+     normal    "raio x de esterno"
+
+   FEMUR
+     normal    "raio x de femur"
 
    JOELHO
      normal    "raio x de joelho"
@@ -812,6 +839,12 @@ Frases saem soltas: "frase <gatilho>".
                  "frase calcificacao peritrocanterica no raio x de quadril"
                  "frase enostose no colo do quadril"
 
+   SACRO COCCIX
+     normal    "raio x de sacro e coccix"
+
+   SACROILIACAS
+     normal    "raio x de articulacoes sacroiliacas"
+
    TORNOZELO
      normal    "raio x de tornozelo"
      crônicas  "raio x de tornozelo com artrose"  |  "raio x de tornozelo com material de sintese"
@@ -833,6 +866,9 @@ Frases saem soltas: "frase <gatilho>".
                  "frase controle pos reducao do tornozelo"
                  "frase imobilizacao gessada no tornozelo"
                  "frase calcificacoes vasculares no tornozelo"
+
+   UMERO
+     normal    "raio x de umero"
 
   ── TOMOGRAFIA ────────────────────────────────────────
 

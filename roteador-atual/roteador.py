@@ -22,10 +22,14 @@ try:
     import revisor
 except Exception:
     revisor = None
+try:
+    import rx_literal
+except Exception:
+    rx_literal = None
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-22.4"
+VERSAO = "2026-09-22.5"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -113,6 +117,10 @@ class Banco:
                     return tit, txt, 0.95, g
         # 3) cobertura de tokens: o gatilho precisa estar quase todo dentro do ditado
         alvo = set(consulta_norm.split())
+        # palavra de anatomia do gatilho so casa com palavra de anatomia do ditado:
+        # "cranio" nao pode casar com "raio" (de "raio x") -> "raio x de femur" nao
+        # vira radiografia do cranio
+        alvo_anat = alvo - _GENERICAS
         melhor_cob, cob_score, cob_n = None, 0.0, 0
         for t, g, tit, txt, sec, con in cand:
             if t in ("frase", "bloco") and tipo is None:
@@ -124,7 +132,7 @@ class Banco:
             for w in gt:
                 if w in alvo:
                     achou += 1
-                elif len(w) >= 4 and difflib.get_close_matches(w, alvo, 1, 0.8):
+                elif len(w) >= 4 and difflib.get_close_matches(w, alvo_anat, 1, 0.8):
                     achou += 1
                 elif (len(w) >= 4 and w not in _GENERICAS) or len(w) <= 3 and w not in ("de", "do", "da", "e", "x"):
                     # palavra de anatomia/achado (ou curta, como "pe") faltando:
@@ -151,7 +159,7 @@ class Banco:
             # e toda palavra de ANATOMIA/achado do gatilho precisa de par no
             # ditado: "pelve" nao vira "perna", "pescoco" nao vira "pe"
             if any(len(w) >= 4 and w not in _GENERICAS and w not in alvo_set
-                   and not difflib.get_close_matches(w, alvo_set, 1, 0.8)
+                   and not difflib.get_close_matches(w, alvo_set - _GENERICAS, 1, 0.8)
                    for w in g.split()):
                 continue
             r = difflib.SequenceMatcher(None, consulta_norm, g).ratio()
@@ -288,7 +296,25 @@ EXTRATORES = {"lobo_completo": _lobo_completo, "nivel_listese": _nivel_listese, 
               "segmento": _segmento, "lobo_cerebral": _lobo_cerebral}
 PADRAO_SLOT = re.compile(r"\{(\??[A-Za-z_]+)(?::([^}|]*))?(?:\|([^}]*))?\}")
 
-def preencher(texto, ditado, contexto=None):
+def _opcao_aproximada(opcoes, n0):
+    """Opção da lacuna dita de outro jeito (só no "descrever X" da radiografia):
+    "discreto" ~ "discreta"; "compartimento medial" -> "femorotibial medial"
+    (a única opção com a palavra "medial")."""
+    for o in opcoes:
+        on = normalizar(o)
+        if " " not in on and len(on) >= 5 and on[-1] in "oa" and \
+                re.search(r"\b%s[oa]s?\b" % re.escape(on[:-1]), n0):
+            return o
+    toks = [set(w for w in normalizar(o).split() if len(w) >= 4) for o in opcoes]
+    ditas = set(n0.split())
+    hits = []
+    for i, t in enumerate(toks):
+        outras = set().union(*(toks[:i] + toks[i + 1:])) if len(toks) > 1 else set()
+        if (t - outras) & ditas:
+            hits.append(opcoes[i])
+    return hits[0] if len(hits) == 1 else None
+
+def preencher(texto, ditado, contexto=None, aproximar=False):
     """Resolve os slots pelo ditado. Slot em MAIUSCULAS devolve em maiusculas.
     contexto = o cabecalho do exame ("rx de joelho direito"). Ele so e usado
     para LADO — nunca para medida, e nunca o lado de OUTRO achado do ditado.
@@ -324,6 +350,8 @@ def preencher(texto, ditado, contexto=None):
                 maior = max(achadas, key=len)
                 if all(normalizar(o) in normalizar(maior) for o in achadas):
                     valor = maior
+            if not valor and aproximar:
+                valor = _opcao_aproximada(opcoes.split("/"), n0)
         if opcional:
             # {?nome:prefixo } ou {?nome|a/b}: some quando nao foi ditado
             return ((prefixo or "") + valor + " ") if valor else ""
@@ -930,6 +958,7 @@ def rotear(ditado):
 
     # OUVIDO: o que o reconhecimento de voz errou, antes de procurar
     bruto_fixo = ouvido_fixo(original)       # tsv: vale tambem para texto livre
+    bruto_lit = bruto                        # palavras do medico (RX literal)
     bruto = ouvido_bruto(bruto)              # vocabulario do banco: so para achar
     n = normalizar(bruto)
 
@@ -944,6 +973,13 @@ def rotear(ditado):
 
     if tipo in (None, "mascara"):
         cab_raw, cab_norm, tit, txt = _cabecalho_do_exame(bruto, resto)
+        if rx_literal is not None and _config().get("rx_literal", True) and \
+                (txt is None or BANCO.meta.get(tit, ("",) * 4)[1] == "rx"):
+            # radiografia: abertura depois de "proximo,", "mostrando ...", e
+            # "raio x de torax com alteracoes cronicas, cardiomegalia"
+            r_cab = _cabecalho_rx(bruto, bruto_lit)
+            if r_cab is not None and (txt is None or len(r_cab[3]) > len(cab_norm)):
+                bruto, bruto_lit, cab_raw, cab_norm, tit, txt = r_cab
         if txt is None and len(segmentos) > 1:
             # sem gatilho no inicio: a base sai do primeiro segmento
             cab_raw = segmentos[0]
@@ -956,6 +992,14 @@ def rotear(ditado):
             tit, txt, _sc, g = BANCO.buscar2(cab_norm, "mascara")
             if txt is not None:
                 cab_norm = g
+        if txt is not None and rx_literal is not None and _config().get("rx_literal", True):
+            try:
+                r = _compor_rx_literal(bruto_lit, bruto, cab_raw, cab_norm, tit, txt)
+            except Exception as e:
+                print("AVISO: rx literal falhou (%s: %s)" % (type(e).__name__, e), file=sys.stderr)
+                r = None
+            if r is not None:
+                return r
         if txt is not None:
             resto_raw = bruto[len(cab_raw):] if bruto.startswith(cab_raw) else \
                         " ".join(segmentos[1:])
@@ -1046,8 +1090,11 @@ def _trecho_cru(bruto, g):
     return None
 
 _FRONTEIRA = re.compile(r"^\s*(?:$|[,;.:]|(?:com|e|mais|apresentando|associad[oa]s?)\b)", re.I)
+# radiografia: "raio x de torax SEM sinais de pneumotorax", "... evidenciando ..."
+_FRONTEIRA_RX = re.compile(r"^\s*(?:$|[,;.:]|(?:com|e|mais|apresentando|associad[oa]s?|sem|"
+                           r"evidenciando|mostrando|demonstrando|onde|que)\b)", re.I)
 
-def _cabecalho_do_exame(bruto, resto_norm):
+def _cabecalho_do_exame(bruto, resto_norm, fronteira=None, so_rx=False):
     """Maior gatilho de MASCARA que abre o ditado e termina numa FRONTEIRA de
     frase (virgula, "com", "e", fim) — ou cujo resto e so lado/medida/local.
     "raio x de joelho com artrose femoropatelar" NAO para em "...com artrose",
@@ -1058,14 +1105,18 @@ def _cabecalho_do_exame(bruto, resto_norm):
     for t, g, tit, txt, sec, con in BANCO.itens:
         if t != "mascara" or not g:
             continue
+        if so_rx and BANCO.meta.get(tit, ("",) * 4)[1] != "rx":
+            continue
         if resto_norm == g or resto_norm.startswith(g + " "):
             cands.setdefault(g, (tit, txt))
     for g in sorted(cands, key=len, reverse=True):
         cru = _trecho_cru(bruto, g)
         if cru is None:
             continue
+        if so_rx:
+            cru = cru.rstrip(",.;:!?")     # a virgula depois do exame e fronteira
         sobra = bruto[len(cru):]
-        if _FRONTEIRA.match(sobra) or not _relevante(sobra):
+        if (fronteira or _FRONTEIRA).match(sobra) or not _relevante(sobra):
             tit, txt = cands[g]
             return cru, g, tit, txt
     return "", "", None, None
@@ -1157,6 +1208,242 @@ def _anexar_orfaos(texto, orfaos):
     while pos - 1 > a and not linhas[pos - 1].strip():
         pos -= 1
     return "\n".join(linhas[:pos] + marca + linhas[pos:])
+
+
+# ---------------------------------------------------------------------------
+# RX LITERAL: a abertura do ditado acha a mascara; cada achado entra com as
+# PALAVRAS DO MEDICO na linha certa (rx_literal.py). Sem conclusao, sem grau
+# que nao foi dito. "descrever X" pede a frase pronta do banco.
+# config.json: "rx_literal": false volta ao modo antigo (blocos do banco).
+# ---------------------------------------------------------------------------
+_TOKEN = re.compile(r"[^\W_]+")
+_NORMAIS = {"n": None, "por_regiao": {}}
+_TROCA_TECNICA = ("leito", "portatil", "uti", "dinamicas", "dinamica")
+_LADO_W = set("direito direita esquerdo esquerda bilateral bilaterais ambos lados".split())
+
+
+def _normais_da_regiao(meta):
+    """Gatilhos das mascaras NORMAIS da mesma regiao: [(gatilho, titulo, texto)]."""
+    if _NORMAIS["n"] != len(BANCO.itens):
+        por = {}
+        for t, g, tit, txt, sec, con in BANCO.itens:
+            m = BANCO.meta.get(tit, ("",) * 4)
+            if t == "mascara" and g and txt and m[3] == "normal":
+                por.setdefault(m[:3], []).append((g, tit, txt))
+        for k in por:
+            por[k].sort(key=lambda x: -len(x[0]))
+        _NORMAIS.update(n=len(BANCO.itens), por_regiao=por)
+    return _NORMAIS["por_regiao"].get(tuple(meta[:3]), [])
+
+
+def _fim_token(texto, k):
+    """Posicao logo depois do k-esimo token (palavra ou numero) do texto."""
+    if k <= 0:
+        return 0
+    for i, m in enumerate(_TOKEN.finditer(texto), 1):
+        if i == k:
+            return m.end()
+    return None
+
+
+def _fim_cabecalho(toks, g):
+    """Quantos tokens do ditado formam o cabecalho que casou com o gatilho g:
+    o menor prefixo que contem as palavras do gatilho, mais o lado e a tecnica
+    logo depois ("raio x de joelho esquerdo artrose..." -> 5)."""
+    nt = [normalizar(t) for t in toks]
+    alvo = [w for w in g.split() if len(w) > 2 and w not in _GENERICAS]
+    for k in range(1, len(toks) + 1):
+        pref = set(" ".join(nt[:k]).split())
+        if all(w in pref or difflib.get_close_matches(w, pref, 1, 0.8) for w in alvo):
+            j = k
+            while j < len(nt):
+                w = nt[j]
+                if w in _LADO_W or w in rx_literal.TECNICA:
+                    j += 1
+                    continue
+                if w in rx_literal.STOP:
+                    prox = next((x for x in nt[j + 1:] if x not in rx_literal.STOP), None)
+                    if prox and (prox in _LADO_W or prox in rx_literal.TECNICA):
+                        j += 1
+                        continue
+                break
+            return j
+    return None
+
+
+def _coberto_todo(seg, cobertos):
+    """O trecho so repete o cabecalho ("joelho direito" depois de "raio x de
+    joelho direito"). Qualquer palavra nova (lado, achado) mantem o trecho."""
+    cont = [w for w in normalizar(seg).split() if w not in rx_literal.STOP]
+    return bool(cont) and all(w in cobertos for w in cont)
+
+
+_SO_NORMAL = {"sem alteracoes", "sem alteracoes significativas", "normal", "normais", "exame normal",
+              "dentro da normalidade", "dentro dos limites da normalidade", "sem anormalidades",
+              "nada digno de nota", "sem achados", "sem achados significativos", "estudo normal"}
+_RX_ABRE = re.compile(r"\b(?:raio x|rx|radiografia|rotina de abdome)\b")
+
+
+def _cabecalho_rx(bruto, bruto_lit):
+    """Radiografia cuja abertura nao casou do jeito comum: "proximo, raio x de
+    ...", "agora raio x ...", "raio x do joelho direito mostrando ...". Procura o
+    exame nas primeiras palavras. Devolve (bruto, bruto_lit, cab_raw, cab_norm,
+    titulo, texto) ja sem o que vinha antes do exame, ou None."""
+    n = normalizar(bruto)
+    m = _RX_ABRE.search(n)
+    if not m:
+        return None
+    k0 = len(n[:m.start()].split())
+    if k0 > 4:
+        return None
+    if k0:
+        c1, c2 = _fim_token(bruto, k0), _fim_token(bruto_lit, k0)
+        if c1 is None or c2 is None:
+            return None
+        bruto = re.sub(r"^[\s,.;:!?-]+", "", bruto[c1:])
+        bruto_lit = re.sub(r"^[\s,.;:!?-]+", "", bruto_lit[c2:])
+        n = normalizar(bruto)
+    cab_raw, cab_norm, tit, txt = _cabecalho_do_exame(bruto, n, _FRONTEIRA_RX, so_rx=True)
+    if txt is None:
+        seg0 = segmentar(bruto)[0]
+        t2, x2, _sc, g = BANCO.buscar2(normalizar(seg0), "mascara")
+        if x2 is None or BANCO.meta.get(t2, ("",) * 4)[1] != "rx" or not bruto.startswith(seg0):
+            return None
+        cab_raw, cab_norm, tit, txt = seg0, g, t2, x2
+    return bruto, bruto_lit, cab_raw, cab_norm, tit, txt
+
+
+_CONECTOR = re.compile(r"^[\s,.;:]*(?:(?:com|e|mostrando|evidenciando|demonstrando|apresentando|"
+                       r"onde se (?:observa|nota|v[eê])|observa-se|observando-se|nota-se|notando-se|"
+                       r"identifica-se|identificando-se|que (?:mostra|evidencia|demonstra))\b[\s,.;:]*)+", re.I)
+_VIRGULA_FALADA = [(re.compile(r"\s+ponto e v[ií]rgula\b", re.I), ";"),
+                   (re.compile(r"\s+v[ií]rgula\b", re.I), ","),
+                   (re.compile(r"\s+ponto final\b", re.I), ".")]
+
+
+def _compor_rx_literal(bruto_lit, bruto, cab_raw, cab_norm, tit, txt):
+    """(texto, origem) ou None (entao segue o modo antigo)."""
+    meta = BANCO.meta.get(tit, ("",) * 4)
+    if meta[1] != "rx" or not rx_literal.aplicavel(txt):
+        return None
+    if not cab_raw or not bruto.startswith(cab_raw):
+        return None
+    toks = _TOKEN.findall(cab_raw)
+    fim = len(toks)
+    if normalizar(cab_raw) != cab_norm:
+        # cabecalho achado por aproximacao: corta onde o gatilho termina
+        k = _fim_cabecalho(toks, cab_norm)
+        if k is not None:
+            fim = k
+    trocou = False
+    if meta[3] != "normal":
+        # mascara ALTERADA pelo gatilho ("raio x da bacia com coxartrose"):
+        # rotulo generico ("com alteracoes cronicas", "no leito") mantem a mascara;
+        # achado vira a mascara NORMAL + o achado com as palavras ditadas
+        g0 = next(((g, t0, x0) for g, t0, x0 in _normais_da_regiao(meta)
+                   if cab_norm == g or cab_norm.startswith(g + " ")), None)
+        if g0 is not None and not rx_literal.eh_rotulo(cab_norm[len(g0[0]):].strip()):
+            k = _fim_cabecalho(toks, g0[0])
+            if k is not None and k < len(toks):
+                tit, txt = g0[1], g0[2]
+                fim, trocou = k, True
+    corte = _fim_token(bruto_lit, fim)
+    if corte is None:
+        return None
+    resto = bruto_lit[corte:]
+    for rx_v, sub_v in _VIRGULA_FALADA:
+        resto = rx_v.sub(sub_v, resto)
+    lado_ini = re.match(r"^[\s,]*((?:(?:direit|esquerd)[oa]s?|bilaterai?s?|ambos|ambas)\b[\s,]*)+", resto, re.I)
+    lead = []
+    if lado_ini:                                # "raio x do joelho direito mostrando ..."
+        lead.append(lado_ini.group(0).strip(" ,"))
+        resto = resto[lado_ini.end():]
+    resto = _CONECTOR.sub("", resto)
+    partes = rx_literal.partir(resto) if resto.strip() else []
+    while partes and not _relevante(partes[0][1]) and not rx_literal.tem_achado(normalizar(partes[0][1])):
+        lead.append(partes.pop(0)[1])           # "rx de joelho, direito, com ..."
+    ctx = " ".join([cab_raw] + lead)
+    # o que o CABECALHO ja disse (so a parte usada como cabecalho: em "raio x da
+    # bacia com coxartrose" a coxartrose e achado, nao cabecalho)
+    cobertos = set(normalizar(" ".join(toks[:fim])).split())
+    if not trocou:
+        cobertos |= set(cab_norm.split())
+    tecnicas, filtradas = [x for x in lead if rx_literal.eh_tecnica(x)], []
+    for sep, seg in partes:
+        if rx_literal.eh_tecnica(seg):
+            tecnicas.append(seg)
+        elif not _coberto_todo(seg, cobertos):
+            filtradas.append((sep, seg))
+    meta = BANCO.meta.get(tit, ("",) * 4)
+    # "raio x de torax, no leito, com ...": a variante de tecnica da mesma regiao
+    if tecnicas and meta[3] == "normal":
+        base_g = next((g for g, t0, x0 in _normais_da_regiao(meta) if t0 == tit and
+                       (cab_norm == g or cab_norm.startswith(g + " "))), cab_norm)
+        feito = False
+        for seg in tecnicas:
+            for w in normalizar(seg).split():
+                if w not in _TROCA_TECNICA or feito:
+                    continue
+                for alvo in (base_g + " no " + w, base_g + " " + w, base_g + " com " + w):
+                    t2, x2, sc2, g2 = BANCO.buscar2(alvo, "mascara")
+                    if x2 is not None and sc2 >= 0.95 and t2 != tit and \
+                            BANCO.meta.get(t2, ("",) * 4)[:3] == meta[:3] and \
+                            rx_literal.aplicavel(x2) and rx_literal.eh_rotulo(g2[len(base_g):].strip()
+                                                                             if g2.startswith(base_g) else w):
+                        tit, txt, feito = t2, x2, True
+                        break
+    achados = []
+    for ach in rx_literal.juntar(filtradas):
+        a = ach["texto"]
+        m = re.match(r"^\s*(?:descrev\w*|descreva)\s+(.+)$", a, re.I)
+        if m:
+            x = m.group(1)
+            nx = normalizar(ouvido_bruto(x))
+            meta = BANCO.meta.get(tit, ("",) * 4)
+            # 1) a mascara pronta do achado ("descrever pneumonia")
+            if meta[3] == "normal":
+                base_g = next((g for g, t0, x0 in _normais_da_regiao(meta) if t0 == tit), cab_norm)
+                t2, x2, sc2, _g2 = BANCO.buscar2(base_g + " com " + nx, "mascara")
+                if x2 is not None and sc2 >= 1.0 and t2 != tit and \
+                        BANCO.meta.get(t2, ("",) * 4)[:3] == meta[:3] and rx_literal.aplicavel(x2):
+                    tit, txt = t2, x2
+                    continue
+            # 2) a frase do banco para o achado ("descrever gonartrose do compartimento medial")
+            bl = achar_blocos([ouvido_bruto(x)], BANCO.meta.get(tit))
+            if bl:
+                _bt, btxt, bsec, _bc, _bs = bl[0]
+                corpo = preencher(btxt, x, ctx, aproximar=True)
+                for linha in corpo.split("\n"):
+                    if linha.strip():
+                        achados.append({"texto": _sem_hifen(linha).strip(), "secao": bsec})
+                continue
+            a = x                                   # 3) sem frase no banco: literal
+        if not m and normalizar(a) in _SO_NORMAL:
+            continue                            # "sem alteracoes": a mascara ja e normal
+        t = rx_literal.limpar(a, revisar_local)
+        if t:
+            if m:
+                achados.append({"texto": t})
+            else:
+                achados.append({"texto": t, "cabeca": ach["cabeca"], "extras": ach["extras"]})
+    if "dispositiv" not in cab_norm:
+        txt = rx_literal.sem_dispositivos_do_molde(txt)
+    # "raio x dos joelhos", "de ambos os pes": exame dos dois lados
+    if re.search(r"\b(?:ambos|ambas|bilateral|bilaterais)\b|\b(?:dos|das) \w+s\b",
+                 normalizar(bruto_lit[:corte])) and not re.search(r"\b(?:direit|esquerd)", normalizar(ctx)):
+        ctx = ctx + " bilateral"
+    # lacunas da mascara: so pelo CABECALHO. O nivel/lobo/medida de um achado nao
+    # pode ir para outra frase ("anterolistese de L4" nao vira "osteofitos em L4").
+    # O lado do titulo pode vir do ditado, se so um lado foi dito.
+    lado_dit = _lado(normalizar(bruto))
+    fonte = ctx if (_lado(normalizar(ctx)) or not lado_dit) else ctx + " " + lado_dit
+    base = preencher(txt, fonte, ctx)
+    texto = rx_literal.compor(base, achados)
+    if texto is None:
+        return None
+    if achados:
+        return texto, "rx_literal:%s+%d achado(s)" % (tit, len(achados))
+    return texto, "mascara:%s" % tit
 
 
 def extrair_ditado(body):

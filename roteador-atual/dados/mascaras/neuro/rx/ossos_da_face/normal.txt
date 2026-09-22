@@ -1,0 +1,16 @@
+# gatilhos: raio x de ossos da face | raio x dos ossos da face | rx de ossos da face | rx dos ossos da face | radiografia de ossos da face | radiografia dos ossos da face | raio x de face | rx de face
+# categoria: neuro
+# modalidade: rx
+# regiao: ossos_da_face
+# tipo_mascara: normal
+**RADIOGRAFIA DOS OSSOS DA FACE**
+
+**TÉCNICA:**  incidências mento-naso (Waters), fronto-naso (Caldwell) e perfil.
+
+**ANÁLISE:**
+Rebordos orbitários regulares.
+Arcos zigomáticos e maxilares sem sinais de fraturas.
+Ossos nasais sem alterações.
+Seios maxilares normotransparentes.
+Mandíbula sem alterações nas porções incluídas.
+Partes moles sem alterações.

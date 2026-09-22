@@ -97,6 +97,31 @@ Partes moles sem alterações.
 - Dois blocos na mesma frase somam na mesma posição.
 - Frases (`frases.txt`) de RX: diretas e curtas, sem conclusão.
 
+### RX literal (como o ditado de radiografia é montado)
+
+O ditado de RX é uma lista de achados. O roteador (`rx_literal.py`) acha a máscara pela abertura
+("raio x de tórax no leito") e põe **cada achado com as palavras ditadas** na frase certa da
+ANÁLISE, sem conclusão e sem grau que não foi dito:
+
+- a frase normal da mesma estrutura é trocada (âncoras por estrutura: campos pulmonares, seios
+  costofrênicos, área cardíaca, mediastino, hilos, cúpulas, arcabouço, alinhamento, corpos
+  vertebrais, espaços discais, elementos posteriores, sacroilíacas, espaços articulares,
+  fraturas, densidade, partes moles, adenoide, seios da face...);
+- osteófitos entram DEPOIS de "Corpos vertebrais com altura preservada";
+- partes moles (entesopatia, calcificação, edema) entram antes de "Partes moles", que vira
+  "Demais partes moles sem alterações.";
+- dispositivos (tubo, sonda, cateter, dreno, prótese, placa, parafusos) abrem a ANÁLISE, um
+  por linha; as linhas de dispositivo com lacuna da máscara do leito saem;
+- "<exame> com <achado>" que casa com máscara alterada vira a normal + o achado literal; rótulo
+  genérico ("alterações crônicas", "do idoso", "degenerativas", "após queda", "no leito")
+  mantém a máscara pronta;
+- "descrever <achado>" usa a máscara alterada ou o bloco do banco.
+
+Por isso as **frases normais de RX precisam nomear a estrutura** ("Espaços discais
+preservados.", "Seios costofrênicos livres.") — é por elas que o achado acha o lugar. Região nova
+de RX pode ter só a `normal.txt`; os blocos e as alteradas servem ao "descrever".
+Desligar: `"rx_literal": false` no config.json.
+
 ## 3. Organização em pastas
 
 ```
