@@ -97,6 +97,51 @@ Partes moles sem alterações.
 - Dois blocos na mesma frase somam na mesma posição.
 - Frases (`frases.txt`) de RX: diretas e curtas, sem conclusão.
 
+### RX literal (como o ditado de radiografia é montado)
+
+O ditado de RX é uma lista de achados. O roteador (`rx_literal.py`) acha a máscara pela abertura
+("raio x de tórax no leito") e põe **cada achado com as palavras ditadas** na frase certa da
+ANÁLISE, sem conclusão e sem grau que não foi dito:
+
+- a frase normal da mesma estrutura é trocada (âncoras por estrutura: campos pulmonares, seios
+  costofrênicos, área cardíaca, mediastino, hilos, cúpulas, arcabouço, alinhamento, corpos
+  vertebrais, espaços discais, elementos posteriores, sacroilíacas, espaços articulares,
+  fraturas, densidade, partes moles, adenoide, seios da face...);
+- osteófitos entram DEPOIS de "Corpos vertebrais com altura preservada";
+- partes moles (entesopatia, calcificação, edema) entram antes de "Partes moles", que vira
+  "Demais partes moles sem alterações.";
+- dispositivos (tubo, sonda, cateter, dreno, prótese, placa, parafusos) abrem a ANÁLISE, um
+  por linha; as linhas de dispositivo com lacuna da máscara do leito saem;
+- "<exame> com <achado>" que casa com máscara alterada vira a normal + o achado literal; rótulo
+  genérico ("alterações crônicas", "do idoso", "degenerativas", "após queda", "no leito")
+  mantém a máscara pronta;
+- "descrever <achado>" usa a máscara alterada ou o bloco do banco.
+
+Por isso as **frases normais de RX precisam nomear a estrutura** ("Espaços discais
+preservados.", "Seios costofrênicos livres.") — é por elas que o achado acha o lugar. Região nova
+de RX pode ter só a `normal.txt`; os blocos e as alteradas servem ao "descrever".
+Desligar: `"rx_literal": false` no config.json.
+
+### Regras do laudo (22/09/2026, pedido do Bruno) — valem para RX e TC
+
+1. **Alterações primeiro.** Na ANÁLISE, as frases de alteração abrem o laudo, na ordem ditada
+   (dispositivos antes). As frases normais vêm abaixo, na ordem da máscara. Na TC, sobe a linha
+   inteira da estrutura alterada ("Fígado: ...", "Rins: ..."). Desligar: `"alteradas_primeiro": false`.
+2. **Com a alteração, a normal da mesma estrutura sai.** Na RX, cada pedaço positivo do achado
+   ("espondilose COM FRATURA", "prótese com REDUÇÃO DA DENSIDADE") tira a frase normal que ele
+   desmente. Na TC, o achado que o banco não tem entra **com as palavras ditadas** no rótulo da
+   estrutura (escolhido pelo vocabulário dos blocos daquela região); a descrição normal do
+   rótulo sai e as negativas que o achado desmente também. Continua na conclusão, com as
+   mesmas palavras. Sem estrutura clara, fica marcado no fim como antes. Desligar: `"tc_literal": false`.
+3. **Rótulo não é achado.** "alterações crônicas", "alterações da idade", "sem alterações"
+   ditos no meio dos achados não viram frase.
+4. **Grafia.** Palavra fora do banco que, com uma troca s/z/ç/ss, vira palavra do banco é
+   corrigida ("risartrose" → rizartrose, "esparça" → esparsa). Erros de ouvido fixos no
+   `dados/ouvido.tsv` ("orta" → aorta, "ácido metálica" → haste metálica).
+5. **Modalidade.** "ressonância de joelho" ou "ultrassom de abdome" nunca caem em máscara de RX
+   ou de TC por aproximação.
+6. **Texto livre** sai com maiúscula no início e ponto final.
+
 ## 3. Organização em pastas
 
 ```

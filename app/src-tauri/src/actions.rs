@@ -454,9 +454,16 @@ pub(crate) async fn process_transcription_output(
                     post_process_prompt = Some(prompt.prompt.clone());
                 }
             }
+        } else {
+            // roteador fora do ar: o texto cru sai ao menos com maiúscula e ponto
+            final_text = crate::rotrix::frase_formatada(&final_text);
         }
-    } else if final_text != transcription {
-        post_processed_text = Some(final_text.clone());
+    } else {
+        // ditado simples (Ctrl+Espaço): maiúscula no início e ponto final
+        final_text = crate::rotrix::frase_formatada(&final_text);
+        if final_text != transcription {
+            post_processed_text = Some(final_text.clone());
+        }
     }
 
     ProcessedTranscription {

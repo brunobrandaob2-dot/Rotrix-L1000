@@ -147,6 +147,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "RX literal falhou no Python embutido" }
           ..\python\python.exe testar_radius.py
           if ($LASTEXITCODE -ne 0) { throw "fila do Radius falhou no Python embutido" }
+          ..\python\python.exe testar_tc_literal.py
+          if ($LASTEXITCODE -ne 0) { throw "TC com as palavras do medico falhou no Python embutido" }
           Get-ChildItem -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
 
       # ---------- App ----------

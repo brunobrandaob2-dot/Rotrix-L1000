@@ -137,7 +137,7 @@ CATEGORIAS = [
     _c("hilo", r"\bhilos?\b|hilar", [(r"\bhilos?\b|hilar", "troca")]),
     _c("diafragma", r"cupula|diafragm", [(r"cupula|diafragm", "troca")]),
     _c("subcutaneo", r"subcutane|enfisema de partes moles", [(r"partes moles", "antes_demais"), (r"arcabouc", "depois")]),
-    _c("pulmao", r"opacid|opacific|consolid|infiltr|atelect|nodul|\bmassas?\b|transparen|enfisema|"
+    _c("pulmao", r"opacid|opacific|(?<!em )consolida(?:cao|coes|tiv)(?! ossea| viciosa)|infiltr|atelect|nodul|\bmassas?\b|transparen|enfisema|"
                  r"\btrama\b|reticul|intersticial|congest|cavita|\bbolhas?\b|pneumon|broncogram|"
                  r"bronqu|\bestrias?\b|fibro|granulom|vidro fosco|pulmo|parenquima|\blobos?\b|lingula|"
                  r"\bapice|\bbases? pulmon|cissur|edema pulmonar|hiperinsufl",
@@ -182,10 +182,10 @@ CATEGORIAS = [
     _c("corpos", r"osteofit|espondil|corpos? vertebra|plataforma|schmorl|hemangioma|\bbicos?\b|"
                  r"sindesmofit|\bdish\b|hiperostose",
        [(r"corpos vertebrais", "depois")] + _OSSO_ANC),
-    _c("rizartrose", r"rizartr|trapeziometacarp", [(r"trapeziometacarp", "troca")]),
+    _c("rizartrose", r"ri[sz]o? ?artr|trapeziometacarp", [(r"trapeziometacarp", "troca")]),
     _c("erosao", r"\beros", [(r"erosoes", "troca"), (r"superficies articulares", "troca"),
                              (r"espacos? articular", "troca")]),
-    _c("articular", r"artros|artrose|gonartr|coxartr|omartr|rizartr|artropat|espacos? articular|"
+    _c("articular", r"artros|artrose|gonartr|coxartr|omartr|ri[sz]o? ?artr|artropat|espacos? articular|"
                     r"pincament|osteofit|subcondra|geod|compartiment|condrocalc|tricompartiment|"
                     r"femorotibial|femoropatelar|patelofemoral|tibiotalar|glenoumeral|acromioclavicular|"
                     r"radiocarpa|trapeziometacarp|interfalang|metatarsofalang|sinovi|incongruen|"
@@ -338,6 +338,9 @@ def _tipo_sep(sep):
     return ""
 
 
+_DISP_GENERICO = re.compile(r"(?:material (?:de sintese|metalico)|osteossintese|sintese metalica)")
+
+
 def _continua(tipo, seg, anterior=""):
     """O trecho continua o achado anterior?
     False = achado novo; "cabeca" = qualifica o achado (lado, grau, lugar, "com
@@ -357,6 +360,8 @@ def _continua(tipo, seg, anterior=""):
     if pal[0] == "sem" and len(pal) > 1 and pal[1] in SEM_QUALIF:
         return "cabeca"                  # "fratura do rádio, sem desvio"
     na = normalizar(anterior)
+    if tipo == "e" and _DISP_GENERICO.fullmatch(na) and eh_dispositivo(n):
+        return "cabeca"                  # "material de síntese e haste intramedular no fêmur"
     if tipo == "e":
         pa = [w for w in na.split() if w not in QUALIF]
         if len(pa) == 1 and pa[0] in GENERICO_SEM_LUGAR:
@@ -565,7 +570,51 @@ def _desmentidas(nx, itens, oid_principal):
     return {alvo[0]["orig_id"]} if len(alvo) == 1 else set()
 
 
-def compor(base, achados, revisar=None, tirar_dispositivos_lacuna=False):
+_PARTE = re.compile(r"\s*(?:[,;]|\bcom\b|\be\b|\bmais\b|\bassociad[oa]s? a\b)\s*")
+_CORTA_NEG = re.compile(r"\b(?:sem|nao ha|nao se|ausencia de|ausentes?)\b")
+
+
+def _normais_desmentidas(ditos, itens):
+    """Regra do Bruno: com a frase de alteração, a frase de normalidade da mesma
+    estrutura não fica junto. Cada pedaço positivo de cada achado ("espondilose
+    COM FRATURA vertebral", "prótese com REDUÇÃO DA DENSIDADE óssea") procura a
+    linha normal que ele trocaria; se ela sobrou intacta, sai."""
+    rem = set()
+    for nf in ditos:
+        if not nf or _NEGATIVO.match(nf):
+            continue
+        for sub in _PARTE.split(nf):
+            sub = _CORTA_NEG.split(sub)[0].strip()
+            if len(sub) < 4 or so_qualifica(sub) or eh_dispositivo(sub):
+                continue
+            esc = _escolher(sub, itens)
+            if esc is None or esc[1] != "troca":
+                continue
+            for it in itens:
+                if it["orig_id"] == esc[0] and it["orig"] and it["normal0"]:
+                    rem.add(esc[0])
+    return rem
+
+
+# linha de máscara ALTERADA que ainda tem palavra de normalidade ("Área cardíaca
+# aumentada ... (normal até 0,5)")
+_MARCA_ALTERACAO = re.compile(r"aumentad|reduzid|hipertranspar|hipotranspar|retificad|rebaixad|"
+                              r"alargad|espessad|verticaliz|elevad|desviad|calcificad|ateromat|"
+                              r"osteofit|espondil|artros|escolio|listese|pincament|calcificac|alongad|acentuac|ectasi|"
+                              r"opacid|consolid|nodul|derrame|atelect|fratur")
+
+
+def _so_rotulo(nf):
+    """Trecho que só dá nome ao tipo de exame ("alterações crônicas", "alterações da
+    idade", "sem alterações"): não vira frase do laudo."""
+    pal = nf.split()
+    return bool(pal) and any(w in ROTULO for w in pal) and \
+        all(w in ROTULO or w in STOP or w in TECNICA or w in ("sem", "outras", "outros") for w in pal) and \
+        not any(rx.search(nf) for _nm, rx, _a, _t in CATEGORIAS)
+
+
+def compor(base, achados, revisar=None, tirar_dispositivos_lacuna=False, normais=None,
+           alteradas_primeiro=True):
     """base: máscara já preenchida. achados: lista de dicts
          {"texto": str}                      achado ditado (literal)
          {"texto": str, "secao": str}        frase do banco ("descrever X")
@@ -591,13 +640,13 @@ def compor(base, achados, revisar=None, tirar_dispositivos_lacuna=False):
 
     def novo(t, oid):
         return {"t": t, "orig_id": oid, "orig": False, "n0": _n(t), "normal0": False,
-                "lacuna": False, "ancoravel": False}
+                "lacuna": False, "ancoravel": False, "ordem": ordem_atual[0]}
 
     def trocar(oid, t):
         i = next((i for i, it in enumerate(itens) if it["orig_id"] == oid and it["orig"]), None)
         orig = itens[i] if i is not None else None
         if orig is not None and (orig["normal0"] or orig["lacuna"]):
-            orig.update(t=t, orig=False)
+            orig.update(t=t, orig=False, ordem=ordem_atual[0])
             orig["ancoravel"] = True          # outras estruturas ainda podem mirar esta linha
             return orig
         n_it = novo(t, oid)
@@ -605,13 +654,20 @@ def compor(base, achados, revisar=None, tirar_dispositivos_lacuna=False):
         return n_it
 
     removidas = set()
+    ordem_atual = [0]                           # ordem do achado no ditado
     topo, sem_lugar = [], []
+    ditos = []                                  # achados com as palavras do médico
     ultimo = None                               # item do último achado colocado
     for ac in achados:
         t = (ac.get("texto") or "").strip()
         if not t:
             continue
         nf = _n(t)
+        if not ac.get("secao") and _so_rotulo(nf):
+            continue                            # "alterações crônicas": rótulo, não achado
+        if not ac.get("secao"):
+            ditos.append(nf)
+        ordem_atual[0] += 1
         if any(it["n0"] == nf for it in itens):
             continue                            # a máscara já diz exatamente isso
         if ac.get("secao"):
@@ -619,7 +675,7 @@ def compor(base, achados, revisar=None, tirar_dispositivos_lacuna=False):
             oid = next((it["orig_id"] for it in itens if it["orig_id"] is not None
                         and (it["n0"] == alvo or it["n0"].startswith(alvo + " "))), None)
             if oid is None:
-                sem_lugar.append(t)
+                sem_lugar.append((ordem_atual[0], t))
             else:
                 ultimo = trocar(oid, t)
             continue
@@ -649,7 +705,7 @@ def compor(base, achados, revisar=None, tirar_dispositivos_lacuna=False):
                 itens.insert(j + 1, n_it)
                 ultimo = n_it
             else:
-                sem_lugar.append(t)
+                sem_lugar.append((ordem_atual[0], t))
             continue
         oid, acao, nome = esc
         for extra in ac.get("extras") or []:
@@ -701,10 +757,11 @@ def compor(base, achados, revisar=None, tirar_dispositivos_lacuna=False):
                 if len(estr) >= 3 and _coberta(estr, nf):
                     removidas.add(it["orig_id"])
 
+    removidas |= _normais_desmentidas(ditos, itens)
     itens = [it for it in itens if not (it["orig"] and it["orig_id"] in removidas)]
     if topo:
         k = next((i for i, it in enumerate(itens) if it["t"].strip()), len(itens))
-        itens[k:k] = [novo(t, None) for t in topo]
+        itens[k:k] = [dict(novo(t, None), ordem=-1) for t in topo]
     if sem_lugar:
         k = next((i for i, it in enumerate(itens) if it["orig"] and re.match(
             r"(?:demais )?partes moles|a radiografia", it["n0"])), None)
@@ -712,5 +769,20 @@ def compor(base, achados, revisar=None, tirar_dispositivos_lacuna=False):
             k = len(itens)
             while k > 0 and not itens[k - 1]["t"].strip():
                 k -= 1
-        itens[k:k] = [novo(t, None) for t in sem_lugar]
+        itens[k:k] = [dict(novo(t, None), ordem=o) for o, t in sem_lugar]
+    if alteradas_primeiro:
+        # regra do Bruno: as frases de alteração abrem a análise (dispositivos,
+        # depois os achados na ordem ditada, depois o que a própria máscara
+        # alterada traz); as frases normais ficam abaixo, na ordem da máscara
+        normais = normais or set()
+
+        def alterada_da_mascara(it):
+            if not it["orig"] or not it["ancoravel"] or not it["t"].strip() or it["n0"] in normais:
+                return False
+            return not it["normal0"] or bool(_MARCA_ALTERACAO.search(it["n0"]))
+        ditas = sorted([it for it in itens if not it["orig"] and it["t"].strip()],
+                       key=lambda it: it.get("ordem", 0))
+        da_mascara = [it for it in itens if alterada_da_mascara(it)]
+        vistos = {id(it) for it in ditas + da_mascara}
+        itens = ditas + da_mascara + [it for it in itens if id(it) not in vistos]
     return "\n".join(linhas[:a + 1] + [it["t"] for it in itens] + linhas[f:])

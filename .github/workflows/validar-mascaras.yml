@@ -31,3 +31,5 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_rx_literal.py
       - name: Testar a fila do Radius (arquivos falsos; nome nunca pode sair)
         run: python testar_radius.py
+      - name: Testar a TC com as palavras do médico (alterações primeiro)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_tc_literal.py
