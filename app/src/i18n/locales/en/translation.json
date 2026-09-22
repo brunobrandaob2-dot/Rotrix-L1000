@@ -11,6 +11,7 @@
   },
   "sidebar": {
     "general": "General",
+    "rotrix": "Rotrix",
     "models": "Models",
     "advanced": "Advanced",
     "postProcessing": "Post Process",
