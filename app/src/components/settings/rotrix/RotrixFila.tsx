@@ -1,14 +1,19 @@
 /* eslint-disable i18next/no-literal-string */
-// Rotrix L-1000: fila do Radius. O roteador lê os arquivos de estado do Radius
-// no próprio computador e só devolve modalidade, descrição, status e laudado.
-// Nome e número de acesso nunca chegam à tela ("Paciente ••••").
+// Rotrix L-1000: fila do Radius e modo estação. O roteador lê os arquivos de
+// estado do Radius no próprio computador e só devolve modalidade, descrição,
+// situação e laudado. Nome e número de acesso nunca chegam à tela.
+// O "exame da vez" (●) decide a máscara do próximo ditado quando o perfil
+// automático está ligado; Ctrl+Alt+N passa para o próximo.
 import React, { useCallback, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { SettingsGroup } from "../../ui/SettingsGroup";
 import { SettingContainer } from "../../ui/SettingContainer";
 import { Button } from "../../ui/Button";
 import { Input } from "../../ui/Input";
 import { ToggleSwitch } from "../../ui/ToggleSwitch";
+import { ShortcutInput } from "../ShortcutInput";
+import { dica, useAtalho } from "../../../lib/utils/atalhos";
 
 interface Estudo {
   id: string;
@@ -19,6 +24,7 @@ interface Estudo {
   entrou: string;
   cabecalho: string;
   mascara: string | null;
+  feito?: boolean;
 }
 
 interface Fila {
@@ -26,6 +32,8 @@ interface Fila {
   pasta_existe?: boolean;
   itens: Estudo[];
   atual: string | null;
+  vez?: string | null;
+  escolhido?: string | null;
   perfil_automatico: boolean;
 }
 
@@ -83,6 +91,14 @@ export const RotrixFila: React.FC = () => {
     return () => window.clearInterval(t);
   }, [ler]);
 
+  // Ctrl+Alt+N (ou o atalho que você escolher) avisa aqui
+  useEffect(() => {
+    const p = listen("rotrix-proximo-exame", () => void ler());
+    return () => {
+      void p.then((un) => un());
+    };
+  }, [ler]);
+
   const salvar = async (perfil: boolean, novaPasta: string | null) => {
     setSalvando(true);
     try {
@@ -99,34 +115,116 @@ export const RotrixFila: React.FC = () => {
     }
   };
 
+  const proximo = async () => {
+    setSalvando(true);
+    try {
+      const txt = await invoke<string>("rotrix_fila_proximo");
+      const r = JSON.parse(txt) as { ok: boolean; item: Estudo | null; restam?: number };
+      setMensagem(
+        r.item
+          ? `Agora: ${r.item.descricao || r.item.modalidade}${
+              typeof r.restam === "number" ? ` · faltam ${r.restam}` : ""
+            }`
+          : "Não há mais exame pendente na fila.",
+      );
+      await ler();
+    } catch (e) {
+      setMensagem("Não consegui passar de exame: " + String(e));
+    } finally {
+      setSalvando(false);
+    }
+  };
+
+  const escolher = async (id: string) => {
+    try {
+      await invoke("rotrix_fila_escolher", { id });
+      setMensagem("");
+      await ler();
+    } catch (e) {
+      setMensagem("Não consegui escolher: " + String(e));
+    }
+  };
+
+  const marcar = async (id: string, feito: boolean) => {
+    try {
+      await invoke("rotrix_fila_feito", { id, feito });
+      await ler();
+    } catch (e) {
+      setMensagem("Não consegui marcar: " + String(e));
+    }
+  };
+
   let situacao = "lendo…";
   if (erro !== "") situacao = "roteador parado";
   else if (fila && !fila.disponivel) situacao = "leitura do Radius indisponível";
   else if (fila && fila.pasta_existe === false) situacao = "pasta do Radius não encontrada";
   else if (fila) {
-    const pendentes = fila.itens.filter((x) => !x.laudado).length;
-    situacao = `${fila.itens.length} estudo(s), ${pendentes} sem laudo`;
+    const pendentes = fila.itens.filter((x) => !x.laudado && !x.feito).length;
+    situacao = `${fila.itens.length} exame(s) na fila · ${pendentes} para laudar`;
   }
 
   const itens = (fila?.itens ?? []).slice(0, MAX_LINHAS);
+  const vez = itens.find((x) => x.id === fila?.vez) ?? null;
+
+  // teclas da tela (sem Ctrl/Alt), enquanto você não está num campo de texto
+  useAtalho("a", () => void ler());
+  useAtalho("n", () => {
+    if (!salvando && fila !== null && erro === "") void proximo();
+  });
+  useAtalho("l", () => {
+    if (vez) void marcar(vez.id, true);
+  });
 
   return (
     <SettingsGroup
       title="Fila do Radius"
       description="Lida no seu computador. Só modalidade, exame e situação aparecem aqui; o nome do paciente nunca sai do Radius."
     >
-      <SettingContainer title="Situação" description="Atualiza a cada 10 segundos." grouped={true}>
+      <SettingContainer title="Na fila agora" description="Atualiza a cada 10 segundos." grouped={true}>
         <div className="flex items-center gap-3">
           <span className="text-sm">{situacao}</span>
-          <Button variant="secondary" size="sm" onClick={() => void ler()}>
+          <Button
+            variant="secondary"
+            size="sm"
+            title={dica("Reler a fila do Radius", "a")}
+            onClick={() => void ler()}
+          >
             Atualizar
           </Button>
         </div>
       </SettingContainer>
 
+      <SettingContainer
+        title="Exame da vez"
+        description="É ele que o ditado usa quando o perfil automático está ligado."
+        grouped={true}
+      >
+        <div className="flex items-center gap-3">
+          <span className="text-sm">
+            {vez ? `${vez.modalidade} · ${vez.descricao || "sem descrição"}` : "nenhum"}
+          </span>
+          <Button
+            variant="primary"
+            size="sm"
+            disabled={salvando || fila === null || erro !== ""}
+            title={dica("Marca o exame da vez como laudado e passa ao próximo", "n")}
+            onClick={() => void proximo()}
+          >
+            Próximo exame
+          </Button>
+        </div>
+      </SettingContainer>
+      {vez && (
+        <div className="px-4 pb-2 text-xs text-mid-gray">
+          Abertura do ditado: {vez.cabecalho || "—"} · máscara: {nomeMascara(vez.mascara)}
+        </div>
+      )}
+
+      <ShortcutInput shortcutId="proximo_exame" grouped={true} />
+
       <ToggleSwitch
         label="Perfil automático (radiografia)"
-        description="Ditado de RX sem o nome do exame usa o exame aberto no Radius: “opacidade na base direita” vira radiografia do tórax com esse achado."
+        description="Ditado de RX sem o nome do exame usa o exame da vez: “opacidade na base direita” vira radiografia do tórax com esse achado."
         descriptionMode="inline"
         grouped={true}
         checked={fila?.perfil_automatico ?? false}
@@ -150,6 +248,7 @@ export const RotrixFila: React.FC = () => {
           <Button
             variant="secondary"
             size="sm"
+            title={dica("Salvar a pasta do Radius")}
             onClick={() => void salvar(fila?.perfil_automatico ?? false, pasta)}
           >
             Salvar
@@ -160,31 +259,49 @@ export const RotrixFila: React.FC = () => {
 
       <div className="px-4 pb-4">
         {itens.length === 0 ? (
-          <p className="text-sm text-mid-gray">Nenhum estudo na fila.</p>
+          <p className="text-sm text-mid-gray">Nenhum exame na fila.</p>
         ) : (
           <ul className="divide-y divide-mid-gray/20 text-sm">
             {itens.map((x) => {
-              const aberto = fila?.atual === x.id;
-              const marca = x.laudado ? "✓" : aberto ? "●" : "○";
+              const daVez = fila?.vez === x.id;
+              const pronto = Boolean(x.laudado || x.feito);
+              const marca = pronto ? "✓" : daVez ? "●" : "○";
+              const titulo = pronto ? "laudado" : daVez ? "exame da vez" : "na fila";
               return (
                 <li
                   key={x.id}
-                  className={`flex items-center gap-3 py-1.5 ${x.laudado ? "opacity-60" : ""}`}
+                  className={`flex items-center gap-3 py-1.5 ${pronto ? "opacity-60" : ""} ${
+                    daVez ? "font-semibold" : ""
+                  }`}
                   title={x.cabecalho}
                 >
-                  <span
-                    className="w-4 shrink-0 text-center"
-                    aria-label={x.laudado ? "laudado" : aberto ? "estudo da vez" : "na fila"}
-                    title={x.laudado ? "laudado" : aberto ? "estudo da vez" : "na fila"}
+                  <button
+                    type="button"
+                    className="w-4 shrink-0 text-center cursor-pointer bg-transparent border-0 p-0 leading-none"
+                    aria-label={titulo}
+                    title={pronto ? "marcar como não laudado" : "tornar este o exame da vez"}
+                    onClick={() => void (pronto ? marcar(x.id, false) : escolher(x.id))}
                   >
                     {marca}
-                  </span>
+                  </button>
                   <span className="w-10 shrink-0 text-xs font-semibold">{x.modalidade}</span>
                   <span className="flex-1 min-w-0 truncate">{x.descricao || "—"}</span>
                   <span className="shrink-0 whitespace-nowrap text-xs text-mid-gray">Paciente ••••</span>
                   <span className="w-28 shrink-0 truncate text-xs text-mid-gray">{nomeMascara(x.mascara)}</span>
-                  <span className="w-20 shrink-0 truncate text-right text-xs text-mid-gray">{statusPt(x.status)}</span>
+                  <span className="w-20 shrink-0 truncate text-right text-xs text-mid-gray">
+                    {statusPt(x.status)}
+                  </span>
                   <span className="w-12 shrink-0 text-right text-xs text-mid-gray">{hora(x.entrou)}</span>
+                  {!pronto && (
+                    <button
+                      type="button"
+                      className="shrink-0 text-xs text-mid-gray underline cursor-pointer bg-transparent border-0 p-0"
+                      title={dica("Marcar como laudado por você", daVez ? "l" : undefined)}
+                      onClick={() => void marcar(x.id, true)}
+                    >
+                      laudei
+                    </button>
+                  )}
                 </li>
               );
             })}

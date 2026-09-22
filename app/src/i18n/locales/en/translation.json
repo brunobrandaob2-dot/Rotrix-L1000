@@ -180,6 +180,10 @@
           "transcribe_with_post_process": {
             "name": "Post-Processing Hotkey",
             "description": "Optional: A dedicated hotkey that always applies AI post-processing to your transcription."
+          },
+          "proximo_exame": {
+            "name": "Next exam",
+            "description": "Moves to the next exam in the Radius queue (station mode)."
           }
         },
         "errors": {

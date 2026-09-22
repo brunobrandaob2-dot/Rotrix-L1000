@@ -9,6 +9,11 @@ import { Textarea } from "../../ui/Textarea";
 import { RotrixIA } from "./RotrixIA";
 import { RotrixMascaras } from "./RotrixMascaras";
 import { RotrixFila } from "./RotrixFila";
+import { RotrixDitado } from "./RotrixDitado";
+import { RotrixCorrigir } from "./RotrixCorrigir";
+import { RotrixAtualizacao } from "./RotrixAtualizacao";
+import { RotrixPrimeirosPassos } from "./RotrixPrimeirosPassos";
+import { RotrixPerfil } from "./RotrixPerfil";
 import { ThemeSelector } from "../ThemeSelector";
 import { SeletorCores } from "./SeletorCores";
 
@@ -119,7 +124,11 @@ export const RotrixSettings: React.FC = () => {
         </SettingContainer>
       </SettingsGroup>
 
+      <RotrixPrimeirosPassos />
+
       <RotrixFila />
+
+      <RotrixDitado />
 
       <SettingsGroup
         title="Prompt adicionado no processamento de todos os laudos"
@@ -165,6 +174,12 @@ export const RotrixSettings: React.FC = () => {
       <RotrixIA />
 
       <RotrixMascaras />
+
+      <RotrixCorrigir />
+
+      <RotrixPerfil />
+
+      <RotrixAtualizacao />
     </div>
   );
 };

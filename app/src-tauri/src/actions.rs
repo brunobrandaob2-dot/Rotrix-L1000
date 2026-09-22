@@ -911,6 +911,37 @@ impl ShortcutAction for CancelAction {
 }
 
 // Test Action
+// Modo estacao: Ctrl+Alt+N passa para o proximo exame da fila do Radius.
+// O exame da vez decide a mascara do proximo ditado (perfil automatico).
+struct ProximoExameAction;
+
+impl ShortcutAction for ProximoExameAction {
+    fn start(&self, app: &AppHandle, _binding_id: &str, _shortcut_str: &str) {
+        let app = app.clone();
+        std::thread::spawn(move || {
+            let resposta = crate::rotrix::rotrix_fila_proximo();
+            match &resposta {
+                Ok(corpo) => log::info!("proximo exame: {}", corpo),
+                Err(e) => log::warn!("proximo exame falhou: {}", e),
+            }
+            let carga = match resposta {
+                Ok(corpo) => serde_json::from_str::<serde_json::Value>(&corpo)
+                    .unwrap_or_else(|_| serde_json::json!({ "ok": false })),
+                Err(e) => serde_json::json!({ "ok": false, "erro": e }),
+            };
+            if carga.get("ok").and_then(|v| v.as_bool()).unwrap_or(false) {
+                crate::audio_feedback::play_feedback_sound(
+                    &app,
+                    crate::audio_feedback::SoundType::Start,
+                );
+            }
+            let _ = app.emit("rotrix-proximo-exame", carga);
+        });
+    }
+
+    fn stop(&self, _app: &AppHandle, _binding_id: &str, _shortcut_str: &str) {}
+}
+
 struct TestAction;
 
 impl ShortcutAction for TestAction {
@@ -949,6 +980,10 @@ pub static ACTION_MAP: Lazy<HashMap<String, Arc<dyn ShortcutAction>>> = Lazy::ne
     map.insert(
         "cancel".to_string(),
         Arc::new(CancelAction) as Arc<dyn ShortcutAction>,
+    );
+    map.insert(
+        "proximo_exame".to_string(),
+        Arc::new(ProximoExameAction) as Arc<dyn ShortcutAction>,
     );
     map.insert(
         "test".to_string(),

@@ -271,6 +271,35 @@ fn http_get(caminho: &str) -> Option<String> {
     Some(corpo.trim().to_string())
 }
 
+/// POST simples no roteador local (corpo JSON). Devolve o corpo da resposta.
+/// Espera mais que o GET: importar perfil regera a base de mascaras.
+fn http_post(caminho: &str, corpo: &str, espera_ms: u64) -> Result<String, String> {
+    use std::io::{Read, Write};
+    let addr: SocketAddr = "127.0.0.1:8123"
+        .parse()
+        .map_err(|_| "endereco invalido".to_string())?;
+    let mut s = TcpStream::connect_timeout(&addr, Duration::from_millis(600))
+        .map_err(|_| "roteador parado".to_string())?;
+    s.set_read_timeout(Some(Duration::from_millis(espera_ms)))
+        .map_err(|e| e.to_string())?;
+    let pedido = format!(
+        "POST {caminho} HTTP/1.0\r\nHost: 127.0.0.1\r\nContent-Type: application/json\r\n\
+         Content-Length: {}\r\n\r\n{corpo}",
+        corpo.as_bytes().len()
+    );
+    s.write_all(pedido.as_bytes()).map_err(|e| e.to_string())?;
+    let mut bytes = Vec::new();
+    s.read_to_end(&mut bytes).map_err(|e| e.to_string())?;
+    let resp = String::from_utf8_lossy(&bytes).to_string();
+    let (cab, body) = resp
+        .split_once("\r\n\r\n")
+        .ok_or_else(|| "resposta incompleta do roteador".to_string())?;
+    if !cab.starts_with("HTTP/1.0 200") && !cab.starts_with("HTTP/1.1 200") {
+        return Err(format!("roteador respondeu: {}", cab.lines().next().unwrap_or("")));
+    }
+    Ok(body.trim().to_string())
+}
+
 /// GET http://127.0.0.1:8123/v1/versao -> {"versao", "gatilhos", "pasta"}.
 fn consultar_versao() -> Option<serde_json::Value> {
     serde_json::from_str(&http_get("/v1/versao")?).ok()
@@ -675,6 +704,205 @@ pub async fn rotrix_mascaras(
 #[tauri::command]
 pub fn rotrix_fila() -> Result<String, String> {
     http_get("/v1/fila").ok_or_else(|| "roteador parado".to_string())
+}
+
+/// Modo estacao: passa para o proximo exame da fila (Ctrl+Alt+N).
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_fila_proximo() -> Result<String, String> {
+    http_post("/v1/fila/proximo", "{}", 4000)
+}
+
+/// Modo estacao: escolhe na mao o exame da vez.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_fila_escolher(id: String) -> Result<String, String> {
+    http_post(
+        "/v1/fila/escolher",
+        &serde_json::json!({ "id": id }).to_string(),
+        4000,
+    )
+}
+
+/// Modo estacao: marca (ou desmarca) um exame como laudado por voce.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_fila_feito(id: String, feito: bool) -> Result<String, String> {
+    http_post(
+        "/v1/fila/feito",
+        &serde_json::json!({ "id": id, "feito": feito }).to_string(),
+        4000,
+    )
+}
+
+/// Perfil: grava num .rotrix.zip as suas mascaras, o ouvido.tsv e os ajustes.
+/// A chave de IA nunca entra; os laudos de estilo so com incluir_estilo.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_perfil_exportar(destino: String, incluir_estilo: bool) -> Result<String, String> {
+    http_post(
+        "/v1/perfil/exportar",
+        &serde_json::json!({ "destino": destino, "incluir_estilo": incluir_estilo }).to_string(),
+        60_000,
+    )
+}
+
+/// Perfil: le um .rotrix.zip. modo = "juntar" ou "substituir". Regera a base.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_perfil_importar(arquivo: String, modo: String) -> Result<String, String> {
+    http_post(
+        "/v1/perfil/importar",
+        &serde_json::json!({ "arquivo": arquivo, "modo": modo }).to_string(),
+        900_000,
+    )
+}
+
+/// Correcoes do medico, escritas na caixa de texto do app.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_correcao_aplicar(
+    texto: String,
+    laudo: String,
+    usar_ia: bool,
+) -> Result<String, String> {
+    http_post(
+        "/v1/correcao",
+        &serde_json::json!({ "texto": texto, "laudo": laudo, "usar_ia": usar_ia }).to_string(),
+        90_000,
+    )
+}
+
+/// As ultimas regras que voce criou (para conferir e desfazer).
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_correcao_listar() -> Result<String, String> {
+    http_get("/v1/correcao").ok_or_else(|| "roteador parado".to_string())
+}
+
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_correcao_desfazer(id: String) -> Result<String, String> {
+    http_post(
+        "/v1/correcao/desfazer",
+        &serde_json::json!({ "id": id }).to_string(),
+        10_000,
+    )
+}
+
+/// Versao publicada no GitHub ("ultima"), para o app avisar e baixar sozinho.
+/// Sem token e sem login: e uma Release publica.
+const RELEASE_ULTIMA: &str =
+    "https://api.github.com/repos/brunobrandaob2-dot/Rotrix-L1000/releases/tags/ultima";
+
+#[derive(serde::Serialize, specta::Type)]
+pub struct VersaoPublicada {
+    /// commit do app instalado (vazio quando compilado fora do CI)
+    pub instalada: String,
+    /// commit da versao publicada
+    pub publicada: String,
+    pub nome: String,
+    pub quando: String,
+    pub link: String,
+    pub tem_nova: bool,
+}
+
+#[specta::specta]
+#[tauri::command]
+pub async fn rotrix_versao_publicada() -> Result<VersaoPublicada, String> {
+    let instalada = option_env!("ROTRIX_COMMIT").unwrap_or("").to_string();
+    let cliente = reqwest::Client::builder()
+        .timeout(Duration::from_secs(15))
+        .user_agent("Rotrix-L1000")
+        .build()
+        .map_err(|e| e.to_string())?;
+    let v: serde_json::Value = cliente
+        .get(RELEASE_ULTIMA)
+        .header("Accept", "application/vnd.github+json")
+        .send()
+        .await
+        .map_err(|e| format!("sem internet ou GitHub fora do ar: {e}"))?
+        .json()
+        .await
+        .map_err(|e| e.to_string())?;
+    let publicada = v
+        .get("target_commitish")
+        .and_then(|x| x.as_str())
+        .unwrap_or("")
+        .to_string();
+    let link = v
+        .get("assets")
+        .and_then(|a| a.as_array())
+        .and_then(|a| a.iter().find(|x| {
+            x.get("name")
+                .and_then(|n| n.as_str())
+                .map(|n| n.ends_with(".exe"))
+                .unwrap_or(false)
+        }))
+        .and_then(|x| x.get("browser_download_url"))
+        .and_then(|x| x.as_str())
+        .unwrap_or("")
+        .to_string();
+    let tem_nova = !publicada.is_empty() && !instalada.is_empty() && publicada != instalada;
+    Ok(VersaoPublicada {
+        instalada,
+        publicada,
+        nome: v
+            .get("name")
+            .and_then(|x| x.as_str())
+            .unwrap_or("")
+            .to_string(),
+        quando: v
+            .get("published_at")
+            .and_then(|x| x.as_str())
+            .unwrap_or("")
+            .to_string(),
+        link,
+        tem_nova,
+    })
+}
+
+/// Primeiros passos: o que ja esta pronto nesta maquina.
+#[derive(serde::Serialize, specta::Type)]
+pub struct PrimeirosPassos {
+    pub roteador: bool,
+    pub modelo: bool,
+    pub radius: bool,
+    pub chave_ia: bool,
+    pub mascaras: u32,
+}
+
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_primeiros_passos(app: AppHandle) -> PrimeirosPassos {
+    let versao = consultar_versao();
+    let mascaras = versao
+        .as_ref()
+        .and_then(|v| v.get("gatilhos"))
+        .and_then(|x| x.as_u64())
+        .unwrap_or(0) as u32;
+    let fila: Option<serde_json::Value> =
+        http_get("/v1/fila").and_then(|c| serde_json::from_str(&c).ok());
+    let ia: Option<serde_json::Value> =
+        http_get("/v1/ia").and_then(|c| serde_json::from_str(&c).ok());
+    let chave_ia = ia
+        .as_ref()
+        .and_then(|v| v.get("chaves"))
+        .and_then(|x| x.as_object())
+        .map(|o| o.values().any(|v| v.as_bool().unwrap_or(false)))
+        .unwrap_or(false);
+    let s = settings::get_settings(&app);
+    PrimeirosPassos {
+        roteador: versao.is_some(),
+        modelo: !s.selected_model.is_empty(),
+        radius: fila
+            .as_ref()
+            .and_then(|v| v.get("pasta_existe"))
+            .and_then(|x| x.as_bool())
+            .unwrap_or(false),
+        chave_ia,
+        mascaras,
+    }
 }
 
 /// Grava no config.json o perfil automatico e, se vier, a pasta do Radius.
