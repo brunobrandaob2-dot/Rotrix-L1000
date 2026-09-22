@@ -1,0 +1,15 @@
+# gatilhos: raio x de clavicula | raio x da clavicula | rx de clavicula | rx da clavicula | radiografia de clavicula | radiografia da clavicula | raio x de clavicula normal | rx de clavicula normal
+# categoria: msk
+# modalidade: rx
+# regiao: clavicula
+# tipo_mascara: normal
+**RADIOGRAFIA DA CLAVÍCULA {LADO_F|DIREITA/ESQUERDA}**
+
+**TÉCNICA:**  incidências anteroposterior e anteroposterior com inclinação cranial.
+
+**ANÁLISE:**
+Clavícula com contornos corticais regulares.
+Não há sinais de fraturas ou luxações.
+Articulações acromioclavicular e esternoclavicular sem alterações nas porções incluídas.
+Densidade óssea preservada.
+Partes moles sem alterações.

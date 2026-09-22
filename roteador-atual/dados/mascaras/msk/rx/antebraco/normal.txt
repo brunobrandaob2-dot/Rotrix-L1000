@@ -1,0 +1,16 @@
+# gatilhos: raio x de antebraco | raio x do antebraco | rx de antebraco | rx do antebraco | radiografia de antebraco | radiografia do antebraco | raio x de antebraco normal | rx de antebraco normal
+# categoria: msk
+# modalidade: rx
+# regiao: antebraco
+# tipo_mascara: normal
+**RADIOGRAFIA DO ANTEBRAÇO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Alinhamento preservado.
+Rádio e ulna com contornos corticais regulares.
+Não há sinais de fraturas ou lesões ósseas focais.
+Articulações do cotovelo e do punho sem alterações nas porções incluídas.
+Densidade óssea preservada.
+Partes moles sem alterações.

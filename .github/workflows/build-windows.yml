@@ -143,6 +143,8 @@ jobs:
           if ($saida -match "importar_usuario indispon") { throw "construir_base nao achou o importador no Python embutido" }
           ..\python\python.exe importar_usuario.py listar --json
           if ($LASTEXITCODE -ne 0) { throw "importador falhou no Python embutido" }
+          ..\python\python.exe testar_rx_literal.py
+          if ($LASTEXITCODE -ne 0) { throw "RX literal falhou no Python embutido" }
           Get-ChildItem -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
 
       # ---------- App ----------

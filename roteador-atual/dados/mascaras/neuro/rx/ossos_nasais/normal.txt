@@ -1,0 +1,14 @@
+# gatilhos: raio x de ossos nasais | raio x dos ossos nasais | rx de ossos nasais | rx dos ossos nasais | radiografia de ossos nasais | radiografia dos ossos nasais | raio x de nariz | raio x do nariz | rx de nariz | rx do nariz | raio x de ossos proprios do nariz | raio x dos ossos proprios do nariz | rx de ossos proprios do nariz
+# categoria: neuro
+# modalidade: rx
+# regiao: ossos_nasais
+# tipo_mascara: normal
+**RADIOGRAFIA DOS OSSOS NASAIS**
+
+**TÉCNICA:**  incidência em perfil.
+
+**ANÁLISE:**
+Ossos nasais com contornos regulares.
+Não há sinais de fraturas.
+Espinha nasal anterior sem alterações.
+Partes moles sem alterações.

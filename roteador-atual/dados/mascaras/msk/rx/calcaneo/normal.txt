@@ -1,0 +1,16 @@
+# gatilhos: raio x de calcaneo | raio x do calcaneo | rx de calcaneo | rx do calcaneo | radiografia de calcaneo | radiografia do calcaneo | raio x de calcaneo axial | rx de calcaneo axial | raio x de calcaneo normal | rx de calcaneo normal
+# categoria: msk
+# modalidade: rx
+# regiao: calcaneo
+# tipo_mascara: normal
+**RADIOGRAFIA DO CALCÂNEO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências perfil e axial.
+
+**ANÁLISE:**
+Calcâneo com contornos corticais regulares.
+Ângulo de Böhler preservado.
+Não há sinais de fraturas.
+Articulações subtalar e calcaneocubóidea sem alterações.
+Densidade óssea preservada.
+Partes moles sem alterações.

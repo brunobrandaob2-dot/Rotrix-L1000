@@ -1,0 +1,16 @@
+# gatilhos: raio x de coluna total | raio x da coluna total | rx de coluna total | rx da coluna total | radiografia de coluna total | radiografia da coluna total | raio x panoramico de coluna | raio x de panoramica de coluna | raio x de panoramica da coluna | rx panoramica de coluna | rx de panoramica de coluna | radiografia panoramica da coluna | radiografia panoramica de coluna | escanometria de coluna | raio x de coluna para escoliose | rx de coluna para escoliose | radiografia de coluna para escoliose | raio x de coluna | raio x da coluna | rx de coluna | rx da coluna | radiografia de coluna | radiografia da coluna
+# categoria: msk
+# modalidade: rx
+# regiao: coluna_total
+# tipo_mascara: normal
+**RADIOGRAFIA PANORÂMICA DA COLUNA**
+
+**TÉCNICA:**  incidências panorâmicas anteroposterior e perfil, em ortostase.
+
+**ANÁLISE:**
+Alinhamento vertebral preservado, sem desvios laterais significativos.
+Curvaturas fisiológicas preservadas no perfil.
+Corpos vertebrais com altura preservada.
+Espaços discais preservados.
+Cristas ilíacas simétricas.
+Densidade óssea preservada.

@@ -1,0 +1,14 @@
+# gatilhos: raio x de articulacoes sacroiliacas | raio x das articulacoes sacroiliacas | rx de articulacoes sacroiliacas | rx das articulacoes sacroiliacas | radiografia de articulacoes sacroiliacas | radiografia das articulacoes sacroiliacas | raio x de sacroiliacas | raio x das sacroiliacas | rx de sacroiliacas | rx das sacroiliacas | radiografia das sacroiliacas
+# categoria: msk
+# modalidade: rx
+# regiao: sacroiliacas
+# tipo_mascara: normal
+**RADIOGRAFIA DAS ARTICULAÇÕES SACROILÍACAS**
+
+**TÉCNICA:**  incidências anteroposterior e oblíquas.
+
+**ANÁLISE:**
+Articulações sacroilíacas com espaços articulares preservados e contornos regulares.
+Não há erosões ou esclerose subcondral.
+Densidade óssea preservada.
+Partes moles sem alterações.

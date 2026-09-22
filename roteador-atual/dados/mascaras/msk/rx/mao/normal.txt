@@ -1,4 +1,4 @@
-# gatilhos: raio x de mao | raio x da mao | rx de mao | rx da mao | radiografia de mao | radiografia da mao | raio x de mao normal | rx de mao normal | rx da mao normal | radiografia de mao normal | rx mao normal | raio x de mao sem alteracoes | radiografia da mao sem alteracoes
+# gatilhos: raio x de mao | raio x da mao | rx de mao | rx da mao | radiografia de mao | radiografia da mao | raio x de mao normal | rx de mao normal | rx da mao normal | radiografia de mao normal | rx mao normal | raio x de mao sem alteracoes | radiografia da mao sem alteracoes | raio x das maos | raio x de maos | rx das maos | rx de maos | radiografia das maos | radiografia de maos | raio x de ambas as maos
 # categoria: msk
 # modalidade: rx
 # regiao: mao

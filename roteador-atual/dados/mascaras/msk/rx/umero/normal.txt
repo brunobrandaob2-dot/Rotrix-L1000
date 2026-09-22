@@ -1,0 +1,16 @@
+# gatilhos: raio x de umero | raio x do umero | rx de umero | rx do umero | radiografia de umero | radiografia do umero | raio x de braco | raio x do braco | rx de braco | rx do braco | radiografia do braco | raio x de umero normal | rx de umero normal
+# categoria: msk
+# modalidade: rx
+# regiao: umero
+# tipo_mascara: normal
+**RADIOGRAFIA DO ÚMERO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Alinhamento preservado.
+Úmero com contornos corticais regulares.
+Não há sinais de fraturas ou lesões ósseas focais.
+Articulações do ombro e do cotovelo sem alterações nas porções incluídas.
+Densidade óssea preservada.
+Partes moles sem alterações.

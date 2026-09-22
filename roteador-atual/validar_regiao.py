@@ -159,10 +159,13 @@ def main(pastas):
                     erros.append(f"{tag}: conclusão normal deve conter 'sem alterações significativas'")
         tc = "/tc/" in "/" + rel + "/" or "/angiotc/" in "/" + rel + "/"
         minimo_c, minimo_a, minimo_b, minimo_f = (2, 2, 4, 15) if tc else (1, 1, 3, 10)
-        if n_cron < minimo_c: avisos.append(f"{rel}: só {n_cron} máscara(s) crônica(s) (mínimo {minimo_c})")
-        if n_agu < minimo_a: avisos.append(f"{rel}: só {n_agu} máscara(s) aguda(s) (mínimo {minimo_a})")
-        if n_blk < minimo_b: avisos.append(f"{rel}: só {n_blk} bloco(s) (mínimo {minimo_b})")
-        if n_fr < minimo_f: avisos.append(f"{rel}: só {n_fr} frase(s) (mínimo {minimo_f})")
+        if rx and n_cron + n_agu + n_blk + n_fr == 0:
+            # radiografia so com a normal: o RX literal poe os achados ditados
+            avisos.append(f"{rel}: só a máscara normal (achados entram pelo RX literal)")
+        elif n_cron < minimo_c: avisos.append(f"{rel}: só {n_cron} máscara(s) crônica(s) (mínimo {minimo_c})")
+        if (n_cron + n_agu + n_blk + n_fr or not rx) and n_agu < minimo_a: avisos.append(f"{rel}: só {n_agu} máscara(s) aguda(s) (mínimo {minimo_a})")
+        if (n_cron + n_agu + n_blk + n_fr or not rx) and n_blk < minimo_b: avisos.append(f"{rel}: só {n_blk} bloco(s) (mínimo {minimo_b})")
+        if (n_cron + n_agu + n_blk + n_fr or not rx) and n_fr < minimo_f: avisos.append(f"{rel}: só {n_fr} frase(s) (mínimo {minimo_f})")
         print(f"  {rel}: normal + {n_cron} crônica(s) + {n_agu} aguda(s) + {n_blk} bloco(s) + {n_fr} frase(s)")
 
     for a in avisos: print("  AVISO:", a)

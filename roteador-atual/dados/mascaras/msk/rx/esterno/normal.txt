@@ -1,0 +1,14 @@
+# gatilhos: raio x de esterno | raio x do esterno | rx de esterno | rx do esterno | radiografia de esterno | radiografia do esterno
+# categoria: msk
+# modalidade: rx
+# regiao: esterno
+# tipo_mascara: normal
+**RADIOGRAFIA DO ESTERNO**
+
+**TÉCNICA:**  incidências perfil e oblíqua.
+
+**ANÁLISE:**
+Esterno com contornos corticais regulares e alinhamento preservado.
+Não há sinais de fraturas.
+Articulações esternoclaviculares sem alterações nas porções incluídas.
+Partes moles sem alterações.

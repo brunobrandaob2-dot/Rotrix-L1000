@@ -1,0 +1,16 @@
+# gatilhos: raio x de femur | raio x do femur | rx de femur | rx do femur | radiografia de femur | radiografia do femur | raio x de coxa | raio x da coxa | rx de coxa | rx da coxa | radiografia da coxa | raio x de femur normal | rx de femur normal
+# categoria: msk
+# modalidade: rx
+# regiao: femur
+# tipo_mascara: normal
+**RADIOGRAFIA DO FÊMUR {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Alinhamento preservado.
+Fêmur com contornos corticais regulares.
+Não há sinais de fraturas ou lesões ósseas focais.
+Articulações do quadril e do joelho sem alterações nas porções incluídas.
+Densidade óssea preservada.
+Partes moles sem alterações.

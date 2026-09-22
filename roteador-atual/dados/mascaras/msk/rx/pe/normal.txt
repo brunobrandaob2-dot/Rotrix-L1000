@@ -1,4 +1,4 @@
-# gatilhos: raio x de pe | raio x do pe | rx de pe | rx do pe | radiografia de pe | radiografia do pe | raio x de pe normal | rx de pe normal | radiografia de pe normal | rx pe normal | rx de pe com carga | raio x de pe com carga | radiografia de pe com carga | rx de pe com carga normal | rx de pe sem carga
+# gatilhos: raio x de pe | raio x do pe | rx de pe | rx do pe | radiografia de pe | radiografia do pe | raio x de pe normal | rx de pe normal | radiografia de pe normal | rx pe normal | rx de pe com carga | raio x de pe com carga | radiografia de pe com carga | rx de pe com carga normal | rx de pe sem carga | raio x dos pes | raio x de pes | rx dos pes | rx de pes | radiografia dos pes | radiografia de pes | raio x de ambos os pes
 # categoria: msk
 # modalidade: rx
 # regiao: pe

@@ -1,4 +1,4 @@
-# gatilhos: raio x de torax no leito | rx de torax no leito | radiografia de torax no leito | rx torax leito | raio x de torax portatil | rx de torax portatil | rx de torax ap no leito | raio x de torax com dispositivos | rx de torax de uti
+# gatilhos: raio x de torax no leito | rx de torax no leito | radiografia de torax no leito | rx torax leito | raio x de torax portatil | rx de torax portatil | rx de torax ap no leito | raio x de torax com dispositivos | rx de torax de uti | raio x de torax na uti | rx de torax na uti | raio x de torax a beira do leito | raio x de torax realizado no leito | rx de torax realizado no leito | radiografia de torax realizada no leito | raio x de torax em ap no leito
 # categoria: medicina_interna
 # modalidade: rx
 # regiao: torax

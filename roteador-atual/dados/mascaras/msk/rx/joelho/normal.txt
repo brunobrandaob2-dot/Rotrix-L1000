@@ -1,4 +1,4 @@
-# gatilhos: raio x de joelho | raio x do joelho | rx de joelho | rx do joelho | radiografia de joelho | radiografia do joelho | raio x de joelho normal | rx de joelho normal | rx joelho normal | radiografia de joelho normal | raio x de joelho sem alteracoes | rx joelho | raio x de joelho ap e perfil | raio x de joelho com axial de patela
+# gatilhos: raio x de joelho | raio x do joelho | rx de joelho | rx do joelho | radiografia de joelho | radiografia do joelho | raio x de joelho normal | rx de joelho normal | rx joelho normal | radiografia de joelho normal | raio x de joelho sem alteracoes | rx joelho | raio x de joelho ap e perfil | raio x de joelho com axial de patela | raio x de patela | raio x da patela | rx de patela | rx da patela | raio x de axial de patela | raio x axial de patela | rx de axial de patela
 # categoria: msk
 # modalidade: rx
 # regiao: joelho

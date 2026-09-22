@@ -1,0 +1,16 @@
+# gatilhos: raio x de sacro e coccix | raio x do sacro e coccix | rx de sacro e coccix | rx do sacro e coccix | radiografia de sacro e coccix | radiografia do sacro e coccix | raio x de sacro | raio x do sacro | rx de sacro | raio x de coccix | raio x do coccix | rx de coccix | rx do coccix
+# categoria: msk
+# modalidade: rx
+# regiao: sacro_coccix
+# tipo_mascara: normal
+**RADIOGRAFIA DO SACRO E CÓCCIX**
+
+**TÉCNICA:**  incidências anteroposterior e perfil.
+
+**ANÁLISE:**
+Alinhamento sacrococcígeo preservado.
+Sacro e cóccix com contornos corticais regulares.
+Não há sinais de fraturas.
+Articulações sacroilíacas preservadas.
+Densidade óssea preservada.
+Partes moles sem alterações.
