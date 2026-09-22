@@ -25,7 +25,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-22.2"
+VERSAO = "2026-09-22.3"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -48,23 +48,34 @@ class Banco:
         self.caminho = caminho
         self.lock = threading.Lock()
         self.itens = []          # (tipo, gatilho_norm, titulo, texto)
+        self.meta = {}
         self.carregar()
     def carregar(self):
+        """Lê a base. Se a leitura falhar (arquivo sendo refeito, vazio, corrompido),
+        mantém o que já estava carregado: o ditado nunca fica sem banco."""
         with self.lock:
-            self.itens = []
-            self.meta = {}           # titulo -> (categoria, modalidade, regiao, subtipo)
             if not os.path.exists(self.caminho):
                 print("AVISO: base.sqlite nao encontrado. Rode construir_base.py", file=sys.stderr)
                 return
-            self.mtime = os.path.getmtime(self.caminho)
-            con = sqlite3.connect(self.caminho)
             try:
-                rows = con.execute("SELECT tipo, gatilho_norm, titulo, texto, secao, conclusao, "
-                                   "categoria, modalidade, regiao, subtipo FROM entradas").fetchall()
-            except sqlite3.OperationalError:     # base antiga, sem metadados
-                rows = [tuple(r) + ("", "", "", "") for r in con.execute(
-                    "SELECT tipo, gatilho_norm, titulo, texto, secao, conclusao FROM entradas")]
-            con.close()
+                mtime = os.path.getmtime(self.caminho)
+                con = sqlite3.connect("file:%s?mode=ro" % self.caminho.replace("\\", "/"), uri=True)
+                try:
+                    try:
+                        rows = con.execute("SELECT tipo, gatilho_norm, titulo, texto, secao, conclusao, "
+                                           "categoria, modalidade, regiao, subtipo FROM entradas").fetchall()
+                    except sqlite3.OperationalError:     # base antiga, sem metadados
+                        rows = [tuple(r) + ("", "", "", "") for r in con.execute(
+                            "SELECT tipo, gatilho_norm, titulo, texto, secao, conclusao FROM entradas")]
+                finally:
+                    con.close()
+            except (sqlite3.Error, OSError) as e:
+                print("AVISO: base.sqlite ilegível (%s); mantendo a base anterior" % e, file=sys.stderr)
+                return
+            if not rows and self.itens:
+                print("AVISO: base.sqlite vazia; mantendo a base anterior", file=sys.stderr)
+                return
+            itens, meta = [], {}     # titulo -> (categoria, modalidade, regiao, subtipo)
             prio = {"mascara": 0, "achado": 1, "adendo": 2, "bloco": 3, "frase": 4}
             rows.sort(key=lambda r: prio.get(r[0], 5))      # sort estavel
             textos = {}
@@ -74,15 +85,16 @@ class Banco:
             for r in rows:
                 if not r[3]:            # forma curta gerada: o texto é o da máscara
                     r = (r[0], r[1], r[2], textos.get(r[2], "")) + tuple(r[4:])
-                self.itens.append(tuple(r[:6]))
-                self.meta.setdefault(r[2], tuple(x or "" for x in r[6:10]))
+                itens.append(tuple(r[:6]))
+                meta.setdefault(r[2], tuple(x or "" for x in r[6:10]))
+            self.itens, self.meta, self.mtime = itens, meta, mtime
             print(f"base carregada: {len(self.itens)} gatilhos", flush=True)
     def atualizada(self):
         """Recarrega sozinho se a base.sqlite foi trocada no disco."""
         try:
             if os.path.getmtime(self.caminho) != getattr(self, "mtime", None):
                 self.carregar()
-        except OSError:
+        except Exception:
             pass
     def buscar(self, consulta_norm, tipo=None):
         tit, txt, score, _g = self.buscar2(consulta_norm, tipo)
@@ -160,8 +172,11 @@ BANCO = Banco(BASE)
 
 def _lado(n):
     if re.search(r"\bbilatera", n): return "bilateral"
-    if re.search(r"\bdireit", n):   return "direito"
-    if re.search(r"\besquerd", n):  return "esquerdo"
+    d, e = re.search(r"\bdireit", n), re.search(r"\besquerd", n)
+    if d and e:
+        return None          # os dois lados no mesmo trecho: lacuna visível, nunca chute
+    if d: return "direito"
+    if e: return "esquerdo"
     return None
 
 def _lobo(n):
@@ -512,7 +527,7 @@ def _config():
     try:
         mt = os.path.getmtime(p)
         if mt != _CFG["mtime"]:
-            _CFG["dados"] = json.load(open(p, encoding="utf-8"))
+            _CFG["dados"] = json.load(open(p, encoding="utf-8-sig"))
             _CFG["mtime"] = mt
     except Exception:
         pass
@@ -826,9 +841,12 @@ def formar_laudo(resto, com_ia):
         return texto, "formar:" + origem
     if not ativa:
         return texto, "formar:" + origem + "+ia_desligada"
-    c = nuvem.config()
-    pedido = "LAUDO NA TELA:\n" + texto.replace("**", "")
-    novo, o2 = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000)
+    try:
+        c = nuvem.config()
+        pedido = "LAUDO NA TELA:\n" + texto.replace("**", "")
+        novo, o2 = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000)
+    except Exception as e:
+        return texto, "nuvem_indisponivel_local:erro_%s" % type(e).__name__
     if novo and o2 == "nuvem":
         return formato.padronizar(novo), "nuvem_formar"
     if novo and o2 in ("nuvem_bloqueada", "nuvem_teto"):
@@ -980,7 +998,7 @@ def rotear(ditado):
             # "desvio lateral da coluna, com convexidade para a esquerda": o trecho
             # que so qualifica o achado anterior (lado, medida, nivel) vai para ele
             blocos, orfaos = _juntar_qualificadores(restantes, blocos, orfaos)
-            base = preencher(txt, bruto, None)
+            base = preencher(txt, bruto, ctx)
             if blocos or orfaos:
                 texto = montar(base, blocos, ctx)
                 if orfaos:
@@ -1182,8 +1200,11 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         t0 = time.time()
-        BANCO.atualizada()
         ditado = ""
+        try:
+            BANCO.atualizada()
+        except Exception as e:
+            print("base: falha ao recarregar:", e, flush=True)
         try:
             n = int(self.headers.get("Content-Length") or 0)
             body = json.loads(self.rfile.read(n).decode("utf-8") or "{}")
@@ -1230,10 +1251,12 @@ def instruir_laudo(texto, instrucao):
 
 def _base_em_dia():
     """A base foi gerada com as máscaras do usuário e a fonte atuais? (importar_usuario)"""
+    if not os.path.exists(BASE) or os.path.getsize(BASE) == 0:
+        return False                      # sem base: refaz
     try:
         import importar_usuario
         esperado = importar_usuario.assinatura_usuario()
-        con = sqlite3.connect(BASE)
+        con = sqlite3.connect("file:%s?mode=ro" % BASE.replace("\\", "/"), uri=True)
         try:
             v = con.execute("SELECT valor FROM meta WHERE chave='assinatura_usuario'").fetchone()
         except sqlite3.OperationalError:

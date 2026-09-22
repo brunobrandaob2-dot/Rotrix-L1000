@@ -84,8 +84,9 @@ def _ler_rtf(bruto):
     t = re.sub(r"\\line\b ?", "\n", t)
     t = re.sub(r"\\page\b ?", "\n---\n", t)
     t = re.sub(r"\\tab\b ?", "\t", t)
+    # \uN vem seguido do caractere substituto (\'hh ou ?), que precisa sair junto
+    t = re.sub(r"\\u(-?\d+) ?(?:\\'[0-9a-fA-F]{2}|\?)?", lambda m: chr(int(m.group(1)) % 65536), t)
     t = re.sub(r"\\'([0-9a-fA-F]{2})", lambda m: bytes([int(m.group(1), 16)]).decode("cp1252", "replace"), t)
-    t = re.sub(r"\\u(-?\d+)\??", lambda m: chr(int(m.group(1)) % 65536), t)
     t = re.sub(r"\\[a-zA-Z]+-?\d* ?", "", t)
     t = t.replace("\\{", "{").replace("\\}", "}").replace("\\\\", "\\")
     return t.replace("{", "").replace("}", "")
@@ -196,8 +197,22 @@ def identificadores(texto):
         motivos.append("campo de dados do paciente")
     return motivos
 
+_ASSINATURA = re.compile(r"\b(?:dra?\.|doutora?|crm|m[eé]dic[oa] respons[aá]vel|assinado|"
+                        r"laudado por|respons[aá]vel t[eé]cnico)\b", re.I)
+_IDADE = re.compile(r"^\s*\d{1,3}\s*(?:anos|a)\b", re.I)
+
 def tirar_cabecalho_paciente(texto):
-    return "\n".join(l for l in texto.split("\n") if not _CAMPO_PACIENTE.match(l))
+    """Laudo -> só o corpo: sai tudo antes do título do exame (cabeçalho com nome,
+    idade, médico, convênio, mesmo em linhas separadas), os campos de paciente e
+    as linhas de assinatura/CRM."""
+    linhas = texto.split("\n")
+    for i, l in enumerate(linhas):
+        if _eh_titulo(l, True) or _eh_titulo(l, False):
+            linhas = linhas[i:]
+            break
+    return "\n".join(l for l in linhas
+                     if not _CAMPO_PACIENTE.match(l) and not _ASSINATURA.search(l)
+                     and not _IDADE.match(l))
 
 
 # ---------- tipo de exame, região e comandos ----------
@@ -259,28 +274,71 @@ def comandos_automaticos(titulo, mod):
 
 
 # ---------- lado: nunca fixo ----------
-_LADO_TIT = re.compile(r"\b(DIREITO|ESQUERDO|DIREITA|ESQUERDA)\b", re.I)
-_LADOS_CORPO = re.compile(r"(?<!à )(?<!a )(?<!para )(?<!para a )\b(direito|esquerdo|direita|esquerda)\b", re.I)
+_LADO_TIT = re.compile(r"\b(DIREITO|ESQUERDO|DIREITA|ESQUERDA)\b|\b(DIR|ESQ)\b\.?|\((D|E)\)", re.I)
+# "à direita", "para a esquerda" (direção) ficam como estão; "mama esquerda" vira lacuna
+_LADOS_CORPO = re.compile(r"(?<!à )(?<!para a )(?<!para )\b(direito|esquerdo|direita|esquerda)\b", re.I)
+_FEMININOS = set("""mama mao perna coxa clavicula patela escapula axila orbita fossa face costela
+articulacao regiao glandula parotida tibia fibula ulna falange hemiface hemipelve narina tuba
+trompa suprarrenal adrenal carotida jugular femoral poplitea subclavia vertebral renal iliaca
+cabeca coluna""".split())
 
-def _slot_lado(palavra, titulo):
-    fem = palavra.lower().endswith("a")
-    if titulo or palavra.isupper():
-        return "{LADO_F|DIREITA/ESQUERDA}" if fem else "{LADO|DIREITO/ESQUERDO}"
-    return "{lado_f|direita/esquerda}" if fem else "{lado|direito/esquerdo}"
+def _feminino(anterior):
+    return normalizar(anterior) in _FEMININOS
+
+def _slot_lado(palavra, maiuscula, feminino):
+    if maiuscula:
+        return "{LADO_F|DIREITA/ESQUERDA}" if feminino else "{LADO|DIREITO/ESQUERDO}"
+    return "{lado_f|direita/esquerda}" if feminino else "{lado|direito/esquerdo}"
+
+def _lado_de(palavra):
+    return "d" if palavra.lower().startswith(("d", "(d")) else "e"
 
 def lado_em_lacuna(titulo, corpo):
-    """Título com lado -> lacuna. No corpo, só troca quando aparece um único lado."""
+    """Lado fixo vira lacuna que o ditado preenche; nunca fica um lado escrito.
+    Título com lado (inclusive "DIR.", "(E)"): o título vira lacuna e, se o texto só
+    cita esse mesmo lado, o texto também. Título sem lado: o lado do texto que vem
+    logo depois da própria estrutura do título ("Joelho direito") vira lacuna.
+    O que não der para trocar com segurança vira aviso para conferir."""
     avisos = []
-    if not _LADO_TIT.search(titulo):
-        return titulo, corpo, avisos
-    novo_tit = _LADO_TIT.sub(lambda m: _slot_lado(m.group(1), True), titulo)
-    avisos.append("lado do título virou lacuna (o ditado preenche)")
-    lados = {("d" if w.lower().startswith("d") else "e") for w in _LADOS_CORPO.findall(corpo)}
-    if len(lados) == 1:
-        corpo = _LADOS_CORPO.sub(lambda m: _slot_lado(m.group(1), False), corpo)
-        avisos.append("lado do texto virou lacuna")
-    elif len(lados) == 2:
-        avisos.append("o texto cita os dois lados: ficou como está — confira")
+    reg = set(normalizar(_regiao_e_complemento(titulo)[0]).split()) | set(normalizar(titulo).split())
+    m_tit = _LADO_TIT.search(titulo)
+    novo_tit = titulo
+    if m_tit:
+        def troca_tit(m):
+            antes = titulo[:m.start()].split()
+            fem = (m.group(1) or "").upper().endswith("A") or (
+                not m.group(1) and bool(antes) and _feminino(antes[-1]))
+            return _slot_lado(m.group(0), True, fem)
+        novo_tit = _LADO_TIT.sub(troca_tit, titulo)
+        avisos.append("lado do título virou lacuna (o ditado preenche)")
+        if m_tit.group(2) or m_tit.group(3):
+            avisos.append("título tinha o lado abreviado: confira o texto")
+    ocorr = list(_LADOS_CORPO.finditer(corpo))
+    lados = {_lado_de(m.group(1)) for m in ocorr}
+    def slot_corpo(m):
+        w = m.group(1)
+        return _slot_lado(w, w.isupper(), w.lower().endswith("a"))
+    if m_tit:
+        if len(lados) == 1:
+            corpo = _LADOS_CORPO.sub(slot_corpo, corpo)
+            avisos.append("lado do texto virou lacuna")
+        elif len(lados) == 2:
+            avisos.append("o texto cita os dois lados: ficou como está — confira")
+    elif ocorr:
+        trocou, ficou = False, set()
+        def talvez(m):
+            nonlocal trocou
+            antes = normalizar(corpo[max(0, m.start() - 40):m.start()]).split()
+            if antes and antes[-1] in reg and len(lados) == 1:
+                trocou = True
+                return slot_corpo(m)
+            ficou.add(m.group(1).lower())
+            return m.group(0)
+        corpo = _LADOS_CORPO.sub(talvez, corpo)
+        if trocou:
+            avisos.append("lado do texto virou lacuna")
+        if ficou:
+            avisos.append("o texto cita lado (%s) sem lado no título — confira" % ", ".join(sorted(ficou)))
     return novo_tit, corpo, avisos
 
 
@@ -303,15 +361,20 @@ def negritar(titulo, corpo):
 
 
 # ---------- config ----------
-def _config():
+def _config(para_gravar=False):
+    if not os.path.exists(CONFIG):
+        return {}
     try:
-        return json.load(open(CONFIG, encoding="utf-8"))
+        return json.load(open(CONFIG, encoding="utf-8-sig"))
     except Exception:
+        if para_gravar:
+            raise ValueError("config.json ilegível: corrija o arquivo antes (nada foi alterado)")
         return {}
 
 def _gravar_config(c):
     tmp = CONFIG + ".tmp"
-    json.dump(c, open(tmp, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(c, f, ensure_ascii=False, indent=2)
     os.replace(tmp, CONFIG)
 
 def fonte_atual():
@@ -322,7 +385,7 @@ def definir_fonte(f):
     f = (f or "").lower()
     if f not in FONTES:
         raise ValueError("fonte deve ser rotrix, minhas ou ambas")
-    c = _config()
+    c = _config(para_gravar=True)
     c["fonte_mascaras"] = f
     _gravar_config(c)
     return f
@@ -376,6 +439,7 @@ def importar_mascaras(caminho, substituir=False):
     if substituir:
         res["removidas_antes"] = _limpar_pasta(PASTA_MASC)
     ja = set()
+    escritos = set()
     for i, b in enumerate(blocos, 1):
         linhas = b.split("\n")
         gat_user = []
@@ -410,9 +474,10 @@ def importar_mascaras(caminho, substituir=False):
         nome = ("normal" if not comp else "outra_" + _slug(comp, 30))
         arq = os.path.join(pasta, nome + ".txt")
         k = 2
-        while os.path.exists(arq) and not substituir:
+        while arq in escritos or (os.path.exists(arq) and not substituir):
             arq = os.path.join(pasta, "%s_%d.txt" % (nome, k))
             k += 1
+        escritos.add(arq)
         cab = ["# gatilhos: " + " | ".join(gatilhos),
                "# categoria: usuario",
                "# modalidade: " + mod,
@@ -508,6 +573,9 @@ def main(argv):
         elif acao == "remover" and len(args) >= 2 and args[1] in ("mascaras", "laudos"):
             if args[1] == "mascaras":
                 res = {"acao": "remover", "removidas": _limpar_pasta(PASTA_MASC)}
+                if fonte_atual() != "rotrix":
+                    definir_fonte("rotrix")          # sem máscara sua, "minhas" deixaria o banco vazio
+                    res["fonte"] = "rotrix"
                 ok, msg = refazer_base()
                 res["base"] = msg if ok else "ERRO ao refazer a base: " + msg
             else:

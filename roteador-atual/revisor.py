@@ -159,9 +159,13 @@ HESITACOES = re.compile(
     r"quer dizer)(?=[\s,.;:]|$)", re.IGNORECASE)
 
 
-# "dois ponto cinco milímetros" é número decimal, não fim de frase
+# "dois ponto cinco milímetros" é número decimal, não fim de frase. Só vale com
+# medida logo depois ("BI-RADS quatro ponto dois nódulos" continua fim de frase).
+_UNIDADE_FALADA = (r"(?:mil[íi]metros?|cent[íi]metros?|metros?|mil[íi]litros?|litros?|mm|cm|ml|"
+                   r"graus?|por\s+cento|unidades?|hounsfield|uh|por|x)\b")
 _PONTO_DECIMAL = re.compile(
-    r"\b(%s|\d+)\s+ponto\s+(?=(?:%s|\d+)\b)" % ("|".join(_PAL), "|".join(_PAL)), re.IGNORECASE)
+    r"\b(%s|\d+)\s+ponto\s+(?=(?:%s|\d+)\s+%s)" % ("|".join(_PAL), "|".join(_PAL), _UNIDADE_FALADA),
+    re.IGNORECASE)
 
 
 def _pontuacao(t):

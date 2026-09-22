@@ -27,6 +27,7 @@ Arquivo de frases:
 import json, os, re, sqlite3, sys, unicodedata, collections
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, AQUI)          # Python embutido (Rotrix) não põe a pasta do script no caminho
 DADOS = os.path.join(AQUI, "dados")
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(AQUI, "base.sqlite")
 CATALOGO = os.environ.get("LAUDO_CATALOGO") or os.path.join(AQUI, "CATALOGO.txt")
@@ -112,7 +113,8 @@ try:
     import importar_usuario as _iu
     FONTE = _iu.fonte_atual()
     ASSINATURA = _iu.assinatura_usuario()
-except Exception:
+except Exception as _e:
+    print("AVISO: importar_usuario indisponível (%s); usando só as máscaras do Rotrix" % _e)
     FONTE, ASSINATURA = "rotrix", "rotrix|0|0|0"
 
 dm = os.path.join(DADOS, "mascaras")
@@ -235,11 +237,11 @@ for l, explicito in ordem:
     vistos.add(k)
     final.append(l)
 
-con = sqlite3.connect(BASE)
-con.execute("DROP TABLE IF EXISTS entradas")
-con.execute("DROP TABLE IF EXISTS meta")
-con.commit()
-con.execute("VACUUM")
+# grava num arquivo novo e troca no fim: o roteador que está rodando nunca lê a base pela metade
+BASE_NOVA = BASE + ".nova"
+if os.path.exists(BASE_NOVA):
+    os.remove(BASE_NOVA)
+con = sqlite3.connect(BASE_NOVA)
 con.execute("""CREATE TABLE entradas(
     tipo TEXT, gatilho_norm TEXT, gatilho TEXT, titulo TEXT, texto TEXT,
     secao TEXT, conclusao TEXT,
@@ -252,6 +254,15 @@ con.execute("INSERT INTO meta VALUES (?, ?)", ("assinatura_usuario", ASSINATURA)
 con.execute("INSERT INTO meta VALUES (?, ?)", ("fonte_mascaras", FONTE))
 con.commit()
 con.close()
+import time as _time
+for _tentativa in range(20):              # no Windows, a troca falha se alguém lê a base neste instante
+    try:
+        os.replace(BASE_NOVA, BASE)
+        break
+    except PermissionError:
+        _time.sleep(0.25)
+else:
+    os.replace(BASE_NOVA, BASE)
 
 # --- catálogo ---
 arvore = collections.OrderedDict()

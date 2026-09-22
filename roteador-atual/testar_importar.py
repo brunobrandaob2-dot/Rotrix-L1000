@@ -84,10 +84,56 @@ confere("laudo: tira o cabeçalho do paciente e entra", r["importados"] == 1 and
         and "01/02/2025" not in salvos[0])
 confere("laudo com identificador no corpo não entra", len(r["recusados"]) == 1)
 
+# lado: casos que já deram errado
+t, c, av = iu.lado_em_lacuna("ULTRASSONOGRAFIA DA MAMA ESQUERDA", "Mama esquerda: parênquima normal.\nAxila esquerda sem linfonodos.")
+confere("mama esquerda: título e texto viram lacuna", "{LADO_F|DIREITA/ESQUERDA}" in t
+        and "esquerda" not in c.lower().replace("direita/esquerda", ""), (t, c))
+t, c, av = iu.lado_em_lacuna("RX JOELHO DIR.", "Joelho sem alterações.")
+confere("lado abreviado no título vira lacuna", "{LADO|" in t and "DIR" not in t.replace("DIREITO/", ""), t)
+t, c, av = iu.lado_em_lacuna("RADIOGRAFIA DO JOELHO", "Joelho direito: sem alterações.")
+confere("título sem lado: 'Joelho direito' do texto vira lacuna", "{lado|direito/esquerdo}" in c, c)
+t, c, av = iu.lado_em_lacuna("TOMOGRAFIA DE ABDOME", "Lobo direito do fígado normal.")
+confere("lado que não é da estrutura do título vira aviso", "direito" in c and any("confira" in a for a in av), av)
+t, c, av = iu.lado_em_lacuna("RADIOGRAFIA DE TÓRAX", "Desvio da traqueia à direita.")
+confere("direção ('à direita') fica como está", c.endswith("à direita.") and not av, (c, av))
+
+# laudo com cabeçalho em linhas separadas (tabela do Word)
+cab = ("MARIA APARECIDA DOS SANTOS\n67 anos\nDr. Carlos Pereira\nTOMOGRAFIA DO CRÂNIO\nANÁLISE:\n"
+       "Redução volumétrica encefálica.\nDr. Fulano de Tal - CRM 12345")
+limpo = iu.tirar_cabecalho_paciente(cab)
+confere("cabeçalho antes do título e assinatura saem", "MARIA" not in limpo and "67 anos" not in limpo
+        and "Carlos" not in limpo and "CRM" not in limpo and limpo.startswith("TOMOGRAFIA"), limpo)
+
+# RTF com \uN + caractere substituto
+confere("RTF \\u com substituto não duplica acento",
+        "Lesão" in iu._ler_rtf(r"{\rtf1\ansi\uc1 Les\u227\'e3o\par}"), iu._ler_rtf(r"{\rtf1\ansi\uc1 Les\u227\'e3o\par}"))
+
+# --substituir com duas máscaras do mesmo nome
+dup = os.path.join(tmp, "dup.txt")
+open(dup, "w", encoding="utf-8").write("gatilhos: tc a\nTOMOGRAFIA DE PESCOÇO\nANÁLISE: estruturas cervicais normais, um.\n---\n"
+                                         "gatilhos: tc b\nTOMOGRAFIA DE PESCOÇO\nANÁLISE: estruturas cervicais normais, dois.\n")
+r = iu.importar_mascaras(dup, substituir=True)
+arqs = [x["arquivo"] for x in r["importadas"]]
+confere("substituir não sobrescreve duas do mesmo arquivo", len(arqs) == 2 and len(set(arqs)) == 2, arqs)
+
+# config com BOM não é apagado
+open(iu.CONFIG, "w", encoding="utf-8-sig").write('{"ativa": true, "modelo": "x"}')
+iu.definir_fonte("ambas")
+cfg = json.load(open(iu.CONFIG, encoding="utf-8"))
+confere("config com BOM: mantém as outras chaves", cfg.get("modelo") == "x" and cfg.get("fonte_mascaras") == "ambas", cfg)
+open(iu.CONFIG, "w", encoding="utf-8").write('{"ativa": true,, quebrado')
+try:
+    iu.definir_fonte("rotrix"); ok_quebrado = False
+except ValueError:
+    ok_quebrado = "quebrado" in open(iu.CONFIG, encoding="utf-8").read()
+confere("config ilegível não é sobrescrito", ok_quebrado)
+os.remove(iu.CONFIG)
+iu.definir_fonte("rotrix")
+
 # fonte e assinatura
 confere("fonte padrão é rotrix", iu.fonte_atual() == "rotrix" and iu.assinatura_usuario() == "rotrix|0|0|0")
 iu.definir_fonte("ambas")
-confere("assinatura muda com as máscaras do usuário", iu.assinatura_usuario().startswith("ambas|3|"))
+confere("assinatura muda com as máscaras do usuário", iu.assinatura_usuario().startswith("ambas|"))
 
 print()
 if falhas:

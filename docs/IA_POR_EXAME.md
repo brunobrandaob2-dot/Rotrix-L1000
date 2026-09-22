@@ -43,13 +43,32 @@ Para o modelo não raciocinar, os modelos da OpenAI recebem `reasoning_effort: "
 
 ## Trava de conferência
 
-No modo formatar, o roteador compara o que foi enviado com o que voltou. Se a IA acrescentou palavra de conteúdo, número ou lado, o laudo vem com esta linha no topo:
+No modo formatar, o roteador compara o que foi enviado com o que voltou. Se a IA mexeu no conteúdo, o laudo vem com uma linha no topo, por exemplo:
 
 ```
-[conferir — a IA acrescentou: esporão, edema; número 7; LADO DIREITO]
+[conferir — a IA acrescentou: esporão, edema; número 7; LADO TORNOZELO DIREITO]
 ```
 
-Correção de reconhecimento de voz não dispara a trava ("calcanho" → "calcâneo", "horta" → "aorta", "tem dinopatia" → "tendinopatia"). Para ligar a trava também em outros modos, use `"modos_com_trava": ["formatar", "laudo"]`.
+A trava aponta:
+
+- **palavra de conteúdo nova**, inclusive sigla ("AVC");
+- **troca pelo oposto** de uma palavra ditada: hipo↔hiper↔iso, normal→anormal, regular→irregular;
+- **número novo** e **unidade trocada** (5 mm → 5 cm);
+- **negação a mais** ("há derrame" → "não há derrame");
+- **LADO**:
+  - um lado junto de uma estrutura em que ele não foi ditado ("lobo inferior direito" → "esquerdo");
+  - uma lacuna [direito/esquerdo] preenchida pela IA;
+- **linha entre colchetes inventada** (só os avisos do próprio sistema ficam fora da conta).
+
+Não disparam a trava:
+
+- correção de reconhecimento de voz ("calcanho" → "calcâneo", "horta" → "aorta", "tem dinopatia" → "tendinopatia");
+- sigla escrita por extenso no título (TC → TOMOGRAFIA);
+- achado repetido na conclusão.
+
+O que a trava **não** pega: uma negação ditada que a IA tirou ("não há derrame" → "há derrame"). O modo formatar pode apagar frases da máscara que contradizem o achado, então retirar uma frase não é marcado. Confira sempre a conclusão.
+
+Para ligar a trava também em outros modos, use `"modos_com_trava": ["formatar", "laudo"]`.
 
 ## Chaves (nunca no chat, nunca no config)
 
@@ -72,6 +91,8 @@ Cada provedor lê a chave de um arquivo na pasta do roteador ou de uma variável
   - Luna 0,20/1,20 (página oficial);
   - Terra 2/12 e Sol 5/30 (fonte secundária, conferir).
 - Se algum preço mudar: `"precos": {"gpt-5.6-terra": [2.5, 15]}` no config.json, sem mexer no código.
+- Modelo que não está na tabela conta como caro (US$ 5 / 25 por milhão), para o teto do mês continuar valendo. O Ollama, que roda no computador, conta zero.
+- Resposta vazia da IA também entra no gasto, porque a API cobra do mesmo jeito.
 
 ## Teste
 
