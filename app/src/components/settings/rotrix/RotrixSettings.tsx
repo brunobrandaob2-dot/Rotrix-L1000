@@ -6,6 +6,8 @@ import { SettingsGroup } from "../../ui/SettingsGroup";
 import { SettingContainer } from "../../ui/SettingContainer";
 import { Button } from "../../ui/Button";
 import { Textarea } from "../../ui/Textarea";
+import { RotrixIA } from "./RotrixIA";
+import { RotrixMascaras } from "./RotrixMascaras";
 
 interface RotrixStatus {
   ativo: boolean;
@@ -146,6 +148,10 @@ export const RotrixSettings: React.FC = () => {
           </div>
         </div>
       </SettingsGroup>
+
+      <RotrixIA />
+
+      <RotrixMascaras />
     </div>
   );
 };
