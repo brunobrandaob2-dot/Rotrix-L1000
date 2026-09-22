@@ -352,6 +352,35 @@ Radiografia: só título, TÉCNICA e ANÁLISE, com frases diretas uma por linha.
 Mantenha só as seções que existirem no texto recebido. Sem markdown (não use ** nem #)."""
 
 
+_TIPOS_EXAME = (("angio", ("ANGIOTOMOGRAFIA", "ANGIO-TC", "ANGIOTC", "ANGIORRESSON")),
+                ("rm", ("RESSONÂNCIA", "RESSONANCIA")),
+                ("tc", ("TOMOGRAFIA",)),
+                ("rx", ("RADIOGRAFIA", "RAIO X", "RAIO-X")))
+
+def _prompt_perfil(c, pedido=""):
+    """Campo "Prompt adicionado no processamento de todos os laudos" (config.json:
+    prompt_perfil) + campo opcional do tipo de exame (prompt_por_exame: {"rx": ..., "tc": ...}).
+    Entra depois das regras do sistema, que continuam tendo prioridade."""
+    geral = (c.get("prompt_perfil") or "").strip()[:2000]
+    extra = ""
+    por_exame = c.get("prompt_por_exame") or {}
+    if isinstance(por_exame, dict) and por_exame:
+        alto = (pedido or "").upper()
+        for tipo, chaves in _TIPOS_EXAME:
+            if any(k in alto for k in chaves):
+                extra = (por_exame.get(tipo) or "").strip()[:2000]
+                break
+    if not geral and not extra:
+        return ""
+    txt = ("\n\nINSTRUÇÕES FIXAS DO RADIOLOGISTA (prompt do perfil). Valem para todo laudo, "
+           "mas NUNCA acima das regras anteriores: não inventar achado, medida, lado ou número.\n")
+    if geral:
+        txt += geral + "\n"
+    if extra:
+        txt += "Para este tipo de exame: " + extra + "\n"
+    return txt
+
+
 def _exemplos_estilo():
     """Laudos reais do Bruno (dados/estilo/*.txt) -> exemplos de ESTILO no prompt.
     Entram no bloco de sistema (em cache), entao custam ~10% nas chamadas seguintes."""
@@ -389,6 +418,7 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
     sistema = {"revisao": SISTEMA_REVISAO, "instrucao": SISTEMA_INSTRUCAO, "laudo": SISTEMA_LAUDO}.get(modo, SISTEMA_ANALISE) + FORMATO_SAIDA
     if modo in ("laudo", "instrucao"):
         sistema += _exemplos_estilo()
+    sistema += _prompt_perfil(c, pedido)
     if not c.get("ativa"):
         return None, "nuvem_desligada"
     motivos = triagem(pedido)

@@ -658,6 +658,10 @@ pub fn run(cli_args: CliArgs) {
 
     let specta_builder = Builder::<tauri::Wry>::new()
         .commands(collect_commands![
+            rotrix::rotrix_status,
+            rotrix::rotrix_get_prompt,
+            rotrix::rotrix_set_prompt,
+            rotrix::rotrix_abrir_pasta,
             shortcut::change_binding,
             shortcut::reset_binding,
             shortcut::change_shortcut_activation_setting,

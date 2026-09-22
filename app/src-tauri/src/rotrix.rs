@@ -239,3 +239,103 @@ pub fn resumo_gasto(app: &AppHandle) -> Option<String> {
     }
     Some(s)
 }
+
+// ---------------------------------------------------------------------------
+// Comandos para a pagina "Rotrix" das configuracoes
+// ---------------------------------------------------------------------------
+
+#[derive(serde::Serialize, specta::Type)]
+pub struct RotrixStatus {
+    pub ativo: bool,
+    pub versao: Option<String>,
+    pub gatilhos: Option<u32>,
+    pub gasto: Option<String>,
+    pub pasta: Option<String>,
+}
+
+/// GET simples em http://127.0.0.1:8123/v1/versao (sem dependencias extras).
+fn consultar_versao() -> Option<serde_json::Value> {
+    use std::io::{Read, Write};
+    let addr: SocketAddr = "127.0.0.1:8123".parse().ok()?;
+    let mut s = TcpStream::connect_timeout(&addr, Duration::from_millis(400)).ok()?;
+    s.set_read_timeout(Some(Duration::from_millis(1500))).ok()?;
+    s.write_all(b"GET /v1/versao HTTP/1.0\r\nHost: 127.0.0.1\r\n\r\n").ok()?;
+    let mut resp = String::new();
+    s.read_to_string(&mut resp).ok()?;
+    let corpo = resp.split("\r\n\r\n").nth(1)?;
+    serde_json::from_str(corpo.trim()).ok()
+}
+
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_status(app: AppHandle) -> RotrixStatus {
+    let v = consultar_versao();
+    RotrixStatus {
+        ativo: v.is_some() || porta_ocupada(),
+        versao: v
+            .as_ref()
+            .and_then(|j| j.get("versao"))
+            .and_then(|x| x.as_str())
+            .map(|x| x.to_string()),
+        gatilhos: v
+            .as_ref()
+            .and_then(|j| j.get("gatilhos"))
+            .and_then(|x| x.as_u64())
+            .map(|x| x as u32),
+        gasto: resumo_gasto(&app),
+        pasta: pasta_dados(&app).map(|p| p.to_string_lossy().to_string()),
+    }
+}
+
+fn caminho_config(app: &AppHandle) -> Result<PathBuf, String> {
+    pasta_dados(app)
+        .map(|d| d.join("config.json"))
+        .ok_or_else(|| "pasta do roteador indisponivel".to_string())
+}
+
+/// Campo "Prompt adicionado no processamento de todos os laudos" (config.json: prompt_perfil).
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_get_prompt(app: AppHandle) -> Result<String, String> {
+    let p = caminho_config(&app)?;
+    let txt = std::fs::read_to_string(&p).unwrap_or_else(|_| "{}".to_string());
+    let v: serde_json::Value = serde_json::from_str(&txt).unwrap_or(serde_json::json!({}));
+    Ok(v.get("prompt_perfil")
+        .and_then(|x| x.as_str())
+        .unwrap_or("")
+        .to_string())
+}
+
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_set_prompt(app: AppHandle, texto: String) -> Result<(), String> {
+    let p = caminho_config(&app)?;
+    if let Some(dir) = p.parent() {
+        std::fs::create_dir_all(dir).map_err(|e| e.to_string())?;
+    }
+    let txt = std::fs::read_to_string(&p).unwrap_or_else(|_| "{}".to_string());
+    let mut v: serde_json::Value =
+        serde_json::from_str(&txt).map_err(|e| format!("config.json invalido: {e}"))?;
+    let limpo: String = texto.chars().take(2000).collect();
+    match v.as_object_mut() {
+        Some(obj) => {
+            obj.insert("prompt_perfil".to_string(), serde_json::Value::String(limpo));
+        }
+        None => return Err("config.json nao e um objeto".to_string()),
+    }
+    let saida = serde_json::to_string_pretty(&v).map_err(|e| e.to_string())?;
+    std::fs::write(&p, saida).map_err(|e| e.to_string())?;
+    info!("Rotrix: prompt do perfil salvo ({} caracteres)", texto.chars().count().min(2000));
+    Ok(())
+}
+
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_abrir_pasta(app: AppHandle) -> Result<(), String> {
+    use tauri_plugin_opener::OpenerExt;
+    let p = pasta_dados(&app).ok_or_else(|| "pasta do roteador indisponivel".to_string())?;
+    std::fs::create_dir_all(&p).map_err(|e| e.to_string())?;
+    app.opener()
+        .open_path(p.to_string_lossy().to_string(), None::<String>)
+        .map_err(|e| e.to_string())
+}
