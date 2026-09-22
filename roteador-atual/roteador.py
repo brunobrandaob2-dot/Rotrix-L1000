@@ -25,7 +25,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-22.1"
+VERSAO = "2026-09-22.2"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -1226,7 +1226,32 @@ def instruir_laudo(texto, instrucao):
     return nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000)
 
 
+def _base_em_dia():
+    """A base foi gerada com as máscaras do usuário e a fonte atuais? (importar_usuario)"""
+    try:
+        import importar_usuario
+        esperado = importar_usuario.assinatura_usuario()
+        con = sqlite3.connect(BASE)
+        try:
+            v = con.execute("SELECT valor FROM meta WHERE chave='assinatura_usuario'").fetchone()
+        except sqlite3.OperationalError:
+            v = None                      # base antiga, sem assinatura
+        con.close()
+        return (v[0] if v else "rotrix|0|0|0") == esperado
+    except Exception:
+        return True
+
+
 if __name__ == "__main__":
+    # atualização trocou a base (sem as máscaras do usuário) ou a fonte mudou: refaz
+    if not _base_em_dia():
+        try:
+            import importar_usuario
+            ok, msg = importar_usuario.refazer_base()
+            print("base refeita com as máscaras do usuário:", msg, flush=True)
+            BANCO.carregar()
+        except Exception as e:
+            print("não consegui refazer a base:", e, flush=True)
     if os.name == "nt":
         try:
             import atalho_win

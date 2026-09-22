@@ -25,3 +25,5 @@ jobs:
           python validar_regiao.py $regioes
       - name: Testar a rota de nuvem (sem internet, respostas simuladas)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_nuvem.py
+      - name: Testar o importador de máscaras e laudos próprios
+        run: python testar_importar.py

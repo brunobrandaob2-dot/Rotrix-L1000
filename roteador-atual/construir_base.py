@@ -37,6 +37,7 @@ NOMES_CATEGORIA = {
     "msk": "MUSCULOESQUELÉTICO",
     "angio": "ANGIOTOMOGRAFIA",
     "_comum": "COMUM (adendos e achados genéricos)",
+    "usuario": "MINHAS MÁSCARAS",
 }
 NOMES_MODALIDADE = {"tc": "TOMOGRAFIA", "rx": "RADIOGRAFIA",
                     "angiotc": "ANGIOTOMOGRAFIA", "rm": "RESSONÂNCIA", "": "-"}
@@ -104,81 +105,101 @@ variantes = []
 linhas = []
 avisos = []
 
+# --- fonte das máscaras (config.json -> fonte_mascaras) ---
+#   rotrix: só dados/mascaras (padrão)   minhas: só dados/mascaras_usuario (+ _comum)
+#   ambas:  as duas; as do usuário entram primeiro e vencem quando o comando é o mesmo
+try:
+    import importar_usuario as _iu
+    FONTE = _iu.fonte_atual()
+    ASSINATURA = _iu.assinatura_usuario()
+except Exception:
+    FONTE, ASSINATURA = "rotrix", "rotrix|0|0|0"
+
 dm = os.path.join(DADOS, "mascaras")
-for raiz, pastas, arquivos in os.walk(dm):
-    pastas[:] = sorted(p for p in pastas if p != "_legado" and not p.startswith("."))
-    for nome in sorted(arquivos):
-        if not nome.lower().endswith(".txt"):
-            continue
-        caminho = os.path.join(raiz, nome)
-        rel = os.path.relpath(caminho, dm).replace("\\", "/")
-        bruto = open(caminho, encoding="utf-8").read().splitlines()
-
-        meta = {"tipo": "", "categoria": "", "modalidade": "", "regiao": "",
-                "tipo_mascara": "", "secao": "", "conclusao": ""}
-        gatilhos, inicio = [], len(bruto)
-        for i, l in enumerate(bruto):
-            s = l.strip()
-            if s.startswith("## "):
-                inicio = i; break
-            if s.startswith("#"):
-                m = re.match(r"#\s*([a-z_]+)\s*:(.*)$", s, re.I)
-                if m:
-                    k, v = m.group(1).lower(), m.group(2).strip()
-                    if k == "gatilhos":
-                        gatilhos = [g.strip() for g in v.split("|") if g.strip()]
-                    elif k in meta:
-                        meta[k] = v
+RAIZES = []
+if FONTE in ("minhas", "ambas"):
+    RAIZES.append((os.path.join(DADOS, "mascaras_usuario"), "usuario/", False))
+RAIZES.append((dm, "", FONTE == "minhas"))
+for dm_raiz, prefixo, so_comum in RAIZES:
+    if not os.path.isdir(dm_raiz):
+        continue
+    for raiz, pastas, arquivos in os.walk(dm_raiz):
+        pastas[:] = sorted(p for p in pastas if p != "_legado" and not p.startswith("."))
+        if so_comum and raiz == dm_raiz:
+            pastas[:] = [p for p in pastas if p == "_comum"]
+            arquivos = []
+        for nome in sorted(arquivos):
+            if not nome.lower().endswith(".txt"):
                 continue
-            inicio = i; break
+            caminho = os.path.join(raiz, nome)
+            rel = prefixo + os.path.relpath(caminho, dm_raiz).replace("\\", "/")
+            bruto = open(caminho, encoding="utf-8").read().splitlines()
 
-        cat0, mod0, reg0 = _meta_do_caminho(rel)
-        cat = meta["categoria"] or cat0
-        mod = meta["modalidade"] or mod0
-        reg = meta["regiao"] or reg0
-        tipo = (meta["tipo"] or ("bloco" if nome.startswith("blk_") else
-                                 "frases" if nome.startswith("frases") else
-                                 "adendo" if nome.startswith(("adendo", "ressalva")) else
-                                 "achado" if nome.startswith("achado") else
-                                 "mascara")).lower()
-        sub = meta["tipo_mascara"] or _subtipo_do_nome(nome)
-        titulo = rel[:-4]
+            meta = {"tipo": "", "categoria": "", "modalidade": "", "regiao": "",
+                    "tipo_mascara": "", "secao": "", "conclusao": ""}
+            gatilhos, inicio = [], len(bruto)
+            for i, l in enumerate(bruto):
+                s = l.strip()
+                if s.startswith("## "):
+                    inicio = i; break
+                if s.startswith("#"):
+                    m = re.match(r"#\s*([a-z_]+)\s*:(.*)$", s, re.I)
+                    if m:
+                        k, v = m.group(1).lower(), m.group(2).strip()
+                        if k == "gatilhos":
+                            gatilhos = [g.strip() for g in v.split("|") if g.strip()]
+                        elif k in meta:
+                            meta[k] = v
+                    continue
+                inicio = i; break
 
-        if tipo == "frases":
-            atual_g, atual_t = None, []
-            def _fecha():
-                if atual_g and "".join(atual_t).strip():
-                    txt = "\n".join(atual_t).strip()
-                    for g in atual_g:
-                        linhas.append(("frase", normalizar(g), g, titulo + "#" + atual_g[0],
-                                       txt, "", "", cat, mod, reg, ""))
-            for l in bruto[inicio:]:
-                m = re.match(r"##\s*gatilhos?\s*:(.*)$", l.strip(), re.I)
-                if m:
-                    _fecha()
-                    atual_g = [g.strip() for g in m.group(1).split("|") if g.strip()]
-                    atual_t = []
-                elif atual_g is not None:
-                    atual_t.append(l)
-            _fecha()
-            continue
+            cat0, mod0, reg0 = _meta_do_caminho(rel)
+            cat = meta["categoria"] or cat0
+            mod = meta["modalidade"] or mod0
+            reg = meta["regiao"] or reg0
+            tipo = (meta["tipo"] or ("bloco" if nome.startswith("blk_") else
+                                     "frases" if nome.startswith("frases") else
+                                     "adendo" if nome.startswith(("adendo", "ressalva")) else
+                                     "achado" if nome.startswith("achado") else
+                                     "mascara")).lower()
+            sub = meta["tipo_mascara"] or _subtipo_do_nome(nome)
+            titulo = rel[:-4]
 
-        texto = "\n".join(bruto[inicio:]).strip("\n")
-        if not gatilhos:
-            gatilhos = [os.path.splitext(nome)[0].replace("_", " ")]
-            avisos.append("sem gatilhos: " + rel)
-        for g in gatilhos:
-            linhas.append((tipo, normalizar(g), g, titulo, texto, meta["secao"],
-                           meta["conclusao"], cat, mod, reg, sub))
-        if tipo == "mascara":
+            if tipo == "frases":
+                atual_g, atual_t = None, []
+                def _fecha():
+                    if atual_g and "".join(atual_t).strip():
+                        txt = "\n".join(atual_t).strip()
+                        for g in atual_g:
+                            linhas.append(("frase", normalizar(g), g, titulo + "#" + atual_g[0],
+                                           txt, "", "", cat, mod, reg, ""))
+                for l in bruto[inicio:]:
+                    m = re.match(r"##\s*gatilhos?\s*:(.*)$", l.strip(), re.I)
+                    if m:
+                        _fecha()
+                        atual_g = [g.strip() for g in m.group(1).split("|") if g.strip()]
+                        atual_t = []
+                    elif atual_g is not None:
+                        atual_t.append(l)
+                _fecha()
+                continue
+
+            texto = "\n".join(bruto[inicio:]).strip("\n")
+            if not gatilhos:
+                gatilhos = [os.path.splitext(nome)[0].replace("_", " ")]
+                avisos.append("sem gatilhos: " + rel)
             for g in gatilhos:
-                for v in _variantes(normalizar(g), mod):
-                    variantes.append((tipo, v, v, titulo, "", meta["secao"],
-                                      meta["conclusao"], cat, mod, reg, sub))
+                linhas.append((tipo, normalizar(g), g, titulo, texto, meta["secao"],
+                               meta["conclusao"], cat, mod, reg, sub))
+            if tipo == "mascara":
+                for g in gatilhos:
+                    for v in _variantes(normalizar(g), mod):
+                        variantes.append((tipo, v, v, titulo, "", meta["secao"],
+                                          meta["conclusao"], cat, mod, reg, sub))
 
 # --- frases de RM musculoesquelética do banco original ---
 fj = os.path.join(DADOS, "frases.json")
-if os.path.exists(fj):
+if os.path.exists(fj) and FONTE != "minhas":
     for r in json.load(open(fj, encoding="utf-8")):
         d = (r.get("descricao") or "").strip()
         if not d:
@@ -196,15 +217,19 @@ if os.path.exists(fj):
 #         e no quadril, e o roteador escolhe pelo exame ditado)
 # frases: únicas no banco inteiro (são chamadas sem contexto de exame)
 vistos, final, colisoes = set(), [], []
-n_explicitos = len(linhas)
-linhas += variantes
-for i, l in enumerate(linhas):
+def _do_usuario(l):
+    return l[3].startswith("usuario/")
+ordem = ([(l, True) for l in linhas if _do_usuario(l)] +
+         [(l, False) for l in variantes if _do_usuario(l)] +
+         [(l, True) for l in linhas if not _do_usuario(l)] +
+         [(l, False) for l in variantes if not _do_usuario(l)])
+for l, explicito in ordem:
     tipo, gn = l[0], l[1]
     k = (tipo, gn, l[7], l[8], l[9]) if tipo == "bloco" else (tipo, gn)
     if not gn:
         continue
     if k in vistos:
-        if i < n_explicitos:
+        if explicito:
             colisoes.append((tipo, l[2], l[3]))
         continue
     vistos.add(k)
@@ -212,6 +237,7 @@ for i, l in enumerate(linhas):
 
 con = sqlite3.connect(BASE)
 con.execute("DROP TABLE IF EXISTS entradas")
+con.execute("DROP TABLE IF EXISTS meta")
 con.commit()
 con.execute("VACUUM")
 con.execute("""CREATE TABLE entradas(
@@ -221,6 +247,9 @@ con.execute("""CREATE TABLE entradas(
 con.executemany("INSERT INTO entradas VALUES (?,?,?,?,?,?,?,?,?,?,?)", final)
 con.execute("CREATE INDEX ix ON entradas(tipo, gatilho_norm)")
 con.execute("CREATE INDEX ix2 ON entradas(categoria, modalidade, regiao)")
+con.execute("CREATE TABLE meta(chave TEXT, valor TEXT)")
+con.execute("INSERT INTO meta VALUES (?, ?)", ("assinatura_usuario", ASSINATURA))
+con.execute("INSERT INTO meta VALUES (?, ?)", ("fonte_mascaras", FONTE))
 con.commit()
 con.close()
 
@@ -231,7 +260,7 @@ for l in final:
     por_titulo.setdefault(l[3], l)
     if l[0] == "frase" and l[8] != "rm":
         por_titulo[l[3]] = l
-ordem_cat = ["medicina_interna", "neuro", "angio", "msk", "_comum"]
+ordem_cat = ["usuario", "medicina_interna", "neuro", "angio", "msk", "_comum"]
 def _ordcat(c): return ordem_cat.index(c) if c in ordem_cat else 99
 primeiro_gatilho = {}
 for l in final:
@@ -273,7 +302,7 @@ io_txt = "\n".join(out) + "\n"
 open(CATALOGO, "w", encoding="utf-8").write(io_txt)
 
 c = collections.Counter(l[0] for l in final)
-print(f"base.sqlite gerado: {len(final)} gatilhos  {dict(c)}")
+print(f"base.sqlite gerado: {len(final)} gatilhos  {dict(c)}  (fonte: {FONTE})")
 print(f"CATALOGO.txt gerado: {len(grupos)} regiões")
 if colisoes:
     print(f"AVISO: {len(colisoes)} gatilho(s) repetido(s) ignorado(s):")
