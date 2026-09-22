@@ -15,7 +15,7 @@ Sem `ia_por_exame`, tudo continua como hoje (Anthropic, modelo do topo do config
   "modelo": "claude-sonnet-5",
   "ia_por_exame": {
     "rx":    {"provedor": "openai", "modelo": "gpt-5.6-luna", "modo": "formatar"},
-    "tc":    {"provedor": "anthropic", "modelo": "claude-haiku-4-5", "modo": "formatar"},
+    "tc":    {"provedor": "anthropic", "modelo": "claude-haiku-4-5-20251001", "modo": "formatar"},
     "rm":    "anthropic:claude-sonnet-5",
     "onco":  "anthropic:claude-sonnet-5",
     "padrao": {"modo": "formatar"}

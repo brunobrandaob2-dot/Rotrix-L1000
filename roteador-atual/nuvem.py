@@ -90,6 +90,8 @@ PRECOS = [
     ("gpt-5.6-sol",      5.0, 30.0),
     ("gpt-5.6-terra",    2.0, 12.0),
     ("gpt-5.6-luna",     0.20, 1.20),
+    # Gemini 3.8 Flash: preço de lançamento até 31/12/2026 (depois 1,50 / 7,50)
+    ("gemini-3.8-flash", 0.75, 3.75),
 ]
 
 def preco(modelo, c=None):
