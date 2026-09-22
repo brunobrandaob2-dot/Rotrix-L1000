@@ -73,3 +73,9 @@ neuroforames
 cavum
 adenoideano
 rinofaringe
+rizartrose
+esparsa
+haste intramedular
+# a última linha é uma frase com maiúscula e ponto: o Whisper imita o estilo
+# da dica e passa a começar com maiúscula e terminar com ponto
+Laudo radiológico em português.

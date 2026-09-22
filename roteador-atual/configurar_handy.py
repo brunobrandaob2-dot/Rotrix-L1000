@@ -112,6 +112,47 @@ if os.path.exists(mapa_pkg):
             f.write("\n# regras locais preservadas na atualizacao\n" + "\n".join(locais) + "\n")
     print("mapa de regras: %d do pacote + %d locais preservadas" % (len(chaves), len(locais)))
 
+# --- processador de colagem: recompila quando o pacote traz versao nova ---
+# (v10: o ditado sai com maiuscula no inicio e ponto final). So se ele ja
+# esta instalado; se nao compilar, fica o anterior.
+def _compilar_colador():
+    if os.name != "nt":
+        return False
+    hd = os.path.join(os.environ.get("APPDATA", ""), "com.pais.handy")
+    exe_c = os.path.join(hd, "handy_radiology_paste.exe")
+    cs_pkg = os.path.join(AQUI, "handy", "handy_radiology_paste.cs")
+    cs_dst = os.path.join(hd, "handy_radiology_paste.cs")
+    if not (os.path.exists(exe_c) and os.path.exists(cs_pkg)):
+        return False
+    try:
+        if os.path.exists(cs_dst) and open(cs_dst, "rb").read() == open(cs_pkg, "rb").read():
+            return False                       # esta versao ja foi compilada
+    except OSError:
+        pass
+    import subprocess
+    novo = os.path.join(hd, "handy_radiology_paste.novo.exe")
+    ps = ("$ErrorActionPreference='Stop'; "
+          "if (Test-Path '{novo}') {{ Remove-Item '{novo}' -Force }}; "
+          "Add-Type -Path '{cs}' -ReferencedAssemblies @('System.dll','System.Core.dll','System.Windows.Forms.dll') "
+          "-OutputAssembly '{novo}' -OutputType WindowsApplication").format(novo=novo, cs=cs_pkg)
+    try:
+        r = subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps],
+                           capture_output=True, text=True, timeout=180)
+        if r.returncode != 0 or not os.path.exists(novo):
+            print("  processador de colagem mantido (nao compilou): " + (r.stderr or r.stdout).strip()[:200])
+            return False
+        shutil.copy2(exe_c, os.path.join(hd, "handy_radiology_paste.anterior.exe"))
+        os.replace(novo, exe_c)
+        shutil.copy2(cs_pkg, cs_dst)
+        print("  processador de colagem atualizado: maiuscula no inicio e ponto final")
+        return True
+    except Exception as e:
+        print("  processador de colagem mantido: %s" % e)
+        return False
+
+
+_compilar_colador()       # nao muda se a colagem usa ou nao o processador
+
 # --- colagem pelo processador de radiologia (v9), se o instalador compilou ---
 exe = os.path.join(os.environ.get("APPDATA", ""), "com.pais.handy", "handy_radiology_paste.exe")
 if os.environ.get("ROTEADOR_COLADOR_OK") == "1" and os.path.exists(exe):

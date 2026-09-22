@@ -184,6 +184,19 @@ RADIOGRAFIA — as SUAS palavras, na linha certa (RX literal):
     - Para voltar ao modo antigo (blocos do banco), ponha
       "rx_literal": false no config.json.
 
+REGRAS DO LAUDO (RX e TC):
+    - As frases de ALTERAÇÃO abrem a análise, na ordem em que você
+      ditou; as normais vêm abaixo. Na TC sobe a estrutura inteira.
+    - Com a alteração, a frase normal da mesma estrutura sai.
+    - TC: achado que o banco não tem entra com as SUAS palavras no
+      rótulo da estrutura ("Fígado:", "Rins:") e na conclusão.
+    - "alterações crônicas" dito no meio dos achados não vira frase.
+    - Grafia: "risartrose" sai rizartrose, "esparça" sai esparsa,
+      "orta" sai aorta, "ácido metálica" sai haste metálica.
+    - Texto livre sai com maiúscula no início e ponto final.
+    - Desligar: "alteradas_primeiro": false / "tc_literal": false
+      no config.json.
+
 FILA DO RADIUS (app Rotrix → página Rotrix → Fila do Radius):
     O roteador lê, no seu computador, os arquivos de estado do Radius
     (state*.json, *-state.json, statistics.json) na pasta

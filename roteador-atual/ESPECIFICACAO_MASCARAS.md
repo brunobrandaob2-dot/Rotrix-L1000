@@ -122,6 +122,26 @@ preservados.", "Seios costofrênicos livres.") — é por elas que o achado acha
 de RX pode ter só a `normal.txt`; os blocos e as alteradas servem ao "descrever".
 Desligar: `"rx_literal": false` no config.json.
 
+### Regras do laudo (22/09/2026, pedido do Bruno) — valem para RX e TC
+
+1. **Alterações primeiro.** Na ANÁLISE, as frases de alteração abrem o laudo, na ordem ditada
+   (dispositivos antes). As frases normais vêm abaixo, na ordem da máscara. Na TC, sobe a linha
+   inteira da estrutura alterada ("Fígado: ...", "Rins: ..."). Desligar: `"alteradas_primeiro": false`.
+2. **Com a alteração, a normal da mesma estrutura sai.** Na RX, cada pedaço positivo do achado
+   ("espondilose COM FRATURA", "prótese com REDUÇÃO DA DENSIDADE") tira a frase normal que ele
+   desmente. Na TC, o achado que o banco não tem entra **com as palavras ditadas** no rótulo da
+   estrutura (escolhido pelo vocabulário dos blocos daquela região); a descrição normal do
+   rótulo sai e as negativas que o achado desmente também. Continua na conclusão, com as
+   mesmas palavras. Sem estrutura clara, fica marcado no fim como antes. Desligar: `"tc_literal": false`.
+3. **Rótulo não é achado.** "alterações crônicas", "alterações da idade", "sem alterações"
+   ditos no meio dos achados não viram frase.
+4. **Grafia.** Palavra fora do banco que, com uma troca s/z/ç/ss, vira palavra do banco é
+   corrigida ("risartrose" → rizartrose, "esparça" → esparsa). Erros de ouvido fixos no
+   `dados/ouvido.tsv` ("orta" → aorta, "ácido metálica" → haste metálica).
+5. **Modalidade.** "ressonância de joelho" ou "ultrassom de abdome" nunca caem em máscara de RX
+   ou de TC por aproximação.
+6. **Texto livre** sai com maiúscula no início e ponto final.
+
 ## 3. Organização em pastas
 
 ```

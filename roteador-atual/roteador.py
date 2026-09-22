@@ -33,7 +33,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-22.7"
+VERSAO = "2026-09-22.8"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -701,9 +701,25 @@ def revisar_local(texto):
         # "nova linha", "vírgula"...) ficam com ELE, que vale para os dois atalhos
         # e tem a semantica que o Bruno refinou no v8
         pont = not _config().get("processador_colagem", False)
-        return revisor.revisar(texto, pontuacao=pont)
+        return _com_ponto_final(revisor.revisar(texto, pontuacao=pont))
     except Exception:
         return texto
+
+
+def _com_ponto_final(t):
+    """Ditado livre: comeca com maiuscula e termina com ponto (pedido do Bruno)."""
+    if not t or not t.strip():
+        return t
+    fim = len(t.rstrip())
+    corpo, cauda = t[:fim], t[fim:]
+    if corpo[-1] == ",":
+        corpo = corpo[:-1]
+    if corpo and (corpo[-1].isalnum() or corpo[-1] in ")%°]"):
+        corpo += "."
+    i = next((k for k, ch in enumerate(corpo) if ch.isalpha()), None)
+    if i is not None and corpo[i].islower() and not corpo[:i].strip("\"'([-— "):
+        corpo = corpo[:i] + corpo[i].upper() + corpo[i + 1:]
+    return corpo + cauda
 
 
 
@@ -766,6 +782,69 @@ def _vocab():
                     c[w] += 1
         _VOCAB.update(n=len(BANCO.itens), set=set(c), lista=[w for w, _ in c.most_common()])
     return _VOCAB
+
+# ---------- s / z / c / ss: o reconhecimento de voz troca ("risartrose",
+# "esparca") ----------
+# Palavra FORA do vocabulario do banco que, com UMA troca s<->z, c<->s, ss<->c
+# ou s<->ss, vira palavra do banco: sai a do banco, com os acentos do banco.
+_GRAFIA = {"n": None, "forma": {}}
+_PAL_TXT = re.compile(r"[A-Za-zÀ-ÿ]+")
+
+
+def _formas_do_banco():
+    if _GRAFIA["n"] != len(BANCO.itens):
+        cont = collections.defaultdict(collections.Counter)
+        for t, g, tit, txt, sec, con in BANCO.itens:
+            for w in _PAL_TXT.findall(txt or ""):
+                if len(w) >= 5:
+                    cont[normalizar(w)][w.lower()] += 1
+        _GRAFIA.update(n=len(BANCO.itens), forma={k: c.most_common(1)[0][0] for k, c in cont.items()})
+    return _GRAFIA["forma"]
+
+
+def _trocas_sz(w):
+    out = set()
+    for i, ch in enumerate(w):
+        seg = w[i + 1:i + 2]
+        if ch == "s":
+            out.add(w[:i] + "z" + w[i + 1:])
+            if seg in ("a", "o", "u"):
+                out.add(w[:i] + "c" + w[i + 1:])            # s -> c (ç)
+            if w[i + 1:i + 2] == "s":
+                out.add(w[:i] + "c" + w[i + 2:])            # ss -> c (ç)
+                out.add(w[:i] + w[i + 1:])                  # ss -> s
+            elif 0 < i < len(w) - 1 and w[i - 1] in "aeiou" and seg in tuple("aeiou"):
+                out.add(w[:i] + "ss" + w[i + 1:])           # s -> ss
+        elif ch == "z":
+            out.add(w[:i] + "s" + w[i + 1:])
+        elif ch == "c" and seg in ("a", "o", "u"):
+            out.add(w[:i] + "s" + w[i + 1:])                # c (ç) -> s
+            out.add(w[:i] + "ss" + w[i + 1:])               # c (ç) -> ss
+    out.discard(w)
+    return out
+
+
+def grafia_sz(texto):
+    """Corrige so a troca de s/z/c/ss contra o vocabulario do banco."""
+    v = _vocab()
+    if not v["set"] or not texto:
+        return texto
+    forma = _formas_do_banco()
+
+    def troca(m):
+        w = m.group(0)
+        wn = normalizar(w)
+        if len(wn) < 5 or wn in v["set"] or wn in _CURTAS_OK or " " in wn:
+            return w
+        cands = [c for c in _trocas_sz(wn) if c in v["set"]]
+        if len(cands) != 1:
+            return w
+        novo = forma.get(cands[0], cands[0])
+        if w[:1].isupper():
+            novo = novo[:1].upper() + novo[1:]
+        return novo
+    return _PAL_TXT.sub(troca, texto)
+
 
 _PERTO = {}
 def _mais_perto(w):
@@ -929,7 +1008,7 @@ def rotear(ditado, _auto=False):
     if cmd is not None:
         return formar_laudo(*cmd)
     original = bruto
-    bruto = ouvido_fixo(_sem_preambulo(bruto))
+    bruto = grafia_sz(ouvido_fixo(_sem_preambulo(bruto)))
     n = normalizar(bruto)
 
     # --- instrucao sobre o laudo que esta na tela ---
@@ -994,7 +1073,7 @@ def rotear(ditado, _auto=False):
                     break
 
     # OUVIDO: o que o reconhecimento de voz errou, antes de procurar
-    bruto_fixo = ouvido_fixo(original)       # tsv: vale tambem para texto livre
+    bruto_fixo = grafia_sz(ouvido_fixo(original))   # tsv: vale tambem para texto livre
     bruto_lit = bruto                        # palavras do medico (RX literal)
     bruto = ouvido_bruto(bruto)              # vocabulario do banco: so para achar
     n = normalizar(bruto)
@@ -1090,17 +1169,28 @@ def rotear(ditado, _auto=False):
             base = preencher(txt, bruto, ctx)
             if blocos or orfaos:
                 texto = montar(base, blocos, ctx)
+                postos = 0
+                literal = {o: _palavras_do_medico(o, bruto, bruto_lit) for o in orfaos}
+                if orfaos and _config().get("tc_literal", True):
+                    try:
+                        texto, sobra = _orfaos_no_lugar(texto, orfaos, tit, restantes, blocos, literal,
+                                                        bruto, bruto_lit)
+                        postos, orfaos = len(orfaos) - len(sobra), sobra
+                    except Exception as e:
+                        print("AVISO: achado no lugar falhou (%s: %s)" % (type(e).__name__, e), file=sys.stderr)
                 if orfaos:
-                    texto = _anexar_orfaos(texto, orfaos)
+                    texto = _anexar_orfaos(texto, [literal.get(o, o) for o in orfaos])
+                texto = _alteradas_primeiro(texto, tit, bruto, ctx)
                 return texto, f"composto:{tit}+{len(blocos)} bloco(s)" + \
+                              (f"+{postos} com as suas palavras" if postos else "") + \
                               (f"+{len(orfaos)} nao reconhecido(s)" if orfaos else "")
-            return base, f"mascara:{tit}"
+            return _alteradas_primeiro(base, tit, bruto, ctx), f"mascara:{tit}"
 
     tit, txt, score = BANCO.buscar(resto, tipo)
     if txt is not None and not _modalidade_confere(resto, tit):
         tit, txt = None, None
     if txt is not None:
-        return preencher(txt, bruto), f"{tipo or 'auto'}:{tit} ({score:.2f})"
+        return _alteradas_primeiro(preencher(txt, bruto), tit, bruto), f"{tipo or 'auto'}:{tit} ({score:.2f})"
     if tipo == "frase":
         achado = _frase_aproximada(resto)
         if achado:
@@ -1238,6 +1328,336 @@ def _ja_no_texto(orfao, linhas):
         if all(re.search(r"\b%s\b" % re.escape(w), n) for w in pal):
             return True
     return False
+
+
+# ---------------------------------------------------------------------------
+# TC: achado ditado que o banco nao tem entra COM AS PALAVRAS DO MEDICO no
+# rotulo da estrutura ("Parenquima pulmonar:", "Figado:") e a frase de
+# normalidade daquela estrutura sai (regra do Bruno: alteracao e normalidade
+# da mesma estrutura nunca juntas). Sem estrutura certa, fica marcado no fim.
+# config.json: "tc_literal": false volta a so marcar no fim.
+# ---------------------------------------------------------------------------
+_ROT_LINHA = re.compile(r"^(\s*-?\s*[^\W\d_][^:.;]{0,70}):\s+(.*)$")
+_GENERICO_TC = set("""alteracoes alteracao significativas significativos significativa particularidades
+anormalidades evidentes evidente caracterizaveis caracterizavel metodo limites normal normais habitual
+habituais preservado preservada preservados preservadas regular regulares dimensoes contornos morfologia
+densidade aspecto discreto discreta discretos discretas acentuado acentuada moderado moderada leve leves
+direito direita esquerdo esquerda bilateral bilaterais medindo medida cerca inferior superior anterior
+posterior lateral medial proximal distal terco regiao nivel niveis pequeno pequena grande volume
+compativel sugestivo sugestiva achado achados estudo exame imagem imagens presenca ausencia sinais sinal
+aumento reducao difuso difusa focal focais segmento segmentos demais outros outras protocolo utilizado
+considerando incluidos incluidas incluido incluida para como mais pela pelo pelos pelas cada esta este
+estes estas sobre entre apos ante onde numa nesse nessa desse dessa todo toda todos todas area areas
+cerca aproximadamente associado associada associados associadas""".split())
+_NEG_TC = re.compile(r"^(?:nao ha|nao se \w+|nao sao \w+|ausencia de|ausentes?|sem)\b")
+_VOC_ROT = {"n": None, "por": {}}
+# palavra que liga o achado ao anterior ("densificacao da gordura ADJACENTE")
+_RELACAO = re.compile(r"\b(?:adjacente|adjacentes|associad[oa]s?|perilesiona(?:l|is)|de permeio|"
+                      r"ao redor|circunjacente|circunjacentes|contigu[oa]s?|no mesmo|na mesma|"
+                      r"deste|desta|dele|dela)\b")
+
+
+def _rad_tc(texto, minimo=4):
+    return {w[:6] for w in normalizar(texto).split()
+            if len(w) >= minimo and w not in _GENERICO_TC and not w.isdigit()}
+
+
+def _vocab_rotulos(reg):
+    """{rotulo_norm: Counter(radicais)} dos blocos do banco da regiao."""
+    if _VOC_ROT["n"] != len(BANCO.itens):
+        por = {}
+        for t, g, tit, txt, sec, con in BANCO.itens:
+            if t != "bloco" or not sec:
+                continue
+            m = BANCO.meta.get(tit)
+            if not m:
+                continue
+            d = por.setdefault(tuple(m[:3]), {})
+            c = d.setdefault(normalizar(sec), collections.Counter())
+            c.update(_rad_tc(g) | _rad_tc(txt or ""))
+        _VOC_ROT.update(n=len(BANCO.itens), por=por)
+    return _VOC_ROT["por"].get(tuple(reg), {})
+
+
+def _rotulo_para(orfao, reg, presentes):
+    """Rotulo (normalizado) do laudo onde o achado entra; None se nao ha um claro.
+    Cada palavra do achado vota nos rotulos pela fracao dos blocos do banco
+    daquele rotulo que a usam; o nome da estrutura dito conta mais."""
+    rad = _rad_tc(orfao)
+    if not rad:
+        return None
+    voc = _vocab_rotulos(reg)
+    total = collections.Counter()
+    for rot in presentes:
+        for r in rad:
+            total[r] += voc.get(rot, collections.Counter())[r]
+    notas = []
+    for rot in presentes:
+        c = voc.get(rot, collections.Counter())
+        nota = sum(c[r] / total[r] for r in rad if total[r])
+        nota += 2.0 * len(rad & _rad_tc(rot))            # "... do figado" -> Figado
+        notas.append((nota, rot))
+    notas.sort(reverse=True)
+    if not notas or notas[0][0] < 0.5:
+        return None
+    if len(notas) > 1 and notas[0][0] < 1.5 * notas[1][0]:
+        return None
+    return notas[0][1]
+
+
+def _frases_normais_regiao(reg):
+    out = set()
+    for _g, _tit, txt in _normais_da_regiao(reg):
+        for l in txt.split("\n"):
+            m = _ROT_LINHA.match(l.replace("**", ""))
+            corpo = m.group(2) if m else l
+            for f in re.split(r"(?<=[.;])\s+", corpo):
+                if f.strip():
+                    out.add(normalizar(f))
+    return out
+
+
+def _cap(t):
+    return t[:1].upper() + t[1:] if t else t
+
+
+def _min(t):
+    # "Nodulo..." -> "nodulo..." depois do rotulo; sigla fica ("TC", "L4-L5")
+    return t[:1].lower() + t[1:] if len(t) > 1 and t[1:2].islower() else t
+
+
+def _palavras_do_medico(trecho, bruto, bruto_lit):
+    """O trecho saiu do texto ja aproximado ao vocabulario do banco (so para
+    achar); devolve o mesmo trecho com as palavras ditas."""
+    i = bruto.find(trecho)
+    tb = list(re.finditer(r"[^\W\d_]+", bruto))
+    tl = list(re.finditer(r"[^\W\d_]+", bruto_lit))
+    if i < 0 or len(tb) != len(tl):
+        return trecho
+    k0 = sum(1 for m in tb if m.end() <= i)
+    out, j = [], 0
+    for m in re.finditer(r"[^\W\d_]+", trecho):
+        if k0 + j >= len(tl):
+            return trecho
+        out.append((m.start(), m.end(), tl[k0 + j].group(0)))
+        j += 1
+    r, ult = [], 0
+    for a, b, w in out:
+        r.append(trecho[ult:a]); r.append(w); ult = b
+    r.append(trecho[ult:])
+    return "".join(r)
+
+
+def _grupos_de_orfaos(orfaos, restantes, bruto):
+    """Achados sem bloco ditos juntos com "com"/"e" ("pancreas com atrofia difusa
+    e calcificacoes") formam UMA frase: [(trecho_do_bruto, [orfaos])]."""
+    pos, ini = {}, 0
+    for k, x in enumerate(restantes):
+        i = bruto.find(x, ini) if bruto else -1
+        if i >= 0:
+            pos[k] = (i, i + len(x))
+            ini = i + len(x)
+    grupos = []
+    for o in orfaos:
+        k = restantes.index(o) if o in restantes else -1
+        if grupos and k > 0 and (k - 1) in pos and k in pos:
+            g_trecho, g_orf, g_k = grupos[-1]
+            entre = bruto[pos[k - 1][1]:pos[k][0]]
+            if g_k == k - 1 and re.fullmatch(r"\s*(?:com|e|associad[oa]s? a)\s*", entre, re.I):
+                k0 = restantes.index(g_orf[0])
+                grupos[-1] = (bruto[pos[k0][0]:pos[k][1]], g_orf + [o], k)
+                continue
+        grupos.append((o, [o], k))
+    return [(t, g) for t, g, _k in grupos]
+
+
+def _orfaos_no_lugar(texto, orfaos, tit, restantes, blocos, literal=None, bruto="", bruto_lit=""):
+    """Poe cada achado sem bloco no rotulo da sua estrutura. Devolve (texto, sobra)."""
+    literal = literal or {}
+    meta = BANCO.meta.get(tit)
+    if not meta:
+        return texto, list(orfaos)
+    reg = tuple(meta[:3])
+    linhas = texto.split("\n")
+    a = _idx(linhas, {"ANALISE", "RELATORIO", "ACHADOS"})
+    if a is None:
+        return texto, list(orfaos)
+    fim = _fim_secao(linhas, a)
+    onde = {}
+    for i in range(a + 1, fim):
+        m = _ROT_LINHA.match(linhas[i])
+        if m and not _cab(linhas[i]):
+            onde.setdefault(normalizar(m.group(1)), i)
+    if not onde:
+        return texto, list(orfaos)
+    normais = _frases_normais_regiao(reg)
+    rot_do_bloco = {b[4]: normalizar(b[2]) for b in blocos if b[2]}
+    sobra, conclusao = [], []
+    anterior_rot = {}
+    for k, x in enumerate(restantes):
+        nx = normalizar(x)
+        for seg_b, rot_b in rot_do_bloco.items():
+            # o bloco pode ter juntado trechos seguidos ("apendice" + "diametro aumentado")
+            if x == seg_b or (nx and nx in normalizar(seg_b)):
+                anterior_rot[k] = rot_b
+                break
+
+    def lugar(trecho, primeiro):
+        k_o = restantes.index(primeiro) if primeiro in restantes else -1
+        antes = anterior_rot.get(k_o - 1) if k_o > 0 else None
+        if antes in onde and _RELACAO.search(normalizar(trecho)):
+            return antes, True
+        rot = _rotulo_para(trecho, reg, list(onde))
+        if rot is not None:
+            return rot, False
+        if antes in onde:
+            # sem estrutura clara logo depois de um achado do banco: detalhe dele
+            return antes, True
+        return None, False
+
+    def colocar(rot, dito, voto, continuacao):
+        i = onde[rot]
+        m = _ROT_LINHA.match(linhas[i])
+        rotulo, corpo = m.group(1), m.group(2)
+        frase = revisar_local(dito).strip().rstrip(".;, ") + "."
+        rad_o = _rad_tc(voto)
+        ficam = []
+        for n_f, f in enumerate([f for f in re.split(r"(?<=[.;])\s+", corpo) if f.strip()]):
+            nf = normalizar(f)
+            if n_f == 0 and _frase_normal_tc(f, normais):
+                continue                                    # a descricao normal da estrutura ("sem colecoes")
+            if nf.startswith(("demais", "restante")):
+                continue                                    # "Demais segmentos sem alteracoes"
+            if _NEG_TC.match(nf):
+                cont = _rad_tc(re.sub(r"^(?:nao ha|nao se \w+|nao sao \w+|ausencia de|ausentes?|sem)\s*", "", nf))
+                if not cont or cont & rad_o:
+                    continue                                # "sem alteracoes" / o que o achado desmente
+                ficam.append(("neg", f))
+            elif nf in normais:
+                continue                                    # a descricao normal da estrutura
+            else:
+                ficam.append(("alt", f))
+        alteradas = [f for tp, f in ficam if tp == "alt"]
+        negativas = [f for tp, f in ficam if tp == "neg"]
+        partes = alteradas + [frase] + negativas
+        partes = [_min(partes[0])] + [_cap(p) for p in partes[1:]]
+        sep = re.search(r":(\s+)", linhas[i]).group(1)
+        linhas[i] = rotulo + ":" + sep + " ".join(partes)
+        if not continuacao:
+            conclusao.append(_cap(frase))
+
+    for trecho, grupo in _grupos_de_orfaos(orfaos, restantes, bruto):
+        if len(grupo) > 1:
+            # junta quando abre com o nome da estrutura ("pancreas com atrofia e
+            # calcificacoes") ou quando cada pedaco, sozinho, iria para o mesmo lugar
+            r0 = _rad_tc(grupo[0])
+            nome = bool(r0) and any(r0 <= _rad_tc(rot, 4) for rot in onde)
+            votos = [_rotulo_para(o, reg, list(onde)) for o in grupo]
+            # (o pedaco sem estrutura, "espessura de 8 mm", e detalhe do anterior)
+            grupo_ok = nome or (votos[0] is not None and len({v for v in votos if v}) == 1)
+        if len(grupo) > 1 and grupo_ok:
+            rot, cont = lugar(trecho, grupo[0])
+            if rot is not None:
+                colocar(rot, _palavras_do_medico(trecho, bruto, bruto_lit), trecho, cont)
+                continue
+        for o in grupo:
+            if _ja_no_texto(o, linhas):
+                continue
+            rot, cont = lugar(o, o)
+            if rot is None:
+                sobra.append(o)
+                continue
+            colocar(rot, literal.get(o, o), o, cont)
+    if conclusao:
+        c = _idx(linhas, {"CONCLUSAO", "IMPRESSAO", "OPINIAO"})
+        if c is not None:
+            f = _fim_secao(linhas, c)
+            corpo = [l for l in linhas[c + 1:f] if l.strip() and not NORMAL.search(l.strip())]
+            ja = {normalizar(l) for l in corpo}
+            novos = [x for x in conclusao if normalizar(x) not in ja]
+            cauda = linhas[f:]
+            linhas = linhas[:c + 1] + corpo + novos + ([""] + cauda if cauda else [])
+    return "\n".join(linhas), sobra
+
+
+# ---------------------------------------------------------------------------
+# ALTERACOES PRIMEIRO (regra do Bruno): na analise, as estruturas com achado
+# abrem o laudo; as normais vem abaixo, na ordem da mascara.
+# config.json: "alteradas_primeiro": false mantem a ordem da mascara.
+# ---------------------------------------------------------------------------
+def _normais_preenchidas(meta, bruto, ctx):
+    out = set()
+    for _g, _t, txt_n in _normais_da_regiao(meta):
+        for fonte in (txt_n, preencher(txt_n, bruto, ctx)):
+            for l in fonte.split("\n"):
+                m = _ROT_LINHA.match(l.replace("**", ""))
+                corpo = m.group(2) if m else l
+                for f in re.split(r"(?<=[.;])\s+", corpo):
+                    if f.strip():
+                        out.add(normalizar(f))
+    return out
+
+
+_PAL_NORMAL_TC = re.compile(r"preservad|\bnormais?\b|habitua(?:l|is)|dentro dos limites|sem particularidades|"
+                            r"sem alteracoes|\bregulares?\b|centrad|normopneumat|normodistend|topic|integr|"
+                            r"simetric|\blivres?\b|homogene|mantid|conservad")
+_MARCA_TC = re.compile(r"compativ|sugestiv|aument|reduc|reduz|espessa|calcul|cisto|nodul|massa|derrame|"
+                       r"atelect|consolid|opacid|fratur|hernia|protrus|abaulament|estenos|dilatad|ectasi|"
+                       r"aneurism|trombo|colecao|liquido livre|densifica|hipodens|hiperdens|hipoatenu|"
+                       r"hiperatenu|realce|lesao|osteofit|ateromat|placa|esteatose|litiase|edema|enfisema|"
+                       r"bronquiectas|fibros|cicatri|gliose|encefalomal|isquemi|hemorrag|atrofi|calcifica|"
+                       r"espondil|artros|escolio|listese|desvio|sequela|pos operatori|protese|material")
+
+
+def _frase_normal_tc(f, normais):
+    nf = normalizar(f)
+    if not nf or nf in normais or _NEG_TC.match(nf) or nf.startswith(("demais", "restante")):
+        return True
+    return bool(_PAL_NORMAL_TC.search(nf)) and not _MARCA_TC.search(nf)
+
+
+def _alteradas_primeiro(texto, tit, bruto="", ctx=""):
+    if not _config().get("alteradas_primeiro", True):
+        return texto
+    meta = BANCO.meta.get(tit)
+    if not meta or meta[1] == "rx":
+        return texto                    # radiografia: rx_literal.compor ja ordena
+    linhas = texto.split("\n")
+    a = _idx(linhas, {"ANALISE", "RELATORIO", "ACHADOS"})
+    if a is None:
+        return texto
+    fim = _fim_secao(linhas, a)
+    while fim - 1 > a and not linhas[fim - 1].strip():
+        fim -= 1
+    corpo = linhas[a + 1:fim]
+    # unidades: linha com rotulo + as linhas seguintes sem rotulo (continuacao)
+    unidades, marcas = [], []
+    for l in corpo:
+        if l.startswith("[não encontrado"):
+            marcas.append(l)
+        elif _ROT_LINHA.match(l) or not unidades:
+            unidades.append([l])
+        else:
+            unidades[-1].append(l)
+    if sum(1 for u in unidades if _ROT_LINHA.match(u[0])) < 3:
+        return texto                    # mascara sem rotulos: fica como esta
+    normais = _normais_preenchidas(meta, bruto, ctx)
+
+    def alterada(u):
+        for l in u:
+            if not l.strip():
+                continue
+            m = _ROT_LINHA.match(l)
+            c = m.group(2) if m else l
+            if any(not _frase_normal_tc(f, normais) for f in re.split(r"(?<=[.;])\s+", c) if f.strip()):
+                return True
+        return False
+    alt = [u for u in unidades if alterada(u)]
+    if not alt:
+        return texto
+    nor = [u for u in unidades if not alterada(u)]
+    novo = [l for u in alt + nor for l in u] + marcas
+    return "\n".join(linhas[:a + 1] + novo + linhas[fim:])
 
 
 def _anexar_orfaos(texto, orfaos):
@@ -1485,7 +1905,11 @@ def _compor_rx_literal(bruto_lit, bruto, cab_raw, cab_norm, tit, txt):
     lado_dit = _lado(normalizar(bruto))
     fonte = ctx if (_lado(normalizar(ctx)) or not lado_dit) else ctx + " " + lado_dit
     base = preencher(txt, fonte, ctx)
-    texto = rx_literal.compor(base, achados)
+    normais = set()
+    for _g, _t, txt_n in _normais_da_regiao(meta):
+        normais.update(rx_literal._n(l) for l in txt_n.split("\n") if l.strip())
+    texto = rx_literal.compor(base, achados, normais=normais,
+                              alteradas_primeiro=_config().get("alteradas_primeiro", True))
     if texto is None:
         return None
     if achados:

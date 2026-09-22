@@ -1,4 +1,5 @@
-// Handy Radiology paste processor — v9 (v8 do Bruno + negrito, CRLF e maiuscula de inicio de frase)
+// Handy Radiology paste processor — v10 (v8 do Bruno + negrito, CRLF, maiuscula de inicio de frase
+// e, no v10, frase completa: comeca com maiuscula e termina com ponto)
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -54,6 +55,14 @@ internal static class Program
             // recognized letter after them before converting markers to CRLF.
             text = CapitalizeAfterParagraphMarkers(text);
             text = Cleanup(text);
+
+            // v10: frase completa (desligar: linha "OPT<TAB>frase_completa<TAB>nao" no mapa)
+            bool fraseCompleta = !rules.Any(r =>
+                string.Equals(r.Kind, "OPT", StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(r.Source.Trim(), "frase_completa", StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(r.Target.Trim(), "nao", StringComparison.OrdinalIgnoreCase));
+            if (fraseCompleta)
+                text = CompleteSentences(text);
 
             if (string.IsNullOrWhiteSpace(text))
                 return 0;
@@ -259,6 +268,38 @@ internal static class Program
                 return m.Groups[1].Value + m.Groups[2].Value + upper;
             },
             RegexOptions.CultureInvariant);
+    }
+
+    // v10 — o ditado colado comeca com letra maiuscula, cada frase depois de
+    // ". ", "! " ou "? " tambem, e o texto termina com ponto final (virgula ou
+    // ponto e virgula soltos no fim viram ponto). Pedido do Bruno, 22/09/2026.
+    internal static string CompleteSentences(string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return text;
+
+        text = Regex.Replace(
+            text,
+            @"^([\s\*_""'\(\[]*)(\p{Ll})",
+            delegate(Match m)
+            {
+                return m.Groups[1].Value + char.ToUpperInvariant(m.Groups[2].Value[0]).ToString();
+            },
+            RegexOptions.CultureInvariant);
+
+        text = Regex.Replace(
+            text,
+            @"([.!?][ \t]+)(\p{Ll})",
+            delegate(Match m)
+            {
+                return m.Groups[1].Value + char.ToUpperInvariant(m.Groups[2].Value[0]).ToString();
+            },
+            RegexOptions.CultureInvariant);
+
+        text = Regex.Replace(text, @"[ \t]*[,;][ \t]*$", "");
+        if (Regex.IsMatch(text, @"[\p{L}\p{N}\)%\u00B0]$"))
+            text += ".";
+        return text;
     }
 
     private static string Cleanup(string text)

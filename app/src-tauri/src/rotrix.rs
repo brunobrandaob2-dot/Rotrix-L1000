@@ -710,3 +710,62 @@ pub fn rotrix_fila_salvar(
     }
     gravar_config(&p, &c)
 }
+
+/// Ditado simples (Ctrl+Espaço, sem o roteador): começa com letra maiúscula,
+/// cada frase depois de ". ", "! ", "? " ou de uma linha nova também, e o texto
+/// termina com ponto final. Vírgula solta no fim vira ponto.
+pub fn frase_formatada(texto: &str) -> String {
+    let corpo = texto.trim_end();
+    if corpo.trim().is_empty() {
+        return texto.to_string();
+    }
+    let cauda = &texto[corpo.len()..];
+    let mut out = String::with_capacity(corpo.len() + 1);
+    let mut maiuscula = true;
+    let mut anterior_fim = false;
+    for ch in corpo.chars() {
+        if ch.is_alphabetic() {
+            if maiuscula {
+                out.extend(ch.to_uppercase());
+            } else {
+                out.push(ch);
+            }
+            maiuscula = false;
+            anterior_fim = false;
+            continue;
+        }
+        if ch.is_numeric() {
+            maiuscula = false;
+        }
+        if ch == '\n' || (ch.is_whitespace() && anterior_fim) {
+            maiuscula = true;
+        }
+        anterior_fim = matches!(ch, '.' | '!' | '?');
+        out.push(ch);
+    }
+    if out.ends_with(',') || out.ends_with(';') {
+        out.pop();
+    }
+    let ultimo = out.chars().last().unwrap_or('.');
+    if ultimo.is_alphanumeric() || matches!(ultimo, ')' | '%' | '°' | ']') {
+        out.push('.');
+    }
+    out.push_str(cauda);
+    out
+}
+
+#[cfg(test)]
+mod testes_frase {
+    use super::frase_formatada;
+
+    #[test]
+    fn maiuscula_e_ponto() {
+        assert_eq!(frase_formatada("derrame pleural à direita"), "Derrame pleural à direita.");
+        assert_eq!(frase_formatada("já tem ponto."), "Já tem ponto.");
+        assert_eq!(frase_formatada("medindo 1.5 cm"), "Medindo 1.5 cm.");
+        assert_eq!(frase_formatada("primeira. segunda frase,"), "Primeira. Segunda frase.");
+        assert_eq!(frase_formatada("linha um\nlinha dois"), "Linha um\nLinha dois.");
+        assert_eq!(frase_formatada("L4-L5 com protrusão"), "L4-L5 com protrusão.");
+        assert_eq!(frase_formatada("  "), "  ");
+    }
+}

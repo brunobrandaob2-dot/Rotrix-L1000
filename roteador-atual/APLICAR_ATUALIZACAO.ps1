@@ -69,6 +69,28 @@ if (-not $ok) { Write-Host "  [X] falha ao gerar a base" -ForegroundColor Red; R
 $h = Get-Process -Name handy -ErrorAction SilentlyContinue | Select-Object -First 1
 $hp = $null
 if ($h) { $hp = $h.Path; Stop-Process -Id $h.Id -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 1 }
+
+# 4c. processador de colagem (v10: maiuscula no inicio e ponto final), so se
+# ele ja estava em uso; se nao compilar, fica o anterior
+$hd = "$env:APPDATA\com.pais.handy"
+$exeCol = "$hd\handy_radiology_paste.exe"
+$env:ROTEADOR_COLADOR_OK = "0"
+if ((Test-Path $exeCol) -and (Test-Path "$pasta\handy\handy_radiology_paste.cs")) {
+  try {
+    Copy-Item "$pasta\handy\handy_radiology_paste.cs" "$hd\handy_radiology_paste.cs" -Force
+    $novoCol = "$hd\handy_radiology_paste.novo.exe"
+    if (Test-Path $novoCol) { Remove-Item $novoCol -Force }
+    Add-Type -Path "$hd\handy_radiology_paste.cs" `
+      -ReferencedAssemblies @("System.dll","System.Core.dll","System.Windows.Forms.dll") `
+      -OutputAssembly $novoCol -OutputType WindowsApplication
+    Copy-Item $exeCol "$hd\handy_radiology_paste.anterior.exe" -Force
+    Move-Item $novoCol $exeCol -Force
+    $env:ROTEADOR_COLADOR_OK = "1"
+    Write-Host "  [ok] processador de colagem atualizado (maiuscula e ponto final)" -ForegroundColor Green
+  } catch {
+    Write-Host "  [!] processador de colagem mantido: $($_.Exception.Message)" -ForegroundColor Yellow
+  }
+}
 Push-Location $pasta
 & $py configurar_handy.py | Out-Null
 Pop-Location

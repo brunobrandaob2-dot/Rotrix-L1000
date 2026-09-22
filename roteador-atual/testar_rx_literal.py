@@ -52,14 +52,43 @@ CASOS = [
      ["RADIOGRAFIA DO FÊMUR DIREITO", "Fratura da diáfise."], ["CRÂNIO"]),
     ("raio x de tórax com marcapasso com eletrodos em átrio e ventrículo direitos",
      ["Marcapasso com eletrodos em átrio e ventrículo direitos."], []),
+    # 22/09: grafia, normal que sai, alterações primeiro
+    ("Raio x do punho direito, sinais de risartrose, sinais de sequela de fratura no rádio distal.",
+     ["Sinais de rizartrose.", "Espaços articulares radiocarpal"],
+     ["risartrose", "Articulação trapeziometacarpiana preservada", "Não há sinais de fraturas"],
+     ["Sinais de rizartrose.", "Sinais de sequela de fratura no rádio distal."]),
+    ("Raio x da bacia, material de síntese e ácido metálica intramedular fixada no fêmur esquerdo, "
+     "coxartrose bilateral, ateromatose esparça.",
+     ["Material de síntese e haste metálica intramedular fixada no fêmur esquerdo.", "Ateromatose esparsa.",
+      "Demais partes moles sem alterações."],
+     ["ácido", "esparça"],
+     ["Material de síntese e haste metálica intramedular fixada no fêmur esquerdo.", "Coxartrose bilateral.",
+      "Ateromatose esparsa."]),
+    ("Raio x de tórax no leito com alterações crônicas, aumento da área cardíaca, ateromas calcificados na orta, "
+     "espondilose torácica.",
+     ["Ateromas calcificados na aorta.", "Aumento da área cardíaca."],
+     ["Alterações crônicas.", "na orta", "Área cardíaca sem aumento"],
+     ["Aumento da área cardíaca.", "Ateromas calcificados na aorta.", "Espondilose torácica."]),
+    ("raio x da coluna torácica, espondilose com fratura vertebral",
+     ["Espondilose com fratura vertebral."], ["Corpos vertebrais com altura preservada, sem sinais de fraturas"]),
+    ("raio x do ombro direito, prótese com redução da densidade óssea",
+     ["Prótese com redução da densidade óssea."], ["Densidade óssea preservada"]),
+    ("Raio x de tórax, espondilose torácica, fratura consolidada do arco costal esquerdo.",
+     ["Campos pulmonares sem opacidades focais."], ["Arcabouço ósseo sem alterações"]),
 ]
 
 
 def main():
     falhas = 0
-    for dit, tem, nao in CASOS:
+    for caso in CASOS:
+        dit, tem, nao = caso[:3]
+        primeiras = caso[3] if len(caso) > 3 else []
         t, o = r.rotear(dit)
         erros = [f"falta: {x}" for x in tem if x not in t] + [f"sobrou: {x}" for x in nao if x in t]
+        if primeiras:
+            corpo = t.split("**ANÁLISE:**", 1)[-1].strip().split("\n")
+            if corpo[:len(primeiras)] != primeiras:
+                erros.append("alterações não abrem a análise: %s" % corpo[:len(primeiras)])
         if erros:
             falhas += 1
             print("FALHOU", dit, "->", o)
