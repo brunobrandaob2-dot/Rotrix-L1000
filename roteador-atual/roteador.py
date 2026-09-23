@@ -51,12 +51,29 @@ COMANDOS = {
     "adendo": "adendo",
 }
 
-def normalizar(s):
+def _normalizar_bruto(s):
     s = unicodedata.normalize("NFD", s or "")
     s = "".join(c for c in s if unicodedata.category(c) != "Mn")
     s = s.lower().replace("-", " ")
     s = re.sub(r"[^a-z0-9 ]+", " ", s)
     return re.sub(r"\s+", " ", s).strip()
+
+
+# normalizar() roda milhões de vezes ao varrer o banco (vocabulário, grafia
+# s/z, rótulos da TC). Guardar o resultado das PALAVRAS - as frases longas
+# passam direto - derruba o preparo de ~13 s para ~2 s.
+_NORM = {}
+
+
+def normalizar(s):
+    if not s or len(s) > 48:
+        return _normalizar_bruto(s)
+    v = _NORM.get(s)
+    if v is None:
+        if len(_NORM) > 300000:
+            _NORM.clear()
+        v = _NORM[s] = _normalizar_bruto(s)
+    return v
 
 
 class Banco:
