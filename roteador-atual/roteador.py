@@ -31,6 +31,10 @@ try:
 except Exception:
     radius = None
 try:
+    import oficina            # oficina de máscaras (propor/aplicar/desfazer)
+except Exception:
+    oficina = None
+try:
     import perfil as perfil_mod
 except Exception:
     perfil_mod = None
@@ -41,7 +45,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-23.5"
+VERSAO = "2026-09-23.6"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -2229,7 +2233,10 @@ class Handler(BaseHTTPRequestHandler):
                 if rota.endswith("/mascaras/ia"):
                     return self._json(200, mascaras_ia(corpo.get("instrucao") or "",
                                                        corpo.get("busca") or "",
-                                                       corpo.get("limite") or 25))
+                                                       corpo.get("limite") or 14,
+                                                       corpo.get("texto") or "",
+                                                       corpo.get("aplicar"),
+                                                       corpo.get("desfazer")))
                 if rota.endswith("/ia"):
                     return self._json(200, ia_no_texto(corpo.get("texto") or "",
                                                        corpo.get("instrucao") or "",
@@ -2361,48 +2368,57 @@ def mascaras_banco(busca="", titulo="", limite=120):
             "titulo": titulo or "", "texto": texto_pedido or ""}
 
 
-def mascaras_ia(instrucao, busca="", limite=25):
-    """Pedido falado sobre o banco: a IA lê o texto das máscaras e responde.
+def mascaras_ia(instrucao, busca="", limite=25, texto="", aplicar=None, desfazer=None):
+    """Oficina de máscaras: entende o pedido, acha as máscaras certas e devolve
+    PROPOSTAS de mudança — que você aprova na tela e o roteador grava de verdade.
 
-    É a caixa "pedir para a IA trabalhar no banco" da aba Máscaras. Nada é
-    alterado aqui: a resposta é uma lista de propostas que você aprova na mão.
-    Só texto de máscara é enviado — laudo de paciente nunca entra."""
+    `texto` é a máscara que você colou (com os erros, ou já corrigida).
+    `aplicar` é a lista de propostas aprovadas; `desfazer` é o carimbo de uma
+    aplicação anterior. Nada é gravado sem aprovação e tudo é reversível."""
+    if oficina is None:
+        return {"ok": False, "motivo": "oficina_ausente"}
+
+    def _refazer():
+        try:
+            import importar_usuario
+            return importar_usuario.refazer_base()
+        except Exception as e:
+            return False, "%s: %s" % (type(e).__name__, str(e)[:120])
+
+    if desfazer:
+        return oficina.desfazer(desfazer, BANCO, _refazer)
+    if aplicar:
+        return oficina.aplicar(aplicar, BANCO, _refazer)
+
     instrucao = (instrucao or "").strip()
-    if not instrucao:
+    texto = (texto or "").strip()
+    if not instrucao and not texto:
         return {"ok": False, "motivo": "instrucao_vazia"}
     if nuvem is None:
         return {"ok": False, "motivo": "nuvem_ausente"}
     c = nuvem.config()
     if not c.get("ativa"):
         return {"ok": False, "motivo": "nuvem_desligada"}
-    banco = mascaras_banco(busca, "", 400)
-    escolhidas, vistos = [], set()
-    for d in banco["mascaras"]:
-        if d["titulo"] in vistos:
-            continue
-        vistos.add(d["titulo"])
-        texto = mascaras_banco("", d["titulo"], 1)["texto"]
-        if texto:
-            escolhidas.append((d["titulo"], texto[:1500]))
-        if len(escolhidas) >= max(1, int(limite or 25)):
-            break
+
+    escolhidas = oficina.escolher(BANCO, instrucao, texto, busca,
+                                  max(1, min(int(limite or 14), 25)))
     if not escolhidas:
-        return {"ok": False, "motivo": "nenhuma_mascara", "lidas": 0}
-    partes = ["PEDIDO DO RADIOLOGISTA: %s" % instrucao,
-              "",
-              "MÁSCARAS DO BANCO (%d):" % len(escolhidas)]
-    for tit, texto in escolhidas:
-        partes.append("--- %s ---\n%s" % (tit, texto))
-    partes.append("")
-    partes.append("Responda em português, uma proposta por linha, no formato "
-                  "\"MÁSCARA: o que mudar -> como ficaria\". Não invente achado "
-                  "clínico nem reescreva a máscara inteira.")
-    resposta, origem = nuvem.chamar("\n".join(partes), c, modo="instrucao",
-                                    marcar=False, max_tokens=2000)
-    if origem == "nuvem" and resposta:
-        return {"ok": True, "resposta": resposta, "lidas": len(escolhidas),
-                "modelo": c.get("modelo"), "filtro": busca or ""}
-    return {"ok": False, "motivo": origem, "lidas": len(escolhidas)}
+        return {"ok": False, "motivo": "nenhuma_mascara",
+                "recado": "não achei máscara parecida com esse pedido — diga a região "
+                          "(por exemplo: joelho, tórax) ou cole a máscara inteira."}
+    pedido = oficina.montar_pedido(instrucao, texto, escolhidas)
+    resposta, origem = nuvem.chamar(pedido, c, modo="instrucao", marcar=False, max_tokens=4000)
+    if origem != "nuvem" or not resposta:
+        return {"ok": False, "motivo": origem, "lidas": len(escolhidas)}
+    dados = oficina._so_json(resposta)
+    if dados is None:
+        return {"ok": False, "motivo": "resposta_fora_do_formato",
+                "recado": resposta[:400], "lidas": len(escolhidas)}
+    propostas, recusadas = oficina.validar(dados, escolhidas)
+    return {"ok": True, "propostas": propostas, "recusadas": recusadas,
+            "recado": str(dados.get("recado") or "")[:400],
+            "lidas": len(escolhidas), "modelo": c.get("modelo"),
+            "consideradas": [d["titulo"] for d in escolhidas]}
 
 
 def ia_no_texto(texto, instrucao="", modelo=""):

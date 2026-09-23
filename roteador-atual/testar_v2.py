@@ -330,6 +330,94 @@ def download_de_dicom(falhas):
         shutil.rmtree(downloads, ignore_errors=True)
 
 
+
+def oficina_de_mascaras(falhas):
+    """A aba Máscaras muda o banco de verdade: escolhe a máscara certa, valida a
+    proposta, grava em mascaras_usuario e desfaz."""
+    import oficina
+
+    colado = ("RADIOGRAFIA DO JOELHO DIREITO\n"
+              "TÉCNICA: incidências anteroposterior e perfil.\n"
+              "ANÁLISE:\nEspaços articulares femorotibiais reduzidos.\n"
+              "CONCLUSÃO:\nGonartrose.")
+    esc = oficina.escolher(roteador.BANCO, "corrige essa máscara", colado, "", 8)
+    if not esc:
+        falhas.append("oficina: colando uma máscara de joelho, não achou nenhuma parecida")
+        return
+    if not any("joelho" in d["titulo"] for d in esc[:3]):
+        falhas.append("oficina: a máscara certa não ficou entre as 3 primeiras: %s"
+                      % [d["titulo"] for d in esc[:3]])
+    alvo = next((d for d in esc if "joelho" in d["titulo"]), esc[0])
+
+    # a IA responde em JSON; o validador aceita o que dá para aplicar e recusa o resto
+    texto_novo = ("**RADIOGRAFIA DO JOELHO {lado}**\n\n**TÉCNICA:** incidências "
+                  "anteroposterior e perfil.\n\n**ANÁLISE:**\nEspaços articulares "
+                  "preservados.\n\n**CONCLUSÃO:**\nExame sem alterações.")
+    bruto = json.dumps({"operacoes": [
+        {"acao": "substituir", "titulo": alvo["titulo"], "texto": texto_novo, "porque": "padroniza"},
+        {"acao": "substituir", "titulo": "nao/existe", "texto": "x" * 40, "porque": "-"},
+        {"acao": "criar", "nome": "rx joelho com protese total", "modalidade": "rx",
+         "regiao": "joelho", "gatilhos": ["raio x de joelho com protese"],
+         "texto": "**RADIOGRAFIA DO JOELHO {lado}**\n\n**ANÁLISE:**\nPrótese total do "
+                  "joelho, com componentes bem posicionados.", "porque": "faltava"},
+        {"acao": "trocar_frase", "titulo": "todas", "de": "zzz nao existe", "para": "y", "porque": "-"},
+    ]}, ensure_ascii=False)
+    props, recusadas = oficina.validar(oficina._so_json("```json\n" + bruto + "\n```"), esc)
+    if len(props) != 2:
+        falhas.append("oficina: esperava 2 propostas boas, veio %d" % len(props))
+        return
+    if len(recusadas) != 2:
+        falhas.append("oficina: as duas operações inventadas deviam ser recusadas (%d)" % len(recusadas))
+
+    # aplicar de verdade, em pastas de teste
+    usuario = tempfile.mkdtemp(prefix="v2_masc_usuario_")
+    copias = tempfile.mkdtemp(prefix="v2_masc_copias_")
+    guarda = (oficina.PASTA_USUARIO, oficina.PASTA_COPIAS)
+    oficina.PASTA_USUARIO, oficina.PASTA_COPIAS = usuario, copias
+    refeita = {"n": 0}
+
+    def refazer_falso():
+        refeita["n"] += 1
+        return True, "base refeita (teste)"
+
+    try:
+        r = oficina.aplicar(props, None, refazer_falso)
+        if not r.get("ok") or r.get("aplicadas") != 2:
+            falhas.append("oficina: aplicar respondeu %r" % {k: r[k] for k in ("ok", "aplicadas", "erros")})
+            return
+        if refeita["n"] != 1:
+            falhas.append("oficina: a base não foi refeita depois de gravar")
+        escritos = []
+        for raiz, _d, arqs in os.walk(usuario):
+            escritos += [os.path.join(raiz, a) for a in arqs if a.endswith(".txt")]
+        if len(escritos) != 2:
+            falhas.append("oficina: esperava 2 arquivos gravados, vieram %d" % len(escritos))
+            return
+        conteudo = open(escritos[0], encoding="utf-8").read()
+        if not conteudo.startswith("# gatilhos:"):
+            falhas.append("oficina: arquivo gravado sem o cabeçalho de gatilhos")
+        if "categoria: usuario" not in conteudo:
+            falhas.append("oficina: arquivo gravado sem a marca de máscara do usuário")
+        # a máscara do Rotrix não pode ter sido tocada
+        original = oficina.caminho_da_mascara(alvo["titulo"])
+        if original and os.path.exists(original):
+            if "oficina " in open(original, encoding="utf-8").read():
+                falhas.append("oficina: escreveu por cima da máscara original do Rotrix")
+        # desfazer apaga o que foi escrito
+        d = oficina.desfazer(r["desfazer"], None, refazer_falso)
+        if not d.get("ok") or d.get("apagados") != 2:
+            falhas.append("oficina: desfazer respondeu %r" % d)
+        sobrou = [a for raiz, _x, arqs in os.walk(usuario) for a in arqs if a.endswith(".txt")]
+        if sobrou:
+            falhas.append("oficina: depois de desfazer sobrou %s" % sobrou)
+        if oficina.aplicar([], None, refazer_falso).get("ok"):
+            falhas.append("oficina: aplicar sem proposta não pode dar ok")
+    finally:
+        oficina.PASTA_USUARIO, oficina.PASTA_COPIAS = guarda
+        shutil.rmtree(usuario, ignore_errors=True)
+        shutil.rmtree(copias, ignore_errors=True)
+
+
 def main():
     falhas = []
     banco(falhas)
@@ -338,6 +426,7 @@ def main():
     iniciais_e_soltos(falhas)
     pasta_de_downloads(falhas)
     download_de_dicom(falhas)
+    oficina_de_mascaras(falhas)
     for f in falhas:
         print("FALHOU", f)
     print("v2: tudo certo" if not falhas else "v2: %d falha(s)" % len(falhas))

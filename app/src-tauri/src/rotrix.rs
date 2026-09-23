@@ -774,16 +774,34 @@ pub fn rotrix_mascaras_banco(busca: String, titulo: String) -> Result<String, St
     )
 }
 
-/// Pedido falado sobre o banco de mascaras: a IA le o texto das mascaras
-/// filtradas e devolve propostas. Nada e alterado sem a sua aprovacao.
+/// Oficina de mascaras. Com `instrucao` (e o `texto` que voce colou) devolve
+/// PROPOSTAS de mudanca; com `aplicar` (as propostas aprovadas, em JSON) grava
+/// de verdade e refaz a base; com `desfazer` (o carimbo de uma aplicacao)
+/// volta tudo. Nada e gravado sem aprovacao.
 #[specta::specta]
 #[tauri::command]
-pub fn rotrix_mascaras_ia(instrucao: String, busca: String) -> Result<String, String> {
-    http_post(
-        "/v1/mascaras/ia",
-        &serde_json::json!({ "instrucao": instrucao, "busca": busca }).to_string(),
-        180_000,
-    )
+pub fn rotrix_mascaras_ia(
+    instrucao: String,
+    busca: String,
+    texto: String,
+    aplicar: String,
+    desfazer: String,
+) -> Result<String, String> {
+    let mut corpo = serde_json::json!({
+        "instrucao": instrucao,
+        "busca": busca,
+        "texto": texto,
+    });
+    if !aplicar.trim().is_empty() {
+        let lista: serde_json::Value =
+            serde_json::from_str(&aplicar).map_err(|e| format!("propostas invalidas: {e}"))?;
+        corpo["aplicar"] = lista;
+    }
+    if !desfazer.trim().is_empty() {
+        corpo["desfazer"] = serde_json::Value::String(desfazer);
+    }
+    // refazer a base leva um tempo: 24 mil gatilhos sao reconstruidos
+    http_post("/v1/mascaras/ia", &corpo.to_string(), 300_000)
 }
 
 /// Abre no RadiAnt os exames marcados na aba Fila, todos na mesma janela.
