@@ -15,6 +15,7 @@ seu texto de correção, nunca o laudo do paciente.
 """
 import json
 import os
+import random
 import re
 import time
 import unicodedata
@@ -76,8 +77,20 @@ def _registrar(item):
         pass
 
 
-def _novo_id():
-    return "%s-%03d" % (time.strftime("%Y%m%d%H%M%S"), int(time.time() * 1000) % 1000)
+def _novo_id(usados=()):
+    """Identificador único da regra.
+
+    Duas regras gravadas no mesmo milissegundo ganhavam o mesmo id, e aí o
+    desfazer mexia na regra errada (tirava a linha do ouvido.tsv de outra, ou
+    de nenhuma). Agora o id leva um sufixo sorteado e é conferido contra os
+    que já existem."""
+    usados = set(usados)
+    base = "%s-%03d" % (time.strftime("%Y%m%d%H%M%S"), int(time.time() * 1000) % 1000)
+    for _ in range(50):
+        novo = "%s-%s" % (base, "%04x" % random.randrange(0x10000))
+        if novo not in usados:
+            return novo
+    return "%s-%s" % (base, os.urandom(4).hex())
 
 
 _PREFIXO = re.compile(r"^(?:a\s+palavra|a\s+express[ãa]o|o\s+termo|a\s+frase|o\s+trecho|a\s+sigla)\s+", re.I)
@@ -113,8 +126,8 @@ def _aplicar_acao(a, texto_original):
     """Grava uma ação. Devolve a regra gravada (dict) ou None."""
     tipo = (a.get("tipo") or "").strip().lower()
     d = _ler_regras()
-    regra = {"id": _novo_id(), "tipo": tipo, "quando": time.strftime("%Y-%m-%d %H:%M"),
-             "pedido": texto_original[:300]}
+    regra = {"id": _novo_id(r.get("id") for r in d["regras"]), "tipo": tipo,
+             "quando": time.strftime("%Y-%m-%d %H:%M"), "pedido": texto_original[:300]}
     if tipo == "ouvido":
         if not _regra_ouvido(a.get("errado"), a.get("certo")):
             return None
@@ -233,12 +246,15 @@ def listar(n=20):
 
 def desfazer(id_regra):
     d = _ler_regras()
-    fora = [r for r in d["regras"] if r.get("id") == id_regra]
-    if not fora:
+    onde = [i for i, r in enumerate(d["regras"]) if r.get("id") == id_regra]
+    if not onde:
         return {"ok": False, "motivo": "nao_encontrada"}
-    d["regras"] = [r for r in d["regras"] if r.get("id") != id_regra]
+    # regras antigas podem ter id repetido (id só com o milissegundo): tira uma
+    # só, a mais recente, e mexe no ouvido.tsv exatamente dessa.
+    i = onde[-1]
+    r = d["regras"][i]
+    del d["regras"][i]
     _gravar_regras(d)
-    r = fora[0]
     if r.get("tipo") == "ouvido" and os.path.exists(ARQ_OUVIDO):
         try:
             linhas = open(ARQ_OUVIDO, encoding="utf-8").read().splitlines()
