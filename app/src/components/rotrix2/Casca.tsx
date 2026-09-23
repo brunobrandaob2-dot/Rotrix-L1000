@@ -27,6 +27,25 @@ const ABAS: { id: Aba; nome: string; icone: React.ElementType }[] = [
   { id: "config", nome: "Config.", icone: Cog },
 ];
 
+// Os modelos que o botão forte pode usar, por provedor. O primeiro de cada
+// lista é o básico (só formatar) e é o que o botão leve usa.
+const MODELOS: Record<string, { id: string; nome: string }[]> = {
+  anthropic: [
+    { id: "claude-haiku-4-5-20251001", nome: "Haiku 4.5" },
+    { id: "claude-sonnet-5", nome: "Sonnet 5" },
+    { id: "claude-opus-5", nome: "Opus 5" },
+    { id: "claude-fable-5-1", nome: "Fable 5.1" },
+  ],
+  openai: [
+    { id: "gpt-5.6-luna", nome: "Luna" },
+    { id: "gpt-5.6-terra", nome: "Terra" },
+    { id: "gpt-5.6-sol", nome: "Sol" },
+  ],
+  gemini: [{ id: "gemini-3.8-flash", nome: "Flash" }],
+};
+
+const GUARDADO = "rotrix2.modeloForte";
+
 // O modelo "leve" de cada provedor é o básico (só formatar) — o mesmo que a
 // tela de IA oferece em primeiro lugar.
 const LEVE: Record<string, { id: string; nome: string }> = {
@@ -69,6 +88,14 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     texto: "",
     n: 0,
   });
+  // o modelo do botão forte é escolha da tela e fica guardado para a próxima vez
+  const [modeloForte, setModeloForte] = useState<string>(() => {
+    try {
+      return localStorage.getItem(GUARDADO) || "";
+    } catch {
+      return "";
+    }
+  });
 
   // quantos exames estão esperando (marcador da aba Fila)
   const contarFila = useCallback(async () => {
@@ -109,6 +136,19 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
   }, []);
 
   const leve = LEVE[ia.provedor] || { id: "", nome: "Leve" };
+  const listaModelos = MODELOS[ia.provedor] || [];
+  const forte =
+    (modeloForte && listaModelos.some((m) => m.id === modeloForte) && modeloForte) ||
+    ia.modelo;
+
+  const trocarModelo = (id: string) => {
+    setModeloForte(id);
+    try {
+      localStorage.setItem(GUARDADO, id);
+    } catch {
+      /* sem problema: no próximo início volta para o modelo da configuração */
+    }
+  };
 
   const abrirNoLaudo = (texto: string) => {
     setParaFolha((p) => ({ texto, n: p.n + 1 }));
@@ -157,18 +197,17 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
         {aba === "laudo" && (
           <LaudoPage
             modeloLeve={leve.nome}
-            modeloCompleto={apelido(ia.modelo)}
-            idModeloCompleto={ia.modelo}
+            modeloCompleto={apelido(forte)}
+            idModeloCompleto={forte}
             textoEntrando={paraFolha}
+            modelos={listaModelos}
+            aoTrocarModelo={trocarModelo}
           />
         )}
         {aba === "fila" && <FilaPage />}
         {aba === "mascaras" && <MascarasPage aoAbrirConfig={abrirConfig} />}
         {aba === "historico" && (
-          <HistoricoPage
-            aoAbrirNoLaudo={abrirNoLaudo}
-            idModeloCompleto={ia.modelo}
-          />
+          <HistoricoPage aoAbrirNoLaudo={abrirNoLaudo} idModeloCompleto={forte} />
         )}
         {aba === "config" && (
           <ConfigPage

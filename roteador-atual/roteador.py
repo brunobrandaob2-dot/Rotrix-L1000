@@ -41,7 +41,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-23.2"
+VERSAO = "2026-09-23.4"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -1974,7 +1974,8 @@ def fila_radius():
     if radius is None:
         return {"disponivel": False, "itens": [], "atual": None, "perfil_automatico": False}
     pasta = radius.pasta_radius(c)
-    fila = radius.ler_fila(pasta)
+    extras = radius.pastas_observadas(c)[1:]
+    fila = radius.ler_fila(pasta, extras)
     at = radius.atual(fila)
     for x in fila:
         x["cabecalho"] = radius.cabecalho(x)
@@ -2146,7 +2147,8 @@ def _cabecalho_automatico():
     if radius is None or not _config().get("perfil_automatico", False):
         return ""
     try:
-        fila = radius.ler_fila(radius.pasta_radius(_config()))
+        _c = _config()
+        fila = radius.ler_fila(radius.pasta_radius(_c), radius.pastas_observadas(_c)[1:])
         for x in fila:
             x["cabecalho"] = radius.cabecalho(x)
         at = estacao_atual(fila)
@@ -2214,6 +2216,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         rota = self.path.rstrip("/")
         if rota.endswith(("/fila/proximo", "/fila/escolher", "/fila/feito", "/fila/abrir",
+                          "/fila/apagar",
                           "/perfil/exportar", "/perfil/importar",
                           "/correcao", "/correcao/desfazer", "/ia",
                           "/mascaras/banco", "/mascaras/ia")):
@@ -2237,6 +2240,8 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(200, estacao_escolher(corpo.get("id")))
                 if rota.endswith("/fila/abrir"):
                     return self._json(200, fila_abrir(corpo.get("ids") or []))
+                if rota.endswith("/fila/apagar"):
+                    return self._json(200, fila_apagar(corpo.get("ids") or []))
                 if rota.endswith("/fila/feito"):
                     return self._json(200, estacao_feito(corpo.get("id"), bool(corpo.get("feito", True))))
                 if rota.endswith("/correcao"):
@@ -2282,13 +2287,24 @@ class Handler(BaseHTTPRequestHandler):
             "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
         })
 
+def fila_apagar(ids):
+    """Manda para a Lixeira os exames marcados na aba Fila e some com eles da lista."""
+    if radius is None:
+        return {"ok": False, "motivo": "radius_ausente"}
+    try:
+        c = _config()
+        return radius.apagar(radius.pasta_radius(c), ids, c, radius.pastas_observadas(c)[1:])
+    except Exception as e:
+        return {"ok": False, "motivo": "%s" % type(e).__name__}
+
+
 def fila_abrir(ids):
     """Abre no RadiAnt os estudos que o app marcou na fila."""
     if radius is None:
         return {"ok": False, "motivo": "radius_ausente"}
     try:
         c = _config()
-        return radius.abrir(radius.pasta_radius(c), ids, c)
+        return radius.abrir(radius.pasta_radius(c), ids, c, radius.pastas_observadas(c)[1:])
     except Exception as e:
         return {"ok": False, "motivo": "%s: %s" % (type(e).__name__, str(e)[:120])}
 

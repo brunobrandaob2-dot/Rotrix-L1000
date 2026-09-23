@@ -69,6 +69,28 @@ def pasta_radius(config=None):
     return os.path.expandvars(os.path.expanduser(p))
 
 
+def pastas_observadas(config=None):
+    """Onde procurar exame: a pasta do Radius e a(s) pasta(s) extras.
+
+    Por padrão entra também a pasta de downloads do navegador — é onde caem os
+    exames que você baixa com o Radius fechado. Em `pastas_extras` (config.json)
+    dá para trocar essa lista."""
+    achadas, vistas = [], set()
+    extras = (config or {}).get("pastas_extras")
+    if extras is None:
+        extras = [os.path.join(os.path.expanduser("~"), "Downloads")]
+    for p in [pasta_radius(config)] + list(extras or []):
+        if not p:
+            continue
+        c = os.path.abspath(os.path.expandvars(os.path.expanduser(str(p))))
+        chave = os.path.normcase(c)
+        if chave in vistas or not os.path.isdir(c):
+            continue
+        vistas.add(chave)
+        achadas.append(c)
+    return achadas
+
+
 def achar_arquivos(pasta, profundidade=2):
     """Arquivos de estado do Radius, só pelo NOME (nenhum outro arquivo é aberto)."""
     achados = []
@@ -179,6 +201,25 @@ def _laudado(v):
     return None
 
 
+_PALAVRA_FRACA = {"de", "da", "do", "dos", "das", "e", "di", "del", "van", "von"}
+
+
+def iniciais(nome, maximo=3):
+    """"FULANO BELTRANO DE TAL" -> "F.B.T." — o bastante para bater com a tela
+    do RadiAnt, sem o nome. É a única coisa derivada do nome que sai daqui, e
+    mesmo assim só para a tela do app: não entra em log nem vai para a IA."""
+    bruto = str(nome or "").replace("^", " ")
+    letras = []
+    for palavra in _n(bruto).split():
+        # número de acesso e data não são nome: "CICLANO SOUZA 555444333" -> "C.S."
+        if palavra in _PALAVRA_FRACA or not palavra or palavra[0].isdigit():
+            continue
+        letras.append(palavra[0].upper())
+        if len(letras) >= maximo:
+            break
+    return ".".join(letras) + "." if letras else ""
+
+
 def _codigo(d, sal):
     for nome in _ID_ESTUDO:
         v = _valor(d, nome)
@@ -201,9 +242,11 @@ def _arquivos_cache(pasta):
     return _CACHE["arqs"]
 
 
-def ler_fila(pasta):
-    """[{id, modalidade, descricao, status, laudado, entrou, fonte}] — só campos permitidos.
-    Relê só quando algum arquivo de estado muda."""
+def ler_fila(pasta, extras=()):
+    """[{id, modalidade, descricao, status, laudado, entrou, iniciais, origem, fonte}]
+    — só campos permitidos. Junta o que o Radius registrou com o que apareceu
+    na pasta por fora (baixado pelo navegador) e tira o que você já apagou.
+    Relê só quando algum arquivo de estado ou a própria pasta muda."""
     arqs = _arquivos_cache(pasta)
     chave = []
     for a in arqs:
@@ -211,10 +254,27 @@ def ler_fila(pasta):
             chave.append((a, os.path.getmtime(a), os.path.getsize(a)))
         except OSError:
             pass
+    for p in [pasta] + list(extras or []):
+        try:
+            chave.append((p, os.path.getmtime(p), 0))
+        except OSError:
+            pass
     chave = tuple(chave)
     if chave == _CACHE["chave"]:
         return [dict(x) for x in _CACHE["fila"]]
     fila = _ler_fila(arqs)
+    try:
+        fila = fila + soltos(pasta, fila)
+        for extra in extras or ():
+            # fora da pasta do Radius só entra o que tem cara de exame: a pasta
+            # de downloads do navegador tem de tudo
+            fila = fila + soltos(extra, fila, exigir_exame=True)
+    except Exception:
+        pass                      # a fila do Radius nunca cai por causa da varredura
+    fora = apagados()
+    if fora:
+        fila = [x for x in fila if x["id"] not in fora]
+    fila.sort(key=lambda x: (bool(x["laudado"]), x["entrou"] or ""))
     _CACHE.update(chave=chave, fila=fila)
     return [dict(x) for x in fila]
 
@@ -253,6 +313,8 @@ def _ler_fila(arqs, contar=True):
                 "status": _limpo(_valor(d, "status"), sens),
                 "laudado": _laudado(_valor(d, "isreported")),
                 "entrou": _quando(_valor(d, "queueenteredat")),
+                "iniciais": iniciais(_valor(d, "patientname")),
+                "origem": "radius",
                 "principal": principal,
                 "fonte": fonte,
             }
@@ -267,7 +329,7 @@ def _ler_fila(arqs, contar=True):
             # o mesmo estudo em dois arquivos: o estado da vez manda; o que
             # faltar num (descrição vazia, laudado desconhecido) vem do outro
             novo, outro = (item, velho) if principal and not velho["principal"] else (velho, item)
-            for campo in ("modalidade", "descricao", "status", "entrou"):
+            for campo in ("modalidade", "descricao", "status", "entrou", "iniciais"):
                 if not novo[campo] and outro[campo]:
                     novo[campo] = outro[campo]
             if novo["laudado"] is None:
@@ -563,6 +625,247 @@ def caminhos(pasta, ids):
     return achados
 
 
+_ARQ_APAGADOS = os.path.join(AQUI, "dados", "apagados.json")
+_EXT_PACOTE = (".zip", ".rar", ".7z", ".iso", ".tar", ".gz")
+
+
+def apagados():
+    """Ids que você já mandou apagar: somem da lista mesmo que o Radius ainda
+    os registre no arquivo de estado dele."""
+    try:
+        with open(_ARQ_APAGADOS, encoding="utf-8") as f:
+            return set(json.load(f).get("ids") or [])
+    except (OSError, ValueError):
+        return set()
+
+
+def _marcar_apagados(ids):
+    fora = apagados() | set(ids or [])
+    try:
+        os.makedirs(os.path.dirname(_ARQ_APAGADOS), exist_ok=True)
+        with open(_ARQ_APAGADOS, "w", encoding="utf-8") as f:
+            json.dump({"ids": sorted(fora)}, f)
+    except OSError:
+        pass
+    return fora
+
+
+def _tamanho(caminho, limite=4000):
+    """Bytes e quantos arquivos — sem abrir nada, só o que o sistema já sabe."""
+    if os.path.isfile(caminho):
+        try:
+            return os.path.getsize(caminho), 1, False
+        except OSError:
+            return 0, 0, False
+    total, n, cortou = 0, 0, False
+    for raiz, _pastas, arquivos in os.walk(caminho):
+        for a in arquivos:
+            try:
+                total += os.path.getsize(os.path.join(raiz, a))
+            except OSError:
+                pass
+            n += 1
+            if n >= limite:
+                cortou = True
+                return total, n, cortou
+    return total, n, cortou
+
+
+def _conhecidos(pasta):
+    """O que já pertence a um estudo registrado pelo Radius: caminhos (e as
+    pastas até a raiz) e os números de acesso/UID que aparecem no nome das
+    pastas baixadas. Fica só na memória; nada disso sai do módulo."""
+    vistos, numeros = set(), set()
+    for arq in _arquivos_cache(pasta):
+        if eh_copia(arq):
+            continue
+        obj = _carregar(arq)
+        if obj is None:
+            continue
+        for d in _estudos(obj):
+            for nome in _ID_ESTUDO:
+                v = str(_valor(d, nome) or "")
+                for n in re.findall(r"\d{5,}", v):
+                    numeros.add(n)
+            for bruto in _caminhos_no_estudo(d):
+                c = os.path.abspath(os.path.expandvars(str(bruto).strip().strip('"')))
+                raiz = os.path.abspath(pasta)
+                # o caminho e todas as pastas até a raiz: uma subpasta que só
+                # existe para guardar o estudo não é "exame baixado por fora"
+                while True:
+                    vistos.add(os.path.normcase(c))
+                    pai = os.path.dirname(c)
+                    if pai == c or os.path.normcase(c) == os.path.normcase(raiz):
+                        break
+                    c = pai
+    return vistos, numeros
+
+
+def _id_de_caminho(caminho):
+    return hashlib.sha256((_sal() + "|pasta:" + os.path.normcase(os.path.abspath(caminho)))
+                          .encode("utf-8")).hexdigest()[:12]
+
+
+_MARCA_DICOM = re.compile(r"\.dcm$|\.dicom$|^dicomdir$", re.I)
+_NOME_EXAME = re.compile(r"dicom|estudo|exame|imagem|study|radius", re.I)
+
+
+def _parece_exame(caminho, nome):
+    """Só pelo NOME dos arquivos de dentro (nenhum é aberto): a pasta tem um
+    .dcm/DICOMDIR? o pacote tem cara de estudo? Serve para a pasta de downloads
+    do navegador não virar uma lista de instaladores e boletos."""
+    if os.path.isfile(caminho):
+        return bool(_NOME_EXAME.search(nome))
+    try:
+        with os.scandir(caminho) as it:
+            for i, e in enumerate(it):
+                if _MARCA_DICOM.search(e.name):
+                    return True
+                if e.is_dir() and i < 40:
+                    with os.scandir(e.path) as it2:
+                        for j, e2 in enumerate(it2):
+                            if _MARCA_DICOM.search(e2.name):
+                                return True
+                            if j > 60:
+                                break
+                if i > 200:
+                    break
+    except OSError:
+        return False
+    return bool(_NOME_EXAME.search(nome))
+
+
+def _soltos_brutos(pasta, fila_radius=(), exigir_exame=False):
+    """[(id, caminho, mtime, nome)] do que está na pasta e o Radius não registrou.
+    Uso interno: o caminho tem o nome do paciente e não sai daqui."""
+    if not pasta or not os.path.isdir(pasta):
+        return []
+    conhecidos, numeros = _conhecidos(pasta)
+    del fila_radius
+    achados = []
+    try:
+        entradas = sorted(os.scandir(pasta), key=lambda e: e.name)
+    except OSError:
+        return []
+    for e in entradas:
+        try:
+            if e.name.startswith((".", "_")):
+                continue
+            if e.is_file() and (not e.name.lower().endswith(_EXT_PACOTE)
+                                or _NOME_ESTADO.match(e.name)):
+                continue
+            caminho = os.path.abspath(e.path)
+            if os.path.normcase(caminho) in conhecidos:
+                continue
+            # a pasta pode ser de um estudo do Radius sem FilePath no estado:
+            # se o número de acesso dele está no nome, não é "baixado por fora"
+            if any(n in e.name for n in numeros):
+                continue
+            info = e.stat()
+            if exigir_exame and not _parece_exame(caminho, e.name):
+                continue
+        except OSError:
+            continue
+        achados.append((_id_de_caminho(caminho), caminho, info.st_mtime, e.name))
+    return achados
+
+
+def soltos(pasta, fila_radius=(), exigir_exame=False):
+    """Exames que estão na pasta mas o Radius não registrou — os que você baixa
+    pelo navegador.
+
+    Nada é aberto: só o que o sistema de arquivos já conta (nome, data, tamanho).
+    Do nome da pasta saem apenas as iniciais; o nome em si não sai daqui."""
+    achados = []
+    for cod, caminho, mtime, nome in _soltos_brutos(pasta, fila_radius, exigir_exame):
+        bytes_, n, cortou = _tamanho(caminho)
+        achados.append({
+            "id": cod,
+            "modalidade": "",
+            "descricao": "",
+            "status": "baixado por fora",
+            "laudado": None,
+            "entrou": time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(mtime)),
+            "iniciais": iniciais(os.path.splitext(nome)[0]),
+            "origem": "pasta",
+            "principal": False,
+            "fonte": "pasta",
+            "arquivos": n,
+            "bytes": bytes_,
+            "bytes_aprox": cortou,
+        })
+    return achados
+
+
+def _para_lixeira(caminho):
+    """Manda para a Lixeira do Windows (dá para restaurar). Fora do Windows,
+    move para uma subpasta "_apagados" ao lado — nada some de vez."""
+    if os.name == "nt":
+        import ctypes
+        from ctypes import wintypes
+
+        class SHFILEOPSTRUCTW(ctypes.Structure):
+            _fields_ = [("hwnd", wintypes.HWND),
+                        ("wFunc", wintypes.UINT),
+                        ("pFrom", wintypes.LPCWSTR),
+                        ("pTo", wintypes.LPCWSTR),
+                        ("fFlags", ctypes.c_uint16),
+                        ("fAnyOperationsAborted", wintypes.BOOL),
+                        ("hNameMappings", ctypes.c_void_p),
+                        ("lpszProgressTitle", wintypes.LPCWSTR)]
+
+        FO_DELETE, FOF_ALLOWUNDO, FOF_NOCONFIRMATION = 3, 0x0040, 0x0010
+        FOF_SILENT, FOF_NOERRORUI = 0x0004, 0x0400
+        op = SHFILEOPSTRUCTW()
+        op.wFunc = FO_DELETE
+        op.pFrom = os.path.abspath(caminho) + "\0\0"
+        op.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION | FOF_SILENT | FOF_NOERRORUI
+        r = ctypes.windll.shell32.SHFileOperationW(ctypes.byref(op))
+        if r != 0 or op.fAnyOperationsAborted:
+            raise OSError("SHFileOperation=%s" % r)
+        return "lixeira"
+    destino = os.path.join(os.path.dirname(os.path.abspath(caminho)), "_apagados")
+    os.makedirs(destino, exist_ok=True)
+    alvo = os.path.join(destino, os.path.basename(caminho))
+    n = 1
+    while os.path.exists(alvo):
+        alvo = os.path.join(destino, "%s (%d)" % (os.path.basename(caminho), n))
+        n += 1
+    os.rename(caminho, alvo)
+    return "_apagados"
+
+
+def apagar(pasta, ids, config=None, extras=()):
+    """Manda para a Lixeira os exames marcados e some com eles da lista.
+
+    A resposta só traz contagem e motivo: caminho de pasta tem nome de paciente
+    dentro e não sai daqui."""
+    ids = list(ids or [])
+    if not ids:
+        return {"ok": False, "motivo": "nenhum_marcado"}
+    alvos = dict(caminhos(pasta, ids))
+    for p in [pasta] + list(extras or []):
+        for cod, caminho, _mtime, _nome in _soltos_brutos(p):
+            if cod in ids and cod not in alvos:
+                alvos[cod] = caminho
+    apagadas, falhas, onde = [], [], ""
+    for cod in ids:
+        c = alvos.get(cod)
+        if not c or not os.path.exists(c):
+            continue                       # sem arquivo no disco: só sai da lista
+        try:
+            onde = _para_lixeira(c)
+            apagadas.append(cod)
+        except Exception as e:
+            falhas.append(type(e).__name__)
+    _marcar_apagados(ids)
+    _CACHE["chave"] = None                 # a lista é relida na próxima consulta
+    del config
+    return {"ok": not falhas, "apagados": len(apagadas), "pedidos": len(ids),
+            "fora_da_lista": len(ids), "onde": onde,
+            "motivo": "" if not falhas else "falhou_apagar", "erros": sorted(set(falhas))}
+
+
 def executavel_radiant(config=None):
     """Caminho do RadiAnt: o da configuração, um dos lugares de sempre, ou o
     que o Windows registrou para abrir DICOM."""
@@ -591,9 +894,13 @@ def executavel_radiant(config=None):
     return None
 
 
-def abrir(pasta, ids, config=None):
+def abrir(pasta, ids, config=None, extras=()):
     """Abre os estudos marcados no RadiAnt, na mesma janela (um -f por estudo)."""
-    achados = caminhos(pasta, ids)
+    achados = dict(caminhos(pasta, ids))
+    for p in [pasta] + list(extras or []):
+        for cod, caminho, _mtime, _nome in _soltos_brutos(p):
+            if cod in (ids or []) and cod not in achados:
+                achados[cod] = caminho  # exame baixado por fora também abre
     if not achados:
         return {"ok": False, "motivo": "sem_caminho", "pedidos": len(ids or [])}
     exe = executavel_radiant(config)

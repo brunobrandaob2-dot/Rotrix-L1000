@@ -35,6 +35,8 @@ import {
   CornerDownLeft,
 } from "lucide-react";
 import { Button } from "../ui/Button";
+import { Dica } from "./Dica";
+import { textoEmHtml, htmlEmTexto } from "./formatar";
 
 type Modo = "simples" | "leve" | "completo";
 
@@ -46,6 +48,10 @@ interface Props {
   idModeloCompleto?: string;
   /** texto vindo de outra aba (Histórico → "Abrir no Laudo"); `n` muda a cada envio */
   textoEntrando?: { texto: string; n: number };
+  /** modelos que o botão forte pode usar */
+  modelos?: { id: string; nome: string }[];
+  /** troca o modelo do botão forte (fica guardado para as próximas vezes) */
+  aoTrocarModelo?: (id: string) => void;
 }
 
 // Qual atalho cada botão dispara. O "completo" grava igual ao "leve" e, quando
@@ -60,13 +66,14 @@ const SEGURAR_MS = 300; // igual ao hold_threshold_ms do Handy
 
 const Fer: React.FC<{
   titulo: string;
+  atalho?: string;
   ativo?: boolean;
   tom?: "normal" | "vermelho" | "ciano" | "azul";
   onClick?: () => void;
   onPointerDown?: () => void;
   onPointerUp?: () => void;
   children: React.ReactNode;
-}> = ({ titulo, ativo, tom = "normal", children, ...ev }) => {
+}> = ({ titulo, atalho, ativo, tom = "normal", children, ...ev }) => {
   const cor =
     tom === "vermelho"
       ? "bg-red-500 border-red-500 text-white hover:bg-red-600"
@@ -78,15 +85,16 @@ const Fer: React.FC<{
             ? "bg-logo-primary/25 border-logo-primary/40"
             : "bg-background border-mid-gray/25 hover:bg-mid-gray/10";
   return (
-    <button
-      type="button"
-      title={titulo}
-      aria-label={titulo}
-      className={`h-8 w-8 shrink-0 rounded-lg border flex items-center justify-center transition-colors cursor-pointer ${cor}`}
-      {...ev}
-    >
-      {children}
-    </button>
+    <Dica texto={titulo} atalho={atalho}>
+      <button
+        type="button"
+        aria-label={titulo}
+        className={`h-8 w-8 shrink-0 rounded-lg border flex items-center justify-center transition-colors cursor-pointer ${cor}`}
+        {...ev}
+      >
+        {children}
+      </button>
+    </Dica>
   );
 };
 
@@ -97,6 +105,8 @@ export const LaudoPage: React.FC<Props> = ({
   modeloCompleto = "Opus",
   idModeloCompleto = "",
   textoEntrando,
+  modelos = [],
+  aoTrocarModelo,
 }) => {
   const folha = useRef<HTMLDivElement>(null);
   const [gravando, setGravando] = useState<Modo | null>(null);
@@ -108,10 +118,7 @@ export const LaudoPage: React.FC<Props> = ({
   const soltouCedo = useRef(false);
   const esperandoIA = useRef(false); // o ditado atual termina na IA grande?
 
-  const textoDaFolha = useCallback(
-    () => (folha.current?.innerText || "").replace(/ /g, " ").trim(),
-    [],
-  );
+  const textoDaFolha = useCallback(() => htmlEmTexto(folha.current), []);
 
   // ---------- IA sobre o texto que está na folha ----------
   const rodarIA = useCallback(
@@ -132,7 +139,7 @@ export const LaudoPage: React.FC<Props> = ({
         const r = JSON.parse(bruto || "{}");
         if (r.ok && r.texto) {
           setUltimoIA(texto);
-          if (folha.current) folha.current.innerText = r.texto;
+          if (folha.current) folha.current.innerHTML = textoEmHtml(r.texto);
         } else {
           setAviso(motivoEmPortugues(r.motivo));
         }
@@ -155,10 +162,17 @@ export const LaudoPage: React.FC<Props> = ({
       if (el) {
         el.focus();
         const sel = window.getSelection();
-        if (sel && sel.rangeCount && el.contains(sel.anchorNode)) {
+        const noCursor = Boolean(sel && sel.rangeCount && el.contains(sel.anchorNode));
+        // máscara (várias linhas) entra formatada, com os títulos em negrito;
+        // frase solta entra como texto, no lugar onde o cursor está
+        if (texto.includes("\n")) {
+          const html = textoEmHtml(texto);
+          if (noCursor) document.execCommand("insertHTML", false, html);
+          else el.innerHTML = (el.innerHTML || "") + html;
+        } else if (noCursor) {
           document.execCommand("insertText", false, texto);
         } else {
-          el.innerText = (el.innerText ? el.innerText + "\n" : "") + texto;
+          el.innerHTML = (el.innerHTML || "") + textoEmHtml(texto);
         }
       }
       if (esperandoIA.current) {
@@ -177,7 +191,7 @@ export const LaudoPage: React.FC<Props> = ({
     const el = folha.current;
     if (!el) return;
     setUltimoIA(el.innerText || "");
-    el.innerText = textoEntrando.texto;
+    el.innerHTML = textoEmHtml(textoEntrando.texto);
     el.focus();
     setAviso("texto trazido do histórico");
   }, [textoEntrando]);
@@ -285,7 +299,8 @@ export const LaudoPage: React.FC<Props> = ({
       {/* ---------- fileira 1: ações ---------- */}
       <div className="flex items-center gap-1.5 px-3 py-2 bg-background border-b border-mid-gray/20 flex-wrap">
         <Fer
-          titulo="Ditado simples — texto cru, sem IA. Clique liga e desliga; segure para gravar (Ctrl+Espaço)"
+          titulo="Ditado simples: texto cru, sem IA. Clique liga e o próximo clique desliga; segurando, grava enquanto segura."
+          atalho="Ctrl+Espaço"
           tom={gravando === "simples" ? "vermelho" : "normal"}
           onPointerDown={() => apertou("simples")}
           onPointerUp={() => soltou("simples")}
@@ -294,7 +309,8 @@ export const LaudoPage: React.FC<Props> = ({
         </Fer>
 
         <Fer
-          titulo={`Ditado com ${modeloLeve} — arruma a escrita. Clique liga e desliga (Ctrl+Alt+Espaço)`}
+          titulo={`Ditado com ${modeloLeve}: monta a máscara e arruma a escrita. Clique liga e o próximo clique desliga.`}
+          atalho="Ctrl+Alt+Espaço"
           tom={gravando === "leve" ? "vermelho" : "ciano"}
           onPointerDown={() => apertou("leve")}
           onPointerUp={() => soltou("leve")}
@@ -304,14 +320,31 @@ export const LaudoPage: React.FC<Props> = ({
         <span className="text-xs text-mid-gray me-1">{modeloLeve}</span>
 
         <Fer
-          titulo={`Ditado e ${modeloCompleto} — monta o laudo inteiro. Clique liga e desliga (Ctrl+Alt+A)`}
+          titulo={`Ditado e ${modeloCompleto}: monta o laudo inteiro. Clique liga e o próximo clique desliga.`}
+          atalho="Ctrl+Alt+A"
           tom={gravando === "completo" ? "vermelho" : "azul"}
           onPointerDown={() => apertou("completo")}
           onPointerUp={() => soltou("completo")}
         >
           <Sparkles size={15} />
         </Fer>
-        <span className="text-xs text-mid-gray me-1">{modeloCompleto}</span>
+        {modelos.length > 1 ? (
+          <Dica texto="Qual IA o botão forte usa. Vale também para o botão de reprocessar.">
+            <select
+              value={idModeloCompleto}
+              onChange={(e) => aoTrocarModelo?.(e.target.value)}
+              className="h-7 me-1 rounded-lg border border-mid-gray/25 bg-background text-xs px-1 cursor-pointer"
+            >
+              {modelos.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.nome}
+                </option>
+              ))}
+            </select>
+          </Dica>
+        ) : (
+          <span className="text-xs text-mid-gray me-1">{modeloCompleto}</span>
+        )}
 
         <Sep />
         <Fer titulo="Limpar o laudo" tom="vermelho" onClick={limpar}>
@@ -434,14 +467,15 @@ export const LaudoPage: React.FC<Props> = ({
       </div>
 
       {/* ---------- a folha ---------- */}
-      <div className="flex-1 min-h-0 overflow-y-auto flex justify-center py-3">
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden flex justify-center py-3">
         <div
           ref={folha}
           contentEditable
           suppressContentEditableWarning
           spellCheck
           data-rotrix="folha"
-          className="w-[520px] shrink-0 bg-white text-black rounded-sm border border-mid-gray/20 shadow-sm px-8 py-7 text-[12px] leading-[1.6] outline-none select-text cursor-text"
+          style={{ overflowWrap: "anywhere" }}
+          className="w-[520px] max-w-full shrink-0 bg-white text-black rounded-sm border border-mid-gray/20 shadow-sm px-8 py-7 text-[12px] leading-[1.6] outline-none select-text cursor-text break-words [&_*]:max-w-full"
         />
       </div>
 

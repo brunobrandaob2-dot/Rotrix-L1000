@@ -131,11 +131,127 @@ def abrir_estudos(falhas):
         shutil.rmtree(pasta, ignore_errors=True)
 
 
+
+def iniciais_e_soltos(falhas):
+    """Iniciais no lugar do nome, varredura da pasta e apagar para a Lixeira."""
+    casos = [("FULANO BELTRANO DE TAL", "F.B.T."), ("SOUZA^MARIA", "S.M."),
+             ("Ciclano", "C."), ("", ""), (None, "")]
+    for bruto, esperado in casos:
+        if radius.iniciais(bruto) != esperado:
+            falhas.append("iniciais de %r: %r" % (bruto, radius.iniciais(bruto)))
+    pasta = tempfile.mkdtemp(prefix="v2_soltos_")
+    radius._ARQ_SAL = os.path.join(pasta, ".radius_sal_teste")
+    radius._ARQ_APAGADOS = os.path.join(pasta, "apagados_teste.json")
+    radius._CACHE.update(chave=None, arqs=None, pasta=None, t_arqs=0.0)
+    try:
+        destino = os.path.join(pasta, "FULANO BELTRANO 123456789")
+        os.makedirs(destino)
+        with open(os.path.join(destino, "estudo.zip"), "wb") as f:
+            f.write(b"PK\x03\x04 nao abrir")
+        # esse o Radius registrou: nao pode aparecer como "solto"
+        with open(os.path.join(pasta, "state.beta-v3.json"), "w", encoding="utf-8") as f:
+            json.dump([_estudo("FULANO BELTRANO", "123456789", pasta)], f)
+        # esse foi baixado pelo navegador: so existe na pasta
+        pelo_navegador = os.path.join(pasta, "CICLANO SOUZA 555444333")
+        os.makedirs(pelo_navegador)
+        with open(os.path.join(pelo_navegador, "serie.dcm"), "wb") as f:
+            f.write(b"DICM" + b"0" * 2048)
+        fila = radius.ler_fila(pasta)
+        soltos = [x for x in fila if x.get("origem") == "pasta"]
+        do_radius = [x for x in fila if x.get("origem") == "radius"]
+        if len(soltos) != 1:
+            falhas.append("soltos: esperava 1 exame baixado por fora, veio %d" % len(soltos))
+            return
+        if not do_radius:
+            falhas.append("soltos: a fila do Radius sumiu quando entrou a varredura")
+        s = soltos[0]
+        if s["iniciais"] != "C.S." or not s["bytes"]:
+            falhas.append("soltos: iniciais/tamanho errados: %r" % s)
+        for item in fila:
+            if "iniciais" not in item:
+                falhas.append("fila sem o campo iniciais: %r" % item)
+                break
+        texto = json.dumps(fila, ensure_ascii=False)
+        for p in PROIBIDOS + ["serie.dcm"]:
+            if p.lower() in texto.lower():
+                falhas.append("fila com varredura vazou %s" % p)
+        # apagar: fora da lista e fora da pasta (aqui vai para _apagados, nao ha Lixeira)
+        r = radius.apagar(pasta, [s["id"]])
+        if not r.get("ok") or r.get("apagados") != 1:
+            falhas.append("apagar: resposta %r" % r)
+        for p in PROIBIDOS:
+            if p.lower() in json.dumps(r, ensure_ascii=False).lower():
+                falhas.append("apagar vazou %s" % p)
+        if os.path.isdir(pelo_navegador):
+            falhas.append("apagar: a pasta do exame continua no lugar")
+        if not os.path.isdir(os.path.join(pasta, "_apagados")):
+            falhas.append("apagar: nada foi para _apagados (fora do Windows)")
+        depois = radius.ler_fila(pasta)
+        if any(x["id"] == s["id"] for x in depois):
+            falhas.append("apagar: o exame continua na lista")
+        if not [x for x in depois if x.get("origem") == "radius"]:
+            falhas.append("apagar: levou junto a fila do Radius")
+        if radius.apagar(pasta, []).get("ok"):
+            falhas.append("apagar: lista vazia nao pode dar ok")
+    finally:
+        shutil.rmtree(pasta, ignore_errors=True)
+
+
+
+def pasta_de_downloads(falhas):
+    """Com o Radius fechado: o que cai na pasta de downloads do navegador
+    aparece — mas só o que tem cara de exame."""
+    pasta = tempfile.mkdtemp(prefix="v2_radius2_")
+    downloads = tempfile.mkdtemp(prefix="v2_downloads_")
+    radius._ARQ_SAL = os.path.join(pasta, ".radius_sal_teste")
+    radius._ARQ_APAGADOS = os.path.join(pasta, "apagados_teste.json")
+    radius._CACHE.update(chave=None, arqs=None, pasta=None, t_arqs=0.0)
+    try:
+        # exame baixado pelo navegador: pasta com um .dcm dentro
+        exame = os.path.join(downloads, "CICLANO SOUZA 555444333")
+        os.makedirs(os.path.join(exame, "serie1"))
+        with open(os.path.join(exame, "serie1", "IM0001.dcm"), "wb") as f:
+            f.write(b"DICM" + b"0" * 1024)
+        # lixo que mora na mesma pasta e NAO pode virar exame
+        os.makedirs(os.path.join(downloads, "instalador do escritorio"))
+        with open(os.path.join(downloads, "boleto.pdf"), "wb") as f:
+            f.write(b"%PDF-1.4")
+        with open(os.path.join(downloads, "planilha.zip"), "wb") as f:
+            f.write(b"PK\x03\x04")
+        fila = radius.ler_fila(pasta, [downloads])
+        soltos = [x for x in fila if x.get("origem") == "pasta"]
+        if len(soltos) != 1:
+            falhas.append("downloads: esperava 1 exame, veio %d (%s)"
+                          % (len(soltos), [x.get("iniciais") for x in soltos]))
+            return
+        if soltos[0]["iniciais"] != "C.S.":
+            falhas.append("downloads: iniciais %r" % soltos[0]["iniciais"])
+        texto = json.dumps(fila, ensure_ascii=False)
+        for p in PROIBIDOS + ["boleto", "instalador", "IM0001"]:
+            if p.lower() in texto.lower():
+                falhas.append("downloads: a fila vazou %s" % p)
+        # apagar um exame que está na pasta extra
+        r = radius.apagar(pasta, [soltos[0]["id"]], {}, [downloads])
+        if not r.get("ok") or r.get("apagados") != 1:
+            falhas.append("downloads: apagar respondeu %r" % r)
+        if os.path.isdir(exame):
+            falhas.append("downloads: a pasta do exame continua no lugar")
+        # a pasta observada é a do Radius + a de downloads, sem repetir
+        lista = radius.pastas_observadas({"radius_pasta": pasta, "pastas_extras": [downloads, downloads]})
+        if lista != [os.path.abspath(pasta), os.path.abspath(downloads)]:
+            falhas.append("pastas observadas: %r" % lista)
+    finally:
+        shutil.rmtree(pasta, ignore_errors=True)
+        shutil.rmtree(downloads, ignore_errors=True)
+
+
 def main():
     falhas = []
     banco(falhas)
     ia(falhas)
     abrir_estudos(falhas)
+    iniciais_e_soltos(falhas)
+    pasta_de_downloads(falhas)
     for f in falhas:
         print("FALHOU", f)
     print("v2: tudo certo" if not falhas else "v2: %d falha(s)" % len(falhas))

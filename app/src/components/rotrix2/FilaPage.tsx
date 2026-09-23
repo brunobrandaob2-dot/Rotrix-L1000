@@ -1,17 +1,19 @@
 /* eslint-disable i18next/no-literal-string */
 // Rotrix L-1000 v2 — aba Fila.
 //
-// Lista corrida dos exames que o Radius baixou, na ordem do download, com
-// caixa de seleção: marque dois e abra juntos no RadiAnt para comparar.
-// Clicar na linha escolhe o exame da vez (é ele que dá o cabeçalho da máscara).
+// Lista corrida dos exames na ordem do download: os que o Radius registrou e
+// também os que apareceram na pasta por fora (baixados pelo navegador). Dá
+// para marcar um, vários ou todos, abrir juntos no RadiAnt e apagar do
+// computador (vai para a Lixeira do Windows, então dá para restaurar).
 //
-// O roteador lê os arquivos de estado do Radius no próprio computador e só
-// devolve hora, modalidade, descrição e situação. Nome de paciente não sobe.
-import React, { useCallback, useEffect, useState } from "react";
+// O nome do paciente não sai do computador: o roteador manda só as INICIAIS,
+// junto de hora, modalidade, descrição e situação.
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
-import { RefreshCw, FolderOpen, Layers, Check } from "lucide-react";
+import { RefreshCw, FolderOpen, Layers, Check, Trash2, Download } from "lucide-react";
 import { Button } from "../ui/Button";
+import { Dica } from "./Dica";
 
 interface Estudo {
   id: string;
@@ -20,9 +22,13 @@ interface Estudo {
   status: string;
   laudado: boolean | null;
   entrou: string;
-  cabecalho: string;
-  mascara: string | null;
+  iniciais?: string;
+  origem?: string;
+  cabecalho?: string;
+  mascara?: string | null;
   feito?: boolean;
+  arquivos?: number;
+  bytes?: number;
 }
 
 interface Fila {
@@ -43,12 +49,28 @@ const hora = (iso: string): string => {
   return d ? `${d[3]}/${d[2]}` : iso.slice(0, 5);
 };
 
+const dia = (iso: string): string => {
+  const d = (iso || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return d ? `${d[3]}/${d[2]}` : "";
+};
+
+const tamanho = (bytes?: number): string => {
+  if (!bytes) return "";
+  const mb = bytes / 1048576;
+  return mb >= 1024 ? `${(mb / 1024).toFixed(1)} GB` : `${Math.round(mb)} MB`;
+};
+
+const nomeDoExame = (e: Estudo): string =>
+  e.descricao || e.cabecalho || (e.origem === "pasta" ? "pasta baixada por fora" : "exame sem descrição");
+
 export const FilaPage: React.FC = () => {
   const [fila, setFila] = useState<Fila | null>(null);
   const [marcados, setMarcados] = useState<string[]>([]);
   const [soPendentes, setSoPendentes] = useState(false);
   const [aviso, setAviso] = useState("");
   const [carregando, setCarregando] = useState(false);
+  const [confirmar, setConfirmar] = useState(false);
+  const ultimoClique = useRef<string | null>(null);
 
   const ler = useCallback(async () => {
     setCarregando(true);
@@ -73,10 +95,30 @@ export const FilaPage: React.FC = () => {
     };
   }, [ler]);
 
+  const itens = (fila?.itens || []).filter(
+    (i) => !soPendentes || !(i.feito || i.laudado),
+  );
+  const daVez = fila?.vez || fila?.atual || null;
+  const oDaVez = itens.find((i) => i.id === daVez) || null;
+  const todosMarcados = itens.length > 0 && marcados.length === itens.length;
+
+  // Ctrl+A marca a lista inteira, como em qualquer lista do Windows
+  useEffect(() => {
+    const tecla = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "a") {
+        const alvo = e.target as HTMLElement | null;
+        if (alvo && /input|textarea/i.test(alvo.tagName)) return;
+        e.preventDefault();
+        setMarcados(todosMarcados ? [] : itens.map((i) => i.id));
+      }
+    };
+    document.addEventListener("keydown", tecla);
+    return () => document.removeEventListener("keydown", tecla);
+  }, [itens, todosMarcados]);
+
   const escolher = async (id: string) => {
     try {
-      const bruto = await invoke<string>("rotrix_fila_escolher", { id });
-      JSON.parse(bruto || "{}");
+      await invoke<string>("rotrix_fila_escolher", { id });
       await ler();
     } catch (e) {
       setAviso(String(e));
@@ -104,19 +146,43 @@ export const FilaPage: React.FC = () => {
   const abrirJuntos = async () => {
     if (!marcados.length) return;
     try {
-      const bruto = await invoke<string>("rotrix_abrir_estudos", {
-        ids: marcados,
-      });
+      const bruto = await invoke<string>("rotrix_abrir_estudos", { ids: marcados });
       const r = JSON.parse(bruto || "{}");
       if (!r.ok) {
         setAviso(
           r.motivo === "sem_caminho"
             ? "o Radius não guarda o caminho da pasta destes exames — abra pela pasta"
-            : `não consegui abrir (${r.motivo || "erro"})`,
+            : r.motivo === "radiant_nao_encontrado"
+              ? "não achei o RadiAnt instalado neste computador"
+              : `não consegui abrir (${r.motivo || "erro"})`,
         );
       } else {
-        setAviso(`abrindo ${marcados.length} no RadiAnt`);
+        setAviso(`abrindo ${r.abertos} exame(s) no RadiAnt`);
       }
+    } catch (e) {
+      setAviso(String(e));
+    }
+  };
+
+  const apagar = async () => {
+    if (!marcados.length) return;
+    setConfirmar(false);
+    try {
+      const bruto = await invoke<string>("rotrix_apagar_estudos", { ids: marcados });
+      const r = JSON.parse(bruto || "{}");
+      if (r.ok) {
+        setAviso(
+          `${r.apagados} exame(s) na Lixeira do Windows · ${r.fora_da_lista} fora da lista`,
+        );
+      } else {
+        setAviso(
+          r.motivo === "falhou_apagar"
+            ? "algum arquivo estava aberto e não deu para apagar — feche o RadiAnt e tente de novo"
+            : `não consegui apagar (${r.motivo || "erro"})`,
+        );
+      }
+      setMarcados([]);
+      await ler();
     } catch (e) {
       setAviso(String(e));
     }
@@ -130,14 +196,23 @@ export const FilaPage: React.FC = () => {
     }
   };
 
-  const alterna = (id: string) =>
+  const alterna = (id: string, faixa = false) => {
+    if (faixa && ultimoClique.current) {
+      const a = itens.findIndex((i) => i.id === ultimoClique.current);
+      const b = itens.findIndex((i) => i.id === id);
+      if (a >= 0 && b >= 0) {
+        const [i, j] = a < b ? [a, b] : [b, a];
+        const bloco = itens.slice(i, j + 1).map((x) => x.id);
+        setMarcados((m) => [...new Set([...m, ...bloco])]);
+        ultimoClique.current = id;
+        return;
+      }
+    }
+    ultimoClique.current = id;
     setMarcados((m) => (m.includes(id) ? m.filter((x) => x !== id) : [...m, id]));
+  };
 
-  const itens = (fila?.itens || []).filter(
-    (i) => !soPendentes || !(i.feito || i.laudado),
-  );
-  const daVez = fila?.vez || fila?.atual || null;
-  const oDaVez = itens.find((i) => i.id === daVez) || null;
+  const porFora = itens.filter((i) => i.origem === "pasta").length;
 
   return (
     <div className="flex flex-col h-full min-h-0 bg-mid-gray/5">
@@ -146,6 +221,7 @@ export const FilaPage: React.FC = () => {
         <h2 className="text-base font-semibold">Fila</h2>
         <span className="text-[11px] rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 px-2 py-0.5">
           {itens.length} exame{itens.length === 1 ? "" : "s"}
+          {porFora > 0 ? ` · ${porFora} por fora` : ""}
         </span>
         <div className="ms-auto flex items-center gap-1.5">
           <Button
@@ -155,11 +231,13 @@ export const FilaPage: React.FC = () => {
           >
             Só não laudados
           </Button>
-          <Button variant="secondary" size="sm" onClick={() => void abrirPasta()}>
-            <span className="flex items-center gap-1.5">
-              <FolderOpen size={14} /> Abrir a pasta
-            </span>
-          </Button>
+          <Dica texto="Abre a pasta onde o Radius baixa os exames.">
+            <Button variant="secondary" size="sm" onClick={() => void abrirPasta()}>
+              <span className="flex items-center gap-1.5">
+                <FolderOpen size={14} /> Abrir a pasta
+              </span>
+            </Button>
+          </Dica>
           <Button variant="primary" size="sm" onClick={() => void ler()}>
             <span className="flex items-center gap-1.5">
               <RefreshCw size={14} className={carregando ? "animate-spin" : ""} />
@@ -179,15 +257,39 @@ export const FilaPage: React.FC = () => {
             </p>
           ) : itens.length === 0 ? (
             <p className="p-4 text-sm text-mid-gray">
-              Nenhum exame baixado ainda. Assim que o Radius baixar, ele aparece
-              aqui.
+              Nenhum exame na pasta ainda. Assim que o Radius baixar — ou você
+              baixar pelo navegador — ele aparece aqui.
             </p>
           ) : (
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-[10px] uppercase tracking-wide text-mid-gray bg-mid-gray/5">
-                  <th className="w-8 py-2" />
+                  <th className="w-9 py-2">
+                    <Dica texto="Marcar ou desmarcar a lista inteira (Ctrl+A)." lado="baixo">
+                      <button
+                        type="button"
+                        aria-label="Marcar todos"
+                        onClick={() =>
+                          setMarcados(todosMarcados ? [] : itens.map((i) => i.id))
+                        }
+                        className={`inline-flex h-4 w-4 items-center justify-center rounded border cursor-pointer ${
+                          todosMarcados
+                            ? "bg-logo-primary border-logo-primary text-white"
+                            : marcados.length
+                              ? "border-logo-primary text-logo-primary"
+                              : "border-mid-gray/40"
+                        }`}
+                      >
+                        {todosMarcados ? (
+                          <Check size={11} />
+                        ) : marcados.length ? (
+                          <span className="h-0.5 w-2 bg-logo-primary" />
+                        ) : null}
+                      </button>
+                    </Dica>
+                  </th>
                   <th className="w-14 text-start font-medium">hora</th>
+                  <th className="w-14 text-start font-medium">paciente</th>
                   <th className="w-14 text-start font-medium">mod.</th>
                   <th className="text-start font-medium">exame</th>
                   <th className="w-28 text-start font-medium">situação</th>
@@ -201,18 +303,13 @@ export const FilaPage: React.FC = () => {
                   return (
                     <tr
                       key={i.id}
-                      onClick={() => void escolher(i.id)}
-                      className={`border-t border-mid-gray/10 cursor-pointer ${
+                      onClick={(e) => alterna(i.id, (e as unknown as MouseEvent).shiftKey)}
+                      onDoubleClick={() => void escolher(i.id)}
+                      className={`border-t border-mid-gray/10 cursor-pointer select-none ${
                         marcado ? "bg-logo-primary/10" : "hover:bg-mid-gray/5"
                       } ${pronto ? "opacity-50" : ""}`}
                     >
-                      <td
-                        className="py-2 text-center"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          alterna(i.id);
-                        }}
-                      >
+                      <td className="py-2 text-center">
                         <span
                           className={`inline-flex h-4 w-4 items-center justify-center rounded border ${
                             marcado
@@ -223,8 +320,11 @@ export const FilaPage: React.FC = () => {
                           {marcado && <Check size={11} />}
                         </span>
                       </td>
-                      <td className="text-mid-gray tabular-nums">
+                      <td className="text-mid-gray tabular-nums" title={dia(i.entrou)}>
                         {hora(i.entrou)}
+                      </td>
+                      <td className="text-mid-gray tabular-nums text-xs">
+                        {i.iniciais || "—"}
                       </td>
                       <td>
                         <span className="text-[10px] font-bold rounded bg-logo-primary/15 px-1.5 py-0.5">
@@ -232,7 +332,13 @@ export const FilaPage: React.FC = () => {
                         </span>
                       </td>
                       <td className="truncate pe-2">
-                        {i.descricao || i.cabecalho || "exame sem descrição"}
+                        {nomeDoExame(i)}
+                        {i.origem === "pasta" && (
+                          <span className="ms-1.5 inline-flex items-center gap-1 text-[9px] font-semibold rounded bg-amber-400/20 text-amber-700 px-1 py-0.5">
+                            <Download size={9} /> fora do Radius
+                            {i.bytes ? ` · ${tamanho(i.bytes)}` : ""}
+                          </span>
+                        )}
                       </td>
                       <td className="text-[11px]">
                         {vez && (
@@ -240,9 +346,7 @@ export const FilaPage: React.FC = () => {
                             da vez
                           </span>
                         )}
-                        {pronto && !vez && (
-                          <span className="text-mid-gray">laudado</span>
-                        )}
+                        {pronto && !vez && <span className="text-mid-gray">laudado</span>}
                       </td>
                     </tr>
                   );
@@ -251,8 +355,8 @@ export const FilaPage: React.FC = () => {
             </table>
           )}
           <p className="px-3 py-2 text-[11px] text-mid-gray border-t border-mid-gray/10">
-            clique na linha para escolher o exame da vez · clique na caixa para
-            juntar no RadiAnt
+            clique marca · Shift+clique marca a faixa · Ctrl+A marca tudo ·
+            clique duplo escolhe o exame da vez
           </p>
         </div>
 
@@ -260,15 +364,15 @@ export const FilaPage: React.FC = () => {
         <div className="w-64 shrink-0 flex flex-col gap-3 overflow-y-auto">
           <div className="rounded-lg border border-mid-gray/20 bg-background">
             <div className="px-3 py-2 text-xs font-semibold border-b border-mid-gray/20 bg-mid-gray/5">
-              Marcados para abrir · {marcados.length}
+              Marcados · {marcados.length}
             </div>
             <div className="p-3 flex flex-col gap-2">
               {marcados.length === 0 ? (
                 <p className="text-[11px] text-mid-gray">
-                  Marque os exames que devem abrir juntos.
+                  Marque os exames para abrir juntos ou apagar.
                 </p>
               ) : (
-                marcados.map((id) => {
+                marcados.slice(0, 8).map((id) => {
                   const e = fila?.itens.find((x) => x.id === id);
                   return (
                     <div key={id} className="flex items-center gap-2 text-[11px]">
@@ -276,7 +380,7 @@ export const FilaPage: React.FC = () => {
                         {(e?.modalidade || "--").toUpperCase()}
                       </span>
                       <span className="truncate flex-1">
-                        {e?.descricao || id}
+                        {e ? `${e.iniciais || ""} ${nomeDoExame(e)}`.trim() : id}
                       </span>
                       <button
                         type="button"
@@ -289,6 +393,11 @@ export const FilaPage: React.FC = () => {
                   );
                 })
               )}
+              {marcados.length > 8 && (
+                <p className="text-[10px] text-mid-gray">
+                  e mais {marcados.length - 8}…
+                </p>
+              )}
               <Button
                 variant="primary"
                 size="sm"
@@ -299,12 +408,39 @@ export const FilaPage: React.FC = () => {
                   <Layers size={14} /> Abrir no RadiAnt ({marcados.length})
                 </span>
               </Button>
-              {marcados.length > 0 && (
+              {!confirmar ? (
                 <Button
-                  variant="secondary"
+                  variant="danger-ghost"
                   size="sm"
-                  onClick={() => setMarcados([])}
+                  disabled={!marcados.length}
+                  onClick={() => setConfirmar(true)}
                 >
+                  <span className="flex items-center justify-center gap-1.5">
+                    <Trash2 size={14} /> Apagar do computador
+                  </span>
+                </Button>
+              ) : (
+                <div className="rounded-lg border border-red-500/40 bg-red-500/5 p-2 flex flex-col gap-2">
+                  <p className="text-[11px]">
+                    Mandar {marcados.length} exame(s) para a Lixeira do Windows?
+                    Dá para restaurar de lá.
+                  </p>
+                  <div className="flex gap-2">
+                    <Button variant="danger" size="sm" onClick={() => void apagar()}>
+                      Apagar
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setConfirmar(false)}
+                    >
+                      Cancelar
+                    </Button>
+                  </div>
+                </div>
+              )}
+              {marcados.length > 0 && !confirmar && (
+                <Button variant="secondary" size="sm" onClick={() => setMarcados([])}>
                   Limpar seleção
                 </Button>
               )}
@@ -318,7 +454,7 @@ export const FilaPage: React.FC = () => {
             <div className="p-3 flex flex-col gap-2">
               <p className="text-[11px]">
                 {oDaVez
-                  ? oDaVez.descricao || oDaVez.cabecalho || "exame sem descrição"
+                  ? `${oDaVez.iniciais || ""} ${nomeDoExame(oDaVez)}`.trim()
                   : "nenhum escolhido"}
               </p>
               <div className="flex gap-2">
@@ -346,7 +482,7 @@ export const FilaPage: React.FC = () => {
       </div>
 
       <div className="px-3 py-2 bg-background border-t border-mid-gray/20 text-[11px] text-mid-gray">
-        {aviso || "nome de paciente não sai do computador"}
+        {aviso || "da lista sai só as iniciais — o nome do paciente não sai do computador"}
       </div>
     </div>
   );

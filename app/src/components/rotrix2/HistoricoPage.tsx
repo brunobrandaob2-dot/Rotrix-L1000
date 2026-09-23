@@ -281,7 +281,7 @@ export const HistoricoPage: React.FC<{
                   </span>
                 </div>
                 <div className="p-3">
-                  <pre className="whitespace-pre-wrap text-[11.5px] leading-relaxed font-sans rounded-lg border border-mid-gray/20 bg-white text-black p-3 max-h-64 overflow-y-auto select-text">
+                  <pre className="whitespace-pre-wrap break-words text-[12px] leading-relaxed font-sans rounded-lg border border-mid-gray/20 bg-white text-black p-4 min-h-56 max-h-[420px] overflow-y-auto select-text">
                     {texto || "(sem texto)"}
                   </pre>
                   <div className="flex flex-wrap gap-1.5 mt-2">

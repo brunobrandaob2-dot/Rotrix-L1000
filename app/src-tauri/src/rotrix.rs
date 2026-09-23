@@ -735,6 +735,21 @@ pub fn rotrix_fila_feito(id: String, feito: bool) -> Result<String, String> {
     )
 }
 
+/// Manda para a Lixeira do Windows os exames marcados na aba Fila e some com
+/// eles da lista. O caminho da pasta (que tem o nome do paciente) nao volta.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_apagar_estudos(ids: Vec<String>) -> Result<String, String> {
+    if ids.is_empty() {
+        return Err("nenhum exame marcado".to_string());
+    }
+    http_post(
+        "/v1/fila/apagar",
+        &serde_json::json!({ "ids": ids }).to_string(),
+        60_000,
+    )
+}
+
 /// Banco de mascaras para a aba Mascaras: regioes, lista e, com `titulo`,
 /// o texto inteiro de uma mascara.
 #[specta::specta]
