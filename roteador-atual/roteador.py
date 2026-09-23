@@ -41,7 +41,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-23.4"
+VERSAO = "2026-09-23.5"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -2239,7 +2239,8 @@ class Handler(BaseHTTPRequestHandler):
                 if rota.endswith("/fila/escolher"):
                     return self._json(200, estacao_escolher(corpo.get("id")))
                 if rota.endswith("/fila/abrir"):
-                    return self._json(200, fila_abrir(corpo.get("ids") or []))
+                    return self._json(200, fila_abrir(corpo.get("ids") or [],
+                                                      bool(corpo.get("ultimo"))))
                 if rota.endswith("/fila/apagar"):
                     return self._json(200, fila_apagar(corpo.get("ids") or []))
                 if rota.endswith("/fila/feito"):
@@ -2298,13 +2299,22 @@ def fila_apagar(ids):
         return {"ok": False, "motivo": "%s" % type(e).__name__}
 
 
-def fila_abrir(ids):
-    """Abre no RadiAnt os estudos que o app marcou na fila."""
+def fila_abrir(ids, ultimo=False):
+    """Abre no RadiAnt os estudos marcados — ou, com `ultimo`, o exame que
+    acabou de cair na pasta (é o que o atalho Ctrl+Alt+R faz)."""
     if radius is None:
         return {"ok": False, "motivo": "radius_ausente"}
     try:
         c = _config()
-        return radius.abrir(radius.pasta_radius(c), ids, c, radius.pastas_observadas(c)[1:])
+        extras = radius.pastas_observadas(c)[1:]
+        if ultimo or not ids:
+            fila = [x for x in radius.ler_fila(radius.pasta_radius(c), extras)
+                    if not x.get("laudado")]
+            if not fila:
+                return {"ok": False, "motivo": "fila_vazia"}
+            alvo = max(fila, key=lambda x: x.get("entrou") or "")
+            ids = [alvo["id"]]
+        return radius.abrir(radius.pasta_radius(c), ids, c, extras)
     except Exception as e:
         return {"ok": False, "motivo": "%s: %s" % (type(e).__name__, str(e)[:120])}
 

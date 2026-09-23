@@ -22,6 +22,11 @@ import secrets
 import time
 import unicodedata
 
+try:
+    import dicom as _dicom          # leitura LOCAL do cabeçalho (nada sai daqui)
+except Exception:                   # pragma: no cover - roteador sem o módulo
+    _dicom = None
+
 PASTA_PADRAO = os.path.join(os.path.expanduser("~"), "Downloads", "Radius Downloads")
 AQUI = os.path.dirname(os.path.abspath(__file__))
 _ARQ_SAL = os.path.join(AQUI, "dados", ".radius_sal")
@@ -273,7 +278,11 @@ def ler_fila(pasta, extras=()):
         pass                      # a fila do Radius nunca cai por causa da varredura
     fora = apagados()
     if fora:
-        fila = [x for x in fila if x["id"] not in fora]
+        # baixou de novo depois de apagar? volta para a lista
+        fila = [x for x in fila
+                if x["id"] not in fora or float(x.get("_mtime") or 0) > fora[x["id"]]]
+    for x in fila:
+        x.pop("_mtime", None)
     fila.sort(key=lambda x: (bool(x["laudado"]), x["entrou"] or ""))
     _CACHE.update(chave=chave, fila=fila)
     return [dict(x) for x in fila]
@@ -630,21 +639,28 @@ _EXT_PACOTE = (".zip", ".rar", ".7z", ".iso", ".tar", ".gz")
 
 
 def apagados():
-    """Ids que você já mandou apagar: somem da lista mesmo que o Radius ainda
-    os registre no arquivo de estado dele."""
+    """{id: quando foi apagado}. Some da lista mesmo que o Radius ainda registre
+    o estudo — mas se o mesmo exame for baixado DE NOVO depois disso, ele volta."""
     try:
         with open(_ARQ_APAGADOS, encoding="utf-8") as f:
-            return set(json.load(f).get("ids") or [])
+            d = json.load(f)
     except (OSError, ValueError):
-        return set()
+        return {}
+    itens = d.get("itens")
+    if isinstance(itens, dict):
+        return {k: float(v or 0) for k, v in itens.items()}
+    return {i: 0.0 for i in (d.get("ids") or [])}     # formato antigo
 
 
 def _marcar_apagados(ids):
-    fora = apagados() | set(ids or [])
+    fora = apagados()
+    agora = time.time()
+    for i in ids or []:
+        fora[i] = agora
     try:
         os.makedirs(os.path.dirname(_ARQ_APAGADOS), exist_ok=True)
         with open(_ARQ_APAGADOS, "w", encoding="utf-8") as f:
-            json.dump({"ids": sorted(fora)}, f)
+            json.dump({"itens": fora}, f)
     except OSError:
         pass
     return fora
@@ -711,10 +727,17 @@ _NOME_EXAME = re.compile(r"dicom|estudo|exame|imagem|study|radius", re.I)
 
 
 def _parece_exame(caminho, nome):
-    """Só pelo NOME dos arquivos de dentro (nenhum é aberto): a pasta tem um
-    .dcm/DICOMDIR? o pacote tem cara de estudo? Serve para a pasta de downloads
-    do navegador não virar uma lista de instaladores e boletos."""
+    """É exame? A pasta tem um .dcm/DICOMDIR dentro, ou o .zip tem DICOM dentro
+    (aí o cabeçalho é lido para confirmar). Serve para a pasta de downloads do
+    navegador não virar uma lista de instaladores e boletos."""
     if os.path.isfile(caminho):
+        if caminho.lower().endswith(".zip"):
+            try:
+                cab = _cabecalho_dicom(caminho, os.path.getmtime(caminho))
+            except OSError:
+                cab = {}
+            if cab.get("modalidade") or cab.get("uid"):
+                return True      # é um estudo, mesmo que o nome não diga nada
         return bool(_NOME_EXAME.search(nome))
     try:
         with os.scandir(caminho) as it:
@@ -770,29 +793,55 @@ def _soltos_brutos(pasta, fila_radius=(), exigir_exame=False):
     return achados
 
 
+_CAB = {}          # (caminho, mtime) -> cabeçalho lido; evita reler a cada 20 s
+
+
+def _cabecalho_dicom(caminho, mtime):
+    """Modalidade, descrição, data e iniciais lidas do cabeçalho, no disco.
+    Só o cabeçalho, e nada disso sai do computador."""
+    if _dicom is None:
+        return {}
+    chave = (os.path.normcase(caminho), round(mtime, 3))
+    if chave in _CAB:
+        return _CAB[chave]
+    try:
+        d = _dicom.de(caminho)
+    except Exception:
+        d = {}
+    if len(_CAB) > 500:
+        _CAB.clear()
+    _CAB[chave] = d
+    return d
+
+
 def soltos(pasta, fila_radius=(), exigir_exame=False):
     """Exames que estão na pasta mas o Radius não registrou — os que você baixa
     pelo navegador.
 
-    Nada é aberto: só o que o sistema de arquivos já conta (nome, data, tamanho).
-    Do nome da pasta saem apenas as iniciais; o nome em si não sai daqui."""
+    Da pasta vêm nome, data e tamanho; do DICOM vem só o cabeçalho (modalidade,
+    descrição, data do exame e as iniciais). A imagem nunca é lida e nada disso
+    sai do computador."""
     achados = []
     for cod, caminho, mtime, nome in _soltos_brutos(pasta, fila_radius, exigir_exame):
         bytes_, n, cortou = _tamanho(caminho)
+        cab = _cabecalho_dicom(caminho, mtime)
         achados.append({
             "id": cod,
-            "modalidade": "",
-            "descricao": "",
+            "modalidade": (cab.get("modalidade") or "").upper(),
+            "descricao": cab.get("descricao") or "",
             "status": "baixado por fora",
             "laudado": None,
-            "entrou": time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(mtime)),
-            "iniciais": iniciais(os.path.splitext(nome)[0]),
+            "entrou": cab.get("entrou")
+                      or time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(mtime)),
+            "iniciais": cab.get("iniciais") or iniciais(os.path.splitext(nome)[0]),
             "origem": "pasta",
             "principal": False,
             "fonte": "pasta",
             "arquivos": n,
             "bytes": bytes_,
             "bytes_aprox": cortou,
+            "lido_do_dicom": bool(cab.get("modalidade") or cab.get("uid")),
+            "_mtime": mtime,
         })
     return achados
 

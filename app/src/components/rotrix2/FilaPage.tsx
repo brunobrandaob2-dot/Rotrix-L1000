@@ -257,8 +257,9 @@ export const FilaPage: React.FC = () => {
             </p>
           ) : itens.length === 0 ? (
             <p className="p-4 text-sm text-mid-gray">
-              Nenhum exame na pasta ainda. Assim que o Radius baixar — ou você
-              baixar pelo navegador — ele aparece aqui.
+              Nenhum exame na pasta ainda. Baixe pelo navegador (ou pelo
+              Radius): assim que o arquivo cair na pasta, ele aparece aqui com
+              modalidade, exame e hora lidos do próprio DICOM.
             </p>
           ) : (
             <table className="w-full text-sm">
@@ -356,7 +357,8 @@ export const FilaPage: React.FC = () => {
           )}
           <p className="px-3 py-2 text-[11px] text-mid-gray border-t border-mid-gray/10">
             clique marca · Shift+clique marca a faixa · Ctrl+A marca tudo ·
-            clique duplo escolhe o exame da vez
+            clique duplo escolhe o exame da vez · Ctrl+Alt+R abre o último no
+            RadiAnt
           </p>
         </div>
 
@@ -398,16 +400,19 @@ export const FilaPage: React.FC = () => {
                   e mais {marcados.length - 8}…
                 </p>
               )}
-              <Button
-                variant="primary"
-                size="sm"
-                disabled={!marcados.length}
-                onClick={() => void abrirJuntos()}
-              >
-                <span className="flex items-center justify-center gap-1.5">
-                  <Layers size={14} /> Abrir no RadiAnt ({marcados.length})
-                </span>
-              </Button>
+              <Dica texto="Sem nada marcado, o atalho Ctrl+Alt+R abre o exame que acabou de cair na pasta." atalho="Ctrl+Alt+R" lado="cima">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="w-full"
+                  disabled={!marcados.length}
+                  onClick={() => void abrirJuntos()}
+                >
+                  <span className="flex items-center justify-center gap-1.5">
+                    <Layers size={14} /> Abrir no RadiAnt ({marcados.length})
+                  </span>
+                </Button>
+              </Dica>
               {!confirmar ? (
                 <Button
                   variant="danger-ghost"
@@ -482,7 +487,8 @@ export const FilaPage: React.FC = () => {
       </div>
 
       <div className="px-3 py-2 bg-background border-t border-mid-gray/20 text-[11px] text-mid-gray">
-        {aviso || "da lista sai só as iniciais — o nome do paciente não sai do computador"}
+        {aviso ||
+          "o cabeçalho do DICOM é lido aqui no computador · da lista sai só as iniciais"}
       </div>
     </div>
   );

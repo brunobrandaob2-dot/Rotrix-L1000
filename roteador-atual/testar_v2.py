@@ -14,6 +14,7 @@ import os
 import shutil
 import sys
 import tempfile
+import time
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -245,6 +246,90 @@ def pasta_de_downloads(falhas):
         shutil.rmtree(downloads, ignore_errors=True)
 
 
+
+def _dicom_falso(nome="FULANO BELTRANO DE TAL", data="20260923", hora="140512",
+                 mod="CT", desc="TOMOGRAFIA DE TORAX", uid="1.2.840.99999.7"):
+    """Bytes de um DICOM de mentira (explicit VR little endian), com imagem no fim."""
+    import struct
+
+    def elem(g, e, vr, val):
+        b = val.encode("latin-1")
+        if len(b) % 2:
+            b += b" "
+        return struct.pack("<HH", g, e) + vr + struct.pack("<H", len(b)) + b
+
+    meta = (elem(0x0002, 0x0002, b"UI", "1.2.840.10008.5.1.4.1.1.2")
+            + elem(0x0002, 0x0010, b"UI", "1.2.840.10008.1.2.1"))
+    cab = (struct.pack("<HH", 0x0002, 0x0000) + b"UL" + struct.pack("<H", 4)
+           + struct.pack("<I", len(meta)))
+    corpo = (elem(0x0008, 0x0020, b"DA", data) + elem(0x0008, 0x0030, b"TM", hora)
+             + elem(0x0008, 0x0060, b"CS", mod) + elem(0x0008, 0x1030, b"LO", desc)
+             + elem(0x0010, 0x0010, b"PN", nome) + elem(0x0020, 0x000D, b"UI", uid))
+    imagem = struct.pack("<HH", 0x7FE0, 0x0010) + b"OB" + b"\0\0" + struct.pack("<I", 8) + b"IMAGEM!!"
+    return b"\0" * 128 + b"DICM" + cab + meta + corpo + imagem
+
+
+def download_de_dicom(falhas):
+    """O fluxo sem Radius: baixou um .zip com DICOM pelo navegador, ele entra na
+    fila já com modalidade, exame e hora — lidos do cabeçalho, no computador."""
+    import zipfile
+    import dicom
+
+    bruto = _dicom_falso()
+    # 1) o leitor entende os três jeitos de o exame chegar
+    pasta = tempfile.mkdtemp(prefix="v2_dcm_")
+    downloads = tempfile.mkdtemp(prefix="v2_baixados_")
+    radius._ARQ_SAL = os.path.join(pasta, ".radius_sal_teste")
+    radius._ARQ_APAGADOS = os.path.join(pasta, "apagados_teste.json")
+    radius._CACHE.update(chave=None, arqs=None, pasta=None, t_arqs=0.0)
+    radius._CAB.clear()
+    try:
+        solto = os.path.join(downloads, "IM0001.dcm")
+        with open(solto, "wb") as f:
+            f.write(bruto)
+        if dicom.do_arquivo(solto).get("modalidade") != "CT":
+            falhas.append("dicom: cabeçalho do .dcm não foi lido")
+        # 2) o caso do Bruno: zip com nome que não diz nada
+        zipado = os.path.join(downloads, "20260923_143012.zip")
+        with zipfile.ZipFile(zipado, "w") as z:
+            z.writestr("DICOM/PA000001/ST000001/SE000001/IM000001", bruto)
+        d = dicom.do_zip(zipado)
+        if d.get("modalidade") != "CT" or d.get("iniciais") != "F.B.T.":
+            falhas.append("dicom: zip sem extensão .dcm dentro não foi lido: %r" % d)
+        os.remove(solto)
+        # 3) a fila mostra o zip como exame de verdade
+        fila = radius.ler_fila(pasta, [downloads])
+        soltos = [x for x in fila if x.get("origem") == "pasta"]
+        if len(soltos) != 1:
+            falhas.append("download: esperava 1 exame, veio %d" % len(soltos))
+            return
+        x = soltos[0]
+        if x["modalidade"] != "CT" or x["descricao"] != "TOMOGRAFIA DE TORAX":
+            falhas.append("download: a linha não veio do cabeçalho: %r" % x)
+        if x["entrou"] != "2026-09-23T14:05:12":
+            falhas.append("download: hora do exame %r" % x["entrou"])
+        if x["iniciais"] != "F.B.T." or not x.get("lido_do_dicom"):
+            falhas.append("download: iniciais/marca %r" % x)
+        texto = json.dumps(fila, ensure_ascii=False)
+        for p in PROIBIDOS + ["IM000001", "PA000001"]:
+            if p.lower() in texto.lower():
+                falhas.append("download: a fila vazou %s" % p)
+        # 4) apagar e baixar de novo: o exame volta para a lista
+        radius.apagar(pasta, [x["id"]], {}, [downloads])
+        if [y for y in radius.ler_fila(pasta, [downloads]) if y["id"] == x["id"]]:
+            falhas.append("download: apagado continuou na lista")
+        with zipfile.ZipFile(zipado, "w") as z:
+            z.writestr("DICOM/IM000001", bruto)
+        os.utime(zipado, (time.time() + 10, time.time() + 10))
+        radius._CACHE.update(chave=None)
+        radius._CAB.clear()
+        if not [y for y in radius.ler_fila(pasta, [downloads]) if y["id"] == x["id"]]:
+            falhas.append("download: baixado de novo, o exame devia voltar para a lista")
+    finally:
+        shutil.rmtree(pasta, ignore_errors=True)
+        shutil.rmtree(downloads, ignore_errors=True)
+
+
 def main():
     falhas = []
     banco(falhas)
@@ -252,6 +337,7 @@ def main():
     abrir_estudos(falhas)
     iniciais_e_soltos(falhas)
     pasta_de_downloads(falhas)
+    download_de_dicom(falhas)
     for f in falhas:
         print("FALHOU", f)
     print("v2: tudo certo" if not falhas else "v2: %d falha(s)" % len(falhas))

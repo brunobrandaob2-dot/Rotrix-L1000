@@ -948,6 +948,36 @@ impl ShortcutAction for ProximoExameAction {
     fn stop(&self, _app: &AppHandle, _binding_id: &str, _shortcut_str: &str) {}
 }
 
+/// Ctrl+Alt+R: abre no RadiAnt o exame que acabou de aparecer na pasta.
+struct AbrirRadiantAction;
+
+impl ShortcutAction for AbrirRadiantAction {
+    fn start(&self, app: &AppHandle, _binding_id: &str, _shortcut_str: &str) {
+        let app = app.clone();
+        std::thread::spawn(move || {
+            let resposta = crate::rotrix::rotrix_abrir_ultimo();
+            match &resposta {
+                Ok(corpo) => log::info!("abrir no RadiAnt: {}", corpo),
+                Err(e) => log::warn!("abrir no RadiAnt falhou: {}", e),
+            }
+            let carga = match resposta {
+                Ok(corpo) => serde_json::from_str::<serde_json::Value>(&corpo)
+                    .unwrap_or_else(|_| serde_json::json!({ "ok": false })),
+                Err(e) => serde_json::json!({ "ok": false, "erro": e }),
+            };
+            if carga.get("ok").and_then(|v| v.as_bool()).unwrap_or(false) {
+                crate::audio_feedback::play_feedback_sound(
+                    &app,
+                    crate::audio_feedback::SoundType::Start,
+                );
+            }
+            let _ = app.emit("rotrix-abriu-radiant", carga);
+        });
+    }
+
+    fn stop(&self, _app: &AppHandle, _binding_id: &str, _shortcut_str: &str) {}
+}
+
 struct TestAction;
 
 impl ShortcutAction for TestAction {
@@ -990,6 +1020,10 @@ pub static ACTION_MAP: Lazy<HashMap<String, Arc<dyn ShortcutAction>>> = Lazy::ne
     map.insert(
         "proximo_exame".to_string(),
         Arc::new(ProximoExameAction) as Arc<dyn ShortcutAction>,
+    );
+    map.insert(
+        "abrir_radiant".to_string(),
+        Arc::new(AbrirRadiantAction) as Arc<dyn ShortcutAction>,
     );
     map.insert(
         "test".to_string(),

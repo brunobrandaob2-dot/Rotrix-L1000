@@ -735,6 +735,18 @@ pub fn rotrix_fila_feito(id: String, feito: bool) -> Result<String, String> {
     )
 }
 
+/// Abre no RadiAnt o exame que acabou de cair na pasta (atalho Ctrl+Alt+R).
+/// Serve para o fluxo sem Radius: baixou pelo navegador, apertou o atalho.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_abrir_ultimo() -> Result<String, String> {
+    http_post(
+        "/v1/fila/abrir",
+        &serde_json::json!({ "ultimo": true }).to_string(),
+        20_000,
+    )
+}
+
 /// Manda para a Lixeira do Windows os exames marcados na aba Fila e some com
 /// eles da lista. O caminho da pasta (que tem o nome do paciente) nao volta.
 #[specta::specta]

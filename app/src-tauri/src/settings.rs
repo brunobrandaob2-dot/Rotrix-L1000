@@ -942,6 +942,21 @@ pub fn get_default_settings() -> AppSettings {
             current_binding: default_proximo_exame.to_string(),
         },
     );
+    // Rotrix: abre no RadiAnt o exame que acabou de cair na pasta de downloads
+    #[cfg(target_os = "macos")]
+    let default_abrir_radiant = "cmd+alt+r";
+    #[cfg(not(target_os = "macos"))]
+    let default_abrir_radiant = "ctrl+alt+r";
+    bindings.insert(
+        "abrir_radiant".to_string(),
+        ShortcutBinding {
+            id: "abrir_radiant".to_string(),
+            name: "Abrir no RadiAnt".to_string(),
+            description: "Abre no RadiAnt o exame que acabou de aparecer na pasta.".to_string(),
+            default_binding: default_abrir_radiant.to_string(),
+            current_binding: default_abrir_radiant.to_string(),
+        },
+    );
     bindings.insert(
         "cancel".to_string(),
         ShortcutBinding {
