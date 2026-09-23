@@ -12,6 +12,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { Mic, RefreshCw, Sparkles, Search, Check, Undo2 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useDitado } from "./useDitado";
+import { TextoDeLaudo } from "./TextoDeLaudo";
 
 interface Mascara {
   titulo: string;
@@ -463,12 +464,14 @@ export const MascarasPage: React.FC<{
                           )}
                         </div>
                         <div className="grid grid-cols-2 gap-2 mt-2">
-                          <pre className="whitespace-pre-wrap text-[10.5px] leading-snug rounded border border-mid-gray/20 bg-mid-gray/5 p-2 max-h-40 overflow-y-auto">
-                            {p.antes || "(não existia)"}
-                          </pre>
-                          <pre className="whitespace-pre-wrap text-[10.5px] leading-snug rounded border border-emerald-500/30 bg-emerald-500/5 p-2 max-h-40 overflow-y-auto">
-                            {p.depois}
-                          </pre>
+                          <TextoDeLaudo
+                            texto={p.antes || "(não existia)"}
+                            className="text-[10.5px] leading-snug rounded border border-mid-gray/20 bg-mid-gray/5 p-2 max-h-40 overflow-y-auto"
+                          />
+                          <TextoDeLaudo
+                            texto={p.depois}
+                            className="text-[10.5px] leading-snug rounded border border-emerald-500/30 bg-emerald-500/5 p-2 max-h-40 overflow-y-auto"
+                          />
                         </div>
                         {p.acao === "criar" && p.gatilhos?.length ? (
                           <div className="flex flex-wrap gap-1 mt-1.5">
@@ -528,9 +531,10 @@ export const MascarasPage: React.FC<{
                 </div>
               )}
               {texto ? (
-                <pre className="whitespace-pre-wrap text-[11.5px] leading-relaxed font-sans rounded-lg border border-mid-gray/20 bg-white text-black p-3">
-                  {texto}
-                </pre>
+                <TextoDeLaudo
+                  texto={texto}
+                  className="text-[11.5px] leading-relaxed rounded-lg border border-mid-gray/20 bg-white text-black p-3"
+                />
               ) : (
                 <p className="text-xs text-mid-gray">
                   o texto da máscara aparece aqui, com os comandos de voz que a

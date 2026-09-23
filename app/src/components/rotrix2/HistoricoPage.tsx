@@ -16,6 +16,7 @@ import { useOsType } from "@/hooks/useOsType";
 import { AudioPlayer, AudioPlayerGroup } from "../ui/AudioPlayer";
 import { Button } from "../ui/Button";
 import { copyToClipboard } from "../settings/history/clipboard";
+import { TextoDeLaudo } from "./TextoDeLaudo";
 
 const VINTE_QUATRO_H = 24 * 60 * 60 * 1000;
 const PAGINA = 60;
@@ -281,9 +282,10 @@ export const HistoricoPage: React.FC<{
                   </span>
                 </div>
                 <div className="p-3">
-                  <pre className="whitespace-pre-wrap break-words text-[12px] leading-relaxed font-sans rounded-lg border border-mid-gray/20 bg-white text-black p-4 min-h-56 max-h-[420px] overflow-y-auto select-text">
-                    {texto || "(sem texto)"}
-                  </pre>
+                  <TextoDeLaudo
+                    texto={texto || "(sem texto)"}
+                    className="text-[12px] leading-relaxed rounded-lg border border-mid-gray/20 bg-white text-black p-4 min-h-56 max-h-[420px] overflow-y-auto select-text"
+                  />
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     <Button
                       variant="primary"
