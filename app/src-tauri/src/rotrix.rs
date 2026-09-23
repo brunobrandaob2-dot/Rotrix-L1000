@@ -735,6 +735,46 @@ pub fn rotrix_fila_feito(id: String, feito: bool) -> Result<String, String> {
     )
 }
 
+/// Banco de mascaras para a aba Mascaras: regioes, lista e, com `titulo`,
+/// o texto inteiro de uma mascara.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_mascaras_banco(busca: String, titulo: String) -> Result<String, String> {
+    http_post(
+        "/v1/mascaras/banco",
+        &serde_json::json!({ "busca": busca, "titulo": titulo }).to_string(),
+        20_000,
+    )
+}
+
+/// Pedido falado sobre o banco de mascaras: a IA le o texto das mascaras
+/// filtradas e devolve propostas. Nada e alterado sem a sua aprovacao.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_mascaras_ia(instrucao: String, busca: String) -> Result<String, String> {
+    http_post(
+        "/v1/mascaras/ia",
+        &serde_json::json!({ "instrucao": instrucao, "busca": busca }).to_string(),
+        180_000,
+    )
+}
+
+/// Abre no RadiAnt os exames marcados na aba Fila, todos na mesma janela.
+/// O roteador resolve os ids em caminhos de pasta no proprio computador e
+/// chama o RadiAnt; nome de paciente nao entra nem sai deste caminho.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_abrir_estudos(ids: Vec<String>) -> Result<String, String> {
+    if ids.is_empty() {
+        return Err("nenhum exame marcado".to_string());
+    }
+    http_post(
+        "/v1/fila/abrir",
+        &serde_json::json!({ "ids": ids }).to_string(),
+        15_000,
+    )
+}
+
 /// Perfil: grava num .rotrix.zip as suas mascaras, o ouvido.tsv e os ajustes.
 /// A chave de IA nunca entra; os laudos de estilo so com incluir_estilo.
 #[specta::specta]
@@ -980,6 +1020,77 @@ pub fn frase_formatada(texto: &str) -> String {
     }
     out.push_str(cauda);
     out
+}
+
+// ---------------------------------------------------------------------------
+// Rotrix v2: a aba Laudo. Os botoes da barra precisam de tres coisas que os
+// atalhos ja fazem: gravar, colar na janela de antes e passar o texto pela IA.
+// ---------------------------------------------------------------------------
+
+/// Quando o ditado foi disparado por um botao da aba Laudo, o texto NAO e
+/// colado na janela de fora: ele volta para a folha do app pelo evento
+/// "rotrix-ditado". A bandeira e consumida uma unica vez, pelo ditado seguinte.
+static DITADO_PARA_FOLHA: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+
+pub fn folha_quer_o_texto() -> bool {
+    DITADO_PARA_FOLHA.swap(false, std::sync::atomic::Ordering::SeqCst)
+}
+
+/// Dispara, a partir de um botao da tela, a mesma acao de um atalho.
+/// `binding`: "transcribe" (ditado simples) ou "transcribe_with_post_process"
+/// (ditado que passa pelo roteador). `comeco` = true no apertar, false no soltar.
+#[tauri::command]
+#[specta::specta]
+pub fn rotrix_acao(
+    app: AppHandle,
+    binding: String,
+    comeco: bool,
+    para_folha: bool,
+) -> Result<(), String> {
+    if comeco {
+        DITADO_PARA_FOLHA.store(para_folha, std::sync::atomic::Ordering::SeqCst);
+    }
+    let acao = crate::actions::ACTION_MAP
+        .get(&binding)
+        .ok_or_else(|| format!("acao desconhecida: {binding}"))?
+        .clone();
+    if comeco {
+        acao.start(&app, &binding, "");
+    } else {
+        acao.stop(&app, &binding, "");
+    }
+    Ok(())
+}
+
+/// Cola o texto na janela que estava na frente antes do Rotrix.
+/// Minimiza a janela do app (o Windows devolve o foco para a anterior), espera
+/// o foco assentar e usa a mesma colagem do ditado.
+#[tauri::command]
+#[specta::specta]
+pub fn rotrix_colar(app: AppHandle, texto: String) -> Result<(), String> {
+    if texto.trim().is_empty() {
+        return Err("nada para colar".to_string());
+    }
+    if let Some(janela) = app.get_webview_window("main") {
+        let _ = janela.minimize();
+    }
+    std::thread::sleep(Duration::from_millis(250));
+    crate::clipboard::paste(texto, app)
+}
+
+/// Manda o laudo que esta na folha para a IA do roteador e devolve o texto pronto.
+/// `instrucao` vazia = so revisar; com instrucao, a IA obedece ao pedido falado.
+/// `modelo` vazio = o modelo da configuracao.
+#[tauri::command]
+#[specta::specta]
+pub fn rotrix_ia_texto(texto: String, instrucao: String, modelo: String) -> Result<String, String> {
+    let corpo = serde_json::json!({
+        "texto": texto,
+        "instrucao": instrucao,
+        "modelo": modelo,
+    })
+    .to_string();
+    http_post("/v1/ia", &corpo, 90_000)
 }
 
 #[cfg(test)]

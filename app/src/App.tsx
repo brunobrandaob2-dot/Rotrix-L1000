@@ -15,16 +15,11 @@ import {
 } from "tauri-plugin-macos-permissions-api";
 import { ModelStateEvent, RecordingErrorEvent } from "./lib/types/events";
 import "./App.css";
-import AccessibilityPermissions from "./components/AccessibilityPermissions";
-import SecureInputWarning from "./components/SecureInputWarning";
 import Footer from "./components/footer";
 import Onboarding, { AccessibilityOnboarding } from "./components/onboarding";
-import {
-  DebugSettings,
-  type OnboardingPreviewStep,
-} from "./components/settings";
+import { type OnboardingPreviewStep } from "./components/settings";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { Sidebar, SidebarSection, SECTIONS_CONFIG } from "./components/Sidebar";
+import { Casca } from "./components/rotrix2/Casca";
 import { WhatsNewGate } from "./components/whats-new";
 import { useSettings } from "./hooks/useSettings";
 import { useSettingsStore } from "./stores/settingsStore";
@@ -36,19 +31,6 @@ type OnboardingStep = "accessibility" | "model" | "done";
 // Stable identity so preview effects do not re-run due to callback changes.
 const NOOP = () => {};
 
-const renderSettingsContent = (
-  section: SidebarSection,
-  onPreviewOnboarding: (step: OnboardingPreviewStep) => void,
-) => {
-  if (section === "debug") {
-    return <DebugSettings onPreviewOnboarding={onPreviewOnboarding} />;
-  }
-
-  const ActiveComponent =
-    SECTIONS_CONFIG[section]?.component || SECTIONS_CONFIG.general.component;
-  return <ActiveComponent />;
-};
-
 function App() {
   const { t, i18n } = useTranslation();
   const [onboardingStep, setOnboardingStep] = useState<OnboardingStep | null>(
@@ -59,8 +41,6 @@ function App() {
   // Track if this is a returning user who just needs to grant permissions
   // (vs a new user who needs full onboarding including model selection)
   const [isReturningUser, setIsReturningUser] = useState(false);
-  const [currentSection, setCurrentSection] =
-    useState<SidebarSection>("general");
   const { settings, updateSetting } = useSettings();
   const direction = getLanguageDirection(i18n.language);
   const refreshAudioDevices = useSettingsStore(
@@ -70,7 +50,6 @@ function App() {
     (state) => state.refreshOutputDevices,
   );
   const hasCompletedPostOnboardingInit = useRef(false);
-  const settingsScrollRef = useRef<HTMLDivElement>(null);
   const isShowingOnboarding =
     onboardingPreview !== null ||
     onboardingStep === "accessibility" ||
@@ -84,11 +63,6 @@ function App() {
     document.documentElement.toggleAttribute(attribute, isShowingOnboarding);
     return () => document.documentElement.removeAttribute(attribute);
   }, [isShowingOnboarding]);
-
-  // Reset the scroll position whenever the active section changes.
-  useLayoutEffect(() => {
-    settingsScrollRef.current?.scrollTo({ top: 0 });
-  }, [currentSection]);
 
   useEffect(() => {
     checkOnboardingStatus();
@@ -350,6 +324,8 @@ function App() {
   } else if (onboardingStep === "model") {
     content = <Onboarding onModelSelected={handleModelSelected} />;
   } else {
+    // Rotrix v2: a janela é das cinco abas (Laudo, Fila, Máscaras, Histórico,
+    // Config). As telas de ajuste de antes continuam inteiras, dentro de Config.
     content = (
       <div
         dir={direction}
@@ -358,23 +334,9 @@ function App() {
         <ErrorBoundary context="What's New">
           <WhatsNewGate />
         </ErrorBoundary>
-        {/* Main content area that takes remaining space */}
-        <div className="flex-1 flex overflow-hidden">
-          <Sidebar
-            activeSection={currentSection}
-            onSectionChange={setCurrentSection}
-          />
-          {/* Scrollable content area */}
-          <div className="flex-1 flex flex-col overflow-hidden">
-            <div ref={settingsScrollRef} className="flex-1 overflow-y-auto">
-              <div className="flex flex-col items-center p-4 gap-4">
-                <AccessibilityPermissions />
-                <SecureInputWarning />
-                {renderSettingsContent(currentSection, setOnboardingPreview)}
-              </div>
-            </div>
-          </div>
-        </div>
+        <ErrorBoundary context="Rotrix">
+          <Casca aoVerOnboarding={setOnboardingPreview} />
+        </ErrorBoundary>
         {/* Fixed footer at bottom */}
         <Footer />
       </div>

@@ -817,6 +817,12 @@ impl ShortcutAction for TranscribeAction {
                             if processed.final_text.is_empty() {
                                 utils::hide_recording_overlay(&ah);
                                 set_tray_state(&ah, TrayIconState::Idle);
+                            } else if crate::rotrix::folha_quer_o_texto() {
+                                // Rotrix v2: ditado pedido por um botao da aba
+                                // Laudo -> o texto entra na folha do app.
+                                let _ = ah.emit("rotrix-ditado", processed.final_text.clone());
+                                utils::hide_recording_overlay(&ah);
+                                set_tray_state(&ah, TrayIconState::Idle);
                             } else {
                                 let ah_clone = ah.clone();
                                 let paste_time = Instant::now();
