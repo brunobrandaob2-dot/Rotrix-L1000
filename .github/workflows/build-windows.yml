@@ -115,7 +115,34 @@ jobs:
           Copy-Item "$src/dados" "$dst/roteador/dados" -Recurse
           Copy-Item "$src/handy/handy_radiology_map.tsv" "$dst/roteador/handy_radiology_map.tsv"
           Get-ChildItem "$dst/roteador" -Recurse -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
+          # o instalador e distribuido: laudos de estilo e notas internas do
+          # Bruno NAO entram (o app recria a pasta vazia no primeiro uso)
+          Remove-Item "$dst/roteador/dados/estilo" -Recurse -Force -ErrorAction SilentlyContinue
+          Remove-Item "$dst/roteador/dados/relatorio_ortografia.txt","$dst/roteador/dados/revisao_clinica_pendente.json" -Force -ErrorAction SilentlyContinue
           "$env:GITHUB_SHA $(Get-Date -Format s)" | Set-Content "$dst/roteador/VERSAO_PACOTE.txt"
+
+      - name: Conferir que nada pessoal entrou no instalador
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $dst = "app/src-tauri/resources/rotrix/roteador"
+          $proibidos = @()
+          if (Test-Path "$dst/dados/estilo") { $proibidos += "dados/estilo (laudos de estilo)" }
+          foreach ($n in @("chave_anthropic.txt","gasto.json","aprendizado.json",".radius_sal","radius_estrutura.txt","apagados.json","dados/apagados.json")) {
+            if (Test-Path "$dst/$n") { $proibidos += $n }
+          }
+          # chave de API escrita em qualquer arquivo de texto do pacote
+          $padrao = 'sk-[A-Za-z0-9_\-]{20,}|AIza[0-9A-Za-z_\-]{30,}'
+          Get-ChildItem "$dst" -Recurse -File -Include *.py,*.json,*.txt,*.md,*.tsv,*.ps1 | ForEach-Object {
+            $achou = Select-String -Path $_.FullName -Pattern $padrao -AllMatches -ErrorAction SilentlyContinue |
+              Where-Object { $_.Matches.Value -notmatch 'SEGREDO|EXEMPLO|TESTE|FAKE|XXXX' }
+            if ($achou) { $proibidos += "chave em $($_.FullName)" }
+          }
+          if ($proibidos.Count -gt 0) {
+            Write-Host "::error::arquivo pessoal no instalador: $($proibidos -join ', ')"
+            exit 1
+          }
+          Write-Host "[ok] instalador sem nada pessoal dentro"
 
       - name: Compilar o colador com negrito (texto rico)
         shell: powershell
