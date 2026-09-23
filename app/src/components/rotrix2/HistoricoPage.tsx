@@ -8,8 +8,7 @@
 //
 // Mais velho que 24 h não aparece. Áudio e texto ficam só neste computador.
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { convertFileSrc } from "@tauri-apps/api/core";
-import { invoke } from "@tauri-apps/api/core";
+import { convertFileSrc, invoke } from "@tauri-apps/api/core";
 import { readFile } from "@tauri-apps/plugin-fs";
 import { Copy, FolderOpen, RefreshCw, Sparkles, Trash2, PenLine } from "lucide-react";
 import { commands, events, type HistoryEntry } from "@/bindings";
