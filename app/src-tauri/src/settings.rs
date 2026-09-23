@@ -134,10 +134,13 @@ pub enum OverlayStyle {
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, Type, Default)]
 #[serde(rename_all = "snake_case")]
 pub enum ModelUnloadTimeout {
+    // Rotrix: o modelo fica na memoria. Descarregar depois de 5 min fazia o
+    // ditado seguinte esperar ~11 s so para recarregar o Whisper (medido no
+    // log: 11,80 s para 2,31 s de audio; com o modelo carregado, 0,4 s).
+    #[default]
     Never,
     Immediately,
     Min2,
-    #[default]
     Min5,
     Min10,
     Min15,
