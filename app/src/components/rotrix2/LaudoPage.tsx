@@ -234,9 +234,11 @@ export const LaudoPage: React.FC<Props> = ({
 
   const desfazerIA = () => {
     if (!ultimoIA || !folha.current) return;
-    folha.current.innerText = ultimoIA;
+    // o guardado pode ser HTML (apagar, histórico) ou texto (antes da IA)
+    if (/<[a-z][\s\S]*>/i.test(ultimoIA)) folha.current.innerHTML = ultimoIA;
+    else folha.current.innerHTML = textoEmHtml(ultimoIA);
     setUltimoIA("");
-    setAviso("voltou ao texto de antes da IA");
+    setAviso("voltou ao texto anterior");
   };
 
   // ---------- saída ----------
@@ -285,11 +287,15 @@ export const LaudoPage: React.FC<Props> = ({
     }
   }, []);
 
+  // Apaga na hora, sem perguntar nada: o laudo fica guardado no botão de
+  // voltar (Ctrl+Z também funciona, porque a folha é um campo editável).
   const limpar = () => {
-    if (!textoDaFolha()) return;
-    if (!window.confirm("Apagar o laudo que está na folha?")) return;
-    if (folha.current) folha.current.innerHTML = "";
-    setUltimoIA("");
+    const el = folha.current;
+    if (!el || !textoDaFolha()) return;
+    setUltimoIA(el.innerHTML);
+    el.innerHTML = "";
+    el.focus();
+    setAviso("laudo apagado · o botão ⏱ traz de volta");
   };
 
   const cmd = (nome: string, valor?: string) => {
@@ -364,7 +370,11 @@ export const LaudoPage: React.FC<Props> = ({
         )}
 
         <Sep />
-        <Fer titulo="Limpar o laudo" tom="vermelho" onClick={limpar}>
+        <Fer
+          titulo="Apaga o laudo da folha na hora. O botão ao lado (⏱) traz de volta."
+          tom="vermelho"
+          onClick={limpar}
+        >
           <Trash2 size={15} />
         </Fer>
         <Fer
@@ -373,7 +383,11 @@ export const LaudoPage: React.FC<Props> = ({
         >
           <RotateCw size={15} />
         </Fer>
-        <Fer titulo="Voltar ao texto de antes da IA" onClick={desfazerIA}>
+        <Fer
+          titulo="Traz de volta o texto anterior: o de antes da IA, ou o que você acabou de apagar."
+          ativo={Boolean(ultimoIA)}
+          onClick={desfazerIA}
+        >
           <History size={15} />
         </Fer>
         <Fer
