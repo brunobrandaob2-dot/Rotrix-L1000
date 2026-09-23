@@ -1,27 +1,29 @@
 /* eslint-disable i18next/no-literal-string */
-// Rotrix L-1000 v2 — a casca do app: a barra das cinco abas e a aba aberta.
+// Rotrix L-1000 v2 — a casca do app: a barra das abas e a aba aberta.
 //
-// Laudo · Fila · Máscaras · Histórico · Config. A barra é estreita e fica
-// sempre visível; cada aba ocupa a janela inteira, sem moldura em volta.
+// Laudo · Fila · Adendos · Máscaras · Histórico · Config. A barra é estreita e
+// fica sempre visível; cada aba ocupa a janela inteira, sem moldura em volta.
 // A Fila mostra quantos exames estão esperando.
 import React, { useCallback, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
-import { PenLine, Rows3, LayoutGrid, Clock, Cog } from "lucide-react";
+import { PenLine, Rows3, FilePlus2, LayoutGrid, Clock, Cog } from "lucide-react";
 import HandyTextLogo from "../icons/HandyTextLogo";
 import type { SidebarSection } from "../Sidebar";
 import type { OnboardingPreviewStep } from "../settings";
 import { LaudoPage } from "./LaudoPage";
 import { FilaPage } from "./FilaPage";
+import { AdendoPage } from "./AdendoPage";
 import { MascarasPage } from "./MascarasPage";
 import { HistoricoPage } from "./HistoricoPage";
 import { ConfigPage } from "./ConfigPage";
 
-export type Aba = "laudo" | "fila" | "mascaras" | "historico" | "config";
+export type Aba = "laudo" | "fila" | "adendos" | "mascaras" | "historico" | "config";
 
 const ABAS: { id: Aba; nome: string; icone: React.ElementType }[] = [
   { id: "laudo", nome: "Laudo", icone: PenLine },
   { id: "fila", nome: "Fila", icone: Rows3 },
+  { id: "adendos", nome: "Adendos", icone: FilePlus2 },
   { id: "mascaras", nome: "Máscaras", icone: LayoutGrid },
   { id: "historico", nome: "Histórico", icone: Clock },
   { id: "config", nome: "Config.", icone: Cog },
@@ -205,6 +207,13 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
           />
         )}
         {aba === "fila" && <FilaPage />}
+        {aba === "adendos" && (
+          <AdendoPage
+            modelos={listaModelos}
+            idModelo={forte}
+            aoTrocarModelo={trocarModelo}
+          />
+        )}
         {aba === "mascaras" && <MascarasPage aoAbrirConfig={abrirConfig} />}
         {aba === "historico" && (
           <HistoricoPage aoAbrirNoLaudo={abrirNoLaudo} idModeloCompleto={forte} />

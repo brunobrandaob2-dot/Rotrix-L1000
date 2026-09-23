@@ -677,6 +677,7 @@ pub fn run(cli_args: CliArgs) {
             rotrix::rotrix_abrir_ultimo,
             rotrix::rotrix_mascaras_banco,
             rotrix::rotrix_mascaras_ia,
+            rotrix::rotrix_adendo,
             rotrix::rotrix_perfil_exportar,
             rotrix::rotrix_perfil_importar,
             rotrix::rotrix_correcao_aplicar,

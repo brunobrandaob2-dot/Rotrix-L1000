@@ -4,7 +4,7 @@
 // As telas de ajuste que já existiam continuam as mesmas; o que muda é o
 // caminho até elas: em cima, uma fileira de assuntos (Geral, Rotrix, Modelos,
 // Avançado…) em vez de uma segunda barra lateral, porque a barra lateral agora
-// é das cinco abas do app.
+// é das abas do app.
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Palette } from "lucide-react";

@@ -45,7 +45,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-23.6"
+VERSAO = "2026-09-23.7"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -2223,9 +2223,14 @@ class Handler(BaseHTTPRequestHandler):
                           "/fila/apagar",
                           "/perfil/exportar", "/perfil/importar",
                           "/correcao", "/correcao/desfazer", "/ia",
-                          "/mascaras/banco", "/mascaras/ia")):
+                          "/mascaras/banco", "/mascaras/ia", "/adendo")):
             corpo = self._corpo()
             try:
+                if rota.endswith("/adendo"):
+                    return self._json(200, adendo(corpo.get("laudo") or "",
+                                                  corpo.get("pedido") or "",
+                                                  corpo.get("tipo") or "livre",
+                                                  corpo.get("modelo") or ""))
                 if rota.endswith("/mascaras/banco"):
                     return self._json(200, mascaras_banco(corpo.get("busca") or "",
                                                           corpo.get("titulo") or "",
@@ -2419,6 +2424,83 @@ def mascaras_ia(instrucao, busca="", limite=25, texto="", aplicar=None, desfazer
             "recado": str(dados.get("recado") or "")[:400],
             "lidas": len(escolhidas), "modelo": c.get("modelo"),
             "consideradas": [d["titulo"] for d in escolhidas]}
+
+
+_ADENDO_REGRAS = """Você escreve ADENDOS e RESPOSTAS a pedidos de revisão para um
+radiologista, em português do Brasil, no mesmo tom técnico do laudo dele.
+
+Regras que valem sempre:
+- NÃO invente achado, medida, lado, data ou comparação que não esteja no laudo
+  que recebeu nem no pedido dele. Se faltar informação para atender, diga o que
+  falta em uma linha, em vez de inventar.
+- Não repita o laudo inteiro: o adendo é um acréscimo, e se refere ao laudo.
+- Uma frase por linha, no estilo do laudo. Cabeçalhos entre ** (**ADENDO:**).
+- Sem saudação, sem assinatura, sem CRM, sem nome de paciente.
+- Comece pela linha do carimbo, exatamente assim: **ADENDO — {quando}**
+- Escreva só o texto do adendo. Nada de explicação sobre o que você fez.
+"""
+
+_ADENDO_TIPOS = {
+    "achado_adicional": "O radiologista revisou as imagens e quer registrar um achado "
+                        "adicional, que não constava no laudo anterior. Descreva o achado "
+                        "com as palavras do pedido dele, situe onde e conclua em uma linha.",
+    "resposta_pedido": "Chegou um pedido de revisão do laudo e o radiologista MANTÉM a "
+                       "conclusão. Escreva a resposta técnica: o que foi avaliado, por que "
+                       "o achado descrito (ou a ausência dele) se sustenta e o que ele "
+                       "sugere como próximo passo, se houver. Tom respeitoso e firme, "
+                       "sem ironia e sem desqualificar quem pediu.",
+    "retificacao": "Houve um erro material no laudo (lado, medida, termo, número). "
+                   "Escreva a retificação dizendo o que estava escrito e o que passa a "
+                   "valer, sem mexer no resto do laudo.",
+    "complemento": "O pedido é complementar o laudo com uma comparação, uma medida ou "
+                   "uma orientação de seguimento que o radiologista informou no pedido.",
+    "livre": "Atenda exatamente o que o radiologista pediu abaixo.",
+}
+
+
+def adendo(laudo, pedido, tipo="livre", modelo=""):
+    """Aba Adendos: o laudo já assinado + o que ele quer -> texto do adendo.
+
+    O laudo colado passa pela mesma triagem do resto: se tiver identificador de
+    paciente (CPF, prontuário, data completa de nascimento, e-mail, "Paciente:"),
+    nada é enviado — o aviso volta dizendo o que tirar."""
+    laudo = (laudo or "").strip()
+    pedido = (pedido or "").strip()
+    if not laudo:
+        return {"ok": False, "motivo": "laudo_vazio"}
+    if not pedido:
+        return {"ok": False, "motivo": "pedido_vazio"}
+    if nuvem is None:
+        return {"ok": False, "motivo": "nuvem_ausente"}
+    c = nuvem.config()
+    if not c.get("ativa"):
+        return {"ok": False, "motivo": "nuvem_desligada"}
+    if modelo:
+        c = dict(c)
+        c["modelo"] = modelo
+
+    corpo = laudo
+    try:
+        import importar_usuario
+        corpo = importar_usuario.tirar_cabecalho_paciente(laudo) or laudo
+    except Exception:
+        pass
+    achados = nuvem.triagem(corpo)
+    if achados:
+        return {"ok": False, "motivo": "tem_identificador", "achados": sorted(set(achados))}
+
+    quando = time.strftime("%d/%m/%Y, às %H:%M")
+    instrucao = _ADENDO_TIPOS.get(tipo) or _ADENDO_TIPOS["livre"]
+    partes = [_ADENDO_REGRAS.replace("{quando}", quando), "",
+              "SITUAÇÃO: " + instrucao, "",
+              "PEDIDO DO RADIOLOGISTA:", pedido, "",
+              "LAUDO JÁ ASSINADO (para referência):", corpo[:20000]]
+    texto, origem = nuvem.chamar("\n".join(partes), c, modo="instrucao",
+                                 marcar=False, max_tokens=3000)
+    if origem == "nuvem" and texto:
+        return {"ok": True, "texto": texto.strip(), "quando": quando,
+                "modelo": c.get("modelo"), "tipo": tipo}
+    return {"ok": False, "motivo": origem}
 
 
 def ia_no_texto(texto, instrucao="", modelo=""):

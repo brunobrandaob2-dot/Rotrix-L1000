@@ -418,6 +418,56 @@ def oficina_de_mascaras(falhas):
         shutil.rmtree(copias, ignore_errors=True)
 
 
+def adendos(falhas):
+    """Aba Adendos: as recusas e, sobretudo, a triagem de identificador.
+
+    O laudo assinado é colado inteiro nessa aba. Se vier com CPF, prontuário ou
+    "Paciente: Fulano", nada pode sair do computador."""
+    if roteador.adendo("", "acrescenta um achado").get("motivo") != "laudo_vazio":
+        falhas.append("adendo: laudo vazio deveria dizer laudo_vazio")
+    if roteador.adendo("TC de tórax normal.", "  ").get("motivo") != "pedido_vazio":
+        falhas.append("adendo: pedido vazio deveria dizer pedido_vazio")
+
+    # cabeçalho de paciente: sai fora antes de qualquer envio
+    com_cabecalho = ("Paciente: FULANO BELTRANO DE TAL\nCPF 123.456.789-00\n\n"
+                     "TC DE TÓRAX\nExame dentro dos limites da normalidade.")
+    import importar_usuario
+    corpo = importar_usuario.tirar_cabecalho_paciente(com_cabecalho) or ""
+    for p in ("FULANO", "BELTRANO", "123.456.789"):
+        if p in corpo:
+            falhas.append("adendo: o cabeçalho de paciente sobreviveu (%r)" % p)
+
+    # identificador no meio do laudo (não dá para tirar): tem que barrar
+    sujo = ("TC DE TÓRAX\nProntuário 987654321.\n"
+            "Exame dentro dos limites da normalidade.")
+    r = roteador.adendo(sujo, "acrescenta um nódulo de 6 mm no lobo inferior esquerdo")
+    if r.get("ok"):
+        falhas.append("adendo: laudo com identificador não pode ser aceito")
+    if r.get("motivo") != "tem_identificador":
+        falhas.append("adendo: identificador passou pela triagem (%r)" % r.get("motivo"))
+    if not r.get("achados"):
+        falhas.append("adendo: recusou sem dizer o que achou")
+    # a resposta da recusa não pode devolver o conteúdo do laudo para a tela
+    bruto = json.dumps(r, ensure_ascii=False).upper()
+    for p in PROIBIDOS:
+        if p.upper() in bruto:
+            falhas.append("adendo: a recusa devolveu %r" % p)
+
+    # limpo: sem chave/sem internet tem que responder, não levantar exceção
+    limpo = "TC DE TÓRAX\n\nExame dentro dos limites da normalidade."
+    r = roteador.adendo(limpo, "acrescenta um nódulo de 6 mm no lobo inferior esquerdo",
+                        "achado_adicional")
+    if r.get("ok"):
+        falhas.append("adendo: sem chave não pode dar ok")
+    if not r.get("motivo"):
+        falhas.append("adendo: falhou sem dizer o motivo")
+    if r.get("motivo") == "tem_identificador":
+        falhas.append("adendo: laudo limpo foi barrado como identificável")
+    # tipo desconhecido não pode quebrar: cai no livre
+    if not roteador.adendo(limpo, "refuta o pedido", "coisa_que_nao_existe").get("motivo"):
+        falhas.append("adendo: tipo desconhecido deveria cair no livre e responder")
+
+
 def main():
     falhas = []
     banco(falhas)
@@ -427,6 +477,7 @@ def main():
     pasta_de_downloads(falhas)
     download_de_dicom(falhas)
     oficina_de_mascaras(falhas)
+    adendos(falhas)
     for f in falhas:
         print("FALHOU", f)
     print("v2: tudo certo" if not falhas else "v2: %d falha(s)" % len(falhas))

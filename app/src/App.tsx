@@ -324,8 +324,9 @@ function App() {
   } else if (onboardingStep === "model") {
     content = <Onboarding onModelSelected={handleModelSelected} />;
   } else {
-    // Rotrix v2: a janela é das cinco abas (Laudo, Fila, Máscaras, Histórico,
-    // Config). As telas de ajuste de antes continuam inteiras, dentro de Config.
+    // Rotrix v2: a janela é das abas (Laudo, Fila, Adendos, Máscaras,
+    // Histórico, Config). As telas de ajuste de antes continuam inteiras,
+    // dentro de Config.
     content = (
       <div
         dir={direction}

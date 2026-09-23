@@ -804,6 +804,30 @@ pub fn rotrix_mascaras_ia(
     http_post("/v1/mascaras/ia", &corpo.to_string(), 300_000)
 }
 
+/// Aba Adendos: o laudo ja assinado + o que o radiologista quer -> o texto do
+/// adendo, carimbado com a data e a hora de agora. O roteador faz a triagem
+/// antes de mandar; laudo com identificador de paciente nao sai do computador.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_adendo(
+    laudo: String,
+    pedido: String,
+    tipo: String,
+    modelo: String,
+) -> Result<String, String> {
+    http_post(
+        "/v1/adendo",
+        &serde_json::json!({
+            "laudo": laudo,
+            "pedido": pedido,
+            "tipo": tipo,
+            "modelo": modelo,
+        })
+        .to_string(),
+        180_000,
+    )
+}
+
 /// Abre no RadiAnt os exames marcados na aba Fila, todos na mesma janela.
 /// O roteador resolve os ids em caminhos de pasta no proprio computador e
 /// chama o RadiAnt; nome de paciente nao entra nem sai deste caminho.
