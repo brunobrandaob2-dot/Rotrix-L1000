@@ -1089,19 +1089,84 @@ pub fn rotrix_acao(
     Ok(())
 }
 
+/// A janela que esta logo atras da nossa na ordem do Windows: e nela que o
+/// laudo tem que ser colado (o RIS). Pula janela invisivel, minimizada, sem
+/// titulo e as do proprio Rotrix.
+#[cfg(windows)]
+fn janela_de_tras(nossa: windows::Win32::Foundation::HWND) -> Option<windows::Win32::Foundation::HWND> {
+    use windows::Win32::UI::WindowsAndMessaging::{
+        GetWindow, GetWindowTextLengthW, GetWindowThreadProcessId, IsIconic, IsWindowVisible,
+        GW_HWNDNEXT,
+    };
+    let nosso_pid = std::process::id();
+    let mut h = nossa;
+    for _ in 0..60 {
+        h = unsafe { GetWindow(h, GW_HWNDNEXT) }.ok()?;
+        if h.0.is_null() {
+            return None;
+        }
+        unsafe {
+            if !IsWindowVisible(h).as_bool() || IsIconic(h).as_bool() {
+                continue;
+            }
+            if GetWindowTextLengthW(h) == 0 {
+                continue;
+            }
+            let mut pid: u32 = 0;
+            GetWindowThreadProcessId(h, Some(&mut pid as *mut u32));
+            if pid == nosso_pid || pid == 0 {
+                continue;
+            }
+        }
+        return Some(h);
+    }
+    None
+}
+
+/// Devolve o foco para a janela de tras sem minimizar nada.
+/// `true` quando deu certo — o Windows recusa a troca de foco em alguns casos,
+/// e ai o chamador minimiza como antes.
+#[cfg(windows)]
+fn devolver_foco() -> bool {
+    use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, SetForegroundWindow};
+    unsafe {
+        let nossa = GetForegroundWindow();
+        if nossa.0.is_null() {
+            return false;
+        }
+        let alvo = match janela_de_tras(nossa) {
+            Some(h) => h,
+            None => return false,
+        };
+        let _ = SetForegroundWindow(alvo);
+        std::thread::sleep(Duration::from_millis(120));
+        GetForegroundWindow() == alvo
+    }
+}
+
+#[cfg(not(windows))]
+fn devolver_foco() -> bool {
+    false
+}
+
 /// Cola o texto na janela que estava na frente antes do Rotrix.
-/// Minimiza a janela do app (o Windows devolve o foco para a anterior), espera
-/// o foco assentar e usa a mesma colagem do ditado.
+///
+/// Primeiro tenta so devolver o foco para a janela de tras (o app fica visivel,
+/// nada pisca). Se o Windows recusar a troca de foco, minimiza — que era o
+/// jeito de antes e sempre funciona, porque o foco volta sozinho para quem
+/// estava atras.
 #[tauri::command]
 #[specta::specta]
 pub fn rotrix_colar(app: AppHandle, texto: String) -> Result<(), String> {
     if texto.trim().is_empty() {
         return Err("nada para colar".to_string());
     }
-    if let Some(janela) = app.get_webview_window("main") {
-        let _ = janela.minimize();
+    if !devolver_foco() {
+        if let Some(janela) = app.get_webview_window("main") {
+            let _ = janela.minimize();
+        }
+        std::thread::sleep(Duration::from_millis(250));
     }
-    std::thread::sleep(Duration::from_millis(250));
     crate::clipboard::paste(texto, app)
 }
 

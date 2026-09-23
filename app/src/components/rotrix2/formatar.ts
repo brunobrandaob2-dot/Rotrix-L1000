@@ -18,10 +18,22 @@ const soMaiusculas = (linha: string): boolean => {
   return letras.length >= 4 && letras === letras.toUpperCase();
 };
 
+/** `**assim**` vira negrito de verdade; o resto é escapado. */
+const marcasEmNegrito = (linha: string): string =>
+  escapar(linha)
+    .split("**")
+    .map((parte, i) => (i % 2 === 1 ? `<b>${parte}</b>` : parte))
+    .join("");
+
 /** Uma linha de laudo em HTML, com o título/rótulo em negrito. */
 export const linhaEmHtml = (linha: string): string => {
   const cru = linha.replace(/\s+$/, "");
   if (!cru.trim()) return "<div><br></div>";
+  // O roteador já devolve a máscara marcada ("**TÉCNICA:** ..."), porque é
+  // assim que o colador faz negrito. Sem isto, os ** apareciam na folha.
+  if (cru.split("**").length > 2) {
+    return `<div>${marcasEmNegrito(cru)}</div>`;
+  }
   const m = ROTULO.exec(cru);
   if (m) {
     return `<div><b>${escapar(m[1])}</b>${escapar(m[2] + m[3])}</div>`;
