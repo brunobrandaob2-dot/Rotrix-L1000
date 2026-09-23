@@ -35,3 +35,5 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_tc_literal.py
       - name: Testar o modo estação e o perfil (arquivos falsos)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_estacao.py
+      - name: Testar as rotas da interface v2 (banco, IA e abrir no RadiAnt)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_v2.py

@@ -511,6 +511,109 @@ def gravar_diagnostico(pasta, destino):
         return False
 
 
+# ---------------------------------------------------------------------------
+# Abrir no RadiAnt (Rotrix v2)
+#
+# O app marca dois exames na fila e manda abrir juntos. Daqui só sai o CAMINHO
+# da pasta do estudo — nome de paciente continua sem sair do módulo. Se o
+# Radius não guardar caminho nenhum, a resposta diz isso e ninguém chuta.
+# ---------------------------------------------------------------------------
+_CHAVE_CAMINHO = re.compile(r"path|pasta|folder|dir|file|arquivo|local|destino", re.I)
+
+_RADIANT_CANDIDATOS = (
+    r"%ProgramFiles%\\RadiAntViewer64bit\\RadiAntViewer.exe",
+    r"%ProgramFiles%\\RadiAntViewer\\RadiAntViewer.exe",
+    r"%ProgramFiles(x86)%\\RadiAntViewer\\RadiAntViewer.exe",
+    r"%LOCALAPPDATA%\\Programs\\RadiAntViewer64bit\\RadiAntViewer.exe",
+    r"%LOCALAPPDATA%\\RadiAntViewer\\RadiAntViewer.exe",
+)
+
+
+def _caminhos_no_estudo(d):
+    """Valores do estudo que parecem caminho de pasta/arquivo."""
+    out = []
+    for k, v in (d or {}).items():
+        if isinstance(v, str) and len(v) > 3 and _CHAVE_CAMINHO.search(str(k)):
+            out.append(v)
+    return out
+
+
+def caminhos(pasta, ids):
+    """{codigo: caminho existente} para os estudos pedidos."""
+    sal = _sal()
+    alvo = set(ids or [])
+    achados = {}
+    if not alvo:
+        return achados
+    for arq in achar_arquivos(pasta):
+        if eh_copia(arq):
+            continue
+        obj = _carregar(arq)
+        if obj is None:
+            continue
+        for d in _estudos(obj):
+            cod = _codigo(d, sal)
+            if cod not in alvo or cod in achados:
+                continue
+            for bruto in _caminhos_no_estudo(d):
+                c = os.path.expandvars(bruto.strip().strip('"'))
+                if os.path.isdir(c) or os.path.isfile(c):
+                    achados[cod] = c
+                    break
+    return achados
+
+
+def executavel_radiant(config=None):
+    """Caminho do RadiAnt: o da configuração, um dos lugares de sempre, ou o
+    que o Windows registrou para abrir DICOM."""
+    escolhido = (config or {}).get("radiant_exe") if isinstance(config, dict) else None
+    if escolhido and os.path.isfile(escolhido):
+        return escolhido
+    for cand in _RADIANT_CANDIDATOS:
+        c = os.path.expandvars(cand)
+        if os.path.isfile(c):
+            return c
+    try:
+        import winreg  # só existe no Windows
+        for raiz, chave in ((winreg.HKEY_LOCAL_MACHINE,
+                             r"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\RadiAntViewer.exe"),
+                            (winreg.HKEY_CURRENT_USER,
+                             r"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\RadiAntViewer.exe")):
+            try:
+                with winreg.OpenKey(raiz, chave) as k:
+                    v = winreg.QueryValue(k, None)
+                    if v and os.path.isfile(v):
+                        return v
+            except OSError:
+                pass
+    except ImportError:
+        pass
+    return None
+
+
+def abrir(pasta, ids, config=None):
+    """Abre os estudos marcados no RadiAnt, na mesma janela (um -f por estudo)."""
+    achados = caminhos(pasta, ids)
+    if not achados:
+        return {"ok": False, "motivo": "sem_caminho", "pedidos": len(ids or [])}
+    exe = executavel_radiant(config)
+    if not exe:
+        return {"ok": False, "motivo": "radiant_nao_encontrado", "achados": len(achados)}
+    args = [exe]
+    for cod in (ids or []):
+        c = achados.get(cod)
+        if c:
+            args += ["-f", c]
+    try:
+        import subprocess
+        subprocess.Popen(args, close_fds=True)
+    except Exception as e:
+        # só o tipo do erro: a mensagem do Windows costuma trazer o caminho
+        # inteiro, e o caminho tem o nome do paciente na pasta.
+        return {"ok": False, "motivo": "falhou_abrir", "erro": type(e).__name__}
+    return {"ok": True, "abertos": len(achados), "pedidos": len(ids or [])}
+
+
 if __name__ == "__main__":
     import sys
     p = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("-") else PASTA_PADRAO

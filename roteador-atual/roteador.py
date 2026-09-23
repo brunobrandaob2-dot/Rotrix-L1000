@@ -41,7 +41,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-22.11"
+VERSAO = "2026-09-23.2"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -2213,15 +2213,30 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         rota = self.path.rstrip("/")
-        if rota.endswith(("/fila/proximo", "/fila/escolher", "/fila/feito",
+        if rota.endswith(("/fila/proximo", "/fila/escolher", "/fila/feito", "/fila/abrir",
                           "/perfil/exportar", "/perfil/importar",
-                          "/correcao", "/correcao/desfazer")):
+                          "/correcao", "/correcao/desfazer", "/ia",
+                          "/mascaras/banco", "/mascaras/ia")):
             corpo = self._corpo()
             try:
+                if rota.endswith("/mascaras/banco"):
+                    return self._json(200, mascaras_banco(corpo.get("busca") or "",
+                                                          corpo.get("titulo") or "",
+                                                          corpo.get("limite") or 120))
+                if rota.endswith("/mascaras/ia"):
+                    return self._json(200, mascaras_ia(corpo.get("instrucao") or "",
+                                                       corpo.get("busca") or "",
+                                                       corpo.get("limite") or 25))
+                if rota.endswith("/ia"):
+                    return self._json(200, ia_no_texto(corpo.get("texto") or "",
+                                                       corpo.get("instrucao") or "",
+                                                       corpo.get("modelo") or ""))
                 if rota.endswith("/fila/proximo"):
                     return self._json(200, estacao_proximo())
                 if rota.endswith("/fila/escolher"):
                     return self._json(200, estacao_escolher(corpo.get("id")))
+                if rota.endswith("/fila/abrir"):
+                    return self._json(200, fila_abrir(corpo.get("ids") or []))
                 if rota.endswith("/fila/feito"):
                     return self._json(200, estacao_feito(corpo.get("id"), bool(corpo.get("feito", True))))
                 if rota.endswith("/correcao"):
@@ -2266,6 +2281,136 @@ class Handler(BaseHTTPRequestHandler):
                          "message": {"role": "assistant", "content": texto}}],
             "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
         })
+
+def fila_abrir(ids):
+    """Abre no RadiAnt os estudos que o app marcou na fila."""
+    if radius is None:
+        return {"ok": False, "motivo": "radius_ausente"}
+    try:
+        c = _config()
+        return radius.abrir(radius.pasta_radius(c), ids, c)
+    except Exception as e:
+        return {"ok": False, "motivo": "%s: %s" % (type(e).__name__, str(e)[:120])}
+
+
+def mascaras_banco(busca="", titulo="", limite=120):
+    """Banco de máscaras para a aba Máscaras do app.
+
+    Devolve as regiões (com quantas máscaras cada uma tem) e a lista de máscaras
+    que casam com a busca, cada uma com os primeiros gatilhos. Com `titulo`,
+    devolve também o texto inteiro daquela máscara. Só texto de máscara sai
+    daqui — nada de laudo de paciente."""
+    busca_n = normalizar(busca or "")
+    regioes, por_titulo, texto_pedido = {}, {}, None
+    for it in BANCO.itens:
+        if it[0] != "mascara":
+            continue
+        tit = it[2]
+        d = por_titulo.get(tit)
+        if d is None:
+            cat, mod, reg, sub = BANCO.meta.get(tit, ("", "", "", ""))
+            reg = reg or "sem região"
+            nome = tit.rsplit("/", 1)[-1].replace("_", " ").strip() or tit
+            d = por_titulo[tit] = {"titulo": tit, "nome": nome, "categoria": cat,
+                                   "modalidade": mod, "regiao": reg, "subtipo": sub,
+                                   "gatilhos": [], "tamanho": len(it[3] or "")}
+            regioes[reg] = regioes.get(reg, 0) + 1
+        if len(d["gatilhos"]) < 10:
+            d["gatilhos"].append(it[1])
+        if titulo and tit == titulo and texto_pedido is None:
+            texto_pedido = it[3] or ""
+    lista = list(por_titulo.values())
+    if busca_n:
+        def casa(d):
+            if busca_n in normalizar(d["titulo"]):
+                return True
+            if busca_n in normalizar(d["regiao"]):
+                return True
+            return any(busca_n in g for g in d["gatilhos"])
+        lista = [d for d in lista if casa(d)]
+    lista.sort(key=lambda d: (d["regiao"], d["titulo"]))
+    return {"ok": True, "total": len(por_titulo), "regioes": regioes,
+            "mascaras": lista[:max(1, int(limite or 120))],
+            "cortou": len(lista) > int(limite or 120),
+            "titulo": titulo or "", "texto": texto_pedido or ""}
+
+
+def mascaras_ia(instrucao, busca="", limite=25):
+    """Pedido falado sobre o banco: a IA lê o texto das máscaras e responde.
+
+    É a caixa "pedir para a IA trabalhar no banco" da aba Máscaras. Nada é
+    alterado aqui: a resposta é uma lista de propostas que você aprova na mão.
+    Só texto de máscara é enviado — laudo de paciente nunca entra."""
+    instrucao = (instrucao or "").strip()
+    if not instrucao:
+        return {"ok": False, "motivo": "instrucao_vazia"}
+    if nuvem is None:
+        return {"ok": False, "motivo": "nuvem_ausente"}
+    c = nuvem.config()
+    if not c.get("ativa"):
+        return {"ok": False, "motivo": "nuvem_desligada"}
+    banco = mascaras_banco(busca, "", 400)
+    escolhidas, vistos = [], set()
+    for d in banco["mascaras"]:
+        if d["titulo"] in vistos:
+            continue
+        vistos.add(d["titulo"])
+        texto = mascaras_banco("", d["titulo"], 1)["texto"]
+        if texto:
+            escolhidas.append((d["titulo"], texto[:1500]))
+        if len(escolhidas) >= max(1, int(limite or 25)):
+            break
+    if not escolhidas:
+        return {"ok": False, "motivo": "nenhuma_mascara", "lidas": 0}
+    partes = ["PEDIDO DO RADIOLOGISTA: %s" % instrucao,
+              "",
+              "MÁSCARAS DO BANCO (%d):" % len(escolhidas)]
+    for tit, texto in escolhidas:
+        partes.append("--- %s ---\n%s" % (tit, texto))
+    partes.append("")
+    partes.append("Responda em português, uma proposta por linha, no formato "
+                  "\"MÁSCARA: o que mudar -> como ficaria\". Não invente achado "
+                  "clínico nem reescreva a máscara inteira.")
+    resposta, origem = nuvem.chamar("\n".join(partes), c, modo="instrucao",
+                                    marcar=False, max_tokens=2000)
+    if origem == "nuvem" and resposta:
+        return {"ok": True, "resposta": resposta, "lidas": len(escolhidas),
+                "modelo": c.get("modelo"), "filtro": busca or ""}
+    return {"ok": False, "motivo": origem, "lidas": len(escolhidas)}
+
+
+def ia_no_texto(texto, instrucao="", modelo=""):
+    """Rotrix v2: o laudo que está na folha do app passa pela IA e volta pronto.
+
+    É o que os botões Haiku/Opus da aba Laudo chamam. Sem instrução, a IA só
+    revisa; com instrução falada ("tira a conclusão longa"), ela obedece.
+    `modelo` troca o modelo só nesta chamada — é assim que o mesmo botão pode
+    ser Haiku num clique e Opus no outro."""
+    texto = texto or ""
+    if not texto.strip():
+        return {"ok": False, "motivo": "texto_vazio", "texto": texto}
+    if nuvem is None:
+        return {"ok": False, "motivo": "nuvem_ausente", "texto": texto}
+    c = nuvem.config()
+    if not c.get("ativa"):
+        return {"ok": False, "motivo": "nuvem_desligada", "texto": texto}
+    if modelo:
+        c = dict(c)
+        c["modelo"] = modelo
+    instrucao = (instrucao or "").strip()
+    if instrucao:
+        pedido = "INSTRUÇÃO FALADA: %s\n\nLAUDO NA TELA:\n%s" % (instrucao, texto)
+    else:
+        pedido = "LAUDO NA TELA:\n" + texto
+    novo, origem = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000)
+    if origem == "nuvem" and novo:
+        try:
+            _aprender(texto, novo)
+        except Exception:
+            pass
+        return {"ok": True, "texto": novo, "origem": origem, "modelo": c.get("modelo")}
+    return {"ok": False, "motivo": origem, "texto": texto}
+
 
 def revisar_laudo_inteiro(texto):
     """Laudo inteiro -> revisao da nuvem, sem marca, pronto para colar por cima."""
