@@ -36,7 +36,7 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Dica } from "./Dica";
-import { textoEmHtml, htmlEmTexto } from "./formatar";
+import { textoEmHtml, htmlEmTexto, htmlEmMarcado, htmlDaFolha } from "./formatar";
 
 type Modo = "simples" | "leve" | "completo";
 
@@ -240,19 +240,36 @@ export const LaudoPage: React.FC<Props> = ({
   };
 
   // ---------- saída ----------
+  // Copiar com formatação: vai HTML (para quem aceita texto rico) e texto puro
+  // junto, para o campo simples receber o laudo limpo.
   const copiar = async () => {
     const texto = textoDaFolha();
     if (!texto) return;
+    const html = htmlDaFolha(folha.current);
     try {
+      const Item = (window as unknown as { ClipboardItem?: typeof ClipboardItem })
+        .ClipboardItem;
+      if (Item && navigator.clipboard.write) {
+        await navigator.clipboard.write([
+          new Item({
+            "text/html": new Blob([html], { type: "text/html" }),
+            "text/plain": new Blob([texto], { type: "text/plain" }),
+          }),
+        ]);
+        setAviso("copiado com a formatação");
+        return;
+      }
       await navigator.clipboard.writeText(texto);
-      setAviso("copiado");
+      setAviso("copiado (sem formatação: o campo não aceita texto rico)");
     } catch {
       setAviso("não consegui copiar");
     }
   };
 
   const colarNoRis = useCallback(async () => {
-    const texto = (folha.current?.innerText || "").trim();
+    // o colador espera os cabeçalhos marcados com ** e uma linha por parágrafo;
+    // é isso que vira negrito e espaçamento no RIS
+    const texto = htmlEmMarcado(folha.current);
     if (!texto) {
       setAviso("a folha está vazia");
       return;
@@ -467,15 +484,21 @@ export const LaudoPage: React.FC<Props> = ({
       </div>
 
       {/* ---------- a folha ---------- */}
-      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden flex justify-center py-3">
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden flex justify-center items-start py-3">
         <div
           ref={folha}
           contentEditable
           suppressContentEditableWarning
           spellCheck
           data-rotrix="folha"
-          style={{ overflowWrap: "anywhere" }}
-          className="w-[520px] max-w-full shrink-0 bg-white text-black rounded-sm border border-mid-gray/20 shadow-sm px-8 py-7 text-[12px] leading-[1.6] outline-none select-text cursor-text break-words [&_*]:max-w-full"
+          style={{
+            overflowWrap: "anywhere",
+            // a folha cresce com o texto e marca onde termina cada página,
+            // como no Word: a linha tracejada aparece a cada 720 px de texto
+            backgroundImage:
+              "repeating-linear-gradient(to bottom, transparent 0 716px, rgba(0,0,0,.10) 716px 717px, transparent 717px 720px)",
+          }}
+          className="w-[520px] max-w-full shrink-0 min-h-[560px] h-auto bg-white text-black rounded-sm border border-mid-gray/20 shadow-sm px-8 py-7 text-[12px] leading-[1.6] outline-none select-text cursor-text break-words [&_*]:max-w-full"
         />
       </div>
 
