@@ -883,9 +883,12 @@ fn ensure_post_process_defaults(settings: &mut AppSettings) -> bool {
 pub const SETTINGS_STORE_PATH: &str = "settings_store.json";
 
 pub fn get_default_settings() -> AppSettings {
-    // Rotrix: Ctrl+Espaco = ditado com roteador; Ctrl+Shift+Espaco = ditado livre
+    // Rotrix: as teclas do fluxo antigo do Bruno, que e o que a mao ja sabe.
+    //   Ctrl+Alt+Espaco -> mascara (roteador)
+    //   Ctrl+Espaco     -> ditado solto, para acrescentar frases
+    //   Ctrl+Alt+A      -> fechar com IA (atalho do proprio roteador)
     #[cfg(target_os = "windows")]
-    let default_shortcut = "ctrl+shift+space";
+    let default_shortcut = "ctrl+space";
     #[cfg(target_os = "macos")]
     let default_shortcut = "option+space";
     #[cfg(target_os = "linux")]
@@ -905,7 +908,7 @@ pub fn get_default_settings() -> AppSettings {
         },
     );
     #[cfg(target_os = "windows")]
-    let default_post_process_shortcut = "ctrl+space";
+    let default_post_process_shortcut = "ctrl+alt+space";
     #[cfg(target_os = "macos")]
     let default_post_process_shortcut = "option+shift+space";
     #[cfg(target_os = "linux")]
