@@ -38,6 +38,7 @@ NOMES_CATEGORIA = {
     "msk": "MUSCULOESQUELÉTICO",
     "angio": "ANGIOTOMOGRAFIA",
     "_comum": "COMUM (adendos e achados genéricos)",
+    "prescricao": "PRESCRIÇÕES",
     "usuario": "MINHAS MÁSCARAS",
 }
 NOMES_MODALIDADE = {"tc": "TOMOGRAFIA", "rx": "RADIOGRAFIA",
@@ -280,7 +281,9 @@ for l in final:
 grupos = collections.defaultdict(lambda: collections.defaultdict(list))
 for tit, l in por_titulo.items():
     tipo, cat, mod, reg, sub = l[0], l[7], l[8], l[9], l[10]
-    if mod == "rm":
+    # a RM ainda não tem banco de máscaras: fica fora do catálogo impresso.
+    # As prescrições são exceção — são de RM e já valem hoje.
+    if mod == "rm" and cat != "prescricao":
         continue
     grupos[(cat, mod, reg)][tipo if tipo != "mascara" else "mascara_" + (sub or "outra")].append(
         primeiro_gatilho.get(tit, l[2]))

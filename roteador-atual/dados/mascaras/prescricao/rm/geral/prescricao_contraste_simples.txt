@@ -1,0 +1,18 @@
+# tipo: mascara
+# gatilhos: prescricao de ressonancia | prescricao de contraste | prescricao de gadolineo | prescricao rm com contraste | receita de contraste | prescricao de contraste endovenoso | autorizacao de contraste
+PRESCRIÇÃO RESSONÂNCIA MAGNÉTICA
+
+
+AUTORIZADO O USO DO MEIO DE CONTRASTE.
+
+
+1- GADOLÍNEO
+
+VOLUME DE CONTRASTE: {volume} mL (0,1 - 0,2 mL/Kg)
+
+VIA DE ADMINISTRAÇÃO: ENDOVENOSA (EV)
+
+
+OBS: O MEIO DE CONTRASTE PARAMAGNÉTICO DEVE SER ADMINISTRADO CONFORME A ORIENTAÇÃO DO OPERADOR DURANTE O EXAME.
+
+Ciente do Termo de Consentimento Livre e Esclarecido

@@ -1216,3 +1216,15 @@ Frases saem soltas: "frase <gatilho>".
    GERAL
      adendos   "dado clinico novo"  |  "variante anatomica"  |  "ressalva de parede abdominal"
      achados   "cisto hepatico"  |  "consolidacao"  |  "derrame pleural"  |  "gliose"  |  "litiase renal"  |  "nodulo pulmonar benigno"  |  "nodulo pulmonar suspeito"
+
+════════════════════════════════════════════════════════════════
+ PRESCRIÇÕES
+════════════════════════════════════════════════════════════════
+
+  ── RESSONÂNCIA ────────────────────────────────────────
+
+   GERAL
+     outras    "prescricao de ressonancia"
+
+   PELVE
+     outras    "prescricao de ressonancia de pelve"
