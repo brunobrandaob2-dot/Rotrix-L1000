@@ -51,10 +51,16 @@ const motivo = (m?: string): string => {
 };
 
 interface Props {
+  modelos?: { id: string; nome: string }[];
   idModelo?: string;
+  aoTrocarModelo?: (id: string) => void;
 }
 
-export const ComparativoPage: React.FC<Props> = ({ idModelo }) => {
+export const ComparativoPage: React.FC<Props> = ({
+  modelos = [],
+  idModelo = "",
+  aoTrocarModelo,
+}) => {
   const [anterior, setAnterior] = useState("");
   const [linhas, setLinhas] = useState<Linha[] | null>(null);
   const [resumo, setResumo] = useState("");
@@ -62,6 +68,9 @@ export const ComparativoPage: React.FC<Props> = ({ idModelo }) => {
   const [achados, setAchados] = useState<string[]>([]);
   const [ocupado, setOcupado] = useState("");
   const [aviso, setAviso] = useState("");
+  // "só o que mudou" esconde as linhas estáveis. As PENDÊNCIAS nunca somem:
+  // são justamente o que ele ainda não olhou nas imagens de hoje.
+  const [soMudou, setSoMudou] = useState(true);
   const atual = useRef<HTMLTextAreaElement>(null);
 
   const { gravando, apertou, soltou } = useDitado("transcribe", (texto) => {
@@ -185,7 +194,23 @@ export const ComparativoPage: React.FC<Props> = ({ idModelo }) => {
         >
           <Mic size={14} /> {gravando ? "gravando…" : "Ditar no atual"}
         </button>
-        <span className="ms-auto text-[11px] text-mid-gray">{aviso}</span>
+        <div className="ms-auto flex items-center gap-2">
+          <span className="text-[11px] text-mid-gray">{aviso}</span>
+          {modelos.length > 1 && (
+            <select
+              value={idModelo}
+              onChange={(e) => aoTrocarModelo?.(e.target.value)}
+              title="qual IA faz a comparação"
+              className="h-7 rounded-lg border border-mid-gray/25 bg-background text-xs px-1 cursor-pointer"
+            >
+              {modelos.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.nome}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
       </div>
 
       {erro && (
@@ -228,13 +253,24 @@ export const ComparativoPage: React.FC<Props> = ({ idModelo }) => {
 
       {linhas && (
         <div className="max-h-[38%] overflow-y-auto border-t border-mid-gray/20 p-3 space-y-1.5">
-          {resumo && <div className="text-[11.5px] text-mid-gray pb-1">{resumo}</div>}
+          <div className="flex items-center gap-2 pb-1">
+            {resumo && <span className="text-[11.5px] text-mid-gray">{resumo}</span>}
+            <button
+              type="button"
+              onClick={() => setSoMudou((v) => !v)}
+              className="ms-auto text-[10.5px] px-2 py-0.5 rounded border border-mid-gray/30 cursor-pointer hover:bg-mid-gray/20"
+            >
+              {soMudou ? "mostrar tudo" : "só o que mudou"}
+            </button>
+          </div>
           {linhas.length === 0 && (
             <div className="text-[11.5px] text-mid-gray">
               a IA não achou par entre os dois textos
             </div>
           )}
-          {linhas.map((l, i) => (
+          {linhas
+            .filter((l) => !soMudou || l.situacao !== "estavel")
+            .map((l, i) => (
             <div
               key={`${l.achado}-${i}`}
               className={`rounded-lg border px-2.5 py-2 text-[11.5px] ${CORES[l.situacao]}`}
@@ -269,7 +305,13 @@ export const ComparativoPage: React.FC<Props> = ({ idModelo }) => {
                 </div>
               )}
             </div>
-          ))}
+            ))}
+          {soMudou && linhas.some((l) => l.situacao === "estavel") && (
+            <div className="text-[10.5px] text-mid-gray pt-1">
+              {linhas.filter((l) => l.situacao === "estavel").length} achado(s) estável(is)
+              escondido(s) — "mostrar tudo" traz de volta
+            </div>
+          )}
         </div>
       )}
 

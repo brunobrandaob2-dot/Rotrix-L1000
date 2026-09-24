@@ -264,7 +264,11 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
             />
           </div>
           <div className={subAdendo === "comparativo" ? "flex-1 min-h-0" : "hidden"}>
-            <ComparativoPage idModelo={forte} />
+            <ComparativoPage
+              modelos={listaModelos}
+              idModelo={forte}
+              aoTrocarModelo={trocarModelo}
+            />
           </div>
         </div>
         {aba === "fila" && <FilaPage />}
