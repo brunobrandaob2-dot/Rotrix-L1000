@@ -470,6 +470,256 @@ const PainelIdadeOssea: React.FC<{
 };
 
 // ---------------------------------------------------------------------------
+// Painel dos cálculos de volume
+// ---------------------------------------------------------------------------
+
+interface Orgao {
+  id: string;
+  titulo: string;
+  extras: string[];
+}
+
+const PainelCalculos: React.FC<{
+  aoInserir: (t: string) => void;
+  aoFechar: () => void;
+}> = ({ aoInserir, aoFechar }) => {
+  const [orgaos, setOrgaos] = useState<Orgao[]>([]);
+  const [orgao, setOrgao] = useState("generico");
+  const [eixos, setEixos] = useState({ l: "", ap: "", t: "" });
+  const [emMm, setEmMm] = useState(false);
+  const [lado, setLado] = useState("direito");
+  const [psa, setPsa] = useState("");
+  const [anterior, setAnterior] = useState("");
+  const [r, setR] = useState<Record<string, unknown> | null>(null);
+  const [erro, setErro] = useState("");
+
+  useEffect(() => {
+    invoke<string>("rotrix_calculos_campos")
+      .then((b) => {
+        const d = JSON.parse(b || "{}") as { ok?: boolean; orgaos?: Orgao[] };
+        if (d.ok && d.orgaos) setOrgaos(d.orgaos);
+      })
+      .catch(() => undefined);
+  }, []);
+
+  const extras = orgaos.find((o) => o.id === orgao)?.extras || [];
+
+  const calcular = useCallback(async () => {
+    setErro("");
+    try {
+      const bruto = await invoke<string>("rotrix_calculos", {
+        pedido: JSON.stringify({
+          orgao,
+          l: eixos.l,
+          ap: eixos.ap,
+          t: eixos.t,
+          em_mm: emMm,
+          lado,
+          psa: extras.includes("psa") ? psa : "",
+          anterior: extras.includes("anterior") ? anterior : "",
+        }),
+      });
+      const d = JSON.parse(bruto || "{}") as Record<string, unknown>;
+      if (!d.ok) {
+        setErro(String(d.detalhe || d.motivo || "não deu para calcular"));
+        return;
+      }
+      setR(d);
+    } catch (e) {
+      setErro(String(e));
+    }
+  }, [orgao, eixos, emMm, lado, psa, anterior, extras]);
+
+  const campo = (k: "l" | "ap" | "t", rot: string) => (
+    <label className="flex flex-col gap-0.5">
+      <span className="text-[10px] text-mid-gray">{rot}</span>
+      <input
+        value={eixos[k]}
+        onChange={(e) => {
+          setEixos((x) => ({ ...x, [k]: e.target.value }));
+          setR(null);
+        }}
+        inputMode="decimal"
+        className="h-7 rounded-lg border border-mid-gray/25 bg-background px-2 text-[12px]"
+      />
+    </label>
+  );
+
+  return (
+    <div className="flex flex-col h-full min-h-0">
+      <div className="flex items-center gap-2 px-3 py-2 border-b border-mid-gray/20">
+        <span className="text-[12.5px] font-semibold">Cálculo de volume</span>
+        <span className="text-[10px] text-mid-gray">L × AP × T × 0,523</span>
+        <button
+          type="button"
+          onClick={aoFechar}
+          className="ms-auto p-1 rounded hover:bg-mid-gray/20 cursor-pointer"
+          title="fechar"
+        >
+          <X size={14} />
+        </button>
+      </div>
+
+      <div className="flex-1 min-h-0 overflow-y-auto p-3 space-y-3">
+        <div>
+          <div className="text-[9.5px] font-bold tracking-wider text-mid-gray mb-1">ONDE</div>
+          <div className="flex flex-wrap gap-1.5">
+            {orgaos.map((o) => (
+              <button
+                key={o.id}
+                type="button"
+                onClick={() => {
+                  setOrgao(o.id);
+                  setR(null);
+                }}
+                className={`text-[10.5px] px-2 py-1 rounded-md border cursor-pointer ${
+                  orgao === o.id
+                    ? "border-logo-primary/60 bg-logo-primary/25 font-bold"
+                    : "border-mid-gray/25 hover:bg-mid-gray/15"
+                }`}
+              >
+                {o.titulo}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[9.5px] font-bold tracking-wider text-mid-gray">
+              EIXOS ({emMm ? "mm" : "cm"})
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setEmMm((v) => !v);
+                setR(null);
+              }}
+              className="text-[10px] px-1.5 py-0.5 rounded border border-mid-gray/25 cursor-pointer hover:bg-mid-gray/15"
+            >
+              usar {emMm ? "cm" : "mm"}
+            </button>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {campo("l", "longitudinal")}
+            {campo("ap", "anteroposterior")}
+            {campo("t", "transverso")}
+          </div>
+        </div>
+
+        {extras.includes("lado") && (
+          <div>
+            <div className="text-[9.5px] font-bold tracking-wider text-mid-gray mb-1">LADO</div>
+            <div className="flex gap-1.5">
+              {["direito", "esquerdo"].map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => {
+                    setLado(s);
+                    setR(null);
+                  }}
+                  className={`text-[10.5px] px-2.5 py-1 rounded-md border cursor-pointer ${
+                    lado === s
+                      ? "border-logo-primary/60 bg-logo-primary/25 font-bold"
+                      : "border-mid-gray/25 hover:bg-mid-gray/15"
+                  }`}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {extras.includes("psa") && (
+          <label className="flex flex-col gap-0.5">
+            <span className="text-[10px] text-mid-gray">PSA (ng/mL) — opcional, dá a densidade</span>
+            <input
+              value={psa}
+              onChange={(e) => {
+                setPsa(e.target.value);
+                setR(null);
+              }}
+              inputMode="decimal"
+              className="h-7 rounded-lg border border-mid-gray/25 bg-background px-2 text-[12px]"
+            />
+          </label>
+        )}
+
+        {extras.includes("anterior") && (
+          <label className="flex flex-col gap-0.5">
+            <span className="text-[10px] text-mid-gray">
+              volume no exame anterior (cm³) — opcional
+            </span>
+            <input
+              value={anterior}
+              onChange={(e) => {
+                setAnterior(e.target.value);
+                setR(null);
+              }}
+              inputMode="decimal"
+              className="h-7 rounded-lg border border-mid-gray/25 bg-background px-2 text-[12px]"
+            />
+          </label>
+        )}
+
+        {erro && (
+          <div className="text-[11px] rounded-lg border border-amber-400/40 bg-amber-100/10 text-amber-300 px-2.5 py-2">
+            {erro}
+          </div>
+        )}
+
+        {r && (
+          <>
+            <div className="text-[10.5px] text-mid-gray border-t border-mid-gray/20 pt-2">
+              volume <b className="text-text">{String(r.volume)} cm³</b>
+              {r.densidade_psa !== undefined && (
+                <> · densidade de PSA <b className="text-text">{String(r.densidade_psa)}</b></>
+              )}
+              {r.variacao_pct !== undefined && (
+                <> · volume <b className="text-text">{String(r.variacao_pct)}%</b> · diâmetro{" "}
+                  <b className="text-text">{String(r.variacao_diametro_pct)}%</b></>
+              )}
+            </div>
+            <div className="rounded-lg bg-white text-black p-3 text-[11.5px] leading-[1.55]">
+              {String(r.frase || "")}
+            </div>
+            {((r.avisos as string[]) || []).map((a) => (
+              <div
+                key={a}
+                className="text-[11px] rounded-lg border border-amber-400/35 bg-amber-100/10 text-amber-300 px-2.5 py-2"
+              >
+                {a}
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+
+      <div className="flex gap-2 px-3 py-2 border-t border-mid-gray/20">
+        <Button variant="primary" size="sm" onClick={() => void calcular()}>
+          Calcular
+        </Button>
+        <Button
+          variant="secondary"
+          size="sm"
+          disabled={!r}
+          onClick={() => {
+            if (r) {
+              aoInserir(String(r.frase || ""));
+              aoFechar();
+            }
+          }}
+        >
+          Pôr na folha
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
 // Painel das prescrições
 // ---------------------------------------------------------------------------
 
@@ -565,10 +815,10 @@ const PainelPrescricoes: React.FC<{
 
 // ---------------------------------------------------------------------------
 
-export const BotoesDaFolha: React.FC<Props> = ({ aoInserir, aoAvisar }) => {
+export const BotoesDaFolha: React.FC<Props> = ({ aoInserir }) => {
   const [menu, setMenu] = useState<"" | "escanometria" | "idade" | "prescricao" | "calculos">("");
   const [painel, setPainel] = useState<
-    { tipo: "medidas"; exame: Exame } | { tipo: "idade" } | { tipo: "prescricao" } | null
+    { tipo: "medidas"; exame: Exame } | { tipo: "idade" } | { tipo: "prescricao" } | { tipo: "calculos" } | null
   >(null);
   const [campos, setCampos] = useState<Record<string, ConfExame>>({});
 
@@ -647,10 +897,8 @@ export const BotoesDaFolha: React.FC<Props> = ({ aoInserir, aoAvisar }) => {
       </Fer>
 
       <Fer
-        titulo="Cálculos (ainda sem conteúdo definido)"
-        onClick={() =>
-          aoAvisar?.("o quarto botão ainda não tem nome: diga qual é e ele entra aqui")
-        }
+        titulo="Cálculo de volume: L × AP × T × 0,523"
+        onClick={() => setPainel({ tipo: "calculos" })}
       >
         <Calculator size={14} /> Cálculos
       </Fer>
@@ -668,6 +916,9 @@ export const BotoesDaFolha: React.FC<Props> = ({ aoInserir, aoAvisar }) => {
           {painel.tipo === "idade" && <PainelIdadeOssea aoInserir={aoInserir} aoFechar={fechar} />}
           {painel.tipo === "prescricao" && (
             <PainelPrescricoes aoInserir={aoInserir} aoFechar={fechar} />
+          )}
+          {painel.tipo === "calculos" && (
+            <PainelCalculos aoInserir={aoInserir} aoFechar={fechar} />
           )}
         </div>
       )}

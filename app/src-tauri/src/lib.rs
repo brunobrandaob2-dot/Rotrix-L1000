@@ -681,6 +681,8 @@ pub fn run(cli_args: CliArgs) {
             rotrix::rotrix_medidas,
             rotrix::rotrix_medidas_campos,
             rotrix::rotrix_idade_ossea,
+            rotrix::rotrix_calculos,
+            rotrix::rotrix_calculos_campos,
             rotrix::rotrix_auditar_banco,
             rotrix::rotrix_ia_modelos,
             rotrix::rotrix_ia_testar,

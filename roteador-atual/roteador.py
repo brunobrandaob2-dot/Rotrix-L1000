@@ -50,6 +50,10 @@ try:
     import idade_ossea       # Greulich & Pyle / Brush Foundation: conta local
 except Exception:
     idade_ossea = None
+try:
+    import calculos          # volume por elipsoide: conta local
+except Exception:
+    calculos = None
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
@@ -2235,6 +2239,9 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, medidas_campos())
         if self.path.rstrip("/") in ("/ia/modelos", "/v1/ia/modelos"):
             return self._json(200, ia_modelos())
+        if self.path.rstrip("/") in ("/calculos/campos", "/v1/calculos/campos"):
+            return self._json(200, calculos.campos() if calculos else
+                              {"ok": False, "motivo": "calculos_indisponivel"})
         self._json(404, {"error": "not found"})
 
     def _corpo(self):
@@ -2251,12 +2258,15 @@ class Handler(BaseHTTPRequestHandler):
                           "/perfil/exportar", "/perfil/importar",
                           "/correcao", "/correcao/desfazer", "/ia",
                           "/mascaras/banco", "/mascaras/ia", "/mascaras/auditar",
-                          "/medidas", "/idade_ossea", "/ia/testar", "/adendo")):
+                          "/medidas", "/idade_ossea", "/calculos", "/ia/testar",
+                          "/adendo")):
             corpo = self._corpo()
             try:
                 if rota.endswith("/ia/testar"):
                     return self._json(200, ia_testar(corpo.get("provedor") or "",
                                                      corpo.get("modelo") or ""))
+                if rota.endswith("/calculos"):
+                    return self._json(200, calcular_volume(corpo))
                 if rota.endswith("/medidas"):
                     return self._json(200, medidas_exame(corpo.get("exame") or "",
                                                          corpo.get("valores") or {}))
@@ -2365,6 +2375,23 @@ def fila_abrir(ids, ultimo=False):
             alvo = max(fila, key=lambda x: x.get("entrou") or "")
             ids = [alvo["id"]]
         return radius.abrir(radius.pasta_radius(c), ids, c, extras)
+    except Exception as e:
+        return {"ok": False, "motivo": "%s: %s" % (type(e).__name__, str(e)[:120])}
+
+
+def calcular_volume(corpo):
+    """Volume por elipsoide e a frase pronta. Aritmética local, sem IA."""
+    if calculos is None:
+        return {"ok": False, "motivo": "calculos_indisponivel"}
+    if not isinstance(corpo, dict):
+        return {"ok": False, "motivo": "pedido_invalido"}
+    try:
+        return calculos.calcular(
+            corpo.get("orgao") or "generico",
+            corpo.get("l"), corpo.get("ap"), corpo.get("t"),
+            bool(corpo.get("em_mm")),
+            corpo.get("lado") or "",
+            corpo.get("psa"), corpo.get("anterior"))
     except Exception as e:
         return {"ok": False, "motivo": "%s: %s" % (type(e).__name__, str(e)[:120])}
 

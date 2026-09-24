@@ -876,6 +876,24 @@ pub fn rotrix_idade_ossea(
     )
 }
 
+/// Volume por elipsoide (L x AP x T x 0,523) e a frase pronta para a folha.
+/// Multiplicar tres numeros nao se terceiriza para modelo de linguagem: o
+/// resultado tem que ser o mesmo toda vez. A conta e no roteador, local.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_calculos(pedido: String) -> Result<String, String> {
+    let v: serde_json::Value =
+        serde_json::from_str(&pedido).unwrap_or(serde_json::Value::Object(Default::default()));
+    http_post("/v1/calculos", &v.to_string(), 15_000)
+}
+
+/// Os orgaos e os campos extras de cada um, para a tela montar o formulario.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_calculos_campos() -> Result<String, String> {
+    http_get("/v1/calculos/campos").ok_or_else(|| "roteador nao respondeu".to_string())
+}
+
 /// Auditoria do banco de mascaras: o que esta no disco e nao esta no banco,
 /// mascara sem comando de voz, comando disputado e comando que comeca com
 /// palavra que o roteador entende como instrucao.

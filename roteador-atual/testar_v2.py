@@ -857,6 +857,89 @@ def rotas_novas(falhas):
             falhas.append("rotas: uma das rotas novas devolveu %r" % p)
 
 
+def calculos_de_volume(falhas):
+    """Volume por elipsoide: a conta é aqui, e a frase sai na forma dele.
+
+    Multiplicar três números não se terceiriza para modelo de linguagem: o
+    resultado tem que ser o mesmo toda vez."""
+    import calculos as C
+
+    # a fórmula, conferida na mão: 4,2 x 3,8 x 4,0 = 63,84; x 0,523 = 33,38832
+    v = C.volume("4,2", "3,8", "4,0")
+    if abs(v - 33.38832) > 0.0001:
+        falhas.append("cálculos: elipsoide deu %r" % v)
+    if C.FATOR != 0.523:
+        falhas.append("cálculos: o fator do elipsoide mudou (%r)" % C.FATOR)
+    # vírgula e ponto valem igual: ele digita com vírgula
+    if C.volume("4,2", "3,8", "4,0") != C.volume(4.2, 3.8, 4.0):
+        falhas.append("cálculos: vírgula e ponto deram resultados diferentes")
+    # mm vira cm antes de multiplicar
+    if abs(C.volume(42, 38, 40, em_mm=True) - C.volume(4.2, 3.8, 4.0)) > 1e-9:
+        falhas.append("cálculos: a conversão de mm não bateu")
+
+    # medida que não é número não pode virar volume
+    for ruim in (("abc", 2, 3), (0, 2, 3), (-1, 2, 3), (None, 2, 3), ("", 2, 3)):
+        if C.volume(*ruim) is not None:
+            falhas.append("cálculos: aceitou medida inválida %r" % (ruim,))
+
+    # densidade de PSA
+    r = C.calcular("prostata", "4,2", "3,8", "4,0", psa="6,2")
+    if not r.get("ok") or abs(r["densidade_psa"] - 0.186) > 0.001:
+        falhas.append("cálculos: densidade de PSA deu %r" % r.get("densidade_psa"))
+    if "Densidade de PSA" not in r["frase"] or "33,4" not in r["frase"]:
+        falhas.append("cálculos: a frase da próstata saiu errada (%r)" % r["frase"])
+    # sem PSA, não inventa densidade
+    if "densidade_psa" in C.calcular("prostata", 4.2, 3.8, 4.0):
+        falhas.append("cálculos: calculou densidade sem PSA")
+
+    # comparação com o anterior: a ressalva do diâmetro é o que evita laudo errado
+    r = C.calcular("lesao", 2.1, 1.8, 1.9, anterior=6.5)
+    if abs(r["variacao_pct"] + 42.2) > 0.2:
+        falhas.append("cálculos: variação de volume deu %r" % r.get("variacao_pct"))
+    if "redução de 42,2%" not in r["frase"]:
+        falhas.append("cálculos: a frase da comparação saiu errada (%r)" % r["frase"])
+    # 20% de volume é ~6% de diâmetro: tem que avisar, senão vira "crescimento"
+    quase = C.calcular("lesao", 2.1, 1.8, 1.9, anterior=3.4)
+    if not any("erro de medida" in a for a in quase["avisos"]):
+        falhas.append("cálculos: variação pequena passou sem a ressalva do diâmetro")
+    grande = C.calcular("lesao", 3.0, 2.8, 2.9, anterior=3.4)
+    if any("erro de medida" in a for a in grande["avisos"]):
+        falhas.append("cálculos: variação grande não devia levar a ressalva")
+    # sem anterior, nada de comparação inventada
+    if "variacao_pct" in C.calcular("lesao", 2.1, 1.8, 1.9):
+        falhas.append("cálculos: comparou sem exame anterior")
+
+    # lado: só onde faz sentido, e com valor válido
+    r = C.calcular("rim", 10.2, 4.8, 5.1, lado="esquerdo")
+    if "Rim esquerdo" not in r["frase"]:
+        falhas.append("cálculos: o lado não entrou na frase (%r)" % r["frase"])
+    r = C.calcular("rim", 10.2, 4.8, 5.1, lado="dos fundos")
+    if "Rim direito" not in r["frase"]:
+        falhas.append("cálculos: lado inválido devia cair no padrão (%r)" % r["frase"])
+
+    # órgão que não existe não pode virar frase
+    ruim = C.calcular("figado_gordo", 1, 2, 3)
+    if ruim.get("ok") or ruim.get("motivo") != "orgao_desconhecido":
+        falhas.append("cálculos: aceitou órgão inexistente")
+
+    # a rota responde e não quebra com entrada torta
+    if not roteador.calcular_volume({"orgao": "baco", "l": 12, "ap": 5, "t": 6}).get("ok"):
+        falhas.append("cálculos: a rota não calculou o baço")
+    for ruim in ({}, {"orgao": "rim"}, {"orgao": "rim", "l": "x", "ap": "y", "t": "z"}):
+        if roteador.calcular_volume(ruim).get("ok"):
+            falhas.append("cálculos: a rota aceitou %r" % ruim)
+    campos = C.campos()
+    if not campos.get("ok") or len(campos["orgaos"]) < 8:
+        falhas.append("cálculos: a lista de órgãos veio curta")
+
+    # nada de rede neste módulo
+    fonte = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              "calculos.py"), encoding="utf-8").read()
+    for proibido in ("import nuvem", "import requests", "import urllib", "urlopen"):
+        if proibido in fonte:
+            falhas.append("cálculos: o módulo não pode sair da máquina (%s)" % proibido)
+
+
 def main():
     falhas = []
     banco(falhas)
@@ -873,6 +956,7 @@ def main():
     idade_ossea_calc(falhas)
     exames_de_medida(falhas)
     rotas_novas(falhas)
+    calculos_de_volume(falhas)
     for f in falhas:
         print("FALHOU", f)
     print("v2: tudo certo" if not falhas else "v2: %d falha(s)" % len(falhas))
