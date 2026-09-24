@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-24.1"
+VERSAO = "2026-09-24.2"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -2280,9 +2280,7 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(200, ia_testar(corpo.get("provedor") or "",
                                                      corpo.get("modelo") or ""))
                 if rota.endswith("/estruturados"):
-                    if estruturados is None:
-                        return self._json(200, {"ok": False, "motivo": "estruturados_indisponivel"})
-                    return self._json(200, estruturados.montar(corpo))
+                    return self._json(200, estruturados_montar(corpo))
                 if rota.endswith("/atualizar"):
                     return self._json(200, atualizar_anterior(corpo.get("anterior") or "",
                                                               corpo.get("mudancas") or "",
@@ -2828,6 +2826,46 @@ def estrutura_do_laudo(texto):
             vistos.add(x)
             unicos.append(x)
     return {"ok": True, "estrutura": "\n\n".join(unicos), "quantos": len(unicos)}
+
+
+def mascara_normal(regiao, modalidade):
+    """Texto da máscara `normal` daquela região/modalidade, direto do banco.
+
+    É o que faz o estruturado sair como LAUDO e não como lista de achados: a
+    grade vira blocos, os blocos entram nesta máscara, e o que não foi marcado
+    continua com a frase normal."""
+    BANCO.atualizada()
+    titulo = None
+    for tit, meta in BANCO.meta.items():
+        if meta[2] == regiao and meta[1] == modalidade and meta[3] == "normal":
+            # sem sufixo é a máscara principal ("normal", não "normal_dinamicas")
+            if tit.rsplit("/", 1)[-1] == "normal":
+                titulo = tit
+                break
+            titulo = titulo or tit
+    if not titulo:
+        return None
+    for t, _g, tit, txt, _s, _c in BANCO.itens:
+        if tit == titulo and t == "mascara" and txt:
+            return txt
+    return None
+
+
+def estruturados_montar(corpo):
+    """POST /v1/estruturados — devolve o laudo inteiro, não só as alterações."""
+    if estruturados is None:
+        return {"ok": False, "motivo": "estruturados_indisponivel"}
+    segmento = (corpo or {}).get("segmento") or "lombar"
+    modalidade = (corpo or {}).get("modalidade") or "rm"
+    base = mascara_normal("coluna_" + segmento, modalidade)
+    resposta = estruturados.montar(corpo, base=base, motor=montar)
+    if resposta.get("ok") and not resposta.get("completo"):
+        # sem máscara no banco o laudo sai truncado: melhor dizer do que
+        # entregar meio laudo em silêncio
+        resposta["aviso"] = "mascara_normal_nao_encontrada"
+    if resposta.get("ok"):
+        resposta["texto"] = formatar_saida(resposta["texto"])
+    return resposta
 
 
 def prescricoes(titulo="", busca=""):
