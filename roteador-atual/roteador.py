@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-24.2"
+VERSAO = "2026-09-24.3"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -174,6 +174,8 @@ class Banco:
         for t, g, tit, txt, sec, con in cand:
             if t in ("frase", "bloco") and tipo is None:
                 continue                      # frases so por comando explicito ou exato
+            if t == "mascara" and not _modalidade_compativel(alvo, g):
+                continue                      # gatilho diz o exame, o ditado nao
             gt = g.split()
             if len(gt) < 2 and not (len(gt) == 1 and len(gt[0]) >= 6):
                 continue
@@ -201,6 +203,8 @@ class Banco:
         for t, g, tit, txt, sec, con in cand:
             if t == "bloco" and tipo is None:
                 continue
+            if t == "mascara" and not _modalidade_compativel(alvo_set, g):
+                continue                      # mesma regra do passo 3
             # palavra curta do gatilho ("pe", "mao", "tc") tem de estar EXATA no
             # ditado: "tc de pelve" nao pode virar "tc de pe" por semelhanca
             if any(len(w) <= 3 and w not in alvo_set for w in g.split()):
@@ -220,6 +224,49 @@ class Banco:
 
 _GENERICAS = set("""tomografia tomografica computadorizada radiografia raio angio angiotomografia
 normal normais sem com alteracoes alteracao significativas exame estudo contraste""".split())
+
+# ---------- a palavra que diz o exame nao pode faltar ----------
+# Ela estava em _GENERICAS, e palavra generica que falta nao reprovava o gatilho.
+# Resultado medido: "aorta toracica com calcificacoes ateromatosas" (ditado de um
+# ACHADO, sem exame nenhum) puxava a mascara inteira de ANGIOTOMOGRAFIA DA AORTA,
+# porque o gatilho "angio de aorta toracica" casava sem o "angio". 1.923 gatilhos
+# do banco tinham essa brecha.
+#
+# A regra agora: se o gatilho nomeia uma modalidade, o ditado tem de nomear a
+# MESMA FAMILIA. Sinonimo vale ("tc" resolve "tomografia", "rx" resolve "raio x");
+# silencio nao vale.
+_FAMILIA_MOD = {
+    "tc": set("tomografia tomografica computadorizada tc tomo urotomografia".split()),
+    "angiotc": set("angio angiotomografia angiotc angiorressonancia".split()),
+    "rm": set("ressonancia magnetica rm rnm".split()),
+    "rx": set("radiografia raio raios rx raiox".split()),
+    "us": set("ultrassom ultrassonografia ultrasonografia usg ecografia doppler ecodoppler".split()),
+    "mg": set("mamografia".split()),
+}
+_PALAVRA_MOD = {w: f for f, ws in _FAMILIA_MOD.items() for w in ws}
+
+
+def _familias_do_gatilho(g):
+    return {_PALAVRA_MOD[w] for w in g.split() if w in _PALAVRA_MOD}
+
+
+def _modalidade_compativel(tokens_ditado, g):
+    """O ditado nomeia a modalidade que o gatilho nomeia?
+
+    Sem isso, um ditado que so descreve achado alcanca a mascara de qualquer
+    exame cujo gatilho tenha as mesmas palavras de anatomia."""
+    fams = _familias_do_gatilho(g)
+    if not fams:
+        return True                       # gatilho sem modalidade: nada a exigir
+    # angioTC e TC sao vizinhas ("tomografia de coronarias" e angioTC de fato),
+    # mas so no sentido TC-dita -> angio: um ditado sem nenhuma palavra de
+    # modalidade continua reprovado.
+    for f in fams:
+        if tokens_ditado & _FAMILIA_MOD[f]:
+            return True
+        if f == "angiotc" and tokens_ditado & _FAMILIA_MOD["tc"]:
+            return True
+    return False
 
 BANCO = Banco(BASE)
 

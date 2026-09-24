@@ -45,6 +45,9 @@ type Modo = "simples" | "leve" | "completo";
 interface Props {
   /** nome do modelo de cada botão, vindo das configurações */
   modeloLeve?: string;
+  /** identificador do modelo leve, e como trocá-lo (fica guardado) */
+  idModeloLeve?: string;
+  aoTrocarModeloLeve?: (id: string) => void;
   modeloCompleto?: string;
   /** identificador do modelo completo para a chamada da IA */
   idModeloCompleto?: string;
@@ -104,6 +107,8 @@ const Sep = () => <span className="h-5 w-px bg-mid-gray/25 mx-1 shrink-0" />;
 
 export const LaudoPage: React.FC<Props> = ({
   modeloLeve = "IA rápida",
+  idModeloLeve = "",
+  aoTrocarModeloLeve,
   modeloCompleto = "IA completa",
   idModeloCompleto = "",
   textoEntrando,
@@ -412,7 +417,23 @@ export const LaudoPage: React.FC<Props> = ({
         >
           <Sparkles size={15} />
         </Fer>
-        <span className="text-xs text-mid-gray me-1">{modeloLeve}</span>
+        {modelos.length > 1 ? (
+          <Dica texto="Qual IA o botão leve usa. Escolha guardada para as próximas vezes.">
+            <select
+              value={idModeloLeve}
+              onChange={(e) => aoTrocarModeloLeve?.(e.target.value)}
+              className="h-7 me-1 rounded-lg border border-mid-gray/25 bg-background text-xs px-1 cursor-pointer"
+            >
+              {modelos.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.nome}
+                </option>
+              ))}
+            </select>
+          </Dica>
+        ) : (
+          <span className="text-xs text-mid-gray me-1">{modeloLeve}</span>
+        )}
 
         <Fer
           titulo={`Ditado e ${modeloCompleto}: monta o laudo inteiro. Clique liga e o próximo clique desliga.`}

@@ -57,6 +57,28 @@ const ABAS: { id: Aba; nome: string; icone: React.ElementType }[] = [
 // Tabela escrita à mão envelhece e amarra o app a um fornecedor: quem instala
 // com chave de outro continuava vendo os nomes do primeiro na tela.
 const GUARDADO = "rotrix2.modeloForte";
+const GUARDADO_LEVE = "rotrix2.modeloLeve";
+
+// Palavras que costumam aparecer no identificador do modelo mais barato de cada
+// provedor. Não é tabela de fornecedor: é dica de ORDENAÇÃO, e se nenhuma casar
+// o padrão continua sendo o primeiro da lista. Sem isto o botão leve pegava o
+// primeiro que a API devolvesse — modelo caro, escolhido por ninguém.
+const PISTA_BARATO = /haiku|mini|flash|lite|small|nano|fast|turbo/i;
+
+const maisBarato = (modelos: { id: string }[]): string =>
+  modelos.find((m) => PISTA_BARATO.test(m.id))?.id || modelos[0]?.id || "";
+
+// O comparativo é o que mais depende de entender texto: ele pediu o melhor
+// modelo disponível, sempre, e não o que estiver escolhido na barra do Laudo.
+const PISTA_FORTE = /opus|ultra|max|pro\b|large|sonnet/i;
+
+const maisForte = (modelos: { id: string }[]): string => {
+  const fortes = modelos.filter((m) => PISTA_FORTE.test(m.id));
+  // "opus" ganha de "sonnet" quando os dois existirem
+  return (
+    fortes.find((m) => /opus|ultra|max/i.test(m.id))?.id || fortes[0]?.id || modelos[0]?.id || ""
+  );
+};
 
 // Nome curto de um modelo, para caber no botão. Sai do PRÓPRIO identificador
 // que o provedor devolveu — nenhum nome de fabricante escrito aqui. Assim a
@@ -92,6 +114,13 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     n: 0,
   });
   // o modelo do botão forte é escolha da tela e fica guardado para a próxima vez
+  const [modeloLeve, setModeloLeve] = useState<string>(() => {
+    try {
+      return localStorage.getItem(GUARDADO_LEVE) || "";
+    } catch {
+      return "";
+    }
+  });
   const [modeloForte, setModeloForte] = useState<string>(() => {
     try {
       return localStorage.getItem(GUARDADO) || "";
@@ -154,22 +183,35 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
       .catch(() => undefined);
   }, []);
 
-  // o "leve" é o primeiro que o provedor lista: o mais barato costuma abrir a
-  // lista, e é só para formatar
-  const leve = { id: listaModelos[0]?.id || "", nome: apelido(listaModelos[0]?.id || "") };
+  // O botão leve agora é ESCOLHA dele, igual ao forte. Antes era
+  // listaModelos[0] — o primeiro que a API devolvia — e isso punha um modelo
+  // caro no botão que ele usa o dia inteiro só para formatar.
+  const idLeve =
+    (modeloLeve && listaModelos.some((m) => m.id === modeloLeve) && modeloLeve) ||
+    maisBarato(listaModelos);
+  const leve = { id: idLeve, nome: apelido(idLeve) };
   const forte =
     (modeloForte && listaModelos.some((m) => m.id === modeloForte) && modeloForte) ||
     ia.modelo ||
     listaModelos[0]?.id ||
     "";
 
-  const trocarModelo = (id: string) => {
-    setModeloForte(id);
+  const guardar = (chave: string, id: string) => {
     try {
-      localStorage.setItem(GUARDADO, id);
+      localStorage.setItem(chave, id);
     } catch {
       /* sem problema: no próximo início volta para o modelo da configuração */
     }
+  };
+
+  const trocarModelo = (id: string) => {
+    setModeloForte(id);
+    guardar(GUARDADO, id);
+  };
+
+  const trocarModeloLeve = (id: string) => {
+    setModeloLeve(id);
+    guardar(GUARDADO_LEVE, id);
   };
 
   const abrirNoLaudo = (texto: string) => {
@@ -226,6 +268,8 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
         <div className={aba === "laudo" ? "h-full" : "hidden"}>
           <LaudoPage
             modeloLeve={leve.nome}
+            idModeloLeve={leve.id}
+            aoTrocarModeloLeve={trocarModeloLeve}
             modeloCompleto={apelido(forte)}
             idModeloCompleto={forte}
             textoEntrando={paraFolha}
@@ -264,9 +308,11 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
             />
           </div>
           <div className={subAdendo === "comparativo" ? "flex-1 min-h-0" : "hidden"}>
+            {/* comparativo entra no modelo mais forte disponível, não no que
+                estiver escolhido na barra do Laudo */}
             <ComparativoPage
               modelos={listaModelos}
-              idModelo={forte}
+              idModelo={maisForte(listaModelos) || forte}
               aoTrocarModelo={trocarModelo}
             />
           </div>

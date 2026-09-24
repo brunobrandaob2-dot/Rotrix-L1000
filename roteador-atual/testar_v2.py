@@ -1262,6 +1262,67 @@ def atualizar_o_anterior(falhas):
         falhas.append("checklist: identificador passou")
 
 
+def gatilho_nao_rouba_exame(falhas):
+    """Ditado de ACHADO não pode abrir a máscara de outro exame.
+
+    O caso dele, palavra por palavra: "aorta torácica com calcificações
+    ateromatosas" abria a ANGIOTOMOGRAFIA DA AORTA inteira. Causa: `angio` estava
+    em `_GENERICAS`, e palavra genérica que falta não reprovava o gatilho — ou
+    seja, a palavra que DIZ o exame era justamente a que podia faltar."""
+    achados_sozinhos = [
+        "aorta toracica com calcificacoes ateromatosas",
+        "aorta abdominal com calcificacoes ateromatosas",
+        "ateromatose da aorta toracica",
+        "ateromatose da aorta abdominal",
+        "aorta de calibre normal com calcificacoes ateromatosas",
+        "calcificacoes ateromatosas da aorta toracica e abdominal",
+        "aorta toracica com ateromatose",
+    ]
+    for d in achados_sozinhos:
+        texto, _o = roteador.rotear(d)
+        if "ANGIOTOMOGRAFIA" in texto.upper():
+            falhas.append("gatilho: %r abriu mascara de angio (%r)"
+                          % (d, texto.split("\n")[0]))
+
+    # e o contrário continua valendo: dizendo o exame, a máscara certa sai
+    certos = [
+        ("tomografia de torax com calcificacoes ateromatosas na aorta",
+         "TOMOGRAFIA COMPUTADORIZADA DO T"),
+        ("angiotomografia de aorta", "ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA"),
+        ("angio de aorta toracica", "ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA"),
+        ("tomografia de coronarias", "ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ART"),
+        ("raio x de joelho direito", "RADIOGRAFIA DO JOELHO"),
+        ("ressonancia de coluna lombar", "RESSON"),
+        ("tc de torax", "TOMOGRAFIA COMPUTADORIZADA DO T"),
+    ]
+    for d, esperado in certos:
+        texto, _o = roteador.rotear(d)
+        if esperado not in texto.upper():
+            falhas.append("gatilho: %r devia dar %r e deu %r"
+                          % (d, esperado, texto.split("\n")[0]))
+
+    # a lei, direto: gatilho que nomeia modalidade exige a mesma familia no ditado
+    casos = [
+        ({"aorta", "toracica", "calcificacoes"}, "angio de aorta toracica", False),
+        ({"angiotomografia", "de", "aorta"}, "angio de aorta toracica", True),
+        ({"tc", "de", "torax"}, "tomografia de torax", True),
+        ({"rx", "de", "joelho"}, "raio x de joelho", True),
+        ({"tomografia", "de", "coronarias"}, "angiotomografia de coronarias", True),
+        ({"joelho", "com", "artrose"}, "raio x de joelho com artrose", False),
+    ]
+    for tokens, gatilho, esperado in casos:
+        if roteador._modalidade_compativel(tokens, gatilho) is not esperado:
+            falhas.append("gatilho: _modalidade_compativel(%s, %r) devia ser %s"
+                          % (sorted(tokens), gatilho, esperado))
+
+    # o auditor existe, roda e nao acusa gatilho novo fora da lista aprovada
+    import auditar_gatilhos
+    sobra = auditar_gatilhos.frouxos()
+    if sobra:
+        falhas.append("gatilho: %d gatilho(s) frouxo(s) fora da lista aprovada: %s"
+                      % (len(sobra), ", ".join(g for _r, _t, g in sobra[:5])))
+
+
 def main():
     falhas = []
     banco(falhas)
@@ -1282,6 +1343,7 @@ def main():
     comparativo_e_estrutura(falhas)
     estruturados_por_niveis(falhas)
     atualizar_o_anterior(falhas)
+    gatilho_nao_rouba_exame(falhas)
     for f in falhas:
         print("FALHOU", f)
     print("v2: tudo certo" if not falhas else "v2: %d falha(s)" % len(falhas))
