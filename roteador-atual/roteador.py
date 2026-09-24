@@ -54,6 +54,10 @@ try:
     import calculos          # volume por elipsoide: conta local
 except Exception:
     calculos = None
+try:
+    import estruturados      # grade de níveis da coluna: montagem por regra
+except Exception:
+    estruturados = None
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
@@ -2239,6 +2243,15 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, medidas_campos())
         if self.path.rstrip("/") in ("/ia/modelos", "/v1/ia/modelos"):
             return self._json(200, ia_modelos())
+        if self.path.rstrip("/").startswith(("/estruturados/campos", "/v1/estruturados/campos")):
+            from urllib.parse import urlparse, parse_qs
+            q = parse_qs(urlparse(self.path).query)
+            if estruturados is None:
+                return self._json(200, {"ok": False, "motivo": "estruturados_indisponivel"})
+            return self._json(200, estruturados.campos(
+                (q.get("segmento") or ["lombar"])[0], (q.get("modalidade") or ["rm"])[0]))
+        if self.path.rstrip("/") in ("/prescricoes", "/v1/prescricoes"):
+            return self._json(200, prescricoes())
         if self.path.rstrip("/") in ("/calculos/campos", "/v1/calculos/campos"):
             return self._json(200, calculos.campos() if calculos else
                               {"ok": False, "motivo": "calculos_indisponivel"})
@@ -2259,12 +2272,26 @@ class Handler(BaseHTTPRequestHandler):
                           "/correcao", "/correcao/desfazer", "/ia",
                           "/mascaras/banco", "/mascaras/ia", "/mascaras/auditar",
                           "/medidas", "/idade_ossea", "/calculos", "/ia/testar",
-                          "/adendo")):
+                          "/prescricoes", "/comparativo", "/estrutura",
+                          "/estruturados", "/adendo")):
             corpo = self._corpo()
             try:
                 if rota.endswith("/ia/testar"):
                     return self._json(200, ia_testar(corpo.get("provedor") or "",
                                                      corpo.get("modelo") or ""))
+                if rota.endswith("/estruturados"):
+                    if estruturados is None:
+                        return self._json(200, {"ok": False, "motivo": "estruturados_indisponivel"})
+                    return self._json(200, estruturados.montar(corpo))
+                if rota.endswith("/comparativo"):
+                    return self._json(200, comparativo(corpo.get("anterior") or "",
+                                                       corpo.get("atual") or "",
+                                                       corpo.get("modelo") or ""))
+                if rota.endswith("/estrutura"):
+                    return self._json(200, estrutura_do_laudo(corpo.get("texto") or ""))
+                if rota.endswith("/prescricoes"):
+                    return self._json(200, prescricoes(corpo.get("titulo") or "",
+                                                       corpo.get("busca") or ""))
                 if rota.endswith("/calculos"):
                     return self._json(200, calcular_volume(corpo))
                 if rota.endswith("/medidas"):
@@ -2489,6 +2516,207 @@ def auditar_banco():
         return oficina.auditar(BANCO)
     except Exception as e:
         return {"ok": False, "motivo": "%s: %s" % (type(e).__name__, str(e)[:120])}
+
+
+_COMPARATIVO_REGRAS = """Você ajuda um radiologista a comparar um exame ATUAL com o
+exame ANTERIOR do mesmo paciente, em português do Brasil, no tom técnico do laudo dele.
+
+A regra que manda em todas as outras:
+- NUNCA traga para o laudo atual um achado que só existe no anterior. Você não viu
+  as imagens de agora. Se o achado do anterior não aparece no texto atual, ele é uma
+  PENDÊNCIA para o radiologista responder — não uma descrição.
+- Não invente medida, lado, segmento, data nem evolução. Se o anterior tem medida e o
+  atual não, a medida de agora fica em branco.
+- Não reescreva o laudo atual. Você acrescenta as frases de comparação, e só.
+
+Devolva SOMENTE um JSON, sem texto em volta, nesta forma:
+{"achados": [{"achado": "<nome curto, como no laudo>",
+              "anterior": "<o que o anterior diz, com a medida, ou vazio>",
+              "atual": "<o que o atual diz, ou vazio se não estiver no atual>",
+              "situacao": "aumentou|estavel|diminuiu|resolvido|novo|pendente",
+              "frase": "<a frase de comparação pronta, ou vazia se for pendência>"}],
+ "resumo": "<uma linha, ou vazio>"}
+
+Sobre `situacao`:
+- "novo": está no atual e não estava no anterior.
+- "resolvido": o laudo ATUAL diz explicitamente que não há mais. Se apenas não menciona,
+  é "pendente" — ausência de menção não é ausência de achado.
+- "pendente": está no anterior e o atual não fala dele. `frase` fica vazia.
+- "aumentou"/"diminuiu": só com as duas medidas no texto. Sem as duas, é "estavel"
+  apenas se o atual disser que está estável; senão, "pendente".
+"""
+
+
+def comparativo(anterior, atual, modelo=""):
+    """Aba Comparativo: alinha os achados do exame anterior com os do atual.
+
+    Os DOIS textos passam pela mesma triagem do adendo — laudo anterior também
+    tem nome de paciente no cabeçalho, e é justamente o que ele cola.
+
+    O que volta são linhas alinhadas, não um laudo pronto: achado do anterior que
+    o atual não menciona sai como PENDÊNCIA, para ele responder olhando a imagem.
+    Ausência de menção não é ausência de achado, e essa diferença é a razão de
+    existir desta tela."""
+    anterior = (anterior or "").strip()
+    atual = (atual or "").strip()
+    if not anterior:
+        return {"ok": False, "motivo": "anterior_vazio"}
+    if not atual:
+        return {"ok": False, "motivo": "atual_vazio"}
+    if nuvem is None:
+        return {"ok": False, "motivo": "nuvem_ausente"}
+    c = nuvem.config()
+    if not c.get("ativa"):
+        return {"ok": False, "motivo": "nuvem_desligada"}
+    if modelo:
+        c = dict(c)
+        c["modelo"] = modelo
+
+    corpos = []
+    for bruto in (anterior, atual):
+        corpo = bruto
+        try:
+            import importar_usuario
+            corpo = importar_usuario.tirar_cabecalho_paciente(bruto) or bruto
+        except Exception:
+            pass
+        corpos.append(corpo)
+    achados = []
+    for corpo in corpos:
+        achados += nuvem.triagem(corpo)
+    if achados:
+        return {"ok": False, "motivo": "tem_identificador",
+                "achados": sorted(set(achados))}
+
+    partes = [_COMPARATIVO_REGRAS, "",
+              "EXAME ANTERIOR:", corpos[0][:16000], "",
+              "EXAME ATUAL:", corpos[1][:16000]]
+    texto, origem = nuvem.chamar("\n".join(partes), c, modo="instrucao",
+                                 marcar=False, max_tokens=3000)
+    if origem != "nuvem" or not texto:
+        return {"ok": False, "motivo": origem}
+    dados = _so_json_comparativo(texto)
+    if dados is None:
+        return {"ok": False, "motivo": "resposta_fora_do_formato"}
+    linhas = []
+    for a in dados.get("achados") or []:
+        if not isinstance(a, dict):
+            continue
+        sit = (a.get("situacao") or "").strip().lower()
+        if sit not in ("aumentou", "estavel", "diminuiu", "resolvido", "novo", "pendente"):
+            sit = "pendente"
+        frase = (a.get("frase") or "").strip()
+        # trava: pendência não pode vir com frase pronta, senão vira descrição
+        # de um achado que ninguém olhou nas imagens de agora
+        if sit == "pendente":
+            frase = ""
+        linhas.append({
+            "achado": (a.get("achado") or "").strip()[:120],
+            "anterior": (a.get("anterior") or "").strip()[:400],
+            "atual": (a.get("atual") or "").strip()[:400],
+            "situacao": sit,
+            "frase": frase[:600],
+        })
+    return {"ok": True, "achados": linhas, "resumo": (dados.get("resumo") or "").strip()[:400],
+            "pendentes": sum(1 for l in linhas if l["situacao"] == "pendente"),
+            "modelo": c.get("modelo")}
+
+
+def _so_json_comparativo(resposta):
+    bruto = (resposta or "").strip()
+    if "```" in bruto:
+        pedacos = bruto.split("```")
+        for p in pedacos:
+            p = p.strip()
+            if p.startswith("json"):
+                p = p[4:].strip()
+            if p.startswith("{"):
+                bruto = p
+                break
+    i, j = bruto.find("{"), bruto.rfind("}")
+    if i < 0 or j <= i:
+        return None
+    try:
+        d = json.loads(bruto[i:j + 1])
+    except ValueError:
+        return None
+    return d if isinstance(d, dict) else None
+
+
+def estrutura_do_laudo(texto):
+    """"Trazer a estrutura": só os cabeçalhos de seção do laudo anterior.
+
+    Vem sem uma linha de conteúdo, de propósito — o esqueleto serve para ele
+    começar a ditar, não para herdar achado do exame passado."""
+    fora = []
+    for linha in (texto or "").split("\n"):
+        l = linha.strip()
+        if not l:
+            continue
+        # **TÍTULO**, **TÉCNICA:**, "CONCLUSÃO:" — cabeçalho, não frase
+        # "**TÉCNICA:**  helicoidal." é cabeçalho com texto do lado: fica só o
+        # cabeçalho. O conteúdo do exame passado não atravessa para cá.
+        m = re.match(r"^\*\*([^*]+)\*\*", l)
+        if m:
+            fora.append("**" + m.group(1).strip() + "**")
+            continue
+        limpo = l.replace("*", "").strip()
+        if limpo.endswith(":") and limpo.upper() == limpo and len(limpo) <= 40:
+            fora.append("**" + limpo + "**")
+    vistos, unicos = set(), []
+    for x in fora:
+        if x not in vistos:
+            vistos.add(x)
+            unicos.append(x)
+    return {"ok": True, "estrutura": "\n\n".join(unicos), "quantos": len(unicos)}
+
+
+def prescricoes(titulo="", busca=""):
+    """Aba Prescrições: a árvore por modalidade, e o texto de uma delas.
+
+    Só o que está em `prescricao/` no banco. Prescrição não é laudo: não passa
+    por IA, não vai para lugar nenhum, e sai com dose e volume em branco — a
+    lacuna é de propósito, prescrição pré-preenchida é prescrição assinada sem
+    olhar."""
+    NOMES = {"rm": "Ressonância magnética", "tc": "Tomografia computadorizada",
+             "rx": "Radiografia", "_comum": "Comum a todos", "us": "Ultrassonografia"}
+    busca_n = normalizar(busca or "")
+    por_titulo, texto = {}, None
+    for it in BANCO.itens:
+        if it[0] != "mascara" or not it[2].startswith("prescricao/"):
+            continue
+        tit = it[2]
+        d = por_titulo.get(tit)
+        if d is None:
+            partes = tit.split("/")
+            mod = partes[1] if len(partes) > 1 else ""
+            regiao = partes[2] if len(partes) > 3 else ""
+            nome = partes[-1].replace("_", " ").strip()
+            d = por_titulo[tit] = {
+                "titulo": tit, "nome": nome, "modalidade": mod,
+                "grupo": NOMES.get(mod, mod.upper() or "Outras"),
+                "regiao": regiao, "gatilhos": [],
+                "lacunas": sorted(set(re.findall(r"\{([a-z_0-9]+)(?:\|[^}]*)?\}", it[3] or ""))),
+            }
+        if len(d["gatilhos"]) < 8:
+            d["gatilhos"].append(it[1])
+        if titulo and tit == titulo and texto is None:
+            texto = it[3] or ""
+    lista = list(por_titulo.values())
+    if busca_n:
+        lista = [d for d in lista
+                 if busca_n in normalizar(d["titulo"]) or busca_n in normalizar(d["nome"])
+                 or any(busca_n in g for g in d["gatilhos"])]
+    # ordem de uso: RM e TC primeiro, o comum por último
+    ordem = {"rm": 0, "tc": 1, "rx": 2, "us": 3, "_comum": 9}
+    lista.sort(key=lambda d: (ordem.get(d["modalidade"], 5), d["regiao"], d["nome"]))
+    grupos = []
+    for d in lista:
+        if not grupos or grupos[-1]["grupo"] != d["grupo"]:
+            grupos.append({"grupo": d["grupo"], "modalidade": d["modalidade"], "itens": []})
+        grupos[-1]["itens"].append(d)
+    return {"ok": True, "total": len(por_titulo), "grupos": grupos,
+            "titulo": titulo or "", "texto": texto or ""}
 
 
 def mascaras_banco(busca="", titulo="", limite=120):

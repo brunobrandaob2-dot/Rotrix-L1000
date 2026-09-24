@@ -955,6 +955,191 @@ def calculos_de_volume(falhas):
             falhas.append("cálculos: o módulo não pode sair da máquina (%s)" % proibido)
 
 
+def comparativo_e_estrutura(falhas):
+    """Comparativo: a IA NUNCA traz achado do anterior para o laudo de agora.
+
+    É a regra que define a tela. O radiologista não olhou as imagens de hoje
+    procurando aquele achado; enquanto não olhar, aquilo é pendência, não
+    descrição. Ausência de menção não é ausência de achado."""
+    # os dois textos passam pela triagem — o laudo anterior é justamente o que
+    # vem com cabeçalho de paciente colado junto
+    if roteador.comparativo("", "TC DE TÓRAX").get("motivo") != "anterior_vazio":
+        falhas.append("comparativo: anterior vazio deveria recusar")
+    if roteador.comparativo("TC DE TÓRAX", "").get("motivo") != "atual_vazio":
+        falhas.append("comparativo: atual vazio deveria recusar")
+    sujo = "TC DE TÓRAX\nProntuário 987654321.\nExame normal."
+    for par in ((sujo, "TC DE TÓRAX normal."), ("TC DE TÓRAX normal.", sujo)):
+        r = roteador.comparativo(*par)
+        if r.get("ok") or r.get("motivo") != "tem_identificador":
+            falhas.append("comparativo: identificador passou (%r)" % r.get("motivo"))
+        bruto = json.dumps(r, ensure_ascii=False).upper()
+        for p in PROIBIDOS:
+            if p.upper() in bruto:
+                falhas.append("comparativo: a recusa devolveu %r" % p)
+
+    # a trava da pendência: frase pronta em linha pendente é descartada
+    resposta = json.dumps({"achados": [
+        {"achado": "nódulo", "anterior": "8 mm", "atual": "", "situacao": "pendente",
+         "frase": "Nódulo estável em relação ao anterior."},
+        {"achado": "derrame", "anterior": "moderado", "atual": "pequeno",
+         "situacao": "diminuiu", "frase": "Redução do derrame pleural à direita."},
+        {"achado": "x", "anterior": "", "atual": "novo achado", "situacao": "inventada",
+         "frase": "algo"},
+    ], "resumo": "ok"}, ensure_ascii=False)
+    d = roteador._so_json_comparativo("```json\n" + resposta + "\n```")
+    if d is None:
+        falhas.append("comparativo: não leu o JSON entre crases")
+        return
+
+    # estrutura: só os cabeçalhos, nenhum achado atravessa
+    laudo = ("**TOMOGRAFIA DO TÓRAX**\n\n**TÉCNICA:**  helicoidal.\n\n"
+             "**INDICAÇÃO CLÍNICA:**  Em anexo.\n\n**ANÁLISE:**\n"
+             "Nódulo no lobo superior direito de 8 mm.\nDerrame pleural à direita.\n\n"
+             "**CONCLUSÃO:**\nNódulo pulmonar.")
+    e = roteador.estrutura_do_laudo(laudo)
+    if not e.get("ok") or e["quantos"] != 5:
+        falhas.append("comparativo: a estrutura veio com %r cabeçalhos" % e.get("quantos"))
+    for vazou in ("Nódulo", "Derrame", "helicoidal", "Em anexo"):
+        if vazou in e["estrutura"]:
+            falhas.append("comparativo: a estrutura trouxe conteúdo do anterior (%r)" % vazou)
+    for deve in ("**TÉCNICA:**", "**ANÁLISE:**", "**CONCLUSÃO:**"):
+        if deve not in e["estrutura"]:
+            falhas.append("comparativo: a estrutura perdeu %r" % deve)
+    # cabeçalho repetido não duplica
+    if roteador.estrutura_do_laudo(laudo + "\n\n" + laudo)["quantos"] != 5:
+        falhas.append("comparativo: cabeçalho repetido duplicou na estrutura")
+    if roteador.estrutura_do_laudo("")["quantos"] != 0:
+        falhas.append("comparativo: texto vazio devia dar estrutura vazia")
+
+
+def estruturados_por_niveis(falhas):
+    """A grade de níveis: cada combinação de botões dá SEMPRE a mesma frase.
+
+    É o que permite assinar sem reler. As combinações abaixo são as que ele
+    aprovou, palavra por palavra — se alguma mudar, o teste cai."""
+    import estruturados as E
+
+    aprovadas = [
+        (["altura"], {}, "L4-L5: redução da altura discal."),
+        (["abaulamento"], {}, "L4-L5: abaulamento discal difuso."),
+        (["abaulamento", "protrusao"],
+         {"zona": "subarticular", "lado": "à esquerda", "medida": "5",
+          "contato": "em contato com a raiz descendente"},
+         "L4-L5: abaulamento discal difuso, associado a componente protruso "
+         "subarticular à esquerda, medindo 5 mm, em contato com a raiz descendente."),
+        (["abaulamento", "extrusao"],
+         {"zona": "central", "medida": "9", "migracao": "caudal"},
+         "L4-L5: abaulamento discal difuso, associado a componente extruso central, "
+         "medindo 9 mm, com migração caudal."),
+        (["altura", "abaulamento", "protrusao"],
+         {"zona": "centro-lateral", "lado": "à direita", "medida": "4"},
+         "L4-L5: redução da altura discal, com abaulamento difuso associado a "
+         "componente protruso centro-lateral à direita, medindo 4 mm."),
+        (["altura", "schmorl"], {"plato": "superior"},
+         "L4-L5: redução da altura discal, com hérnia intraesponjosa no platô superior."),
+        (["normal"], {}, "L4-L5: sem alterações."),
+    ]
+    for marcados, dados, esperado in aprovadas:
+        saiu = E.frase_do_nivel("L4-L5", marcados, dados)
+        if saiu != esperado:
+            falhas.append("estruturados: %s\n      saiu: %s\n  esperado: %s"
+                          % ("+".join(marcados), saiu, esperado))
+    # com os três ligados, "disco" não pode aparecer duas vezes
+    tres = E.frase_do_nivel("L4-L5", ["altura", "abaulamento", "protrusao"], {})
+    if tres.lower().count("disc") > 1:
+        falhas.append("estruturados: a frase repetiu 'disco' (%r)" % tres)
+    # nada marcado: linha vazia, não linha em branco no laudo
+    if E.frase_do_nivel("L4-L5", [], {}) != "":
+        falhas.append("estruturados: nível sem marca devia sair vazio")
+
+    # protrusão e extrusão se excluem; normal exclui tudo
+    ids = {b["id"]: b for b in E.BOTOES}
+    if "extrusao" not in ids["protrusao"]["exclui"]:
+        falhas.append("estruturados: protrusão e extrusão precisam se excluir")
+    if "abaulamento" not in ids["normal"]["exclui"]:
+        falhas.append("estruturados: normal precisa excluir os achados")
+
+    # cervical: só três zonas, e nada de subarticular (é da artéria vertebral)
+    c = E.campos("cervical", "rm")
+    if c["zonas"] != ["central", "centro-lateral", "foraminal"]:
+        falhas.append("estruturados: zonas da cervical erradas (%r)" % c["zonas"])
+    for seg in ("toracica", "lombar"):
+        if len(E.campos(seg, "rm")["zonas"]) != 5:
+            falhas.append("estruturados: %s devia ter 5 zonas" % seg)
+    # uncoartrose só na cervical; osteófito posterior só na TC
+    if "uncoartrose" not in [b["id"] for b in c["botoes"]]:
+        falhas.append("estruturados: a cervical perdeu a uncoartrose")
+    if "uncoartrose" in [b["id"] for b in E.campos("lombar", "rm")["botoes"]]:
+        falhas.append("estruturados: uncoartrose apareceu fora da cervical")
+    if "osteofito_post" in [b["id"] for b in E.campos("lombar", "rm")["botoes"]]:
+        falhas.append("estruturados: osteófito posterior apareceu na RM")
+
+    # difusos por modalidade: desidratação é de T2, vácuo e esclerose são de TC
+    rm = [d["id"] for d in E.campos("lombar", "rm")["difusos"]]
+    tc = [d["id"] for d in E.campos("lombar", "tc")["difusos"]]
+    if "desidratacao" not in rm or "vacuo" in rm or "esclerose" in rm:
+        falhas.append("estruturados: difusos da RM errados (%r)" % rm)
+    if "vacuo" not in tc or "esclerose" not in tc or "desidratacao" in tc:
+        falhas.append("estruturados: difusos da TC errados (%r)" % tc)
+
+    d2 = E.frase_difusa(["desidratacao", "osteofitose"], "rm")
+    if d2 != "Desidratação discal difusa, associada a osteofitose marginal.":
+        falhas.append("estruturados: frase difusa de dois deu %r" % d2)
+    d3 = E.frase_difusa(["desidratacao", "osteofitose", "schmorl"], "rm")
+    if "e a hérnias intraesponjosas esparsas." not in d3:
+        falhas.append("estruturados: frase difusa de três deu %r" % d3)
+    if E.frase_difusa([], "rm") != "":
+        falhas.append("estruturados: sem difuso marcado devia sair vazio")
+
+    # forame: "estreitamento foraminal", e SEM dizer qual raiz
+    f = {"simetria": "assimétrico", "lado": "à esquerda", "grau": "acentuado",
+         "repercussao": "com compressão radicular", "niveis": ["L4-L5", "L5-S1"]}
+    linha = E.frase_foraminal(f)
+    esperado = ("Forames neurais: estreitamento foraminal assimétrico, de predomínio "
+                "à esquerda, em L4-L5 e L5-S1, de grau acentuado, com compressão radicular.")
+    if linha != esperado:
+        falhas.append("estruturados: forame saiu %r" % linha)
+    conc = E.conclusao_foraminal(f)
+    if conc != ("Estreitamento foraminal acentuado à esquerda em L4-L5 e L5-S1, "
+                "com compressão radicular."):
+        falhas.append("estruturados: conclusão do forame saiu %r" % conc)
+    for texto in (linha, conc):
+        if re.search(r"\braiz (L|S)\d|\braízes? (L|S)\d", texto):
+            falhas.append("estruturados: nomeou a raiz, e ele tirou isso (%r)" % texto)
+    if "simétrico" in E.frase_foraminal(dict(f, simetria="simétrico")) and \
+            "predomínio" in E.frase_foraminal(dict(f, simetria="simétrico")):
+        falhas.append("estruturados: simétrico não pode levar lado")
+    if E.frase_foraminal({"niveis": []}) != "":
+        falhas.append("estruturados: forame sem nível devia sair vazio")
+
+    # o que não é do disco não entra na linha do nível
+    linha = E.frase_do_nivel("L4-L5", ["altura", "abaulamento"], {})
+    for fora in ("anterolistese", "Modic", "listese"):
+        if fora.lower() in linha.lower():
+            falhas.append("estruturados: %r entrou na linha do nível" % fora)
+
+    # montagem inteira, na ordem: difuso, níveis, forames
+    r = E.montar({"segmento": "lombar", "modalidade": "rm",
+                  "difusos": ["desidratacao"],
+                  "niveis": {"L4-L5": {"marcados": ["abaulamento"]},
+                             "L1-L2": {"marcados": ["normal"]}},
+                  "forame": f})
+    if not r.get("ok"):
+        falhas.append("estruturados: montar não deu ok")
+    linhas = r["texto"].split("\n")
+    if not linhas[0].startswith("Desidratação"):
+        falhas.append("estruturados: o difuso tem que abrir o texto")
+    if linhas[-1].startswith("Forames") is False:
+        falhas.append("estruturados: os forames têm que fechar o texto")
+    # os níveis saem na ordem anatômica, não na ordem em que foram clicados
+    if linhas.index("L1-L2: sem alterações.") > linhas.index("L4-L5: abaulamento discal difuso."):
+        falhas.append("estruturados: os níveis saíram fora da ordem anatômica")
+    if E.montar({"segmento": "cranio"}).get("ok"):
+        falhas.append("estruturados: aceitou segmento que não existe")
+    if not roteador.estruturados:
+        falhas.append("estruturados: o roteador não carregou o módulo")
+
+
 def main():
     falhas = []
     banco(falhas)
@@ -972,6 +1157,8 @@ def main():
     exames_de_medida(falhas)
     rotas_novas(falhas)
     calculos_de_volume(falhas)
+    comparativo_e_estrutura(falhas)
+    estruturados_por_niveis(falhas)
     for f in falhas:
         print("FALHOU", f)
     print("v2: tudo certo" if not falhas else "v2: %d falha(s)" % len(falhas))

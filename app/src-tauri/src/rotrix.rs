@@ -876,6 +876,71 @@ pub fn rotrix_idade_ossea(
     )
 }
 
+/// Estruturados: a grade de niveis da coluna. A frase e montada por REGRA no
+/// roteador, nao pela IA - a mesma combinacao de botoes da sempre o mesmo
+/// texto, e e isso que permite assinar sem reler.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_estruturados(pedido: String) -> Result<String, String> {
+    let v: serde_json::Value =
+        serde_json::from_str(&pedido).unwrap_or(serde_json::Value::Object(Default::default()));
+    http_post("/v1/estruturados", &v.to_string(), 20_000)
+}
+
+/// Niveis, zonas e botoes daquele segmento e daquela modalidade. A cervical tem
+/// tres zonas, nao cinco: o espaco lateral la e da arteria vertebral.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_estruturados_campos(segmento: String, modalidade: String) -> Result<String, String> {
+    http_get(&format!(
+        "/v1/estruturados/campos?segmento={segmento}&modalidade={modalidade}"
+    ))
+    .ok_or_else(|| "roteador nao respondeu".to_string())
+}
+
+/// Comparativo: alinha os achados do exame anterior com os do atual.
+/// Os DOIS textos passam pela triagem — o laudo anterior tambem vem com
+/// cabecalho de paciente colado junto. Achado do anterior que o atual nao
+/// menciona volta como PENDENCIA, nunca como descricao.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_comparativo(
+    anterior: String,
+    atual: String,
+    modelo: String,
+) -> Result<String, String> {
+    http_post(
+        "/v1/comparativo",
+        &serde_json::json!({ "anterior": anterior, "atual": atual, "modelo": modelo }).to_string(),
+        180_000,
+    )
+}
+
+/// "Trazer a estrutura": so os cabecalhos de secao do laudo anterior, sem uma
+/// linha de conteudo. O esqueleto serve para comecar a ditar, nao para herdar
+/// achado do exame passado.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_estrutura(texto: String) -> Result<String, String> {
+    http_post(
+        "/v1/estrutura",
+        &serde_json::json!({ "texto": texto }).to_string(),
+        15_000,
+    )
+}
+
+/// Aba Prescricoes: a arvore por modalidade, e o texto de uma delas.
+/// Prescricao nao e laudo: nao passa por IA e nao sai do computador.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_prescricoes(titulo: String, busca: String) -> Result<String, String> {
+    http_post(
+        "/v1/prescricoes",
+        &serde_json::json!({ "titulo": titulo, "busca": busca }).to_string(),
+        15_000,
+    )
+}
+
 /// Volume por elipsoide (L x AP x T x 0,523) e a frase pronta para a folha.
 /// Multiplicar tres numeros nao se terceiriza para modelo de linguagem: o
 /// resultado tem que ser o mesmo toda vez. A conta e no roteador, local.

@@ -7,23 +7,47 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
-import { PenLine, Rows3, FilePlus2, LayoutGrid, Clock, Cog } from "lucide-react";
+import {
+  PenLine,
+  Rows3,
+  FilePlus2,
+  Pill,
+  Grid3x3,
+  LayoutGrid,
+  Clock,
+  Cog,
+} from "lucide-react";
 import HandyTextLogo from "../icons/HandyTextLogo";
 import type { SidebarSection } from "../Sidebar";
 import type { OnboardingPreviewStep } from "../settings";
 import { LaudoPage } from "./LaudoPage";
 import { FilaPage } from "./FilaPage";
 import { AdendoPage } from "./AdendoPage";
+import { ComparativoPage } from "./ComparativoPage";
+import { PrescricoesPage } from "./PrescricoesPage";
+import { EstruturadosPage } from "./EstruturadosPage";
 import { MascarasPage } from "./MascarasPage";
 import { HistoricoPage } from "./HistoricoPage";
 import { ConfigPage } from "./ConfigPage";
 
-export type Aba = "laudo" | "fila" | "adendos" | "mascaras" | "historico" | "config";
+type SubAdendo = "adendo" | "comparativo";
+
+export type Aba =
+  | "laudo"
+  | "fila"
+  | "adendos"
+  | "prescricoes"
+  | "estruturados"
+  | "mascaras"
+  | "historico"
+  | "config";
 
 const ABAS: { id: Aba; nome: string; icone: React.ElementType }[] = [
   { id: "laudo", nome: "Laudo", icone: PenLine },
   { id: "fila", nome: "Fila", icone: Rows3 },
   { id: "adendos", nome: "Adendos", icone: FilePlus2 },
+  { id: "prescricoes", nome: "Prescrições", icone: Pill },
+  { id: "estruturados", nome: "Estruturados", icone: Grid3x3 },
   { id: "mascaras", nome: "Máscaras", icone: LayoutGrid },
   { id: "historico", nome: "Histórico", icone: Clock },
   { id: "config", nome: "Config.", icone: Cog },
@@ -56,6 +80,7 @@ interface Props {
 
 export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
   const [aba, setAba] = useState<Aba>("laudo");
+  const [subAdendo, setSubAdendo] = useState<SubAdendo>("adendo");
   const [secaoConfig, setSecaoConfig] = useState<SidebarSection>("general");
   const [naFila, setNaFila] = useState(0);
   const [ia, setIa] = useState<{ provedor: string; modelo: string }>({
@@ -208,14 +233,43 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
             aoTrocarModelo={trocarModelo}
           />
         </div>
-        <div className={aba === "adendos" ? "h-full" : "hidden"}>
-          <AdendoPage
-            modelos={listaModelos}
-            idModelo={forte}
-            aoTrocarModelo={trocarModelo}
-          />
+        <div className={aba === "adendos" ? "h-full flex flex-col min-h-0" : "hidden"}>
+          {/* duas sub-abas: escrever um adendo, ou comparar com o exame anterior */}
+          <div className="flex items-center gap-1 px-3 pt-2 pb-1 border-b border-mid-gray/20">
+            {(
+              [
+                ["adendo", "Adendo"],
+                ["comparativo", "Comparativo"],
+              ] as [SubAdendo, string][]
+            ).map(([id, nome]) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setSubAdendo(id)}
+                className={`px-3 py-1 rounded-lg text-[12px] cursor-pointer ${
+                  subAdendo === id
+                    ? "bg-logo-primary/25 font-semibold"
+                    : "hover:bg-mid-gray/15 text-mid-gray"
+                }`}
+              >
+                {nome}
+              </button>
+            ))}
+          </div>
+          <div className={subAdendo === "adendo" ? "flex-1 min-h-0" : "hidden"}>
+            <AdendoPage
+              modelos={listaModelos}
+              idModelo={forte}
+              aoTrocarModelo={trocarModelo}
+            />
+          </div>
+          <div className={subAdendo === "comparativo" ? "flex-1 min-h-0" : "hidden"}>
+            <ComparativoPage idModelo={forte} />
+          </div>
         </div>
         {aba === "fila" && <FilaPage />}
+        {aba === "prescricoes" && <PrescricoesPage />}
+        {aba === "estruturados" && <EstruturadosPage />}
         {aba === "mascaras" && <MascarasPage aoAbrirConfig={abrirConfig} />}
         {aba === "historico" && (
           <HistoricoPage aoAbrirNoLaudo={abrirNoLaudo} idModeloCompleto={forte} />
