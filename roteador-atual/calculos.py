@@ -8,9 +8,9 @@ modelo de linguagem que multiplique três números, e o resultado tem que ser o
 mesmo toda vez.
 
 A fórmula é a do elipsoide: V = L × AP × T × 0,523. É a mesma para próstata,
-tireoide, rim, baço, útero, ovário e nódulo — o que muda de um para outro é a
-frase e o que se calcula junto (densidade de PSA na próstata, soma dos lobos na
-tireoide, variação em relação ao exame anterior num nódulo).
+rim, baço, útero, ovário, coleção e nódulo — o que muda de um para outro é a
+frase e o que se calcula junto (densidade de PSA na próstata, variação em
+relação ao exame anterior numa coleção ou num nódulo).
 """
 import math
 
@@ -30,12 +30,6 @@ ORGAOS = {
         "frase": "Próstata com dimensões de {l} x {ap} x {t} cm, "
                  "correspondendo a um volume estimado de {volume} cm³.",
         "extras": ["psa"],
-    },
-    "tireoide": {
-        "titulo": "Tireoide (lobo)",
-        "frase": "Lobo {lado} medindo {l} x {ap} x {t} cm, "
-                 "com volume estimado de {volume} cm³.",
-        "extras": ["lado"],
     },
     "rim": {
         "titulo": "Rim",
@@ -61,10 +55,11 @@ ORGAOS = {
                  "com volume estimado de {volume} cm³.",
         "extras": ["lado"],
     },
-    "bexiga": {
-        "titulo": "Bexiga / resíduo",
-        "frase": "Resíduo pós-miccional estimado em {volume} cm³.",
-        "extras": [],
+    "colecao": {
+        "titulo": "Coleção",
+        "frase": "Coleção medindo {l} x {ap} x {t} cm, "
+                 "com volume estimado de {volume} cm³.",
+        "extras": ["anterior"],
     },
     "lesao": {
         "titulo": "Nódulo ou lesão",

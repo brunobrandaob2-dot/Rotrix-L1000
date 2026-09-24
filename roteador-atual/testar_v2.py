@@ -929,8 +929,23 @@ def calculos_de_volume(falhas):
         if roteador.calcular_volume(ruim).get("ok"):
             falhas.append("cálculos: a rota aceitou %r" % ruim)
     campos = C.campos()
-    if not campos.get("ok") or len(campos["orgaos"]) < 8:
-        falhas.append("cálculos: a lista de órgãos veio curta")
+    ids = [o["id"] for o in campos.get("orgaos", [])]
+    if not campos.get("ok") or len(ids) < 6:
+        falhas.append("cálculos: a lista de órgãos veio curta (%r)" % ids)
+    # os que ele pediu que ficassem, e os que ele mandou tirar
+    for deve in ("generico", "prostata", "rim", "baco", "utero", "ovario", "colecao", "lesao"):
+        if deve not in ids:
+            falhas.append("cálculos: sumiu o órgão %r" % deve)
+    for fora in ("bexiga", "tireoide"):
+        if fora in ids:
+            falhas.append("cálculos: %r foi tirado e voltou" % fora)
+
+    # coleção: mesma fórmula, e compara com o anterior (drenagem, resolução)
+    r = C.calcular("colecao", "6,4", "3,1", "4,8", anterior=98)
+    if not r.get("ok") or abs(r["volume"] - 49.8) > 0.1:
+        falhas.append("cálculos: volume da coleção deu %r" % r.get("volume"))
+    if "Coleção medindo" not in r["frase"] or "redução de 49,2%" not in r["frase"]:
+        falhas.append("cálculos: a frase da coleção saiu errada (%r)" % r["frase"])
 
     # nada de rede neste módulo
     fonte = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
