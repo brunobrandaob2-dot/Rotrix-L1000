@@ -683,6 +683,8 @@ pub fn run(cli_args: CliArgs) {
             rotrix::rotrix_idade_ossea,
             rotrix::rotrix_estruturados,
             rotrix::rotrix_estruturados_campos,
+            rotrix::rotrix_atualizar_anterior,
+            rotrix::rotrix_checklist,
             rotrix::rotrix_comparativo,
             rotrix::rotrix_estrutura,
             rotrix::rotrix_prescricoes,

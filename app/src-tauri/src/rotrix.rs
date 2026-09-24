@@ -898,6 +898,37 @@ pub fn rotrix_estruturados_campos(segmento: String, modalidade: String) -> Resul
     .ok_or_else(|| "roteador nao respondeu".to_string())
 }
 
+/// O laudo anterior + o que ele viu de diferente = o laudo de hoje, INTEIRO.
+/// A marcacao do que mudou nao vem da IA: e calculada no roteador, comparando
+/// linha a linha. Pedir ao modelo que diga o que ele mesmo mudou e pedir que
+/// ele se confira - e e onde um modelo erra sem avisar.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_atualizar_anterior(
+    anterior: String,
+    mudancas: String,
+    modelo: String,
+) -> Result<String, String> {
+    http_post(
+        "/v1/atualizar",
+        &serde_json::json!({ "anterior": anterior, "mudancas": mudancas, "modelo": modelo })
+            .to_string(),
+        180_000,
+    )
+}
+
+/// So o exame anterior: a lista do que conferir hoje, imagem por imagem.
+/// A IA nao escreve descricao nenhuma aqui - ela nao viu o exame de hoje.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_checklist(anterior: String, modelo: String) -> Result<String, String> {
+    http_post(
+        "/v1/checklist",
+        &serde_json::json!({ "anterior": anterior, "modelo": modelo }).to_string(),
+        120_000,
+    )
+}
+
 /// Comparativo: alinha os achados do exame anterior com os do atual.
 /// Os DOIS textos passam pela triagem — o laudo anterior tambem vem com
 /// cabecalho de paciente colado junto. Achado do anterior que o atual nao

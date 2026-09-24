@@ -1140,6 +1140,70 @@ def estruturados_por_niveis(falhas):
         falhas.append("estruturados: o roteador não carregou o módulo")
 
 
+def atualizar_o_anterior(falhas):
+    """Cola o anterior, diz o que mudou, sai o laudo de hoje inteiro.
+
+    A marcação do que mudou é calculada AQUI, comparando linha a linha — não
+    vem da IA. Pedir ao modelo que diga o que ele mesmo mudou é pedir que ele
+    se confira, e é onde um modelo erra sem avisar."""
+    antes = ("**TOMOGRAFIA DO TÓRAX**\n\n**ANÁLISE:**\n"
+             "Nódulo sólido no lobo superior direito, medindo 8 mm.\n"
+             "Derrame pleural à direita, de pequeno volume.\n"
+             "Mediastino sem linfonodomegalias.\n\n"
+             "**CONCLUSÃO:**\nNódulo pulmonar em seguimento.")
+    depois = ("**TOMOGRAFIA DO TÓRAX**\n\n**ANÁLISE:**\n"
+              "Nódulo sólido no lobo superior direito, medindo 12 mm.\n"
+              "Mediastino sem linfonodomegalias.\n\n"
+              "**CONCLUSÃO:**\nNódulo pulmonar, com aumento em relação ao estudo anterior.")
+    m = roteador._marcar_mudancas(antes, depois)
+    linhas = m["linhas"]
+    def onde(pedaco):
+        return next(i for i, l in enumerate(linhas) if pedaco in l)
+    if onde("12 mm") not in m["mudadas"]:
+        falhas.append("atualizar: a linha que mudou não foi marcada")
+    if onde("Mediastino") not in m["mantidas"]:
+        falhas.append("atualizar: a linha intocada não foi marcada como mantida")
+    if onde("aumento em relação") not in m["mudadas"]:
+        falhas.append("atualizar: a conclusão nova não foi marcada")
+    if m["n_mantidas"] != 4 or m["n_mudadas"] != 2:
+        falhas.append("atualizar: contagem deu %r mantidas e %r mudadas"
+                      % (m["n_mantidas"], m["n_mudadas"]))
+    # linha em branco não conta para nenhum dos dois
+    if any(not linhas[i].strip() for i in m["mantidas"] + m["mudadas"]):
+        falhas.append("atualizar: linha em branco entrou na contagem")
+    # texto idêntico: tudo mantido, nada mudado
+    igual = roteador._marcar_mudancas(antes, antes)
+    if igual["n_mudadas"] != 0:
+        falhas.append("atualizar: texto idêntico marcou mudança")
+    # negrito e espaço não contam como mudança
+    espacado = antes.replace("**ANÁLISE:**", "**ANÁLISE:**  ").replace("8 mm", "8  mm")
+    if roteador._marcar_mudancas(antes, espacado)["n_mudadas"] != 0:
+        falhas.append("atualizar: diferença de espaço virou mudança")
+
+    # as recusas
+    if roteador.atualizar_anterior("", "mudou tudo").get("motivo") != "anterior_vazio":
+        falhas.append("atualizar: anterior vazio deveria recusar")
+    if roteador.atualizar_anterior(antes, "").get("motivo") != "mudancas_vazias":
+        falhas.append("atualizar: sem dizer o que mudou deveria recusar")
+    # identificador nos DOIS campos
+    sujo = "Prontuário 987654321."
+    for par in ((antes + "\n" + sujo, "o nódulo cresceu"), (antes, "o nódulo cresceu. " + sujo)):
+        r = roteador.atualizar_anterior(*par)
+        if r.get("ok") or r.get("motivo") != "tem_identificador":
+            falhas.append("atualizar: identificador passou (%r)" % r.get("motivo"))
+        bruto = json.dumps(r, ensure_ascii=False).upper()
+        for p in PROIBIDOS:
+            if p.upper() in bruto:
+                falhas.append("atualizar: a recusa devolveu %r" % p)
+
+    # checklist: só o anterior, e NUNCA com frase de laudo
+    if roteador.checklist_do_anterior("").get("motivo") != "anterior_vazio":
+        falhas.append("checklist: anterior vazio deveria recusar")
+    r = roteador.checklist_do_anterior(antes + "\n" + sujo)
+    if r.get("ok") or r.get("motivo") != "tem_identificador":
+        falhas.append("checklist: identificador passou")
+
+
 def main():
     falhas = []
     banco(falhas)
@@ -1159,6 +1223,7 @@ def main():
     calculos_de_volume(falhas)
     comparativo_e_estrutura(falhas)
     estruturados_por_niveis(falhas)
+    atualizar_o_anterior(falhas)
     for f in falhas:
         print("FALHOU", f)
     print("v2: tudo certo" if not falhas else "v2: %d falha(s)" % len(falhas))

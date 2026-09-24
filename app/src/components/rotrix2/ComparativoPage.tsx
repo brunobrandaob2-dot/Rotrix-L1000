@@ -44,6 +44,7 @@ const motivo = (m?: string): string => {
   if (!m) return "não deu certo";
   if (m === "anterior_vazio") return "cole o exame anterior";
   if (m === "atual_vazio") return "escreva ou dite o exame atual";
+  if (m === "mudancas_vazias") return "diga o que está diferente hoje";
   if (m === "tem_identificador") return "tem identificador de paciente — veja abaixo";
   if (m === "nuvem_desligada") return "a IA está desligada nas configurações";
   if (m === "resposta_fora_do_formato") return "a IA respondeu fora do formato; tente de novo";
@@ -71,9 +72,21 @@ export const ComparativoPage: React.FC<Props> = ({
   // "só o que mudou" esconde as linhas estáveis. As PENDÊNCIAS nunca somem:
   // são justamente o que ele ainda não olhou nas imagens de hoje.
   const [soMudou, setSoMudou] = useState(true);
+  // o que ele viu de diferente hoje, com as palavras dele
+  const [mudancas, setMudancas] = useState("");
+  const [revisao, setRevisao] = useState<{
+    linhas: string[];
+    mantidas: number[];
+    mudadas: number[];
+  } | null>(null);
   const atual = useRef<HTMLTextAreaElement>(null);
 
+  const [ondeDitar, setOndeDitar] = useState<"mudancas" | "atual">("mudancas");
   const { gravando, apertou, soltou } = useDitado("transcribe", (texto) => {
+    if (ondeDitar === "mudancas") {
+      setMudancas((x) => (x ? x.replace(/\s*$/, " ") : "") + texto);
+      return;
+    }
     const el = atual.current;
     if (!el) return;
     el.value = (el.value ? el.value.replace(/\s*$/, "\n") : "") + texto;
@@ -101,6 +114,103 @@ export const ComparativoPage: React.FC<Props> = ({
       setErro(String(e));
     }
   }, [anterior]);
+
+  // Só o anterior colado: a IA diz O QUE PROCURAR hoje. Nenhuma frase de laudo
+  // sai daqui — ela não viu as imagens de agora.
+  const oQueProcurar = useCallback(async () => {
+    if (!anterior.trim()) {
+      setErro("cole o exame anterior primeiro");
+      return;
+    }
+    setErro("");
+    setAchados([]);
+    setOcupado("checklist");
+    try {
+      const b = await invoke<string>("rotrix_checklist", {
+        anterior,
+        modelo: idModelo || "",
+      });
+      const d = JSON.parse(b || "{}") as {
+        ok?: boolean;
+        achados?: Linha[];
+        motivo?: string;
+        pendentes?: number;
+      };
+      if (!d.ok) {
+        setErro(motivo(d.motivo));
+        setAchados(((d as { achados?: string[] }).achados as string[]) || []);
+        return;
+      }
+      setLinhas(d.achados || []);
+      setResumo("");
+      setSoMudou(false);
+      setAviso(
+        `${d.pendentes || 0} achado(s) para conferir nas imagens de hoje — nada foi escrito no atual`,
+      );
+    } catch (e) {
+      setErro(String(e));
+    } finally {
+      setOcupado("");
+    }
+  }, [anterior, idModelo]);
+
+  // O caminho que ele quer: cola o anterior, DIZ o que está diferente, e o
+  // laudo de hoje aparece inteiro na direita. O que ele não mencionou vem do
+  // anterior palavra por palavra — e o programa conta quantas linhas são
+  // essas, porque são as que entram no laudo de hoje sem ninguém ter olhado a
+  // imagem de hoje por causa delas.
+  const gerarAtual = useCallback(async () => {
+    if (!anterior.trim()) {
+      setErro("cole o exame anterior primeiro");
+      return;
+    }
+    if (!mudancas.trim()) {
+      setErro("diga o que está diferente hoje");
+      return;
+    }
+    setErro("");
+    setAchados([]);
+    setOcupado("gerar");
+    try {
+      const b = await invoke<string>("rotrix_atualizar_anterior", {
+        anterior,
+        mudancas,
+        modelo: idModelo || "",
+      });
+      const d = JSON.parse(b || "{}") as {
+        ok?: boolean;
+        texto?: string;
+        linhas?: string[];
+        mantidas?: number[];
+        mudadas?: number[];
+        n_mantidas?: number;
+        motivo?: string;
+      };
+      if (!d.ok) {
+        setErro(motivo(d.motivo));
+        setAchados(((d as { achados?: string[] }).achados as string[]) || []);
+        return;
+      }
+      const el = atual.current;
+      if (el) {
+        el.value = d.texto || "";
+        el.focus();
+      }
+      setRevisao({
+        linhas: d.linhas || [],
+        mantidas: d.mantidas || [],
+        mudadas: d.mudadas || [],
+      });
+      setLinhas(null);
+      setAviso(
+        `${d.n_mantidas || 0} linha(s) vieram do anterior sem mudança — confira antes de assinar`,
+      );
+    } catch (e) {
+      setErro(String(e));
+    } finally {
+      setOcupado("");
+    }
+  }, [anterior, mudancas, idModelo]);
 
   const comparar = useCallback(async () => {
     setErro("");
@@ -171,15 +281,31 @@ export const ComparativoPage: React.FC<Props> = ({
           Trazer a estrutura
         </Button>
         <Button
+          variant="secondary"
+          size="sm"
+          onClick={() => void oQueProcurar()}
+          disabled={ocupado === "checklist"}
+        >
+          {ocupado === "checklist" ? "lendo o anterior…" : "O que procurar"}
+        </Button>
+        <Button
           variant="primary"
+          size="sm"
+          onClick={() => void gerarAtual()}
+          disabled={ocupado === "gerar"}
+        >
+          <span className="flex items-center gap-1.5">
+            <Sparkles size={14} />
+            {ocupado === "gerar" ? "montando…" : "Gerar o atual"}
+          </span>
+        </Button>
+        <Button
+          variant="secondary"
           size="sm"
           onClick={() => void comparar()}
           disabled={ocupado === "comparar"}
         >
-          <span className="flex items-center gap-1.5">
-            <Sparkles size={14} />
-            {ocupado === "comparar" ? "comparando…" : "Comparar"}
-          </span>
+          {ocupado === "comparar" ? "comparando…" : "Comparar os dois"}
         </Button>
         <button
           type="button"
@@ -224,6 +350,20 @@ export const ComparativoPage: React.FC<Props> = ({
         </div>
       )}
 
+      <div className="px-3 py-2 border-b border-mid-gray/15 flex items-start gap-2">
+        <span className="text-[10px] text-mid-gray w-[92px] pt-1.5 shrink-0">
+          o que está diferente hoje
+        </span>
+        <textarea
+          value={mudancas}
+          onChange={(e) => setMudancas(e.target.value)}
+          onFocus={() => setOndeDitar("mudancas")}
+          rows={2}
+          placeholder="o nódulo do lobo superior direito agora tem 12 mm · o derrame sumiu · apareceu uma opacidade na base esquerda"
+          className="flex-1 resize-none rounded-lg border border-mid-gray/25 bg-background px-2.5 py-1.5 text-[12px]"
+        />
+      </div>
+
       <div className="flex-1 min-h-0 flex gap-0">
         {/* anterior — travado */}
         <div className="flex-1 min-w-0 flex flex-col border-e border-mid-gray/20">
@@ -245,11 +385,35 @@ export const ComparativoPage: React.FC<Props> = ({
           </div>
           <textarea
             ref={atual}
-            placeholder="dite ou escreva o laudo de agora"
+            onFocus={() => setOndeDitar("atual")}
+            placeholder="dite ou escreva o laudo de agora — ou aperte Gerar o atual"
             className="flex-1 min-h-0 w-full resize-none bg-white text-black px-6 py-5 text-[12px] leading-[1.6] outline-none"
           />
         </div>
       </div>
+
+      {revisao && (
+        <div className="max-h-[38%] overflow-y-auto border-t border-mid-gray/20 p-3 space-y-1">
+          <div className="text-[11px] text-mid-gray pb-1">
+            conferência do que saiu · <b className="text-amber-300">amarelo</b> = veio do exame
+            anterior sem mudança
+          </div>
+          {revisao.linhas.map((l, i) =>
+            !l.trim() ? null : (
+              <div
+                key={i}
+                className={`text-[11.5px] px-2 py-1 rounded ${
+                  revisao.mantidas.includes(i)
+                    ? "bg-amber-200/10 text-amber-200/90"
+                    : "text-text"
+                }`}
+              >
+                {l.replace(/\*\*/g, "")}
+              </div>
+            ),
+          )}
+        </div>
+      )}
 
       {linhas && (
         <div className="max-h-[38%] overflow-y-auto border-t border-mid-gray/20 p-3 space-y-1.5">
@@ -301,7 +465,7 @@ export const ComparativoPage: React.FC<Props> = ({
               {l.situacao === "pendente" && (
                 <div className="mt-1 text-[10.5px]">
                   o atual não fala deste achado. Não menciona ≠ não existe: olhe as imagens e
-                  escreva você.
+                  escreva você. A IA não escreve esta frase — ela não viu o exame de hoje.
                 </div>
               )}
             </div>
@@ -331,6 +495,7 @@ export const ComparativoPage: React.FC<Props> = ({
           size="sm"
           onClick={() => {
             setLinhas(null);
+            setRevisao(null);
             setResumo("");
             setAviso("");
           }}
@@ -344,8 +509,10 @@ export const ComparativoPage: React.FC<Props> = ({
           size="sm"
           onClick={() => {
             setAnterior("");
+            setMudancas("");
             if (atual.current) atual.current.value = "";
             setLinhas(null);
+            setRevisao(null);
             setErro("");
             setAviso("");
           }}

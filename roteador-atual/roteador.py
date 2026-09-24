@@ -2273,7 +2273,7 @@ class Handler(BaseHTTPRequestHandler):
                           "/mascaras/banco", "/mascaras/ia", "/mascaras/auditar",
                           "/medidas", "/idade_ossea", "/calculos", "/ia/testar",
                           "/prescricoes", "/comparativo", "/estrutura",
-                          "/estruturados", "/adendo")):
+                          "/estruturados", "/checklist", "/atualizar", "/adendo")):
             corpo = self._corpo()
             try:
                 if rota.endswith("/ia/testar"):
@@ -2283,6 +2283,13 @@ class Handler(BaseHTTPRequestHandler):
                     if estruturados is None:
                         return self._json(200, {"ok": False, "motivo": "estruturados_indisponivel"})
                     return self._json(200, estruturados.montar(corpo))
+                if rota.endswith("/atualizar"):
+                    return self._json(200, atualizar_anterior(corpo.get("anterior") or "",
+                                                              corpo.get("mudancas") or "",
+                                                              corpo.get("modelo") or ""))
+                if rota.endswith("/checklist"):
+                    return self._json(200, checklist_do_anterior(corpo.get("anterior") or "",
+                                                                 corpo.get("modelo") or ""))
                 if rota.endswith("/comparativo"):
                     return self._json(200, comparativo(corpo.get("anterior") or "",
                                                        corpo.get("atual") or "",
@@ -2545,6 +2552,158 @@ Sobre `situacao`:
 - "aumentou"/"diminuiu": só com as duas medidas no texto. Sem as duas, é "estavel"
   apenas se o atual disser que está estável; senão, "pendente".
 """
+
+
+_CHECKLIST_REGRAS = """Você lê UM laudo radiológico antigo e devolve a lista dos
+achados que ele descreve, para o radiologista conferir hoje, imagem por imagem.
+
+Você NÃO escreve laudo. Você NÃO diz como está agora — você não viu o exame de
+hoje. Cada item é só: o que procurar, e o que o laudo antigo dizia.
+
+Devolva SOMENTE um JSON, sem texto em volta:
+{"achados": [{"achado": "<nome curto>", "anterior": "<o que o laudo antigo diz, com a medida>"}]}
+
+Um item por achado relevante para seguimento. Achado normal ("fígado de dimensões
+normais") não entra. Se o laudo antigo não descreve nada de seguimento, devolva
+a lista vazia.
+"""
+
+
+_ATUALIZAR_REGRAS = """Você recebe o laudo de um exame ANTERIOR e o que o radiologista
+acabou de ver de DIFERENTE no exame de hoje. Devolva o laudo de HOJE, inteiro.
+
+Como montar:
+- Parta do laudo anterior e aplique EXATAMENTE as mudanças que ele disse.
+- O que ele não mencionou, repita do laudo anterior SEM MUDAR UMA PALAVRA. Não
+  reescreva, não melhore, não resuma, não reordene. Isso é essencial: o que ficou
+  igual precisa sair idêntico, para ele reconhecer de relance o que não mexeu.
+- NÃO invente achado, medida, lado ou comparação que ele não disse.
+- Tire do texto a data e os números do exame anterior quando eles vierem no
+  cabeçalho; o laudo é o de hoje.
+- Quando ele disser que um achado sumiu, tire a linha dele e, se couber, registre
+  a resolução na comparação.
+- Mantenha os cabeçalhos de seção do laudo anterior, na mesma ordem.
+
+Devolva SOMENTE o texto do laudo. Sem explicação, sem comentário, sem marcação
+do que mudou — a marcação quem faz é o programa.
+"""
+
+
+def atualizar_anterior(anterior, mudancas, modelo=""):
+    """O laudo anterior + o que ele viu de diferente = o laudo de hoje, inteiro.
+
+    A marcação do que mudou NÃO vem da IA: é calculada aqui, comparando linha a
+    linha o texto que voltou com o laudo anterior. Pedir para o modelo dizer o
+    que ele mesmo mudou é pedir para ele se conferir — e é justamente onde um
+    modelo erra sem avisar. Diff é aritmética; não depende de boa-fé.
+
+    O que fica marcado como "mantido" é o que veio do exame anterior sem uma
+    palavra de diferença. Ele precisa ver esse número: são as linhas que vão
+    para o laudo de hoje sem ninguém ter olhado a imagem de hoje por causa
+    delas."""
+    anterior = (anterior or "").strip()
+    mudancas = (mudancas or "").strip()
+    if not anterior:
+        return {"ok": False, "motivo": "anterior_vazio"}
+    if not mudancas:
+        return {"ok": False, "motivo": "mudancas_vazias"}
+    if nuvem is None:
+        return {"ok": False, "motivo": "nuvem_ausente"}
+    c = nuvem.config()
+    if not c.get("ativa"):
+        return {"ok": False, "motivo": "nuvem_desligada"}
+    if modelo:
+        c = dict(c)
+        c["modelo"] = modelo
+
+    corpo = anterior
+    try:
+        import importar_usuario
+        corpo = importar_usuario.tirar_cabecalho_paciente(anterior) or anterior
+    except Exception:
+        pass
+    sujo = nuvem.triagem(corpo) + nuvem.triagem(mudancas)
+    if sujo:
+        return {"ok": False, "motivo": "tem_identificador", "achados": sorted(set(sujo))}
+
+    partes = [_ATUALIZAR_REGRAS, "",
+              "LAUDO ANTERIOR:", corpo[:16000], "",
+              "O QUE ESTÁ DIFERENTE HOJE (palavras do radiologista):", mudancas[:4000]]
+    texto, origem = nuvem.chamar("\n".join(partes), c, modo="instrucao",
+                                 marcar=False, max_tokens=4000)
+    if origem != "nuvem" or not texto:
+        return {"ok": False, "motivo": origem}
+    texto = formato.padronizar(texto.strip()) if hasattr(formato, "padronizar") else texto.strip()
+    marcas = _marcar_mudancas(corpo, texto)
+    return {"ok": True, "texto": texto, "modelo": c.get("modelo"), **marcas}
+
+
+def _marcar_mudancas(antes, depois):
+    """Linha a linha: o que veio igual do anterior e o que é diferente.
+
+    Conta local, com difflib. A IA não participa desta parte."""
+    a = [l for l in (antes or "").split("\n")]
+    b = [l for l in (depois or "").split("\n")]
+    def chave(s):
+        return re.sub(r"\s+", " ", (s or "").replace("*", "")).strip().lower()
+    sm = difflib.SequenceMatcher(None, [chave(x) for x in a], [chave(x) for x in b])
+    mantidas, novas = [], []
+    for tag, _i1, _i2, j1, j2 in sm.get_opcodes():
+        for j in range(j1, j2):
+            if not b[j].strip():
+                continue
+            (mantidas if tag == "equal" else novas).append(j)
+    return {"linhas": b, "mantidas": mantidas, "mudadas": novas,
+            "n_mantidas": len(mantidas), "n_mudadas": len(novas)}
+
+
+def checklist_do_anterior(anterior, modelo=""):
+    """Só o exame anterior: a lista do que conferir hoje. Nenhuma frase de laudo.
+
+    É o passo que faltava entre "colei o antigo" e "ditei o atual": a IA lê o
+    laudo antigo e devolve o que procurar. Ela não escreve descrição nenhuma,
+    porque não viu as imagens de hoje — quem vê é ele."""
+    anterior = (anterior or "").strip()
+    if not anterior:
+        return {"ok": False, "motivo": "anterior_vazio"}
+    if nuvem is None:
+        return {"ok": False, "motivo": "nuvem_ausente"}
+    c = nuvem.config()
+    if not c.get("ativa"):
+        return {"ok": False, "motivo": "nuvem_desligada"}
+    if modelo:
+        c = dict(c)
+        c["modelo"] = modelo
+    corpo = anterior
+    try:
+        import importar_usuario
+        corpo = importar_usuario.tirar_cabecalho_paciente(anterior) or anterior
+    except Exception:
+        pass
+    achados = nuvem.triagem(corpo)
+    if achados:
+        return {"ok": False, "motivo": "tem_identificador", "achados": sorted(set(achados))}
+    texto, origem = nuvem.chamar(_CHECKLIST_REGRAS + "\n\nLAUDO ANTERIOR:\n" + corpo[:16000],
+                                 c, modo="instrucao", marcar=False, max_tokens=2000)
+    if origem != "nuvem" or not texto:
+        return {"ok": False, "motivo": origem}
+    dados = _so_json_comparativo(texto)
+    if dados is None:
+        return {"ok": False, "motivo": "resposta_fora_do_formato"}
+    linhas = []
+    for a in dados.get("achados") or []:
+        if not isinstance(a, dict):
+            continue
+        nome = (a.get("achado") or "").strip()
+        if not nome:
+            continue
+        # trava: aqui NUNCA sai frase de laudo. Só o que procurar e o que o
+        # anterior dizia. A descrição de hoje é dele, olhando a imagem.
+        linhas.append({"achado": nome[:120],
+                       "anterior": (a.get("anterior") or "").strip()[:400],
+                       "atual": "", "situacao": "pendente", "frase": ""})
+    return {"ok": True, "achados": linhas, "resumo": "", "pendentes": len(linhas),
+            "modelo": c.get("modelo"), "checklist": True}
 
 
 def comparativo(anterior, atual, modelo=""):
