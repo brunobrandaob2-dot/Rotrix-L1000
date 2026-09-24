@@ -185,17 +185,46 @@ def config():
             pass
     return c
 
+def gravar_config(mudancas):
+    """Junta as mudanças no arquivo de configuração da nuvem. Nunca grava chave.
+
+    Escreve em arquivo temporário e troca no lugar: config cortada pela metade
+    (queda de energia no meio da escrita) deixava a IA sem provedor."""
+    if not isinstance(mudancas, dict) or not mudancas:
+        return False
+    atual = {}
+    if os.path.exists(CONFIG):
+        try:
+            atual = json.loads(ler_texto(CONFIG))
+        except Exception:
+            atual = {}
+    atual.update({k: v for k, v in mudancas.items() if k != "chave"})
+    tmp = CONFIG + ".novo"
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(atual, f, ensure_ascii=False, indent=2)
+        os.replace(tmp, CONFIG)
+        return True
+    except OSError:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        return False
+
+
 def chave(c):
-    v = os.environ.get(c["variavel_de_ambiente"], "").strip()
-    if v:
-        return v
+    """Chave do provedor do topo do config. ARQUIVO primeiro, variável depois —
+    a mesma ordem de chave_e_origem(); ver lá o porquê."""
     p = os.path.join(AQUI, c["arquivo_da_chave"])
     if os.path.exists(p):
         try:
-            return ler_texto(p).strip().strip("\ufeff")
+            v = ler_texto(p).strip().strip("\ufeff")
+            if v:
+                return v
         except OSError:
-            return ""
-    return ""
+            pass
+    return os.environ.get(c["variavel_de_ambiente"], "").strip()
 
 def provedor_cfg(c, nome):
     """Dados do provedor (URL, formato, onde fica a chave), com as correções do config."""
@@ -211,25 +240,131 @@ def provedor_cfg(c, nome):
     base["nome"] = nome
     return base
 
-def chave_de(c, nome):
-    """Chave do provedor: variável de ambiente ou arquivo na pasta. Nunca do config."""
+def chave_e_origem(c, nome):
+    """(chave, de_onde_veio). O ARQUIVO vem primeiro, a variável de ambiente depois.
+
+    A ordem importa e estava invertida. Quem tem ANTHROPIC_API_KEY no Windows
+    salvava uma chave nova pela tela, via "configurada" em verde, e o roteador
+    seguia usando a velha da variável — sem nenhum aviso. Quem grava a chave
+    pela tela está dizendo qual quer usar; a variável do sistema é o reserva."""
     p = provedor_cfg(c, nome)
-    var = (p.get("variavel_de_ambiente") or "").strip()
-    if var:
-        v = os.environ.get(var, "").strip()
-        if v:
-            return v
     arq = (p.get("arquivo_da_chave") or "").strip()
     if arq:
         caminho = os.path.join(AQUI, arq)
         if os.path.exists(caminho):
             try:
-                return ler_texto(caminho).strip().strip("\ufeff")
+                v = ler_texto(caminho).strip().strip("\ufeff")
+                if v:
+                    return v, "arquivo:" + arq
             except OSError:
                 pass
+    var = (p.get("variavel_de_ambiente") or "").strip()
+    if var:
+        v = os.environ.get(var, "").strip()
+        if v:
+            return v, "variavel:" + var
     if p.get("sem_chave"):
-        return "local"
+        return "local", "sem_chave"
+    return "", ""
+
+
+def chave_de(c, nome):
+    """Chave do provedor: arquivo na pasta ou variável de ambiente. Nunca do config."""
+    return chave_e_origem(c, nome)[0]
+
+
+# Prefixo -> provedor. Serve para a tela dizer o que detectou quando o médico
+# cola a chave, sem ele ter que escolher numa lista.
+_PREFIXOS = (
+    ("sk-ant-", "anthropic"),
+    ("sk-or-", "openrouter"),
+    ("AIza", "gemini"),
+    ("sk-proj-", "openai"),
+    ("sk-", "openai"),
+)
+
+
+def provedor_da_chave(chave):
+    k = (chave or "").strip()
+    for pref, nome in _PREFIXOS:
+        if k.startswith(pref):
+            return nome
     return ""
+
+
+def _url_de_modelos(p):
+    """A lista de modelos fica ao lado da rota de conversa, no mesmo servidor."""
+    url = (p.get("url") or "").strip()
+    if not url:
+        return ""
+    for tail in ("/chat/completions", "/messages", "/completions"):
+        if url.endswith(tail):
+            return url[: -len(tail)] + "/models"
+    return url.rstrip("/") + "/models"
+
+
+def modelos(c=None, nome=None, timeout=12):
+    """Pergunta ao provedor QUAIS modelos existem. Sem tabela fixa no código.
+
+    Tabela escrita à mão envelhece e, pior, amarra o app a um fornecedor: quem
+    instala com chave de outro continua vendo os nomes do primeiro. A lista vem
+    de quem tem a chave."""
+    c = c if isinstance(c, dict) else config()
+    nome = (nome or c.get("provedor") or "anthropic").lower()
+    p = provedor_cfg(c, nome)
+    url = _url_de_modelos(p)
+    if not url:
+        return {"ok": False, "motivo": "sem_url", "provedor": nome, "modelos": []}
+    chave, origem = chave_e_origem(c, nome)
+    if not chave:
+        return {"ok": False, "motivo": "sem_chave", "provedor": nome, "modelos": []}
+    cab = {"Accept": "application/json"}
+    if p.get("formato") == "anthropic":
+        cab["x-api-key"] = chave
+        cab["anthropic-version"] = "2023-06-01"
+    elif not p.get("sem_chave"):
+        cab["Authorization"] = "Bearer " + chave
+    req = urllib.request.Request(url, headers=cab, method="GET")
+    try:
+        ctx = ssl.create_default_context()
+        with urllib.request.urlopen(req, timeout=timeout, context=ctx) as r:
+            dados = json.loads(r.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        return {"ok": False, "motivo": "http_%s" % e.code, "provedor": nome,
+                "origem_da_chave": origem, "modelos": []}
+    except Exception as e:
+        return {"ok": False, "motivo": type(e).__name__, "provedor": nome,
+                "origem_da_chave": origem, "modelos": []}
+    crus = dados.get("data") or dados.get("models") or []
+    fora = []
+    for m in crus:
+        if not isinstance(m, dict):
+            continue
+        ident = m.get("id") or m.get("name") or ""
+        if ident:
+            fora.append({"id": ident, "nome": m.get("display_name") or ident})
+    fora.sort(key=lambda m: m["id"])
+    return {"ok": True, "provedor": nome, "origem_da_chave": origem,
+            "modelos": fora, "quantos": len(fora)}
+
+
+def testar(c=None, nome=None, modelo="", timeout=20):
+    """Responde se a chave está valendo AGORA, e quão rápido."""
+    import time as _t
+    c = c if isinstance(c, dict) else config()
+    nome = (nome or c.get("provedor") or "anthropic").lower()
+    chave, origem = chave_e_origem(c, nome)
+    if not chave:
+        return {"ok": False, "motivo": "sem_chave", "provedor": nome}
+    t0 = _t.time()
+    lista = modelos(c, nome, timeout=timeout)
+    ms = int((_t.time() - t0) * 1000)
+    if not lista.get("ok"):
+        return {"ok": False, "provedor": nome, "motivo": lista.get("motivo"),
+                "origem_da_chave": origem, "ms": ms}
+    return {"ok": True, "provedor": nome, "origem_da_chave": origem, "ms": ms,
+            "quantos": lista.get("quantos", 0),
+            "modelo": modelo or c.get("modelo") or ""}
 
 # ---------- filtro de identificadores ----------
 BLOQUEIOS = [
@@ -1019,6 +1154,9 @@ def estado():
         "modo_ia": c.get("modo_ia") or "",
         "ia_por_exame": {k: _entrada_rota(v) for k, v in ia.items()} if isinstance(ia, dict) else {},
         "chaves": {nome: bool(chave_de(c, nome)) for nome in PROVEDORES},
+        # de onde veio a chave em uso: a tela mostra isso, porque "configurada"
+        # em verde com a variável de ambiente mandando é a pior das telas
+        "origem_da_chave": chave_e_origem(c, (c.get("provedor") or "anthropic").lower())[1],
         "limite_mes_usd": float(c.get("limite_mes_usd", 0) or 0),
         "gasto": gasto_ler(),
     }

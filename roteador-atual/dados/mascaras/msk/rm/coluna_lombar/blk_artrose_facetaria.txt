@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações interapofisárias
+# gatilhos: artrose facetaria | hipertrofia facetaria | artropatia facetaria | artrose interapofisaria | facetaria
+# conclusao: Artropatia degenerativa interapofisária {extensao|multissegmentar/em {nivel}}.
+Articulações interapofisárias:  sinais de artropatia degenerativa em {nivel}, caracterizados por redução do espaço articular, esclerose e hipertrofia dos processos articulares, {derrame|com discreto derrame articular/sem derrame articular}.

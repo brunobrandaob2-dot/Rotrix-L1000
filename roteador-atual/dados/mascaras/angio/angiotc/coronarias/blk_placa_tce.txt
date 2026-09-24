@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Tronco da coronária esquerda
+# gatilhos: placa no tronco | estenose do tronco | lesao do tce | placa no tce
+# conclusao: Estenose {grau|discreta (25-49%)/moderada (50-69%)/acentuada (70-99%)} no tronco da coronária esquerda.
+Tronco da coronária esquerda:  placa {composicao|calcificada/não calcificada/mista}, determinando estenose luminal {grau|mínima (1-24%)/discreta (25-49%)/moderada (50-69%)/acentuada (70-99%)}.

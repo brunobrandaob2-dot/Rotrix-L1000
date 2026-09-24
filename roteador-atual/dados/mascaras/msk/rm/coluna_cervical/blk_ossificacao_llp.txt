@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Canal vertebral
+# gatilhos: ossificacao do ligamento longitudinal posterior | opll | ossificacao do llp
+# conclusao: Ossificação do ligamento longitudinal posterior, padrão {padrao|contínuo/segmentar/misto/focal}.
+Canal vertebral:  espessamento e ossificação do ligamento longitudinal posterior em {nivel}, de padrão {padrao|contínuo/segmentar/misto/focal}, reduzindo a amplitude do canal vertebral.

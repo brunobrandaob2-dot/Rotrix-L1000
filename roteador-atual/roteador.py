@@ -42,10 +42,18 @@ try:
     import correcao as correcao_mod
 except Exception:
     correcao_mod = None
+try:
+    import medidas           # escanometria e panorâmicas: conta local
+except Exception:
+    medidas = None
+try:
+    import idade_ossea       # Greulich & Pyle / Brush Foundation: conta local
+except Exception:
+    idade_ossea = None
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-23.7"
+VERSAO = "2026-09-24.1"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -1118,7 +1126,16 @@ def rotear(ditado, _auto=False):
 
     if tipo in (None, "mascara"):
         cab_raw, cab_norm, tit, txt = _cabecalho_do_exame(bruto, resto)
-        if rx_literal is not None and _config().get("rx_literal", True) and \
+        # Gatilho EXATO de máscara vence o RX literal. Sem isto, uma máscara nova
+        # como "raio x de joelho com protese" é lida como a máscara normal do
+        # joelho mais o achado ditado "prótese", e o texto que o médico escreveu
+        # para aquele comando nunca sai — a máscara está no banco e não aparece.
+        _tex, _t2, _sc = None, None, 0.0
+        _t2, _tex, _sc = BANCO.buscar(n, "mascara")
+        exata = _sc >= 1.0 and _tex is not None
+        if exata:
+            cab_raw, cab_norm, tit, txt = bruto, n, _t2, _tex
+        if not exata and rx_literal is not None and _config().get("rx_literal", True) and \
                 (txt is None or BANCO.meta.get(tit, ("",) * 4)[1] == "rx"):
             # radiografia: abertura depois de "proximo,", "mostrando ...", e
             # "raio x de torax com alteracoes cronicas, cardiomegalia"
@@ -1937,6 +1954,12 @@ def _compor_rx_literal(bruto_lit, bruto, cab_raw, cab_norm, tit, txt):
     normais = set()
     for _g, _t, txt_n in _normais_da_regiao(meta):
         normais.update(rx_literal._n(l) for l in txt_n.split("\n") if l.strip())
+    # A máscara normal, depois de preenchida, não tem "frase de alteração": toda
+    # linha dela É o texto padrão daquele exame. Sem isto, uma linha com lacuna
+    # (a tabela de medidas da escanometria, por exemplo) deixa de casar com o
+    # arquivo cru e "alteradas_primeiro" a sobe para o topo da ANÁLISE.
+    if meta[3] == "normal":
+        normais.update(rx_literal._n(l) for l in base.split("\n") if l.strip())
     texto = rx_literal.compor(base, achados, normais=normais,
                               alteradas_primeiro=_config().get("alteradas_primeiro", True))
     if texto is None:
@@ -2208,6 +2231,10 @@ class Handler(BaseHTTPRequestHandler):
         if self.path.rstrip("/") in ("/recarregar", "/v1/recarregar"):
             BANCO.carregar()
             return self._json(200, {"ok": True, "gatilhos": len(BANCO.itens)})
+        if self.path.rstrip("/") in ("/medidas/campos", "/v1/medidas/campos"):
+            return self._json(200, medidas_campos())
+        if self.path.rstrip("/") in ("/ia/modelos", "/v1/ia/modelos"):
+            return self._json(200, ia_modelos())
         self._json(404, {"error": "not found"})
 
     def _corpo(self):
@@ -2223,9 +2250,20 @@ class Handler(BaseHTTPRequestHandler):
                           "/fila/apagar",
                           "/perfil/exportar", "/perfil/importar",
                           "/correcao", "/correcao/desfazer", "/ia",
-                          "/mascaras/banco", "/mascaras/ia", "/adendo")):
+                          "/mascaras/banco", "/mascaras/ia", "/mascaras/auditar",
+                          "/medidas", "/idade_ossea", "/ia/testar", "/adendo")):
             corpo = self._corpo()
             try:
+                if rota.endswith("/ia/testar"):
+                    return self._json(200, ia_testar(corpo.get("provedor") or "",
+                                                     corpo.get("modelo") or ""))
+                if rota.endswith("/medidas"):
+                    return self._json(200, medidas_exame(corpo.get("exame") or "",
+                                                         corpo.get("valores") or {}))
+                if rota.endswith("/idade_ossea"):
+                    return self._json(200, idade_ossea_laudo(corpo))
+                if rota.endswith("/mascaras/auditar"):
+                    return self._json(200, auditar_banco())
                 if rota.endswith("/adendo"):
                     return self._json(200, adendo(corpo.get("laudo") or "",
                                                   corpo.get("pedido") or "",
@@ -2327,6 +2365,101 @@ def fila_abrir(ids, ultimo=False):
             alvo = max(fila, key=lambda x: x.get("entrou") or "")
             ids = [alvo["id"]]
         return radius.abrir(radius.pasta_radius(c), ids, c, extras)
+    except Exception as e:
+        return {"ok": False, "motivo": "%s: %s" % (type(e).__name__, str(e)[:120])}
+
+
+def ia_modelos(provedor=""):
+    """A lista de modelos vem da API de quem tem a chave — não de tabela no código.
+
+    Com cache no config: se o provedor não responder (sem internet, chave
+    trocada), vale a última lista que funcionou, para a tela não ficar vazia."""
+    if nuvem is None:
+        return {"ok": False, "motivo": "nuvem_indisponivel", "modelos": []}
+    c = nuvem.config()
+    nome = (provedor or c.get("provedor") or "anthropic").lower()
+    r = nuvem.modelos(c, nome)
+    if r.get("ok") and r.get("modelos"):
+        try:
+            cache = dict(c.get("modelos_vistos") or {})
+            cache[nome] = r["modelos"][:200]
+            nuvem.gravar_config({"modelos_vistos": cache})
+        except Exception:
+            pass
+        return r
+    guardados = ((nuvem.config().get("modelos_vistos") or {}).get(nome)) or []
+    if guardados:
+        r["modelos"] = guardados
+        r["quantos"] = len(guardados)
+        r["de_cache"] = True
+    return r
+
+
+def ia_testar(provedor="", modelo=""):
+    """Ping curto: a chave está valendo agora? Quanto demora? Quantos modelos?"""
+    if nuvem is None:
+        return {"ok": False, "motivo": "nuvem_indisponivel"}
+    return nuvem.testar(None, provedor or None, modelo)
+
+
+def medidas_exame(exame, valores):
+    """Escanometria e panorâmicas: os números entram, o laudo sai.
+
+    Tudo local. O que a IA faz, quando entra, é ler o print e devolver valores —
+    a conta, o arredondamento e o texto são daqui."""
+    if medidas is None:
+        return {"ok": False, "motivo": "medidas_indisponivel"}
+    if exame not in medidas.CAMPOS:
+        return {"ok": False, "motivo": "exame_desconhecido",
+                "aceitos": sorted(medidas.CAMPOS)}
+    if not isinstance(valores, dict):
+        return {"ok": False, "motivo": "valores_invalidos"}
+    r = medidas.montar(exame, valores)
+    if r.get("ok") and r.get("texto"):
+        r["texto"] = formato.padronizar(r["texto"]) if hasattr(formato, "padronizar") else r["texto"]
+    return r
+
+
+def medidas_campos():
+    """O esquema de campos de cada exame, para o app montar o formulário."""
+    if medidas is None:
+        return {"ok": False, "motivo": "medidas_indisponivel"}
+    fora = {}
+    for nome, c in medidas.CAMPOS.items():
+        fora[nome] = {"titulo": c["titulo"], "mascara": c["mascara"],
+                      "leitura": c.get("leitura", []),
+                      "escolha": c.get("escolha", []),
+                      "blocos": c.get("blocos", []),
+                      "calculado": c.get("calculado", [])}
+    return {"ok": True, "exames": fora}
+
+
+def idade_ossea_laudo(corpo):
+    """Idade óssea: aritmética na máquina, nada sai daqui.
+
+    A data de nascimento entra no laudo porque o laudo é dele, na máquina dele —
+    e não passa por rota de IA nenhuma."""
+    if idade_ossea is None:
+        return {"ok": False, "motivo": "idade_ossea_indisponivel"}
+    try:
+        r = idade_ossea.laudo(corpo.get("nascimento"), corpo.get("exame"),
+                              corpo.get("sexo") or "masculino",
+                              int(corpo.get("anos") or 0), int(corpo.get("meses") or 0))
+    except (ValueError, TypeError) as e:
+        return {"ok": False, "motivo": "dados_invalidos", "detalhe": str(e)[:120]}
+    r["ok"] = True
+    r["classificacao"] = idade_ossea.classificar(r)
+    r["nascimento"] = r["nascimento"].strftime("%Y-%m-%d")
+    r["exame"] = r["exame"].strftime("%Y-%m-%d")
+    return r
+
+
+def auditar_banco():
+    """As quatro conferências do banco, para o botão "Auditar o banco"."""
+    if oficina is None:
+        return {"ok": False, "motivo": "oficina_indisponivel"}
+    try:
+        return oficina.auditar(BANCO)
     except Exception as e:
         return {"ok": False, "motivo": "%s: %s" % (type(e).__name__, str(e)[:120])}
 

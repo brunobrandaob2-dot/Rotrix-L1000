@@ -1,0 +1,3 @@
+# gatilhos: bascula iliaca desviada | desvio da bascula iliaca | obliquidade da bascula iliaca
+# secao: Báscula ilíaca
+Báscula ilíaca desviada em {valor} cm no sentido {sentido|horário/anti-horário}.

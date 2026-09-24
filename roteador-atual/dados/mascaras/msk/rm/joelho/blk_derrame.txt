@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Derrame articular
+# gatilhos: derrame articular | derrame no joelho | liquido articular
+# conclusao: Derrame articular de {volume|pequeno/moderado/grande} volume.
+Derrame articular:  presente, de {volume|pequeno/moderado/grande} volume, com distensão do recesso suprapatelar.

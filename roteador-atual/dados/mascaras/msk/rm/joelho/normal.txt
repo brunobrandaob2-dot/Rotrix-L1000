@@ -1,0 +1,25 @@
+# gatilhos: ressonancia de joelho | ressonancia do joelho | rm de joelho | rm do joelho | rm joelho | ressonancia magnetica de joelho | ressonancia magnetica do joelho | ressonancia de joelho normal | rm de joelho normal | rm de joelho direito | rm de joelho esquerdo | ressonancia de joelho direito | ressonancia de joelho esquerdo | rm de joelho sem contraste | rm de joelho dor | rm de joelho trauma
+# categoria: msk
+# modalidade: rm
+# regiao: joelho
+# tipo_mascara: normal
+**RESSONÂNCIA MAGNÉTICA DO JOELHO {LADO|DIREITO/ESQUERDO}**
+
+**TÉCNICA:**  sequências ponderadas em T1, T2 e densidade de prótons com supressão de gordura, nos planos sagital, coronal e axial, sem injeção intravenosa de contraste paramagnético.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Derrame articular:  ausente.
+Meniscos:  menisco medial e menisco lateral de morfologia e sinal preservados, sem sinais de rotura.
+Ligamentos cruzados:  ligamentos cruzados anterior e posterior íntegros, de trajeto e sinal habituais.
+Ligamentos colaterais:  ligamentos colaterais medial e lateral íntegros.
+Cartilagem:  superfícies condrais femoropatelar e femorotibiais de espessura e sinal preservados.
+Osso e medula óssea:  superfícies articulares congruentes. Medula óssea com sinal preservado, sem áreas de edema ou lesões focais.
+Aparelho extensor:  tendão quadricipital e tendão patelar íntegros. Altura patelar normal.
+Partes moles:  sem coleções ou formações císticas. Fossa poplítea sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

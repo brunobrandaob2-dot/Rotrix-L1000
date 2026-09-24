@@ -1,0 +1,26 @@
+# gatilhos: ressonancia de coluna lombar | ressonancia da coluna lombar | rm de coluna lombar | rm da coluna lombar | rm coluna lombar | ressonancia magnetica de coluna lombar | ressonancia magnetica da coluna lombar | ressonancia de coluna lombar normal | rm de coluna lombar normal | rm de coluna lombossacra | ressonancia de coluna lombossacra | rm lombar | ressonancia lombar | rm de coluna lombar sem contraste | rm de coluna lombar com contraste | ressonancia de coluna lombar lombalgia | rm de coluna lombar lombociatalgia
+# categoria: msk
+# modalidade: rm
+# regiao: coluna_lombar
+# tipo_mascara: normal
+**RESSONÂNCIA MAGNÉTICA DA COLUNA LOMBAR**
+
+**TÉCNICA:**  sequências ponderadas em T1 e T2 nos planos sagital e axial, com supressão de gordura no plano sagital, sem injeção intravenosa de contraste paramagnético.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  lordose lombar fisiológica preservada. Ausência de listeses.
+Corpos vertebrais:  de altura e morfologia preservadas. Medula óssea com sinal preservado, sem lesões focais.
+Discos intervertebrais:  altura e sinal preservados em todos os níveis avaliados, sem abaulamentos, protrusões ou extrusões.
+Canal vertebral:  de amplitude preservada em todos os níveis.
+Forames neurais:  de amplitude preservada bilateralmente.
+Articulações interapofisárias:  congruentes, com espaços articulares e sinal preservados.
+Cone medular e cauda equina:  cone medular tópico, terminando em nível habitual, com sinal preservado. Raízes da cauda equina de morfologia e distribuição normais.
+Articulações sacroilíacas:  congruentes, sem alterações de sinal subcondral.
+Partes moles paravertebrais:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

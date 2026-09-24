@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: fratura por insuficiencia | fratura de insuficiencia | acunhamento vertebral | fratura osteoporotica | perda de altura vertebral
+# conclusao: Fratura por insuficiência de {nivel}, {fase|em fase aguda/subaguda (com edema)/consolidada, sem edema}.
+Corpos vertebrais:  perda de altura do corpo vertebral de {nivel}, com acunhamento {morfologia|anterior/em platô}, {edema|associada a edema medular ósseo nas sequências com supressão de gordura, indicando fratura recente/sem edema medular ósseo, indicando fratura consolidada}, sem massa de partes moles associada.

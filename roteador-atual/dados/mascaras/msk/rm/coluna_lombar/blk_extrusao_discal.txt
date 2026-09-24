@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: extrusao discal | extrusao | hernia discal extrusa | hernia extrusa | fragmento discal
+# conclusao: Extrusão discal {localizacao|central/paracentral/foraminal} em {nivel}, com contato radicular.
+Discos intervertebrais:  extrusão discal {localizacao|central/paracentral/foraminal} {lado_a|à direita/à esquerda/mediana} em {nivel}, medindo cerca de {medida}, com {migracao|migração cranial/migração caudal/sem migração craniocaudal} e contato com a raiz {raiz} {lateralidade|à direita/à esquerda}.

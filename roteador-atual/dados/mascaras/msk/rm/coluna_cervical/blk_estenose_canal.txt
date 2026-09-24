@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Canal vertebral
+# gatilhos: estenose de canal | canal estreito | estenose central | reducao do canal
+# conclusao: Estenose do canal vertebral {grau|discreta/moderada/acentuada} em {nivel}.
+Canal vertebral:  redução da amplitude do canal vertebral em {nivel}, de grau {grau|discreto/moderado/acentuado}, determinada por {causa|complexo discosteofitário/protrusão discal e hipertrofia facetária/ossificação do ligamento longitudinal posterior}, com {efeito|apagamento do espaço liquórico anterior/apagamento dos espaços liquóricos anterior e posterior}.

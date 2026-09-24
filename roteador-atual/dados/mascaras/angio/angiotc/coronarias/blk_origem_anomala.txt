@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Origem e dominância
+# gatilhos: origem anomala | anomalia de origem coronariana | coronaria anomala
+# conclusao: Origem anômala da artéria {vaso}, com trajeto {trajeto|interarterial/retroaórtico/pré-pulmonar/septal}.
+Origem e dominância:  origem anômala da artéria {vaso} {origem|no seio coronariano contralateral/em ramo coronariano}, com trajeto {trajeto|interarterial/retroaórtico/pré-pulmonar/septal}, {risco|configuração associada a maior risco/configuração de curso benigno}.

@@ -1,0 +1,3 @@
+# gatilhos: atitude escoliotica | atitude escoliotica toracolombar | desvio sem rotacao na panoramica
+# secao: Alinhamento preservado
+Atitude escoliótica toracolombar {convexidade|destro-convexa/sinistro-convexa}, com ângulo de Cobb = {cobb} graus (normal < 10).

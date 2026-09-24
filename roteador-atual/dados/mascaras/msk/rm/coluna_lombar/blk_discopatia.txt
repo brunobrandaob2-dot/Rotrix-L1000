@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: discopatia | discopatia degenerativa | desidratacao discal | degeneracao discal | disco desidratado | reducao da altura discal
+# conclusao: Discopatia degenerativa lombar {extensao|multissegmentar/em nível isolado}.
+Discos intervertebrais:  redução da altura e do sinal em T2 dos discos intervertebrais em {nivel}, traduzindo desidratação discal, {extensao|multissegmentar/em nível isolado}.

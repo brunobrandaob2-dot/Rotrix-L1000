@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: anterolistese | espondilolistese | listese | escorregamento vertebral
+# conclusao: Anterolistese degenerativa grau {grau|1/2/3} de {nivel_sup} sobre {nivel_inf}.
+Alinhamento:  anterolistese de {nivel_sup} sobre {nivel_inf}, grau {grau|1/2/3} de Meyerding, de aspecto {etiologia|degenerativo, associada a artropatia facetária/ístmico, associada a defeito da pars interarticularis}.

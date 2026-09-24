@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: discopatia | discopatia degenerativa | desidratacao discal
+# conclusao: Discopatia degenerativa torácica {extensao|multissegmentar/em nível isolado}.
+Discos intervertebrais:  redução da altura e do sinal em T2 dos discos em {nivel}, traduzindo desidratação discal.

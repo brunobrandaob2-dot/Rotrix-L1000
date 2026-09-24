@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações uncovertebrais e interapofisárias
+# gatilhos: uncoartrose | artrose uncovertebral | complexo discosteofitario
+# conclusao: Uncoartrose {extensao|multissegmentar/em {nivel}}.
+Articulações uncovertebrais e interapofisárias:  hipertrofia das articulações uncovertebrais em {nivel}, contribuindo para a redução da amplitude {reducao|foraminal/foraminal e do canal vertebral}.

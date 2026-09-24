@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Forames neurais
+# gatilhos: estenose foraminal | estreitamento foraminal | reducao foraminal
+# conclusao: Estenose foraminal {grau|discreta/moderada/acentuada} {lado_a|à direita/à esquerda} em {nivel}.
+Forames neurais:  redução da amplitude do forame neural {lado_a|à direita/à esquerda/bilateralmente} em {nivel}, de grau {grau|discreto/moderado/acentuado}, por {causa|hipertrofia uncovertebral/complexo discosteofitário/hipertrofia facetária}.

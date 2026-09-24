@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artéria descendente anterior
+# gatilhos: stent | stent coronariano | reestenose de stent | pos angioplastia
+# conclusao: Stent em {vaso}, {situacao|pérvio/com reestenose}.
+Artéria descendente anterior:  stent no segmento {segmento|proximal/médio/distal} de {vaso}, {situacao|com lúmen pérvio e sem sinais de reestenose significativa/com hiperplasia neointimal determinando reestenose {grau|discreta/moderada/acentuada}/não avaliável em razão de artefatos metálicos}.

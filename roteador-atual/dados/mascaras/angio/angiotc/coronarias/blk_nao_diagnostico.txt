@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Qualidade do estudo
+# gatilhos: exame nao diagnostico | artefatos limitantes | estudo limitado | cad-rads n
+# conclusao: Estudo de qualidade limitada, não diagnóstico para o(s) segmento(s) citado(s) (CAD-RADS N).
+Qualidade do estudo:  presença de artefatos de {causa|movimento/frequência cardíaca elevada/calcificação exuberante (blooming)} que limitam a avaliação de {segmentos}, sem invalidar a análise dos demais territórios.

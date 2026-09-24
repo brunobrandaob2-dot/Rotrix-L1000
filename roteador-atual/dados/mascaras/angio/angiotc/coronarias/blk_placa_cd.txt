@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artéria coronária direita
+# gatilhos: placa na coronaria direita | estenose da cd | lesao da coronaria direita | placa na cd
+# conclusao: Estenose {grau|mínima (1-24%)/discreta (25-49%)/moderada (50-69%)/acentuada (70-99%)} no segmento {segmento|proximal/médio/distal} da artéria coronária direita (CAD-RADS {cadrads|1/2/3/4}).
+Artéria coronária direita:  placa {composicao|calcificada/não calcificada/mista} no segmento {segmento|proximal/médio/distal}, determinando estenose luminal {grau|mínima (1-24%)/discreta (25-49%)/moderada (50-69%)/acentuada (70-99%)}.

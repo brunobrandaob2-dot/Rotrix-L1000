@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: espondilodiscite | discite | infeccao discal | espondilite infecciosa
+# conclusao: Achados sugestivos de espondilodiscite em {nivel} — correlacionar com quadro clínico e laboratorial.
+Discos intervertebrais:  hipersinal em T2 e nas sequências com supressão de gordura no disco de {nivel} e nos platôs vertebrais adjacentes, com irregularidade dos platôs e {partes_moles|coleção paravertebral associada/sem coleção paravertebral evidente}, achados sugestivos de espondilodiscite.

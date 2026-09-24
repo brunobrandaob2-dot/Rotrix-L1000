@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: hemangioma | hemangioma vertebral
+# conclusao: Hemangioma vertebral em {nivel}, de aspecto típico.
+Corpos vertebrais:  lesão focal de hipersinal em T1 e T2 no corpo de {nivel}, medindo cerca de {medida}, com aspecto típico de hemangioma.

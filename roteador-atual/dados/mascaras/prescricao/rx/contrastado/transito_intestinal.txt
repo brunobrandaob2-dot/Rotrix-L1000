@@ -1,0 +1,13 @@
+# gatilhos: prescricao de transito intestinal | prescricao de contraste do trato gastrointestinal | prescricao de bariogel | prescricao de radiografia contrastada do trato gastrointestinal
+# tipo: mascara
+**PRESCRIÇÃO DE CONTRASTE — RADIOGRAFIA CONTRASTADA DO TRATO GASTROINTESTINAL (EED / TRÂNSITO INTESTINAL)**
+
+AUTORIZADO O USO DO MEIO DE CONTRASTE.
+
+VOLUME DE CONTRASTE: {volume} mL
+
+VIA DE ADMINISTRAÇÃO: VIA ORAL (VO)
+
+CONTRASTE BARITADO (BARIOGEL)
+
+OBS: O MEIO DE CONTRASTE BARITADO DEVE SER ADMINISTRADO CONFORME A ORIENTAÇÃO DO OPERADOR DURANTE O EXAME.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: escoliose | desvio lateral | curvatura escoliotica
+# conclusao: Escoliose torácica de convexidade {convexidade|à direita/à esquerda}.
+Alinhamento:  desvio lateral do eixo vertebral com convexidade {convexidade|à direita/à esquerda}, de grau {grau|discreto/moderado/acentuado}, associado a rotação vertebral.

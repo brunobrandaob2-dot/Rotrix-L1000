@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: modic | alteracoes de modic | edema dos platos | alteracao dos platos vertebrais | modic tipo 1 | modic tipo 2
+# conclusao: Alterações degenerativas dos platôs vertebrais tipo Modic {tipo|I/II/III} em {nivel}.
+Corpos vertebrais:  alterações de sinal dos platôs vertebrais adjacentes ao disco de {nivel}, do tipo Modic {tipo|I (edematoso)/II (adiposo)/III (esclerótico)}, de natureza degenerativa.

@@ -286,8 +286,11 @@ def _copiar_antes(arq, destino):
             f.write(arq)
 
 
-def aplicar(propostas, banco=None, refazer=None):
-    """Grava as operações aprovadas e refaz a base. Sempre em mascaras_usuario."""
+def aplicar(propostas, banco=None, refazer=None, conferir_no_banco=True):
+    """Grava as operações aprovadas e refaz a base. Sempre em mascaras_usuario.
+
+    `conferir_no_banco` procura no banco recém-compilado cada gatilho que
+    acabou de ser escrito. Desligue só em teste com recompilação simulada."""
     propostas = [p for p in (propostas or []) if isinstance(p, dict)]
     if not propostas:
         return {"ok": False, "motivo": "nada_aprovado"}
@@ -357,6 +360,20 @@ def aplicar(propostas, banco=None, refazer=None):
     except OSError:
         pass
 
+    # Quem manda a oficina mudar uma máscara quer que a mudança valha. Com a
+    # fonte em "rotrix", a do Rotrix ganha o empate e a edição fica escrita sem
+    # nunca sair no laudo — foi assim que o defeito passou despercebido. Ao
+    # gravar, a fonte sobe para "ambas": as duas no banco, as suas vencendo.
+    fonte_mudou = ""
+    if feitas:
+        try:
+            import importar_usuario
+            if importar_usuario.fonte_atual() == "rotrix":
+                importar_usuario.definir_fonte("ambas")
+                fonte_mudou = "ambas"
+        except Exception:
+            pass
+
     base_ok, base_msg = (True, "")
     if feitas and refazer is not None:
         base_ok, base_msg = refazer()
@@ -365,9 +382,173 @@ def aplicar(propostas, banco=None, refazer=None):
                 banco.carregar()
             except Exception:
                 pass
+
+    # CONFERÊNCIA DE PONTA A PONTA. "Gravado" não basta: o arquivo pode estar no
+    # disco e o gatilho não achar nada. Cada máscara escrita agora é procurada no
+    # banco recém-compilado, com o comando de voz dela.
+    if feitas and base_ok and conferir_no_banco:
+        conferir(feitas)
+        ruins = [f for f in feitas if not f.get("confere")]
+        if ruins:
+            base_ok = False
+            for f in ruins:
+                erros.append("gravou mas o comando não acha: %s (%s)"
+                             % (f.get("titulo"), f.get("porque") or "sem gatilho testável"))
+
     return {"ok": bool(feitas) and base_ok, "aplicadas": len(feitas), "itens": feitas,
             "erros": erros, "desfazer": carimbo, "base": base_msg,
+            "fonte_mudou": fonte_mudou,
             "motivo": "" if feitas else "nada_gravado"}
+
+
+# palavras que o roteador trata como COMANDO e tira antes de procurar
+# (roteador.COMANDOS). Gatilho que COMEÇA com uma delas é decapitado e nunca
+# casa: "mascara de joelho" vira "de joelho".
+PALAVRAS_DE_COMANDO = ("mascara", "máscara", "modelo", "frase", "achado", "adendo",
+                       "corrigir", "revisar", "analisar")
+
+
+def comando_no_comeco(gatilho):
+    """Devolve a palavra de comando que engole o gatilho, ou ""."""
+    p = _n(gatilho).split(" ")
+    if p and p[0] in {_n(x) for x in PALAVRAS_DE_COMANDO}:
+        return p[0]
+    return ""
+
+
+def sem_a_palavra_de_comando(gatilho):
+    """O mesmo gatilho sem a palavra que o roteador ia comer."""
+    return " ".join((gatilho or "").split(" ")[1:]).strip()
+
+
+def conferir(itens):
+    """Testa no banco novo cada gatilho que acabou de ser escrito.
+
+    Marca `confere` em cada item e, quando falha, `porque`. Não levanta: a
+    conferência nunca pode derrubar uma gravação que deu certo."""
+    try:
+        import roteador
+    except Exception as e:
+        for it in itens:
+            it["confere"], it["porque"] = False, "roteador indisponível (%s)" % type(e).__name__
+        return itens
+    for it in itens:
+        arq = os.path.join(DADOS, it.get("arquivo", ""))
+        gat = []
+        try:
+            cab, _corpo = _texto_da_mascara(arq)
+            gat = _gatilhos_do_cabecalho(cab)
+        except Exception:
+            pass
+        if not gat:
+            it["confere"], it["porque"] = False, "o arquivo ficou sem # gatilhos"
+            continue
+        it["gatilho_testado"] = gat[0]
+        comeu = comando_no_comeco(gat[0])
+        if comeu:
+            it["confere"] = False
+            it["porque"] = ('o comando começa com "%s", que o roteador entende como '
+                            'instrução e retira. Use "%s".'
+                            % (comeu, sem_a_palavra_de_comando(gat[0])))
+            continue
+        try:
+            texto, origem = roteador.rotear(gat[0])
+        except Exception as e:
+            it["confere"], it["porque"] = False, "erro ao testar (%s)" % type(e).__name__
+            continue
+        it["origem"] = origem
+        # A pergunta que importa não é "o roteador citou o meu arquivo?", e sim
+        # "o que eu escrevi saiu no laudo?". Bloco e frase entram pelo RX
+        # literal sem aparecer na origem, e a máscara que troca uma do Rotrix
+        # mantém o mesmo título — conferir pelo nome erra nos dois casos.
+        marca = _marca_do_texto(arq)
+        if marca and marca in _n(texto):
+            it["confere"] = True
+            continue
+        alvo = os.path.splitext(it.get("arquivo", ""))[0]
+        alvo = alvo.replace("mascaras_usuario/", "usuario/").replace("mascaras/", "")
+        it["confere"] = alvo in origem
+        if not it["confere"]:
+            it["porque"] = ("o comando caiu em %s e o texto que você escreveu não "
+                            "apareceu no laudo" % origem)
+    return itens
+
+
+def _marca_do_texto(arq):
+    """Um pedaço fixo e distintivo do que foi escrito, para procurar na saída.
+
+    Pula lacunas ({x}), negrito e cabeçalhos: sobra texto que sai igual no
+    laudo. Devolve "" quando não há trecho fixo longo o bastante."""
+    try:
+        _cab, corpo = _texto_da_mascara(arq)
+    except Exception:
+        return ""
+    melhor = ""
+    for linha in (corpo or "").split("\n"):
+        l = linha.strip()
+        if not l or l.startswith("**") or l.startswith("#"):
+            continue
+        for pedaco in re.split(r"\{[^}]*\}", l):
+            p = _n(re.sub(r"\*+", " ", pedaco))
+            if len(p) > len(melhor):
+                melhor = p
+    return melhor if len(melhor) >= 14 else ""
+
+
+def auditar(banco=None):
+    """As quatro conferências do banco, para o botão "Auditar o banco".
+
+    Só olha; não muda nada."""
+    import roteador
+    b = banco if banco is not None else roteador.BANCO
+    mascaras = [it for it in b.itens if it[0] == "mascara"]
+    no_banco = {it[2] for it in mascaras}
+    por_gatilho = {}
+    for it in mascaras:
+        por_gatilho.setdefault(it[1], []).append(it[2])
+
+    fora_do_banco, sem_gatilho = [], []
+    for raiz, pastas, arqs in os.walk(PASTA_USUARIO):
+        pastas[:] = [p for p in pastas if not p.startswith(".")]
+        for a in sorted(arqs):
+            if not a.lower().endswith(".txt") or a == "frases.txt":
+                continue
+            caminho = os.path.join(raiz, a)
+            rel = "usuario/" + os.path.relpath(caminho, PASTA_USUARIO).replace("\\", "/")
+            titulo = rel[:-4]
+            try:
+                cab, _c = _texto_da_mascara(caminho)
+                gat = _gatilhos_do_cabecalho(cab)
+            except Exception:
+                gat = []
+            if not gat:
+                sem_gatilho.append(titulo)
+            elif titulo not in no_banco:
+                fora_do_banco.append(titulo)
+
+    # gatilho repetido entre as suas e as do Rotrix: quem está vencendo
+    disputados = []
+    for gn, titulos in por_gatilho.items():
+        if len(titulos) > 1:
+            disputados.append({"gatilho": gn, "vence": titulos[0], "perde": titulos[1:]})
+
+    # gatilho que começa com palavra de comando (o roteador decapita)
+    decapitados = []
+    for it in mascaras:
+        comeu = comando_no_comeco(it[1])
+        if comeu:
+            decapitados.append({"titulo": it[2], "gatilho": it[1], "palavra": comeu,
+                                "sugestao": sem_a_palavra_de_comando(it[1])})
+
+    return {
+        "ok": not (fora_do_banco or sem_gatilho or decapitados),
+        "gatilhos_no_banco": len(b.itens),
+        "mascaras_suas": sum(1 for t in no_banco if t.startswith("usuario/")),
+        "fora_do_banco": sorted(fora_do_banco),
+        "sem_gatilho": sorted(sem_gatilho),
+        "gatilho_disputado": disputados[:40],
+        "comeca_com_comando": decapitados[:40],
+    }
 
 
 def _meta(cabecalho, campo):

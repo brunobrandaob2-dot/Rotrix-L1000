@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Canal vertebral
+# gatilhos: lipomatose epidural | lipomatose | gordura epidural aumentada
+# conclusao: Lipomatose epidural, contribuindo para a redução do canal vertebral.
+Canal vertebral:  aumento da gordura epidural posterior em {nivel}, de grau {grau|discreto/moderado/acentuado}, contribuindo para a redução da amplitude do canal vertebral.

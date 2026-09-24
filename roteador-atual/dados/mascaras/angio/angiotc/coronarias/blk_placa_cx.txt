@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artéria circunflexa
+# gatilhos: placa na circunflexa | estenose da circunflexa | lesao da cx | placa na cx
+# conclusao: Estenose {grau|mínima (1-24%)/discreta (25-49%)/moderada (50-69%)/acentuada (70-99%)} no segmento {segmento|proximal/médio/distal} da artéria circunflexa (CAD-RADS {cadrads|1/2/3/4}).
+Artéria circunflexa:  placa {composicao|calcificada/não calcificada/mista} no segmento {segmento|proximal/médio/distal}, determinando estenose luminal {grau|mínima (1-24%)/discreta (25-49%)/moderada (50-69%)/acentuada (70-99%)}.

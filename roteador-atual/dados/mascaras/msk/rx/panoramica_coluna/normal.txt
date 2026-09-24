@@ -1,0 +1,20 @@
+# gatilhos: radiografia digital panoramica da coluna vertebral | panoramica digital da coluna vertebral | raio x digital panoramico da coluna vertebral | rx digital panoramico da coluna vertebral | panoramica da coluna vertebral ap e perfil | panoramica da coluna com angulo de cobb | panoramica da coluna total com medidas | panoramica digital de coluna para escoliose | raio x panoramico digital de coluna | panoramica da coluna vertebral com cobb e risser
+# categoria: msk
+# modalidade: rx
+# regiao: panoramica_coluna
+# tipo_mascara: normal
+**RADIOGRAFIA DIGITAL PANORÂMICA DA COLUNA VERTEBRAL (AP/P)**
+
+**TÉCNICA:**  incidências panorâmicas anteroposterior e perfil, em ortostase.
+
+**ANÁLISE:**
+Alinhamento preservado, sem desvios significativos, com ângulo de Cobb = {cobb} graus (normal < 10).
+Índice de Risser = estágio {risser|V/IV/III/II/I/0}.
+Báscula ilíaca sem desvio significativo.
+Balanço sagital {balanco|neutro/positivo/negativo}, estando a linha de prumo localizada {prumo|próxima/anteriormente/posteriormente} ao canto posterossuperior de S1: linha SVA estimada de {sva} cm (normal ± 2,5 cm).
+Ângulo da cifose torácica: {cifose} graus (normal de 30 a 50 graus).
+Ângulo de Ferguson (inclinação sacral): {ferguson} graus (normal de 20 a 65 graus).
+Ângulo da lordose lombar: {lordose} graus (normal de 35 a 57 graus).
+Corpos vertebrais com configuração anatômica.
+Espaços discais mantidos.
+Elementos posteriores preservados.

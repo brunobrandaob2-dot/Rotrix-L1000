@@ -1,0 +1,28 @@
+# gatilhos: angiotomografia de coronarias | angiotomografia das coronarias | angiotc de coronarias | angiotc coronarias | angio de coronarias | angiotomografia coronariana | tomografia de coronarias | angiotc coronariana | escore de calcio | angiotomografia de coronarias normal | angiotc de coronarias normal | coronarias sem obstrucao
+# categoria: angio
+# modalidade: angiotc
+# regiao: coronarias
+# tipo_mascara: normal
+**ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ARTÉRIAS CORONÁRIAS**
+
+**TÉCNICA:**  aquisição volumétrica com múltiplos detectores sincronizada ao eletrocardiograma, sem e com injeção intravenosa de contraste iodado, com reconstruções multiplanares, curvas e de volume.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Qualidade do estudo:  exame de boa qualidade diagnóstica, sem artefatos limitantes.
+Escore de cálcio:  escore de cálcio de Agatston igual a 0.
+Origem e dominância:  origem e trajeto habituais das artérias coronárias, com dominância {dominancia|direita/esquerda/codominância}.
+Tronco da coronária esquerda:  de calibre preservado, sem placas ateroscleróticas.
+Artéria descendente anterior:  de calibre preservado em todo o seu trajeto, sem placas ateroscleróticas.
+Artéria circunflexa:  de calibre preservado em todo o seu trajeto, sem placas ateroscleróticas.
+Artéria coronária direita:  de calibre preservado em todo o seu trajeto, sem placas ateroscleróticas.
+Câmaras cardíacas e valvas:  câmaras cardíacas de dimensões normais. Valvas sem calcificações.
+Pericárdio e aorta:  pericárdio de espessura normal. Aorta de calibre preservado.
+Achados extracardíacos:  sem alterações significativas nos segmentos torácicos incluídos no estudo.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Artérias coronárias sem placas ateroscleróticas ou estenoses (CAD-RADS 0).
+Escore de cálcio de Agatston igual a 0.

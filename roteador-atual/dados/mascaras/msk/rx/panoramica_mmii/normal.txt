@@ -1,0 +1,17 @@
+# gatilhos: radiografia digital panoramica dos membros inferiores | panoramica de membros inferiores | panoramica dos membros inferiores | raio x panoramico de membros inferiores | rx panoramico de membros inferiores | radiografia panoramica de membros inferiores | panoramica de mmii | raio x panoramico de mmii | panoramica de membros inferiores com medidas | panoramica de membros inferiores para eixo mecanico | raio x de eixo mecanico dos membros inferiores | panoramica digital dos membros inferiores
+# categoria: msk
+# modalidade: rx
+# regiao: panoramica_mmii
+# tipo_mascara: normal
+**RADIOGRAFIA DIGITAL PANORÂMICA DOS MEMBROS INFERIORES**
+
+**TÉCNICA:**  incidência anteroposterior panorâmica dos membros inferiores, em ortostase.
+
+**ANÁLISE:**
+Eixo mecânico do membro inferior direito {relacao_d|medial/lateral} ao ponto médio do joelho, com desvio de {desvio_d} mm, caracterizando geno {geno_d|varo/valgo} (VN = 4 mm +/- 4).
+Eixo mecânico do membro inferior esquerdo {relacao_e|medial/lateral} ao ponto médio do joelho, com desvio de {desvio_e} mm, caracterizando geno {geno_e|varo/valgo} (VN = 4 mm +/- 4).
+Ângulo anatômico femorotibial direito: {aft_d} graus (VN = 6,85 +/- 1,4).
+Ângulo anatômico femorotibial esquerdo: {aft_e} graus (VN = 6,85 +/- 1,4).
+Comprimento femorotibial direito: {comp_d} cm.
+Comprimento femorotibial esquerdo: {comp_e} cm.
+O membro inferior {lado_menor|direito/esquerdo} é {dismetria} cm menor que o contralateral.

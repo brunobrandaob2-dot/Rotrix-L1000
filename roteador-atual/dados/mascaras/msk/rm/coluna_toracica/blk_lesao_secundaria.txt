@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: lesao secundaria | metastase vertebral | lesoes secundarias | implante secundario
+# conclusao: Lesões ósseas suspeitas em {nivel} — devendo-se considerar implantes secundários entre os diagnósticos diferenciais.
+Corpos vertebrais:  lesões focais de hipossinal em T1 e hipersinal nas sequências com supressão de gordura acometendo {nivel}, a maior medindo cerca de {medida}, {parede|sem comprometimento da parede posterior/com comprometimento da parede posterior e componente epidural}, achados suspeitos, devendo-se considerar implantes secundários entre os diagnósticos diferenciais.

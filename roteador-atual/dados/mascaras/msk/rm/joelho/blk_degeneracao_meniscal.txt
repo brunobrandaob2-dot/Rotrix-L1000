@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Meniscos
+# gatilhos: degeneracao meniscal | menisco degenerado | alteracao degenerativa do menisco | meniscopatia
+# conclusao: Alterações degenerativas meniscais, sem rotura evidente.
+Meniscos:  alteração de sinal intrassubstancial no menisco {menisco|medial/lateral}, sem extensão à superfície articular, traduzindo alterações degenerativas.

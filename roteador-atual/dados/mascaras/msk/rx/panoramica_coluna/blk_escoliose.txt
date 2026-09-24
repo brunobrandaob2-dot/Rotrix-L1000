@@ -1,0 +1,3 @@
+# gatilhos: escoliose toracolombar | escoliose com rotacao dos corpos vertebrais | escoliose com curvatura secundaria lombar
+# secao: Alinhamento preservado
+Escoliose toracolombar {convexidade|destro-convexa/sinistro-convexa}, medindo {cobb} graus pelo método de Cobb (normal < 10), associada a discreta rotação dos corpos vertebrais (Nash-Moe grau {nash_moe|I/II/III/IV}) e curvatura secundária lombar.

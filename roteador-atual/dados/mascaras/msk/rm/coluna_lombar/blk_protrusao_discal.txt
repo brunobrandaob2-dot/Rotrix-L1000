@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: protrusao discal | protrusao | abaulamento discal | abaulamento | hernia discal contida
+# conclusao: Protrusão discal {localizacao|central/paracentral/foraminal/extraforaminal} em {nivel}.
+Discos intervertebrais:  protrusão discal {localizacao|central/paracentral/foraminal/extraforaminal} {lado_a|à direita/à esquerda/mediana} em {nivel}, com contato {contato|com a face ventral do saco dural/com a raiz emergente/com o saco dural, sem compressão radicular}.

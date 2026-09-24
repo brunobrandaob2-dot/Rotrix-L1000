@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Ligamentos cruzados
+# gatilhos: rotura do lca | lesao do ligamento cruzado anterior | rotura do cruzado anterior | lca roto
+# conclusao: Rotura {tipo|completa/parcial} do ligamento cruzado anterior.
+Ligamentos cruzados:  descontinuidade das fibras do ligamento cruzado anterior, com alteração de sinal e {morfologia|perda do trajeto habitual/aspecto ondulado das fibras remanescentes}, caracterizando rotura {tipo|completa/parcial}. Ligamento cruzado posterior íntegro.

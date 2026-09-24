@@ -1,0 +1,8 @@
+## gatilhos: nomenclatura discal | criterio de hernia discal
+Terminologia discal conforme a Lumbar Disc Nomenclature 2.0.
+## gatilhos: limitacao por artefato de movimento na rm
+Presença de artefatos de movimento que reduzem parcialmente a resolução espacial do método, sem invalidar o estudo.
+## gatilhos: sem realce | sem contraste nao avaliado realce
+Estudo realizado sem injeção de contraste paramagnético, o que limita a caracterização de processos inflamatórios, infecciosos e neoplásicos.
+## gatilhos: correlacionar com o quadro clinico
+Achados que devem ser correlacionados com o quadro clínico e com o exame neurológico.

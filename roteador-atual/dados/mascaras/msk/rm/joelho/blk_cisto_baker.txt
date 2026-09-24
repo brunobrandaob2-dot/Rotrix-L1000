@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Partes moles
+# gatilhos: cisto de baker | cisto poplíteo | formacao cistica na fossa poplitea
+# conclusao: Cisto de Baker.
+Partes moles:  formação cística de conteúdo líquido na fossa poplítea, entre os tendões do gastrocnêmio medial e do semimembranáceo, medindo cerca de {medida}, {rotura|íntegra/com sinais de rotura e infiltração das partes moles adjacentes}, compatível com cisto de Baker.

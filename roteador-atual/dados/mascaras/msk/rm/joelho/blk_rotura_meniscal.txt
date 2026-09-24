@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Meniscos
+# gatilhos: rotura meniscal | rotura de menisco | lesao meniscal | menisco roto | hernia meniscal
+# conclusao: Rotura do menisco {menisco|medial/lateral}, de padrão {padrao|horizontal/oblíquo/radial/longitudinal/em alça de balde/complexo}.
+Meniscos:  alteração de sinal linear no menisco {menisco|medial/lateral}, acometendo o {segmento|corno posterior/corpo/corno anterior}, de orientação {padrao|horizontal/oblíqua/radial/longitudinal/complexa}, com extensão à {superficie|superfície articular inferior/superfície articular superior/ambas as superfícies articulares}, caracterizando rotura.

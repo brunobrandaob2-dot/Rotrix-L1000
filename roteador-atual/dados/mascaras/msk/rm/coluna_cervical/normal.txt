@@ -1,0 +1,26 @@
+# gatilhos: ressonancia de coluna cervical | ressonancia da coluna cervical | rm de coluna cervical | rm da coluna cervical | rm coluna cervical | ressonancia magnetica de coluna cervical | ressonancia magnetica da coluna cervical | ressonancia de coluna cervical normal | rm de coluna cervical normal | rm cervical | ressonancia cervical | rm de coluna cervical sem contraste | rm de coluna cervical com contraste | rm de coluna cervical cervicalgia | rm de coluna cervical cervicobraquialgia
+# categoria: msk
+# modalidade: rm
+# regiao: coluna_cervical
+# tipo_mascara: normal
+**RESSONÂNCIA MAGNÉTICA DA COLUNA CERVICAL**
+
+**TÉCNICA:**  sequências ponderadas em T1 e T2 nos planos sagital e axial, com supressão de gordura no plano sagital, sem injeção intravenosa de contraste paramagnético.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  lordose cervical fisiológica preservada. Ausência de listeses.
+Transição craniocervical:  processo odontoide íntegro e centrado. Junção bulbomedular de morfologia e sinal preservados.
+Corpos vertebrais:  de altura e morfologia preservadas. Medula óssea com sinal preservado, sem lesões focais.
+Discos intervertebrais:  altura e sinal preservados em todos os níveis avaliados, sem protrusões ou extrusões.
+Canal vertebral:  de amplitude preservada em todos os níveis.
+Forames neurais:  de amplitude preservada bilateralmente.
+Articulações uncovertebrais e interapofisárias:  de aspecto habitual.
+Medula cervical:  calibre, morfologia e sinal preservados, sem áreas de alteração de sinal intramedular.
+Partes moles paravertebrais:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

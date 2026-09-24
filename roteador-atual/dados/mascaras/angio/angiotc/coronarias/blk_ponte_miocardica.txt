@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artéria descendente anterior
+# gatilhos: ponte miocardica | trajeto intramiocardico | ponte
+# conclusao: Ponte miocárdica no segmento {segmento|proximal/médio} da artéria descendente anterior.
+Artéria descendente anterior:  trajeto intramiocárdico (ponte miocárdica) no segmento {segmento|proximal/médio}, com extensão de cerca de {medida} e profundidade {profundidade|superficial/profunda}.

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações interapofisárias
+# gatilhos: cisto sinovial | cisto facetario | cisto juxtafacetario
+# conclusao: Cisto sinovial facetário {lado_a|à direita/à esquerda} em {nivel}.
+Articulações interapofisárias:  formação cística de conteúdo líquido em continuidade com a articulação interapofisária {lado_a|à direita/à esquerda} de {nivel}, medindo cerca de {medida}, projetando-se para o recesso lateral e {efeito|em contato com a raiz descendente/sem contato radicular evidente}.

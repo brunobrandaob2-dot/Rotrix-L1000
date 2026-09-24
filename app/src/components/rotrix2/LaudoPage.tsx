@@ -37,6 +37,8 @@ import {
 import { Button } from "../ui/Button";
 import { Dica } from "./Dica";
 import { textoEmHtml, htmlEmTexto, htmlEmMarcado, htmlDaFolha } from "./formatar";
+import { BotoesDaFolha } from "./BotoesDaFolha";
+import { ImagemNaFolha } from "./ImagemNaFolha";
 
 type Modo = "simples" | "leve" | "completo";
 
@@ -101,8 +103,8 @@ const Fer: React.FC<{
 const Sep = () => <span className="h-5 w-px bg-mid-gray/25 mx-1 shrink-0" />;
 
 export const LaudoPage: React.FC<Props> = ({
-  modeloLeve = "Haiku",
-  modeloCompleto = "Opus",
+  modeloLeve = "IA rápida",
+  modeloCompleto = "IA completa",
   idModeloCompleto = "",
   textoEntrando,
   modelos = [],
@@ -303,6 +305,76 @@ export const LaudoPage: React.FC<Props> = ({
     document.execCommand(nome, false, valor);
   };
 
+  // A folha é um contentEditable: o texto mora no DOM. Guardar aqui é o que
+  // faz o laudo sobreviver a fechar o app — e, junto com as abas que ficam
+  // montadas (Casca.tsx), a trocar de aba.
+  const GUARDADO_FOLHA = "rotrix2.folha";
+  useEffect(() => {
+    const el = folha.current;
+    if (!el || el.innerHTML.trim()) return;
+    try {
+      const salvo = localStorage.getItem(GUARDADO_FOLHA);
+      if (salvo) el.innerHTML = salvo;
+    } catch {
+      /* navegador sem armazenamento: começa em branco, e tudo bem */
+    }
+  }, []);
+  useEffect(() => {
+    const el = folha.current;
+    if (!el) return;
+    let tarefa: ReturnType<typeof setTimeout> | undefined;
+    const guardar = () => {
+      clearTimeout(tarefa);
+      tarefa = setTimeout(() => {
+        try {
+          localStorage.setItem(GUARDADO_FOLHA, el.innerHTML);
+        } catch {
+          /* sem espaço ou sem permissão: o laudo na tela continua intacto */
+        }
+      }, 800);
+    };
+    const obs = new MutationObserver(guardar);
+    obs.observe(el, { childList: true, subtree: true, characterData: true });
+    el.addEventListener("input", guardar);
+    return () => {
+      clearTimeout(tarefa);
+      obs.disconnect();
+      el.removeEventListener("input", guardar);
+    };
+  }, []);
+
+  const [imagemAberta, setImagemAberta] = useState(false);
+
+  const inserirImagem = useCallback((dataUrl: string) => {
+    const el = folha.current;
+    if (!el) return;
+    el.focus();
+    const img = `<div><img src="${dataUrl}" style="max-width:100%;height:auto" /></div>`;
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount && el.contains(sel.anchorNode)) {
+      document.execCommand("insertHTML", false, img);
+    } else {
+      el.innerHTML += img;
+    }
+    setAviso("imagem recortada e limpa, posta na folha");
+  }, []);
+
+  // Põe um texto do banco (máscara de medida, prescrição, idade óssea) no
+  // ponto do cursor, sem atropelar o que já está escrito.
+  const inserirNaFolha = useCallback((texto: string) => {
+    const el = folha.current;
+    if (!el) return;
+    el.focus();
+    const html = textoEmHtml(texto);
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount && el.contains(sel.anchorNode)) {
+      document.execCommand("insertHTML", false, html);
+    } else {
+      el.innerHTML = el.innerHTML.trim() ? el.innerHTML + "<br>" + html : html;
+    }
+    setAviso("texto posto na folha · Tab pula de campo em campo");
+  }, []);
+
   useEffect(() => {
     const tecla = (e: KeyboardEvent) => {
       if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
@@ -391,8 +463,8 @@ export const LaudoPage: React.FC<Props> = ({
           <History size={15} />
         </Fer>
         <Fer
-          titulo="Anexar imagem (próxima etapa)"
-          onClick={() => setAviso("anexar imagem entra na próxima etapa")}
+          titulo="Anexar imagem: colar o print, escolher arquivo ou arrastar"
+          onClick={() => setImagemAberta(true)}
         >
           <Paperclip size={15} />
         </Fer>
@@ -490,6 +562,7 @@ export const LaudoPage: React.FC<Props> = ({
         <Fer titulo="Copiar formato" onClick={() => cmd("removeFormat")}>
           <Brush size={14} />
         </Fer>
+        <BotoesDaFolha aoInserir={inserirNaFolha} aoAvisar={setAviso} />
         {(ocupado === "ia" || gravando) && (
           <span className="text-xs text-mid-gray ms-2">
             {gravando ? rotulo(gravando) : "a IA está lendo o laudo…"}
@@ -498,7 +571,8 @@ export const LaudoPage: React.FC<Props> = ({
       </div>
 
       {/* ---------- a folha ---------- */}
-      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden flex justify-center items-start py-3">
+      {/* a folha ocupa a janela inteira: sem moldura escura em volta dela */}
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden bg-white">
         <div
           ref={folha}
           contentEditable
@@ -512,9 +586,15 @@ export const LaudoPage: React.FC<Props> = ({
             backgroundImage:
               "repeating-linear-gradient(to bottom, transparent 0 716px, rgba(0,0,0,.10) 716px 717px, transparent 717px 720px)",
           }}
-          className="w-[520px] max-w-full shrink-0 min-h-[560px] h-auto bg-white text-black rounded-sm border border-mid-gray/20 shadow-sm px-8 py-7 text-[12px] leading-[1.6] outline-none select-text cursor-text break-words [&_*]:max-w-full"
+          className="w-full min-h-full h-auto bg-white text-black px-10 py-8 text-[12px] leading-[1.6] outline-none select-text cursor-text break-words [&_*]:max-w-full"
         />
       </div>
+
+      <ImagemNaFolha
+        aberto={imagemAberta}
+        aoFechar={() => setImagemAberta(false)}
+        aoConfirmar={inserirImagem}
+      />
 
       {/* ---------- rodapé ---------- */}
       <div className="flex items-center gap-2 px-3 py-2 bg-background border-t border-mid-gray/20">

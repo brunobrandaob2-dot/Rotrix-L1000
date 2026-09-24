@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Alinhamento
+# gatilhos: retificacao | retificacao da lordose | inversao da lordose
+# conclusao: Retificação da lordose cervical.
+Alinhamento:  {alteracao|retificação/inversão} da lordose cervical fisiológica, podendo relacionar-se a contratura da musculatura paravertebral.

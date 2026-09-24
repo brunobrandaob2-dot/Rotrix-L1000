@@ -1,0 +1,25 @@
+# gatilhos: ressonancia de coluna toracica | ressonancia da coluna toracica | rm de coluna toracica | rm da coluna toracica | rm coluna toracica | ressonancia de coluna dorsal | rm de coluna dorsal | rm coluna dorsal | ressonancia magnetica de coluna toracica | rm de coluna toracica normal | rm toracica | rm dorsal | rm de coluna toracica sem contraste | rm de coluna toracica com contraste
+# categoria: msk
+# modalidade: rm
+# regiao: coluna_toracica
+# tipo_mascara: normal
+**RESSONÂNCIA MAGNÉTICA DA COLUNA TORÁCICA**
+
+**TÉCNICA:**  sequências ponderadas em T1 e T2 nos planos sagital e axial, com supressão de gordura no plano sagital, sem injeção intravenosa de contraste paramagnético.
+
+**INDICAÇÃO CLÍNICA:**  Em anexo.
+
+**ANÁLISE:**
+Alinhamento:  cifose torácica fisiológica preservada. Ausência de listeses.
+Corpos vertebrais:  de altura e morfologia preservadas. Medula óssea com sinal preservado, sem lesões focais.
+Discos intervertebrais:  altura e sinal preservados nos níveis avaliados, sem protrusões ou extrusões.
+Canal vertebral:  de amplitude preservada em todos os níveis.
+Forames neurais:  de amplitude preservada bilateralmente.
+Articulações interapofisárias e costovertebrais:  de aspecto habitual.
+Medula torácica:  calibre, morfologia e sinal preservados, sem áreas de alteração de sinal intramedular. Cone medular tópico.
+Partes moles paravertebrais:  sem particularidades.
+
+**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
+
+**CONCLUSÃO:**
+Exame sem alterações significativas.

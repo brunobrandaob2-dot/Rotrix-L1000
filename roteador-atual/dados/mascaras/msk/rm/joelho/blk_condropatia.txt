@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cartilagem
+# gatilhos: condropatia | condromalacia | lesao condral | desgaste da cartilagem | condropatia patelar
+# conclusao: Condropatia {compartimento|femoropatelar/femorotibial medial/femorotibial lateral} grau {grau|I/II/III/IV}.
+Cartilagem:  irregularidade e afilamento da superfície condral do compartimento {compartimento|femoropatelar/femorotibial medial/femorotibial lateral}, {profundidade|com alteração de sinal sem perda de espessura/com perda parcial da espessura/com perda total da espessura e exposição do osso subcondral}, compatível com condropatia grau {grau|I/II/III/IV}.

@@ -29,49 +29,25 @@ const ABAS: { id: Aba; nome: string; icone: React.ElementType }[] = [
   { id: "config", nome: "Config.", icone: Cog },
 ];
 
-// Os modelos que o botão forte pode usar, por provedor. O primeiro de cada
-// lista é o básico (só formatar) e é o que o botão leve usa.
-const MODELOS: Record<string, { id: string; nome: string }[]> = {
-  anthropic: [
-    { id: "claude-haiku-4-5-20251001", nome: "Haiku 4.5" },
-    { id: "claude-sonnet-5", nome: "Sonnet 5" },
-    { id: "claude-opus-5", nome: "Opus 5" },
-    { id: "claude-fable-5-1", nome: "Fable 5.1" },
-  ],
-  openai: [
-    { id: "gpt-5.6-luna", nome: "Luna" },
-    { id: "gpt-5.6-terra", nome: "Terra" },
-    { id: "gpt-5.6-sol", nome: "Sol" },
-  ],
-  gemini: [{ id: "gemini-3.8-flash", nome: "Flash" }],
-};
-
+// A lista de modelos vem da API do provedor instalado, não de tabela aqui.
+// Tabela escrita à mão envelhece e amarra o app a um fornecedor: quem instala
+// com chave de outro continuava vendo os nomes do primeiro na tela.
 const GUARDADO = "rotrix2.modeloForte";
 
-// O modelo "leve" de cada provedor é o básico (só formatar) — o mesmo que a
-// tela de IA oferece em primeiro lugar.
-const LEVE: Record<string, { id: string; nome: string }> = {
-  anthropic: { id: "claude-haiku-4-5-20251001", nome: "Haiku" },
-  openai: { id: "gpt-5.6-luna", nome: "Luna" },
-  gemini: { id: "gemini-3.8-flash", nome: "Flash" },
-};
-
-const APELIDOS = [
-  ["opus", "Opus"],
-  ["sonnet", "Sonnet"],
-  ["haiku", "Haiku"],
-  ["fable", "Fable"],
-  ["terra", "Terra"],
-  ["luna", "Luna"],
-  ["sol", "Sol"],
-  ["flash", "Flash"],
-  ["pro", "Pro"],
-];
-
+// Nome curto de um modelo, para caber no botão. Sai do PRÓPRIO identificador
+// que o provedor devolveu — nenhum nome de fabricante escrito aqui. Assim a
+// tela fica igual seja qual for a chave instalada.
 const apelido = (modelo: string): string => {
-  const m = (modelo || "").toLowerCase();
-  for (const [chave, nome] of APELIDOS) if (m.includes(chave)) return nome;
-  return modelo ? modelo.split(/[:/]/).pop()!.slice(0, 12) : "IA";
+  const cru = (modelo || "").split(/[:/]/).pop() || "";
+  if (!cru) return "IA";
+  // tira data no fim ("-20251001") e números de versão soltos, e deixa a
+  // primeira parte com letra maiúscula: "claude-haiku-4-5-2025…" -> "Haiku 4.5"
+  const partes = cru
+    .replace(/[-_]?\d{6,}$/, "")
+    .split(/[-_.]/)
+    .filter((x) => x && !/^(latest|preview|exp|chat|instruct)$/i.test(x));
+  const nome = partes.slice(-3).join(" ").trim() || cru;
+  return (nome.charAt(0).toUpperCase() + nome.slice(1)).slice(0, 16);
 };
 
 interface Props {
@@ -122,6 +98,22 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     };
   }, [contarFila]);
 
+  const [listaModelos, setListaModelos] = useState<{ id: string; nome: string }[]>([]);
+
+  // a lista de modelos vem de quem tem a chave; sem chave, fica vazia e os
+  // botões de IA seguem funcionando com o modelo que está na configuração
+  useEffect(() => {
+    invoke<string>("rotrix_ia_modelos")
+      .then((bruto) => {
+        const d = JSON.parse(bruto || "{}") as {
+          ok?: boolean;
+          modelos?: { id: string; nome: string }[];
+        };
+        setListaModelos(d.ok && d.modelos ? d.modelos : []);
+      })
+      .catch(() => setListaModelos([]));
+  }, [ia.provedor]);
+
   useEffect(() => {
     invoke<string>("rotrix_ia_estado")
       .then((bruto) => {
@@ -137,11 +129,14 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
       .catch(() => undefined);
   }, []);
 
-  const leve = LEVE[ia.provedor] || { id: "", nome: "Leve" };
-  const listaModelos = MODELOS[ia.provedor] || [];
+  // o "leve" é o primeiro que o provedor lista: o mais barato costuma abrir a
+  // lista, e é só para formatar
+  const leve = { id: listaModelos[0]?.id || "", nome: apelido(listaModelos[0]?.id || "") };
   const forte =
     (modeloForte && listaModelos.some((m) => m.id === modeloForte) && modeloForte) ||
-    ia.modelo;
+    ia.modelo ||
+    listaModelos[0]?.id ||
+    "";
 
   const trocarModelo = (id: string) => {
     setModeloForte(id);
@@ -196,7 +191,14 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
 
       {/* aba aberta */}
       <div className="flex-1 min-w-0 min-h-0">
-        {aba === "laudo" && (
+        {/*
+          Laudo e Adendos ficam SEMPRE montados, escondidos com `hidden`. A folha
+          é um contentEditable: o texto mora no DOM, não em estado do React.
+          Desmontar a aba (o antigo `aba === "laudo" && <LaudoPage/>`) jogava
+          fora o laudo inteiro ao trocar de aba — e o ditado com outra aba aberta
+          não tinha onde cair. As outras abas continuam sob demanda.
+        */}
+        <div className={aba === "laudo" ? "h-full" : "hidden"}>
           <LaudoPage
             modeloLeve={leve.nome}
             modeloCompleto={apelido(forte)}
@@ -205,15 +207,15 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
             modelos={listaModelos}
             aoTrocarModelo={trocarModelo}
           />
-        )}
-        {aba === "fila" && <FilaPage />}
-        {aba === "adendos" && (
+        </div>
+        <div className={aba === "adendos" ? "h-full" : "hidden"}>
           <AdendoPage
             modelos={listaModelos}
             idModelo={forte}
             aoTrocarModelo={trocarModelo}
           />
-        )}
+        </div>
+        {aba === "fila" && <FilaPage />}
         {aba === "mascaras" && <MascarasPage aoAbrirConfig={abrirConfig} />}
         {aba === "historico" && (
           <HistoricoPage aoAbrirNoLaudo={abrirNoLaudo} idModeloCompleto={forte} />

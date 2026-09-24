@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Osso e medula óssea
+# gatilhos: edema osseo | contusao ossea | edema medular osseo | bone bruise
+# conclusao: Edema medular ósseo em {local}, de aspecto {natureza|contusional/reacional}.
+Osso e medula óssea:  área de edema medular ósseo em {local}, sem traço de fratura evidente, de aspecto {natureza|contusional/reacional às alterações degenerativas adjacentes}.

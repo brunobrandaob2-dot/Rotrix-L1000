@@ -1,0 +1,11 @@
+# gatilhos: prescricao de contraste de ressonancia zero virgula tres | prescricao de gadolineo zero virgula tres | prescricao rm gadolineo dose alta | prescricao de contraste rm 0 3
+# tipo: mascara
+**PRESCRIÇÃO DE CONTRASTE — RESSONÂNCIA MAGNÉTICA**
+
+AUTORIZADO O USO DO MEIO DE CONTRASTE GADOLÍNEO
+
+VIA DE ADMINISTRAÇÃO: ENDOVENOSA (EV)
+
+VOLUME DE CONTRASTE: {volume} mL (0,3 mL/kg)
+
+Ciente do Termo de Consentimento Livre e Esclarecido

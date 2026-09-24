@@ -1,0 +1,20 @@
+# gatilhos: prescricao de seriografia | prescricao de eed | prescricao de esofago estomago e duodeno | prescricao de bario | prescricao de contraste baritado seriografia
+# tipo: mascara
+**PRESCRIÇÃO DE CONTRASTE — EXAME RADIOLÓGICO CONTRASTADO DE ESÔFAGO, ESTÔMAGO E DUODENO (SERIOGRAFIA)**
+
+PRESCREVER:
+
+( ) SULFATO DE BÁRIO EM SUSPENSÃO AQUOSA, DENSIDADE ALTA (100%), VO.
+
+- VOLUME: {volume} mL (150 a 250 mL, conforme protocolo radiológico).
+- ADMINISTRAR POR VIA ORAL.
+
+**ORIENTAÇÕES:**
+
+- CONTRAINDICADO O USO DE BÁRIO EM SUSPEITA DE PERFURAÇÃO OU FÍSTULA → SUBSTITUIR POR CONTRASTE IODADO HIDROSSOLÚVEL.
+
+( ) CONTRASTE IODADO HIDROSSOLÚVEL
+
+- DOSE: {volume_iodado} mL (50 a 150 mL, conforme protocolo), VO.
+
+Ciente do Termo de Consentimento Livre e Esclarecido

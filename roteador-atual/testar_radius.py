@@ -136,6 +136,102 @@ def cenario_real(falhas):
             falhas.append("cabeçalho de %r: %r" % (item["descricao"], radius.cabecalho(item)))
 
 
+
+def comando_do_radiant(falhas):
+    """Dois exames marcados têm que abrir na MESMA janela do RadiAnt.
+
+    O manual do RadiAnt: `-f` recebe vários ARQUIVOS de uma vez, `-d` recebe
+    várias PASTAS. Repetir `-f` a cada caminho — e mandar pasta como arquivo —
+    era o que fazia os exames marcados abrirem separados."""
+    import tempfile, os as _os
+    d = tempfile.mkdtemp()
+    pa = _os.path.join(d, "a"); _os.makedirs(pa)
+    pb = _os.path.join(d, "b"); _os.makedirs(pb)
+    fa = _os.path.join(d, "c.dcm"); open(fa, "wb").write(b"x")
+    exe = "RadiAntViewer.exe"
+
+    args = radius.montar_comando(exe, [pa, pb, fa])
+    if args.count("-f") != 1 or args.count("-d") != 1:
+        falhas.append("radiant: tem que ser um -d e um -f só (%r)" % args)
+    if args.index("-d") > args.index("-f"):
+        falhas.append("radiant: as pastas vêm antes dos arquivos")
+    for pasta in (pa, pb):
+        i = args.index(pasta)
+        if args[i - 1] not in ("-d", pa, pb):
+            falhas.append("radiant: pasta %r não entrou depois do -d" % pasta)
+    if args[args.index(fa) - 1] != "-f":
+        falhas.append("radiant: arquivo não entrou depois do -f")
+    if args[1] != "-cl":
+        falhas.append("radiant: sem -cl o exame cai numa janela velha")
+
+    # uma chamada só: nada de abrir o exe duas vezes
+    if sum(1 for a in args if a.endswith(".exe")) != 1:
+        falhas.append("radiant: mais de uma chamada do executável")
+
+    # só pastas, só arquivos: não sobra flag vazia
+    so_pastas = radius.montar_comando(exe, [pa, pb], fechar_outras=False)
+    if "-f" in so_pastas:
+        falhas.append("radiant: -f sozinho sem nenhum arquivo")
+    if so_pastas[0] != exe or so_pastas[1] != "-d":
+        falhas.append("radiant: fechar_outras=False deveria tirar o -cl")
+    so_arq = radius.montar_comando(exe, [fa])
+    if "-d" in so_arq:
+        falhas.append("radiant: -d sozinho sem nenhuma pasta")
+    if "-b" in so_arq:
+        falhas.append("radiant: -b não deveria entrar sem pasta")
+    if "-b" not in radius.montar_comando(exe, [pa], arvore=True):
+        falhas.append("radiant: arvore=True deveria pôr o -b")
+
+
+def ordem_de_download(falhas):
+    """A fila segue a ordem de DOWNLOAD, não a hora do exame no DICOM.
+
+    O caso que ele descreveu: exame antigo baixado agora tem que aparecer
+    DEPOIS de um exame recente baixado antes. Antes, "entrou" vinha do
+    cabeçalho DICOM e a fila saía na ordem da aquisição."""
+    import tempfile, os as _os, time as _time
+    pasta = tempfile.mkdtemp(prefix="radius_ordem_")
+    try:
+        # três exames, criados em ordem conhecida; o do meio tem data de exame
+        # muito antiga, como um estudo de comparação baixado hoje
+        nomes = ["exame_recente", "exame_antigo_baixado_depois", "ultimo"]
+        for i, nome in enumerate(nomes):
+            d = _os.path.join(pasta, nome)
+            _os.makedirs(d)
+            with open(_os.path.join(d, "IM0001.dcm"), "wb") as f:
+                f.write(b"DICM" + b"\0" * 64)
+            # relógio do sistema de arquivos anda para frente a cada um
+            quando = _time.time() - (len(nomes) - i) * 3600
+            _os.utime(d, (quando, quando))
+
+        soltos = radius.soltos(pasta)
+        if len(soltos) != 3:
+            falhas.append("ordem: esperava 3 exames soltos, vieram %d" % len(soltos))
+            return
+        ordem = [x["entrou"] for x in sorted(soltos, key=lambda x: x["entrou"])]
+        if ordem != sorted(ordem):
+            falhas.append("ordem: a fila não saiu em ordem crescente de chegada")
+        # nenhum "entrou" pode ter vindo do cabeçalho do exame
+        for x in soltos:
+            if "quando_exame" not in x:
+                falhas.append("ordem: a hora do exame precisa ir num campo à parte")
+                break
+        # a hora de chegada nunca é anterior à criação do arquivo
+        for x in soltos:
+            if not x["entrou"] or len(x["entrou"]) < 19:
+                falhas.append("ordem: 'entrou' fora do formato (%r)" % x["entrou"])
+
+        # ZIP extraído: o mtime vem de dentro do pacote, lá atrás. A chegada
+        # tem que ser a mais recente das duas datas, não o mtime cru.
+        velho = _os.path.join(pasta, "exame_recente")
+        antigo = _time.time() - 400 * 24 * 3600
+        _os.utime(velho, (antigo, antigo))
+        st = _os.stat(velho)
+        if radius._baixado_em(velho, st) < st.st_mtime:
+            falhas.append("ordem: a chegada não pode ser anterior ao mtime")
+    finally:
+        shutil.rmtree(pasta, ignore_errors=True)
+
 def main():
     falhas = []
     pasta = tempfile.mkdtemp(prefix="radius_teste_")
@@ -174,6 +270,8 @@ def main():
         if radius.ler_fila(pasta) != fila:
             falhas.append("cache mudou a fila")
         cenario_real(falhas)
+        comando_do_radiant(falhas)
+        ordem_de_download(falhas)
     finally:
         shutil.rmtree(pasta, ignore_errors=True)
     # pasta que não existe: fila vazia, sem erro

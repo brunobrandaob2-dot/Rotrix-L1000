@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Artéria descendente anterior
+# gatilhos: placa na descendente anterior | estenose da da | lesao da descendente anterior | placa na da
+# conclusao: Estenose {grau|mínima (1-24%)/discreta (25-49%)/moderada (50-69%)/acentuada (70-99%)} no segmento {segmento|proximal/médio/distal} da artéria descendente anterior (CAD-RADS {cadrads|1/2/3/4}).
+Artéria descendente anterior:  placa {composicao|calcificada/não calcificada/mista} no segmento {segmento|proximal/médio/distal}, determinando estenose luminal {grau|mínima (1-24%)/discreta (25-49%)/moderada (50-69%)/acentuada (70-99%)}.

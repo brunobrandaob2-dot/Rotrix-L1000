@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Osso e medula óssea
+# gatilhos: osteocondrite dissecante | lesao osteocondral | fragmento osteocondral
+# conclusao: Lesão osteocondral em {local}, {estabilidade|de aspecto estável/com sinais de instabilidade}.
+Osso e medula óssea:  falha osteocondral em {local}, medindo cerca de {medida}, com {interface|interface de hipossinal em T2, sugerindo estabilidade/interface de hipersinal em T2 circundando o fragmento, sugerindo instabilidade}.

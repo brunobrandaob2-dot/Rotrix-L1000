@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Corpos vertebrais
+# gatilhos: schmorl | nodulo de schmorl | hernia intraesponjosa | nodulos de schmorl
+# conclusao: Nódulos de Schmorl, sem significado clínico evidente.
+Corpos vertebrais:  hérnias intraesponjosas (nódulos de Schmorl) nos platôs de {nivel}, {numero|esparsas/isoladas}, sem edema associado.

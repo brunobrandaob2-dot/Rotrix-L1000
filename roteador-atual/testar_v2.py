@@ -11,6 +11,7 @@ nem caminho de pasta — o caminho tem o nome do paciente dentro.
 import io
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -20,6 +21,8 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="repla
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import radius  # noqa: E402
+
+AQUI_APP = os.path.dirname(os.path.abspath(__file__))
 import roteador  # noqa: E402
 
 PROIBIDOS = ["FULANO", "BELTRANO", "CICLANO", "SOUZA", "123456789", "987654321",
@@ -306,8 +309,14 @@ def download_de_dicom(falhas):
         x = soltos[0]
         if x["modalidade"] != "CT" or x["descricao"] != "TOMOGRAFIA DE TORAX":
             falhas.append("download: a linha não veio do cabeçalho: %r" % x)
-        if x["entrou"] != "2026-09-23T14:05:12":
-            falhas.append("download: hora do exame %r" % x["entrou"])
+        # a fila segue a ORDEM DE DOWNLOAD: "entrou" é quando o arquivo chegou
+        # aqui, não a hora da aquisição. A do exame vai em "quando_exame".
+        if x.get("quando_exame") != "2026-09-23T14:05:12":
+            falhas.append("download: hora do exame %r" % x.get("quando_exame"))
+        if x["entrou"] == "2026-09-23T14:05:12":
+            falhas.append("download: 'entrou' voltou a ser a hora do exame")
+        if not re.match(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d$", x["entrou"] or ""):
+            falhas.append("download: 'entrou' fora do formato %r" % x["entrou"])
         if x["iniciais"] != "F.B.T." or not x.get("lido_do_dicom"):
             falhas.append("download: iniciais/marca %r" % x)
         texto = json.dumps(fila, ensure_ascii=False)
@@ -381,7 +390,9 @@ def oficina_de_mascaras(falhas):
         return True, "base refeita (teste)"
 
     try:
-        r = oficina.aplicar(props, None, refazer_falso)
+        # a recompilação aqui é simulada: a conferência no banco tem o seu
+        # próprio teste, com construir_base de verdade
+        r = oficina.aplicar(props, None, refazer_falso, conferir_no_banco=False)
         if not r.get("ok") or r.get("aplicadas") != 2:
             falhas.append("oficina: aplicar respondeu %r" % {k: r[k] for k in ("ok", "aplicadas", "erros")})
             return
@@ -410,7 +421,7 @@ def oficina_de_mascaras(falhas):
         sobrou = [a for raiz, _x, arqs in os.walk(usuario) for a in arqs if a.endswith(".txt")]
         if sobrou:
             falhas.append("oficina: depois de desfazer sobrou %s" % sobrou)
-        if oficina.aplicar([], None, refazer_falso).get("ok"):
+        if oficina.aplicar([], None, refazer_falso, conferir_no_banco=False).get("ok"):
             falhas.append("oficina: aplicar sem proposta não pode dar ok")
     finally:
         oficina.PASTA_USUARIO, oficina.PASTA_COPIAS = guarda
@@ -468,6 +479,384 @@ def adendos(falhas):
         falhas.append("adendo: tipo desconhecido deveria cair no livre e responder")
 
 
+def ordem_da_mascara_rx(falhas):
+    """A máscara normal de RX sai na ordem do arquivo, mesmo com lacuna na linha.
+
+    O motor de RX sobe para o topo da ANÁLISE toda frase que ele lê como
+    alteração. Uma linha da própria máscara com lacuna — a tabela de medidas da
+    escanometria, as medidas da panorâmica — deixava de casar com o arquivo cru
+    e era promovida, embaralhando o laudo. Isto trava esse comportamento."""
+    casos = {
+        "escanometria de membros inferiores": [
+            "Os seguintes aspectos foram observados.",
+            "Medidas em cm:",
+            "DIREITO",
+            "FÊMUR",
+            "TÍBIA",
+            "MEMBRO INFERIOR",
+            "Estruturas ósseas avaliadas",
+        ],
+        "radiografia digital panoramica da coluna vertebral": [
+            "Alinhamento preservado",
+            "Índice de Risser",
+            "Báscula ilíaca",
+            "Balanço sagital",
+            "Ângulo da cifose torácica",
+            "Ângulo de Ferguson",
+            "Ângulo da lordose lombar",
+            "Corpos vertebrais",
+            "Espaços discais",
+            "Elementos posteriores",
+        ],
+        "radiografia digital panoramica dos membros inferiores": [
+            "Eixo mecânico do membro inferior direito",
+            "Eixo mecânico do membro inferior esquerdo",
+            "Ângulo anatômico femorotibial direito",
+            "Ângulo anatômico femorotibial esquerdo",
+            "Comprimento femorotibial direito",
+            "Comprimento femorotibial esquerdo",
+            "O membro inferior",
+        ],
+    }
+    for ditado, esperado in casos.items():
+        saida, origem = roteador.rotear(ditado)
+        if not origem.startswith("mascara:"):
+            falhas.append("ordem rx: %r não caiu na máscara (%s)" % (ditado, origem))
+            continue
+        pos, anterior = -1, None
+        for pedaco in esperado:
+            i = saida.find(pedaco)
+            if i < 0:
+                falhas.append("ordem rx: %r perdeu %r" % (ditado, pedaco))
+                break
+            if i < pos:
+                falhas.append("ordem rx: %r trocou %r de lugar (veio antes de %r)"
+                              % (ditado, pedaco, anterior))
+                break
+            pos, anterior = i, pedaco
+
+
+def idade_ossea_calc(falhas):
+    """Idade óssea: aritmética local, conferida contra o formulário dele.
+
+    O caso de referência é o print que ele mandou — 15/04/2025, exame em
+    24/09/2026, masculino, idade óssea observada de 1 ano e 5 meses. O
+    formulário dele devolve DP 3,26 meses, faixa de 10 a 24 meses, Z 0,00 e
+    percentil 50%. Se algum destes quatro mudar, a tabela ou a interpolação
+    foi mexida."""
+    import idade_ossea as io
+    r = io.laudo("15/04/2025", "24/09/2026", "Masculino", 1, 5)
+    for campo, esperado in (("cronologica_meses", 17), ("dp_meses", 3.26),
+                            ("limite_inferior_meses", 10), ("limite_superior_meses", 24),
+                            ("z", 0.0), ("percentil", 50.0)):
+        if r[campo] != esperado:
+            falhas.append("idade óssea: %s deu %r, esperado %r" % (campo, r[campo], esperado))
+    if "12 meses (24 meses)" in r["texto"]:
+        falhas.append("idade óssea: 24 meses saiu como '1 ano e 12 meses'")
+    if "2 anos (24 meses)" not in r["texto"]:
+        falhas.append("idade óssea: o limite superior não saiu por extenso")
+
+    # o DP é interpolado: no ponto da tabela tem que bater exato
+    if round(io.desvio_padrao(18, "masculino"), 2) != 3.52:
+        falhas.append("idade óssea: DP masculino em 18 meses fora da tabela")
+    if round(io.desvio_padrao(120, "feminino"), 2) != 11.73:
+        falhas.append("idade óssea: DP feminino em 10 anos fora da tabela")
+    # fora da tabela: não extrapola, segura na ponta
+    if io.desvio_padrao(1, "masculino") != io.desvio_padrao(3, "masculino"):
+        falhas.append("idade óssea: abaixo do primeiro ponto deveria repetir a ponta")
+    if io.desvio_padrao(400, "feminino") != io.desvio_padrao(204, "feminino"):
+        falhas.append("idade óssea: acima do último ponto deveria repetir a ponta")
+
+    # as três faixas
+    atrasada = io.laudo("15/04/2015", "24/09/2026", "Masculino", 7, 0)
+    if io.classificar(atrasada) != "atrasada":
+        falhas.append("idade óssea: 7 anos aos 11 deveria ser atrasada")
+    avancada = io.laudo("15/04/2015", "24/09/2026", "Masculino", 14, 0)
+    if io.classificar(avancada) != "avancada":
+        falhas.append("idade óssea: 14 anos aos 11 deveria ser avançada")
+    # menina e menino na mesma idade não têm o mesmo DP
+    if io.desvio_padrao(60, "feminino") == io.desvio_padrao(60, "masculino"):
+        falhas.append("idade óssea: o DP não está separado por sexo")
+
+    # nada de rede: o cálculo é local
+    aqui = os.path.dirname(os.path.abspath(__file__))
+    fonte = open(os.path.join(aqui, "idade_ossea.py"), encoding="utf-8").read()
+    for proibido in ("import nuvem", "import requests", "import urllib", "import http",
+                     "import socket", "urlopen", "requests.post"):
+        if proibido in fonte:
+            falhas.append("idade óssea: o módulo não pode sair da máquina (%s)" % proibido)
+
+
+def exames_de_medida(falhas):
+    """Escanometria, panorâmica de MMII e da coluna: a conta é local.
+
+    A IA só devolve números lidos do print. Se ela escrevesse o laudo, cada
+    exame sairia com uma redação e a aritmética dependeria do modelo."""
+    import medidas
+
+    # arredondamento em quartos, na LEITURA (regra da habilidade)
+    for bruto, esperado in ((92.1, 92.0), (48.85, 48.75), (13.2, 13.25),
+                            (13.4, 13.5), (13.6, 13.5), (13.9, 14.0)):
+        if medidas.quarto(bruto) != esperado:
+            falhas.append("medidas: quarto(%s) deu %s, esperado %s"
+                          % (bruto, medidas.quarto(bruto), esperado))
+
+    leituras = {"quadril_d": 92.1, "quadril_e": 92.0, "joelho_d": 48.85,
+                "joelho_e": 49.0, "tornozelo_d": 13.0, "tornozelo_e": 13.2}
+    r = medidas.montar("escanometria", leituras)
+    if not r.get("ok"):
+        falhas.append("medidas: escanometria não montou (%r)" % r.get("motivo"))
+        return
+    v = r["valores"]
+    # subtração, não leitura direta
+    for k, esperado in (("femur_d", 43.25), ("femur_e", 43.0),
+                        ("tibia_d", 35.75), ("tibia_e", 35.75),
+                        ("mi_d", 79.0), ("mi_e", 78.75)):
+        if abs(v[k] - esperado) > 1e-9:
+            falhas.append("medidas: %s deu %s, esperado %s" % (k, v[k], esperado))
+    if v["lado_maior"] != "direito" or abs(v["dismetria"] - 0.25) > 1e-9:
+        falhas.append("medidas: dismetria errada (%r, %r)" % (v["lado_maior"], v["dismetria"]))
+    # todo derivado cai na grade do quarto de centímetro
+    for k in ("femur_d", "femur_e", "tibia_d", "tibia_e", "mi_d", "mi_e", "dismetria"):
+        if abs(v[k] * 4 - round(v[k] * 4)) > 1e-9:
+            falhas.append("medidas: %s saiu fora da grade de quartos (%s)" % (k, v[k]))
+
+    # a tabela tem que continuar nas colunas da habilidade
+    for linha in r["texto"].split("\n"):
+        m = medidas._LINHA_TABELA.match(linha)
+        if m:
+            if linha.index(m.group(2)) != medidas.COL_1:
+                falhas.append("medidas: coluna DIREITO fora do lugar (%r)" % linha)
+            if linha.index(m.group(3), medidas.COL_1 + 1) != medidas.COL_2:
+                falhas.append("medidas: coluna ESQUERDO fora do lugar (%r)" % linha)
+    if "___" in r["texto"]:
+        falhas.append("medidas: sobrou lacuna vazia no laudo preenchido")
+    # o texto é o da máscara, não escrito na hora
+    for pedaco in ("Os seguintes aspectos foram observados.", "Medidas em cm:",
+                   "              DIREITO    ESQUERDO", "Estruturas ósseas avaliadas"):
+        if pedaco not in r["texto"]:
+            falhas.append("medidas: o laudo perdeu %r" % pedaco)
+
+    # nível ausente: não inventa, diz o que falta
+    faltando = dict(leituras); faltando.pop("tornozelo_e")
+    r2 = medidas.montar("escanometria", faltando)
+    if r2.get("ok") or r2.get("motivo") != "nivel_ausente":
+        falhas.append("medidas: sem um nível deveria recusar, não estimar")
+    if "tornozelo_e" not in (r2.get("faltando") or []):
+        falhas.append("medidas: não disse qual nível faltou")
+
+    # sanidade: número fora de ordem de grandeza vira aviso, não laudo calado
+    torto = dict(leituras, joelho_d=80.0)
+    r3 = medidas.montar("escanometria", torto)
+    if not any("sanidade" in a for a in r3.get("avisos", [])):
+        falhas.append("medidas: fêmur absurdo passou sem aviso de sanidade")
+
+    # a borda de 1,00 cm é a única que muda conduta
+    borda = dict(leituras, tornozelo_e=13.95)
+    r4 = medidas.montar("escanometria", borda)
+    if not any("1,00 cm" in a for a in r4.get("avisos", [])):
+        falhas.append("medidas: dismetria na borda de 1 cm sem ressalva")
+
+    # panorâmica de MMII: a dismetria sai de conta, não do ditado
+    r5 = medidas.montar("panoramica_mmii", {
+        "relacao_d": "medial", "relacao_e": "medial", "desvio_d": "9", "desvio_e": "5",
+        "geno_d": "varo", "geno_e": "varo", "aft_d": "5,4", "aft_e": "6,1",
+        "comp_d": "78,4", "comp_e": "79,0"})
+    if r5["valores"].get("lado_menor") != "direito":
+        falhas.append("medidas: lado menor da panorâmica de MMII errado")
+    if abs(r5["valores"]["dismetria"] - 0.6) > 0.001:
+        falhas.append("medidas: dismetria da panorâmica de MMII errada")
+
+    # panorâmica da coluna: preenche sem inventar campo que não veio
+    r6 = medidas.montar("panoramica_coluna", {"cobb": "8", "risser": "V"})
+    if "{cobb}" in r6["texto"] or "8" not in r6["texto"]:
+        falhas.append("medidas: a coluna não preencheu o Cobb")
+    if "{sva}" not in r6["texto"]:
+        falhas.append("medidas: campo não informado deveria continuar lacuna")
+
+    # o módulo não fala com a nuvem: quem fala é a rota da imagem
+    fonte = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              "medidas.py"), encoding="utf-8").read()
+    for proibido in ("import nuvem", "import requests", "import urllib", "urlopen"):
+        if proibido in fonte:
+            falhas.append("medidas: o módulo não pode sair da máquina (%s)" % proibido)
+
+
+def oficina_grava_no_banco(falhas):
+    """O teste que teria pego o defeito: máscara da oficina TEM que virar gatilho.
+
+    A oficina grava sempre em dados/mascaras_usuario. Antes, com o
+    `fonte_mascaras` no padrão ("rotrix") — que é o caso de quem nunca mexeu no
+    ajuste —, essa pasta não era percorrida na compilação: o arquivo existia no
+    disco e não existia no banco, e a oficina dizia "aplicado".
+
+    Roda nas TRÊS fontes. Em qualquer uma, a máscara do usuário tem que estar
+    no banco; a fonte decide só quem vence o gatilho repetido."""
+    import subprocess
+    pasta = os.path.join(AQUI_APP, "dados", "mascaras_usuario", "tc", "_regressao")
+    arq = os.path.join(pasta, "m.txt")
+    gatilho = "tomografia de regressao da oficina"
+    os.makedirs(pasta, exist_ok=True)
+    io.open(arq, "w", encoding="utf-8").write(
+        "# gatilhos: %s\n"
+        "# categoria: medicina_interna\n# modalidade: tc\n# regiao: _regressao\n"
+        "# tipo_mascara: normal\n"
+        "**TOMOGRAFIA DE REGRESSAO**\n\n"
+        "**TÉCNICA:**  aquisição de teste.\n\n"
+        "**INDICAÇÃO CLÍNICA:**  Em anexo.\n\n"
+        "**ANÁLISE:**\nTeste:  máscara escrita pela oficina.\n\n"
+        "**COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.\n\n"
+        "**CONCLUSÃO:**\nExame sem alterações significativas.\n" % gatilho)
+    try:
+        for fonte in ("rotrix", "minhas", "ambas"):
+            fd, base = tempfile.mkstemp(suffix=".sqlite"); os.close(fd)
+            env = dict(os.environ, LAUDO_BASE=base, LAUDO_CATALOGO=base + ".txt",
+                       LAUDO_FONTE=fonte)
+            r = subprocess.run([sys.executable, "construir_base.py"], cwd=AQUI_APP,
+                               env=env, capture_output=True, text=True)
+            if r.returncode != 0:
+                falhas.append("oficina/regressão: construir_base falhou em fonte=%s" % fonte)
+                continue
+            b = roteador.Banco(base)
+            achou = [it for it in b.itens
+                     if it[0] == "mascara" and it[1] == roteador.normalizar(gatilho)]
+            if not achou:
+                falhas.append("oficina/regressão: com fonte=%s a máscara do usuário "
+                              "não entrou no banco" % fonte)
+            elif not achou[0][2].startswith("usuario/"):
+                falhas.append("oficina/regressão: com fonte=%s o gatilho caiu em %s"
+                              % (fonte, achou[0][2]))
+            for x in (base, base + ".txt"):
+                try: os.remove(x)
+                except OSError: pass
+    finally:
+        shutil.rmtree(pasta, ignore_errors=True)
+
+    # a armadilha do comando no começo do gatilho
+    import oficina
+    if not oficina.comando_no_comeco("mascara de joelho direito"):
+        falhas.append("oficina: gatilho que começa com 'mascara' tem que ser recusado")
+    if oficina.comando_no_comeco("raio x de joelho direito"):
+        falhas.append("oficina: gatilho normal foi recusado à toa")
+    if oficina.sem_a_palavra_de_comando("mascara de joelho direito") != "de joelho direito":
+        falhas.append("oficina: a sugestão sem a palavra de comando saiu errada")
+
+    # a conferência de ponta a ponta não pode dizer que confere o que não existe
+    fantasma = oficina.conferir([{"arquivo": "mascaras_usuario/tc/nao_existe/x.txt"}])
+    if fantasma[0].get("confere"):
+        falhas.append("oficina: conferiu uma máscara que não existe")
+
+    # a auditoria responde sem levantar
+    a = oficina.auditar()
+    for campo in ("fora_do_banco", "sem_gatilho", "gatilho_disputado", "comeca_com_comando"):
+        if campo not in a:
+            falhas.append("oficina: auditoria sem o campo %s" % campo)
+
+
+def oficina_ponta_a_ponta(falhas):
+    """O caminho de verdade: oficina grava -> base recompila -> gatilho acha.
+
+    Sem recompilação simulada e sem pasta de mentira. É este teste que responde
+    à queixa "mando gerar a máscara, ela diz que gravou, e o comando não acha"."""
+    import subprocess, oficina
+    conf = os.path.join(AQUI_APP, "config.json")
+    guarda_conf = io.open(conf, encoding="utf-8").read()
+    # _arquivo_do_usuario() passa a região pelo slug: "_e2e" vira "e2e"
+    alvos = [os.path.join(oficina.PASTA_USUARIO, "rx", n) for n in ("_e2e", "e2e")]
+    gatilho = "raio x de teste de ponta a ponta da oficina"
+
+    def refazer_real():
+        r = subprocess.run([sys.executable, "construir_base.py"], cwd=AQUI_APP,
+                           capture_output=True, text=True)
+        return r.returncode == 0, (r.stdout or r.stderr or "").strip().splitlines()[-1:]
+
+    props = [{"acao": "criar", "nome": "teste ponta a ponta", "modalidade": "rx",
+              "regiao": "_e2e", "gatilhos": [gatilho],
+              "depois": "**RADIOGRAFIA DE TESTE**\n\n**TÉCNICA:**  incidência única.\n\n"
+                        "**ANÁLISE:**\nMarca unica do teste de ponta a ponta."}]
+    try:
+        r = oficina.aplicar(props, roteador.BANCO, refazer_real)
+        if not r.get("ok"):
+            falhas.append("oficina e2e: aplicar não deu ok (%r)" % r.get("erros"))
+        item = (r.get("itens") or [{}])[0]
+        if not item.get("confere"):
+            falhas.append("oficina e2e: gravou e o comando não acha (%s)" % item.get("porque"))
+        if item.get("gatilho_testado") != gatilho:
+            falhas.append("oficina e2e: testou outro gatilho (%r)" % item.get("gatilho_testado"))
+        # e o comando realmente traz o texto novo
+        texto, origem = roteador.rotear(gatilho)
+        if "Marca unica do teste" not in texto:
+            falhas.append("oficina e2e: o texto escrito não saiu no laudo (%s)" % origem)
+        # a fonte sobe sozinha para "ambas": senão a edição fica escrita e não vale
+        if r.get("fonte_mudou") not in ("", "ambas"):
+            falhas.append("oficina e2e: fonte_mudou inesperado (%r)" % r.get("fonte_mudou"))
+        import importar_usuario
+        if importar_usuario.fonte_atual() == "rotrix":
+            falhas.append("oficina e2e: depois de gravar, a fonte não podia seguir em rotrix")
+        # a auditoria não pode acusar o que acabou de entrar certo
+        a = oficina.auditar(roteador.BANCO)
+        if any("_e2e" in x for x in a["fora_do_banco"]):
+            falhas.append("oficina e2e: a auditoria disse que está fora do banco")
+    finally:
+        for a in alvos:
+            shutil.rmtree(a, ignore_errors=True)
+        io.open(conf, "w", encoding="utf-8").write(guarda_conf)
+        subprocess.run([sys.executable, "construir_base.py"], cwd=AQUI_APP,
+                       capture_output=True, text=True)
+        try:
+            roteador.BANCO.carregar()
+        except Exception:
+            pass
+
+
+def rotas_novas(falhas):
+    """As rotas que o app vai chamar: medidas, idade óssea e auditoria.
+
+    Todas locais. Nenhuma delas pode mandar nada para fora, e nenhuma pode
+    quebrar com entrada torta — o app manda o que o médico digitou."""
+    c = roteador.medidas_campos()
+    if not c.get("ok") or sorted(c["exames"]) != ["escanometria", "panoramica_coluna", "panoramica_mmii"]:
+        falhas.append("rotas: /medidas/campos não trouxe os três exames (%r)" % c.get("exames"))
+    for nome, conf in (c.get("exames") or {}).items():
+        if not conf.get("mascara") or not conf.get("titulo"):
+            falhas.append("rotas: o exame %s veio sem máscara ou título" % nome)
+
+    r = roteador.medidas_exame("escanometria", {
+        "quadril_d": 92.1, "quadril_e": 92.0, "joelho_d": 48.85,
+        "joelho_e": 49.0, "tornozelo_d": 13.0, "tornozelo_e": 13.2})
+    if not r.get("ok") or "EXAME RADIOLÓGICO DE ESCANOMETRIA" not in r.get("texto", ""):
+        falhas.append("rotas: /medidas não montou a escanometria")
+    if abs(r["valores"]["dismetria"] - 0.25) > 1e-9:
+        falhas.append("rotas: a dismetria da rota saiu diferente da do módulo")
+
+    # entradas tortas não podem levantar
+    for ruim in ({}, {"exame": "coisa"}, {"exame": "escanometria", "valores": "texto"}):
+        out = roteador.medidas_exame(ruim.get("exame") or "", ruim.get("valores") or {})
+        if out.get("ok"):
+            falhas.append("rotas: /medidas aceitou entrada inválida (%r)" % ruim)
+
+    i = roteador.idade_ossea_laudo({"nascimento": "15/04/2025", "exame": "24/09/2026",
+                                    "sexo": "Masculino", "anos": 1, "meses": 5})
+    if not i.get("ok") or i.get("dp_meses") != 3.26 or i.get("classificacao") != "compativel":
+        falhas.append("rotas: /idade_ossea saiu diferente do formulário dele (%r)" % i)
+    if not isinstance(i.get("nascimento"), str):
+        falhas.append("rotas: /idade_ossea devolveu data que não vira JSON")
+    ruim = roteador.idade_ossea_laudo({"nascimento": "trinta e um", "exame": "24/09/2026"})
+    if ruim.get("ok") or ruim.get("motivo") != "dados_invalidos":
+        falhas.append("rotas: /idade_ossea aceitou data inválida")
+
+    a = roteador.auditar_banco()
+    for campo in ("fora_do_banco", "sem_gatilho", "gatilho_disputado", "comeca_com_comando"):
+        if campo not in a:
+            falhas.append("rotas: /mascaras/auditar sem o campo %s" % campo)
+
+    # nada das três rotas pode vazar identificador para fora
+    bruto = json.dumps([r, i, a], ensure_ascii=False, default=str).upper()
+    for p in PROIBIDOS:
+        if p.upper() in bruto:
+            falhas.append("rotas: uma das rotas novas devolveu %r" % p)
+
+
 def main():
     falhas = []
     banco(falhas)
@@ -477,7 +866,13 @@ def main():
     pasta_de_downloads(falhas)
     download_de_dicom(falhas)
     oficina_de_mascaras(falhas)
+    oficina_grava_no_banco(falhas)
+    oficina_ponta_a_ponta(falhas)
     adendos(falhas)
+    ordem_da_mascara_rx(falhas)
+    idade_ossea_calc(falhas)
+    exames_de_medida(falhas)
+    rotas_novas(falhas)
     for f in falhas:
         print("FALHOU", f)
     print("v2: tudo certo" if not falhas else "v2: %d falha(s)" % len(falhas))

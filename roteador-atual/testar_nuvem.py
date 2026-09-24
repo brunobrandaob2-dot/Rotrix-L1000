@@ -190,6 +190,73 @@ if roteador is not None:
     t, o = roteador.rotear("rx de joelho direito com artrose medial, formar laudo")
     confere("formar laudo sem IA não chama a nuvem", len(ENVIADOS) == antes and o.startswith("formar:"), o)
 
+# ---------------------------------------------------------------------------
+# A chave da TELA manda; a variável de ambiente é o reserva.
+# O caso real: quem tem ANTHROPIC_API_KEY no Windows gravava a chave nova pela
+# tela, via "configurada" em verde, e o roteador seguia com a velha. A ordem
+# estava invertida — a variável vinha antes do arquivo.
+# ---------------------------------------------------------------------------
+print()
+_var = "ROTRIX_TESTE_CHAVE"
+os.environ[_var] = "chave-da-variavel"
+_c = dict(nuvem.PADRAO)
+_c["provedores"] = {"compativel": {"arquivo_da_chave": "k.txt",
+                                   "variavel_de_ambiente": _var,
+                                   "url": "https://exemplo.invalido/v1/chat/completions"}}
+_arq = os.path.join(nuvem.AQUI, "k.txt")
+
+_k, _o = nuvem.chave_e_origem(_c, "compativel")
+confere("sem arquivo, vale a variável de ambiente",
+        _k == "chave-da-variavel" and _o.startswith("variavel:"), "%r %r" % (_k, _o))
+
+io.open(_arq, "w", encoding="utf-8").write("chave-da-tela\n")
+_k, _o = nuvem.chave_e_origem(_c, "compativel")
+confere("a chave gravada pela tela vence a variável de ambiente",
+        _k == "chave-da-tela" and _o.startswith("arquivo:"), "%r %r" % (_k, _o))
+
+io.open(_arq, "w", encoding="utf-8").write("   \n")
+_k, _o = nuvem.chave_e_origem(_c, "compativel")
+confere("arquivo vazio não derruba a chave: cai na variável",
+        _k == "chave-da-variavel", repr(_k))
+os.remove(_arq)
+os.environ.pop(_var, None)
+
+confere("o estado da IA nunca devolve a chave",
+        "teste-anthropic" not in json.dumps(nuvem.estado(), ensure_ascii=False))
+confere("o estado diz de onde a chave veio", "origem_da_chave" in nuvem.estado())
+
+# provedor pelo prefixo: é o que tira o nome do fabricante da tela
+_pref = [("sk-ant-abc", "anthropic"), ("sk-or-abc", "openrouter"), ("AIzaSyABC", "gemini"),
+         ("sk-proj-abc", "openai"), ("sk-abc", "openai"), ("xyz", "")]
+confere("provedor detectado pelo prefixo da chave",
+        all(nuvem.provedor_da_chave(k) == e for k, e in _pref),
+        str([(k, nuvem.provedor_da_chave(k)) for k, e in _pref if nuvem.provedor_da_chave(k) != e]))
+
+# a lista de modelos sai da URL do próprio provedor, sem tabela no código
+_urls = [("anthropic", "https://api.anthropic.com/v1/models"),
+         ("openai", "https://api.openai.com/v1/models"),
+         ("openrouter", "https://openrouter.ai/api/v1/models")]
+confere("URL da lista de modelos derivada do provedor",
+        all(nuvem._url_de_modelos(nuvem.provedor_cfg(nuvem.PADRAO, p)) == u for p, u in _urls))
+
+_sem = nuvem.modelos(dict(nuvem.PADRAO, provedores={"openai": {"variavel_de_ambiente": "NAO_EXISTE_X"}}),
+                     "openai")
+confere("sem chave, a lista de modelos nem sai para a rede",
+        not _sem.get("ok") and _sem.get("motivo") == "sem_chave" and not _sem.get("modelos"),
+        repr(_sem.get("motivo")))
+
+# gravar_config junta em vez de sobrescrever, e nunca grava chave
+_guarda_cfg = nuvem.CONFIG
+nuvem.CONFIG = os.path.join(tmp, "nuvem_teste.json")
+io.open(nuvem.CONFIG, "w", encoding="utf-8").write('{"provedor": "openai", "modelo": "x"}')
+nuvem.gravar_config({"modelos_vistos": {"openai": [{"id": "m", "nome": "m"}]}, "chave": "SEGREDO"})
+_lido = json.loads(io.open(nuvem.CONFIG, encoding="utf-8").read())
+confere("gravar_config junta e não apaga o que já estava",
+        _lido.get("provedor") == "openai" and "modelos_vistos" in _lido, repr(sorted(_lido)))
+confere("gravar_config nunca grava chave", "chave" not in _lido)
+os.remove(nuvem.CONFIG)
+nuvem.CONFIG = _guarda_cfg
+
 print()
 if falhas:
     print("%d FALHA(S): %s" % (len(falhas), ", ".join(falhas)))

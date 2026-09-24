@@ -789,8 +789,25 @@ def _soltos_brutos(pasta, fila_radius=(), exigir_exame=False):
                 continue
         except OSError:
             continue
-        achados.append((_id_de_caminho(caminho), caminho, info.st_mtime, e.name))
+        achados.append((_id_de_caminho(caminho), caminho, _baixado_em(caminho, info), e.name))
     return achados
+
+
+def _baixado_em(caminho, info=None):
+    """Quando o exame chegou NESTE computador.
+
+    Não serve o mtime sozinho: ZIP extraído carrega a data que o arquivo tinha
+    dentro do pacote, que costuma ser a do exame, e aí a fila fica ordenada pela
+    hora da aquisição em vez da hora do download. No Windows, st_ctime é a data
+    de criação do arquivo aqui — é essa que responde "chegou antes ou depois?".
+    Fora do Windows, st_ctime é a última troca de metadados; ainda assim a mais
+    próxima da chegada. Na dúvida, a MAIS RECENTE das duas: um arquivo não pode
+    ter chegado antes de existir."""
+    try:
+        st = info or os.stat(caminho)
+    except OSError:
+        return 0.0
+    return max(getattr(st, "st_ctime", 0) or 0, st.st_mtime or 0)
 
 
 _CAB = {}          # (caminho, mtime) -> cabeçalho lido; evita reler a cada 20 s
@@ -831,8 +848,12 @@ def soltos(pasta, fila_radius=(), exigir_exame=False):
             "descricao": cab.get("descricao") or "",
             "status": "baixado por fora",
             "laudado": None,
-            "entrou": cab.get("entrou")
-                      or time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(mtime)),
+            # A FILA SEGUE A ORDEM DE DOWNLOAD, não a hora do exame. O cabeçalho
+            # DICOM traz a hora da aquisição, que pode ser de semanas atrás — o
+            # exame antigo baixado agora ia parar no fim da lista. "entrou" é a
+            # hora em que o arquivo chegou aqui; a do exame vai à parte.
+            "entrou": time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(mtime)),
+            "quando_exame": cab.get("entrou") or "",
             "iniciais": cab.get("iniciais") or iniciais(os.path.splitext(nome)[0]),
             "origem": "pasta",
             "principal": False,
@@ -943,8 +964,38 @@ def executavel_radiant(config=None):
     return None
 
 
+def montar_comando(exe, caminhos_abrir, fechar_outras=True, arvore=False):
+    """Uma linha de comando só, para tudo abrir na MESMA janela do RadiAnt.
+
+    O manual do RadiAnt é específico: `-f` recebe VÁRIOS arquivos de uma vez
+    (`-f "a.dcm" "b.dcm"`) e `-d` recebe VÁRIAS pastas. Repetir `-f` a cada
+    caminho, e mandar pasta como se fosse arquivo, é o que fazia dois exames
+    marcados abrirem separados — ou um deles não abrir.
+
+    `-cl` fecha as outras janelas do RadiAnt, para o estudo novo não ir parar
+    numa janela velha que ficou aberta do laudo anterior.
+
+    Estudos do mesmo paciente carregados juntos aparecem agrupados sozinhos na
+    lista de séries: o agrupamento é por PatientID, o RadiAnt faz.
+    """
+    pastas = [c for c in caminhos_abrir if os.path.isdir(c)]
+    arquivos = [c for c in caminhos_abrir if not os.path.isdir(c)]
+    args = [exe]
+    if fechar_outras:
+        args.append("-cl")
+    if arvore and pastas:
+        args.append("-b")
+    if pastas:
+        args.append("-d")
+        args += pastas
+    if arquivos:
+        args.append("-f")
+        args += arquivos
+    return args
+
+
 def abrir(pasta, ids, config=None, extras=()):
-    """Abre os estudos marcados no RadiAnt, na mesma janela (um -f por estudo)."""
+    """Abre os estudos marcados no RadiAnt, todos na mesma janela."""
     achados = dict(caminhos(pasta, ids))
     for p in [pasta] + list(extras or []):
         for cod, caminho, _mtime, _nome in _soltos_brutos(p):
@@ -955,11 +1006,11 @@ def abrir(pasta, ids, config=None, extras=()):
     exe = executavel_radiant(config)
     if not exe:
         return {"ok": False, "motivo": "radiant_nao_encontrado", "achados": len(achados)}
-    args = [exe]
-    for cod in (ids or []):
-        c = achados.get(cod)
-        if c:
-            args += ["-f", c]
+    cfg = config if isinstance(config, dict) else {}
+    lista = [achados[cod] for cod in (ids or []) if achados.get(cod)]
+    args = montar_comando(exe, lista,
+                          fechar_outras=cfg.get("radiant_fechar_outras", True),
+                          arvore=cfg.get("radiant_arvore", False))
     try:
         import subprocess
         subprocess.Popen(args, close_fds=True)

@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Osso e medula óssea
+# gatilhos: gonartrose | artrose do joelho | alteracoes degenerativas do joelho | osteoartrose
+# conclusao: Alterações osteodegenerativas do joelho, de predomínio {compartimento|femorotibial medial/femorotibial lateral/femoropatelar}.
+Osso e medula óssea:  osteofitose marginal e esclerose subcondral, de predomínio no compartimento {compartimento|femorotibial medial/femorotibial lateral/femoropatelar}, {geodos|associadas a geodos subcondrais/sem geodos subcondrais}, com redução do espaço articular.

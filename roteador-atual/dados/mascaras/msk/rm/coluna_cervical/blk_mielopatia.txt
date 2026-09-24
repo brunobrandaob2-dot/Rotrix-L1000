@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Medula cervical
+# gatilhos: mielopatia | hipersinal medular | sofrimento medular | alteracao de sinal medular | mielomalacia
+# conclusao: Alteração de sinal intramedular em {nivel}, compatível com mielopatia compressiva.
+Medula cervical:  área focal de hipersinal em T2 no cordão medular em nível de {nivel}, {extensao|sem expansão medular/com discreta expansão medular}, em topografia correspondente ao ponto de maior estreitamento do canal, achado compatível com mielopatia compressiva.

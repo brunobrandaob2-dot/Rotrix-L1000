@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Cone medular e cauda equina
+# gatilhos: cone medular baixo | cone baixo | medula presa | ancoramento medular
+# conclusao: Cone medular de terminação baixa — correlacionar com quadro clínico.
+Cone medular e cauda equina:  cone medular terminando em nível de {nivel}, abaixo do habitual, com {filamento|espessamento do filamento terminal/filamento terminal de espessura normal}, devendo-se correlacionar com o quadro clínico.

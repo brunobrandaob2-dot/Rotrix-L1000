@@ -1,0 +1,3 @@
+# gatilhos: espacos discais reduzidos | reducao dos espacos discais na panoramica
+# secao: Espaços discais
+Espaços discais reduzidos.

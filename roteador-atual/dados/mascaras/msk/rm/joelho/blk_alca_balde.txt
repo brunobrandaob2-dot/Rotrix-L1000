@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Meniscos
+# gatilhos: alca de balde | rotura em alca de balde | fragmento meniscal deslocado
+# conclusao: Rotura em alça de balde do menisco {menisco|medial/lateral}, com fragmento deslocado para a incisura intercondilar.
+Meniscos:  rotura longitudinal do menisco {menisco|medial/lateral} com fragmento deslocado para a incisura intercondilar, configurando o aspecto em alça de balde, associado a {sinal|sinal do duplo ligamento cruzado posterior/aspecto de menisco de dimensões reduzidas}.

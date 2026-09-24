@@ -378,7 +378,9 @@ def _gravar_config(c):
     os.replace(tmp, CONFIG)
 
 def fonte_atual():
-    f = (_config().get("fonte_mascaras") or "rotrix").lower()
+    # LAUDO_FONTE existe para o teste de regressão poder compilar a base nas
+    # três fontes sem mexer no config.json do médico.
+    f = (os.environ.get("LAUDO_FONTE") or _config().get("fonte_mascaras") or "rotrix").lower()
     return f if f in FONTES else "rotrix"
 
 def definir_fonte(f):

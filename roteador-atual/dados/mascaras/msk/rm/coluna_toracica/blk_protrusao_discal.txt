@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Discos intervertebrais
+# gatilhos: protrusao discal | hernia discal toracica | protrusao
+# conclusao: Protrusão discal {localizacao|central/paracentral/foraminal} em {nivel}.
+Discos intervertebrais:  protrusão discal {localizacao|central/paracentral/foraminal} {lado_a|à direita/à esquerda/mediana} em {nivel}, com {contato|contato com a face ventral do saco dural/contato com a face ventral do cordão medular, sem alteração de sinal medular}.

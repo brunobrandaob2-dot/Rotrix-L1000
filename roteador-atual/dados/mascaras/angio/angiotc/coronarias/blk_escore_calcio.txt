@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Escore de cálcio
+# gatilhos: escore de calcio | agatston | calcio coronariano | escore de calcio elevado
+# conclusao: Escore de cálcio de Agatston de {valor}, correspondente ao percentil {percentil} para sexo e idade.
+Escore de cálcio:  escore de cálcio de Agatston de {valor}, correspondente ao percentil {percentil} para sexo e idade, com distribuição {distribuicao|predominante na artéria descendente anterior/difusa pelos três territórios}.

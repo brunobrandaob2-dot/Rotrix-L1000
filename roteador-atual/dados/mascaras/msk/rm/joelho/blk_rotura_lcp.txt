@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Ligamentos cruzados
+# gatilhos: rotura do lcp | lesao do ligamento cruzado posterior | cruzado posterior
+# conclusao: Lesão do ligamento cruzado posterior.
+Ligamentos cruzados:  espessamento e alteração de sinal do ligamento cruzado posterior, {tipo|com descontinuidade de fibras/sem descontinuidade evidente}, caracterizando lesão {grau|de baixo grau/de alto grau}.

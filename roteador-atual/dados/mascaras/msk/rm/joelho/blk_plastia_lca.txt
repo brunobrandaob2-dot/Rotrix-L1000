@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Ligamentos cruzados
+# gatilhos: plastia do lca | reconstrucao do lca | enxerto do cruzado anterior | pos operatorio de lca
+# conclusao: Plastia do ligamento cruzado anterior, com enxerto {situacao|íntegro/com alterações de sinal}.
+Ligamentos cruzados:  alterações pós-operatórias de plastia do ligamento cruzado anterior, com túneis femoral e tibial de trajeto {trajeto|adequado/não anatômico} e enxerto {situacao|de sinal preservado e trajeto íntegro/com alteração difusa de sinal, sem descontinuidade evidente/descontínuo, sugerindo falência}.

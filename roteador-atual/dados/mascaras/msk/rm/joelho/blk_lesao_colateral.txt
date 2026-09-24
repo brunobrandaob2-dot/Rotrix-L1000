@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Ligamentos colaterais
+# gatilhos: lesao do colateral | lesao do ligamento colateral medial | lesao do colateral lateral | entorse do colateral
+# conclusao: Lesão grau {grau|I/II/III} do ligamento colateral {colateral|medial/lateral}.
+Ligamentos colaterais:  edema peritendíneo e espessamento do ligamento colateral {colateral|medial/lateral}, {fibras|sem descontinuidade de fibras/com descontinuidade parcial de fibras/com descontinuidade completa}, compatível com lesão grau {grau|I/II/III}.

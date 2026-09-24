@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Aparelho extensor
+# gatilhos: tendinopatia patelar | tendinite patelar | joelho do saltador | tendinopatia do tendao patelar
+# conclusao: Tendinopatia do tendão patelar.
+Aparelho extensor:  espessamento e alteração de sinal do tendão patelar em sua inserção {insercao|proximal/distal}, sem descontinuidade de fibras, compatível com tendinopatia.

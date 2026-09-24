@@ -1,0 +1,27 @@
+# gatilhos: escanometria | escanometria de membros inferiores | escanometria dos membros inferiores | exame radiologico de escanometria | raio x de escanometria | rx de escanometria | radiografia de escanometria | escanometria de mmii | escanometria com regua graduada | escanometria para dismetria | raio x para medir comprimento dos membros inferiores
+# categoria: msk
+# modalidade: rx
+# regiao: escanometria
+# tipo_mascara: normal
+**EXAME RADIOLÓGICO DE ESCANOMETRIA**
+
+**TÉCNICA:**
+
+Exame realizado na incidência anteroposterior, com régua radiopaca graduada, em aquisições dirigidas aos níveis dos quadris, joelhos e tornozelos.
+
+**ANÁLISE:**
+
+Os seguintes aspectos foram observados.
+
+Medidas em cm:
+
+              DIREITO    ESQUERDO
+FÊMUR           {femur_d}         {femur_e}
+TÍBIA           {tibia_d}         {tibia_e}
+MEMBRO INFERIOR {mi_d}         {mi_e}
+
+Estruturas ósseas avaliadas com morfologia e alinhamento preservados nos segmentos estudados, sem sinais de fratura, lesão focal ou alterações degenerativas significativas.
+
+**IMPRESSÃO:**
+
+O membro inferior {lado_maior|direito/esquerdo} é {dismetria} cm mais longo que o membro inferior contralateral.

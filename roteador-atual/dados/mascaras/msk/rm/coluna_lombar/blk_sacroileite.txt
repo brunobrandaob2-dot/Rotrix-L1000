@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Articulações sacroilíacas
+# gatilhos: sacroileite | sacroiliite | alteracao das sacroiliacas | edema sacroiliaco
+# conclusao: Alterações inflamatórias sacroilíacas {lado_f|bilaterais/à direita/à esquerda} — correlacionar com quadro clínico e laboratorial.
+Articulações sacroilíacas:  edema medular ósseo subcondral {lado_f|bilateral/à direita/à esquerda}, {erosoes|associado a erosões corticais/sem erosões evidentes}, achados que podem corresponder a processo inflamatório, devendo-se correlacionar com o quadro clínico e laboratorial.

@@ -1,0 +1,21 @@
+# gatilhos: prescricao de ressonancia com escopolamina | prescricao de contraste com escopolamina | prescricao rm gadolineo e escopolamina | prescricao com buscopan
+# tipo: mascara
+**PRESCRIÇÃO — RESSONÂNCIA MAGNÉTICA**
+
+AUTORIZADO O USO DO MEIO DE CONTRASTE.
+
+**1- GADOLÍNEO**
+
+VOLUME DE CONTRASTE: {volume} mL (0,1 – 0,2 mL/kg)
+
+VIA DE ADMINISTRAÇÃO: ENDOVENOSA (EV)
+
+**2- ESCOPOLAMINA**
+
+VOLUME DE CONTRASTE: 2 Ampolas
+
+VIA DE ADMINISTRAÇÃO: ENDOVENOSA (EV)
+
+OBS: O MEIO DE CONTRASTE PARAMAGNÉTICO DEVE SER ADMINISTRADO CONFORME A ORIENTAÇÃO DO OPERADOR DURANTE O EXAME.
+
+Ciente do Termo de Consentimento Livre e Esclarecido

@@ -119,9 +119,28 @@ except Exception as _e:
     FONTE, ASSINATURA = "rotrix", "rotrix|0|0|0"
 
 dm = os.path.join(DADOS, "mascaras")
+du = os.path.join(DADOS, "mascaras_usuario")
+
+
+def _tem_txt(pasta):
+    for _raiz, _p, arqs in os.walk(pasta):
+        if any(a.lower().endswith(".txt") for a in arqs):
+            return True
+    return False
+
+
+# A pasta do usuário entra no banco SEMPRE que tiver .txt lá dentro. O
+# `fonte_mascaras` decide só quem VENCE o empate, não quem entra.
+#
+# Antes, com a fonte no padrão ("rotrix"), a pasta nem era percorrida: a oficina
+# gravava o arquivo, dizia que gravou — e dizia a verdade, o arquivo estava lá —
+# mas o gatilho nunca achava nada, porque a máscara não tinha sido compilada.
+# Máscara que existe no disco e não existe no banco é pior que erro: é silêncio.
+TEM_USUARIO = os.path.isdir(du) and _tem_txt(du)
+USUARIO_VENCE = FONTE in ("minhas", "ambas")
 RAIZES = []
-if FONTE in ("minhas", "ambas"):
-    RAIZES.append((os.path.join(DADOS, "mascaras_usuario"), "usuario/", False))
+if TEM_USUARIO:
+    RAIZES.append((du, "usuario/", False))
 RAIZES.append((dm, "", FONTE == "minhas"))
 for dm_raiz, prefixo, so_comum in RAIZES:
     if not os.path.isdir(dm_raiz):
@@ -222,10 +241,15 @@ if os.path.exists(fj) and FONTE != "minhas":
 vistos, final, colisoes = set(), [], []
 def _do_usuario(l):
     return l[3].startswith("usuario/")
-ordem = ([(l, True) for l in linhas if _do_usuario(l)] +
-         [(l, False) for l in variantes if _do_usuario(l)] +
-         [(l, True) for l in linhas if not _do_usuario(l)] +
-         [(l, False) for l in variantes if not _do_usuario(l)])
+# quem vem primeiro vence o gatilho repetido. Com a fonte em "rotrix", as do
+# Rotrix ganham o empate — mas as do usuário continuam no banco, e valem em
+# todo gatilho que o Rotrix não usa.
+_primeiro, _segundo = (_do_usuario, lambda l: not _do_usuario(l)) if USUARIO_VENCE \
+    else ((lambda l: not _do_usuario(l)), _do_usuario)
+ordem = ([(l, True) for l in linhas if _primeiro(l)] +
+         [(l, False) for l in variantes if _primeiro(l)] +
+         [(l, True) for l in linhas if _segundo(l)] +
+         [(l, False) for l in variantes if _segundo(l)])
 for l, explicito in ordem:
     tipo, gn = l[0], l[1]
     k = (tipo, gn, l[7], l[8], l[9]) if tipo == "bloco" else (tipo, gn)

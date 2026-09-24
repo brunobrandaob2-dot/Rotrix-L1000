@@ -1,0 +1,8 @@
+## gatilhos: cad-rads 0 | coronarias normais conclusao
+Artérias coronárias sem placas ateroscleróticas ou estenoses (CAD-RADS 0).
+## gatilhos: recomendacao cad-rads 3
+Estenose moderada (50-69%). Sugere-se avaliação funcional complementar para definição de isquemia.
+## gatilhos: recomendacao cad-rads 4
+Estenose acentuada (70-99%). Recomenda-se avaliação cardiológica para definição de conduta.
+## gatilhos: escore de calcio zero nao exclui
+Escore de cálcio igual a zero não exclui a presença de placas não calcificadas.

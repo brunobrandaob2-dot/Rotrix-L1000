@@ -828,6 +828,83 @@ pub fn rotrix_adendo(
     )
 }
 
+/// Exames de medida (escanometria, panoramica de MMII, panoramica da coluna):
+/// os numeros entram, o laudo preenchido sai. A conta e o arredondamento em
+/// quartos de centimetro acontecem no roteador, na maquina; nada vai para fora.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_medidas(exame: String, valores: String) -> Result<String, String> {
+    let v: serde_json::Value =
+        serde_json::from_str(&valores).unwrap_or(serde_json::Value::Object(Default::default()));
+    http_post(
+        "/v1/medidas",
+        &serde_json::json!({ "exame": exame, "valores": v }).to_string(),
+        20_000,
+    )
+}
+
+/// Os campos de cada exame de medida, para a tela montar o formulario sozinha.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_medidas_campos() -> Result<String, String> {
+    http_get("/v1/medidas/campos").ok_or_else(|| "roteador nao respondeu".to_string())
+}
+
+/// Idade ossea: data de nascimento, data do exame, sexo e a idade lida no
+/// atlas -> idade cronologica, desvio padrao, faixa de +/-2 DP, Z, percentil e
+/// o laudo. E aritmetica local: a data de nascimento nao passa por IA nenhuma.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_idade_ossea(
+    nascimento: String,
+    exame: String,
+    sexo: String,
+    anos: i32,
+    meses: i32,
+) -> Result<String, String> {
+    http_post(
+        "/v1/idade_ossea",
+        &serde_json::json!({
+            "nascimento": nascimento,
+            "exame": exame,
+            "sexo": sexo,
+            "anos": anos,
+            "meses": meses,
+        })
+        .to_string(),
+        20_000,
+    )
+}
+
+/// Auditoria do banco de mascaras: o que esta no disco e nao esta no banco,
+/// mascara sem comando de voz, comando disputado e comando que comeca com
+/// palavra que o roteador entende como instrucao.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_auditar_banco() -> Result<String, String> {
+    http_post("/v1/mascaras/auditar", "{}", 60_000)
+}
+
+/// A lista de modelos vem da API de quem tem a chave — nao de tabela no codigo.
+/// E o que mantem a tela neutra: instalou com chave de outro fornecedor, os
+/// modelos que aparecem sao os dele.
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_ia_modelos() -> Result<String, String> {
+    http_get("/v1/ia/modelos").ok_or_else(|| "roteador nao respondeu".to_string())
+}
+
+/// Ping curto: a chave esta valendo agora? Quanto demora? Quantos modelos?
+#[specta::specta]
+#[tauri::command]
+pub fn rotrix_ia_testar(provedor: String, modelo: String) -> Result<String, String> {
+    http_post(
+        "/v1/ia/testar",
+        &serde_json::json!({ "provedor": provedor, "modelo": modelo }).to_string(),
+        30_000,
+    )
+}
+
 /// Abre no RadiAnt os exames marcados na aba Fila, todos na mesma janela.
 /// O roteador resolve os ids em caminhos de pasta no proprio computador e
 /// chama o RadiAnt; nome de paciente nao entra nem sai deste caminho.

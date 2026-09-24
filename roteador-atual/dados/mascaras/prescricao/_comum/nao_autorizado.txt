@@ -1,0 +1,7 @@
+# gatilhos: contraste nao autorizado | prescricao de contraste nao autorizado | nao autorizado o uso do contraste | recusa de contraste | contraste negado
+# tipo: mascara
+**PRESCRIÇÃO DE CONTRASTE**
+
+{motivo|NÃO AUTORIZADO O USO DO MEIO DE CONTRASTE PARA O ESTUDO SOLICITADO, DEVIDO A FATORES ALÉRGICOS \/ OUTROS REFERIDOS PELO PACIENTE./NÃO AUTORIZADO O USO DO MEIO DE CONTRASTE PARA O ESTUDO SOLICITADO EM RESPEITO À OPÇÃO FORMAL DO(A) PACIENTE OU RESPONSÁVEL./NÃO AUTORIZADO O USO DO MEIO DE CONTRASTE PARA O ESTUDO SOLICITADO, EM CONFORMIDADE COM DETERMINAÇÃO CONSTANTE NO PEDIDO MÉDICO.}
+
+Ciente do Termo de Consentimento Livre e Esclarecido
