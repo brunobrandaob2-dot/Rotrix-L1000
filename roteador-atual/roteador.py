@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-25.2"
+VERSAO = "2026-09-25.3"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -941,7 +941,10 @@ def _regras_ouvido():
             a, b = l.rstrip("\n").split("\t")[:2]
             a = normalizar(a)
             if a and b.strip():
-                regras.append((re.compile(r"(?<![\w])" + r"\s+".join(map(re.escape, a.split())) + r"(?![\w])", re.I), b.strip()))
+                    # [\s-]+ e nao \s+: normalizar() troca hifen por espaco, mas o texto
+                # ditado continua com o hifen ("complexos osseo-metais"). Com \s+ a
+                # regra existia e nunca casava.
+                regras.append((re.compile(r"(?<![\w])" + r"[\s-]+".join(map(re.escape, a.split())) + r"(?![\w])", re.I), b.strip()))
         regras.sort(key=lambda r: -len(r[0].pattern))
         _OUVIDO.update(mtime=mt, regras=regras)
     return _OUVIDO["regras"]
@@ -3284,7 +3287,9 @@ def ia_no_texto(texto, instrucao="", modelo=""):
         return {"ok": True, "texto": novo, "origem": origem,
                 "modelo": u.get("modelo") or c.get("modelo"),
                 "custo_usd": u.get("usd"), "mes_usd": u.get("mes_usd"),
-                "economia": u.get("economia", False)}
+                "economia": u.get("economia", False),
+                # cache: a tela diz se o prompt de sistema saiu por 10% ou inteiro
+                "cache": u.get("cache", ""), "cache_lido": u.get("cache_lido", 0)}
     return {"ok": False, "motivo": origem, "texto": texto}
 
 

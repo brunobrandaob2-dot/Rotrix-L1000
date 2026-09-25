@@ -71,3 +71,26 @@ esparcos	esparsos
 orta	aorta
 orticas	aórticas
 ortica	aórtica
+
+# --- 25/09/2026: trocas que estavam SO no prompt de sistema da nuvem ---
+# Estavam escritas dentro do prompt, ou seja: ele pagava token para o modelo
+# saber o que uma tabela resolve de graca — e o conserto so acontecia nos
+# ditados que iam para a nuvem. Aqui valem em TODO ditado, inclusive nos que
+# nunca saem do computador.
+canola	cânula
+seios castrofrenicos	seios costofrênicos
+castrofrenicos	costofrênicos
+complexos osseo-metais	complexos ostiomeatais
+osseo-metais	ostiomeatais
+otimiatais	ostiomeatais
+celulas etimoidais	células etmoidais
+etimoidais	etmoidais
+comixa media boliosa	concha média bolhosa
+boliosa	bolhosa
+hemi torax	hemitórax
+linfo nodo	linfonodo
+parenquima	parênquima
+in caracteristica	incaracterística
+in caracteristico	incaracterístico
+maxelar	maxilar
+de essencia da lamina papiracea	deiscência da lâmina papirácea

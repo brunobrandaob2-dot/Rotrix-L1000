@@ -68,6 +68,8 @@ const recibo = (r: {
   custo_usd?: number;
   mes_usd?: number;
   economia?: boolean;
+  cache?: string;
+  cache_lido?: number;
 }): string => {
   const curto = (r.modelo || "IA").split(/[:/]/).pop() || "IA";
   const nome = curto.replace(/[-_]?\d{6,}$/, "");
@@ -78,6 +80,13 @@ const recibo = (r: {
   }
   if (typeof r.mes_usd === "number") partes.push(`mês US$ ${r.mes_usd.toFixed(2)}`);
   if (r.economia) partes.push("(economia: fui no barato)");
+  // cache lido = o prompt de sistema saiu por 10% (5% no Opus 5.5). Sem isto ele não
+  // tem como saber se pagou o prompt inteiro ou só a leitura.
+  if (r.cache_lido && r.cache_lido > 0) {
+    partes.push(`cache lido (${r.cache_lido} tokens a 10%)`);
+  } else if (r.cache) {
+    partes.push(`cache gravado (${r.cache})`);
+  }
   return partes.join(" · ");
 };
 

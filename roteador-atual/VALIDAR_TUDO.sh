@@ -11,6 +11,8 @@ python3 construir_base.py
 regioes=$(find dados/mascaras -name normal.txt -printf '%h\n' | sort)
 echo "validando $(echo "$regioes" | wc -l) regiões..."
 python3 validar_regiao.py $regioes | tee /tmp/validacao.txt | grep -E "ERRO|erro\(s\)" || true
+echo "conferindo o prompt de sistema (REDATOR_ROTRIX.md)..."
+python3 prompts.py
 echo "auditando gatilhos..."
 python3 auditar_gatilhos.py | tail -3
 for t in testar_nuvem.py testar_importar.py testar_rx_literal.py testar_radius.py \

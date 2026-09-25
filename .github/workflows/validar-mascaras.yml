@@ -25,6 +25,10 @@ jobs:
           python validar_regiao.py $regioes
       - name: Auditar os gatilhos (nenhum pode abrir exame sem dizer o exame)
         run: LAUDO_BASE=/tmp/base.sqlite python auditar_gatilhos.py
+      - name: Conferir o prompt de sistema (REDATOR_ROTRIX.md monta todas as rotas)
+        run: python prompts.py
+      - name: Auditoria de custo (roda sem chave; falha se a tabela de preço quebrar)
+        run: LAUDO_BASE=/tmp/base.sqlite python auditar_custo.py
       - name: Testar a rota de nuvem (sem internet, respostas simuladas)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_nuvem.py
       - name: Testar o importador de máscaras e laudos próprios

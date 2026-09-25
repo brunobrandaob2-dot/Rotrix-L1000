@@ -14,6 +14,8 @@ Sem ia_por_exame, o comportamento é o de sempre.
 """
 import io, json, os, re, ssl, urllib.request, urllib.error, datetime, difflib, unicodedata
 
+import prompts
+
 AQUI = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(AQUI, "config.json")
 LOG = os.path.join(AQUI, "nuvem.log")
@@ -75,32 +77,49 @@ PADRAO = {
 }
 
 # ---------- preços (USD por milhão de tokens) ----------
-# Anthropic: platform.claude.com/docs/en/about-claude/pricing (set/2026).
+# Anthropic: platform.claude.com/docs/en/about-claude/pricing — conferido 25/09/2026.
 # OpenAI GPT-5.6: Luna conferido na página oficial do modelo (0,20 / 1,20);
 # Sol e Terra por fonte secundária (set/2026) — conferir e, se mudar, corrigir
 # em config.json -> "precos", sem mexer no código.
-# Leitura de cache: Anthropic 10% (+25% na escrita); OpenAI 10%.
+#
+# (prefixo, entrada, saida, mult_leitura_cache)
+# A escolha do prefixo é por MAIS LONGO PRIMEIRO, não pela ordem da lista: "claude-opus"
+# pegava o Opus 5.5 e cobrava 5,00/25,00 quando o preço dele é 4,00/20,00 — 25% a mais no
+# recibo da tela e no teto do mês.
+# O multiplicador de leitura de cache NÃO é 10% para todo mundo: Opus 5.5 lê a 5% e
+# Fable/Mythos 5.1 a 2,5%. Escrita é 1,25x (5 min) ou 2,0x (1 hora) para todos.
 PRECOS = [
-    ("claude-fable",    10.0, 50.0),
-    ("claude-mythos",   10.0, 50.0),
-    ("claude-opus",      5.0, 25.0),
-    ("claude-sonnet-5",  2.0, 10.0),
-    ("claude-sonnet",    3.0, 15.0),
-    ("claude-haiku",     1.0,  5.0),
-    ("gpt-5.6-sol",      5.0, 30.0),
-    ("gpt-5.6-terra",    2.0, 12.0),
-    ("gpt-5.6-luna",     0.20, 1.20),
+    ("claude-fable-5-1",  10.0, 50.0, 0.025),
+    ("claude-mythos-5-1", 10.0, 50.0, 0.025),
+    ("claude-fable",      10.0, 50.0, 0.10),
+    ("claude-mythos",     10.0, 50.0, 0.10),
+    ("claude-opus-5-5",    4.0, 20.0, 0.05),
+    ("claude-opus",        5.0, 25.0, 0.10),
+    ("claude-sonnet-5",    2.0, 10.0, 0.10),
+    ("claude-sonnet",      3.0, 15.0, 0.10),
+    ("claude-haiku",       1.0,  5.0, 0.10),
+    ("gpt-5.6-sol",        5.0, 30.0, 0.10),
+    ("gpt-5.6-terra",      2.0, 12.0, 0.10),
+    ("gpt-5.6-luna",       0.20, 1.20, 0.10),
     # Gemini 3.8 Flash: preço de lançamento até 31/12/2026 (depois 1,50 / 7,50)
-    ("gemini-3.8-flash", 0.75, 3.75),
+    ("gemini-3.8-flash",   0.75, 3.75, 0.10),
 ]
 
-def preco(modelo, c=None):
-    """(usd_por_milhao_entrada, usd_por_milhao_saida). (0,0) se desconhecido."""
+MULT_ESCRITA_CACHE = {"5m": 1.25, "1h": 2.0}
+
+
+def _id_curto(modelo):
     m = (modelo or "").lower()
     if ":" in m:                                   # "openai:gpt-5.6-luna"
         m = m.split(":", 1)[1]
     if "/" in m:                                   # OpenRouter: "anthropic/claude-sonnet-5"
         m = m.rsplit("/", 1)[1]
+    return m
+
+
+def preco(modelo, c=None):
+    """(usd_por_milhao_entrada, usd_por_milhao_saida). (0,0) se desconhecido."""
+    m = _id_curto(modelo)
     extras = (c or {}).get("precos") or {}
     if isinstance(extras, dict):
         for prefixo in sorted(extras, key=len, reverse=True):
@@ -110,20 +129,139 @@ def preco(modelo, c=None):
                     return float(v[0]), float(v[1])
                 except (TypeError, ValueError):
                     pass
-    for prefixo, pin, pout in PRECOS:
+    for prefixo, pin, pout, _mc in sorted(PRECOS, key=lambda x: -len(x[0])):
         if m.startswith(prefixo):
             return pin, pout
     return 0.0, 0.0
+
+
+def mult_leitura_cache(modelo):
+    """Quanto custa ler do cache, como fração do preço de entrada. 0,10 na dúvida."""
+    m = _id_curto(modelo)
+    for prefixo, _pin, _pout, mc in sorted(PRECOS, key=lambda x: -len(x[0])):
+        if m.startswith(prefixo):
+            return mc
+    return 0.10
 
 # Modelo de preço desconhecido (fora da tabela e sem "precos" no config): conta como
 # caro, para o teto do mês continuar valendo. O gasto real fica menor que o contado.
 PRECO_DESCONHECIDO = (5.0, 25.0)
 
-def custo(modelo, n_in, n_out, c=None, local=False):
+def custo(modelo, n_in, n_out, c=None, local=False, cache_w=0, cache_r=0, ttl="5m"):
+    """USD da chamada. cache_w/cache_r são tokens de ESCRITA e LEITURA de cache.
+
+    Antes isso era achatado dentro de n_in multiplicando por 1,25 e 0,10 na hora de ler a
+    resposta da API. Dava certo por acidente nos modelos que leem a 10%, e errado no
+    Opus 5.5 (5%) e no Fable 5.1 (2,5%) — e estragava a contagem de tokens do recibo."""
     pin, pout = preco(modelo, c)
     if (pin, pout) == (0.0, 0.0) and not local:
         pin, pout = PRECO_DESCONHECIDO
-    return (n_in / 1_000_000.0) * pin + (n_out / 1_000_000.0) * pout
+    mw = MULT_ESCRITA_CACHE.get(ttl, 1.25)
+    mr = mult_leitura_cache(modelo)
+    entrada = n_in + cache_w * mw + cache_r * mr
+    return (entrada / 1_000_000.0) * pin + (n_out / 1_000_000.0) * pout
+
+
+# ---------- cache de prompt: só quando paga ----------
+# Escrever cache custa 1,25x (5 min) ou 2,0x (1 hora) os tokens do bloco de sistema.
+# Ler custa 0,10x (0,05x no Opus 5.5). Logo a escrita só se paga se o MESMO prompt de
+# sistema voltar para o mesmo modelo DENTRO da validade:
+#   5 min:  precisa de reuso em mais de 0,25/0,90 = 28% das chamadas
+#   1 hora: precisa de mais de 1,00/0,90 = 1,11 releitura por escrita
+# Ele lauda e vai ler imagem por vários minutos. Marcar cache_control em toda chamada,
+# como estava, é pagar 25% a mais no prompt de sistema para um cache que expirou.
+#
+# Piso de tamanho por modelo (abaixo disso a Anthropic ignora cache_control em silêncio):
+MIN_CACHE = [
+    ("claude-haiku",  4096),
+    ("claude-sonnet", 1024),
+    ("claude-opus",    512),
+    ("claude-fable",   512),
+    ("claude-mythos",  512),
+]
+
+
+def min_cache(modelo):
+    m = _id_curto(modelo)
+    for prefixo, n in sorted(MIN_CACHE, key=lambda x: -len(x[0])):
+        if m.startswith(prefixo):
+            return n
+    return 1024
+
+
+def _horas_de_chamada(caminho=None, limite=400):
+    """Carimbos de hora das últimas chamadas que foram para a nuvem, do log."""
+    fora = []
+    try:
+        with io.open(caminho or LOG, encoding="utf-8", errors="ignore") as f:
+            linhas = f.readlines()[-limite:]
+    except OSError:
+        return fora
+    for ln in linhas:
+        carimbo = ln.split("\t", 1)[0].strip()
+        try:
+            fora.append(datetime.datetime.fromisoformat(carimbo))
+        except ValueError:
+            continue
+    return fora
+
+
+def releituras_por_escrita(janela_s, caminho=None):
+    """Quantas chamadas, em média, caem DEPOIS da primeira dentro de uma janela.
+
+    Agrupa as chamadas do log em janelas seguidas (a primeira de cada janela é a que
+    escreve o cache; as outras leem) e devolve a média de leituras por escrita.
+    Medido no log dele, não chutado. Menos de 20 chamadas devolve None: sem dado, não
+    se decide por estatística."""
+    hs = _horas_de_chamada(caminho)
+    if len(hs) < 20:
+        return None
+    hs = sorted(hs)
+    grupos, inicio, n = [], hs[0], 1
+    for h in hs[1:]:
+        if (h - inicio).total_seconds() <= janela_s:
+            n += 1
+        else:
+            grupos.append(n)
+            inicio, n = h, 1
+    grupos.append(n)
+    return sum(g - 1 for g in grupos) / float(len(grupos))
+
+
+def gasto_por_chamada(k, ttl):
+    """Custo do bloco de sistema POR CHAMADA, em múltiplos do preço de entrada.
+
+    Numa janela com 1 escrita e k leituras: sem cache cada uma das k+1 chamadas paga
+    1,0; com cache paga-se 1,25x (ou 2,0x) uma vez e 0,10x nas k seguintes.
+    Dividir por chamada é o que permite comparar janela de 5 min com janela de 1 hora."""
+    if ttl is None:
+        return 1.0
+    return (MULT_ESCRITA_CACHE[ttl] + k * 0.10) / (1.0 + k)
+
+
+def cache_de(sistema, modelo, c=None):
+    """None, "5m" ou "1h" — o que vale marcar neste prompt, neste modelo, hoje.
+
+    "cache" no config.json manda: "auto" (padrão), "off", "5m" ou "1h"."""
+    c = c or {}
+    escolha = str(c.get("cache") or "auto").strip().lower()
+    if escolha in ("off", "nao", "não", "0", "false"):
+        return None
+    if escolha in ("5m", "1h"):
+        return escolha
+    # abaixo do piso do modelo a API ignora cache_control em silêncio: não marca, para o
+    # recibo da tela não cobrar 1,25x de um cache que nunca existiu
+    if len(sistema or "") / 3.3 < min_cache(modelo):
+        return None
+    k5 = releituras_por_escrita(5 * 60)
+    if k5 is None:
+        return "5m"          # sem histórico: o mais barato dos dois caches
+    k60 = releituras_por_escrita(60 * 60)
+    opcoes = [(gasto_por_chamada(k5, "5m"), "5m"),
+              (gasto_por_chamada(k60, "1h"), "1h"),
+              (gasto_por_chamada(0, None), None)]
+    # empate: fica SEM cache. Menos peça móvel, e o recibo não promete desconto.
+    return min(opcoes, key=lambda x: (x[0], x[1] is not None))[1]
 
 # ---------- acumulador de gasto do mês ----------
 def _mes():
@@ -743,9 +881,23 @@ def _prompt_perfil(c, pedido=""):
     return txt
 
 
-def _exemplos_estilo():
+TETO_EXEMPLOS = 6000
+
+
+def _exemplos_estilo(c=None):
     """Laudos reais do Bruno (dados/estilo/*.txt) -> exemplos de ESTILO no prompt.
-    Entram no bloco de sistema (em cache), entao custam ~10% nas chamadas seguintes."""
+
+    Teto em caracteres: 6.000 por padrao, "teto_exemplos_chars" no config muda.
+    Era 24.000 e era o maior pedaco da entrada do caminho forte."""
+    v = (c or {}).get("teto_exemplos_chars", TETO_EXEMPLOS)
+    try:
+        # "or TETO" aqui apagaria o 0: teto 0 é uma ordem ("não manda exemplo"),
+        # não um valor ausente
+        teto = TETO_EXEMPLOS if v is None or v == "" else int(v)
+    except (TypeError, ValueError):
+        teto = TETO_EXEMPLOS
+    if teto <= 0:
+        return ""
     pasta = os.path.join(AQUI, "dados", "estilo")
     try:
         arqs = sorted(f for f in os.listdir(pasta) if f.endswith(".txt") and f != "LEIA.txt")
@@ -761,7 +913,7 @@ def _exemplos_estilo():
         # nunca vai para a nuvem, nem como exemplo de estilo
         if triagem(t) or _CAMPO_PACIENTE.search(t):
             continue
-        if total + len(t) > 24000:          # teto de tamanho do prompt
+        if total + len(t) > teto:            # teto de tamanho do prompt
             break
         partes.append(t); total += len(t)
     guia = ""
@@ -1189,31 +1341,41 @@ def _post(url, corpo, headers, timeout):
     except urllib.error.HTTPError as e:
         raise _ErroAPI(e.code, e.read().decode("utf-8", "replace")[:200])
 
-def _enviar_anthropic(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocinio):
+def _enviar_anthropic(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocinio,
+                      cache=None):
+    bloco = {"type": "text", "text": sistema}
+    if cache:
+        # ttl "1h" precisa do beta header; "5m" é o padrão da API
+        bloco["cache_control"] = {"type": "ephemeral"}
+        if cache == "1h":
+            bloco["cache_control"]["ttl"] = "1h"
     corpo = {
         "model": modelo,
         "max_tokens": max_tokens,
-        # o prompt de sistema e sempre o mesmo: fica em cache na Anthropic e
-        # as chamadas seguintes pagam ~10% dele
-        "system": [{"type": "text", "text": sistema, "cache_control": {"type": "ephemeral"}}],
+        "system": [bloco],
         "messages": [{"role": "user", "content": pedido}],
     }
-    d = _post(p.get("url") or URL, corpo, {
+    cab = {
         "content-type": "application/json",
         "x-api-key": k,
         "anthropic-version": "2023-06-01",
-    }, timeout)
+    }
+    if cache == "1h":
+        cab["anthropic-beta"] = "extended-cache-ttl-2025-04-11"
+    d = _post(p.get("url") or URL, corpo, cab, timeout)
     partes = [b.get("text", "") for b in d.get("content", []) if b.get("type") == "text"]
     texto = "\n".join(x for x in partes if x).strip()
-    # tokens REAIS cobrados, vindos da própria resposta da API
+    # tokens REAIS cobrados, vindos da própria resposta da API. Escrita e leitura de
+    # cache vão SEPARADAS: quem multiplica é o custo(), que sabe o preço do modelo.
     u = d.get("usage", {}) or {}
-    n_in = int(round(int(u.get("input_tokens", 0) or 0)
-                     + 1.25 * int(u.get("cache_creation_input_tokens", 0) or 0)
-                     + 0.10 * int(u.get("cache_read_input_tokens", 0) or 0)))
-    n_out = int(u.get("output_tokens", 0) or 0)
-    return texto, n_in, n_out, None
+    uso = {"in": int(u.get("input_tokens", 0) or 0),
+           "out": int(u.get("output_tokens", 0) or 0),
+           "cache_w": int(u.get("cache_creation_input_tokens", 0) or 0),
+           "cache_r": int(u.get("cache_read_input_tokens", 0) or 0)}
+    return texto, uso, None
 
-def _enviar_openai(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocinio):
+def _enviar_openai(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocinio,
+                   cache=None):
     """Formato /chat/completions (OpenAI, Gemini, OpenRouter, Ollama e compatíveis)."""
     corpo = {"model": modelo,
              "messages": [{"role": "system", "content": sistema},
@@ -1243,10 +1405,11 @@ def _enviar_openai(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocini
     u = d.get("usage", {}) or {}
     pt = int(u.get("prompt_tokens", 0) or 0)
     cached = int(((u.get("prompt_tokens_details") or {}).get("cached_tokens", 0)) or 0)
-    n_in = int(round((pt - cached) + 0.10 * cached))
-    n_out = int(u.get("completion_tokens", 0) or 0)
+    # OpenAI cacheia sozinho, sem ser pedido, e não cobra escrita: só leitura a 10%
+    uso = {"in": max(0, pt - cached), "out": int(u.get("completion_tokens", 0) or 0),
+           "cache_w": 0, "cache_r": cached}
     usd = u.get("cost") if isinstance(u.get("cost"), (int, float)) else None   # OpenRouter
-    return texto, n_in, n_out, usd
+    return texto, uso, usd
 
 
 def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
@@ -1264,19 +1427,25 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
         return None, "nuvem_desligada"
     r = rota(pedido, c, modo)
     m_ef = r["modo"]
-    if r.get("regra") == "economia" and m_ef in ("formatar", "revisao"):
-        sistema = SISTEMA_BARATO
-    else:
-        sistema = {"revisao": SISTEMA_REVISAO, "instrucao": SISTEMA_INSTRUCAO,
-                   "laudo": SISTEMA_LAUDO, "formatar": SISTEMA_FORMATAR}.get(
-                       m_ef, SISTEMA_ANALISE) + FORMATO_SAIDA
-    sistema += SEM_LACUNAS
-    # Exemplos de estilo são o maior pedaço da entrada (até 24 mil caracteres).
-    # No caminho barato eles não entram: o modelo barato não está reescrevendo
-    # no estilo dele, está consertando palavra e formatação.
     economia = r.get("regra") == "economia"
+    # O prompt de sistema vem de dados/prompts/REDATOR_ROTRIX.md, montado por bloco:
+    # cada rota manda só os blocos de que precisa. As constantes SISTEMA_* continuam
+    # aqui como RESERVA, para o caso de o arquivo faltar num pacote velho.
+    sistema = prompts.montar(m_ef)
+    if sistema is None:
+        if economia and m_ef in ("formatar", "revisao"):
+            sistema = SISTEMA_BARATO
+        else:
+            sistema = {"revisao": SISTEMA_REVISAO, "instrucao": SISTEMA_INSTRUCAO,
+                       "laudo": SISTEMA_LAUDO, "formatar": SISTEMA_FORMATAR}.get(
+                           m_ef, SISTEMA_ANALISE) + FORMATO_SAIDA
+        sistema += SEM_LACUNAS
+    # Exemplos de estilo: eram até 24.000 caracteres (~4.400 tokens) em toda chamada
+    # forte — 69% da entrada, mais que o prompt inteiro. As regras de estilo que eles
+    # ensinavam por imitação agora estão escritas no REDATOR_ROTRIX.md, então o teto
+    # caiu para 6.000 (config: teto_exemplos_chars). No caminho barato não entram.
     if m_ef in ("laudo", "instrucao") and not economia:
-        sistema += _exemplos_estilo()
+        sistema += _exemplos_estilo(c)
     sistema += _prompt_perfil(c, pedido)
     if max_tokens is None:
         max_tokens = teto_saida(pedido, c)
@@ -1308,16 +1477,23 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
     if not rac and p.get("nome") == "openai" and m_ef in ("formatar", "revisao"):
         rac = "none"
     enviar = _enviar_anthropic if p.get("formato") == "anthropic" else _enviar_openai
+    ttl = cache_de(sistema, r["modelo"], c) if p.get("formato") == "anthropic" else None
     try:
-        texto, n_in, n_out, usd = enviar(p, k, r["modelo"], sistema, pedido,
-                                         int(max_tokens or c.get("max_tokens", 1500)),
-                                         int(c.get("timeout_s", 40)), rac)
+        texto, uso, usd = enviar(p, k, r["modelo"], sistema, pedido,
+                                 int(max_tokens or c.get("max_tokens", 1500)),
+                                 int(c.get("timeout_s", 40)), rac, ttl)
+        n_in, n_out = uso["in"], uso["out"]
         local = bool(p.get("sem_chave"))
-        c_call = float(usd) if usd is not None else custo(r["modelo"], n_in, n_out, c, local=local)
-        g = gasto_somar(rotulo, n_in, n_out, usd=c_call)   # resposta vazia também é cobrada
+        c_call = float(usd) if usd is not None else custo(
+            r["modelo"], n_in, n_out, c, local=local,
+            cache_w=uso.get("cache_w", 0), cache_r=uso.get("cache_r", 0), ttl=ttl or "5m")
+        # tokens contados no mes: os de verdade, sem multiplicador de cache dentro
+        g = gasto_somar(rotulo, n_in + uso.get("cache_w", 0) + uso.get("cache_r", 0),
+                        n_out, usd=c_call)   # resposta vazia também é cobrada
         # o que rodou de verdade, para a tela dizer qual IA agiu e quanto custou
         ULTIMA.update({"modelo": rotulo, "usd": round(float(c_call or 0), 5),
                        "tokens_in": n_in, "tokens_out": n_out, "modo": m_ef,
+                       "cache": ttl or "", "cache_lido": uso.get("cache_r", 0),
                        "economia": r.get("regra") == "economia",
                        "modelo_pedido": r.get("modelo_pedido") or rotulo,
                        "mes_usd": round(float(g.get("usd") or 0), 4)})

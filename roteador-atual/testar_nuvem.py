@@ -63,7 +63,12 @@ RESP["f"] = _anth
 t, o = nuvem.chamar(PEDIDO, dict(base), modo="laudo", marcar=False, max_tokens=4000)
 u, h, c = ENVIADOS[-1]
 confere("padrão continua Anthropic", o == "nuvem" and u == nuvem.URL and c["model"] == "claude-sonnet-5")
-confere("prompt de laudo (não o formatador)", "FORMATADOR" not in c["system"][0]["text"])
+# Prova de que a rota LAUDO manda as regras de laudo inteiro. Antes isto olhava a palavra
+# "FORMATADOR" na string escrita à mão; agora o prompt vem por bloco do
+# REDATOR_ROTRIX.md, então a prova é a REGRA que só existe no caminho de laudo inteiro.
+confere("prompt de laudo traz as regras de laudo inteiro",
+        "MODO LAUDO INTEIRO" in c["system"][0]["text"]
+        and "ORDEM POR IMPORTÂNCIA CLÍNICA" in c["system"][0]["text"])
 
 # 2. RX -> OpenAI Luna, só formatar
 cfg = dict(base, ia_por_exame={"rx": {"provedor": "openai", "modelo": "gpt-5.6-luna", "modo": "formatar"},
@@ -72,7 +77,9 @@ RESP["f"] = _oai(SAIDA_OK)
 t, o = nuvem.chamar(PEDIDO, cfg, modo="laudo", marcar=False, max_tokens=4000)
 u, h, c = ENVIADOS[-1]
 confere("RX vai para a OpenAI", u.startswith("https://api.openai.com/") and c["model"] == "gpt-5.6-luna")
-confere("RX preso no modo formatar", "FORMATADOR" in c["messages"][0]["content"])
+_sis_rx = c["messages"][0]["content"]
+confere("RX preso no modo formatar",
+        "MODO LAUDO INTEIRO" not in _sis_rx and "NÃO faça: título" in _sis_rx)
 confere("modelo básico sem raciocínio", c.get("reasoning_effort") == "none")
 confere("OpenAI usa max_completion_tokens", c.get("max_completion_tokens") == 4000)
 confere("saída limpa não recebe aviso", o == "nuvem" and not t.startswith("[conferir"), t[:80])
@@ -302,6 +309,141 @@ confere("economia: SEM_LACUNAS proibe a lacuna", "___" in nuvem.SEM_LACUNAS)
 
 if _cache_ant is not None:
     io.open(nuvem.CACHE_MODELOS, "w", encoding="utf-8", newline="\n").write(_cache_ant)
+
+
+# ---------------------------------------------------------------------------
+# 10. AUDITORIA DE CUSTO (25/09) — preço, cache e prompt por bloco
+# ---------------------------------------------------------------------------
+import prompts
+
+# 10a. preço: "claude-opus" pegava o Opus 5.5 e cobrava 25% a mais
+confere("preço: Opus 5.5 é 4/20, não 5/25",
+        nuvem.preco("claude-opus-5-5-20260815") == (4.0, 20.0))
+confere("preço: Opus 5 continua 5/25", nuvem.preco("claude-opus-5-20260101") == (5.0, 25.0))
+confere("preço: Sonnet 5 é 2/10", nuvem.preco("claude-sonnet-5-20260201") == (2.0, 10.0))
+confere("preço: Haiku 4.5 é 1/5", nuvem.preco("claude-haiku-4-5-20251001") == (1.0, 5.0))
+confere("preço: prefixo mais longo vence o mais curto",
+        nuvem.preco("claude-sonnet-5-x") != nuvem.preco("claude-sonnet-4-x"))
+
+# 10b. leitura de cache não é 10% para todo mundo
+confere("cache: Opus 5.5 lê a 5%", nuvem.mult_leitura_cache("claude-opus-5-5-x") == 0.05)
+confere("cache: Fable 5.1 lê a 2,5%", nuvem.mult_leitura_cache("claude-fable-5-1-x") == 0.025)
+confere("cache: Haiku lê a 10%", nuvem.mult_leitura_cache("claude-haiku-4-5-x") == 0.10)
+
+# 10c. custo() cobra escrita e leitura de cache com o multiplicador do MODELO
+_c_opus = nuvem.custo("claude-opus-5-5-x", 0, 0, cache_r=1_000_000)
+confere("custo: 1M de leitura de cache no Opus 5.5 = 4,00 x 0,05", abs(_c_opus - 0.20) < 1e-9,
+        "deu %.4f" % _c_opus)
+_c_w5 = nuvem.custo("claude-haiku-4-5-x", 0, 0, cache_w=1_000_000, ttl="5m")
+_c_w1 = nuvem.custo("claude-haiku-4-5-x", 0, 0, cache_w=1_000_000, ttl="1h")
+confere("custo: escrita de 5 min é 1,25x", abs(_c_w5 - 1.25) < 1e-9, "deu %.4f" % _c_w5)
+confere("custo: escrita de 1 hora é 2,0x", abs(_c_w1 - 2.00) < 1e-9, "deu %.4f" % _c_w1)
+
+# 10d. piso de tamanho: abaixo dele a Anthropic ignora cache_control em silêncio
+confere("cache: piso do Haiku é 4.096", nuvem.min_cache("claude-haiku-4-5-x") == 4096)
+confere("cache: piso do Opus é 512", nuvem.min_cache("claude-opus-5-5-x") == 512)
+confere("cache: prompt curto no Haiku não marca cache (senão paga 1,25x por nada)",
+        nuvem.cache_de("x" * 5000, "claude-haiku-4-5-x", {}) is None)
+confere("cache: prompt do caminho forte no Opus marca cache",
+        nuvem.cache_de("x" * 12000, "claude-opus-5-5-x", {}) == "5m")
+confere("cache: 'off' no config desliga", nuvem.cache_de("x" * 12000, "claude-opus-5-5-x",
+                                                         {"cache": "off"}) is None)
+confere("cache: por chamada, 1h só ganha com releitura",
+        nuvem.gasto_por_chamada(0, "1h") > 1.0 and nuvem.gasto_por_chamada(9, "1h") < 1.0)
+confere("cache: sem releitura nenhuma, escrever cache é prejuízo",
+        nuvem.gasto_por_chamada(0, "5m") > nuvem.gasto_por_chamada(0, None))
+
+# 10e. o corpo que vai para a API reflete a decisão de cache
+RESP["f"] = _anth
+nuvem.chamar(PEDIDO, dict(base, modelo="claude-haiku-4-5-20251001", limite_mes_usd=0),
+             modo="revisao", marcar=False)
+_u, _h, _corpo = ENVIADOS[-1]
+confere("cache: caminho barato não pede cache no corpo da chamada",
+        "cache_control" not in _corpo["system"][0])
+nuvem.chamar(PEDIDO, dict(base, modelo="claude-opus-5-5-20260815", limite_mes_usd=0),
+             modo="laudo", marcar=False)
+_u, _h, _corpo = ENVIADOS[-1]
+confere("cache: caminho forte no Opus pede cache no corpo da chamada",
+        "cache_control" in _corpo["system"][0])
+
+# 10f. prompt por bloco, vindo do REDATOR_ROTRIX.md
+_ok_p, _probs_p = prompts.conferir()
+confere("prompt: REDATOR_ROTRIX.md monta todas as rotas", _ok_p, "; ".join(_probs_p))
+_p_bar = prompts.montar("revisao") or ""
+_p_for = prompts.montar("laudo") or ""
+_p_cmp = prompts.montar("analise") or ""
+confere("prompt: caminho barato não traz as regras de laudo inteiro",
+        "MODO LAUDO INTEIRO" not in _p_bar and "MODO LAUDO INTEIRO" in _p_for)
+confere("prompt: caminho barato é menor que o forte", len(_p_bar) < len(_p_for))
+confere("prompt: comparativo traz a regra da data e não a lista de erro de voz",
+        "NUNCA chute data" in _p_cmp and "castrofrênicos" not in _p_cmp)
+confere("prompt: a regra do lado está em toda rota",
+        all("LADO nunca sai" in (prompts.montar(m) or "") for m in prompts.RECEITAS))
+confere("prompt: a documentação do arquivo nunca vai para a nuvem",
+        all("O que mudou em relação ao prompt original" not in (prompts.montar(m) or "")
+            for m in prompts.RECEITAS))
+confere("prompt: arquivo ilegível devolve None (o nuvem.py cai na reserva)",
+        prompts.montar("laudo", os.devnull) is None)
+# arquivo de verdade, com UM bloco a menos: não pode montar laudo sem a regra que falta
+_md_furado = os.path.join(tmp, "furado.md")
+_corpo_md = io.open(prompts.ARQUIVO, encoding="utf-8").read()
+io.open(_md_furado, "w", encoding="utf-8").write(
+    _corpo_md.replace("<!-- BLOCO: SEM_LACUNAS -->", "<!-- nao_e_bloco -->"))
+confere("prompt: bloco que falta derruba a rota (não monta prompt pela metade)",
+        prompts.montar("laudo", _md_furado) is None
+        and prompts.montar("revisao", _md_furado) is None)
+
+# 10g. teto dos exemplos de estilo (era 24.000 chars = ~4.400 tokens por chamada forte)
+confere("estilo: teto padrão é 6.000 caracteres", nuvem.TETO_EXEMPLOS == 6000)
+confere("estilo: teto 0 no config desliga os exemplos",
+        nuvem._exemplos_estilo({"teto_exemplos_chars": 0}) == "")
+
+# 10h. a decisão de cache sai do log DELE, não de chute
+_logtmp = os.path.join(tmp, "log_cache.tsv")
+with io.open(_logtmp, "w", encoding="utf-8") as _f:
+    for _i in range(30):                       # uma chamada por minuto: encadeado
+        _f.write("2026-09-25T10:%02d:00\tm\tok\tin=1\tout=1\tusd=0\tmes=0\n" % _i)
+_k5 = nuvem.releituras_por_escrita(5 * 60, _logtmp)
+_k60 = nuvem.releituras_por_escrita(60 * 60, _logtmp)
+confere("cache: log encadeado dá releitura em 5 min", _k5 is not None and _k5 >= 4,
+        "k5=%s" % _k5)
+confere("cache: log encadeado dá muito mais releitura em 1 hora", _k60 > _k5,
+        "k60=%s k5=%s" % (_k60, _k5))
+with io.open(_logtmp, "w", encoding="utf-8") as _f:
+    for _i in range(30):                       # uma chamada a cada 20 min: esparso
+        _f.write("2026-09-25T%02d:%02d:00\tm\tok\tin=1\tout=1\tusd=0\tmes=0\n"
+                 % (8 + (_i * 20) // 60, (_i * 20) % 60))
+confere("cache: log esparso não tem releitura em 5 min",
+        nuvem.releituras_por_escrita(5 * 60, _logtmp) == 0.0)
+confere("cache: log curto não decide por estatística",
+        nuvem.releituras_por_escrita(300, os.devnull) is None)
+
+# 10i. trocas fixas de voz: saíram do prompt (token pago) para a tabela local (de graça)
+try:
+    import roteador as _rot
+except Exception as _e:
+    print("aviso   roteador não carregou (%s): parte 10i pulada" % type(_e).__name__)
+    _rot = None
+if _rot is not None:
+    _pares = [("canola em topografia", "cânula"),
+              ("seios castrofrenicos obliterados", "costofrênicos"),
+              ("complexos osseo-metais permeaveis", "ostiomeatais"),
+              ("celulas etimoidais", "etmoidais"),
+              ("comixa media boliosa", "concha média bolhosa"),
+              ("hemi torax direito", "hemitórax"),
+              ("linfo nodo de 8 mm", "linfonodo"),
+              ("parenquima pulmonar", "parênquima"),
+              ("lesao in caracteristica", "incaracterística"),
+              ("seio maxelar direito", "maxilar"),
+              ("de essencia da lamina papiracea", "deiscência")]
+    _ruins = [d for d, esp in _pares if esp not in _rot.ouvido_fixo(d)]
+    confere("voz: as trocas fixas são consertadas localmente, sem pagar token",
+            not _ruins, "não consertou: " + "; ".join(_ruins))
+    confere("voz: regra de duas palavras casa com hífen também",
+            "ostiomeatais" in _rot.ouvido_fixo("complexos osseo-metais")
+            and "ostiomeatais" in _rot.ouvido_fixo("complexos osseo metais"))
+    confere("voz: o prompt não repete a tabela local",
+            "castrofrênicos → seios costofrênicos" not in (prompts.montar("revisao") or ""))
 
 
 print()
