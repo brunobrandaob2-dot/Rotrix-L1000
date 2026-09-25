@@ -1020,24 +1020,25 @@ def estruturados_por_niveis(falhas):
     import estruturados as E
 
     aprovadas = [
-        (["altura"], {}, "L4-L5: redução da altura discal."),
-        (["abaulamento"], {}, "L4-L5: abaulamento discal difuso."),
+        (["altura"], {}, "L4-L5:  redução da altura discal."),
+        (["abaulamento"], {}, "L4-L5:  abaulamento discal difuso."),
         (["abaulamento", "protrusao"],
          {"zona": "subarticular", "lado": "à esquerda", "medida": "5",
           "contato": "em contato com a raiz descendente"},
-         "L4-L5: abaulamento discal difuso, associado a componente protruso "
+         "L4-L5:  abaulamento discal difuso, associado a componente protruso "
          "subarticular à esquerda, medindo 5 mm, em contato com a raiz descendente."),
         (["abaulamento", "extrusao"],
          {"zona": "central", "medida": "9", "migracao": "caudal"},
-         "L4-L5: abaulamento discal difuso, associado a componente extruso central, "
+         "L4-L5:  abaulamento discal difuso, associado a componente extruso central, "
          "medindo 9 mm, com migração caudal."),
         (["altura", "abaulamento", "protrusao"],
          {"zona": "centro-lateral", "lado": "à direita", "medida": "4"},
-         "L4-L5: redução da altura discal, com abaulamento difuso associado a "
+         "L4-L5:  redução da altura discal, com abaulamento difuso associado a "
          "componente protruso centro-lateral à direita, medindo 4 mm."),
+        # Schmorl não é do disco: vira frase própria, não rabo de vírgula
         (["altura", "schmorl"], {"plato": "superior"},
-         "L4-L5: redução da altura discal, com hérnia intraesponjosa no platô superior."),
-        (["normal"], {}, "L4-L5: sem alterações."),
+         "L4-L5:  redução da altura discal. Hérnia intraesponjosa no platô superior."),
+        (["normal"], {}, "L4-L5:  sem alterações."),
     ]
     for marcados, dados, esperado in aprovadas:
         saiu = E.frase_do_nivel("L4-L5", marcados, dados)
@@ -1095,8 +1096,8 @@ def estruturados_por_niveis(falhas):
     f = {"simetria": "assimétrico", "lado": "à esquerda", "grau": "acentuado",
          "repercussao": "com compressão radicular", "niveis": ["L4-L5", "L5-S1"]}
     linha = E.frase_foraminal(f)
-    esperado = ("Forames neurais: estreitamento foraminal assimétrico, de predomínio "
-                "à esquerda, em L4-L5 e L5-S1, de grau acentuado, com compressão radicular.")
+    esperado = ("estreitamento foraminal assimétrico, de predomínio "
+                "à esquerda, em L4-L5 e L5-S1, de grau acentuado, com compressão radicular")
     if linha != esperado:
         falhas.append("estruturados: forame saiu %r" % linha)
     conc = E.conclusao_foraminal(f)
@@ -1118,26 +1119,83 @@ def estruturados_por_niveis(falhas):
         if fora.lower() in linha.lower():
             falhas.append("estruturados: %r entrou na linha do nível" % fora)
 
-    # montagem inteira, na ordem: difuso, níveis, forames
-    r = E.montar({"segmento": "lombar", "modalidade": "rm",
-                  "difusos": ["desidratacao"],
-                  "niveis": {"L4-L5": {"marcados": ["abaulamento"]},
-                             "L1-L2": {"marcados": ["normal"]}},
-                  "forame": f})
+    # montagem crua (sem máscara): difuso abre, forames fecham
+    pedido = {"segmento": "lombar", "modalidade": "rm",
+              "difusos": ["desidratacao"],
+              "niveis": {"L4-L5": {"marcados": ["abaulamento"]},
+                         "L1-L2": {"marcados": ["normal"]}},
+              "forame": f}
+    r = E.montar(pedido)
     if not r.get("ok"):
         falhas.append("estruturados: montar não deu ok")
+    if r.get("completo") is not False:
+        falhas.append("estruturados: sem máscara, montar tem que se declarar incompleto")
     linhas = r["texto"].split("\n")
-    if not linhas[0].startswith("Desidratação"):
-        falhas.append("estruturados: o difuso tem que abrir o texto")
-    if linhas[-1].startswith("Forames") is False:
+    if not linhas[0].startswith("Discos intervertebrais:  desidratação"):
+        falhas.append("estruturados: o difuso tem que abrir a seção do disco (%r)" % linhas[0])
+    if not linhas[-1].startswith("Forames neurais:"):
         falhas.append("estruturados: os forames têm que fechar o texto")
     # os níveis saem na ordem anatômica, não na ordem em que foram clicados
-    if linhas.index("L1-L2: sem alterações.") > linhas.index("L4-L5: abaulamento discal difuso."):
+    if linhas.index("L1-L2:  sem alterações.") > linhas.index("L4-L5:  abaulamento discal difuso."):
         falhas.append("estruturados: os níveis saíram fora da ordem anatômica")
     if E.montar({"segmento": "cranio"}).get("ok"):
         falhas.append("estruturados: aceitou segmento que não existe")
     if not roteador.estruturados:
         falhas.append("estruturados: o roteador não carregou o módulo")
+
+    # ------------------------------------------------------------------
+    # o defeito que ele apontou: saía SÓ as alterações, não o laudo.
+    # ------------------------------------------------------------------
+    # Pela API, o estruturado tem que sair como laudo inteiro: título, TÉCNICA,
+    # todas as seções da ANÁLISE (inclusive as que ninguém marcou) e CONCLUSÃO.
+    inteiro = roteador.estruturados_montar(pedido)
+    if not inteiro.get("ok") or not inteiro.get("completo"):
+        falhas.append("estruturados: a API não montou o laudo completo (%s)"
+                      % inteiro.get("aviso") or "")
+    t = inteiro.get("texto") or ""
+    for pedaco in ("RESSONÂNCIA MAGNÉTICA DA COLUNA LOMBAR", "TÉCNICA:", "INDICAÇÃO CLÍNICA:",
+                   "ANÁLISE:", "Alinhamento:", "Corpos vertebrais:", "Discos intervertebrais:",
+                   "Canal vertebral:", "Forames neurais:", "Articulações interapofisárias:",
+                   "Cone medular e cauda equina:", "Musculatura paravertebral:",
+                   "COMPARAÇÃO:", "CONCLUSÃO:"):
+        if pedaco not in t:
+            falhas.append("estruturados: faltou %r no laudo completo" % pedaco)
+    # o que não foi marcado continua com a frase normal da máscara
+    if "de amplitude preservada em todos os níveis" not in t:
+        falhas.append("estruturados: seção não marcada perdeu a frase normal")
+    # e a linha de normalidade da conclusão sai quando há achado
+    if "Exame sem alterações significativas." in t:
+        falhas.append("estruturados: conclusão normal sobreviveu ao achado")
+    if "Discopatia degenerativa lombar" not in t:
+        falhas.append("estruturados: a conclusão não recebeu a discopatia")
+
+    # musculatura: a seção que ele cobrou. Existe na máscara e responde aos botões.
+    musc = roteador.estruturados_montar(dict(
+        pedido, extras={"musculatura": {"infiltracao": True,
+                                        "infiltracao_musculos": "dos músculos multífidos",
+                                        "infiltracao_grau": "3"}}))["texto"]
+    if "Musculatura paravertebral:  infiltração gordurosa dos músculos multífidos, "\
+            "grau 3 de Goutallier" not in musc:
+        falhas.append("estruturados: a musculatura não entrou no laudo")
+    if "Infiltração gordurosa da musculatura paravertebral, grau 3 de Goutallier." not in musc:
+        falhas.append("estruturados: a musculatura não chegou na conclusão")
+
+    # nada marcado: o laudo sai normal inteiro, com a conclusão normal de volta
+    vazio = roteador.estruturados_montar({"segmento": "cervical", "modalidade": "tc"})["texto"]
+    if "Exame sem alterações significativas." not in vazio or "TÉCNICA:" not in vazio:
+        falhas.append("estruturados: sem marca nenhuma devia sair a máscara normal inteira")
+
+    # todas as seções extras existem em todos os segmentos onde fazem sentido
+    for seg in ("cervical", "toracica", "lombar"):
+        for mod in ("rm", "tc"):
+            ids = [x["id"] for x in E.campos(seg, mod)["extras"]]
+            for obrigatorio in ("alinhamento", "corpos", "canal", "facetas", "musculatura"):
+                if obrigatorio not in ids:
+                    falhas.append("estruturados: %s/%s sem a seção %s" % (seg, mod, obrigatorio))
+            if mod == "tc" and "medula" in ids:
+                falhas.append("estruturados: medula apareceu na TC (%s)" % seg)
+            if seg != "lombar" and "sacroiliacas" in ids:
+                falhas.append("estruturados: sacroilíacas fora da lombar (%s)" % seg)
 
 
 def atualizar_o_anterior(falhas):
@@ -1204,6 +1262,67 @@ def atualizar_o_anterior(falhas):
         falhas.append("checklist: identificador passou")
 
 
+def gatilho_nao_rouba_exame(falhas):
+    """Ditado de ACHADO não pode abrir a máscara de outro exame.
+
+    O caso dele, palavra por palavra: "aorta torácica com calcificações
+    ateromatosas" abria a ANGIOTOMOGRAFIA DA AORTA inteira. Causa: `angio` estava
+    em `_GENERICAS`, e palavra genérica que falta não reprovava o gatilho — ou
+    seja, a palavra que DIZ o exame era justamente a que podia faltar."""
+    achados_sozinhos = [
+        "aorta toracica com calcificacoes ateromatosas",
+        "aorta abdominal com calcificacoes ateromatosas",
+        "ateromatose da aorta toracica",
+        "ateromatose da aorta abdominal",
+        "aorta de calibre normal com calcificacoes ateromatosas",
+        "calcificacoes ateromatosas da aorta toracica e abdominal",
+        "aorta toracica com ateromatose",
+    ]
+    for d in achados_sozinhos:
+        texto, _o = roteador.rotear(d)
+        if "ANGIOTOMOGRAFIA" in texto.upper():
+            falhas.append("gatilho: %r abriu mascara de angio (%r)"
+                          % (d, texto.split("\n")[0]))
+
+    # e o contrário continua valendo: dizendo o exame, a máscara certa sai
+    certos = [
+        ("tomografia de torax com calcificacoes ateromatosas na aorta",
+         "TOMOGRAFIA COMPUTADORIZADA DO T"),
+        ("angiotomografia de aorta", "ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA"),
+        ("angio de aorta toracica", "ANGIOTOMOGRAFIA COMPUTADORIZADA DA AORTA"),
+        ("tomografia de coronarias", "ANGIOTOMOGRAFIA COMPUTADORIZADA DAS ART"),
+        ("raio x de joelho direito", "RADIOGRAFIA DO JOELHO"),
+        ("ressonancia de coluna lombar", "RESSON"),
+        ("tc de torax", "TOMOGRAFIA COMPUTADORIZADA DO T"),
+    ]
+    for d, esperado in certos:
+        texto, _o = roteador.rotear(d)
+        if esperado not in texto.upper():
+            falhas.append("gatilho: %r devia dar %r e deu %r"
+                          % (d, esperado, texto.split("\n")[0]))
+
+    # a lei, direto: gatilho que nomeia modalidade exige a mesma familia no ditado
+    casos = [
+        ({"aorta", "toracica", "calcificacoes"}, "angio de aorta toracica", False),
+        ({"angiotomografia", "de", "aorta"}, "angio de aorta toracica", True),
+        ({"tc", "de", "torax"}, "tomografia de torax", True),
+        ({"rx", "de", "joelho"}, "raio x de joelho", True),
+        ({"tomografia", "de", "coronarias"}, "angiotomografia de coronarias", True),
+        ({"joelho", "com", "artrose"}, "raio x de joelho com artrose", False),
+    ]
+    for tokens, gatilho, esperado in casos:
+        if roteador._modalidade_compativel(tokens, gatilho) is not esperado:
+            falhas.append("gatilho: _modalidade_compativel(%s, %r) devia ser %s"
+                          % (sorted(tokens), gatilho, esperado))
+
+    # o auditor existe, roda e nao acusa gatilho novo fora da lista aprovada
+    import auditar_gatilhos
+    sobra = auditar_gatilhos.frouxos()
+    if sobra:
+        falhas.append("gatilho: %d gatilho(s) frouxo(s) fora da lista aprovada: %s"
+                      % (len(sobra), ", ".join(g for _r, _t, g in sobra[:5])))
+
+
 def main():
     falhas = []
     banco(falhas)
@@ -1224,6 +1343,7 @@ def main():
     comparativo_e_estrutura(falhas)
     estruturados_por_niveis(falhas)
     atualizar_o_anterior(falhas)
+    gatilho_nao_rouba_exame(falhas)
     for f in falhas:
         print("FALHOU", f)
     print("v2: tudo certo" if not falhas else "v2: %d falha(s)" % len(falhas))

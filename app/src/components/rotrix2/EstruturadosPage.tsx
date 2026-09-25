@@ -5,13 +5,16 @@
 // A montagem é por REGRA, no roteador: a mesma combinação dá sempre o mesmo
 // texto. É isso que permite assinar sem reler.
 //
-// Três coisas que o desenho respeita, porque ele corrigiu cada uma:
+// Quatro coisas que o desenho respeita, porque ele corrigiu cada uma:
 //  · achado difuso (desidratação, osteofitose) é dito UMA VEZ, na faixa de
 //    cima. Redução de altura não: essa é de cada disco.
 //  · a cervical tem três zonas, não cinco — o espaço lateral lá é da artéria
 //    vertebral.
 //  · anterolistese e Modic não entram na linha do nível: são de alinhamento e
-//    de corpo vertebral, cada um na sua seção.
+//    de corpo vertebral, cada um na sua seção — e cada seção tem o seu painel
+//    aqui embaixo, inclusive musculatura.
+//  · a prévia mostra o LAUDO INTEIRO, não só as alterações: quem monta o texto
+//    completo é o roteador, a partir da máscara normal da região.
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { LayoutGrid, CornerDownLeft, Copy, Trash2 } from "lucide-react";
@@ -26,14 +29,33 @@ interface Botao {
   exclui: string[];
 }
 
+interface CampoExtra {
+  id: string;
+  tipo: "botao" | "opcao" | "niveis" | "vertebra" | "vertebras";
+  rotulo: string;
+  opcoes?: string[];
+  depende?: string;
+}
+
+interface SecaoExtra {
+  id: string;
+  secao: string;
+  rotulo: string;
+  campos: CampoExtra[];
+}
+
 interface Campos {
   niveis: string[];
+  vertebras: string[];
   zonas: string[];
   lados: string[];
   difusos: { id: string; rotulo: string }[];
   botoes: Botao[];
   forame: Record<string, string[]>;
+  extras: SecaoExtra[];
 }
+
+type ValorExtra = string | boolean | string[];
 
 interface Nivel {
   marcados: string[];
@@ -182,6 +204,8 @@ export const EstruturadosPage: React.FC = () => {
   const [difusos, setDifusos] = useState<string[]>([]);
   const [niveis, setNiveis] = useState<Record<string, Nivel>>({});
   const [forame, setForame] = useState<Record<string, unknown>>({ niveis: [] });
+  const [extras, setExtras] = useState<Record<string, Record<string, ValorExtra>>>({});
+  const [listarTodos, setListarTodos] = useState(true);
   const [saida, setSaida] = useState<{ texto: string; conclusao: string } | null>(null);
   const [aviso, setAviso] = useState("");
 
@@ -195,8 +219,17 @@ export const EstruturadosPage: React.FC = () => {
     setDifusos([]);
     setNiveis({});
     setForame({ niveis: [] });
+    setExtras({});
     setSaida(null);
   }, [segmento, modalidade]);
+
+  // um só ajuste para todos os painéis de seção: o backend manda a lista de
+  // campos, a tela só desenha. Campo novo no Python aparece aqui sem mexer no
+  // TypeScript — foi o que faltou da última vez.
+  const mexerExtra = useCallback((secao: string, campo: string, valor: ValorExtra) => {
+    setSaida(null);
+    setExtras((tudo) => ({ ...tudo, [secao]: { ...(tudo[secao] || {}), [campo]: valor } }));
+  }, []);
 
   const marcar = useCallback(
     (nivel: string, id: string) => {
@@ -227,12 +260,22 @@ export const EstruturadosPage: React.FC = () => {
   const montar = useCallback(async () => {
     try {
       const b = await invoke<string>("rotrix_estruturados", {
-        pedido: JSON.stringify({ segmento, modalidade, difusos, niveis, forame }),
+        pedido: JSON.stringify({
+          segmento,
+          modalidade,
+          difusos,
+          niveis,
+          forame,
+          extras,
+          listar_todos: listarTodos,
+        }),
       });
       const d = JSON.parse(b || "{}") as {
         ok?: boolean;
         texto?: string;
         conclusao?: string;
+        completo?: boolean;
+        aviso?: string;
         motivo?: string;
       };
       if (!d.ok) {
@@ -240,21 +283,17 @@ export const EstruturadosPage: React.FC = () => {
         return;
       }
       setSaida({ texto: d.texto || "", conclusao: d.conclusao || "" });
-      setAviso("");
+      // sem máscara no banco o texto sai só com os achados: melhor avisar do
+      // que entregar meio laudo calado
+      setAviso(d.completo === false ? "sem a máscara da região: saiu só os achados" : "");
     } catch (e) {
       setAviso(String(e));
     }
-  }, [segmento, modalidade, difusos, niveis, forame]);
+  }, [segmento, modalidade, difusos, niveis, forame, extras, listarTodos]);
 
-  const textoTodo = useMemo(
-    () =>
-      !saida
-        ? ""
-        : saida.conclusao
-          ? `${saida.texto}\n\n**CONCLUSÃO:**\n${saida.conclusao}`
-          : saida.texto,
-    [saida],
-  );
+  // O roteador já devolve o laudo inteiro, com CONCLUSÃO dentro. Nada de
+  // grudar conclusão aqui: era isso que fazia sair laudo pela metade.
+  const textoTodo = useMemo(() => saida?.texto || "", [saida]);
 
   const colar = async () => {
     if (!textoTodo) return;
@@ -306,6 +345,9 @@ export const EstruturadosPage: React.FC = () => {
               </Chip>
             ))}
           </div>
+          <Chip on={listarTodos} onClick={() => { setSaida(null); setListarTodos((x) => !x); }}>
+            listar todos os níveis
+          </Chip>
           <span className="ms-auto text-[11px] text-mid-gray">{aviso}</span>
         </div>
 
@@ -487,6 +529,97 @@ export const EstruturadosPage: React.FC = () => {
               ))}
             </div>
           </div>
+
+          {/* as demais seções do laudo — alinhamento, corpos, canal, facetas,
+              medula, sacroilíacas, musculatura */}
+          {(campos.extras || []).map((sec) => {
+            const val = extras[sec.id] || {};
+            const ligado = sec.campos.some(
+              (c) => c.tipo === "botao" && val[c.id] === true,
+            );
+            return (
+              <div
+                key={sec.id}
+                className={`rounded-lg border p-2.5 space-y-2 ${
+                  ligado ? "border-logo-primary/35 bg-logo-primary/5" : "border-mid-gray/20"
+                }`}
+              >
+                <div className="text-[9.5px] font-bold tracking-wider text-mid-gray">
+                  {sec.rotulo.toUpperCase()}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {sec.campos
+                    .filter((c) => c.tipo === "botao" && !c.depende)
+                    .map((c) => (
+                      <Chip
+                        key={c.id}
+                        on={val[c.id] === true}
+                        onClick={() => mexerExtra(sec.id, c.id, val[c.id] !== true)}
+                      >
+                        {c.rotulo}
+                      </Chip>
+                    ))}
+                </div>
+                {sec.campos
+                  .filter((c) => c.depende && val[c.depende] === true)
+                  .map((c) => {
+                    const lista =
+                      c.tipo === "niveis" || c.tipo === "vertebras"
+                        ? c.tipo === "niveis"
+                          ? campos.niveis
+                          : campos.vertebras
+                        : c.tipo === "vertebra"
+                          ? campos.vertebras
+                          : c.opcoes || [];
+                    const multiplo = c.tipo === "niveis" || c.tipo === "vertebras";
+                    const atual = val[c.id];
+                    return (
+                      <div key={c.id} className="flex gap-1.5 items-start flex-wrap">
+                        <span className="text-[10px] text-mid-gray w-[78px] pt-1">
+                          {c.rotulo}
+                        </span>
+                        <div className="flex flex-wrap gap-1.5 flex-1">
+                          {c.tipo === "botao" ? (
+                            <Chip
+                              on={atual === true}
+                              onClick={() => mexerExtra(sec.id, c.id, atual !== true)}
+                            >
+                              {c.rotulo}
+                            </Chip>
+                          ) : (
+                            lista.map((o) => {
+                              const on = multiplo
+                                ? ((atual as string[]) || []).includes(o)
+                                : atual === o;
+                              return (
+                                <Chip
+                                  key={o}
+                                  on={on}
+                                  onClick={() => {
+                                    if (multiplo) {
+                                      const l = (atual as string[]) || [];
+                                      mexerExtra(
+                                        sec.id,
+                                        c.id,
+                                        l.includes(o) ? l.filter((x) => x !== o) : [...l, o],
+                                      );
+                                    } else {
+                                      mexerExtra(sec.id, c.id, on ? "" : o);
+                                    }
+                                  }}
+                                >
+                                  {o.length > 46 ? `${o.slice(0, 44)}…` : o}
+                                </Chip>
+                              );
+                            })
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -529,6 +662,7 @@ export const EstruturadosPage: React.FC = () => {
               setDifusos([]);
               setNiveis({});
               setForame({ niveis: [] });
+              setExtras({});
               setSaida(null);
             }}
           >

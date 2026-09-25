@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-24.1"
+VERSAO = "2026-09-24.3"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -174,6 +174,8 @@ class Banco:
         for t, g, tit, txt, sec, con in cand:
             if t in ("frase", "bloco") and tipo is None:
                 continue                      # frases so por comando explicito ou exato
+            if t == "mascara" and not _modalidade_compativel(alvo, g):
+                continue                      # gatilho diz o exame, o ditado nao
             gt = g.split()
             if len(gt) < 2 and not (len(gt) == 1 and len(gt[0]) >= 6):
                 continue
@@ -201,6 +203,8 @@ class Banco:
         for t, g, tit, txt, sec, con in cand:
             if t == "bloco" and tipo is None:
                 continue
+            if t == "mascara" and not _modalidade_compativel(alvo_set, g):
+                continue                      # mesma regra do passo 3
             # palavra curta do gatilho ("pe", "mao", "tc") tem de estar EXATA no
             # ditado: "tc de pelve" nao pode virar "tc de pe" por semelhanca
             if any(len(w) <= 3 and w not in alvo_set for w in g.split()):
@@ -220,6 +224,49 @@ class Banco:
 
 _GENERICAS = set("""tomografia tomografica computadorizada radiografia raio angio angiotomografia
 normal normais sem com alteracoes alteracao significativas exame estudo contraste""".split())
+
+# ---------- a palavra que diz o exame nao pode faltar ----------
+# Ela estava em _GENERICAS, e palavra generica que falta nao reprovava o gatilho.
+# Resultado medido: "aorta toracica com calcificacoes ateromatosas" (ditado de um
+# ACHADO, sem exame nenhum) puxava a mascara inteira de ANGIOTOMOGRAFIA DA AORTA,
+# porque o gatilho "angio de aorta toracica" casava sem o "angio". 1.923 gatilhos
+# do banco tinham essa brecha.
+#
+# A regra agora: se o gatilho nomeia uma modalidade, o ditado tem de nomear a
+# MESMA FAMILIA. Sinonimo vale ("tc" resolve "tomografia", "rx" resolve "raio x");
+# silencio nao vale.
+_FAMILIA_MOD = {
+    "tc": set("tomografia tomografica computadorizada tc tomo urotomografia".split()),
+    "angiotc": set("angio angiotomografia angiotc angiorressonancia".split()),
+    "rm": set("ressonancia magnetica rm rnm".split()),
+    "rx": set("radiografia raio raios rx raiox".split()),
+    "us": set("ultrassom ultrassonografia ultrasonografia usg ecografia doppler ecodoppler".split()),
+    "mg": set("mamografia".split()),
+}
+_PALAVRA_MOD = {w: f for f, ws in _FAMILIA_MOD.items() for w in ws}
+
+
+def _familias_do_gatilho(g):
+    return {_PALAVRA_MOD[w] for w in g.split() if w in _PALAVRA_MOD}
+
+
+def _modalidade_compativel(tokens_ditado, g):
+    """O ditado nomeia a modalidade que o gatilho nomeia?
+
+    Sem isso, um ditado que so descreve achado alcanca a mascara de qualquer
+    exame cujo gatilho tenha as mesmas palavras de anatomia."""
+    fams = _familias_do_gatilho(g)
+    if not fams:
+        return True                       # gatilho sem modalidade: nada a exigir
+    # angioTC e TC sao vizinhas ("tomografia de coronarias" e angioTC de fato),
+    # mas so no sentido TC-dita -> angio: um ditado sem nenhuma palavra de
+    # modalidade continua reprovado.
+    for f in fams:
+        if tokens_ditado & _FAMILIA_MOD[f]:
+            return True
+        if f == "angiotc" and tokens_ditado & _FAMILIA_MOD["tc"]:
+            return True
+    return False
 
 BANCO = Banco(BASE)
 
@@ -2280,9 +2327,7 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(200, ia_testar(corpo.get("provedor") or "",
                                                      corpo.get("modelo") or ""))
                 if rota.endswith("/estruturados"):
-                    if estruturados is None:
-                        return self._json(200, {"ok": False, "motivo": "estruturados_indisponivel"})
-                    return self._json(200, estruturados.montar(corpo))
+                    return self._json(200, estruturados_montar(corpo))
                 if rota.endswith("/atualizar"):
                     return self._json(200, atualizar_anterior(corpo.get("anterior") or "",
                                                               corpo.get("mudancas") or "",
@@ -2828,6 +2873,46 @@ def estrutura_do_laudo(texto):
             vistos.add(x)
             unicos.append(x)
     return {"ok": True, "estrutura": "\n\n".join(unicos), "quantos": len(unicos)}
+
+
+def mascara_normal(regiao, modalidade):
+    """Texto da máscara `normal` daquela região/modalidade, direto do banco.
+
+    É o que faz o estruturado sair como LAUDO e não como lista de achados: a
+    grade vira blocos, os blocos entram nesta máscara, e o que não foi marcado
+    continua com a frase normal."""
+    BANCO.atualizada()
+    titulo = None
+    for tit, meta in BANCO.meta.items():
+        if meta[2] == regiao and meta[1] == modalidade and meta[3] == "normal":
+            # sem sufixo é a máscara principal ("normal", não "normal_dinamicas")
+            if tit.rsplit("/", 1)[-1] == "normal":
+                titulo = tit
+                break
+            titulo = titulo or tit
+    if not titulo:
+        return None
+    for t, _g, tit, txt, _s, _c in BANCO.itens:
+        if tit == titulo and t == "mascara" and txt:
+            return txt
+    return None
+
+
+def estruturados_montar(corpo):
+    """POST /v1/estruturados — devolve o laudo inteiro, não só as alterações."""
+    if estruturados is None:
+        return {"ok": False, "motivo": "estruturados_indisponivel"}
+    segmento = (corpo or {}).get("segmento") or "lombar"
+    modalidade = (corpo or {}).get("modalidade") or "rm"
+    base = mascara_normal("coluna_" + segmento, modalidade)
+    resposta = estruturados.montar(corpo, base=base, motor=montar)
+    if resposta.get("ok") and not resposta.get("completo"):
+        # sem máscara no banco o laudo sai truncado: melhor dizer do que
+        # entregar meio laudo em silêncio
+        resposta["aviso"] = "mascara_normal_nao_encontrada"
+    if resposta.get("ok"):
+        resposta["texto"] = formatar_saida(resposta["texto"])
+    return resposta
 
 
 def prescricoes(titulo="", busca=""):

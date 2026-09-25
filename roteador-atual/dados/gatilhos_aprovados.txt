@@ -1,0 +1,136 @@
+# Gatilhos de máscara que NÃO dizem a modalidade e mesmo assim
+# estão liberados: são nomes de exame que o Bruno fala assim.
+# Um por linha. O que não estiver aqui derruba o CI.
+
+# angio/angiotc/aorta
+pesquisa de disseccao de aorta negativa
+
+# angio/angiotc/arterias_pulmonares
+pesquisa de tep
+pesquisa de tep negativa
+
+# angio/angiotc/coronarias
+coronarias sem obstrucao
+escore de calcio
+
+# medicina_interna/rx/abdome
+rotina de abdome agudo
+rotina de abdome agudo normal
+
+# medicina_interna/tc/abdome
+abdome do idoso
+abdome e pelve normal
+abdome total normal
+
+# medicina_interna/tc/torax
+tcar com fibrose pulmonar
+tcar com padrao de piu
+torax normal
+
+# medicina_interna/tc/urotomografia
+urotc
+urotc com calculo renal
+urotc com calculo ureteral
+urotc com colica renal
+urotc com espessamento urotelial
+urotc com falha de enchimento
+urotc com hematuria
+urotc com lesao urotelial
+urotc com litiase renal
+urotc com litiase ureteral
+urotc com nefrolitiase
+urotc com pielonefrite
+urotc com pielonefrite aguda
+urotc com ureterolitiase
+urotc normal
+
+# msk/rx/coluna_total
+escanometria de coluna
+
+# msk/rx/escanometria
+escanometria
+escanometria com regua graduada
+escanometria de membros inferiores
+escanometria de mmii
+escanometria dos membros inferiores
+escanometria para dismetria
+exame radiologico de escanometria
+
+# msk/rx/panoramica_coluna
+panoramica da coluna com angulo de cobb
+panoramica da coluna total com medidas
+panoramica da coluna vertebral ap e perfil
+panoramica da coluna vertebral com cobb e risser
+panoramica digital da coluna vertebral
+panoramica digital de coluna para escoliose
+
+# msk/rx/panoramica_mmii
+panoramica de membros inferiores
+panoramica de membros inferiores com medidas
+panoramica de membros inferiores para eixo mecanico
+panoramica de mmii
+panoramica digital dos membros inferiores
+panoramica dos membros inferiores
+
+# msk/rx/punho
+serie de escafoide
+
+# neuro/tc/cranio
+cranio involutivo
+cranio normal
+
+# prescricao/_comum/?
+contraste nao autorizado
+contraste negado
+nao autorizado o uso do contraste
+pre medicacao para alergia
+preparo com prednisona
+preparo de alergia
+prescricao de contraste nao autorizado
+prescricao de corticoide antes do contraste
+prescricao de preparo alergico
+recusa de contraste
+
+# prescricao/rm/geral
+autorizacao de contraste
+prescricao com buscopan
+prescricao de contraste
+prescricao de contraste com escopolamina
+prescricao de contraste endovenoso
+prescricao de gadolineo
+prescricao de gadolineo zero virgula tres
+receita de contraste
+
+# prescricao/rm/pelve
+prescricao com escopolamina
+prescricao de contraste com gel vaginal
+prescricao de contraste de pelve
+prescricao endometriose
+prescricao pelve com gel
+receita de contraste de pelve
+
+# prescricao/rx/contrastado
+prescricao de bario
+prescricao de bariogel
+prescricao de contraste baritado seriografia
+prescricao de contraste do trato gastrointestinal
+prescricao de eed
+prescricao de esofago estomago e duodeno
+prescricao de seriografia
+prescricao de transito intestinal
+
+# prescricao/rx/uretrocistografia
+prescricao de contraste uretrocistografia
+prescricao de contraste via uretral
+prescricao de uretrocistografia
+prescricao uretrocistografia miccional
+
+# prescricao/tc/coronarias
+prescricao com atenolol
+prescricao de contraste coronarias
+prescricao de coronarias
+protocolo de coronarias
+
+# prescricao/tc/geral
+prescricao de contraste iodado
+prescricao de iodo
