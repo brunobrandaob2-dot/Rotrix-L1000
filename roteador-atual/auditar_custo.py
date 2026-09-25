@@ -170,7 +170,7 @@ MISTURA = [("conserto de texto", "revisao", 20),
 
 
 def projecao():
-    print("6. PROJECAO DO MES — a mistura e hipotese, os centavos sao medidos")
+    print("5. PROJECAO DO MES — a mistura e hipotese, os centavos sao medidos")
     print()
     print("   hipotese de um dia de plantao: %s" % ", ".join(
         "%d %s" % (n, r) for r, _m, n in MISTURA))
@@ -202,7 +202,7 @@ def projecao():
 
 
 def relatorio_cache():
-    print("7. CACHE — decidido pelo log dele, nao por chute")
+    print("6. CACHE — decidido pelo log dele, nao por chute")
     print()
     k5 = nuvem.releituras_por_escrita(5 * 60)
     k60 = nuvem.releituras_por_escrita(60 * 60)
@@ -235,7 +235,7 @@ def relatorio_cache():
 
 
 def relatorio_log():
-    print("8. PARA ONDE FOI O DINHEIRO — numeros REAIS da API, do gasto.json e do log")
+    print("7. PARA ONDE FOI O DINHEIRO — numeros REAIS da API, do gasto.json e do log")
     print()
     g = os.path.join(AQUI, "dados", "gasto.json")
     if not os.path.exists(g):
