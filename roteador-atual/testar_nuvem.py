@@ -4,7 +4,7 @@
 Roda no GitHub a cada envio e pode rodar no PC: python testar_nuvem.py
 Não mexe em gasto.json nem em nuvem.log da pasta (usa arquivos temporários).
 """
-import io, json, os, sys, tempfile, urllib.error, urllib.request
+import io, json, os, re, sys, tempfile, urllib.error, urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 import nuvem, formato
@@ -68,7 +68,7 @@ confere("padrão continua Anthropic", o == "nuvem" and u == nuvem.URL and c["mod
 # REDATOR_ROTRIX.md, então a prova é a REGRA que só existe no caminho de laudo inteiro.
 confere("prompt de laudo traz as regras de laudo inteiro",
         "MODO LAUDO INTEIRO" in c["system"][0]["text"]
-        and "ORDEM POR IMPORTÂNCIA CLÍNICA" in c["system"][0]["text"])
+        and "CONTRADIÇÃO É O ERRO MAIS GRAVE" in c["system"][0]["text"])
 
 # 2. RX -> OpenAI Luna, só formatar
 cfg = dict(base, ia_por_exame={"rx": {"provedor": "openai", "modelo": "gpt-5.6-luna", "modo": "formatar"},
@@ -392,6 +392,42 @@ io.open(_md_furado, "w", encoding="utf-8").write(
 confere("prompt: bloco que falta derruba a rota (não monta prompt pela metade)",
         prompts.montar("laudo", _md_furado) is None
         and prompts.montar("revisao", _md_furado) is None)
+
+# 10f-bis. A ESTRUTURA DO LAUDO É A DO BANCO. O prompt não pode mexer nela.
+# Ele cobrou isto de frente ("eu sempre disse que não era para isso acontecer"), e a
+# primeira adaptação do prompt dele tinha deixado passar três autorizações indevidas.
+confere("estrutura: o prompt proíbe reordenar a ANÁLISE",
+        "NÃO REORGANIZE" in _p_for and "ordem que chegou é a ordem dele" in _p_for)
+confere("estrutura: o prompt NÃO manda reorganizar por importância clínica",
+        "Reorganize:" not in _p_for
+        and "reordenar por importância clínica," not in _p_for)
+confere("estrutura: a regra do Bruno de 22/09 está no prompt (ditada / da máscara)",
+        "NA ORDEM EM QUE ELE DITOU" in _p_for and "NA ORDEM DA MÁSCARA" in _p_for)
+confere("estrutura: a CONCLUSÃO continua por importância (essa parte não mudou)",
+        "do mais importante para o menos" in _p_for)
+confere("estrutura: o prompt proíbe criar ou apagar seção",
+        "NÃO CRIE SEÇÃO" in _p_for and "criar ou apagar seção" in _p_for)
+confere("estrutura: ACHADO ADICIONAL/OBSERVAÇÃO só se ele ditar",
+        "só existem se ele tiver ditado" in _p_for)
+confere("estrutura: a TÉCNICA da RX nunca é removida",
+        "nunca a remova" in _p_for and "omita a seção" not in _p_for)
+# e a prova do lado do banco: as seções que o prompt cita têm de existir de verdade
+_APP = os.path.dirname(os.path.abspath(__file__))
+try:
+    import glob as _glob
+    _rx = _glob.glob(os.path.join(_APP,
+                                  "dados", "mascaras", "*", "rx", "*", "normal.txt"))
+    _sem_tec = [f for f in _rx if "TÉCNICA" not in io.open(f, encoding="utf-8").read()]
+    _com_secao_extra = [f for f in _glob.glob(os.path.join(
+        _APP, "dados", "mascaras",
+        "*", "*", "*", "*.txt"))
+        if re.search(r"ACHADO ADICIONAL|OBSERVAÇÃO", io.open(f, encoding="utf-8").read())]
+    confere("estrutura: toda máscara de RX tem TÉCNICA (%d máscaras)" % len(_rx),
+            _rx and not _sem_tec, "sem TÉCNICA: %d" % len(_sem_tec))
+    confere("estrutura: nenhuma máscara do banco tem ACHADO ADICIONAL nem OBSERVAÇÃO",
+            not _com_secao_extra, "tem: %d" % len(_com_secao_extra))
+except Exception as _e:
+    print("aviso   não consegui varrer as máscaras (%s)" % type(_e).__name__)
 
 # 10g. teto dos exemplos de estilo (era 24.000 chars = ~4.400 tokens por chamada forte)
 confere("estilo: teto padrão é 6.000 caracteres", nuvem.TETO_EXEMPLOS == 6000)

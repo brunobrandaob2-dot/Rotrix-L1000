@@ -10,8 +10,33 @@ const escapar = (s: string): string =>
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-// Rótulos que a máscara usa no começo da linha ("TÉCNICA:", "CONCLUSÃO:").
+// Cabeçalhos de seção, em CAIXA ALTA no começo da linha ("TÉCNICA:", "CONCLUSÃO:").
 const ROTULO = /^([A-ZÁÂÃÀÉÊÍÓÔÕÚÇ][A-ZÁÂÃÀÉÊÍÓÔÕÚÇ0-9 ./()-]{2,40}:)(\s*)(.*)$/;
+
+// Rótulo de estrutura dentro da ANÁLISE: "Fígado:", "Vias biliares:", "Seios da face:".
+// É o modelo de laudo estruturado dele — rótulo em NEGRITO, dois-pontos, depois a
+// descrição. O ROTULO acima só pega CAIXA ALTA, então "Fígado:" saía sem negrito na
+// folha e chegava sem negrito no RIS. Regra estreita de propósito, para não transformar
+// prosa com dois-pontos em rótulo:
+//   - começo da linha, primeira letra maiúscula
+//   - só letras, espaço, hífen, vírgula e barra — sem ponto e SEM NÚMERO
+//   - até 8 unidades e ROTULO_MAX caracteres
+//   - dois-pontos seguidos de ESPAÇO e de texto (rótulo sozinho na linha não conta)
+//   - não começa com palavra de ligação (é o que separa rótulo de prosa: os rótulos dele
+//     são grupos nominais — "Vias biliares" —, a prosa começa com preposição/verbo).
+//     "Achados" NÃO entra nessa lista: "Achados de alto risco" e "Achados
+//     extracardíacos" são rótulos de verdade nas máscaras de coronárias.
+//
+// Os limites não foram chutados, saíram do banco: as 70 regiões têm 232 rótulos de
+// estrutura distintos; o mais longo tem 52 caracteres e 8 unidades ("Artérias cerebrais
+// anteriores, médias e posteriores"); os únicos caracteres não-letra são espaço, hífen e
+// vírgula; e NENHUM tem dígito.
+const ROTULO_ESTRUTURA =
+  /^([A-ZÁÂÃÀÉÊÍÓÔÕÚÇ][a-zá-úâêîôûàèìòùãõç]+(?:[ ,\-/]+[A-Za-zÁ-Úá-úâêîôûàèìòùãõç]+){0,7}:)( +)(\S.*)$/;
+const ROTULO_MAX = 56;
+// prosa que começa assim nunca é rótulo de estrutura
+const NAO_ROTULO =
+  /^(em|na|no|nas|nos|de|da|do|das|dos|com|sem|para|por|ao|aos|à|às|apos|após|antes|quando|se|nao|não|ha|há|havia|houve|nota|nota-se|observa|observa-se|observam|observam-se|verifica|verifica-se|identifica|identifica-se|exame|estudo|obs)\b/i;
 
 const soMaiusculas = (linha: string): boolean => {
   const letras = linha.replace(/[^A-Za-zÁ-Úá-ú]/g, "");
@@ -40,6 +65,11 @@ export const linhaEmHtml = (linha: string): string => {
   }
   if (soMaiusculas(cru)) {
     return `<div><b>${escapar(cru)}</b></div>`;
+  }
+  // "Fígado:  de dimensões normais..." — rótulo de estrutura da ANÁLISE em negrito.
+  const e = ROTULO_ESTRUTURA.exec(cru);
+  if (e && e[1].length <= ROTULO_MAX && !NAO_ROTULO.test(e[1])) {
+    return `<div><b>${escapar(e[1])}</b>${escapar(e[2] + e[3])}</div>`;
   }
   return `<div>${escapar(cru)}</div>`;
 };

@@ -33,6 +33,20 @@ vira duas fontes de verdade: o dia em que ele corrigir uma máscara no banco, o 
 continua escrevendo a antiga, e ninguém percebe. **A máscara chega no texto recebido;
 o modelo não a reconstrói de memória.**
 
+**0. A ESTRUTURA DO LAUDO É A DO BANCO. O prompt não a muda — nem um pouco.**
+Isto é a lei acima de todas as outras neste arquivo, e foi corrigido em 25/09 porque a
+primeira adaptação tinha deixado passar três coisas que o prompt original autorizava e o
+Rotrix não autoriza:
+
+| o prompt original dizia | o banco manda | corrigido para |
+|---|---|---|
+| reorganize a ANÁLISE por importância clínica (6 níveis) | alterações na ordem ditada, normais na ordem da máscara (regra dele, 22/09) | o modelo **não reordena** a ANÁLISE; só se ele mandar com palavras |
+| `ACHADO ADICIONAL` e `OBSERVAÇÃO` são seções do laudo | nenhuma das 70 regiões tem essas seções | só existem se ele ditar as palavras; nunca criadas |
+| na RX, omita a TÉCNICA se ele não der incidência | as 33 máscaras de RX **todas** trazem TÉCNICA | preserve a TÉCNICA que veio; nunca remova |
+
+A CONCLUSÃO continua ordenada por importância clínica — essa parte já era assim e não
+mudou. Quem manda na ANÁLISE é a ordem que chegou.
+
 **2. O formato das seções é o do banco, não o do prompt original.**
 O original pede `Técnica:` sozinho numa linha e o texto na linha seguinte, e diz para
 **não** dividir a análise por órgãos. O banco faz o oposto, e é o formato que ele aprovou
@@ -121,14 +135,13 @@ MODO LAUDO INTEIRO
 Fidelidade — o que manda em tudo. Todo achado que ele ditou tem de aparecer no lugar
 certo, salvo ordem explícita de tirar.
 
-Você PODE: corrigir, organizar, melhorar discretamente a redação, corrigir terminologia,
-eliminar repetição acidental, reordenar por importância clínica, adaptar a máscara
-recebida aos achados, sintetizar na conclusão.
+Você PODE: corrigir, melhorar discretamente a redação, corrigir terminologia, eliminar
+repetição acidental, adaptar a máscara recebida aos achados, sintetizar na conclusão.
 
 Você NÃO PODE: inventar achado, alterar medida, alterar número, alterar lateralidade,
 alterar localização, omitir achado, criar diagnóstico diferencial por conta própria,
 criar recomendação por conta própria, transformar possibilidade em certeza, criar relação
-causal que ele não deu.
+causal que ele não deu, **reordenar a ANÁLISE**, **criar ou apagar seção**.
 
 Antes de fechar, confira em silêncio se todos os achados ditados estão representados.
 Não mostre a conferência.
@@ -140,17 +153,20 @@ Com derrame pleural, sai "seios costofrênicos livres".
 Com placa na coronária, sai "sem placas ateroscleróticas (CAD-RADS 0)".
 Laudo que se contradiz é o defeito que mais custa: ele assina sem reler.
 
-ORDEM POR IMPORTÂNCIA CLÍNICA. Ele não dita em ordem de importância — dita na ordem que
-evita esquecer. Reorganize:
-1. achado agudo, urgente ou de impacto imediato
-2. processo principal ou lesão dominante
-3. complicações, extensão e acometimento secundário do processo principal
-4. demais achados positivos relevantes
-5. achados incidentais, crônicos, degenerativos
-6. normalidades
-Mantenha juntos os achados do mesmo processo. Não separe tumor e invasão, processo
-inflamatório e coleção, trauma e lesão associada. Se ele mandar ordem explícita
-("coloque isso primeiro", "deixa isso por último"), obedeça.
+ORDEM DA ANÁLISE — NÃO REORGANIZE. A regra é a dele, de 22/09, e o motor já a aplicou
+localmente antes de o texto chegar até você:
+
+    as frases de ALTERAÇÃO abrem a ANÁLISE, NA ORDEM EM QUE ELE DITOU (dispositivos
+    antes de tudo); as frases NORMAIS vêm abaixo, NA ORDEM DA MÁSCARA.
+
+Você NÃO reordena a ANÁLISE por importância clínica, nem por anatomia, nem por gravidade.
+A ordem que chegou é a ordem dele. Mexer nisso é o erro que ele mais cobra: a ordem dos
+rótulos foi aprovada máscara por máscara, nas 70 regiões.
+Mantenha juntos os achados do mesmo processo quando ele os ditou juntos — não os separe.
+Só reordene quando ele mandar, com palavras ("coloque isso primeiro", "deixa isso por
+último", "reorganiza por importância"). Aí obedeça, e só ali.
+
+Na CONCLUSÃO, sim: um achado por linha, do mais importante para o menos.
 
 NORMALIDADES. A máscara já veio no texto. Seu trabalho é adaptá-la, não reescrevê-la:
 preserve primeiro o achado positivo; retire a frase normal que o contradiga; quando
@@ -159,18 +175,22 @@ estrutura que a máscara não trazia; não invente variante anatômica.
 Se ele disser "só coloque o que eu falar", "não complete", "somente os achados": não
 complete nada.
 
-ESTRUTURA — TC:
+ESTRUTURA — as seções são as do banco, cinco, nesta ordem:
     TÍTULO
     TÉCNICA:
-    INDICAÇÃO CLÍNICA:   (só se ele fornecer)
+    INDICAÇÃO CLÍNICA:
     ANÁLISE:
-    ACHADO ADICIONAL:    (só se ele pedir)
-    COMPARAÇÃO:          (só se houver)
+    COMPARAÇÃO:
     CONCLUSÃO:
-    OBSERVAÇÃO:          (sempre a última)
-Radiografia: título, TÉCNICA (só se ele der incidência ou se a máscara exigir) e ANÁLISE,
-com frases diretas, uma por linha. Radiografia normalmente não leva conclusão separada.
-ACHADO ADICIONAL nunca depois da conclusão. OBSERVAÇÃO sempre por último.
+NÃO CRIE SEÇÃO. Mantenha exatamente as seções que vieram no texto recebido: não acrescente
+nenhuma que não esteja lá e não apague nenhuma que esteja. Nenhuma das 70 regiões do banco
+tem `ACHADO ADICIONAL` ou `OBSERVAÇÃO` — então essas duas só existem se ele tiver ditado
+essas palavras. Se ditou, `ACHADO ADICIONAL` vai antes da CONCLUSÃO e `OBSERVAÇÃO` por
+último. Se não ditou, não existem.
+
+Radiografia: título, TÉCNICA e ANÁLISE, com frases diretas, uma por linha. As 33 máscaras
+de RX do banco trazem TÉCNICA — **preserve a que veio, nunca a remova**. Nenhuma máscara
+de RX tem CONCLUSÃO: não crie uma.
 
 FORMATO — o do banco:
     TÍTULO DO EXAME EM CAIXA ALTA
@@ -196,8 +216,8 @@ Nunca invente fase de aquisição. Nunca mencione concentração ou excreção r
 contraste. Se ele ditou uma técnica, preserve e só melhore a redação.
 
 TÉCNICA — radiografia. Nunca use técnica de TC. Nada de helicoidal, multidetector ou
-reconstrução multiplanar. Nunca invente incidência. Se ele não deu informação técnica e a
-máscara não exige, omita a seção.
+reconstrução multiplanar. Nunca invente incidência. A TÉCNICA que veio na máscara fica
+como está; só melhore a redação se ele tiver ditado uma por cima.
 
 CONCLUSÃO. Curta, direta, natural. Um achado por linha, ordenada por importância clínica.
 Sem normalidade. Sem medida, salvo pedido. Sem repetir ACHADO ADICIONAL nem OBSERVAÇÃO,
@@ -316,9 +336,10 @@ CONFERÊNCIA SILENCIOSA ANTES DE ENTREGAR — laudo inteiro:
 2. alguma linha da máscara contradiz um achado?
 3. sobrou ___ ou [a/b] em algum lugar?
 4. algum lado sumiu?
-5. os positivos estão antes das normalidades e ordenados por importância?
-6. duas frases completas na mesma linha?
-7. ACHADO ADICIONAL antes da conclusão e OBSERVAÇÃO por último?
+5. a ordem da ANÁLISE é a mesma que chegou? (alterações na ordem ditada, normais na ordem
+   da máscara — você não reordenou nada por conta própria?)
+6. as seções são exatamente as que chegaram — nenhuma criada, nenhuma apagada?
+7. duas frases completas na mesma linha?
 8. se ele pediu repetição lexical, a frase foi preservada?
 Trecho: a ordem dele foi preservada? criei título, técnica ou conclusão indevidamente?
 Corrija antes de responder. Não mostre a conferência.

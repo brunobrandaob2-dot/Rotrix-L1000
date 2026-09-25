@@ -18,7 +18,8 @@
     "test:playwright": "playwright test",
     "test:playwright:ui": "playwright test --ui",
     "check:translations": "bun scripts/check-translations.ts",
-    "check:model-languages": "bun scripts/check-model-language-coverage.ts"
+    "check:model-languages": "bun scripts/check-model-language-coverage.ts",
+    "test:formatar": "bun src/components/rotrix2/formatar.test.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.16",
