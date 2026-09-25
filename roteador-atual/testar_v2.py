@@ -136,6 +136,14 @@ def abrir_estudos(falhas):
 
 
 
+def _sem_nome(fila):
+    """A fila sem o campo "nome". 25/09: a fila mostra o NOME POR EXTENSO, porque e a
+    tela dele; a conferencia de vazamento passa a ser feita sem esse campo, para pegar
+    nome que apareca em descricao, status, id, caminho ou resposta de rota."""
+    return json.dumps([{k: v for k, v in it.items() if k != "nome"} for it in fila],
+                      ensure_ascii=False)
+
+
 def iniciais_e_soltos(falhas):
     """Iniciais no lugar do nome, varredura da pasta e apagar para a Lixeira."""
     casos = [("FULANO BELTRANO DE TAL", "F.B.T."), ("SOUZA^MARIA", "S.M."),
@@ -175,7 +183,7 @@ def iniciais_e_soltos(falhas):
             if "iniciais" not in item:
                 falhas.append("fila sem o campo iniciais: %r" % item)
                 break
-        texto = json.dumps(fila, ensure_ascii=False)
+        texto = _sem_nome(fila)
         for p in PROIBIDOS + ["serie.dcm"]:
             if p.lower() in texto.lower():
                 falhas.append("fila com varredura vazou %s" % p)
@@ -230,7 +238,7 @@ def pasta_de_downloads(falhas):
             return
         if soltos[0]["iniciais"] != "C.S.":
             falhas.append("downloads: iniciais %r" % soltos[0]["iniciais"])
-        texto = json.dumps(fila, ensure_ascii=False)
+        texto = _sem_nome(fila)
         for p in PROIBIDOS + ["boleto", "instalador", "IM0001"]:
             if p.lower() in texto.lower():
                 falhas.append("downloads: a fila vazou %s" % p)
@@ -319,7 +327,7 @@ def download_de_dicom(falhas):
             falhas.append("download: 'entrou' fora do formato %r" % x["entrou"])
         if x["iniciais"] != "F.B.T." or not x.get("lido_do_dicom"):
             falhas.append("download: iniciais/marca %r" % x)
-        texto = json.dumps(fila, ensure_ascii=False)
+        texto = _sem_nome(fila)
         for p in PROIBIDOS + ["IM000001", "PA000001"]:
             if p.lower() in texto.lower():
                 falhas.append("download: a fila vazou %s" % p)

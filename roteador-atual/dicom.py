@@ -125,6 +125,11 @@ def _iniciais(nome):
     return iniciais(nome)
 
 
+def _nome(nome):
+    from radius import nome_paciente  # o mesmo critério da fila
+    return nome_paciente(nome)
+
+
 def _arrumar(achados):
     if not achados:
         return {}
@@ -141,6 +146,9 @@ def _arrumar(achados):
                       or _texto(achados.get(T_SERIE, b"")))[:80],
         "entrou": quando,
         "iniciais": _iniciais(_texto(achados.get(T_NOME, b""))),
+        # nome inteiro, só para a tela dele — mesma regra da fila (ver
+        # radius.nome_paciente). PixelData continua sem ser lido.
+        "nome": _nome(_texto(achados.get(T_NOME, b""))),
         "uid": _texto(achados.get(T_UID, b""))[:64],
     }
 

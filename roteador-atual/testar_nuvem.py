@@ -454,6 +454,24 @@ confere("cache: log esparso não tem releitura em 5 min",
 confere("cache: log curto não decide por estatística",
         nuvem.releituras_por_escrita(300, os.devnull) is None)
 
+# 10h-bis. §17: linha de identificação do paciente barra a chamada para a nuvem
+# Quem cola um laudo do RIS na folha cola o cabeçalho "Paciente: ..." com ele. Antes de
+# 25/09 esse pedido ia para a nuvem inteiro.
+for _t, _deve in [("Paciente: FULANO BELTRANO\nTC DE TÓRAX", True),
+                  ("Nome do paciente: X", True),
+                  ("Data de nascimento: 12 de maio", True),
+                  ("Prontuário: 4455", True),
+                  ("TC de tórax com nódulo de 5 mm no lobo superior direito", False),
+                  ("o paciente refere dor há dois dias", False)]:
+    _m = nuvem.triagem(_t)
+    confere("§17: %s %s" % ("barra" if _deve else "libera", _t.split(chr(10))[0][:34]),
+            bool(_m) == _deve, "motivos: %r" % _m)
+_bloq = nuvem.chamar("Paciente: FULANO BELTRANO\nTC DE TÓRAX", dict(base), modo="laudo")
+confere("§17: pedido com nome de paciente não sai para a nuvem",
+        _bloq[1] == "nuvem_bloqueada", "origem: %r" % _bloq[1])
+confere("§17: e o texto dele volta para a tela com o motivo",
+        _bloq[0] and "não enviei para a nuvem" in _bloq[0])
+
 # 10i. trocas fixas de voz: saíram do prompt (token pago) para a tabela local (de graça)
 try:
     import roteador as _rot

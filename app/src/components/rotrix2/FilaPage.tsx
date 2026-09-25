@@ -23,6 +23,8 @@ interface Estudo {
   laudado: boolean | null;
   entrou: string;
   iniciais?: string;
+  /** nome por extenso, lido do cabeçalho DICOM AQUI no computador (pedido dele, 25/09) */
+  nome?: string;
   origem?: string;
   cabecalho?: string;
   mascara?: string | null;
@@ -324,8 +326,11 @@ export const FilaPage: React.FC = () => {
                       <td className="text-mid-gray tabular-nums" title={dia(i.entrou)}>
                         {hora(i.entrou)}
                       </td>
-                      <td className="text-mid-gray tabular-nums text-xs">
-                        {i.iniciais || "—"}
+                      <td
+                        className="text-text text-xs max-w-[22ch] truncate"
+                        title={i.nome || i.iniciais || ""}
+                      >
+                        {i.nome || i.iniciais || "—"}
                       </td>
                       <td>
                         <span className="text-[10px] font-bold rounded bg-logo-primary/15 px-1.5 py-0.5">
@@ -382,7 +387,7 @@ export const FilaPage: React.FC = () => {
                         {(e?.modalidade || "--").toUpperCase()}
                       </span>
                       <span className="truncate flex-1">
-                        {e ? `${e.iniciais || ""} ${nomeDoExame(e)}`.trim() : id}
+                        {e ? `${e.nome || e.iniciais || ""} · ${nomeDoExame(e)}`.replace(/^ · /, "") : id}
                       </span>
                       <button
                         type="button"
@@ -459,7 +464,7 @@ export const FilaPage: React.FC = () => {
             <div className="p-3 flex flex-col gap-2">
               <p className="text-[11px]">
                 {oDaVez
-                  ? `${oDaVez.iniciais || ""} ${nomeDoExame(oDaVez)}`.trim()
+                  ? `${oDaVez.nome || oDaVez.iniciais || ""} · ${nomeDoExame(oDaVez)}`.replace(/^ · /, "")
                   : "nenhum escolhido"}
               </p>
               <div className="flex gap-2">
@@ -488,7 +493,7 @@ export const FilaPage: React.FC = () => {
 
       <div className="px-3 py-2 bg-background border-t border-mid-gray/20 text-[11px] text-mid-gray">
         {aviso ||
-          "o cabeçalho do DICOM é lido aqui no computador · da lista sai só as iniciais"}
+          "o cabeçalho do DICOM é lido aqui no computador · o nome fica nesta tela e não sai daqui"}
       </div>
     </div>
   );

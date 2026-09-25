@@ -530,7 +530,15 @@ _CAMPO_PACIENTE = re.compile(
 
 def triagem(texto):
     """Devolve lista de motivos de bloqueio. Vazia = liberado."""
-    return [nome for rx, nome in BLOQUEIOS if rx.search(texto or "")]
+    motivos = [nome for rx, nome in BLOQUEIOS if rx.search(texto or "")]
+    # 25/09: linha de campo de paciente também barra. Isto já existia, mas só para
+    # escolher exemplo de estilo — o pedido que vai para a nuvem passava direto.
+    # Quem cola um laudo do RIS na folha cola o cabeçalho "Paciente: ..." com ele, e
+    # aí o nome ia para a nuvem, contra a §17. Nome solto no meio da prosa continua
+    # invisível para a triagem: isso nenhuma regex resolve.
+    if _CAMPO_PACIENTE.search(texto or ""):
+        motivos.append("linha de identificação do paciente")
+    return motivos
 
 SISTEMA_REVISAO = """Você é um revisor de transcrição médica especializado em RADIOLOGIA.
 

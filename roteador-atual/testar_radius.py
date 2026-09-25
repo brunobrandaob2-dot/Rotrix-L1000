@@ -93,13 +93,17 @@ def cenario_real(falhas):
     try:
         montar_real(pasta)
         fila = radius.ler_fila(pasta)
-        txt = json.dumps(fila, ensure_ascii=False)
+        # mesma regra do outro cenário: o nome vive no campo "nome" e em nenhum outro
+        txt = json.dumps([{k: v for k, v in it.items() if k != "nome"} for it in fila],
+                         ensure_ascii=False)
         diag = radius.diagnostico(pasta)
         for p in PROIBIDOS:
             if p.lower() in txt.lower():
-                falhas.append("real: fila vazou " + p)
+                falhas.append("real: fila vazou fora do campo 'nome': " + p)
             if p.lower() in diag.lower():
                 falhas.append("real: diagnóstico vazou " + p)
+        if not any("FULANO BELTRANO" in (it.get("nome") or "") for it in fila):
+            falhas.append("real: o nome por extenso não chegou na fila")
         if len(fila) != 3:
             falhas.append("real: esperava 3 estudos (cópia de segurança fora), veio %d" % len(fila))
         at = radius.atual(fila)
@@ -243,13 +247,33 @@ def main():
         if sorted(arqs) != ["other-dicoms-state.json", "state.beta-v3.json", "statistics.json"]:
             falhas.append("arquivos de estado: %s" % arqs)
         fila = radius.ler_fila(pasta)
-        txt_fila = json.dumps(fila, ensure_ascii=False)
         diag = radius.diagnostico(pasta)
+        # 25/09: a fila passa a trazer o NOME POR EXTENSO, porque é a tela dele.
+        # A §17 continua valendo: o nome sai num campo SÓ DELE ("nome") e em
+        # lugar nenhum mais. Então a conferência de vazamento é feita na fila
+        # SEM esse campo — se o nome aparecer em descrição, status, id ou
+        # qualquer outro lugar, é vazamento e o teste acusa.
+        sem_nome = [{k: v for k, v in it.items() if k != "nome"} for it in fila]
+        txt_fila = json.dumps(sem_nome, ensure_ascii=False)
         for p in PROIBIDOS:
             if p.lower() in txt_fila.lower():
-                falhas.append("fila vazou: " + p)
+                falhas.append("fila vazou fora do campo 'nome': " + p)
             if p.lower() in diag.lower():
                 falhas.append("diagnóstico vazou: " + p)
+        # e o nome TEM de estar no campo dele
+        nomes = [it.get("nome", "") for it in fila]
+        if not any("FULANO BELTRANO" in n for n in nomes):
+            falhas.append("o nome por extenso não chegou na fila: %r" % nomes)
+        # as iniciais continuam existindo (dicom.py e o modo estação usam) onde há nome
+        for it in fila:
+            if it.get("nome") and not it.get("iniciais"):
+                falhas.append("estudo com nome e sem iniciais: %r" % it.get("descricao"))
+        # o cabeçalho (que vira ditado e vai ao banco) nunca leva o nome
+        for it in fila:
+            cab = radius.cabecalho(it) or ""
+            for p in PROIBIDOS:
+                if p.lower() in cab.lower():
+                    falhas.append("cabeçalho vazou: %s em %r" % (p, cab))
         if len(fila) != 4:
             falhas.append("esperava 4 estudos, veio %d" % len(fila))
         descr = sorted(x["descricao"] for x in fila)

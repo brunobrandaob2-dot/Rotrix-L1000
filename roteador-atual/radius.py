@@ -209,10 +209,34 @@ def _laudado(v):
 _PALAVRA_FRACA = {"de", "da", "do", "dos", "das", "e", "di", "del", "van", "von"}
 
 
+def nome_paciente(nome):
+    """O nome como está no cabeçalho, legível: "TAL^FULANO B" -> "TAL FULANO B".
+
+    Pedido dele em 25/09: "na fila de laudos tenha o nome por extenso do paciente,
+    só as iniciais está muito ruim."
+
+    Isto NÃO afrouxa a §17. A §17 diz que o nome não SAI DO COMPUTADOR — e a fila é
+    a tela dele, na máquina dele. O nome sai daqui num campo SÓ DELE ("nome"), para
+    que o resto do sistema continue cego:
+      - não entra em `descricao`, `status` nem em nenhum outro campo (o `_limpo`
+        continua apagando pedaços de nome de dentro deles);
+      - não entra no diagnóstico (`diagnostico()`), que é o que ele me manda;
+      - não entra no log da nuvem (`registrar` grava só contador);
+      - não entra no `cabecalho()`, que é o texto que vira ditado e vai ao banco.
+    `testar_radius.py` prova cada uma dessas linhas, uma por uma.
+
+    O que garante que o nome não vai para a IA é a ARQUITETURA, não a triagem: a
+    nuvem só recebe o texto do laudo e o ditado, e a única coisa derivada da fila
+    que alimenta os dois é o `cabecalho()`. `nuvem.triagem` barra CPF, data completa,
+    sequência longa de dígitos, prontuário e e-mail — e, desde 25/09, linha de campo
+    de paciente ("Paciente: ..."); nome solto no meio da prosa ela não vê."""
+    bruto = str(nome or "").replace("^", " ")
+    return " ".join(bruto.split())
+
+
 def iniciais(nome, maximo=3):
-    """"FULANO BELTRANO DE TAL" -> "F.B.T." — o bastante para bater com a tela
-    do RadiAnt, sem o nome. É a única coisa derivada do nome que sai daqui, e
-    mesmo assim só para a tela do app: não entra em log nem vai para a IA."""
+    """"FULANO BELTRANO DE TAL" -> "F.B.T." — ainda usada onde o nome inteiro não
+    deve aparecer: leitura de DICOM solto (dicom.py) e modo estação."""
     bruto = str(nome or "").replace("^", " ")
     letras = []
     for palavra in _n(bruto).split():
@@ -323,6 +347,9 @@ def _ler_fila(arqs, contar=True):
                 "laudado": _laudado(_valor(d, "isreported")),
                 "entrou": _quando(_valor(d, "queueenteredat")),
                 "iniciais": iniciais(_valor(d, "patientname")),
+                # nome inteiro, para a tela DELE. Ver nome_paciente() para o
+                # porque isto nao quebra a §17, e os cinco testes que provam.
+                "nome": nome_paciente(_valor(d, "patientname")),
                 "origem": "radius",
                 "principal": principal,
                 "fonte": fonte,
@@ -338,8 +365,10 @@ def _ler_fila(arqs, contar=True):
             # o mesmo estudo em dois arquivos: o estado da vez manda; o que
             # faltar num (descrição vazia, laudado desconhecido) vem do outro
             novo, outro = (item, velho) if principal and not velho["principal"] else (velho, item)
-            for campo in ("modalidade", "descricao", "status", "entrou", "iniciais"):
-                if not novo[campo] and outro[campo]:
+            for campo in ("modalidade", "descricao", "status", "entrou", "iniciais", "nome"):
+                # .get: campo que um dia deixe de existir vira lista sem ele, não
+                # KeyError no meio da leitura da fila
+                if not novo.get(campo) and outro.get(campo):
                     novo[campo] = outro[campo]
             if novo["laudado"] is None:
                 novo["laudado"] = outro["laudado"]
@@ -855,6 +884,7 @@ def soltos(pasta, fila_radius=(), exigir_exame=False):
             "entrou": time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(mtime)),
             "quando_exame": cab.get("entrou") or "",
             "iniciais": cab.get("iniciais") or iniciais(os.path.splitext(nome)[0]),
+            "nome": cab.get("nome") or nome_paciente(os.path.splitext(nome)[0]),
             "origem": "pasta",
             "principal": False,
             "fonte": "pasta",
