@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-24.3"
+VERSAO = "2026-09-25.1"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -690,6 +690,107 @@ def _config():
         pass
     return _CFG["dados"]
 
+# ---------- modo generico: lacuna de detalhe some, nao vira ___ ----------
+# Ele lauda urgencia e emergencia. "escoliose lombar de convexidade a esquerda,
+# com apice em ___ e angulo de Cobb estimado em ___ graus" e uma frase que ele
+# nunca vai completar: nao se mede Cobb no plantao. O que sobra e uma lacuna que
+# ele apaga na mao, laudo a laudo.
+#
+# Regra: lacuna NAO resolvida de DETALHE sai junto com o pedaco de frase que a
+# carrega. O que nunca sai: lado. Laudo sem lado e erro grave, e apagar o lado
+# em silencio seria pior do que a lacuna.
+_LACUNA = re.compile(r"___|\[[^\]\n]{1,80}\]")
+_LADO_PROIBIDO = re.compile(r"direit|esquerd|bilater", re.I)
+
+# modificador colado na lacuna, que tambem tem de sair ("grau [1/2/3]")
+_ANTES_DA_LACUNA = re.compile(
+    r"\s*(?:,\s*)?\b(?:de\s+|em\s+|com\s+|a\s+)?"
+    r"(?:grau|graus|angulo|ângulo|medida|nivel|nível|tipo|classe|estagio|estágio)\s+$",
+    re.I)
+
+
+def _limpar_sobras(s):
+    s = re.sub(r"\s{2,}", " ", s)
+    s = re.sub(r"\s+([,.;:])", r"\1", s)
+    s = re.sub(r",\s*(?=[,.;])", "", s)
+    s = re.sub(r"\b(?:com|de|em|e|a)\s*(?=[.,;])", "", s, flags=re.I)
+    s = re.sub(r",\s*\.", ".", s)
+    s = re.sub(r"\.{2,}", ".", s)
+    return s.strip()
+
+
+def _generalizar_frase(frase):
+    """Tira os pedacos da frase que so existem para carregar uma lacuna."""
+    if not _LACUNA.search(frase):
+        return frase
+    # a pontuacao final volta no fim: ela costuma viajar junto com o pedaco
+    # que sai, e frase sem ponto e defeito visivel
+    fim = ""
+    m_fim = re.search(r"[.;:]\s*$", frase)
+    if m_fim:
+        fim = m_fim.group(0).strip()
+
+    partes = re.split(r"(,\s*)", frase)
+    saida, mexeu = [], False
+    for i, p in enumerate(partes):
+        if not _LACUNA.search(p) or _LADO_PROIBIDO.search(p):
+            saida.append(p)
+            continue
+        # o PRIMEIRO pedaco e o achado: nunca some inteiro, so perde a lacuna.
+        # Do segundo em diante, pedaco com lacuna SAI — "de [pequeno/moderado]
+        # volume" vira "de volume" se eu so tirar o colchete, e isso e pior do
+        # que a lacuna.
+        if i > 0:
+            mexeu = True                 # pedaco inteiro de detalhe: some
+            if saida and saida[-1].strip() == ",":
+                saida.pop()
+            continue
+        saida.append(p)
+    s = "".join(saida)
+
+    # o que sobrou com lacuna no meio da oracao ("grau [1/2/3] de L4 sobre L5")
+    def tira(m):
+        if _LADO_PROIBIDO.search(m.group(0)):
+            return m.group(0)
+        return "\x00"
+    s2 = _LACUNA.sub(tira, s)
+    if "\x00" in s2:
+        mexeu = True
+        pedacos = s2.split("\x00")
+        novo = pedacos[0]
+        for resto in pedacos[1:]:
+            novo = _ANTES_DA_LACUNA.sub("", novo)
+            novo = novo.rstrip() + resto
+        s2 = novo
+    if not mexeu:
+        return frase
+    s2 = _limpar_sobras(s2)
+    if fim and not s2.endswith(tuple(".;:")):
+        s2 += fim
+    return s2
+
+
+def generalizar(texto):
+    """Passa o laudo inteiro. Titulo e cabecalho nao sao tocados."""
+    fora = []
+    for linha in (texto or "").split("\n"):
+        s = linha.strip()
+        if not s or s.startswith("**") and s.endswith("**"):
+            fora.append(linha)
+            continue
+        if not _LACUNA.search(linha):
+            fora.append(linha)
+            continue
+        rot, sep, corpo = linha.partition(":")
+        if sep and _ROTULO.match(linha):
+            novo = " ".join(_generalizar_frase(f) for f in re.split(r"(?<=\.)\s+", corpo))
+            fora.append(rot + ":" + (" " if corpo.startswith("  ") else "") + " " + novo.strip())
+        else:
+            fora.append(" ".join(_generalizar_frase(f)
+                                 for f in re.split(r"(?<=\.)\s+", linha)).rstrip())
+    return "\n".join(fora)
+
+
 def formatar_saida(texto):
     """Os cabecalhos vem marcados como **TECNICA:** no banco.
     formato_titulos = "texto"    -> tira as marcas (cola texto puro)
@@ -1092,6 +1193,20 @@ def formar_laudo(resto, com_ia):
 
 
 def rotear(ditado, _auto=False):
+    """Devolve (texto_final, origem). Nunca levanta excecao.
+
+    Envelope do _rotear: o que sai passa pelo modo generico, para lacuna de
+    DETALHE nao chegar na tela. Ele lauda urgencia: nao mede Cobb no plantao."""
+    texto, origem = _rotear(ditado, _auto)
+    if texto and _config().get("laudo_generico", True):
+        try:
+            texto = generalizar(texto)
+        except Exception as e:
+            print("AVISO: modo generico falhou (%s)" % type(e).__name__, file=sys.stderr)
+    return texto, origem
+
+
+def _rotear(ditado, _auto=False):
     """Devolve (texto_final, origem). Nunca levanta excecao."""
     bruto = (ditado or "").strip()
     if not bruto:
@@ -1200,7 +1315,7 @@ def rotear(ditado, _auto=False):
         if txt is None and tipo is None and not _auto:
             cab_auto = _cabecalho_automatico()
             if cab_auto and _cabecalho_rx(cab_auto, cab_auto) is not None:
-                t_auto, o_auto = rotear(cab_auto + ", " + original, _auto=True)
+                t_auto, o_auto = _rotear(cab_auto + ", " + original, _auto=True)
                 if o_auto.startswith(("rx_literal", "mascara")):
                     return t_auto, o_auto + "+radius"
         if txt is None and len(segmentos) > 1:

@@ -1323,6 +1323,52 @@ def gatilho_nao_rouba_exame(falhas):
                       % (len(sobra), ", ".join(g for _r, _t, g in sobra[:5])))
 
 
+def laudo_generico(falhas):
+    """Lacuna de DETALHE nao chega na tela; lado NUNCA some.
+
+    Ele lauda urgencia e emergencia: "escoliose lombar de convexidade a
+    esquerda, com apice em ___ e angulo de Cobb estimado em ___ graus" e uma
+    frase que ninguem completa no plantao. Some o pedaco, nao vira ___."""
+    casos = [
+        ("Alinhamento:  escoliose lombar de convexidade à esquerda, com ápice em ___ "
+         "e ângulo de Cobb estimado em ___ graus, associada a rotação vertebral.",
+         "Alinhamento:  escoliose lombar de convexidade à esquerda, associada a rotação vertebral."),
+        ("Escoliose lombar de convexidade à esquerda, com ângulo de Cobb de ___ graus.",
+         "Escoliose lombar de convexidade à esquerda."),
+        ("Alinhamento:  anterolistese degenerativa grau [1/2/3/4] de L4 sobre L5.",
+         "Alinhamento:  anterolistese degenerativa de L4 sobre L5."),
+        ("Derrames:  derrame pleural direito, de [pequeno/moderado/grande] volume, "
+         "com densidade de líquido.",
+         "Derrames:  derrame pleural direito, com densidade de líquido."),
+        # o LADO nunca sai: laudo sem lado e erro grave
+        ("Parênquima pulmonar:  nódulo sólido no lobo superior [direito/esquerdo], "
+         "medindo ___ mm.",
+         "Parênquima pulmonar:  nódulo sólido no lobo superior [direito/esquerdo]."),
+        ("**RADIOGRAFIA DO JOELHO [DIREITO/ESQUERDO]**",
+         "**RADIOGRAFIA DO JOELHO [DIREITO/ESQUERDO]**"),
+        # sem lacuna, nada muda
+        ("Vasos:  aorta de calibre normal, com ateromatose calcificada parietal.",
+         "Vasos:  aorta de calibre normal, com ateromatose calcificada parietal."),
+    ]
+    for antes, esperado in casos:
+        saiu = roteador.generalizar(antes)
+        if saiu != esperado:
+            falhas.append("generico:\n      saiu: %s\n  esperado: %s" % (saiu, esperado))
+
+    # ponta a ponta: o ditado dele nao pode chegar com lacuna
+    for d in ("tomografia de coluna lombar com escoliose para a esquerda",
+              "tomografia de coluna lombar com anterolistese de l4 sobre l5",
+              "tomografia de torax com derrame pleural a direita"):
+        texto, _o = roteador.rotear(d)
+        if "___" in texto:
+            falhas.append("generico: %r ainda saiu com lacuna" % d)
+
+    # e o lado continua chegando
+    texto, _o = roteador.rotear("raio x de joelho direito")
+    if "DIREITO" not in texto.upper():
+        falhas.append("generico: o lado sumiu do titulo (%r)" % texto.split("\n")[0])
+
+
 def main():
     falhas = []
     banco(falhas)
@@ -1344,6 +1390,7 @@ def main():
     estruturados_por_niveis(falhas)
     atualizar_o_anterior(falhas)
     gatilho_nao_rouba_exame(falhas)
+    laudo_generico(falhas)
     for f in falhas:
         print("FALHOU", f)
     print("v2: tudo certo" if not falhas else "v2: %d falha(s)" % len(falhas))
