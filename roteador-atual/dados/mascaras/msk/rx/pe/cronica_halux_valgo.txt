@@ -5,7 +5,7 @@
 # tipo_mascara: cronica
 **RADIOGRAFIA DO PÉ {LADO|DIREITO/ESQUERDO}**
 
-**TÉCNICA:**  incidências anteroposterior, oblíqua e perfil.
+**TÉCNICA:**  incidências anteroposterior e oblíqua.
 
 **ANÁLISE:**
 Hálux valgo {grau|leve/moderado/acentuado}, com ângulo do hálux valgo de {angulo_hv}° (normal < 15°) e intermetatarsal 1–2 de {angulo_im}° (normal < 9°).

@@ -1,11 +1,11 @@
-# gatilhos: raio x de abdome | rx de abdome | radiografia de abdome | raio x de abdome normal | rx de abdome normal | radiografia de abdome normal | rx abdome normal | raio x do abdome | rx do abdome | radiografia do abdome | raio x de abdome simples | rx de abdome simples | radiografia de abdome sem alteracoes
+# gatilhos: rotina de abdome agudo | rotina de abdome agudo normal | rx de abdome agudo | raio x de abdome agudo | radiografia de abdome agudo | rx de abdome agudo normal | rx abdome em duas incidencias
 # categoria: medicina_interna
 # modalidade: rx
-# regiao: abdome
+# regiao: abdome_agudo
 # tipo_mascara: normal
-**RADIOGRAFIA DE ABDOME**
+**RADIOGRAFIA DE ABDOME AGUDO**
 
-**TÉCNICA:**  incidência anteroposterior em decúbito dorsal.
+**TÉCNICA:**  incidências posteroanterior do tórax, abdome em ortostase e abdome em decúbito dorsal.
 
 **ANÁLISE:**
 Distribuição gasosa intestinal habitual, com gás até a ampola retal.

@@ -5,7 +5,7 @@
 # tipo_mascara: aguda
 **RADIOGRAFIA DO TORNOZELO {LADO|DIREITO/ESQUERDO}**
 
-**TÉCNICA:**  incidências anteroposterior, perfil e mortise (anteroposterior com rotação interna de 15 a 20 graus).
+**TÉCNICA:**  incidências anteroposterior e perfil.
 
 **ANÁLISE:**
 Pinça maleolar {encaixe|congruente, com espaço claro medial preservado/incongruente, com alargamento do espaço claro medial e subluxação lateral do tálus}.

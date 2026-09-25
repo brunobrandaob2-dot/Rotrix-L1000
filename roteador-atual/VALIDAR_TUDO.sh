@@ -15,7 +15,7 @@ echo "conferindo o prompt de sistema (REDATOR_ROTRIX.md)..."
 python3 prompts.py
 echo "auditando gatilhos..."
 python3 auditar_gatilhos.py | tail -3
-for t in testar_nuvem.py testar_importar.py testar_rx_literal.py testar_radius.py \
+for t in testar_nuvem.py testar_tecnica_rx.py testar_importar.py testar_rx_literal.py testar_radius.py \
          testar_tc_literal.py testar_estacao.py testar_v2.py; do
   printf "%-24s " "$t"
   python3 "$t" 2>&1 | tail -1

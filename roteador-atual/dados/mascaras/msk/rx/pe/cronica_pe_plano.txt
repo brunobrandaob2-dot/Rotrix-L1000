@@ -5,7 +5,7 @@
 # tipo_mascara: cronica
 **RADIOGRAFIA DO PÉ {LADO|DIREITO/ESQUERDO}**
 
-**TÉCNICA:**  incidências anteroposterior, oblíqua e perfil.
+**TÉCNICA:**  incidências anteroposterior e oblíqua.
 
 **ANÁLISE:**
 Alinhamento preservado, com articulações tarsometatarsais congruentes.

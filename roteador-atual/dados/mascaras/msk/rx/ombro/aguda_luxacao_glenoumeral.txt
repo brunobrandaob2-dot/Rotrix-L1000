@@ -5,7 +5,7 @@
 # tipo_mascara: aguda
 **RADIOGRAFIA DO OMBRO {LADO|DIREITO/ESQUERDO}**
 
-**TÉCNICA:**  incidências anteroposterior em rotação interna e externa e perfil da escápula.
+**TÉCNICA:**  incidências anteroposterior, perfil de Neer e axilar.
 
 **ANÁLISE:**
 Luxação glenoumeral {direcao|anterior, com a cabeça umeral em posição subcoracoide/posterior/inferior (luxatio erecta)}.

@@ -5,7 +5,7 @@
 # tipo_mascara: normal
 **RADIOGRAFIA DA CLAVÍCULA {LADO_F|DIREITA/ESQUERDA}**
 
-**TÉCNICA:**  incidências anteroposterior e anteroposterior com inclinação cranial.
+**TÉCNICA:**  incidências anteroposterior e Zanca (anteroposterior com inclinação cranial de 15 graus).
 
 **ANÁLISE:**
 Clavícula com contornos corticais regulares.

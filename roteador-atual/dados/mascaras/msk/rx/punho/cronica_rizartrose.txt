@@ -5,7 +5,7 @@
 # tipo_mascara: cronica
 **RADIOGRAFIA DO PUNHO {LADO|DIREITO/ESQUERDO}**
 
-**TÉCNICA:**  incidências posteroanterior, perfil e oblíqua.
+**TÉCNICA:**  incidências posteroanterior e perfil.
 
 **ANÁLISE:**
 Alinhamento carpal preservado.

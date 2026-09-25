@@ -5,7 +5,7 @@
 # tipo_mascara: aguda
 **RADIOGRAFIA DO PÉ {LADO|DIREITO/ESQUERDO}**
 
-**TÉCNICA:**  incidências anteroposterior, oblíqua e perfil.
+**TÉCNICA:**  incidências anteroposterior e oblíqua.
 
 **ANÁLISE:**
 Desalinhamento da margem medial da base do segundo metatarso com o cuneiforme intermédio.
