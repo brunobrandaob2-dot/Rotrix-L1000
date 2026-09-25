@@ -777,6 +777,11 @@ def _exemplos_estilo():
             "\n\n---\n\n".join(partes))
 
 
+# Ultima chamada que de fato foi para a nuvem. A tela le daqui para mostrar
+# QUAL IA agiu e QUANTO custou -- foi o que faltou quando ele perguntou
+# "como eu sei quando estou acionando a cara?".
+ULTIMA = {}
+
 # ---------- economia: modelo barato para o que nao exige raciocinio ----------
 # Ele gastou US$ 10 em cinco dias. A conta nao vem do modelo escolhido, vem de
 # quantas vezes a nuvem e chamada e com quanto texto. Quatro travas, nesta ordem
@@ -997,7 +1002,10 @@ def rota(pedido, c=None, modo="analise"):
 
     # ECONOMIA: o que não exige raciocínio vai para o modelo barato, mesmo que
     # ele tenha escolhido um caro na barra. Desligue com "economizar": false.
-    if c.get("economizar", True) and r["regra"] == "padrao":
+    # Botao apertado por ele manda. Se ele escolheu o forte, e porque quer o
+    # forte: trocar por baixo e invisivel, e invisivel e o que ele nao perdoa.
+    if c.get("economizar", True) and r["regra"] == "padrao" \
+            and not c.get("modelo_explicito"):
         if not tarefa_precisa_pensar(pedido, r["modo"]):
             barato = modelo_barato(c)
             if barato and barato != r["modelo"]:
@@ -1307,6 +1315,12 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
         local = bool(p.get("sem_chave"))
         c_call = float(usd) if usd is not None else custo(r["modelo"], n_in, n_out, c, local=local)
         g = gasto_somar(rotulo, n_in, n_out, usd=c_call)   # resposta vazia também é cobrada
+        # o que rodou de verdade, para a tela dizer qual IA agiu e quanto custou
+        ULTIMA.update({"modelo": rotulo, "usd": round(float(c_call or 0), 5),
+                       "tokens_in": n_in, "tokens_out": n_out, "modo": m_ef,
+                       "economia": r.get("regra") == "economia",
+                       "modelo_pedido": r.get("modelo_pedido") or rotulo,
+                       "mes_usd": round(float(g.get("usd") or 0), 4)})
         if not texto:
             registrar(c, n_in, n_out, "vazia", c_call, g["usd"], modelo=rotulo)
             return None, "nuvem_vazia"

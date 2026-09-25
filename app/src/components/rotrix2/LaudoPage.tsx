@@ -61,6 +61,26 @@ interface Props {
 
 // Qual atalho cada botão dispara. O "completo" grava igual ao "leve" e, quando
 // o texto volta, passa pela IA grande.
+// Recibo da chamada: qual IA agiu, quanto custou e quanto já foi no mês.
+// Centavo é a unidade que ele sente — US$ 0,0042 não diz nada; "0,4 centavo" diz.
+const recibo = (r: {
+  modelo?: string;
+  custo_usd?: number;
+  mes_usd?: number;
+  economia?: boolean;
+}): string => {
+  const curto = (r.modelo || "IA").split(/[:/]/).pop() || "IA";
+  const nome = curto.replace(/[-_]?\d{6,}$/, "");
+  const partes = [nome];
+  if (typeof r.custo_usd === "number") {
+    const c = r.custo_usd * 100;
+    partes.push(c < 1 ? `${c.toFixed(2)} centavo` : `${c.toFixed(1)} centavos`);
+  }
+  if (typeof r.mes_usd === "number") partes.push(`mês US$ ${r.mes_usd.toFixed(2)}`);
+  if (r.economia) partes.push("(economia: fui no barato)");
+  return partes.join(" · ");
+};
+
 const BINDING: Record<Modo, string> = {
   simples: "transcribe",
   leve: "transcribe_with_post_process",
@@ -147,6 +167,10 @@ export const LaudoPage: React.FC<Props> = ({
         if (r.ok && r.texto) {
           setUltimoIA(texto);
           if (folha.current) folha.current.innerHTML = textoEmHtml(r.texto);
+          // QUAL IA agiu e QUANTO custou. Sem isso ele aperta um botão e não
+          // sabe se gastou um centavo ou dez — foi exatamente o que ele
+          // perguntou, e trocar o modelo por baixo sem mostrar é pior ainda.
+          setAviso(recibo(r));
         } else {
           setAviso(motivoEmPortugues(r.motivo));
         }

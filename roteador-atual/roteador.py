@@ -2775,6 +2775,7 @@ def atualizar_anterior(anterior, mudancas, modelo=""):
     if modelo:
         c = dict(c)
         c["modelo"] = modelo
+        c["modelo_explicito"] = True      # botão dele manda; economia não troca por baixo
 
     corpo = anterior
     try:
@@ -3279,7 +3280,11 @@ def ia_no_texto(texto, instrucao="", modelo=""):
             _aprender(texto, novo)
         except Exception:
             pass
-        return {"ok": True, "texto": novo, "origem": origem, "modelo": c.get("modelo")}
+        u = dict(getattr(nuvem, "ULTIMA", {}) or {})
+        return {"ok": True, "texto": novo, "origem": origem,
+                "modelo": u.get("modelo") or c.get("modelo"),
+                "custo_usd": u.get("usd"), "mes_usd": u.get("mes_usd"),
+                "economia": u.get("economia", False)}
     return {"ok": False, "motivo": origem, "texto": texto}
 
 
