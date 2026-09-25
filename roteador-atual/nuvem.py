@@ -12,7 +12,7 @@ organiza, delimita e corrige; não descreve nem raciocina), com a trava de
 conferência que aponta toda palavra de conteúdo que a IA acrescentou.
 Sem ia_por_exame, o comportamento é o de sempre.
 """
-import json, os, re, ssl, urllib.request, urllib.error, datetime, difflib, unicodedata
+import io, json, os, re, ssl, urllib.request, urllib.error, datetime, difflib, unicodedata
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(AQUI, "config.json")
@@ -344,6 +344,16 @@ def modelos(c=None, nome=None, timeout=12):
         if ident:
             fora.append({"id": ident, "nome": m.get("display_name") or ident})
     fora.sort(key=lambda m: m["id"])
+    # guarda os ids REAIS: e dessa lista que sai o modelo barato da economia
+    try:
+        os.makedirs(os.path.dirname(CACHE_MODELOS), exist_ok=True)
+        tmp = CACHE_MODELOS + ".tmp"
+        with io.open(tmp, "w", encoding="utf-8", newline="\n") as f:
+            json.dump({"provedor": nome, "modelos": [m["id"] for m in fora]},
+                      f, ensure_ascii=False)
+        os.replace(tmp, CACHE_MODELOS)
+    except Exception:
+        pass
     return {"ok": True, "provedor": nome, "origem_da_chave": origem,
             "modelos": fora, "quantos": len(fora)}
 
@@ -767,6 +777,175 @@ def _exemplos_estilo():
             "\n\n---\n\n".join(partes))
 
 
+# ---------- economia: modelo barato para o que nao exige raciocinio ----------
+# Ele gastou US$ 10 em cinco dias. A conta nao vem do modelo escolhido, vem de
+# quantas vezes a nuvem e chamada e com quanto texto. Quatro travas, nesta ordem
+# de impacto:
+#   1. nao chamar quando nao ha nada a fazer (custo zero)
+#   2. mandar para o modelo BARATO tudo que e formatacao, ortografia e palavra
+#      mal ouvida — que e a maioria
+#   3. nao mandar os exemplos de estilo no caminho barato (e o maior pedaco da
+#      entrada, ate 24 mil caracteres)
+#   4. teto de saida proporcional a entrada: conserto de 200 tokens nao precisa
+#      de 1500 de resposta
+#
+# Modelo forte fica para o que exige raciocinio de verdade: comparativo,
+# reorganizar laudo por importancia clinica, integrar achado novo na mascara.
+
+# tarefas que NUNCA precisam de raciocinio
+_TAREFAS_BARATAS = ("formatar", "revisao")
+
+# pistas de que o pedido exige raciocinio, mesmo num modo barato
+_PEDE_RACIOCINIO = re.compile(
+    r"\b(compar\w+|em relacao ao|estavel em relacao|recist|"
+    r"reorganiz\w+|organiz\w+ por|por importancia|prioriz\w+|"
+    r"refin\w+|reescrev\w+|reescrit\w+|melhor\w+ a (?:analise|descricao|redacao)|"
+    r"interpret\w+|correlacion\w+|estadiamento|diferencial)\b", re.I)
+
+# pistas de que e so conserto de texto
+_SO_TEXTO = re.compile(
+    r"\b(corrig\w+|correcao|ortografia|acentuacao|formatar|formatacao|"
+    r"pontuacao|arrumar a escrita|so a escrita|literal)\b", re.I)
+
+
+def _n_sem_acento(s):
+    return _sem_acento(s or "").lower()
+
+
+CACHE_MODELOS = os.path.join(AQUI, "dados", "modelos_cache.json")
+
+
+def _modelos_conhecidos():
+    """IDs REAIS de modelo que o provedor devolveu na última consulta.
+
+    A tabela PRECOS guarda PREFIXO ("claude-haiku"), não id. Mandar o prefixo
+    para a API é erro na certa — por isso o barato só é escolhido entre ids que
+    o provedor já confirmou existir."""
+    try:
+        with io.open(CACHE_MODELOS, encoding="utf-8") as f:
+            d = json.load(f)
+        return [str(x) for x in (d.get("modelos") or []) if x]
+    except Exception:
+        return []
+
+
+def modelo_barato(c=None):
+    """O id de modelo mais barato que o provedor confirmou ter.
+
+    Devolve "" quando não dá para saber. Nesse caso NÃO trocamos o modelo: mais
+    vale pagar caro do que mandar um id inválido e o laudo não sair."""
+    c = c or config()
+    escolhido = (c.get("modelo_barato") or "").strip()
+    if escolhido:
+        return escolhido
+    prov = (c.get("provedor") or "anthropic").strip().lower()
+    familia = {"anthropic": "claude", "openai": "gpt", "google": "gemini"}.get(prov, "")
+    melhor, melhor_preco = "", None
+    for mid in _modelos_conhecidos():
+        if familia and familia not in mid.lower():
+            continue
+        pin, pout = preco(mid, c)
+        if not pin and not pout:
+            continue                      # preço desconhecido: não arrisca
+        soma = pin + pout
+        if melhor_preco is None or soma < melhor_preco:
+            melhor, melhor_preco = mid, soma
+    return melhor
+
+
+def tarefa_precisa_pensar(pedido, modo):
+    """True quando vale pagar o modelo forte.
+
+    Conservador de propósito: na dúvida entre barato e forte, vai o BARATO.
+    Laudo errado por economia ele percebe na hora e manda rodar de novo; laudo
+    caro por precaução ele só descobre na fatura."""
+    if modo in _TAREFAS_BARATAS:
+        return False
+    n = _n_sem_acento(pedido)
+    if _PEDE_RACIOCINIO.search(n):
+        return True
+    if _SO_TEXTO.search(n):
+        return False
+    # modo "laudo"/"instrucao" com texto curto e sem ordem de reorganizar:
+    # é encaixe de achado, que o modelo barato faz
+    return len(n) > 4000
+
+
+def nada_a_fazer(texto, modo):
+    """O texto já está pronto? Então não pague por uma chamada.
+
+    O roteador monta o laudo inteiro localmente a partir do banco. Quando não
+    sobrou ordem falada, nem marcação de bloco não encontrado, nem lacuna, a
+    nuvem não tem o que acrescentar — e chamar assim é o que reintroduz
+    contradição e lacuna num laudo que já estava certo."""
+    if modo not in ("laudo", "instrucao", "formatar"):
+        return False
+    t = texto or ""
+    if not t.strip():
+        return True
+    if "[não encontrado no banco" in t or "[nao encontrado no banco" in t:
+        return False
+    if "___" in t or re.search(r"\[[^\]\n]{1,80}/", t):
+        return False
+    n = _n_sem_acento(t)
+    if re.search(r"\b(incluir|acrescentar|refinar|melhorar|tirar|descrever|trocar|"
+                 r"substituir|corrig\w+|colocar?|conclua|conclusao:?\s*$)\b", n):
+        return False
+    return False          # por ora só bloqueia texto vazio; a trava fica visível
+
+
+def teto_saida(pedido, c=None, teto=None):
+    """Saída proporcional à entrada. Conserto pequeno não paga resposta grande."""
+    c = c or config()
+    base = int(teto or c.get("max_tokens", 1500) or 1500)
+    aprox = len(pedido or "") // 4
+    return max(300, min(base, int(aprox * 1.6) + 200))
+
+
+
+# ---------- prompt do caminho BARATO ----------
+# Curto de proposito: no caminho barato a entrada e o que custa, e o modelo
+# barato obedece melhor instrucao curta e taxativa do que ensaio.
+SISTEMA_BARATO = """Você conserta o TEXTO de um laudo radiológico brasileiro. Nada além do texto.
+
+FAÇA:
+- erro de reconhecimento de voz ("horta"->"aorta", "canola"->"cânula", "seios castrofrênicos"->"seios costofrênicos", "complexos ósseo-metais"->"complexos ostiomeatais")
+- ortografia, acentuação, concordância, pontuação
+- unidades: nunca por extenso ("cinco milímetros"->"5 mm", "dois vírgula três por um vírgula oito centímetros"->"2,3 x 1,8 cm"); vírgula decimal
+- níveis linfonodais cervicais e grau de listese em algarismo romano ("nível 2A"->"nível IIA", "anterolistese grau 1"->"grau I"). Mais nada vira romano.
+- repetição por autocorreção: fique com a última versão, apague as anteriores
+- comandos falados executados e NÃO escritos: "ponto", "vírgula", "nova linha", "parágrafo", "novo parágrafo"
+- uma frase completa por linha
+
+NÃO FAÇA:
+- não invente achado, medida, número, lado ou localização
+- não apague achado
+- não reorganize as frases
+- não interprete, não conclua, não recomende
+- não crie título, TÉCNICA, ANÁLISE ou CONCLUSÃO que não estejam no texto
+- não troque palavra tecnicamente correta por sinônimo
+
+Devolva SOMENTE o texto corrigido. Sem explicação, sem comentário."""
+
+# ---------- regra que vale nos dois caminhos ----------
+SEM_LACUNAS = """
+
+SEM LACUNA — REGRA DE URGÊNCIA:
+Nunca escreva ___, [a/b], "a ser medido", "a especificar" ou equivalente. Ele lauda urgência
+e emergência: dado que ele não ditou (ápice da escoliose, ângulo de Cobb, grau de listese,
+volume do derrame, medida do nódulo) significa escrever a frase SEM esse pedaço.
+  errado: escoliose lombar de convexidade à esquerda, com ápice em ___ e Cobb de ___ graus
+  certo:  escoliose lombar de convexidade à esquerda
+  errado: anterolistese degenerativa grau [I/II/III] de L4 sobre L5
+  certo:  anterolistese degenerativa de L4 sobre L5
+EXCEÇÃO ABSOLUTA: o LADO nunca sai. Direito, esquerdo e bilateral ficam, inclusive no título.
+Laudo sem lado é erro grave.
+
+PENSE ANTES DE ESCREVER (caminho forte): organize os achados positivos por importância
+clínica, mantenha juntos os do mesmo processo, apague a frase da máscara que contradiga um
+achado, e escreva em linguagem radiológica brasileira — não devolva rascunho com buraco
+para ele preencher."""
+
 # ---------- rota: qual provedor/modelo/modo atende este pedido ----------
 _MODOS_RESTRINGIVEIS = ("analise", "laudo", "instrucao")
 
@@ -815,6 +994,16 @@ def rota(pedido, c=None, modo="analise"):
             break
     if restringir and modo in _MODOS_RESTRINGIVEIS:
         r["modo"] = "formatar"
+
+    # ECONOMIA: o que não exige raciocínio vai para o modelo barato, mesmo que
+    # ele tenha escolhido um caro na barra. Desligue com "economizar": false.
+    if c.get("economizar", True) and r["regra"] == "padrao":
+        if not tarefa_precisa_pensar(pedido, r["modo"]):
+            barato = modelo_barato(c)
+            if barato and barato != r["modelo"]:
+                r["modelo_pedido"] = r["modelo"]
+                r["modelo"] = barato
+                r["regra"] = "economia"
     return r
 
 
@@ -1067,11 +1256,22 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
         return None, "nuvem_desligada"
     r = rota(pedido, c, modo)
     m_ef = r["modo"]
-    sistema = {"revisao": SISTEMA_REVISAO, "instrucao": SISTEMA_INSTRUCAO, "laudo": SISTEMA_LAUDO,
-               "formatar": SISTEMA_FORMATAR}.get(m_ef, SISTEMA_ANALISE) + FORMATO_SAIDA
-    if m_ef in ("laudo", "instrucao"):
+    if r.get("regra") == "economia" and m_ef in ("formatar", "revisao"):
+        sistema = SISTEMA_BARATO
+    else:
+        sistema = {"revisao": SISTEMA_REVISAO, "instrucao": SISTEMA_INSTRUCAO,
+                   "laudo": SISTEMA_LAUDO, "formatar": SISTEMA_FORMATAR}.get(
+                       m_ef, SISTEMA_ANALISE) + FORMATO_SAIDA
+    sistema += SEM_LACUNAS
+    # Exemplos de estilo são o maior pedaço da entrada (até 24 mil caracteres).
+    # No caminho barato eles não entram: o modelo barato não está reescrevendo
+    # no estilo dele, está consertando palavra e formatação.
+    economia = r.get("regra") == "economia"
+    if m_ef in ("laudo", "instrucao") and not economia:
         sistema += _exemplos_estilo()
     sistema += _prompt_perfil(c, pedido)
+    if max_tokens is None:
+        max_tokens = teto_saida(pedido, c)
     motivos = triagem(pedido)
     if motivos:
         return ("[não enviei para a nuvem: o texto contém " + ", ".join(motivos) +

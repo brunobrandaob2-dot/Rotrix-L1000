@@ -257,6 +257,53 @@ confere("gravar_config nunca grava chave", "chave" not in _lido)
 os.remove(nuvem.CONFIG)
 nuvem.CONFIG = _guarda_cfg
 
+
+# ---------------------------------------------------------------- economia
+# Ele gastou US$ 10 em cinco dias. Conserto de texto, formatacao e palavra mal
+# ouvida vao no modelo BARATO; comparativo e reorganizacao por importancia
+# clinica pagam o forte. Na duvida, BARATO: laudo economico errado ele percebe
+# na hora, laudo caro por precaucao so aparece na fatura.
+_cache_ant = None
+if os.path.exists(nuvem.CACHE_MODELOS):
+    _cache_ant = io.open(nuvem.CACHE_MODELOS, encoding="utf-8").read()
+os.makedirs(os.path.dirname(nuvem.CACHE_MODELOS), exist_ok=True)
+io.open(nuvem.CACHE_MODELOS, "w", encoding="utf-8", newline="\n").write(json.dumps(
+    {"provedor": "anthropic", "modelos": ["claude-opus-5-20260814",
+     "claude-sonnet-5-20260514", "claude-haiku-4-5-20251001"]}))
+_ce = dict(nuvem.config())
+_ce["modelo"], _ce["provedor"], _ce["ia_por_exame"] = "claude-opus-5-20260814", "anthropic", {}
+
+confere("economia: escolhe o mais barato da lista REAL do provedor",
+        nuvem.modelo_barato(_ce) == "claude-haiku-4-5-20251001", nuvem.modelo_barato(_ce))
+for _p in ("corrige a ortografia disso", "formata esse texto",
+           "incluir nodulo de 5 mm no lobo superior direito",
+           "acrescentar derrame pleural a direita"):
+    confere("economia: %r vai no barato" % _p[:28],
+            nuvem.rota(_p, _ce, "laudo")["regra"] == "economia",
+            nuvem.rota(_p, _ce, "laudo")["modelo"])
+for _p in ("compare com o exame de marco e diga o que mudou", "compare com o de marco",
+           "reorganizar por importancia clinica", "refinar a analise",
+           "estavel em relacao ao estudo anterior"):
+    confere("economia: %r paga o forte" % _p[:28],
+            nuvem.rota(_p, _ce, "laudo")["regra"] != "economia")
+
+os.remove(nuvem.CACHE_MODELOS)
+confere("economia: sem a lista do provedor nao inventa modelo", nuvem.modelo_barato(_ce) == "")
+confere("economia: sem a lista nao troca o modelo",
+        nuvem.rota("corrige isso", _ce, "revisao")["regra"] != "economia")
+
+confere("economia: conserto curto pede saida pequena", nuvem.teto_saida("corrige isso", _ce) <= 400)
+confere("economia: teto de saida respeita max_tokens",
+        nuvem.teto_saida("x" * 20000, _ce) <= int(_ce.get("max_tokens", 1500) or 1500))
+confere("economia: prompt barato e menor que o forte",
+        len(nuvem.SISTEMA_BARATO) < len(nuvem.SISTEMA_LAUDO))
+confere("economia: SEM_LACUNAS protege o lado", "LADO nunca sai" in nuvem.SEM_LACUNAS)
+confere("economia: SEM_LACUNAS proibe a lacuna", "___" in nuvem.SEM_LACUNAS)
+
+if _cache_ant is not None:
+    io.open(nuvem.CACHE_MODELOS, "w", encoding="utf-8", newline="\n").write(_cache_ant)
+
+
 print()
 if falhas:
     print("%d FALHA(S): %s" % (len(falhas), ", ".join(falhas)))
