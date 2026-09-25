@@ -1,0 +1,67 @@
+# SINONIMOS — termo do dia a dia -> termo do banco. Uma regra por linha: leigo<TAB>tecnico
+#
+# Para que serve: o roteador acha o achado por PALAVRA. "figado com gordura" acha a
+# esteatose porque as duas frases tem "figado"; "pedra no rim" NAO acha o calculo renal,
+# porque "pedra" e "calculo" nao tem nenhuma letra em comum. Nenhuma conta de semelhanca
+# resolve isso — so uma tabela, ou um modelo de linguagem.
+#
+# Esta tabela custa ZERO e vale para sempre. Um modelo custaria 0,13 a 0,44 centavo por
+# achado orfao (medido em 25/09, com a lista de achados da regiao no prompt).
+#
+# ONDE VALE: so na BUSCA. O texto que sai no laudo continua sendo o do banco (no bloco) ou
+# as palavras dele (no RX literal) — esta tabela nunca reescreve o ditado.
+#
+# CUIDADO ao escrever uma regra: mapeie para a PALAVRA DO DIAGNOSTICO, nunca para a medida.
+# "desgaste -> reducao do espaco articular" fazia "desgaste do joelho" casar com
+# "espacos articulares PRESERVADOS" — a frase normal, o contrario do que ele ditou.
+#
+# Acrescente aqui o que voce perceber que falta. A oficina tambem escreve aqui sozinha
+# quando voce escolhe um achado na lista de candidatos.
+
+# --- coracao e vasos ---
+coracao aumentado	cardiomegalia area cardiaca aumentada
+coracao grande	cardiomegalia
+coracao aumentado de volume	cardiomegalia area cardiaca aumentada
+placa	ateroma ateromatose calcificacao
+placas	ateromas ateromatose calcificacoes
+entupimento	obstrucao estenose
+veia inchada	ectasia dilatacao venosa
+
+# --- torax ---
+agua no pulmao	derrame pleural
+agua nos pulmoes	derrame pleural
+liquido no pulmao	derrame pleural
+mancha no pulmao	opacidade nodulo consolidacao
+pulmao murcho	atelectasia
+ar no pulmao fora do lugar	pneumotorax
+pigarro	nao_e_achado
+
+# --- abdome ---
+pedra no rim	calculo renal nefrolitiase
+pedra nos rins	calculos renais nefrolitiase
+pedra na vesicula	calculo vesicula colelitiase
+pedra na bexiga	calculo vesical
+figado gordo	esteatose hepatica
+gordura no figado	esteatose hepatica
+figado com gordura	esteatose hepatica
+rim inchado	hidronefrose dilatacao pielocalicinal
+intestino preso	retencao fecal fecaloma
+barriga estufada	distensao gasosa
+
+# --- osso e coluna ---
+bico de papagaio	osteofito espondilose
+bicos de papagaio	osteofitos espondilose
+desgaste da articulacao	artrose osteoartrose gonartrose coxartrose
+desgaste	artrose osteoartrose
+osso fino	osteopenia
+osso ralo	osteopenia osteoporose
+disco gasto	discopatia degenerativa desidratacao discal
+nervo apertado	estenose compressao radiculopatia
+vertebra escorregada	listese anterolistese
+esporao	entesofito esporao calcaneo
+
+# --- cranio ---
+derrame no cerebro	hemorragia hematoma
+agua no cerebro	hidrocefalia
+cerebro encolhido	atrofia cortical
+mancha no cerebro	area hipoatenuante lesao

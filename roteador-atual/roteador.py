@@ -532,7 +532,12 @@ def _bloco_do_segmento(seg, filtro):
     n = normalizar(seg)
     if len(n) < 4:
         return None
-    alvo = set(n.split())
+    # sinonimo de leigo ACRESCENTADO a chave de busca (dados/sinonimos.tsv). So aqui:
+    # o texto do laudo continua o do banco (bloco) ou as palavras dele (RX literal).
+    # Sem isto, "agua no pulmao" saia escrito assim mesmo na ANALISE, com a linha da
+    # mascara dizendo "ausencia de derrame pleural" logo embaixo — laudo se
+    # contradizendo, que e o defeito que ele mais cobra.
+    alvo = set(sinonimo_busca(n).split())
     perto_bloco = _casador(alvo, 0.85)
     melhor, melhor_chave = None, None
     for t, g, tit, txt, sec, con in BANCO.itens:
@@ -1100,10 +1105,145 @@ que se ou mais muito pouco pequeno pequena pequenos pequenas grande""".split())
 def _raiz(w):
     return w[:5] if len(w) > 5 else w
 
+_ARQ_SINONIMOS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dados",
+                              "sinonimos.tsv")
+_SINONIMOS = {"mtime": None, "regras": []}
+
+
+def _regras_sinonimo():
+    """dados/sinonimos.tsv -> [(regex do termo leigo, termos tecnicos)]."""
+    try:
+        mt = os.path.getmtime(_ARQ_SINONIMOS)
+    except OSError:
+        return []
+    if mt != _SINONIMOS["mtime"]:
+        regras = []
+        try:
+            for l in open(_ARQ_SINONIMOS, encoding="utf-8"):
+                if l.startswith("#") or "\t" not in l:
+                    continue
+                leigo, tecnico = l.rstrip("\n").split("\t")[:2]
+                leigo = normalizar(leigo)
+                tecnico = tecnico.strip()
+                if not leigo or not tecnico or tecnico == "nao_e_achado":
+                    continue
+                rx = re.compile(r"(?<![\w])" + r"[\s-]+".join(map(re.escape, leigo.split()))
+                                + r"(?![\w])", re.I)
+                regras.append((rx, normalizar(tecnico)))
+        except OSError:
+            return []
+        regras.sort(key=lambda r: -len(r[0].pattern))
+        _SINONIMOS.update(mtime=mt, regras=regras)
+    return _SINONIMOS["regras"]
+
+
+def sinonimo_busca(texto_normalizado):
+    """ACRESCENTA os termos tecnicos ao texto, SO PARA A BUSCA.
+
+    Acrescenta em vez de trocar: "pedra no rim" vira "pedra no rim calculo renal
+    nefrolitiase", entao continua casando com o que ja casava e passa a casar com o
+    achado certo. O texto do laudo nunca passa por aqui — no bloco sai o texto do
+    banco, no RX literal saem as palavras dele."""
+    n = texto_normalizado or ""
+    extra = []
+    for rx, tecnico in _regras_sinonimo():
+        if rx.search(n):
+            extra.append(tecnico)
+    return (n + " " + " ".join(extra)).strip() if extra else n
+
+
+_INDICE = {"n": None, "itens": []}
+
+
+def _raizes(palavras):
+    r = set()
+    for w in palavras:
+        if w in _VAZIAS or w in _GENERICAS or len(w) < 3 or w.isdigit():
+            continue
+        r.add(_raiz(w))
+        if len(w) >= 4:
+            r.add(w[:4])
+    return r
+
+
+def _indice_achados():
+    """Por item de achado do banco: as raizes do GATILHO e as do TEXTO.
+
+    Montado uma vez por carga do banco. E o que permite pontuar sinonimo por
+    SIGNIFICADO (palavras em comum) em vez de por semelhanca de letras — "coracao
+    aumentado de volume" casava com "rotacao no exame" quando a conta era so
+    SequenceMatcher."""
+    if _INDICE["n"] != len(BANCO.itens):
+        itens = []
+        for t, g, tit, txt, sec, con in BANCO.itens:
+            if t not in ("frase", "bloco") or not txt:
+                continue
+            linha = next((l for l in txt.splitlines() if l.strip()), "").strip()
+            meta = BANCO.meta.get(tit) or ("", "", "", "")
+            # o rotulo ("Figado:  ") nao conta como significado do achado
+            corpo = linha.split(":", 1)[1] if ":" in linha[:40] else linha
+            itens.append((tit, g, linha, meta[2] or "", t,
+                          _raizes(g.split()),
+                          _raizes(normalizar(corpo).split())))
+        _INDICE.update(n=len(BANCO.itens), itens=itens)
+    return _INDICE["itens"]
+
+
+def candidatos(trecho, regiao=None, n=8, corte=0.20):
+    """Os n achados do banco mais parecidos com o trecho ditado. LOCAL e instantaneo.
+
+    Serve os dois caminhos de 25/09:
+      - a OFICINA APRENDE O SINONIMO: a tela mostra esta lista, ele escolhe, e o
+        trecho vira gatilho daquele bloco (custo zero, permanente);
+      - se um dia ele quiser o Haiku escolhendo, e esta MESMA lista que vai no
+        prompt — 145 tokens, 0,0155 centavo por achado orfao.
+    Nunca devolve mascara de exame: escolher o EXAME continua sendo gatilho, porque
+    e onde um erro custa um laudo de outro orgao (lei da v0.4.3).
+
+    Pontuacao: palavras em comum com o gatilho (Jaccard, que premia gatilho curto e
+    certeiro) + palavras em comum com o texto do achado + um empurrao pequeno de
+    semelhanca literal como critério de desempate.
+    """
+    base = normalizar(ouvido_fixo(trecho or ""))
+    if len(base) < 4:
+        return []
+    consulta = sinonimo_busca(base)
+    # DOIS conjuntos, de proposito: R e o que ELE ditou e serve de DENOMINADOR; R_amp
+    # tem os sinonimos e serve para CASAR. Somar sinonimo no denominador diluia o
+    # Jaccard e fazia "desgaste da articulacao do joelho" perder a gonartrose para
+    # uma frase longa qualquer que falava de "joelho" e "articular".
+    R = _raizes(base.split())
+    R_amp = _raizes(consulta.split())
+    if not R:
+        return []
+    fora, vistos = [], set()
+    for tit, g, linha, reg, t, rg, rt in _indice_achados():
+        if regiao and regiao not in (reg or "") and regiao not in (tit or ""):
+            continue
+        inter_g = R_amp & rg
+        inter_t = R_amp & rt
+        if not inter_g and not inter_t:
+            continue
+        jac = len(inter_g) / float(len(R | rg)) if (R | rg) else 0.0
+        cob_t = len(inter_t) / float(len(R))
+        score = 2.0 * jac + 1.0 * cob_t + 0.3 * difflib.SequenceMatcher(None, consulta, g).ratio()
+        if score < corte:
+            continue
+        chave = (tit, linha)
+        if chave in vistos:
+            continue
+        vistos.add(chave)
+        fora.append({"titulo": tit, "gatilho": g, "texto": linha, "regiao": reg,
+                     "tipo": t, "score": round(score, 4)})
+    fora.sort(key=lambda x: (-x["score"], len(x["gatilho"])))
+    return fora[:max(1, int(n or 8))]
+
+
 def _frase_aproximada(consulta):
     """Frase que o ditado nao casou literalmente: procura frase e bloco cujo
     gatilho tenha TODAS as palavras de conteudo presentes no ditado, pela raiz
     (ateromas ~ ateromatose, aorta ~ aortica). Prefere o gatilho mais completo."""
+    consulta = sinonimo_busca(consulta)   # mesma regra do _bloco_do_segmento
     pal = [w for w in consulta.split() if w not in _VAZIAS]
     if not pal:
         return None
