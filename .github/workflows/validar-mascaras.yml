@@ -33,6 +33,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python auditar_custo.py
       - name: Testar a rota de nuvem (sem internet, respostas simuladas)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_nuvem.py
+      - name: Desempenho do roteamento (teto de tempo; regressao de lentidao)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_perf_roteador.py
       - name: Testar a TECNICA das radiografias (as incidencias que ele ditou)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_tecnica_rx.py
       - name: Testar o importador de máscaras e laudos próprios

@@ -96,6 +96,31 @@ def normalizar(s):
     return v
 
 
+def _casador(alvo, corte=0.8):
+    """Predicado "existe em `alvo` palavra parecida (>= corte) com w?", com cache.
+
+    Por que existe: o `alvo` e o DITADO (~20 palavras) e nao muda dentro de uma busca;
+    o `w` vem dos gatilhos do BANCO e repete muito — 4.471 palavras distintas em ~100
+    mil ocorrencias nos 25 mil itens, ~20 vezes cada. Antes era um
+    difflib.get_close_matches por OCORRENCIA: 92 mil chamadas para rotear uma frase,
+    85% do tempo do roteamento. Agora e um por palavra DISTINTA.
+
+    O resultado e identico ao de antes — mesma comparacao do difflib, mesmo corte; o
+    que mudou foi nao repeti-la. testar_perf_roteador.py confere isso.
+    """
+    alvo_l = list(alvo)
+    memo = {}
+
+    def perto(w):
+        r = memo.get(w)
+        if r is None:
+            r = bool(difflib.get_close_matches(w, alvo_l, 1, corte))
+            memo[w] = r
+        return r
+
+    return perto
+
+
 class Banco:
     def __init__(self, caminho):
         self.caminho = caminho
@@ -170,6 +195,7 @@ class Banco:
         # "cranio" nao pode casar com "raio" (de "raio x") -> "raio x de femur" nao
         # vira radiografia do cranio
         alvo_anat = alvo - _GENERICAS
+        perto_anat = _casador(alvo_anat)
         melhor_cob, cob_score, cob_n = None, 0.0, 0
         for t, g, tit, txt, sec, con in cand:
             if t in ("frase", "bloco") and tipo is None:
@@ -183,7 +209,7 @@ class Banco:
             for w in gt:
                 if w in alvo:
                     achou += 1
-                elif len(w) >= 4 and difflib.get_close_matches(w, alvo_anat, 1, 0.8):
+                elif len(w) >= 4 and perto_anat(w):
                     achou += 1
                 elif (len(w) >= 4 and w not in _GENERICAS) or len(w) <= 3 and w not in ("de", "do", "da", "e", "x"):
                     # palavra de anatomia/achado (ou curta, como "pe") faltando:
@@ -200,6 +226,7 @@ class Banco:
         # 4) difuso
         melhor, score = None, 0.0
         alvo_set = set(consulta_norm.split())
+        perto_cont = _casador(alvo_set - _GENERICAS)
         for t, g, tit, txt, sec, con in cand:
             if t == "bloco" and tipo is None:
                 continue
@@ -212,7 +239,7 @@ class Banco:
             # e toda palavra de ANATOMIA/achado do gatilho precisa de par no
             # ditado: "pelve" nao vira "perna", "pescoco" nao vira "pe"
             if any(len(w) >= 4 and w not in _GENERICAS and w not in alvo_set
-                   and not difflib.get_close_matches(w, alvo_set - _GENERICAS, 1, 0.8)
+                   and not perto_cont(w)
                    for w in g.split()):
                 continue
             r = difflib.SequenceMatcher(None, consulta_norm, g).ratio()
@@ -506,6 +533,7 @@ def _bloco_do_segmento(seg, filtro):
     if len(n) < 4:
         return None
     alvo = set(n.split())
+    perto_bloco = _casador(alvo, 0.85)
     melhor, melhor_chave = None, None
     for t, g, tit, txt, sec, con in BANCO.itens:
         if t != "bloco" or not filtro(BANCO.meta.get(tit, ("", "", "", ""))):
@@ -513,7 +541,7 @@ def _bloco_do_segmento(seg, filtro):
         gt = g.split()
         exatas = sum(1 for w in gt if w in alvo)
         parecidas = sum(1 for w in gt if w not in alvo and len(w) >= 5
-                        and difflib.get_close_matches(w, alvo, 1, 0.85))
+                        and perto_bloco(w))
         if (exatas + parecidas) / len(gt) < 0.8:
             continue
         # criterio: mais palavras EXATAS, depois gatilho mais longo, depois menos
