@@ -55,6 +55,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_ia_modelos.py
       - name: Espera da IA proporcional ao laudo e laudo cortado no teto vem marcado
         run: python testar_tempo_nuvem.py
+      - name: O roteador diz quando roda codigo velho (versao presa em 26.1 por 5 commits)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_versao.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)

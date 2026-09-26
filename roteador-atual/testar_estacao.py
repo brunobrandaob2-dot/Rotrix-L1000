@@ -24,6 +24,26 @@ import correcao  # noqa: E402
 radius.gravar_diagnostico_se_velho = lambda *a, **k: None
 radius.gravar_diagnostico = lambda *a, **k: None
 
+# 26/09 (no PC dele, Windows): o teste ABRIU o RadiAnt de verdade com o estudo
+# falso e mandou a pasta falsa para a Lixeira do Windows. Em teste, nunca:
+# RadiAnt "não existe" e o apagar vai para "_apagados", como fora do Windows.
+radius.executavel_radiant = lambda *a, **k: None
+
+
+def _lixeira_de_teste(caminho):
+    destino = os.path.join(os.path.dirname(os.path.abspath(caminho)), "_apagados")
+    os.makedirs(destino, exist_ok=True)
+    alvo = os.path.join(destino, os.path.basename(caminho))
+    n = 1
+    while os.path.exists(alvo):
+        alvo = os.path.join(destino, "%s (%d)" % (os.path.basename(caminho), n))
+        n += 1
+    os.rename(caminho, alvo)
+    return "_apagados"
+
+
+radius._para_lixeira = _lixeira_de_teste
+
 
 def _estudo(nome, acesso, mod, desc, laudado, quando, status=""):
     d = {"AccessionNumber": acesso, "PatientName": nome, "Modality": mod, "StudyDescription": desc,
@@ -50,7 +70,9 @@ def cenario_estacao(falhas):
     radius._ARQ_SAL = os.path.join(pasta, ".sal")
     r._ESTACAO_ARQ = os.path.join(pasta, "estacao.json")
     cfg_real = r._config
-    r._config = lambda: {"radius_pasta": pasta, "perfil_automatico": True}
+    # "pastas_extras": [] -> sem isso a fila também varria a pasta Downloads DE
+    # VERDADE (no PC dele: 37 exames reais no lugar dos 4 falsos)
+    r._config = lambda: {"radius_pasta": pasta, "perfil_automatico": True, "pastas_extras": []}
     try:
         fila = r.fila_radius()
         if len(fila["itens"]) != 4:

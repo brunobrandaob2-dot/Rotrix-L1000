@@ -61,7 +61,42 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-26.1"
+VERSAO = "2026-09-26.2"
+
+
+def _impressao_do_codigo():
+    """Uma impressão digital dos .py desta pasta (os 12 primeiros do sha1).
+
+    26/09: o VERSAO ficou "2026-09-26.1" por cinco commits seguidos. O
+    LIGAR_ROTEADOR_NOVO olhava só o número, achava que já estava o certo e não
+    reiniciava — e o processo seguia com o código VELHO na memória. Foi por isso
+    que a correção da chave da OpenAI (04779b8) nunca chegou a valer no PC dele.
+    Agora /v1/versao diz se o código no disco é outro que o carregado."""
+    import hashlib
+    h = hashlib.sha1()
+    aqui = os.path.dirname(os.path.abspath(__file__))
+    try:
+        for nome in sorted(os.listdir(aqui)):
+            if nome.endswith(".py") and not nome.startswith("testar"):
+                with open(os.path.join(aqui, nome), "rb") as f:
+                    h.update(nome.encode("utf-8") + b"\0" + f.read())
+    except OSError:
+        return ""
+    return h.hexdigest()[:12]
+
+
+CODIGO_CARREGADO = _impressao_do_codigo()
+
+
+def versao_info():
+    """O que /v1/versao responde. "desatualizado": atualizaram a pasta e este
+    processo ainda roda o código de antes — precisa reiniciar o roteador."""
+    no_disco = _impressao_do_codigo()
+    return {"versao": VERSAO, "gatilhos": len(BANCO.itens),
+            # "pasta": o app (Rotrix) grava a configuração na pasta do roteador que está rodando
+            "pasta": os.path.dirname(os.path.abspath(__file__)),
+            "codigo": CODIGO_CARREGADO, "codigo_no_disco": no_disco,
+            "desatualizado": bool(no_disco) and no_disco != CODIGO_CARREGADO}
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -2678,8 +2713,7 @@ class Handler(BaseHTTPRequestHandler):
                 {"id": "laudo-router", "object": "model", "owned_by": "local"}]})
         if self.path.rstrip("/") in ("/versao", "/v1/versao"):
             # "pasta": o app (Rotrix) grava a configuração na pasta do roteador que está rodando
-            return self._json(200, {"versao": VERSAO, "gatilhos": len(BANCO.itens),
-                                    "pasta": os.path.dirname(os.path.abspath(__file__))})
+            return self._json(200, versao_info())
         if self.path.rstrip("/") in ("/ia", "/v1/ia"):
             # botão de IA e contador de gasto (nunca devolve chave)
             if nuvem is None:
