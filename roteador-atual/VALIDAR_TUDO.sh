@@ -18,7 +18,7 @@ python3 auditar_frases.py | head -4
 echo "auditando gatilhos..."
 python3 auditar_gatilhos.py | tail -3
 for t in testar_nuvem.py testar_sinonimos.py testar_perf_roteador.py testar_tecnica_rx.py testar_importar.py testar_rx_literal.py testar_radius.py \
-         testar_tc_literal.py testar_estacao.py testar_v2.py testar_conferir_usuario.py testar_lado_bilateral.py; do
+         testar_tc_literal.py testar_estacao.py testar_v2.py testar_conferir_usuario.py testar_lado_bilateral.py testar_ia_modelos.py; do
   printf "%-24s " "$t"
   python3 "$t" 2>&1 | tail -1
 done

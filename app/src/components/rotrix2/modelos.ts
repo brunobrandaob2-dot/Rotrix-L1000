@@ -19,6 +19,14 @@
 //
 // A lista vem da API do provedor instalado, nunca de tabela escrita aqui:
 // tabela de fornecedor envelhece e amarra o app a uma marca só.
+//
+// 26/09 (tarde): ele pôs a chave da OpenAI, trocou para OpenAI e o laudo foi
+// para o Claude Opus (13¢). A lista da OpenAI não respondia; sem modelo dela na
+// lista, os passos 3 e 4 pegavam o mais forte que EXISTIA — de outro provedor,
+// calado. Agora os palpites (3 e 4) só olham os modelos do provedor do config.
+// Outro provedor só entra se ELE escolher na barra (passo 1). Se o provedor do
+// config não respondeu, o botão fica no modelo do config e a chamada falha à
+// vista, com o motivo, em vez de pagar outra conta sem ninguém saber.
 
 /** Pistas de id do modelo BARATO de cada provedor. Dica de ordenação, não tabela. */
 export const PISTA_BARATO = /haiku|mini|flash|lite|small|nano|fast|turbo/i;
@@ -39,9 +47,23 @@ export const maisForte = (modelos: { id: string }[]): string => {
 const existe = (modelos: { id: string }[], id: string): boolean =>
   !!id && modelos.some((m) => m.id === id);
 
-/** O modelo do botão leve: escolha dele, senão o mais barato reconhecível. */
-export const escolherLeve = (modelos: { id: string }[], salvo: string): string =>
-  (existe(modelos, salvo) && salvo) || maisBarato(modelos);
+/** Os provedores que o roteador põe na frente do id ("openai:gpt-…"). */
+const PREFIXO_PROVEDOR = /^(anthropic|openai|gemini|openrouter|ollama|compativel):/;
+
+/**
+ * Só os modelos do provedor do config.json. O roteador manda os do provedor do
+ * config com o id puro e os dos outros como "provedor:modelo" (com `provedor`).
+ */
+export const doProvedorAtual = <T extends { id: string; provedor?: string }>(
+  modelos: T[],
+): T[] => modelos.filter((m) => !m.provedor && !PREFIXO_PROVEDOR.test(m.id));
+
+/** O modelo do botão leve: escolha dele, senão o mais barato DO PROVEDOR do config. */
+export const escolherLeve = (modelos: { id: string }[], salvo: string): string => {
+  if (existe(modelos, salvo)) return salvo;
+  const atuais = doProvedorAtual(modelos);
+  return atuais.length ? maisBarato(atuais) : "";
+};
 
 /**
  * O modelo do botão forte: escolha dele, senão o do config.json, senão o mais
@@ -54,6 +76,10 @@ export const escolherForte = (
 ): string =>
   (existe(modelos, salvo) && salvo) ||
   (existe(modelos, doConfig) && doConfig) ||
-  maisForte(modelos) ||
+  maisForte(doProvedorAtual(modelos)) ||
   doConfig ||
   "";
+
+/** O mais forte, mas só do provedor do config (o Comparativo usa este). */
+export const maisForteDoAtual = (modelos: { id: string }[]): string =>
+  maisForte(doProvedorAtual(modelos));

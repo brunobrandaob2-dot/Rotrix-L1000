@@ -57,6 +57,8 @@ interface Props {
   modelos?: { id: string; nome: string }[];
   /** troca o modelo do botão forte (fica guardado para as próximas vezes) */
   aoTrocarModelo?: (id: string) => void;
+  /** o provedor do config não respondeu: o porquê, para aparecer na barra */
+  avisoIa?: string;
 }
 
 // Qual atalho cada botão dispara. O "completo" grava igual ao "leve" e, quando
@@ -143,6 +145,7 @@ export const LaudoPage: React.FC<Props> = ({
   textoEntrando,
   modelos = [],
   aoTrocarModelo,
+  avisoIa = "",
 }) => {
   const folha = useRef<HTMLDivElement>(null);
   const [gravando, setGravando] = useState<Modo | null>(null);
@@ -448,6 +451,11 @@ export const LaudoPage: React.FC<Props> = ({
               onChange={(e) => aoTrocarModeloLeve?.(e.target.value)}
               className="h-7 me-1 rounded-lg border border-mid-gray/25 bg-background text-xs px-1 cursor-pointer"
             >
+              {/* o modelo em uso aparece mesmo fora da lista: a caixa nunca
+                  mostra um modelo e chama outro */}
+              {idModeloLeve !== "" && !modelos.some((m) => m.id === idModeloLeve) && (
+                <option value={idModeloLeve}>{modeloLeve} (sem resposta)</option>
+              )}
               {modelos.map((m) => (
                 <option key={m.id} value={m.id}>
                   {m.nome}
@@ -475,6 +483,9 @@ export const LaudoPage: React.FC<Props> = ({
               onChange={(e) => aoTrocarModelo?.(e.target.value)}
               className="h-7 me-1 rounded-lg border border-mid-gray/25 bg-background text-xs px-1 cursor-pointer"
             >
+              {idModeloCompleto !== "" && !modelos.some((m) => m.id === idModeloCompleto) && (
+                <option value={idModeloCompleto}>{modeloCompleto} (sem resposta)</option>
+              )}
               {modelos.map((m) => (
                 <option key={m.id} value={m.id}>
                   {m.nome}
@@ -484,6 +495,11 @@ export const LaudoPage: React.FC<Props> = ({
           </Dica>
         ) : (
           <span className="text-xs text-mid-gray me-1">{modeloCompleto}</span>
+        )}
+        {avisoIa !== "" && (
+          <Dica texto={avisoIa}>
+            <span className="text-xs text-red-500 me-1 cursor-help">⚠ IA sem resposta</span>
+          </Dica>
         )}
 
         <Sep />

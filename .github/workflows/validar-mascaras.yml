@@ -51,6 +51,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_tecnica_rx.py
       - name: conferir_usuario acha a disputa pelos arquivos (a 1a versao dizia 'nenhuma' com 14)
         run: python testar_conferir_usuario.py
+      - name: A lista de modelos diz quando o provedor do config nao respondeu (OpenAI 26/09)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_ia_modelos.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)
@@ -63,6 +65,11 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_estacao.py
       - name: Testar as rotas da interface v2 (banco, IA e abrir no RadiAnt)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_v2.py
+      - name: Nenhum teste escreve na pasta do roteador (a sujeira de 25/09 nao volta)
+        run: |
+          sujo="$(git status --porcelain --ignored -- . ':(exclude)CATALOGO.txt' ':(exclude)__pycache__')"
+          if [ -n "$sujo" ]; then echo "teste escreveu na pasta:"; echo "$sujo"; exit 1; fi
+          echo "pasta limpa"
       - name: Modelo de laudo estruturado (rotulo em negrito) e copiar com formatacao
         working-directory: app
         run: bun src/components/rotrix2/formatar.test.ts

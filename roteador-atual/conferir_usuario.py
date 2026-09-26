@@ -64,74 +64,147 @@ def tecnica(texto):
     return []
 
 
+_FORMAS = {"tc": ["tomografia computadorizada", "tomografia", "tc"],
+           "rx": ["radiografia", "raio x", "rx"],
+           "angiotc": ["angiotomografia computadorizada", "angiotomografia", "angio tc", "angio"]}
+_ARTIGOS = ("de ", "do ", "da ", "dos ", "das ")
+
+
+def _variantes(g, mod):
+    """Igual ao construir_base._variantes: "rx de ombro" também vale "radiografia do ombro"."""
+    formas = _FORMAS.get(mod)
+    if not formas:
+        return []
+    for f in sorted(formas, key=len, reverse=True):
+        if g.startswith(f + " "):
+            resto = g[len(f) + 1:]
+            break
+    else:
+        return []
+    for a in _ARTIGOS:
+        if resto.startswith(a):
+            resto = resto[len(a):]
+            break
+    out = []
+    for f in formas:
+        for a in ("", "de ", "do ", "da "):
+            v = f"{f} {a}{resto}"
+            if v != g:
+                out.append(v)
+    return out
+
+
 def ler_mascaras(raiz, prefixo=""):
-    """{titulo: (gatilhos_normalizados, corpo)} das MÁSCARAS de uma pasta.
-    Bloco (# tipo: bloco), frases.txt e _legado ficam de fora, como no construir_base."""
+    """Lê as MÁSCARAS de uma pasta exatamente como o construir_base lê:
+    mesmo cabeçalho (# chave: valor, sem diferenciar maiúscula), mesmo tipo pelo
+    nome do arquivo quando não há "# tipo:" (blk_ = bloco, frases, adendo,
+    ressalva, achado), _legado fora, e as variantes geradas.
+    Devolve {titulo: {"gat": [explícitos], "var": [variantes], "corpo": texto}}."""
     fora = {}
     if not os.path.isdir(raiz):
         return fora
     for r, pastas, arquivos in os.walk(raiz):
         pastas[:] = sorted(p for p in pastas if p != "_legado" and not p.startswith("."))
         for nome in sorted(arquivos):
-            if not nome.lower().endswith(".txt") or nome.lower() == "frases.txt":
+            if not nome.lower().endswith(".txt"):
                 continue
             caminho = os.path.join(r, nome)
             try:
                 bruto = io.open(caminho, encoding="utf-8").read().splitlines()
             except Exception:
                 continue
-            meta, corpo = {}, []
-            for l in bruto:
-                m = re.match(r"^#\s*([a-z_]+)\s*:\s*(.*)$", l.strip())
-                if m and not corpo:
-                    meta[m.group(1)] = m.group(2)
-                else:
-                    corpo.append(l)
-            if meta.get("tipo", "").strip() not in ("", "mascara"):
+            rel = os.path.relpath(caminho, raiz).replace("\\", "/")
+            meta, gatilhos, inicio = {}, [], len(bruto)
+            for i, l in enumerate(bruto):
+                s = l.strip()
+                if s.startswith("## "):
+                    inicio = i
+                    break
+                if s.startswith("#"):
+                    m = re.match(r"#\s*([a-z_]+)\s*:(.*)$", s, re.I)
+                    if m:
+                        k, v = m.group(1).lower(), m.group(2).strip()
+                        if k == "gatilhos":
+                            gatilhos = [g.strip() for g in v.split("|") if g.strip()]
+                        else:
+                            meta[k] = v
+                    continue
+                inicio = i
+                break
+            tipo = (meta.get("tipo") or ("bloco" if nome.startswith("blk_") else
+                                         "frases" if nome.startswith("frases") else
+                                         "adendo" if nome.startswith(("adendo", "ressalva")) else
+                                         "achado" if nome.startswith("achado") else
+                                         "mascara")).lower()
+            if tipo != "mascara":
                 continue
-            gat = [normalizar(g) for g in (meta.get("gatilhos") or "").split("|")]
-            gat = [g for g in gat if g]
-            if not gat:
-                continue
-            tit = prefixo + os.path.relpath(caminho, raiz).replace("\\", "/")[:-4]
-            fora[tit] = (gat, "\n".join(corpo).strip())
+            p = (prefixo + rel).split("/")          # como o _meta_do_caminho do construir_base
+            mod = meta.get("modalidade") or (p[1] if len(p) > 2 else "")
+            if not gatilhos:
+                gatilhos = [os.path.splitext(nome)[0].replace("_", " ")]
+            gat = [normalizar(g) for g in gatilhos]
+            var = [v for g in gat for v in _variantes(g, mod)]
+            fora[prefixo + rel[:-4]] = {"gat": [g for g in gat if g], "var": var,
+                                        "corpo": "\n".join(bruto[inicio:]).strip()}
     return fora
 
 
-def disputas(dados):
-    """Devolve (pares, mortas).
-    pares: {(titulo_seu, titulo_rotrix): [gatilhos]} — gatilho que existe nos dois.
-    mortas: {titulo_seu: titulo_seu_que_ganha} — máscara sua que nunca sai, porque
-            outra máscara SUA tem os mesmos gatilhos todos."""
+def fonte_atual():
+    try:
+        import importar_usuario
+        return importar_usuario.fonte_atual()
+    except Exception:
+        return "rotrix"
+
+
+def disputas(dados, fonte=None):
+    """Quem fica com cada gatilho, na MESMA ordem do construir_base:
+    o lado que vence (suas, com a fonte "minhas" ou "ambas"; do Rotrix, com "rotrix")
+    entra primeiro; dentro de cada lado, os gatilhos escritos antes das variantes.
+
+    Devolve (pares, mortas, suas, rotrix, voce_vence):
+      pares:  {(titulo_seu, titulo_rotrix): [gatilhos disputados]}
+      mortas: {titulo_seu: titulo_seu_que_ganha} — sua máscara que nunca sai,
+              porque outra SUA leva todos os gatilhos dela."""
+    fonte = fonte or fonte_atual()
+    voce_vence = fonte in ("minhas", "ambas")
     suas = ler_mascaras(os.path.join(dados, "mascaras_usuario"), "usuario/")
     rotrix = ler_mascaras(os.path.join(dados, "mascaras"))
-    dono_rotrix = {}
-    for tit, (gat, _c) in sorted(rotrix.items()):
-        for g in gat:
-            dono_rotrix.setdefault(g, tit)
-    pares, dono_seu = {}, {}
-    for tit, (gat, _c) in sorted(suas.items()):
-        for g in gat:
-            dono_seu.setdefault(g, tit)
-            if g in dono_rotrix:
-                pares.setdefault((tit, dono_rotrix[g]), [])
-                if g not in pares[(tit, dono_rotrix[g])]:
-                    pares[(tit, dono_rotrix[g])].append(g)
+    lados = [suas, rotrix] if voce_vence else [rotrix, suas]
+    ordem = []
+    for lado in lados:
+        for tit in sorted(lado):
+            ordem += [(g, tit) for g in lado[tit]["gat"]]
+        for tit in sorted(lado):
+            ordem += [(g, tit) for g in lado[tit]["var"]]
+    dono, candidatos = {}, {}
+    for g, tit in ordem:
+        dono.setdefault(g, tit)
+        candidatos.setdefault(g, [])
+        if tit not in candidatos[g]:
+            candidatos[g].append(tit)
+    pares = {}
+    for g, tits in candidatos.items():
+        dele = [t for t in tits if t.startswith("usuario/")]
+        rot = [t for t in tits if not t.startswith("usuario/")]
+        if dele and rot:
+            k = (dono[g] if dono[g].startswith("usuario/") else dele[0],
+                 dono[g] if not dono[g].startswith("usuario/") else rot[0])
+            pares.setdefault(k, []).append(g)
     mortas = {}
-    for tit, (gat, _c) in sorted(suas.items()):
-        donos = {dono_seu[g] for g in gat}
-        if tit not in donos and len(donos) == 1:
+    for tit, d in suas.items():
+        donos = {dono[g] for g in d["gat"] + d["var"]}
+        if tit not in donos and donos and all(x.startswith("usuario/") for x in donos) and len(donos) == 1:
             mortas[tit] = donos.pop()
-    # uma sua que nunca sai não disputa nada: tira dos pares
-    pares = {k: v for k, v in pares.items() if k[0] not in mortas}
-    return pares, mortas, suas, rotrix
+    pares = {k: sorted(v) for k, v in pares.items() if k[0] not in mortas}
+    return pares, mortas, suas, rotrix, voce_vence
 
 
 def main():
     dados = os.path.join(AQUI, "dados")
-    pares, mortas, suas, rotrix = disputas(dados)
-    print("máscaras suas: %d   |   do Rotrix: %d   |   pares em disputa: %d"
-          % (len(suas), len(rotrix), len(pares)))
+    pares, mortas, suas, rotrix, voce_vence = disputas(dados)
+    print("máscaras suas: %d   |   do Rotrix: %d   |   pares em disputa: %d   |   fonte: %s"
+          % (len(suas), len(rotrix), len(pares), fonte_atual()))
     print()
 
     rotear = None
@@ -146,7 +219,8 @@ def main():
         print("nenhum gatilho seu está na frente de máscara do Rotrix.")
     else:
         print("=" * 74)
-        print("  ONDE A SUA MÁSCARA GANHA — e o que o Rotrix diria no lugar")
+        print("  ONDE A SUA MÁSCARA GANHA — e o que o Rotrix diria no lugar" if voce_vence else
+              "  ONDE A SUA MÁSCARA PERDE — a fonte está em \"rotrix\": sai a do Rotrix")
         print("=" * 74)
     for (tit_u, tit_r), gatilhos in sorted(pares.items()):
         print()
@@ -160,8 +234,8 @@ def main():
                 print("   sai hoje: %s" % origem)
             except Exception as e:
                 print("   (não consegui rotear: %s)" % type(e).__name__)
-        tec_u = tecnica(suas[tit_u][1])
-        tec_r = tecnica(rotrix[tit_r][1])
+        tec_u = tecnica(suas[tit_u]["corpo"])
+        tec_r = tecnica(rotrix[tit_r]["corpo"])
         if tec_u == tec_r:
             print("   TÉCNICA: igual nas duas.")
             continue

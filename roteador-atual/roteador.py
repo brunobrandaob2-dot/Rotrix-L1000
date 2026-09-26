@@ -2937,6 +2937,10 @@ def ia_modelos(provedor=""):
         if not lista:
             falhas[nome] = r.get("motivo") or "sem_modelos"
             continue
+        if r.get("de_cache"):
+            # a API não respondeu e a lista é a última que funcionou: a tela
+            # mostra os modelos, mas precisa saber que a chave não está valendo
+            falhas[nome] = (r.get("motivo") or "sem_resposta") + " (lista antiga)"
         quais.append(nome)
         for m in lista:
             mid = m.get("id") if isinstance(m, dict) else str(m)

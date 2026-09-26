@@ -18,6 +18,40 @@ import tempfile
 import time
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+
+# --- ISOLAMENTO (26/09) -------------------------------------------------------
+# Este teste grava máscara em dados/mascaras_usuario, mexe no config.json, deixa
+# cópia em dados/oficina_copias e refaz o base.sqlite DE VERDADE. Rodando na pasta
+# real do Bruno, uma janela fechada no meio deixava a sujeira lá (25/09: 24
+# gatilhos falsos no banco). Agora ele sempre roda numa CÓPIA da pasta, numa
+# pasta temporária, e a cópia é apagada no fim. A pasta real nunca é escrita.
+if os.environ.get("ROTRIX_TESTE_ISOLADO") != "1":
+    import subprocess
+    _orig = os.path.dirname(os.path.abspath(__file__))
+    _tmp = tempfile.mkdtemp(prefix="rotrix_v2_")
+    _dest = os.path.join(_tmp, "roteador")
+    # fica de fora o que o teste não usa e o que não pode sair da pasta: chave,
+    # gasto, logs, backups, o repositório e os pacotes
+    shutil.copytree(_orig, _dest, ignore=shutil.ignore_patterns(
+        "chave_*.txt", "*.key", ".env", "*.log", "gasto.json", "aprendizado.json",
+        "logs_teste", "backups", "pacote", "projeto-app", "handy", "Claude outputs",
+        "__pycache__", "*.bundle", "*.zip", "*.tar.gz", ".git"))
+    _env = dict(os.environ, ROTRIX_TESTE_ISOLADO="1", ROTRIX_PASTA_REAL=_orig)
+    if os.environ.get("LAUDO_BASE"):
+        # banco fora da pasta (CI): também vai uma cópia, para o teste não reescrever o original
+        _b = os.path.join(_tmp, "base.sqlite")
+        if os.path.exists(os.environ["LAUDO_BASE"]):
+            shutil.copy2(os.environ["LAUDO_BASE"], _b)
+        _env["LAUDO_BASE"] = _b
+    try:
+        sys.stdout.flush()
+        _rc = subprocess.call([sys.executable, os.path.join(_dest, os.path.basename(__file__))]
+                              + sys.argv[1:], cwd=_dest, env=_env)
+    finally:
+        shutil.rmtree(_tmp, ignore_errors=True)
+    sys.exit(_rc)
+# -----------------------------------------------------------------------------
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import radius  # noqa: E402
@@ -1182,6 +1216,10 @@ def estruturados_por_niveis(falhas):
         pedido, extras={"musculatura": {"infiltracao": True,
                                         "infiltracao_musculos": "dos músculos multífidos",
                                         "infiltracao_grau": "3"}}))["texto"]
+    # com "formato_titulos": "rico" (o config dele) o rótulo sai em negrito:
+    # "**Musculatura paravertebral:**  ...". O laudo está certo; a conferência
+    # olha o texto sem as marcas de negrito.
+    musc = musc.replace("**", "")
     if "Musculatura paravertebral:  infiltração gordurosa dos músculos multífidos, "\
             "grau 3 de Goutallier" not in musc:
         falhas.append("estruturados: a musculatura não entrou no laudo")

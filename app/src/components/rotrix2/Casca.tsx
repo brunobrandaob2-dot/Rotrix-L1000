@@ -4,7 +4,7 @@
 // Laudo · Fila · Adendos · Máscaras · Histórico · Config. A barra é estreita e
 // fica sempre visível; cada aba ocupa a janela inteira, sem moldura em volta.
 // A Fila mostra quantos exames estão esperando.
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import {
@@ -56,7 +56,7 @@ const ABAS: { id: Aba; nome: string; icone: React.ElementType }[] = [
 // A lista de modelos vem da API do provedor instalado, não de tabela aqui.
 // Tabela escrita à mão envelhece e amarra o app a um fornecedor: quem instala
 // com chave de outro continuava vendo os nomes do primeiro na tela.
-import { escolherLeve, escolherForte, maisForte } from "./modelos";
+import { escolherLeve, escolherForte, maisForteDoAtual } from "./modelos";
 
 const GUARDADO = "rotrix2.modeloForte";
 const GUARDADO_LEVE = "rotrix2.modeloLeve";
@@ -75,6 +75,25 @@ const apelido = (modelo: string): string => {
     .filter((x) => x && !/^(latest|preview|exp|chat|instruct)$/i.test(x));
   const nome = partes.slice(-3).join(" ").trim() || cru;
   return (nome.charAt(0).toUpperCase() + nome.slice(1)).slice(0, 16);
+};
+
+// O motivo que o roteador devolve quando a lista de modelos de um provedor
+// falha, em português de gente. Aparece na barra do Laudo.
+const explicarFalha = (provedor: string, motivo: string): string => {
+  const nome = provedor.charAt(0).toUpperCase() + provedor.slice(1);
+  const m = motivo.toLowerCase();
+  const porque = m.includes("401")
+    ? "a API recusou a chave (errada, incompleta ou revogada)"
+    : m.includes("403")
+      ? "a chave não tem permissão para os modelos"
+      : m.includes("429")
+        ? "sem saldo ou acima do limite da conta"
+        : m.includes("sem_chave")
+          ? "não há chave gravada para ele"
+          : m.includes("urlerror") || m.includes("timeout")
+            ? "não chegou na API (internet, firewall ou proxy)"
+            : "não respondeu (" + motivo + ")";
+  return `${nome}: ${porque}. A IA não vai trocar de provedor sozinha — confira em Configurações > IA.`;
 };
 
 interface Props {
@@ -133,36 +152,57 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     };
   }, [contarFila]);
 
-  const [listaModelos, setListaModelos] = useState<{ id: string; nome: string }[]>([]);
+  const [listaModelos, setListaModelos] = useState<
+    { id: string; nome: string; provedor?: string }[]
+  >([]);
+  // o provedor do config que NÃO respondeu à lista de modelos, e por quê
+  const [avisoIa, setAvisoIa] = useState<string>("");
 
-  // a lista de modelos vem de quem tem a chave; sem chave, fica vazia e os
-  // botões de IA seguem funcionando com o modelo que está na configuração
-  useEffect(() => {
-    invoke<string>("rotrix_ia_modelos")
-      .then((bruto) => {
-        const d = JSON.parse(bruto || "{}") as {
-          ok?: boolean;
-          modelos?: { id: string; nome: string }[];
-        };
-        setListaModelos(d.ok && d.modelos ? d.modelos : []);
-      })
-      .catch(() => setListaModelos([]));
-  }, [ia.provedor]);
-
-  useEffect(() => {
-    invoke<string>("rotrix_ia_estado")
-      .then((bruto) => {
-        const e = JSON.parse(bruto || "{}") as {
-          provedor?: string;
-          modelo?: string;
-        };
-        setIa({
-          provedor: (e.provedor || "anthropic").toLowerCase(),
-          modelo: e.modelo || "",
-        });
-      })
-      .catch(() => undefined);
+  // A lista de modelos vem de quem tem a chave; sem chave, fica vazia e os
+  // botões de IA seguem funcionando com o modelo que está na configuração.
+  //
+  // 26/09 (tarde): o provedor e a lista eram lidos UMA vez, quando o app abria.
+  // Ele trocou para OpenAI em Configurações, salvou, voltou ao Laudo — e a barra
+  // continuava na Anthropic até fechar o app. Agora relê ao sair de Configurações.
+  const recarregarIa = useCallback(async () => {
+    let provedor = "anthropic";
+    try {
+      const e = JSON.parse((await invoke<string>("rotrix_ia_estado")) || "{}") as {
+        provedor?: string;
+        modelo?: string;
+      };
+      provedor = (e.provedor || "anthropic").toLowerCase();
+      setIa({ provedor, modelo: e.modelo || "" });
+    } catch {
+      /* roteador parado: fica como estava */
+    }
+    try {
+      const d = JSON.parse((await invoke<string>("rotrix_ia_modelos")) || "{}") as {
+        ok?: boolean;
+        motivo?: string;
+        modelos?: { id: string; nome: string; provedor?: string }[];
+        falhas?: Record<string, string>;
+      };
+      setListaModelos(d.ok && d.modelos ? d.modelos : []);
+      const falhou = (d.falhas || {})[provedor] || (!d.ok ? d.motivo || "" : "");
+      setAvisoIa(falhou ? explicarFalha(provedor, falhou) : "");
+    } catch {
+      setListaModelos([]);
+      setAvisoIa("");
+    }
   }, []);
+
+  useEffect(() => {
+    void recarregarIa();
+  }, [recarregarIa]);
+
+  const abaAnterior = useRef<Aba>(aba);
+  useEffect(() => {
+    if (abaAnterior.current === "config" && aba !== "config") {
+      void recarregarIa();
+    }
+    abaAnterior.current = aba;
+  }, [aba, recarregarIa]);
 
   // Qual IA cada botão aciona. A regra inteira, e o porquê dela, está em
   // modelos.ts — foi ali que o "modelo caro escolhido por ninguém" morreu.
@@ -249,6 +289,7 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
             textoEntrando={paraFolha}
             modelos={listaModelos}
             aoTrocarModelo={trocarModelo}
+            avisoIa={avisoIa}
           />
         </div>
         <div className={aba === "adendos" ? "h-full flex flex-col min-h-0" : "hidden"}>
@@ -286,7 +327,7 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
                 estiver escolhido na barra do Laudo */}
             <ComparativoPage
               modelos={listaModelos}
-              idModelo={maisForte(listaModelos) || forte}
+              idModelo={maisForteDoAtual(listaModelos) || forte}
               aoTrocarModelo={trocarModelo}
             />
           </div>

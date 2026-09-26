@@ -178,6 +178,8 @@ export const RotrixIA: React.FC = () => {
   const [mensagem, setMensagem] = useState<string>("");
   const [alterado, setAlterado] = useState<boolean>(false);
   const [versao, setVersao] = useState<number>(0);
+  // resultado do teste de cada chave na API ("aceita" ou o motivo da recusa)
+  const [testes, setTestes] = useState<Record<string, { ok: boolean; texto: string }>>({});
 
   const carregar = useCallback(async () => {
     try {
@@ -248,6 +250,38 @@ export const RotrixIA: React.FC = () => {
     }
   };
 
+  // 26/09 (tarde): "configurada" em verde só dizia que o ARQUIVO existe. A chave
+  // da OpenAI dele estava gravada e a API não aceitava — e nada na tela dizia.
+  // Agora cada chave é testada na API ao gravar, e há o botão Testar.
+  const testarChave = async (p: string) => {
+    setTestes((t) => ({ ...t, [p]: { ok: true, texto: "testando…" } }));
+    try {
+      const r = JSON.parse(
+        (await invoke<string>("rotrix_ia_testar", { provedor: p, modelo: "" })) || "{}",
+      ) as { ok?: boolean; motivo?: string; ms?: number; quantos?: number };
+      const m = String(r.motivo || "").toLowerCase();
+      const porque = m.includes("401")
+        ? "RECUSADA pela API: chave errada, incompleta ou revogada"
+        : m.includes("403")
+          ? "sem permissão para os modelos"
+          : m.includes("429")
+            ? "sem saldo ou acima do limite da conta"
+            : m.includes("sem_chave")
+              ? "sem chave"
+              : m.includes("urlerror") || m.includes("timeout")
+                ? "não chegou na API (internet, firewall ou proxy)"
+                : "falhou (" + (r.motivo || "sem motivo") + ")";
+      setTestes((t) => ({
+        ...t,
+        [p]: r.ok
+          ? { ok: true, texto: `aceita pela API · ${r.quantos ?? 0} modelos · ${r.ms ?? 0} ms` }
+          : { ok: false, texto: porque },
+      }));
+    } catch (err) {
+      setTestes((t) => ({ ...t, [p]: { ok: false, texto: "roteador não respondeu: " + String(err) } }));
+    }
+  };
+
   const gravarChave = async (p: string) => {
     const k = (chaves[p] ?? "").trim();
     if (k === "") return;
@@ -256,6 +290,7 @@ export const RotrixIA: React.FC = () => {
       setChaves((c) => ({ ...c, [p]: "" }));
       setMensagem("Chave gravada neste computador.");
       await carregar();
+      await testarChave(p);
     } catch (err) {
       setMensagem(String(err));
     }
@@ -279,6 +314,16 @@ export const RotrixIA: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* 26/09 (tarde): ele trocou o provedor aqui em cima e saiu da tela — o
+          botão Salvar fica lá no fim da página e a troca se perdeu calada. */}
+      {alterado && (
+        <div className="sticky top-0 z-10 flex items-center gap-3 px-3 py-2 rounded-lg border border-yellow-500/60 bg-yellow-500/15 text-sm">
+          <span>Mudança ainda NÃO salva — se sair desta tela sem salvar, ela se perde.</span>
+          <Button variant="primary" size="sm" onClick={() => void salvar()}>
+            Salvar agora
+          </Button>
+        </div>
+      )}
       <SettingsGroup
         title="Inteligência artificial (sob demanda)"
         description="O banco de máscaras continua sendo o padrão. A IA só entra quando você pede: Ctrl+Alt+A, “revisar”, “analisar” ou “formar laudo com IA”."
@@ -459,6 +504,11 @@ export const RotrixIA: React.FC = () => {
                 Gravar
               </Button>
               {estado?.chaves?.[p] && (
+                <Button variant="secondary" size="sm" onClick={() => void testarChave(p)}>
+                  Testar
+                </Button>
+              )}
+              {estado?.chaves?.[p] && (
                 <Button
                   variant="danger-ghost"
                   size="sm"
@@ -466,6 +516,11 @@ export const RotrixIA: React.FC = () => {
                 >
                   Apagar
                 </Button>
+              )}
+              {testes[p] && (
+                <span className={`text-xs ${testes[p].ok ? "text-green-500" : "text-red-500"}`}>
+                  {testes[p].texto}
+                </span>
               )}
             </div>
           </SettingContainer>

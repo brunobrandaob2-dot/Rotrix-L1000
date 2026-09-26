@@ -18,6 +18,12 @@ import radius  # noqa: E402
 import perfil  # noqa: E402
 import correcao  # noqa: E402
 
+# 26/09: a fila grava radius_estrutura.txt NA PASTA do roteador. No teste, com
+# arquivos falsos, isso sobrescrevia o diagnóstico de verdade do PC dele.
+# O teste não confere esse arquivo: desliga a gravação.
+radius.gravar_diagnostico_se_velho = lambda *a, **k: None
+radius.gravar_diagnostico = lambda *a, **k: None
+
 
 def _estudo(nome, acesso, mod, desc, laudado, quando, status=""):
     d = {"AccessionNumber": acesso, "PatientName": nome, "Modality": mod, "StudyDescription": desc,

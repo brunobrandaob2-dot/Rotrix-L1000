@@ -8,7 +8,9 @@ nem entra — e respondia "nenhum gatilho seu está na frente" na máquina em qu
 três regiões estavam. Este teste monta uma pasta dados/ falsa e exige que:
   1. a sua máscara com gatilho do Rotrix apareça como disputa, com as duas TÉCNICAS;
   2. a sua máscara que repete os gatilhos de outra sua apareça como "nunca sai";
-  3. bloco (# tipo: bloco), frases.txt e _legado não entrem na conta.
+  3. bloco (com ou sem "# tipo:"), frases.txt e _legado não entrem na conta;
+  4. a disputa que só existe pela VARIANTE gerada no construir_base apareça;
+  5. com a fonte "rotrix" o relatório saiba que quem vence é o Rotrix.
 """
 import io
 import os
@@ -43,6 +45,10 @@ try:
           "**RADIOGRAFIA DO OMBRO**\n\n**TÉCNICA:**  incidências anteroposterior e perfil de Neer.\n"
           "Exame realizado nas incidências anteroposterior, perfil de Neer e axilar.\n\n**ANÁLISE:**\nx.\n")
     grava(d, "mascaras/msk/rx/ombro/blk_x.txt", "# tipo: bloco\n# gatilhos: raio x de ombro\nx.\n")
+    # bloco SEM "# tipo:" — o construir_base decide pelo nome (blk_ = bloco)
+    grava(d, "mascaras/msk/rx/ombro/blk_sem_tipo.txt", "# gatilhos: rx do ombro\nx.\n")
+    # só a VARIANTE casa: o dele diz "radiografia do joelho", o do Rotrix "rx de joelho"
+    grava(d, "mascaras/msk/rx/joelho/normal.txt", "# gatilhos: rx de joelho\n**TÉCNICA:**  AP, perfil e axial.\n")
     grava(d, "mascaras/msk/rx/ombro/frases.txt", "# gatilhos: raio x de ombro\n")
     grava(d, "mascaras/_legado/velho.txt", "# gatilhos: rx de joelho\nx\n")
     grava(d, "mascaras_usuario/rx/ombro/normal.txt",
@@ -55,29 +61,37 @@ try:
           "**ANÁLISE:**\nx.\n")
     grava(d, "mascaras_usuario/rx/ombro/normal_2.txt",
           "# gatilhos: raio x de ombro | rx do ombro\n**TÉCNICA:**  outra.\n")
-    grava(d, "mascaras_usuario/rx/joelho/normal.txt", "# gatilhos: rx de joelho\n**TÉCNICA:**  y.\n")
+    grava(d, "mascaras_usuario/rx/joelho/normal.txt",
+          "# gatilhos: radiografia do joelho\n# modalidade: rx\n**TÉCNICA:**  y.\n")
+    grava(d, "mascaras_usuario/rx/cotovelo/normal.txt", "# gatilhos: rx de cotovelo\n**TÉCNICA:**  z.\n")
 
-    pares, mortas, suas, rotrix = cu.disputas(d)
+    pares, mortas, suas, rotrix, vence = cu.disputas(d, fonte="ambas")
     chave = ("usuario/rx/ombro/normal", "msk/rx/ombro/normal")
     confere("disputa achada pelos arquivos (acento e hífen normalizados)",
-            chave in pares and sorted(pares[chave]) == ["raio x de ombro", "rx do ombro"], repr(pares))
+            chave in pares and {"raio x de ombro", "rx do ombro"} <= set(pares[chave]), repr(pares))
     confere("a sua que repete outra sua aparece como 'nunca sai'",
             mortas.get("usuario/rx/ombro/normal_2") == "usuario/rx/ombro/normal", repr(mortas))
     confere("a que nunca sai não entra como disputa",
             not any(k[0] == "usuario/rx/ombro/normal_2" for k in pares))
-    confere("bloco, frases.txt e _legado ficam fora",
-            set(rotrix) == {"msk/rx/ombro/normal"}, repr(sorted(rotrix)))
-    confere("joelho seu sem máscara do Rotrix: sem disputa",
-            not any(k[0] == "usuario/rx/joelho/normal" for k in pares))
+    confere("bloco (com e sem '# tipo:'), frases.txt e _legado ficam fora",
+            set(rotrix) == {"msk/rx/ombro/normal", "msk/rx/joelho/normal"}, repr(sorted(rotrix)))
+    confere("disputa só pela variante (radiografia do joelho x rx de joelho) é achada",
+            ("usuario/rx/joelho/normal", "msk/rx/joelho/normal") in pares, repr(sorted(pares)))
+    confere("cotovelo seu sem máscara do Rotrix: sem disputa",
+            not any(k[0] == "usuario/rx/cotovelo/normal" for k in pares))
+    confere("com a fonte 'ambas' a sua vence", vence is True)
+    _p2, _m2, _s2, _r2, vence2 = cu.disputas(d, fonte="rotrix")
+    confere("com a fonte 'rotrix' a do Rotrix vence (o relatório não pode dizer que a sua ganha)",
+            vence2 is False and ("usuario/rx/ombro/normal", "msk/rx/ombro/normal") in _p2)
     confere("TÉCNICA lida dos dois lados",
-            cu.tecnica(suas["usuario/rx/ombro/normal"][1]) ==
+            cu.tecnica(suas["usuario/rx/ombro/normal"]["corpo"]) ==
             ["Exame realizado nas incidências anteroposterior e perfil da escápula."]
-            and cu.tecnica(rotrix["msk/rx/ombro/normal"][1])[0] ==
+            and cu.tecnica(rotrix["msk/rx/ombro/normal"]["corpo"])[0] ==
             "incidências anteroposterior e perfil de Neer.")
     confere("TÉCNICA de duas linhas sem 'Exame realizado' vem inteira",
-            cu.tecnica(suas["usuario/rx/torax/normal"][1]) ==
+            cu.tecnica(suas["usuario/rx/torax/normal"]["corpo"]) ==
             ["Incidências em póstero-anterior e perfil.", "Incidência em anteroposterior."],
-            repr(cu.tecnica(suas["usuario/rx/torax/normal"][1])))
+            repr(cu.tecnica(suas["usuario/rx/torax/normal"]["corpo"])))
 finally:
     shutil.rmtree(tmp, ignore_errors=True)
 
