@@ -56,29 +56,10 @@ const ABAS: { id: Aba; nome: string; icone: React.ElementType }[] = [
 // A lista de modelos vem da API do provedor instalado, não de tabela aqui.
 // Tabela escrita à mão envelhece e amarra o app a um fornecedor: quem instala
 // com chave de outro continuava vendo os nomes do primeiro na tela.
+import { escolherLeve, escolherForte, maisForte } from "./modelos";
+
 const GUARDADO = "rotrix2.modeloForte";
 const GUARDADO_LEVE = "rotrix2.modeloLeve";
-
-// Palavras que costumam aparecer no identificador do modelo mais barato de cada
-// provedor. Não é tabela de fornecedor: é dica de ORDENAÇÃO, e se nenhuma casar
-// o padrão continua sendo o primeiro da lista. Sem isto o botão leve pegava o
-// primeiro que a API devolvesse — modelo caro, escolhido por ninguém.
-const PISTA_BARATO = /haiku|mini|flash|lite|small|nano|fast|turbo/i;
-
-const maisBarato = (modelos: { id: string }[]): string =>
-  modelos.find((m) => PISTA_BARATO.test(m.id))?.id || modelos[0]?.id || "";
-
-// O comparativo é o que mais depende de entender texto: ele pediu o melhor
-// modelo disponível, sempre, e não o que estiver escolhido na barra do Laudo.
-const PISTA_FORTE = /opus|ultra|max|pro\b|large|sonnet/i;
-
-const maisForte = (modelos: { id: string }[]): string => {
-  const fortes = modelos.filter((m) => PISTA_FORTE.test(m.id));
-  // "opus" ganha de "sonnet" quando os dois existirem
-  return (
-    fortes.find((m) => /opus|ultra|max/i.test(m.id))?.id || fortes[0]?.id || modelos[0]?.id || ""
-  );
-};
 
 // Nome curto de um modelo, para caber no botão. Sai do PRÓPRIO identificador
 // que o provedor devolveu — nenhum nome de fabricante escrito aqui. Assim a
@@ -183,18 +164,11 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
       .catch(() => undefined);
   }, []);
 
-  // O botão leve agora é ESCOLHA dele, igual ao forte. Antes era
-  // listaModelos[0] — o primeiro que a API devolvia — e isso punha um modelo
-  // caro no botão que ele usa o dia inteiro só para formatar.
-  const idLeve =
-    (modeloLeve && listaModelos.some((m) => m.id === modeloLeve) && modeloLeve) ||
-    maisBarato(listaModelos);
+  // Qual IA cada botão aciona. A regra inteira, e o porquê dela, está em
+  // modelos.ts — foi ali que o "modelo caro escolhido por ninguém" morreu.
+  const idLeve = escolherLeve(listaModelos, modeloLeve);
   const leve = { id: idLeve, nome: apelido(idLeve) };
-  const forte =
-    (modeloForte && listaModelos.some((m) => m.id === modeloForte) && modeloForte) ||
-    ia.modelo ||
-    listaModelos[0]?.id ||
-    "";
+  const forte = escolherForte(listaModelos, modeloForte, ia.modelo);
 
   const guardar = (chave: string, id: string) => {
     try {
