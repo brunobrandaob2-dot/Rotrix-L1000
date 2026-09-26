@@ -16,7 +16,7 @@ Núcleos da base:  de morfologia e atenuação preservadas.
 Sistema ventricular:  dilatação do sistema ventricular a montante {nivel_obstrucao|dos forames interventriculares/do aqueduto cerebral/das saídas do quarto ventrículo}, com arredondamento dos cornos frontais. Índice de Evans de {evans} (referência: até 0,30).
 Lesão obstrutiva: {lesao_obstrutiva|não caracterizada ao método/___}.
 Cisternas da base e sulcos corticais:  sulcos corticais da convexidade apagados. Cisternas da base {cisternas|pérvias/parcialmente apagadas/apagadas}.
-Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio para a direita/desvio para a esquerda}.
 Espaços extra-axiais:  sem coleções.
 Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
 Calcificações intracranianas:  sem calcificações de aspecto patológico.

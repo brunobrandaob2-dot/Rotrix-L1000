@@ -25,6 +25,8 @@ jobs:
           python validar_regiao.py $regioes
       - name: Auditar os gatilhos (nenhum pode abrir exame sem dizer o exame)
         run: LAUDO_BASE=/tmp/base.sqlite python auditar_gatilhos.py
+      - name: Auditar frase quebrada (lacuna que deixou unidade ou parenteses para tras)
+        run: LAUDO_BASE=/tmp/base.sqlite python auditar_frases.py
       - name: Conferir o prompt de sistema (REDATOR_ROTRIX.md monta todas as rotas)
         run: python prompts.py
       - name: Conferir que os rotulos do banco batem com os do renderizador

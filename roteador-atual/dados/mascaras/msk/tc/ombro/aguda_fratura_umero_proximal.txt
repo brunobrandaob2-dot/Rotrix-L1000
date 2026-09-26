@@ -23,4 +23,4 @@ Partes moles:  sem coleções organizadas ou hematomas volumosos, considerando o
 **COMPARAÇÃO:**  estudos anteriores não disponíveis para análise comparativa.
 
 **CONCLUSÃO:**
-Fratura do úmero proximal {lado|direito/esquerdo} em {partes|uma/duas/três/quatro} parte(s) segundo a classificação de Neer (parte considerada desviada quando o desvio é superior a 1,0 cm ou a angulação superior a 45°).
+Fratura do úmero proximal {lado|direito/esquerdo} {partes|em uma parte/em duas partes/em três partes/em quatro partes} segundo a classificação de Neer (parte considerada desviada quando o desvio é superior a 1,0 cm ou a angulação superior a 45°).

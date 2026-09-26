@@ -52,7 +52,8 @@ ESPERADO = [
      "incidências anteroposterior e Zanca (anteroposterior com inclinação cranial de 15 graus).",
      None),
     ("raio x de ombro esquerdo", "msk/rx/ombro",
-     "incidências anteroposterior, perfil de Neer e axilar.", None),
+     "incidências anteroposterior e perfil de Neer.",
+     "Exame realizado nas incidências anteroposterior, perfil de Neer e axilar."),
     # as que ele confirmou que já estavam certas
     ("raio x de coluna lombar", "msk/rx/coluna_lombar",
      "incidências anteroposterior e perfil.", None),

@@ -13,6 +13,8 @@ echo "validando $(echo "$regioes" | wc -l) regiões..."
 python3 validar_regiao.py $regioes | tee /tmp/validacao.txt | grep -E "ERRO|erro\(s\)" || true
 echo "conferindo o prompt de sistema (REDATOR_ROTRIX.md)..."
 python3 prompts.py
+echo "auditando frase quebrada no banco..."
+python3 auditar_frases.py | head -4
 echo "auditando gatilhos..."
 python3 auditar_gatilhos.py | tail -3
 for t in testar_nuvem.py testar_sinonimos.py testar_perf_roteador.py testar_tecnica_rx.py testar_importar.py testar_rx_literal.py testar_radius.py \

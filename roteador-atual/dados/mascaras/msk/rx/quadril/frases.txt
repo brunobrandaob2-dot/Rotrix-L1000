@@ -22,7 +22,7 @@ Esclerose e lucência na cabeça femoral, sem colapso, podendo corresponder a os
 ## gatilhos: protese de quadril sem soltura no raio x
 Artroplastia do quadril com componentes em posição habitual, sem sinais de soltura.
 ## gatilhos: inclinacao do componente acetabular do quadril
-Componente acetabular com inclinação de {inclinacao}° (referência: 30° a 50°).
+Componente acetabular com inclinação preservada.
 ## gatilhos: fratura do trocanter maior no quadril
 Fratura do trocânter maior, {desvio|sem desvio significativo/com desvio de ___}.
 ## gatilhos: calcificacao peritrocanterica no raio x de quadril

@@ -16,7 +16,7 @@ Núcleos da base:  de morfologia e atenuação preservadas.
 Sistema ventricular:  {hemoventriculo|sem/com} conteúdo hemático intraventricular. {hidrocefalia|Sem sinais de hidrocefalia/Dilatação ventricular com índice de Evans de ___, compatível com hidrocefalia aguda}.
 Cisternas da base e sulcos corticais:  conteúdo hiperatenuante preenchendo {distribuicao|as cisternas suprasselar, interpeduncular e ambiens e as fissuras sylvianas/as cisternas perimesencefálicas e pré-pontina/os sulcos corticais da convexidade}, compatível com hemorragia subaracnóidea, de espessura {espessura_hsa|fina (inferior a 1 mm)/espessa (igual ou superior a 1 mm)}.
 Escala de Fisher modificada: grau {fisher|1/2/3/4} (1: fina, sem hemoventrículo; 2: fina, com hemoventrículo; 3: espessa, sem hemoventrículo; 4: espessa, com hemoventrículo).
-Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio para a direita/desvio para a esquerda}.
 Espaços extra-axiais:  sem coleções.
 Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
 Calcificações intracranianas:  sem calcificações de aspecto patológico.

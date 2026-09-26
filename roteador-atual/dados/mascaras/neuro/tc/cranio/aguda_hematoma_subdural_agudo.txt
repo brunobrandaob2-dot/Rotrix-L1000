@@ -15,7 +15,7 @@ Substância branca:  sem alterações de atenuação.
 Núcleos da base:  de morfologia e atenuação preservadas.
 Sistema ventricular:  {ventriculos|de dimensões preservadas/com compressão do ventrículo lateral ipsilateral à coleção/com compressão do ventrículo lateral ipsilateral e dilatação do contralateral por aprisionamento}.
 Cisternas da base e sulcos corticais:  cisternas da base {cisternas|pérvias/parcialmente apagadas/apagadas}, {herniacao|sem/com} sinais de herniação subfalcina ou transtentorial.
-Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio para a direita/desvio para a esquerda}.
 Espaços extra-axiais:  coleção extra-axial em crescente, espontaneamente hiperatenuante, ao longo da convexidade cerebral {lado_f|direita/esquerda}, não limitada pelas suturas, com espessura máxima de {tamanho}, compatível com hematoma subdural agudo. {foice_tentorio|Sem/Com} extensão ao longo da foice cerebral e do tentório.
 Pneumoencéfalo:  ausente.
 Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
@@ -30,4 +30,4 @@ Partes moles extracranianas:  {subgaleal|sem hematoma subgaleal/hematoma subgale
 
 **CONCLUSÃO:**
 Hematoma subdural agudo na convexidade cerebral {lado_f|direita/esquerda}, com espessura máxima de {tamanho}.
-Linha média: {linha_media_c|centrada/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}. Cisternas da base: {cisternas_c|pérvias/parcialmente apagadas/apagadas}.
+Linha média: {linha_media_c|centrada/desviada para a direita/desviada para a esquerda}. Cisternas da base: {cisternas_c|pérvias/parcialmente apagadas/apagadas}.

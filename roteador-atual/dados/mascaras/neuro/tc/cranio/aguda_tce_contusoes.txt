@@ -15,7 +15,7 @@ Substância branca:  sem outras alterações de atenuação.
 Núcleos da base:  de morfologia e atenuação preservadas.
 Sistema ventricular:  {hemoventriculo|sem/com} conteúdo hemático intraventricular, de dimensões preservadas.
 Cisternas da base e sulcos corticais:  cisternas da base {cisternas|pérvias/parcialmente apagadas/apagadas}. {hsa_traumatica|Sem/Com} hemorragia subaracnóidea traumática nos sulcos corticais adjacentes.
-Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio para a direita/desvio para a esquerda}.
 Espaços extra-axiais:  sem coleções.
 Pneumoencéfalo:  ausente.
 Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
@@ -30,5 +30,5 @@ Partes moles extracranianas:  {subgaleal|sem hematoma subgaleal/hematoma subgale
 
 **CONCLUSÃO:**
 Contusões hemorrágicas no lobo {lobo_cerebral|frontal/parietal/temporal/occipital} {lado|direito/esquerdo}.
-Linha média: {linha_media_c|centrada/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}. Cisternas da base: {cisternas_c|pérvias/parcialmente apagadas/apagadas}.
+Linha média: {linha_media_c|centrada/desviada para a direita/desviada para a esquerda}. Cisternas da base: {cisternas_c|pérvias/parcialmente apagadas/apagadas}.
 Sugere-se controle tomográfico evolutivo, a critério clínico.

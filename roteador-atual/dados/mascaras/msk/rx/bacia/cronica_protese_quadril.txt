@@ -13,7 +13,7 @@ Alinhamento articular preservado.
 Articulações sacroilíacas preservadas.
 Sínfise púbica sem alterações.
 Artroplastia {tipo_protese|total/parcial} do quadril {lado|direito/esquerdo}, com haste femoral {fixacao|não cimentada/cimentada} e componentes em posição habitual.
-Componente acetabular com inclinação de {inclinacao}° (referência: 30° a 50°).
+Componente acetabular com inclinação preservada.
 Espaço articular coxofemoral contralateral preservado.
 Não há sinais de soltura dos componentes, luxação ou fratura periprotética.
 Densidade óssea preservada.

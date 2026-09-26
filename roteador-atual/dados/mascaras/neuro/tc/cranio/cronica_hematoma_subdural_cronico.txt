@@ -15,7 +15,7 @@ Substância branca:  sem alterações de atenuação.
 Núcleos da base:  de morfologia e atenuação preservadas.
 Sistema ventricular:  {ventriculos|de dimensões preservadas/com compressão parcial do ventrículo lateral ipsilateral à coleção}, sem sinais de hidrocefalia.
 Cisternas da base e sulcos corticais:  cisternas da base {cisternas|pérvias/parcialmente apagadas/apagadas}.
-Linha média:  {linha_media|estruturas centradas, sem desvio/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}.
+Linha média:  {linha_media|estruturas centradas, sem desvio/desvio para a direita/desvio para a esquerda}.
 Espaços extra-axiais:  coleção extra-axial em crescente ao longo da convexidade cerebral {lado_f|direita/esquerda}, predominantemente hipoatenuante em relação ao parênquima, com espessura máxima de {tamanho}, compatível com hematoma subdural crônico. {ressangramento|Não há/Há} componentes hiperatenuantes de permeio sugestivos de ressangramento.
 Fossa posterior:  tronco encefálico e hemisférios cerebelares de morfologia e atenuação preservadas.
 Calcificações intracranianas:  sem calcificações de aspecto patológico.
@@ -29,4 +29,4 @@ Partes moles extracranianas:  sem particularidades.
 
 **CONCLUSÃO:**
 Hematoma subdural crônico na convexidade cerebral {lado_f|direita/esquerda}, com espessura máxima de {tamanho}.
-Linha média: {linha_media_c|centrada/desvio de ___ mm para a direita/desvio de ___ mm para a esquerda}. Cisternas da base: {cisternas_c|pérvias/parcialmente apagadas/apagadas}.
+Linha média: {linha_media_c|centrada/desviada para a direita/desviada para a esquerda}. Cisternas da base: {cisternas_c|pérvias/parcialmente apagadas/apagadas}.

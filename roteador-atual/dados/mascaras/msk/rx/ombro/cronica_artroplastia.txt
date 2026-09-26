@@ -5,7 +5,8 @@
 # tipo_mascara: cronica
 **RADIOGRAFIA DO OMBRO {LADO|DIREITO/ESQUERDO}**
 
-**TÉCNICA:**  incidências anteroposterior, perfil de Neer e axilar.
+**TÉCNICA:**  incidências anteroposterior e perfil de Neer.
+Exame realizado nas incidências anteroposterior, perfil de Neer e axilar.
 
 **ANÁLISE:**
 Artroplastia {tipo|anatômica total/reversa/parcial (hemiartroplastia)} do ombro, com componentes em posição habitual.

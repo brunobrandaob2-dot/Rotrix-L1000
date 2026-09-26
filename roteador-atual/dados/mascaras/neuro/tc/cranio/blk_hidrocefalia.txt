@@ -1,0 +1,5 @@
+# tipo: bloco
+# secao: Sistema ventricular
+# gatilhos: hidrocefalia | dilatacao ventricular | dilatacao do sistema ventricular | ventriculomegalia | dilatacao dos ventriculos
+# conclusao: Dilatação do sistema ventricular supratentorial.
+Sistema ventricular:  dilatação dos ventrículos laterais e do terceiro ventrículo, com arredondamento dos cornos frontais{transudacao|? e hipoatenuação periventricular, sugestiva de transudação liquórica}.

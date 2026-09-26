@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-25.4"
+VERSAO = "2026-09-26.1"
 LIMIAR = 0.74          # similaridade mínima para aceitar um gatilho
 ORCAMENTO_S = 8.0      # teto de tempo; acima disso devolve o texto cru
 
@@ -737,8 +737,33 @@ _LADO_PROIBIDO = re.compile(r"direit|esquerd|bilater", re.I)
 
 # modificador colado na lacuna, que tambem tem de sair ("grau [1/2/3]")
 _ANTES_DA_LACUNA = re.compile(
-    r"\s*(?:,\s*)?\b(?:de\s+|em\s+|com\s+|a\s+)?"
-    r"(?:grau|graus|angulo|ângulo|medida|nivel|nível|tipo|classe|estagio|estágio)\s+$",
+    r"\s*(?:,\s*)?\b(?:de\s+|em\s+|com\s+|a\s+|ate\s+|até\s+)?"
+    r"(?:grau|graus|angulo|ângulo|medida|medindo|nivel|nível|tipo|classe|estagio|estágio|"
+    r"calibre|diametro|diâmetro|espessura|extensao|extensão|volume|indice|índice)\s+$",
+    re.I)
+
+# A lacuna de VALOR nao sai sozinha. O caminho e: o banco escreve {tamanho}, o
+# preencher() troca por ___ quando ele nao ditou a medida, e o generalizar tira o ___ —
+# mas a UNIDADE vinha depois e ficava para tras:
+#   "Colo proximal com {tamanho} cm de extensao..." -> "Colo proximal com cm de extensao..."
+#   "...indice de Evans de {evans} (referencia: ate 0,30)" -> "...de Evans de,30)"
+# 52 linhas do banco tinham esse padrao — aneurisma de aorta, obstrucao intestinal,
+# distensao colonica, indice de Evans. Agora a lacuna leva a unidade e o parenteses.
+_UNIDADE = r"(?:mm|cm|m|ml|mL|l|L|%|°|UH|graus?|unidades\s+Hounsfield)"
+_LACUNA_COM_UNIDADE = re.compile(
+    r"(?:___|\[[^\]\n]{1,80}\])"
+    r"(?:\s*" + _UNIDADE + r"\b)?"
+    r"(?:\s*\([^)\n]{0,80}\))?",
+    re.I)
+# preposicao que ficou sem objeto depois da limpeza ("com de extensao", "de a partir")
+# "Derrame pleural direito de volume." — o substantivo de medida sobrando sem o numero
+_MEDIDA_ORFA = re.compile(
+    r"\s*,?\s*\b(?:de|com|ate|até)\s+"
+    r"(?:volume|extensao|extensão|calibre|diametro|diâmetro|espessura|dimensoes|dimensões|"
+    r"altura|largura|profundidade|densidade|atenuacao|atenuação)\b"
+    r"(?=\s*[.,;]|\s*$)", re.I)
+_PREPOSICAO_ORFA = re.compile(
+    r"\b(?:com|de|em|a|ate|até|medindo)\s+(?=(?:de|da|do|a|ao|em|no|na|ate|até|a partir)\b)",
     re.I)
 
 
@@ -749,7 +774,42 @@ def _limpar_sobras(s):
     s = re.sub(r"\b(?:com|de|em|e|a)\s*(?=[.,;])", "", s, flags=re.I)
     s = re.sub(r",\s*\.", ".", s)
     s = re.sub(r"\.{2,}", ".", s)
+    s = _MEDIDA_ORFA.sub("", s)
+    s = _PREPOSICAO_ORFA.sub("", s)
+    s = re.sub(r"\(\s*\)", "", s)
+    s = re.sub(r"\s+([)\.,;])", r"\1", s)
+    s = re.sub(r"\s{2,}", " ", s)
     return s.strip()
+
+
+def _partir_por_virgula(frase):
+    """Como re.split(r"(,\s*)"), mas a virgula DENTRO de parenteses nao separa.
+
+    "(referencia: acima de 4,5 cm)" era cortado no 4|,5: o pedaco com a lacuna saia
+    levando "(referencia: acima de 4" e o laudo ficava com ",5 cm)". Doze mascaras
+    faziam isso — aneurisma e ectasia de aorta, apendicite, obstrucao intestinal,
+    sobrecarga de VD no TEP, doenca renal cronica."""
+    fora, atual, nivel = [], [], 0
+    i = 0
+    while i < len(frase):
+        c = frase[i]
+        if c == "(":
+            nivel += 1
+        elif c == ")":
+            nivel = max(0, nivel - 1)
+        if c == "," and nivel == 0:
+            fora.append("".join(atual))
+            j = i + 1
+            while j < len(frase) and frase[j].isspace():
+                j += 1
+            fora.append(frase[i:j])       # o separador, como o re.split devolvia
+            atual = []
+            i = j
+            continue
+        atual.append(c)
+        i += 1
+    fora.append("".join(atual))
+    return fora
 
 
 def _generalizar_frase(frase):
@@ -763,7 +823,7 @@ def _generalizar_frase(frase):
     if m_fim:
         fim = m_fim.group(0).strip()
 
-    partes = re.split(r"(,\s*)", frase)
+    partes = _partir_por_virgula(frase)
     saida, mexeu = [], False
     for i, p in enumerate(partes):
         if not _LACUNA.search(p) or _LADO_PROIBIDO.search(p):
@@ -786,7 +846,7 @@ def _generalizar_frase(frase):
         if _LADO_PROIBIDO.search(m.group(0)):
             return m.group(0)
         return "\x00"
-    s2 = _LACUNA.sub(tira, s)
+    s2 = _LACUNA_COM_UNIDADE.sub(tira, s)
     if "\x00" in s2:
         mexeu = True
         pedacos = s2.split("\x00")
@@ -803,6 +863,49 @@ def _generalizar_frase(frase):
     return s2
 
 
+_SO_CARREGAVA_MEDIDA = re.compile(r"^[^,]{0,60}$")
+
+
+def _frase_virou_vazia(original, limpa):
+    """A frase existia so para dizer a medida? Entao sai inteira, em vez de virar
+    "Colo proximal de extensao a partir da arteria renal mais baixa." """
+    if original == limpa:
+        return False
+    corpo = limpa.rstrip(".;: ").strip()
+    if not corpo:
+        return True
+    if not _SO_CARREGAVA_MEDIDA.match(corpo):
+        return False                      # tem virgula: ha outro conteudo, fica
+    if re.search(r"\d", corpo):
+        return False                      # sobrou numero: e conteudo, fica
+    if len(corpo.split()) > 9:
+        return False
+    # sobrou "<estrutura> de/com/a partir ..." sem nenhuma medida: nao diz nada
+    return bool(re.search(r"\b(?:de|com|ate|até|a partir|medindo)\b", corpo, re.I))
+
+
+def _juntar_frases(pedacos):
+    """Junta as frases e limpa o que SO aparece na juncao: frase que perdeu todo o
+    conteudo virava ". ." no meio da linha."""
+    frases = [f.strip() for f in pedacos]
+    frases = [f for f in frases if f and f not in (".", ";", ":", ",")]
+    junto = " ".join(frases)
+    junto = re.sub(r"\.\s+\.", ".", junto)
+    junto = re.sub(r"\s{2,}", " ", junto)
+    return junto
+
+
+def _limpas(frases):
+    """Generaliza cada frase e descarta a que existia so para a medida (nunca a 1a)."""
+    fora = []
+    for i, f in enumerate(frases):
+        limpa = _generalizar_frase(f)
+        if i > 0 and _frase_virou_vazia(f, limpa):
+            continue
+        fora.append(limpa)
+    return fora
+
+
 def generalizar(texto):
     """Passa o laudo inteiro. Titulo e cabecalho nao sao tocados."""
     fora = []
@@ -816,11 +919,10 @@ def generalizar(texto):
             continue
         rot, sep, corpo = linha.partition(":")
         if sep and _ROTULO.match(linha):
-            novo = " ".join(_generalizar_frase(f) for f in re.split(r"(?<=\.)\s+", corpo))
+            novo = _juntar_frases(_limpas(re.split(r"(?<=\.)\s+", corpo)))
             fora.append(rot + ":" + (" " if corpo.startswith("  ") else "") + " " + novo.strip())
         else:
-            fora.append(" ".join(_generalizar_frase(f)
-                                 for f in re.split(r"(?<=\.)\s+", linha)).rstrip())
+            fora.append(_juntar_frases(_limpas(re.split(r"(?<=\.)\s+", linha))).rstrip())
     return "\n".join(fora)
 
 
