@@ -2934,16 +2934,17 @@ def calcular_volume(corpo):
 # Com o roteador velho (um provedor só) cabia nos 2,5 s — por isso "VOLTOU".
 #
 # Agora:
-#   - lista boa fica na memória 15 min e é renovada POR TRÁS (responde na hora);
+#   - lista boa fica na memória 15 min (os pedidos seguintes respondem na hora);
 #   - os provedores são consultados ao mesmo tempo, com prazo de 1,8 s; quem não
-#     respondeu no prazo entra com a última lista guardada e termina por trás;
+#     respondeu no prazo entra com a última lista guardada e termina por trás
+#     (vale também para a renovação de 15 em 15 min);
 #   - falha de verdade (401, sem internet) continua aparecendo em "falhas";
 #   - trocar a chave (arquivo novo) descarta a lista da memória daquele provedor;
 #   - modelos_vistos só é regravado no config.json quando a lista mudou;
 #   - fora da barra os modelos que não escrevem texto (embedding, áudio, imagem).
 _LISTAS_IA = {}             # nome -> {"t", "modelos", "impressao"}  (última lista boa)
 _FALHAS_IA = {}             # nome -> {"t", "motivo", "impressao"}   (última tentativa, se falhou)
-_BUSCANDO_IA = {}           # nome -> threading.Event da busca em andamento
+_BUSCANDO_IA = {}           # nome -> (threading.Event, impressão da chave) da busca no ar
 _TRAVA_IA = threading.Lock()
 _TRAVA_VISTOS = threading.Lock()
 LISTA_VALE_S = 900          # 15 min: depois disso a lista é renovada por trás
@@ -2952,7 +2953,7 @@ LISTA_PRAZO_S = 1.8         # o app desiste em 2,5 s
 
 # pistas de modelo que NÃO escreve texto na rota de chat (pista, não tabela de fornecedor)
 _NAO_E_TEXTO = re.compile(r"embed|tts|whisper|dall-e|moderation|transcri|realtime|audio|"
-                          r"image|search|davinci|babbage|computer-use|sora", re.I)
+                          r"image|\bsearch\b|davinci|babbage|computer-use|sora", re.I)
 
 
 def _de_texto(m):
@@ -3000,26 +3001,34 @@ def _buscar_lista(c, nome, impressao, ev):
         r = {"ok": False, "motivo": type(e).__name__, "modelos": []}
     agora = time.time()
     boa = bool(r.get("ok") and r.get("modelos"))
+    # a chave mudou enquanto esta busca estava no ar: o resultado é da chave velha
+    # e não vale nada para a nova (nem a lista, nem o 401)
+    vale = _impressao_chave(nuvem.config(), nome) == impressao
     with _TRAVA_IA:
-        if boa:
+        if vale and boa:
             _LISTAS_IA[nome] = {"t": agora, "modelos": r["modelos"], "impressao": impressao}
             _FALHAS_IA.pop(nome, None)
-        else:
+        elif vale:
             _FALHAS_IA[nome] = {"t": agora, "motivo": r.get("motivo") or "sem_modelos",
                                 "impressao": impressao}
-        if _BUSCANDO_IA.get(nome) is ev:
+        andando = _BUSCANDO_IA.get(nome)
+        if andando is not None and andando[0] is ev:
             del _BUSCANDO_IA[nome]
-    if boa:
+    if vale and boa:
         _guardar_vistos(nome, r["modelos"])
     ev.set()
 
 
 def _disparar_busca(c, nome):
-    """Começa (se precisar) a busca da lista de um provedor. Devolve o Event de
-    uma busca que ESTE pedido começou, ou None: lista da memória ainda vale, ou a
-    busca já estava em andamento (começada por um pedido anterior, que já esperou
-    o prazo dela — esperar de novo só atrasaria a tela a cada pedido sem internet)."""
+    """Começa (se precisar) a busca da lista de um provedor. Devolve o Event que o
+    pedido deve esperar (até o prazo), ou None para responder já com o que há.
+
+    Espera: a busca que ESTE pedido começou (a 1a depois de ligar, a renovação de
+    15 em 15 min, a tentativa depois de uma falha); ou a que já está no ar quando
+    não há NADA para mostrar. Não espera a busca de outro pedido quando já existe
+    lista: sem internet, cada volta à tela custaria o prazo de novo."""
     impressao = _impressao_chave(c, nome)
+    tem_guardada = bool((c.get("modelos_vistos") or {}).get(nome))
     agora = time.time()
     with _TRAVA_IA:
         boa, ruim = _LISTAS_IA.get(nome), _FALHAS_IA.get(nome)
@@ -3029,24 +3038,34 @@ def _disparar_busca(c, nome):
         if ruim and ruim.get("impressao") != impressao:
             _FALHAS_IA.pop(nome, None)
             ruim = None
-        if nome in _BUSCANDO_IA:
-            return None
+        andando = _BUSCANDO_IA.get(nome)
+        if andando is not None and andando[1] == impressao:
+            return None if (boa or tem_guardada) else andando[0]
+        # nada no ar com ESTA chave: busca se nunca buscou, se a lista venceu, ou se
+        # a última falha já tem 20 s; uma busca da chave velha no ar não conta
         pode_repetir = ruim is None or agora - ruim["t"] >= LISTA_REPETE_FALHA_S
-        precisa = pode_repetir and (boa is None or agora - boa["t"] >= LISTA_VALE_S)
+        precisa = andando is not None or \
+            (pode_repetir and (boa is None or agora - boa["t"] >= LISTA_VALE_S))
         if not precisa:
             return None
         ev = threading.Event()
-        _BUSCANDO_IA[nome] = ev
+        _BUSCANDO_IA[nome] = (ev, impressao)
     threading.Thread(target=_buscar_lista, args=(c, nome, impressao, ev), daemon=True,
                      name="lista-" + nome).start()
     return ev
 
 
 def _resultado_de_um(c, nome):
-    """O que se sabe AGORA de um provedor: lista (memória, senão a guardada) e falha."""
+    """O que se sabe AGORA de um provedor, para a chave de AGORA: lista (memória,
+    senão a guardada no config.json) e falha."""
+    impressao = _impressao_chave(c, nome)
     with _TRAVA_IA:
         boa, ruim = _LISTAS_IA.get(nome), _FALHAS_IA.get(nome)
         buscando = nome in _BUSCANDO_IA
+    if boa and boa.get("impressao") != impressao:
+        boa = None
+    if ruim and ruim.get("impressao") != impressao:
+        ruim = None
     if boa and not (ruim and ruim["t"] > boa["t"]):
         return {"ok": True, "provedor": nome, "modelos": boa["modelos"],
                 "quantos": len(boa["modelos"])}

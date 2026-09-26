@@ -164,6 +164,8 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
   // 26/09 (tarde): o provedor e a lista eram lidos UMA vez, quando o app abria.
   // Ele trocou para OpenAI em Configurações, salvou, voltou ao Laudo — e a barra
   // continuava na Anthropic até fechar o app. Agora relê ao sair de Configurações.
+  const novaTentativa = useRef(0);
+  const recarregarRef = useRef<() => Promise<void>>(async () => {});
   const recarregarIa = useCallback(async () => {
     let provedor = "anthropic";
     try {
@@ -182,10 +184,23 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
         motivo?: string;
         modelos?: { id: string; nome: string; provedor?: string }[];
         falhas?: Record<string, string>;
+        atualizando?: string[];
       };
-      setListaModelos(d.ok && d.modelos ? d.modelos : []);
-      const falhou = (d.falhas || {})[provedor] || (!d.ok ? d.motivo || "" : "");
+      const nova = d.ok && d.modelos ? d.modelos : [];
+      const chegando = d.motivo === "sem_resposta_ainda";
+      // provedor lento (não falhou): a lista que já estava fica até a nova chegar
+      setListaModelos((antes) => (nova.length === 0 && chegando && antes.length > 0 ? antes : nova));
+      const falhou =
+        (d.falhas || {})[provedor] || (!d.ok && !chegando ? d.motivo || "" : "");
       setAvisoIa(falhou ? explicarFalha(provedor, falhou) : "");
+      // o roteador responde em < 2 s e termina a busca lenta por trás: pergunta de
+      // novo daqui a 3 s (no máximo 2 vezes) para a lista completa aparecer sozinha
+      if ((chegando || (d.atualizando || []).length > 0) && novaTentativa.current < 2) {
+        novaTentativa.current += 1;
+        setTimeout(() => void recarregarRef.current(), 3000);
+      } else if (!chegando && !(d.atualizando || []).length) {
+        novaTentativa.current = 0;
+      }
     } catch (err) {
       // 26/09 (fim da tarde): aqui a lista era zerada CALADA. A barra do Laudo
       // escondia a escolha de modelo e ficava presa no do config, sem dizer por
@@ -197,6 +212,8 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
       );
     }
   }, []);
+
+  recarregarRef.current = recarregarIa;
 
   useEffect(() => {
     void recarregarIa();

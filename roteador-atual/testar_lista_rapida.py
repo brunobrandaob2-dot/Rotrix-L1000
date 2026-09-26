@@ -16,6 +16,9 @@ chegava vazia e a barra ficava presa no modelo do config. Este teste exige:
   7. 401 aparece em "falhas" e não é repetido a cada pedido
   8. modelo que não escreve texto (embedding, áudio, imagem) não entra na barra
   9. o modelo barato da economia não some quando outro provedor lista depois
+ 10-13. revisão independente de 26/09: pedido simultâneo, chave trocada no meio da
+     busca, "research" não é "search", economia do provedor da ROTA, regra
+     "Demais exames" e botão da barra mandam, gravação simultânea do cache
 Sem rede e sem tocar no config.json de verdade.
 """
 import io
@@ -157,9 +160,50 @@ try:
     # pedido de um provedor só continua funcionando
     r1 = roteador.ia_modelos("anthropic")
     confere("ia_modelos('anthropic') devolve a lista dele", r1.get("ok") and len(r1.get("modelos", [])) == 3)
+
+    # 10. revisão de 26/09: pedido SIMULTÂNEO sem nada para mostrar espera a mesma busca
+    roteador._esquecer_listas()
+    CONFIG["modelos_vistos"] = {}
+    RESPOSTA["openai"] = "ok"
+    ATRASO.update(anthropic=1.0, openai=1.0)
+    CHAVE.update(anthropic="k-ant-9", openai="k-oai-9")
+    saida = {}
+    th = threading.Thread(target=lambda: saida.update(a=roteador.ia_modelos()))
+    th.start()
+    time.sleep(0.2)
+    rb = roteador.ia_modelos()
+    th.join()
+    confere("2o pedido simultâneo, sem lista guardada, não volta vazio",
+            len(rb.get("modelos", [])) >= 3 and rb.get("ok"), repr(rb)[:160])
+
+    # 11. chave trocada com busca da chave velha no ar: busca de novo, e a velha não vale
+    ATRASO.update(anthropic=0.0, openai=1.2)
+    CHAVE["openai"] = "k-oai-10"
+    roteador._esquecer_listas()
+    th = threading.Thread(target=roteador.ia_modelos)
+    th.start()
+    time.sleep(0.1)                       # busca com k-oai-10 no ar
+    CHAVE["openai"] = "k-oai-11"
+    RESPOSTA["openai"] = "401"            # a chave nova é recusada
+    ATRASO["openai"] = 0.1
+    antes = len(IDAS)
+    r = roteador.ia_modelos()
+    th.join()
+    time.sleep(1.3)
+    confere("chave trocada durante a busca: busca de novo com a chave nova",
+            IDAS[antes:].count("openai") == 1, repr(IDAS[antes:]))
+    r = roteador.ia_modelos()
+    confere("...e o 401 da chave nova aparece (a lista da chave velha não o esconde)",
+            "http_401" in str((r.get("falhas") or {}).get("openai", "")), repr(r.get("falhas")))
+    RESPOSTA["openai"] = "ok"
 finally:
     n.config, n.provedores_com_chave, n.modelos, n.gravar_config, n.chave_e_origem = orig
     roteador._esquecer_listas()
+
+# 7b. filtro: "search" como palavra, não dentro de "research"
+confere("sonar-deep-research (texto) fica; gpt-4o-search-preview sai",
+        roteador._de_texto({"id": "perplexity/sonar-deep-research"})
+        and not roteador._de_texto({"id": "gpt-4o-search-preview"}))
 
 # 9. economia: cada provedor com a sua lista de ids reais
 tmp = tempfile.mkdtemp()
@@ -178,6 +222,32 @@ try:
     n._gravar_cache_modelos("openai", ["gpt-5.6-luna"])
     confere("economia: formato antigo convertido sem perder a Anthropic",
             n.modelo_barato(ce) == "claude-haiku-4-5-20251001", repr(n.modelo_barato(ce)))
+    # 12. revisão 26/09: a rota vai para a OpenAI -> o barato vem da lista da OpenAI
+    n._gravar_cache_modelos("anthropic", ["claude-haiku-4-5-20251001", "claude-sonnet-5"])
+    n._gravar_cache_modelos("openai", ["gpt-5.6-luna", "gpt-5.6-terra"])
+    confere("economia: barato da OpenAI quando a rota é OpenAI (id claude na OpenAI = 404)",
+            n.modelo_barato(ce, "openai") == "gpt-5.6-luna", repr(n.modelo_barato(ce, "openai")))
+    ce2 = dict(ce, ia_por_exame={"padrao": "openai:gpt-5.6-terra"}, economizar=True)
+    r = n.rota("corrige isso", ce2, "laudo")
+    confere("regra 'Demais exames' escrita por ele não é trocada pela economia",
+            r["provedor"] == "openai" and r["modelo"] == "gpt-5.6-terra", repr(r))
+    r = n.rota("corrige isso", n.com_modelo(dict(ce, economizar=True), "claude-opus-5-5"), "laudo")
+    confere("botão da barra manda: Opus escolhido não vira Haiku",
+            r["modelo"] == "claude-opus-5-5" and r["regra"] != "economia", repr(r))
+    r = n.rota("corrige isso", dict(ce, economizar=True), "laudo")
+    confere("sem botão e sem regra (comando falado), a economia continua valendo",
+            r["regra"] == "economia" and r["modelo"] == "claude-haiku-4-5-20251001", repr(r))
+
+    # 13. duas threads gravando o cache de ids ao mesmo tempo não perdem provedor
+    def _grava(nome, ids):
+        for _ in range(40):
+            n._gravar_cache_modelos(nome, ids[::-1])
+            n._gravar_cache_modelos(nome, ids)
+    t1 = threading.Thread(target=_grava, args=("anthropic", ["claude-haiku-4-5-20251001", "claude-x"]))
+    t2 = threading.Thread(target=_grava, args=("openai", ["gpt-5.6-luna", "gpt-y"]))
+    t1.start(); t2.start(); t1.join(); t2.join()
+    confere("gravação simultânea do cache: os dois provedores ficam",
+            n._modelos_conhecidos("anthropic") and n._modelos_conhecidos("openai"))
 finally:
     n.CACHE_MODELOS = guarda
 

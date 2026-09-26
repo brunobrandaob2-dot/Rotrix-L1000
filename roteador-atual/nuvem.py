@@ -12,6 +12,7 @@ organiza, delimita e corrige; não descreve nem raciocina), com a trava de
 conferência que aponta toda palavra de conteúdo que a IA acrescentou.
 Sem ia_por_exame, o comportamento é o de sempre.
 """
+import threading
 import io, json, os, re, ssl, urllib.request, urllib.error, datetime, difflib, unicodedata
 
 import prompts
@@ -323,6 +324,12 @@ def config():
             pass
     return c
 
+# 26/09: o roteador atende pedidos em threads, e a lista de modelos agora busca os
+# provedores ao mesmo tempo. Ler-mudar-gravar o mesmo arquivo em duas threads
+# perdia a mudança de uma delas (e no Windows o .tmp compartilhado dá erro).
+_TRAVA_ARQUIVOS = threading.RLock()
+
+
 def gravar_config(mudancas):
     """Junta as mudanças no arquivo de configuração da nuvem. Nunca grava chave.
 
@@ -330,6 +337,11 @@ def gravar_config(mudancas):
     (queda de energia no meio da escrita) deixava a IA sem provedor."""
     if not isinstance(mudancas, dict) or not mudancas:
         return False
+    with _TRAVA_ARQUIVOS:
+        return _gravar_config(mudancas)
+
+
+def _gravar_config(mudancas):
     atual = {}
     if os.path.exists(CONFIG):
         try:
@@ -490,12 +502,18 @@ def modelos(c=None, nome=None, timeout=12):
 
 def _gravar_cache_modelos(nome, ids):
     """Guarda a lista de ids de CADA provedor, sem apagar a dos outros.
+    (com a trava: as listas dos provedores chegam em threads ao mesmo tempo)
 
     26/09: o arquivo guardava um provedor só — o último que listou. Desde que a
     tela passou a listar todos os provedores com chave, o último era a OpenAI, e
     o modelo barato da Anthropic sumia (ou voltava, conforme a ordem). A economia
     ligava e desligava sozinha. Agora: {"por_provedor": {"anthropic": [...], ...}}.
     "provedor"/"modelos" continuam no arquivo para leitor antigo."""
+    with _TRAVA_ARQUIVOS:
+        _gravar_cache_modelos_sem_trava(nome, ids)
+
+
+def _gravar_cache_modelos_sem_trava(nome, ids):
     try:
         atual = {}
         if os.path.exists(CACHE_MODELOS):
@@ -1023,16 +1041,21 @@ def _modelos_conhecidos(prov=None):
         return []
 
 
-def modelo_barato(c=None):
+def modelo_barato(c=None, prov=None):
     """O id de modelo mais barato que o provedor confirmou ter.
 
     Devolve "" quando não dá para saber. Nesse caso NÃO trocamos o modelo: mais
-    vale pagar caro do que mandar um id inválido e o laudo não sair."""
+    vale pagar caro do que mandar um id inválido e o laudo não sair.
+
+    `prov`: o provedor que VAI receber a chamada (o da rota). 26/09: sem isto, a
+    rota ia para a OpenAI e o barato vinha da lista da Anthropic (id "claude-…"
+    na API da OpenAI = 404, laudo não sai)."""
     c = c or config()
+    geral = (c.get("provedor") or "anthropic").strip().lower()
+    prov = (prov or geral).strip().lower()
     escolhido = (c.get("modelo_barato") or "").strip()
-    if escolhido:
+    if escolhido and prov == geral:
         return escolhido
-    prov = (c.get("provedor") or "anthropic").strip().lower()
     familia = {"anthropic": "claude", "openai": "gpt", "google": "gemini"}.get(prov, "")
     melhor, melhor_preco = "", None
     for mid in _modelos_conhecidos(prov):
@@ -1188,6 +1211,9 @@ def com_modelo(c, modelo):
     if not modelo:
         return c
     c = dict(c)
+    # 26/09: o botão da barra MANDA (v0.4.5b prometeu isso e só o "atualizar
+    # anterior" marcava). Sem isto, a economia trocava o Opus escolhido por Haiku.
+    c["modelo_explicito"] = True
     e = _entrada_rota(modelo)
     if e.get("provedor") in PROVEDORES and e.get("modelo"):
         c["provedor"] = e["provedor"]
@@ -1202,7 +1228,8 @@ def rota(pedido, c=None, modo="analise"):
     c = c or config()
     prov_geral = (c.get("provedor") or "anthropic").strip().lower()
     r = {"provedor": prov_geral, "modelo": (c.get("modelo") or "").strip(), "modo": modo,
-         "raciocinio": (c.get("raciocinio") or "").strip().lower(), "exame": "", "regra": "padrao"}
+         "raciocinio": (c.get("raciocinio") or "").strip().lower(), "exame": "", "regra": "padrao",
+         "por_exame": False}
     tipo, onco = tipo_exame(pedido), eh_onco(pedido)
     r["exame"] = "onco" if onco else tipo
     restringir = (c.get("modo_ia") or "").strip().lower() in ("formatar", "so formatar", "só formatar")
@@ -1227,6 +1254,7 @@ def rota(pedido, c=None, modo="analise"):
             elif m in ("analisar", "analise", "livre"):
                 restringir = False
             r["regra"] = k
+            r["por_exame"] = True     # regra escrita por ele na tabela (até "Demais exames")
             break
     if restringir and modo in _MODOS_RESTRINGIVEIS:
         r["modo"] = "formatar"
@@ -1235,10 +1263,12 @@ def rota(pedido, c=None, modo="analise"):
     # ele tenha escolhido um caro na barra. Desligue com "economizar": false.
     # Botao apertado por ele manda. Se ele escolheu o forte, e porque quer o
     # forte: trocar por baixo e invisivel, e invisivel e o que ele nao perdoa.
-    if c.get("economizar", True) and r["regra"] == "padrao" \
+    # 26/09: "padrao" é também o nome da linha "Demais exames" da tabela — a regra
+    # escrita por ele caía aqui e era trocada. Agora só a falta de regra economiza.
+    if c.get("economizar", True) and r["regra"] == "padrao" and not r.get("por_exame") \
             and not c.get("modelo_explicito"):
         if not tarefa_precisa_pensar(pedido, r["modo"]):
-            barato = modelo_barato(c)
+            barato = modelo_barato(c, r["provedor"])
             if barato and barato != r["modelo"]:
                 r["modelo_pedido"] = r["modelo"]
                 r["modelo"] = barato
