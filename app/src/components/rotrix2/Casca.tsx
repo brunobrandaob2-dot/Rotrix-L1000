@@ -186,9 +186,15 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
       setListaModelos(d.ok && d.modelos ? d.modelos : []);
       const falhou = (d.falhas || {})[provedor] || (!d.ok ? d.motivo || "" : "");
       setAvisoIa(falhou ? explicarFalha(provedor, falhou) : "");
-    } catch {
-      setListaModelos([]);
-      setAvisoIa("");
+    } catch (err) {
+      // 26/09 (fim da tarde): aqui a lista era zerada CALADA. A barra do Laudo
+      // escondia a escolha de modelo e ficava presa no do config, sem dizer por
+      // quê. Agora a lista que já estava fica, e a barra diz o que aconteceu.
+      setAvisoIa(
+        "A lista de modelos não chegou (" +
+          String(err) +
+          "). A barra fica no modelo que já estava; saia e volte de Configurações para tentar de novo.",
+      );
     }
   }, []);
 

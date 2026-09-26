@@ -255,10 +255,17 @@ pub struct RotrixStatus {
 
 /// GET simples no roteador local (sem dependencias extras). Devolve o corpo.
 fn http_get(caminho: &str) -> Option<String> {
+    http_get_espera(caminho, 2500)
+}
+
+/// GET com espera escolhida. 26/09: a lista de modelos junta todos os provedores
+/// com chave e passava de 2,5 s; o app desistia calado e a barra do Laudo ficava
+/// sem a escolha de modelo. O roteador agora responde em < 2 s, e a lista espera 8.
+fn http_get_espera(caminho: &str, espera_ms: u64) -> Option<String> {
     use std::io::{Read, Write};
     let addr: SocketAddr = "127.0.0.1:8123".parse().ok()?;
     let mut s = TcpStream::connect_timeout(&addr, Duration::from_millis(400)).ok()?;
-    s.set_read_timeout(Some(Duration::from_millis(2500))).ok()?;
+    s.set_read_timeout(Some(Duration::from_millis(espera_ms))).ok()?;
     let pedido = format!("GET {caminho} HTTP/1.0\r\nHost: 127.0.0.1\r\n\r\n");
     s.write_all(pedido.as_bytes()).ok()?;
     let mut bytes = Vec::new();
@@ -335,7 +342,7 @@ fn pasta_ativa_cache(app: &AppHandle) -> Option<PathBuf> {
 }
 
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_status(app: AppHandle) -> RotrixStatus {
     let v = consultar_versao();
     RotrixStatus {
@@ -363,7 +370,7 @@ fn caminho_config(app: &AppHandle) -> Result<PathBuf, String> {
 
 /// Campo "Prompt adicionado no processamento de todos os laudos" (config.json: prompt_perfil).
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_get_prompt(app: AppHandle) -> Result<String, String> {
     let p = caminho_config(&app)?;
     let v = ler_config(&p).unwrap_or(serde_json::json!({}));
@@ -374,7 +381,7 @@ pub fn rotrix_get_prompt(app: AppHandle) -> Result<String, String> {
 }
 
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_set_prompt(app: AppHandle, texto: String) -> Result<(), String> {
     let p = caminho_config(&app)?;
     if let Some(dir) = p.parent() {
@@ -394,7 +401,7 @@ pub fn rotrix_set_prompt(app: AppHandle, texto: String) -> Result<(), String> {
 }
 
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_abrir_pasta(app: AppHandle) -> Result<(), String> {
     use tauri_plugin_opener::OpenerExt;
     let p = pasta_ativa(&app).ok_or_else(|| "pasta do roteador indisponivel".to_string())?;
@@ -441,7 +448,7 @@ fn modelo_valido(m: &str) -> bool {
 /// Situacao da IA (GET /v1/ia do roteador). Se o roteador estiver parado,
 /// monta o mesmo formato a partir dos arquivos (sem saber quais chaves existem).
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_ia_estado(app: AppHandle) -> Result<String, String> {
     if let Some(corpo) = http_get("/v1/ia") {
         return Ok(corpo);
@@ -474,7 +481,7 @@ pub fn rotrix_ia_estado(app: AppHandle) -> Result<String, String> {
 /// Grava as escolhas da tela de IA no config.json. So aceita as chaves conhecidas,
 /// com valores validados; o resto do config fica como estava. Nunca grava chave de API.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_ia_salvar(app: AppHandle, ajustes: String) -> Result<(), String> {
     let novo: serde_json::Value =
         serde_json::from_str(&ajustes).map_err(|e| format!("ajustes invalidos: {e}"))?;
@@ -567,7 +574,7 @@ fn arquivo_da_chave(app: &AppHandle, provedor: &str) -> Result<PathBuf, String> 
 /// Grava a chave digitada na tela no arquivo local do provedor (chave_<provedor>.txt).
 /// A chave nao vai para log, config ou qualquer outro lugar.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_chave_salvar(app: AppHandle, provedor: String, chave: String) -> Result<(), String> {
     let k = chave.trim();
     if k.len() < 10 || k.len() > 400 || k.chars().any(|c| c.is_whitespace() || c.is_control()) {
@@ -580,7 +587,7 @@ pub fn rotrix_chave_salvar(app: AppHandle, provedor: String, chave: String) -> R
 }
 
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_chave_apagar(app: AppHandle, provedor: String) -> Result<(), String> {
     let arq = arquivo_da_chave(&app, &provedor)?;
     if arq.exists() {
@@ -701,21 +708,21 @@ pub async fn rotrix_mascaras(
 
 /// GET /v1/fila do roteador (JSON em texto).
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_fila() -> Result<String, String> {
     http_get("/v1/fila").ok_or_else(|| "roteador parado".to_string())
 }
 
 /// Modo estacao: passa para o proximo exame da fila (Ctrl+Alt+N).
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_fila_proximo() -> Result<String, String> {
     http_post("/v1/fila/proximo", "{}", 4000)
 }
 
 /// Modo estacao: escolhe na mao o exame da vez.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_fila_escolher(id: String) -> Result<String, String> {
     http_post(
         "/v1/fila/escolher",
@@ -726,7 +733,7 @@ pub fn rotrix_fila_escolher(id: String) -> Result<String, String> {
 
 /// Modo estacao: marca (ou desmarca) um exame como laudado por voce.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_fila_feito(id: String, feito: bool) -> Result<String, String> {
     http_post(
         "/v1/fila/feito",
@@ -738,7 +745,7 @@ pub fn rotrix_fila_feito(id: String, feito: bool) -> Result<String, String> {
 /// Abre no RadiAnt o exame que acabou de cair na pasta (atalho Ctrl+Alt+R).
 /// Serve para o fluxo sem Radius: baixou pelo navegador, apertou o atalho.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_abrir_ultimo() -> Result<String, String> {
     http_post(
         "/v1/fila/abrir",
@@ -750,7 +757,7 @@ pub fn rotrix_abrir_ultimo() -> Result<String, String> {
 /// Manda para a Lixeira do Windows os exames marcados na aba Fila e some com
 /// eles da lista. O caminho da pasta (que tem o nome do paciente) nao volta.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_apagar_estudos(ids: Vec<String>) -> Result<String, String> {
     if ids.is_empty() {
         return Err("nenhum exame marcado".to_string());
@@ -765,7 +772,7 @@ pub fn rotrix_apagar_estudos(ids: Vec<String>) -> Result<String, String> {
 /// Banco de mascaras para a aba Mascaras: regioes, lista e, com `titulo`,
 /// o texto inteiro de uma mascara.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_mascaras_banco(busca: String, titulo: String) -> Result<String, String> {
     http_post(
         "/v1/mascaras/banco",
@@ -779,7 +786,7 @@ pub fn rotrix_mascaras_banco(busca: String, titulo: String) -> Result<String, St
 /// de verdade e refaz a base; com `desfazer` (o carimbo de uma aplicacao)
 /// volta tudo. Nada e gravado sem aprovacao.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_mascaras_ia(
     instrucao: String,
     busca: String,
@@ -808,7 +815,7 @@ pub fn rotrix_mascaras_ia(
 /// adendo, carimbado com a data e a hora de agora. O roteador faz a triagem
 /// antes de mandar; laudo com identificador de paciente nao sai do computador.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_adendo(
     laudo: String,
     pedido: String,
@@ -832,7 +839,7 @@ pub fn rotrix_adendo(
 /// os numeros entram, o laudo preenchido sai. A conta e o arredondamento em
 /// quartos de centimetro acontecem no roteador, na maquina; nada vai para fora.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_medidas(exame: String, valores: String) -> Result<String, String> {
     let v: serde_json::Value =
         serde_json::from_str(&valores).unwrap_or(serde_json::Value::Object(Default::default()));
@@ -845,7 +852,7 @@ pub fn rotrix_medidas(exame: String, valores: String) -> Result<String, String> 
 
 /// Os campos de cada exame de medida, para a tela montar o formulario sozinha.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_medidas_campos() -> Result<String, String> {
     http_get("/v1/medidas/campos").ok_or_else(|| "roteador nao respondeu".to_string())
 }
@@ -854,7 +861,7 @@ pub fn rotrix_medidas_campos() -> Result<String, String> {
 /// atlas -> idade cronologica, desvio padrao, faixa de +/-2 DP, Z, percentil e
 /// o laudo. E aritmetica local: a data de nascimento nao passa por IA nenhuma.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_idade_ossea(
     nascimento: String,
     exame: String,
@@ -880,7 +887,7 @@ pub fn rotrix_idade_ossea(
 /// roteador, nao pela IA - a mesma combinacao de botoes da sempre o mesmo
 /// texto, e e isso que permite assinar sem reler.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_estruturados(pedido: String) -> Result<String, String> {
     let v: serde_json::Value =
         serde_json::from_str(&pedido).unwrap_or(serde_json::Value::Object(Default::default()));
@@ -890,7 +897,7 @@ pub fn rotrix_estruturados(pedido: String) -> Result<String, String> {
 /// Niveis, zonas e botoes daquele segmento e daquela modalidade. A cervical tem
 /// tres zonas, nao cinco: o espaco lateral la e da arteria vertebral.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_estruturados_campos(segmento: String, modalidade: String) -> Result<String, String> {
     http_get(&format!(
         "/v1/estruturados/campos?segmento={segmento}&modalidade={modalidade}"
@@ -903,7 +910,7 @@ pub fn rotrix_estruturados_campos(segmento: String, modalidade: String) -> Resul
 /// linha a linha. Pedir ao modelo que diga o que ele mesmo mudou e pedir que
 /// ele se confira - e e onde um modelo erra sem avisar.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_atualizar_anterior(
     anterior: String,
     mudancas: String,
@@ -920,7 +927,7 @@ pub fn rotrix_atualizar_anterior(
 /// So o exame anterior: a lista do que conferir hoje, imagem por imagem.
 /// A IA nao escreve descricao nenhuma aqui - ela nao viu o exame de hoje.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_checklist(anterior: String, modelo: String) -> Result<String, String> {
     http_post(
         "/v1/checklist",
@@ -934,7 +941,7 @@ pub fn rotrix_checklist(anterior: String, modelo: String) -> Result<String, Stri
 /// cabecalho de paciente colado junto. Achado do anterior que o atual nao
 /// menciona volta como PENDENCIA, nunca como descricao.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_comparativo(
     anterior: String,
     atual: String,
@@ -951,7 +958,7 @@ pub fn rotrix_comparativo(
 /// linha de conteudo. O esqueleto serve para comecar a ditar, nao para herdar
 /// achado do exame passado.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_estrutura(texto: String) -> Result<String, String> {
     http_post(
         "/v1/estrutura",
@@ -963,7 +970,7 @@ pub fn rotrix_estrutura(texto: String) -> Result<String, String> {
 /// Aba Prescricoes: a arvore por modalidade, e o texto de uma delas.
 /// Prescricao nao e laudo: nao passa por IA e nao sai do computador.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_prescricoes(titulo: String, busca: String) -> Result<String, String> {
     http_post(
         "/v1/prescricoes",
@@ -976,7 +983,7 @@ pub fn rotrix_prescricoes(titulo: String, busca: String) -> Result<String, Strin
 /// Multiplicar tres numeros nao se terceiriza para modelo de linguagem: o
 /// resultado tem que ser o mesmo toda vez. A conta e no roteador, local.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_calculos(pedido: String) -> Result<String, String> {
     let v: serde_json::Value =
         serde_json::from_str(&pedido).unwrap_or(serde_json::Value::Object(Default::default()));
@@ -985,7 +992,7 @@ pub fn rotrix_calculos(pedido: String) -> Result<String, String> {
 
 /// Os orgaos e os campos extras de cada um, para a tela montar o formulario.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_calculos_campos() -> Result<String, String> {
     http_get("/v1/calculos/campos").ok_or_else(|| "roteador nao respondeu".to_string())
 }
@@ -994,7 +1001,7 @@ pub fn rotrix_calculos_campos() -> Result<String, String> {
 /// mascara sem comando de voz, comando disputado e comando que comeca com
 /// palavra que o roteador entende como instrucao.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_auditar_banco() -> Result<String, String> {
     http_post("/v1/mascaras/auditar", "{}", 60_000)
 }
@@ -1003,14 +1010,15 @@ pub fn rotrix_auditar_banco() -> Result<String, String> {
 /// E o que mantem a tela neutra: instalou com chave de outro fornecedor, os
 /// modelos que aparecem sao os dele.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_ia_modelos() -> Result<String, String> {
-    http_get("/v1/ia/modelos").ok_or_else(|| "roteador nao respondeu".to_string())
+    http_get_espera("/v1/ia/modelos", 8000)
+        .ok_or_else(|| "roteador nao respondeu a lista de modelos".to_string())
 }
 
 /// Ping curto: a chave esta valendo agora? Quanto demora? Quantos modelos?
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_ia_testar(provedor: String, modelo: String) -> Result<String, String> {
     http_post(
         "/v1/ia/testar",
@@ -1023,7 +1031,7 @@ pub fn rotrix_ia_testar(provedor: String, modelo: String) -> Result<String, Stri
 /// O roteador resolve os ids em caminhos de pasta no proprio computador e
 /// chama o RadiAnt; nome de paciente nao entra nem sai deste caminho.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_abrir_estudos(ids: Vec<String>) -> Result<String, String> {
     if ids.is_empty() {
         return Err("nenhum exame marcado".to_string());
@@ -1038,7 +1046,7 @@ pub fn rotrix_abrir_estudos(ids: Vec<String>) -> Result<String, String> {
 /// Perfil: grava num .rotrix.zip as suas mascaras, o ouvido.tsv e os ajustes.
 /// A chave de IA nunca entra; os laudos de estilo so com incluir_estilo.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_perfil_exportar(destino: String, incluir_estilo: bool) -> Result<String, String> {
     http_post(
         "/v1/perfil/exportar",
@@ -1049,7 +1057,7 @@ pub fn rotrix_perfil_exportar(destino: String, incluir_estilo: bool) -> Result<S
 
 /// Perfil: le um .rotrix.zip. modo = "juntar" ou "substituir". Regera a base.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_perfil_importar(arquivo: String, modo: String) -> Result<String, String> {
     http_post(
         "/v1/perfil/importar",
@@ -1060,7 +1068,7 @@ pub fn rotrix_perfil_importar(arquivo: String, modo: String) -> Result<String, S
 
 /// Correcoes do medico, escritas na caixa de texto do app.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_correcao_aplicar(
     texto: String,
     laudo: String,
@@ -1075,13 +1083,13 @@ pub fn rotrix_correcao_aplicar(
 
 /// As ultimas regras que voce criou (para conferir e desfazer).
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_correcao_listar() -> Result<String, String> {
     http_get("/v1/correcao").ok_or_else(|| "roteador parado".to_string())
 }
 
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_correcao_desfazer(id: String) -> Result<String, String> {
     http_post(
         "/v1/correcao/desfazer",
@@ -1173,7 +1181,7 @@ pub struct PrimeirosPassos {
 }
 
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_primeiros_passos(app: AppHandle) -> PrimeirosPassos {
     let versao = consultar_versao();
     let mascaras = versao
@@ -1207,7 +1215,7 @@ pub fn rotrix_primeiros_passos(app: AppHandle) -> PrimeirosPassos {
 
 /// Grava no config.json o perfil automatico e, se vier, a pasta do Radius.
 #[specta::specta]
-#[tauri::command]
+#[tauri::command(async)]
 pub fn rotrix_fila_salvar(
     app: AppHandle,
     perfil_automatico: bool,
@@ -1406,7 +1414,7 @@ pub fn rotrix_colar(app: AppHandle, texto: String) -> Result<(), String> {
 /// Manda o laudo que esta na folha para a IA do roteador e devolve o texto pronto.
 /// `instrucao` vazia = so revisar; com instrucao, a IA obedece ao pedido falado.
 /// `modelo` vazio = o modelo da configuracao.
-#[tauri::command]
+#[tauri::command(async)]
 #[specta::specta]
 pub fn rotrix_ia_texto(texto: String, instrucao: String, modelo: String) -> Result<String, String> {
     let corpo = serde_json::json!({

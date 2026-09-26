@@ -57,6 +57,8 @@ jobs:
         run: python testar_tempo_nuvem.py
       - name: O roteador diz quando roda codigo velho (versao presa em 26.1 por 5 commits)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_versao.py
+      - name: A lista de modelos da barra do Laudo responde antes de o app desistir (2,5 s)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_lista_rapida.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)

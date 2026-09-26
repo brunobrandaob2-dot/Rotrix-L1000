@@ -483,17 +483,41 @@ def modelos(c=None, nome=None, timeout=12):
             fora.append({"id": ident, "nome": m.get("display_name") or ident})
     fora.sort(key=lambda m: m["id"])
     # guarda os ids REAIS: e dessa lista que sai o modelo barato da economia
+    _gravar_cache_modelos(nome, [m["id"] for m in fora])
+    return {"ok": True, "provedor": nome, "origem_da_chave": origem,
+            "modelos": fora, "quantos": len(fora)}
+
+
+def _gravar_cache_modelos(nome, ids):
+    """Guarda a lista de ids de CADA provedor, sem apagar a dos outros.
+
+    26/09: o arquivo guardava um provedor só — o último que listou. Desde que a
+    tela passou a listar todos os provedores com chave, o último era a OpenAI, e
+    o modelo barato da Anthropic sumia (ou voltava, conforme a ordem). A economia
+    ligava e desligava sozinha. Agora: {"por_provedor": {"anthropic": [...], ...}}.
+    "provedor"/"modelos" continuam no arquivo para leitor antigo."""
     try:
+        atual = {}
+        if os.path.exists(CACHE_MODELOS):
+            try:
+                with io.open(CACHE_MODELOS, encoding="utf-8") as f:
+                    atual = json.load(f)
+            except Exception:
+                atual = {}
+        por = atual.get("por_provedor") if isinstance(atual.get("por_provedor"), dict) else {}
+        if not por and atual.get("provedor") and isinstance(atual.get("modelos"), list):
+            por[str(atual["provedor"]).lower()] = atual["modelos"]      # formato antigo
+        if por.get(nome) == ids:
+            return
+        por[nome] = ids
         os.makedirs(os.path.dirname(CACHE_MODELOS), exist_ok=True)
         tmp = CACHE_MODELOS + ".tmp"
         with io.open(tmp, "w", encoding="utf-8", newline="\n") as f:
-            json.dump({"provedor": nome, "modelos": [m["id"] for m in fora]},
+            json.dump({"provedor": nome, "modelos": ids, "por_provedor": por},
                       f, ensure_ascii=False)
         os.replace(tmp, CACHE_MODELOS)
     except Exception:
         pass
-    return {"ok": True, "provedor": nome, "origem_da_chave": origem,
-            "modelos": fora, "quantos": len(fora)}
 
 
 def testar(c=None, nome=None, modelo="", timeout=20):
@@ -980,15 +1004,20 @@ def _n_sem_acento(s):
 CACHE_MODELOS = os.path.join(AQUI, "dados", "modelos_cache.json")
 
 
-def _modelos_conhecidos():
+def _modelos_conhecidos(prov=None):
     """IDs REAIS de modelo que o provedor devolveu na última consulta.
 
     A tabela PRECOS guarda PREFIXO ("claude-haiku"), não id. Mandar o prefixo
     para a API é erro na certa — por isso o barato só é escolhido entre ids que
-    o provedor já confirmou existir."""
+    o provedor já confirmou existir. Com `prov`, só os daquele provedor."""
     try:
         with io.open(CACHE_MODELOS, encoding="utf-8") as f:
             d = json.load(f)
+        por = d.get("por_provedor") if isinstance(d.get("por_provedor"), dict) else None
+        if prov and por is not None:
+            return [str(x) for x in (por.get(prov) or []) if x]
+        if prov and d.get("provedor") and str(d["provedor"]).lower() != prov:
+            return []
         return [str(x) for x in (d.get("modelos") or []) if x]
     except Exception:
         return []
@@ -1006,7 +1035,7 @@ def modelo_barato(c=None):
     prov = (c.get("provedor") or "anthropic").strip().lower()
     familia = {"anthropic": "claude", "openai": "gpt", "google": "gemini"}.get(prov, "")
     melhor, melhor_preco = "", None
-    for mid in _modelos_conhecidos():
+    for mid in _modelos_conhecidos(prov):
         if familia and familia not in mid.lower():
             continue
         pin, pout = preco(mid, c)

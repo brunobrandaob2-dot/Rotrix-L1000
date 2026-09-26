@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-26.2"
+VERSAO = "2026-09-26.3"
 
 
 def _impressao_do_codigo():
@@ -2922,25 +2922,157 @@ def calcular_volume(corpo):
         return {"ok": False, "motivo": "%s: %s" % (type(e).__name__, str(e)[:120])}
 
 
-def _modelos_de_um(c, nome):
-    """Lista de um provedor só, com cache: se ele não responder (sem internet,
-    chave trocada), vale a última lista que funcionou, para a tela não ficar
-    vazia."""
-    r = nuvem.modelos(c, nome)
-    if r.get("ok") and r.get("modelos"):
+# ---------------------------------------------------------------------------
+# Lista de modelos da barra do Laudo — tem de responder RÁPIDO.
+#
+# 26/09 (fim da tarde): "não consigo trocar as IAs lá na página de laudo". O app
+# espera 2,5 s por /v1/ia/modelos. Desde que a lista passou a juntar todos os
+# provedores com chave (04779b8), o roteador perguntava um de cada vez, na hora,
+# a cada pedido: Anthropic 1,6 s + OpenAI 2,1 s + regravar o config.json duas
+# vezes = ~4 s. O app desistia calado, a lista chegava vazia, a barra do Laudo
+# escondia a escolha de modelo e ficava presa no modelo do config (Sonnet 5).
+# Com o roteador velho (um provedor só) cabia nos 2,5 s — por isso "VOLTOU".
+#
+# Agora:
+#   - lista boa fica na memória 15 min e é renovada POR TRÁS (responde na hora);
+#   - os provedores são consultados ao mesmo tempo, com prazo de 1,8 s; quem não
+#     respondeu no prazo entra com a última lista guardada e termina por trás;
+#   - falha de verdade (401, sem internet) continua aparecendo em "falhas";
+#   - trocar a chave (arquivo novo) descarta a lista da memória daquele provedor;
+#   - modelos_vistos só é regravado no config.json quando a lista mudou;
+#   - fora da barra os modelos que não escrevem texto (embedding, áudio, imagem).
+_LISTAS_IA = {}             # nome -> {"t", "modelos", "impressao"}  (última lista boa)
+_FALHAS_IA = {}             # nome -> {"t", "motivo", "impressao"}   (última tentativa, se falhou)
+_BUSCANDO_IA = {}           # nome -> threading.Event da busca em andamento
+_TRAVA_IA = threading.Lock()
+_TRAVA_VISTOS = threading.Lock()
+LISTA_VALE_S = 900          # 15 min: depois disso a lista é renovada por trás
+LISTA_REPETE_FALHA_S = 20   # provedor que falhou: nova tentativa depois de 20 s
+LISTA_PRAZO_S = 1.8         # o app desiste em 2,5 s
+
+# pistas de modelo que NÃO escreve texto na rota de chat (pista, não tabela de fornecedor)
+_NAO_E_TEXTO = re.compile(r"embed|tts|whisper|dall-e|moderation|transcri|realtime|audio|"
+                          r"image|search|davinci|babbage|computer-use|sora", re.I)
+
+
+def _de_texto(m):
+    mid = m.get("id") if isinstance(m, dict) else str(m)
+    return bool(mid) and not _NAO_E_TEXTO.search(mid)
+
+
+def _esquecer_listas():
+    """Zera a memória das listas (os testes usam; trocar de chave faz por provedor)."""
+    with _TRAVA_IA:
+        _LISTAS_IA.clear()
+        _FALHAS_IA.clear()
+
+
+def _impressao_chave(c, nome):
+    """sha1 curto da chave, só em memória: percebe que a chave mudou. Nunca sai daqui."""
+    try:
+        k, _origem = nuvem.chave_e_origem(c, nome)
+    except Exception:
+        return ""
+    if not k:
+        return ""
+    import hashlib
+    return hashlib.sha1(k.encode("utf-8", "replace")).hexdigest()[:12]
+
+
+def _guardar_vistos(nome, modelos):
+    """Guarda a lista no config.json (sobrevive a reinício) — só quando mudou."""
+    novo = [m for m in modelos][:200]
+    with _TRAVA_VISTOS:
         try:
             cache = dict(nuvem.config().get("modelos_vistos") or {})
-            cache[nome] = r["modelos"][:200]
+            if cache.get(nome) == novo:
+                return
+            cache[nome] = novo
             nuvem.gravar_config({"modelos_vistos": cache})
         except Exception:
             pass
-        return r
+
+
+def _buscar_lista(c, nome, impressao, ev):
+    try:
+        r = nuvem.modelos(c, nome)
+    except Exception as e:
+        r = {"ok": False, "motivo": type(e).__name__, "modelos": []}
+    agora = time.time()
+    boa = bool(r.get("ok") and r.get("modelos"))
+    with _TRAVA_IA:
+        if boa:
+            _LISTAS_IA[nome] = {"t": agora, "modelos": r["modelos"], "impressao": impressao}
+            _FALHAS_IA.pop(nome, None)
+        else:
+            _FALHAS_IA[nome] = {"t": agora, "motivo": r.get("motivo") or "sem_modelos",
+                                "impressao": impressao}
+        if _BUSCANDO_IA.get(nome) is ev:
+            del _BUSCANDO_IA[nome]
+    if boa:
+        _guardar_vistos(nome, r["modelos"])
+    ev.set()
+
+
+def _disparar_busca(c, nome):
+    """Começa (se precisar) a busca da lista de um provedor. Devolve o Event dela,
+    ou None se a lista da memória ainda vale e não há o que buscar."""
+    impressao = _impressao_chave(c, nome)
+    agora = time.time()
+    with _TRAVA_IA:
+        boa, ruim = _LISTAS_IA.get(nome), _FALHAS_IA.get(nome)
+        if boa and boa.get("impressao") != impressao:
+            _LISTAS_IA.pop(nome, None)          # chave trocada: a lista antiga não prova nada
+            boa = None
+        if ruim and ruim.get("impressao") != impressao:
+            _FALHAS_IA.pop(nome, None)
+            ruim = None
+        ev = _BUSCANDO_IA.get(nome)
+        if ev is not None:
+            return ev
+        precisa = (boa is None and (ruim is None or agora - ruim["t"] >= LISTA_REPETE_FALHA_S)) \
+            or (boa is not None and agora - boa["t"] >= LISTA_VALE_S)
+        if not precisa:
+            return None
+        ev = threading.Event()
+        _BUSCANDO_IA[nome] = ev
+    threading.Thread(target=_buscar_lista, args=(c, nome, impressao, ev), daemon=True,
+                     name="lista-" + nome).start()
+    return ev
+
+
+def _resultado_de_um(c, nome):
+    """O que se sabe AGORA de um provedor: lista (memória, senão a guardada) e falha."""
+    with _TRAVA_IA:
+        boa, ruim = _LISTAS_IA.get(nome), _FALHAS_IA.get(nome)
+        buscando = nome in _BUSCANDO_IA
+    if boa and not (ruim and ruim["t"] > boa["t"]):
+        return {"ok": True, "provedor": nome, "modelos": boa["modelos"],
+                "quantos": len(boa["modelos"])}
     guardados = ((nuvem.config().get("modelos_vistos") or {}).get(nome)) or []
-    if guardados:
-        r["modelos"] = guardados
-        r["quantos"] = len(guardados)
-        r["de_cache"] = True
+    if boa:
+        guardados = boa["modelos"]
+    if ruim:
+        r = {"ok": False, "provedor": nome, "motivo": ruim["motivo"], "modelos": []}
+        if guardados:
+            r.update(modelos=guardados, quantos=len(guardados), de_cache=True)
+        return r
+    # ainda buscando (lento, não falhou): a última lista guardada vale, sem alarme
+    r = {"ok": bool(guardados), "provedor": nome, "modelos": guardados,
+         "quantos": len(guardados), "atualizando": buscando}
+    if not guardados:
+        r["motivo"] = "sem_resposta_ainda" if buscando else "sem_modelos"
     return r
+
+
+def _modelos_de_um(c, nome, prazo=LISTA_PRAZO_S):
+    """Lista de um provedor só. Espera no máximo `prazo`; se ele não responder
+    (sem internet, chave trocada), vale a última lista que funcionou, para a tela
+    não ficar vazia."""
+    ev = _disparar_busca(c, nome)
+    if ev is not None:
+        ev.wait(prazo)
+    return _resultado_de_um(c, nome)
 
 
 def ia_modelos(provedor=""):
@@ -2955,7 +3087,7 @@ def ia_modelos(provedor=""):
     na tela onde trocar. Agora, sem provedor pedido, junta TODOS os que têm
     chave nesta máquina. Os do provedor do config saem com o id puro; os dos
     outros saem como "provedor:modelo", que é o formato que o com_modelo()
-    entende na hora de chamar."""
+    entende na hora de chamar. E responde em menos de 2 s (ver acima)."""
     if nuvem is None:
         return {"ok": False, "motivo": "nuvem_indisponivel", "modelos": []}
     c = nuvem.config()
@@ -2964,12 +3096,21 @@ def ia_modelos(provedor=""):
 
     atual = (c.get("provedor") or "anthropic").lower()
     nomes = nuvem.provedores_com_chave(c)
-    juntos, quais, falhas = [], [], {}
+    # todos ao mesmo tempo, um prazo só para o conjunto
+    eventos = [ev for ev in (_disparar_busca(c, n) for n in nomes) if ev is not None]
+    limite = time.time() + LISTA_PRAZO_S
+    for ev in eventos:
+        ev.wait(max(0.0, limite - time.time()))
+
+    juntos, quais, falhas, atrasados = [], [], {}, []
     for nome in nomes:
-        r = _modelos_de_um(c, nome)
-        lista = r.get("modelos") or []
+        r = _resultado_de_um(c, nome)
+        lista = [m for m in (r.get("modelos") or []) if _de_texto(m)]
+        if r.get("atualizando"):
+            atrasados.append(nome)
         if not lista:
-            falhas[nome] = r.get("motivo") or "sem_modelos"
+            if r.get("motivo") != "sem_resposta_ainda":
+                falhas[nome] = r.get("motivo") or "sem_modelos"
             continue
         if r.get("de_cache"):
             # a API não respondeu e a lista é a última que funcionou: a tela
@@ -2989,10 +3130,14 @@ def ia_modelos(provedor=""):
                 item["nome"] = "%s · %s" % (nome, (item.get("nome") or mid))
             juntos.append(item)
     if not juntos:
-        return _modelos_de_um(c, atual)
+        r = _resultado_de_um(c, atual)
+        if falhas:
+            r["falhas"] = falhas
+        return r
     return {"ok": True, "modelos": juntos, "quantos": len(juntos),
             "provedor": atual, "provedores": quais,
-            **({"falhas": falhas} if falhas else {})}
+            **({"falhas": falhas} if falhas else {}),
+            **({"atualizando": atrasados} if atrasados else {})}
 
 
 def ia_testar(provedor="", modelo=""):

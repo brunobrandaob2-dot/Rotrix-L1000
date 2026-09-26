@@ -13,6 +13,11 @@ tmp = tempfile.mkdtemp()
 nuvem.GASTO = os.path.join(tmp, "gasto.json")
 nuvem.LOG = os.path.join(tmp, "nuvem.log")
 nuvem.AQUI = tmp                       # nenhum arquivo de chave real é lido
+# 26/09: CONFIG e CACHE_MODELOS eram calculados com a pasta REAL antes da linha de
+# cima. No PC, dados/modelos_cache.json com ids da Anthropic ligava a economia e
+# mandava o laudo do teste para o Haiku: 3 falhas que só existiam lá.
+nuvem.CONFIG = os.path.join(tmp, "config.json")
+nuvem.CACHE_MODELOS = os.path.join(tmp, "dados", "modelos_cache.json")
 os.environ["ANTHROPIC_API_KEY"] = "teste-anthropic"
 os.environ["OPENAI_API_KEY"] = "teste-openai"
 for v in ("GEMINI_API_KEY", "OPENROUTER_API_KEY", "ROTRIX_API_KEY"):

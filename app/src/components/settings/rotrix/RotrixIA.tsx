@@ -219,6 +219,12 @@ export const RotrixIA: React.FC = () => {
       setMensagem("O teto do mês deve ser um número entre 0 e 1000.");
       return;
     }
+    // 26/09: trocar o provedor zera o modelo; salvar assim deixava "OpenAI" sem
+    // modelo, e todo pedido à IA voltava "sem modelo".
+    if (ativa && modelo.trim() === "") {
+      setMensagem("Escolha o modelo padrão de " + nomeProvedor(provedor) + " antes de salvar.");
+      return;
+    }
     const limpas: Record<string, Rota> = {};
     for (const [k, r] of Object.entries(rotas)) {
       const item: Rota = {};

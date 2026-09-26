@@ -32,6 +32,8 @@ tmp = tempfile.mkdtemp()
 nuvem.GASTO = os.path.join(tmp, "gasto.json")
 nuvem.LOG = os.path.join(tmp, "nuvem.log")
 nuvem.AQUI = tmp
+nuvem.CONFIG = os.path.join(tmp, "config.json")
+nuvem.CACHE_MODELOS = os.path.join(tmp, "dados", "modelos_cache.json")
 os.environ["ANTHROPIC_API_KEY"] = "teste-anthropic"
 
 falhas = []
