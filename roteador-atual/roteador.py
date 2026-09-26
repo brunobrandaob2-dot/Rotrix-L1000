@@ -452,6 +452,8 @@ EXTRATORES = {"lobo_completo": _lobo_completo, "nivel_listese": _nivel_listese, 
               "segmento": _segmento, "lobo_cerebral": _lobo_cerebral}
 PADRAO_SLOT = re.compile(r"\{(\??[A-Za-z_]+)(?::([^}|]*))?(?:\|([^}]*))?\}")
 
+_BILATERAIS = {"bilateral", "bilaterais", "bilateralmente", "ambos", "ambas"}
+
 def _opcao_aproximada(opcoes, n0):
     """Opção da lacuna dita de outro jeito (só no "descrever X" da radiografia):
     "discreto" ~ "discreta"; "compartimento medial" -> "femorotibial medial"
@@ -491,7 +493,7 @@ def preencher(texto, ditado, contexto=None, aproximar=False):
                 valor = (EXTRATORES.get(chave) or (lambda _: None))(normalizar(f))
             if valor:
                 break
-        if not valor and opcoes and not chave.startswith(("lado", "contraste")):
+        if not valor and opcoes and not chave.startswith("contraste"):
             # opcao dita com todas as letras ("acentuada", "grau 1", "medial")
             n0 = normalizar(ditado)
             def _dita(o):
@@ -508,6 +510,29 @@ def preencher(texto, ditado, contexto=None, aproximar=False):
                     valor = maior
             if not valor and aproximar:
                 valor = _opcao_aproximada(opcoes.split("/"), n0)
+        if (valor and opcoes and chave.startswith("lado")
+                and not chave.startswith("lado_a")
+                and normalizar(valor) in _BILATERAIS
+                and normalizar(valor) not in {normalizar(o) for o in opcoes.split("/")}):
+            # "BILATERAL" NÃO ENTRA EM FRASE DE ACHADO ÚNICO.
+            #
+            # 26/09, laudo assinado dele: "nódulo sólido no bilateral". O bloco é
+            # {lado|direito/esquerdo} — substantivo no singular, regido por
+            # preposição. Ele ditou "bilateral", o _lado() devolveu "bilateral" e o
+            # preencher() injetava sem conferir, porque a chave "lado" pulava a
+            # conferência das opções. Sai frase que PARECE prosa e está errada:
+            # "rim bilateral", "artéria renal bilateral", "colapso do pulmão
+            # bilateral", "consolidação no bilateral". 229 frases do banco caíam
+            # nisso, e nenhuma delas dá para assinar.
+            #
+            # Só vale para o lado ADJETIVO ({lado}, {lado_f}: "direito", "direita").
+            # O lado ADVÉRBIO ({lado_a}: "bilateralmente") continua entrando, porque
+            # aí a frase fica certa — "cisto cortical bilateralmente", "litíase renal
+            # bilateralmente" — e são 95 frases que já estavam boas.
+            #
+            # Quando a lacuna oferece bilateral, nada muda: "derrame pleural
+            # bilateral" e "nódulos esparsos bilaterais" saem como antes.
+            valor = None
         if opcional:
             # {?nome:prefixo } ou {?nome|a/b}: some quando nao foi ditado
             return ((prefixo or "") + valor + " ") if valor else ""
