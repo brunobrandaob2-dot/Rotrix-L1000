@@ -122,6 +122,24 @@ try:
     confere("chave da OpenAI trocada: a lista é buscada de novo", IDAS[antes:].count("openai") == 1,
             repr(IDAS[antes:]))
 
+    # 6b. OpenAI lenta de novo (chave nova, API demorando): quem pergunta durante a
+    # busca não espera outra vez — sem internet, cada volta à tela custaria 1,8 s
+    CHAVE["openai"] = "k-oai-lenta"
+    ATRASO["openai"] = 2.5
+    t0 = time.time()
+    roteador.ia_modelos()
+    d1 = time.time() - t0
+    t0 = time.time()
+    r = roteador.ia_modelos()
+    d2 = time.time() - t0
+    ids = [m["id"] for m in r.get("modelos", [])]
+    confere("busca lenta: 1o pedido espera só o prazo", d1 < 2.2, "%.2f s" % d1)
+    confere("busca lenta: quem pergunta durante ela não espera de novo", d2 < 0.2, "%.2f s" % d2)
+    confere("busca lenta: a lista guardada da OpenAI continua na barra, sem alarme",
+            "openai:gpt-5.6-terra" in ids and "openai" not in (r.get("falhas") or {}), repr(r.get("falhas")))
+    time.sleep(2.6)
+    ATRASO["openai"] = 0.1
+
     # 7
     CHAVE["openai"] = "k-oai-3"
     RESPOSTA["openai"] = "401"

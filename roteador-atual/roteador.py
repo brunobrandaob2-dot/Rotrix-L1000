@@ -3015,8 +3015,10 @@ def _buscar_lista(c, nome, impressao, ev):
 
 
 def _disparar_busca(c, nome):
-    """Começa (se precisar) a busca da lista de um provedor. Devolve o Event dela,
-    ou None se a lista da memória ainda vale e não há o que buscar."""
+    """Começa (se precisar) a busca da lista de um provedor. Devolve o Event de
+    uma busca que ESTE pedido começou, ou None: lista da memória ainda vale, ou a
+    busca já estava em andamento (começada por um pedido anterior, que já esperou
+    o prazo dela — esperar de novo só atrasaria a tela a cada pedido sem internet)."""
     impressao = _impressao_chave(c, nome)
     agora = time.time()
     with _TRAVA_IA:
@@ -3027,11 +3029,10 @@ def _disparar_busca(c, nome):
         if ruim and ruim.get("impressao") != impressao:
             _FALHAS_IA.pop(nome, None)
             ruim = None
-        ev = _BUSCANDO_IA.get(nome)
-        if ev is not None:
-            return ev
-        precisa = (boa is None and (ruim is None or agora - ruim["t"] >= LISTA_REPETE_FALHA_S)) \
-            or (boa is not None and agora - boa["t"] >= LISTA_VALE_S)
+        if nome in _BUSCANDO_IA:
+            return None
+        pode_repetir = ruim is None or agora - ruim["t"] >= LISTA_REPETE_FALHA_S
+        precisa = pode_repetir and (boa is None or agora - boa["t"] >= LISTA_VALE_S)
         if not precisa:
             return None
         ev = threading.Event()
