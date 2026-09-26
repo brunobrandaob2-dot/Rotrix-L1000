@@ -13,6 +13,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { Lock, Sparkles, Mic, ListChecks, CornerDownLeft, Copy, Trash2 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useDitado } from "./useDitado";
+import { htmlDeTexto, semMarcas, copiarRico } from "./formatar";
 
 interface Linha {
   achado: string;
@@ -257,9 +258,15 @@ export const ComparativoPage: React.FC<Props> = ({
   };
 
   const copiar = async () => {
+    const t = textoAtual();
+    if (!t) return;
     try {
-      await navigator.clipboard.writeText(textoAtual());
-      setAviso("laudo atual copiado");
+      const rico = await copiarRico(htmlDeTexto(t), semMarcas(t));
+      setAviso(
+        rico
+          ? "laudo atual copiado, com a formatação"
+          : "laudo atual copiado (sem formatação: o campo não aceita texto rico)",
+      );
     } catch {
       setAviso("não consegui copiar");
     }

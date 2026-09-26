@@ -19,6 +19,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { LayoutGrid, CornerDownLeft, Copy, Trash2 } from "lucide-react";
 import { Button } from "../ui/Button";
+import { htmlDeTexto, semMarcas, copiarRico } from "./formatar";
 
 type Segmento = "cervical" | "toracica" | "lombar";
 type Modalidade = "tc" | "rm";
@@ -647,8 +648,13 @@ export const EstruturadosPage: React.FC = () => {
             size="sm"
             disabled={!textoTodo}
             onClick={() => {
-              void navigator.clipboard.writeText(textoTodo.replace(/\*\*/g, ""));
-              setAviso("copiado");
+              void copiarRico(htmlDeTexto(textoTodo), semMarcas(textoTodo)).then((rico) =>
+                setAviso(
+                  rico
+                    ? "copiado, com a formatação"
+                    : "copiado (sem formatação: o campo não aceita texto rico)",
+                ),
+              );
             }}
           >
             <span className="flex items-center gap-1.5">

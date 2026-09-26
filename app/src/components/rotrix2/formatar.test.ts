@@ -12,7 +12,7 @@
 // Este teste é a trava: se alguém mexer no renderizador e o rótulo perder o negrito, ou
 // se prosa comum começar a virar rótulo, ele acusa.
 
-import { linhaEmHtml } from "./formatar";
+import { linhaEmHtml, htmlDeTexto, semMarcas } from "./formatar";
 
 const CASOS: [string, boolean, string][] = [
   // cabeçalhos de seção — as cinco seções do banco
@@ -122,3 +122,47 @@ console.log(
 );
 if (semNegrito.length || negritoIndevido.length) process.exit(1);
 console.log("\nmodelo de laudo estruturado: intacto");
+
+// ---------------------------------------------------------------------------
+// 26/09: ele viu que no Comparativo o "Colar no RIS" saía com negrito e o
+// "Copiar" saía cru. Só a folha do Laudo montava HTML; Comparativo, Adendo,
+// Estruturados e Prescrições mandavam texto puro para o clipboard.
+// Esta trava garante as duas metades do que vai para a área de transferência:
+// o HTML com negrito de verdade, e o texto puro SEM os ** aparecendo.
+// ---------------------------------------------------------------------------
+const LAUDO = [
+  "**TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR**",
+  "",
+  "**TÉCNICA:**  aquisição volumétrica, sem contraste.",
+  "",
+  "**ANÁLISE:**",
+  "Fígado:  dimensões normais, contornos regulares.",
+  "Vias biliares:  sem dilatação.",
+  "",
+  "**CONCLUSÃO:**",
+  "Exame sem alterações significativas.",
+].join("\n");
+
+const html = htmlDeTexto(LAUDO);
+const puro = semMarcas(LAUDO);
+
+const provas: [boolean, string][] = [
+  [html.includes("<b>TOMOGRAFIA COMPUTADORIZADA DE ABDOME SUPERIOR</b>"), "título em negrito no HTML"],
+  [html.includes("<b>TÉCNICA:</b>"), "cabeçalho de seção em negrito no HTML"],
+  [html.includes("<b>Fígado:</b>"), "rótulo de estrutura em negrito no HTML"],
+  [html.includes("<b>Vias biliares:</b>"), "rótulo de duas palavras em negrito no HTML"],
+  [!html.includes("**"), "nenhum ** sobrou no HTML"],
+  [html.includes("font-family:Arial"), "o HTML leva a fonte da folha"],
+  [!puro.includes("**"), "nenhum ** sobrou no texto puro"],
+  [puro.includes("TÉCNICA:") && puro.includes("Fígado:"), "o texto puro manteve os rótulos"],
+  [puro.split("\n").length === LAUDO.split("\n").length, "o texto puro manteve as quebras de linha"],
+];
+
+console.log("\n=== copiar com formatação (Comparativo, Adendo, Estruturados) ===");
+let ruim = 0;
+for (const [ok, nome] of provas) {
+  console.log(`${ok ? "ok    " : "FALHOU"}  ${nome}`);
+  if (!ok) ruim++;
+}
+if (ruim) process.exit(1);
+console.log("\ncopiar rico: as quatro telas mandam negrito e texto limpo");

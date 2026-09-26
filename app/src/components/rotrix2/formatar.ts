@@ -163,6 +163,9 @@ export const htmlEmMarcado = (raiz: HTMLElement | null): string => {
   return linhas.join("\n").replace(/\n{3,}/g, "\n\n").trim();
 };
 
+/** A fonte da folha, a mesma no RIS e no Word. */
+const FOLHA = "font-family:Arial,sans-serif;font-size:11pt;line-height:1.5";
+
 /** O HTML da folha, limpo, para o clipboard em formato rico (botão Copiar). */
 export const htmlDaFolha = (raiz: HTMLElement | null): string => {
   if (!raiz) return "";
@@ -170,5 +173,43 @@ export const htmlDaFolha = (raiz: HTMLElement | null): string => {
   copia.querySelectorAll("[contenteditable]").forEach((e) =>
     e.removeAttribute("contenteditable"),
   );
-  return `<div style="font-family:Arial,sans-serif;font-size:11pt;line-height:1.5">${copia.innerHTML}</div>`;
+  return `<div style="${FOLHA}">${copia.innerHTML}</div>`;
+};
+
+/**
+ * Texto marcado ("**TÉCNICA:** ...") no HTML rico do clipboard.
+ *
+ * Existe porque em 26/09 ele viu isto: no Comparativo, "Colar no RIS" saía com
+ * negrito e "Copiar" saía cru. O motivo era que só a folha do Laudo montava
+ * HTML; as outras telas mandavam texto puro. O texto delas já vem marcado com
+ * ** do roteador, então é só passar pelo mesmo renderizador da folha.
+ */
+export const htmlDeTexto = (texto: string): string =>
+  `<div style="${FOLHA}">${textoEmHtml(texto)}</div>`;
+
+/** O mesmo texto sem as marcas, para o campo que só aceita texto puro. */
+export const semMarcas = (texto: string): string => (texto || "").replace(/\*\*/g, "");
+
+/**
+ * Põe no clipboard o HTML e o texto puro JUNTOS: quem aceita texto rico pega o
+ * negrito, quem não aceita pega o laudo limpo, sem ** aparecendo.
+ * Devolve true quando o formato rico entrou.
+ */
+export const copiarRico = async (html: string, texto: string): Promise<boolean> => {
+  const Item = (window as unknown as { ClipboardItem?: typeof ClipboardItem }).ClipboardItem;
+  if (Item && navigator.clipboard?.write) {
+    try {
+      await navigator.clipboard.write([
+        new Item({
+          "text/html": new Blob([html], { type: "text/html" }),
+          "text/plain": new Blob([texto], { type: "text/plain" }),
+        }),
+      ]);
+      return true;
+    } catch {
+      // alguns navegadores/campos recusam o formato rico: cai para o texto puro
+    }
+  }
+  await navigator.clipboard.writeText(texto);
+  return false;
 };

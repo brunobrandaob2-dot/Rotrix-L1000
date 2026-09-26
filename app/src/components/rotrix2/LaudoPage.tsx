@@ -36,7 +36,7 @@ import {
 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Dica } from "./Dica";
-import { textoEmHtml, htmlEmTexto, htmlEmMarcado, htmlDaFolha } from "./formatar";
+import { textoEmHtml, htmlEmTexto, htmlEmMarcado, htmlDaFolha, copiarRico } from "./formatar";
 import { BotoesDaFolha } from "./BotoesDaFolha";
 import { ImagemNaFolha } from "./ImagemNaFolha";
 
@@ -287,22 +287,13 @@ export const LaudoPage: React.FC<Props> = ({
   const copiar = async () => {
     const texto = textoDaFolha();
     if (!texto) return;
-    const html = htmlDaFolha(folha.current);
     try {
-      const Item = (window as unknown as { ClipboardItem?: typeof ClipboardItem })
-        .ClipboardItem;
-      if (Item && navigator.clipboard.write) {
-        await navigator.clipboard.write([
-          new Item({
-            "text/html": new Blob([html], { type: "text/html" }),
-            "text/plain": new Blob([texto], { type: "text/plain" }),
-          }),
-        ]);
-        setAviso("copiado com a formatação");
-        return;
-      }
-      await navigator.clipboard.writeText(texto);
-      setAviso("copiado (sem formatação: o campo não aceita texto rico)");
+      const rico = await copiarRico(htmlDaFolha(folha.current), texto);
+      setAviso(
+        rico
+          ? "copiado com a formatação"
+          : "copiado (sem formatação: o campo não aceita texto rico)",
+      );
     } catch {
       setAviso("não consegui copiar");
     }

@@ -14,6 +14,7 @@ import { Button } from "../ui/Button";
 import { Dica } from "./Dica";
 import { useDitado } from "./useDitado";
 import { TextoDeLaudo } from "./TextoDeLaudo";
+import { htmlDeTexto, semMarcas, copiarRico } from "./formatar";
 
 type Tipo = "achado_adicional" | "resposta_pedido" | "retificacao" | "complemento" | "livre";
 
@@ -128,8 +129,12 @@ export const AdendoPage: React.FC<{
   const copiar = async () => {
     if (!saida?.texto) return;
     try {
-      await navigator.clipboard.writeText(saida.texto);
-      setAviso("adendo copiado");
+      const rico = await copiarRico(htmlDeTexto(saida.texto), semMarcas(saida.texto));
+      setAviso(
+        rico
+          ? "adendo copiado, com a formatação"
+          : "adendo copiado (sem formatação: o campo não aceita texto rico)",
+      );
     } catch {
       setAviso("não consegui copiar");
     }

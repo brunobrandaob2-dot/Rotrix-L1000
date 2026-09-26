@@ -10,6 +10,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { invoke } from "@tauri-apps/api/core";
 import { Search, Copy, CornerDownLeft, Printer, FileText } from "lucide-react";
 import { Button } from "../ui/Button";
+import { htmlDaFolha, copiarRico } from "./formatar";
 
 interface Item {
   titulo: string;
@@ -97,8 +98,12 @@ export const PrescricoesPage: React.FC = () => {
     const t = textoFinal();
     if (!t) return;
     try {
-      await navigator.clipboard.writeText(t);
-      setAviso("prescrição copiada");
+      const rico = await copiarRico(htmlDaFolha(folha.current), t);
+      setAviso(
+        rico
+          ? "prescrição copiada, com a formatação"
+          : "prescrição copiada (sem formatação: o campo não aceita texto rico)",
+      );
     } catch {
       setAviso("não consegui copiar");
     }
