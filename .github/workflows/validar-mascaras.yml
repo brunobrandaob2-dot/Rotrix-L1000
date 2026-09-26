@@ -45,10 +45,12 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_sinonimos.py
       - name: Desempenho do roteamento (teto de tempo; regressao de lentidao)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_perf_roteador.py
-      - name: 'bilateral' nao entra em frase de achado unico (laudo assinado 26/09)
+      - name: "'bilateral' nao entra em frase de achado unico (laudo assinado 26/09)"
         run: LAUDO_BASE=/tmp/base.sqlite python testar_lado_bilateral.py
       - name: Testar a TECNICA das radiografias (as incidencias que ele ditou)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_tecnica_rx.py
+      - name: conferir_usuario acha a disputa pelos arquivos (a 1a versao dizia 'nenhuma' com 14)
+        run: python testar_conferir_usuario.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)

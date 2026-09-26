@@ -13,20 +13,38 @@ máscaras do Rotrix e NÃO chegam no laudo dele, porque a dele vem na frente.
 
 Este relatório mostra, lado a lado, a TÉCNICA que ele usa hoje e a que o Rotrix
 passou a ter. Não muda nada: quem decide é ele.
+
+Correção de 26/09 (tarde)
+-------------------------
+A primeira versão procurava a disputa dentro do base.sqlite. Só que o
+construir_base guarda UM dono por gatilho — o perdedor nem entra no banco —,
+então a interseção era sempre vazia e o relatório dizia "nenhum gatilho seu
+está na frente" justamente na máquina em que estava. Agora a disputa sai dos
+ARQUIVOS (dados/mascaras e dados/mascaras_usuario), com a mesma normalização
+do construir_base, e o banco só é usado para confirmar quem sai hoje.
 """
 
 import io
 import os
 import re
 import sys
+import unicodedata
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+if __name__ == "__main__":
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-import roteador
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RX = re.compile(r"^\*\*TÉCNICA:\*\*\s*(.*)$")
+
+
+def normalizar(s):
+    """Igual ao construir_base.normalizar (lá o módulo compila ao ser importado)."""
+    s = unicodedata.normalize("NFD", s or "")
+    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
+    s = s.lower().replace("-", " ")
+    s = re.sub(r"[^a-z0-9 ]+", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
 
 
 def tecnica(texto):
@@ -34,67 +52,133 @@ def tecnica(texto):
     for i, l in enumerate(linhas):
         m = RX.match(l)
         if m:
-            fora = [m.group(1).strip()]
+            fora = [m.group(1).strip()] if m.group(1).strip() else []
+            # a TÉCNICA vai até a linha em branco ou a próxima seção — a segunda
+            # linha nem sempre começa com "Exame realizado" (a dele de tórax é
+            # "Incidência em anteroposterior.")
             j = i + 1
-            while j < len(linhas) and linhas[j].startswith("Exame realizado"):
+            while j < len(linhas) and linhas[j].strip() and not linhas[j].startswith("**"):
                 fora.append(linhas[j].strip())
                 j += 1
             return fora
     return []
 
 
-def main():
-    # gatilho -> (titulo do usuario, titulo do rotrix)
-    do_usuario, do_rotrix = {}, {}
-    for t, g, tit, txt, sec, con in roteador.BANCO.itens:
-        if t != "mascara" or not g:
-            continue
-        (do_usuario if tit.startswith("usuario/") else do_rotrix).setdefault(g, tit)
+def ler_mascaras(raiz, prefixo=""):
+    """{titulo: (gatilhos_normalizados, corpo)} das MÁSCARAS de uma pasta.
+    Bloco (# tipo: bloco), frases.txt e _legado ficam de fora, como no construir_base."""
+    fora = {}
+    if not os.path.isdir(raiz):
+        return fora
+    for r, pastas, arquivos in os.walk(raiz):
+        pastas[:] = sorted(p for p in pastas if p != "_legado" and not p.startswith("."))
+        for nome in sorted(arquivos):
+            if not nome.lower().endswith(".txt") or nome.lower() == "frases.txt":
+                continue
+            caminho = os.path.join(r, nome)
+            try:
+                bruto = io.open(caminho, encoding="utf-8").read().splitlines()
+            except Exception:
+                continue
+            meta, corpo = {}, []
+            for l in bruto:
+                m = re.match(r"^#\s*([a-z_]+)\s*:\s*(.*)$", l.strip())
+                if m and not corpo:
+                    meta[m.group(1)] = m.group(2)
+                else:
+                    corpo.append(l)
+            if meta.get("tipo", "").strip() not in ("", "mascara"):
+                continue
+            gat = [normalizar(g) for g in (meta.get("gatilhos") or "").split("|")]
+            gat = [g for g in gat if g]
+            if not gat:
+                continue
+            tit = prefixo + os.path.relpath(caminho, raiz).replace("\\", "/")[:-4]
+            fora[tit] = (gat, "\n".join(corpo).strip())
+    return fora
 
-    disputados = sorted(set(do_usuario) & set(do_rotrix))
-    print("máscaras suas: %d gatilhos   |   do Rotrix: %d   |   disputados: %d"
-          % (len(do_usuario), len(do_rotrix), len(disputados)))
+
+def disputas(dados):
+    """Devolve (pares, mortas).
+    pares: {(titulo_seu, titulo_rotrix): [gatilhos]} — gatilho que existe nos dois.
+    mortas: {titulo_seu: titulo_seu_que_ganha} — máscara sua que nunca sai, porque
+            outra máscara SUA tem os mesmos gatilhos todos."""
+    suas = ler_mascaras(os.path.join(dados, "mascaras_usuario"), "usuario/")
+    rotrix = ler_mascaras(os.path.join(dados, "mascaras"))
+    dono_rotrix = {}
+    for tit, (gat, _c) in sorted(rotrix.items()):
+        for g in gat:
+            dono_rotrix.setdefault(g, tit)
+    pares, dono_seu = {}, {}
+    for tit, (gat, _c) in sorted(suas.items()):
+        for g in gat:
+            dono_seu.setdefault(g, tit)
+            if g in dono_rotrix:
+                pares.setdefault((tit, dono_rotrix[g]), [])
+                if g not in pares[(tit, dono_rotrix[g])]:
+                    pares[(tit, dono_rotrix[g])].append(g)
+    mortas = {}
+    for tit, (gat, _c) in sorted(suas.items()):
+        donos = {dono_seu[g] for g in gat}
+        if tit not in donos and len(donos) == 1:
+            mortas[tit] = donos.pop()
+    # uma sua que nunca sai não disputa nada: tira dos pares
+    pares = {k: v for k, v in pares.items() if k[0] not in mortas}
+    return pares, mortas, suas, rotrix
+
+
+def main():
+    dados = os.path.join(AQUI, "dados")
+    pares, mortas, suas, rotrix = disputas(dados)
+    print("máscaras suas: %d   |   do Rotrix: %d   |   pares em disputa: %d"
+          % (len(suas), len(rotrix), len(pares)))
     print()
 
-    if not disputados:
+    rotear = None
+    try:
+        import roteador
+        rotear = roteador.rotear
+    except Exception as e:
+        print("(banco não carregou: %s — mostro só os arquivos)" % type(e).__name__)
+        print()
+
+    if not pares:
         print("nenhum gatilho seu está na frente de máscara do Rotrix.")
-        return 0
-
-    # agrupa por par de máscaras, para não repetir o mesmo caso 20 vezes
-    pares = {}
-    for g in disputados:
-        pares.setdefault((do_usuario[g], do_rotrix[g]), []).append(g)
-
-    print("=" * 74)
-    print("  ONDE A SUA MÁSCARA GANHA — e o que o Rotrix diria no lugar")
-    print("=" * 74)
+    else:
+        print("=" * 74)
+        print("  ONDE A SUA MÁSCARA GANHA — e o que o Rotrix diria no lugar")
+        print("=" * 74)
     for (tit_u, tit_r), gatilhos in sorted(pares.items()):
         print()
         print("SUA:    %s" % tit_u)
         print("Rotrix: %s" % tit_r)
         print("gatilhos: %s%s" % (", ".join(gatilhos[:6]),
                                   "  (+%d)" % (len(gatilhos) - 6) if len(gatilhos) > 6 else ""))
-        try:
-            t_u, _o = roteador.rotear(gatilhos[0])
-        except Exception as e:
-            print("   (não consegui rotear: %s)" % type(e).__name__)
-            continue
-        tec_u = tecnica(t_u)
-        # a do Rotrix: pega o texto da máscara dele direto do banco
-        tec_r = []
-        for t, g, tit, txt, sec, con in roteador.BANCO.itens:
-            if tit == tit_r:
-                tec_r = tecnica(txt)
-                break
+        if rotear:
+            try:
+                _t, origem = rotear(gatilhos[0])
+                print("   sai hoje: %s" % origem)
+            except Exception as e:
+                print("   (não consegui rotear: %s)" % type(e).__name__)
+        tec_u = tecnica(suas[tit_u][1])
+        tec_r = tecnica(rotrix[tit_r][1])
         if tec_u == tec_r:
             print("   TÉCNICA: igual nas duas.")
             continue
-        print("   TÉCNICA que sai hoje (a sua):")
+        print("   TÉCNICA da sua:")
         for l in (tec_u or ["(sem TÉCNICA)"]):
             print("      %s" % l)
         print("   TÉCNICA da máscara do Rotrix:")
         for l in (tec_r or ["(sem TÉCNICA)"]):
             print("      %s" % l)
+
+    if mortas:
+        print()
+        print("=" * 74)
+        print("  MÁSCARAS SUAS QUE NUNCA SAEM (outra sua tem os mesmos gatilhos)")
+        print("=" * 74)
+        for m, dono in sorted(mortas.items()):
+            print("   %s   -> quem sai é %s" % (m, dono))
 
     print()
     print("=" * 74)
@@ -103,10 +187,10 @@ def main():
     print("  1. deixar como está  -> o laudo sai com a SUA técnica, como hoje")
     print("  2. ajustar a sua     -> abrir a máscara em Máscaras > Minhas e trocar")
     print("                          só a linha da TÉCNICA")
-    print("  3. usar a do Rotrix  -> apagar (ou renomear) a sua máscara daquela região")
+    print("  3. usar a do Rotrix  -> tirar a sua máscara daquela região da pasta")
     print()
     print("  As máscaras suas ficam em:")
-    print("     %s" % os.path.join(AQUI, "dados", "mascaras_usuario"))
+    print("     %s" % os.path.join(dados, "mascaras_usuario"))
     return 0
 
 
