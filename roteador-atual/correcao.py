@@ -287,9 +287,31 @@ def _regras_ativas():
     return _CACHE["tirar"], _CACHE["acrescentar"]
 
 
+def _mod_reg(caminho, e_titulo):
+    """(modalidade, regiao) de um escopo ("msk/rx/punho") ou de uma origem de
+    laudo ("mascara:usuario/rx/torax/normal", "rx_literal:msk/rx/punho/normal+1 ...")."""
+    c = (caminho or "").split(":", 1)[-1].split("+", 1)[0].strip().strip("/")
+    p = [x for x in c.split("/") if x]
+    if e_titulo:
+        return (p[-3], p[-2]) if len(p) >= 3 else None
+    return (p[-2], p[-1]) if len(p) >= 2 else None
+
+
 def _vale(regra, origem):
-    esc = _n(regra.get("escopo") or "")
-    return not esc or esc in _n(origem or "")
+    """A regra vale neste laudo? Compara MODALIDADE e REGIÃO, não a pasta.
+
+    26/09: com as máscaras dele na frente, "no raio x de tórax" virava escopo
+    "usuario/rx/torax" — e a regra deixava de valer no dia em que ele voltasse
+    para a máscara do Rotrix (medicina_interna/rx/torax). E a comparação por
+    pedaço de texto fazia a regra do PÉ ("msk/rx/pe") valer na PERNA
+    ("msk/rx/perna"). Agora: mesma modalidade e mesma região, exatas."""
+    esc = (regra.get("escopo") or "").strip()
+    if not esc:
+        return True
+    a, b = _mod_reg(esc, False), _mod_reg(origem, True)
+    if a and b:
+        return _n(a[0]) == _n(b[0]) and _n(a[1]) == _n(b[1])
+    return _n(esc) in _n(origem or "")
 
 
 def aplicar_regras(texto, origem=""):

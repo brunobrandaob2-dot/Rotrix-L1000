@@ -197,6 +197,20 @@ def cenario_correcao(falhas):
             falhas.append("correção: acrescentar entrou errado: %r" % s2)
         if correcao.aplicar_regras(s2, "mascara:medicina_interna/rx/torax/normal").count("pneumotórax") != 1:
             falhas.append("correção: acrescentar repetiu a frase")
+        # 26/09: a regra vale pela REGIÃO, não pela pasta de quem ganhou o gatilho
+        # (máscara dele "usuario/rx/torax" ou do Rotrix "medicina_interna/rx/torax"),
+        # e a do pé não vale na perna
+        _r = {"escopo": "usuario/rx/torax"}
+        if not correcao._vale(_r, "mascara:medicina_interna/rx/torax/normal"):
+            falhas.append("correção: regra ditada com a máscara dele não vale na do Rotrix")
+        if not correcao._vale({"escopo": "medicina_interna/rx/torax"}, "mascara:usuario/rx/torax/normal"):
+            falhas.append("correção: regra do Rotrix não vale na máscara dele")
+        if correcao._vale({"escopo": "msk/rx/pe"}, "rx_literal:msk/rx/perna/normal+1 achado(s)"):
+            falhas.append("correção: regra do pé valeu na perna")
+        if correcao._vale({"escopo": "medicina_interna/rx/abdome"}, "mascara:medicina_interna/rx/abdome_agudo/normal"):
+            falhas.append("correção: regra do abdome valeu no abdome agudo")
+        if not correcao._vale({"escopo": "msk/rx/punho"}, "rx_literal:msk/rx/punho/normal+1 achado(s)"):
+            falhas.append("correção: regra do punho não valeu no RX literal do punho")
         # desfazer tira a regra e a linha do ouvido.tsv
         correcao.aplicar("risartrose, o certo é rizartrose", achar_regiao=r._regiao_do_exame)
         if "rizartrose" not in open(correcao.ARQ_OUVIDO, encoding="utf-8").read():
