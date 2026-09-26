@@ -505,3 +505,51 @@ if falhas:
     print("%d FALHA(S): %s" % (len(falhas), ", ".join(falhas)))
     sys.exit(1)
 print("rota de nuvem: tudo certo")
+
+# ---------------------------------------------------------------------------
+# 26/09: ele pos a chave da OpenAI e a tela continuou mostrando so modelo da
+# Anthropic. O roteador perguntava a UM provedor (o do topo do config) e nao
+# havia na tela onde trocar. Agora a lista junta todo provedor com chave, e o
+# id dos outros vem como "provedor:modelo" — que o com_modelo() tem de saber
+# desmontar, senao um id de OpenAI ia parar na API da Anthropic.
+# ---------------------------------------------------------------------------
+print()
+print("=== escolher modelo de outro provedor pela tela ===")
+_base = {"provedor": "anthropic", "modelo": "claude-sonnet-5"}
+_casos = [
+    ("", "anthropic", "claude-sonnet-5", "sem modelo: fica tudo como esta"),
+    ("claude-haiku-4-5", "anthropic", "claude-haiku-4-5", "id puro so troca o modelo"),
+    ("openai:gpt-5.6-luna", "openai", "gpt-5.6-luna", "prefixo troca provedor E modelo"),
+    ("gemini:gemini-3-pro", "gemini", "gemini-3-pro", "vale para qualquer provedor conhecido"),
+    ("anthropic/claude-sonnet-5", "anthropic", "anthropic/claude-sonnet-5",
+     "id do OpenRouter (com barra) passa inteiro"),
+    ("coisa:estranha", "anthropic", "coisa:estranha",
+     "prefixo que nao e provedor conhecido nao troca nada"),
+]
+_ruim = 0
+for _m, _p, _mod, _nome in _casos:
+    _r = nuvem.com_modelo(_base, _m)
+    _ok = _r.get("provedor") == _p and _r.get("modelo") == _mod
+    print(("ok      " if _ok else "FALHOU  ") + _nome +
+          ("" if _ok else "  -> %s / %s" % (_r.get("provedor"), _r.get("modelo"))))
+    if not _ok:
+        _ruim += 1
+
+# o config original nao pode ser alterado por tabela
+_ok = _base == {"provedor": "anthropic", "modelo": "claude-sonnet-5"}
+print(("ok      " if _ok else "FALHOU  ") + "com_modelo nao mexe no config original")
+if not _ok:
+    _ruim += 1
+
+# provedor local sem chave nao entra na lista quando nao e o escolhido
+_nomes = nuvem.provedores_com_chave({"provedor": "anthropic"})
+_ok = "ollama" not in _nomes
+print(("ok      " if _ok else "FALHOU  ") +
+      "provedor local sem chave fica fora quando nao e o escolhido")
+if not _ok:
+    _ruim += 1
+
+if _ruim:
+    print("\n%d FALHA(S) na escolha de provedor pela tela." % _ruim)
+    raise SystemExit(1)
+print("\nescolha de provedor: a tela pode acionar quem tem chave")

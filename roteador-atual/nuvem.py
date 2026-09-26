@@ -1126,6 +1126,48 @@ def _entrada_rota(v):
         return {"modelo": v}
     return dict(v) if isinstance(v, dict) else {}
 
+def provedores_com_chave(c=None):
+    """Os provedores que TÊM chave nesta máquina, o do config na frente.
+
+    26/09: ele pôs a chave da OpenAI e a tela continuou mostrando só modelo da
+    Anthropic. Não era a chave: o roteador perguntava a um provedor por vez, o
+    do topo do config, e não havia na tela onde trocar de provedor."""
+    c = c or config()
+    nomes, atual = [], (c.get("provedor") or "anthropic").lower()
+    for nome in [atual] + [n for n in PROVEDORES if n != atual]:
+        p = provedor_cfg(c, nome)
+        if not _url_de_modelos(p):
+            continue                       # sem URL de catálogo não dá para listar
+        k, origem = chave_e_origem(c, nome)
+        if k and origem != "sem_chave":
+            nomes.append(nome)
+        elif nome == atual:
+            # provedor local (ollama) devolve a chave de mentira "local"/"sem_chave":
+            # entra só quando é o escolhido, senão a tela esperaria o timeout de um
+            # servidor que ninguém ligou
+            nomes.append(nome)
+    return nomes
+
+
+def com_modelo(c, modelo):
+    """Config desta chamada com o modelo escolhido na tela.
+
+    Aceita "provedor:modelo" — é assim que o botão pode acionar a OpenAI mesmo
+    com a Anthropic no topo do config. Sem o prefixo, só troca o modelo, como
+    antes. Antes daqui, `c["modelo"] = "openai:gpt-..."` mandava um id de OpenAI
+    para a API da Anthropic, que responde erro."""
+    if not modelo:
+        return c
+    c = dict(c)
+    e = _entrada_rota(modelo)
+    if e.get("provedor") in PROVEDORES and e.get("modelo"):
+        c["provedor"] = e["provedor"]
+        c["modelo"] = e["modelo"]
+    else:
+        c["modelo"] = modelo
+    return c
+
+
 def rota(pedido, c=None, modo="analise"):
     """Decide provedor, modelo e modo. Sem ia_por_exame = o de sempre (topo do config)."""
     c = c or config()

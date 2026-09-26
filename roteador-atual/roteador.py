@@ -2888,19 +2888,14 @@ def calcular_volume(corpo):
         return {"ok": False, "motivo": "%s: %s" % (type(e).__name__, str(e)[:120])}
 
 
-def ia_modelos(provedor=""):
-    """A lista de modelos vem da API de quem tem a chave — não de tabela no código.
-
-    Com cache no config: se o provedor não responder (sem internet, chave
-    trocada), vale a última lista que funcionou, para a tela não ficar vazia."""
-    if nuvem is None:
-        return {"ok": False, "motivo": "nuvem_indisponivel", "modelos": []}
-    c = nuvem.config()
-    nome = (provedor or c.get("provedor") or "anthropic").lower()
+def _modelos_de_um(c, nome):
+    """Lista de um provedor só, com cache: se ele não responder (sem internet,
+    chave trocada), vale a última lista que funcionou, para a tela não ficar
+    vazia."""
     r = nuvem.modelos(c, nome)
     if r.get("ok") and r.get("modelos"):
         try:
-            cache = dict(c.get("modelos_vistos") or {})
+            cache = dict(nuvem.config().get("modelos_vistos") or {})
             cache[nome] = r["modelos"][:200]
             nuvem.gravar_config({"modelos_vistos": cache})
         except Exception:
@@ -2912,6 +2907,54 @@ def ia_modelos(provedor=""):
         r["quantos"] = len(guardados)
         r["de_cache"] = True
     return r
+
+
+def ia_modelos(provedor=""):
+    """A lista de modelos vem da API de quem tem a chave — não de tabela no código.
+
+    Tabela escrita à mão envelhece e amarra o app a um fornecedor. É por isso
+    que a lista da Anthropic vem grande e com modelos antigos juntos: é o
+    catálogo que a própria Anthropic devolve, não uma escolha feita aqui.
+
+    26/09: ele pôs a chave da OpenAI e a tela continuou mostrando só Claude.
+    Motivo: aqui se perguntava a UM provedor, o do topo do config, e não havia
+    na tela onde trocar. Agora, sem provedor pedido, junta TODOS os que têm
+    chave nesta máquina. Os do provedor do config saem com o id puro; os dos
+    outros saem como "provedor:modelo", que é o formato que o com_modelo()
+    entende na hora de chamar."""
+    if nuvem is None:
+        return {"ok": False, "motivo": "nuvem_indisponivel", "modelos": []}
+    c = nuvem.config()
+    if provedor:
+        return _modelos_de_um(c, provedor.lower())
+
+    atual = (c.get("provedor") or "anthropic").lower()
+    nomes = nuvem.provedores_com_chave(c)
+    juntos, quais, falhas = [], [], {}
+    for nome in nomes:
+        r = _modelos_de_um(c, nome)
+        lista = r.get("modelos") or []
+        if not lista:
+            falhas[nome] = r.get("motivo") or "sem_modelos"
+            continue
+        quais.append(nome)
+        for m in lista:
+            mid = m.get("id") if isinstance(m, dict) else str(m)
+            if not mid:
+                continue
+            item = dict(m) if isinstance(m, dict) else {"id": mid}
+            if nome != atual:
+                item["id"] = "%s:%s" % (nome, mid)
+                item["provedor"] = nome
+                # o nome na tela diz de quem é: sem isso "gpt-5.6" e "claude-…"
+                # ficam lado a lado sem nenhuma pista de qual chave vai pagar
+                item["nome"] = "%s · %s" % (nome, (item.get("nome") or mid))
+            juntos.append(item)
+    if not juntos:
+        return _modelos_de_um(c, atual)
+    return {"ok": True, "modelos": juntos, "quantos": len(juntos),
+            "provedor": atual, "provedores": quais,
+            **({"falhas": falhas} if falhas else {})}
 
 
 def ia_testar(provedor="", modelo=""):
@@ -3071,8 +3114,7 @@ def atualizar_anterior(anterior, mudancas, modelo=""):
     if not c.get("ativa"):
         return {"ok": False, "motivo": "nuvem_desligada"}
     if modelo:
-        c = dict(c)
-        c["modelo"] = modelo
+        c = nuvem.com_modelo(c, modelo)
         c["modelo_explicito"] = True      # botão dele manda; economia não troca por baixo
 
     corpo = anterior
@@ -3131,8 +3173,7 @@ def checklist_do_anterior(anterior, modelo=""):
     if not c.get("ativa"):
         return {"ok": False, "motivo": "nuvem_desligada"}
     if modelo:
-        c = dict(c)
-        c["modelo"] = modelo
+        c = nuvem.com_modelo(c, modelo)
     corpo = anterior
     try:
         import importar_usuario
@@ -3187,8 +3228,7 @@ def comparativo(anterior, atual, modelo=""):
     if not c.get("ativa"):
         return {"ok": False, "motivo": "nuvem_desligada"}
     if modelo:
-        c = dict(c)
-        c["modelo"] = modelo
+        c = nuvem.com_modelo(c, modelo)
 
     corpos = []
     for bruto in (anterior, atual):
@@ -3522,8 +3562,7 @@ def adendo(laudo, pedido, tipo="livre", modelo=""):
     if not c.get("ativa"):
         return {"ok": False, "motivo": "nuvem_desligada"}
     if modelo:
-        c = dict(c)
-        c["modelo"] = modelo
+        c = nuvem.com_modelo(c, modelo)
 
     corpo = laudo
     try:
@@ -3565,8 +3604,7 @@ def ia_no_texto(texto, instrucao="", modelo=""):
     if not c.get("ativa"):
         return {"ok": False, "motivo": "nuvem_desligada", "texto": texto}
     if modelo:
-        c = dict(c)
-        c["modelo"] = modelo
+        c = nuvem.com_modelo(c, modelo)
     instrucao = (instrucao or "").strip()
     if instrucao:
         pedido = "INSTRUÇÃO FALADA: %s\n\nLAUDO NA TELA:\n%s" % (instrucao, texto)
