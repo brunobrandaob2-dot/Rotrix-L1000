@@ -53,6 +53,8 @@ jobs:
         run: python testar_conferir_usuario.py
       - name: A lista de modelos diz quando o provedor do config nao respondeu (OpenAI 26/09)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_ia_modelos.py
+      - name: Espera da IA proporcional ao laudo e laudo cortado no teto vem marcado
+        run: python testar_tempo_nuvem.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)

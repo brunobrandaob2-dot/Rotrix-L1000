@@ -1415,7 +1415,9 @@ pub fn rotrix_ia_texto(texto: String, instrucao: String, modelo: String) -> Resu
         "modelo": modelo,
     })
     .to_string();
-    http_post("/v1/ia", &corpo, 90_000)
+    // 26/09: o roteador passou a esperar a IA de forma proporcional ao tamanho do
+    // laudo (até timeout_max_s). A tela espera um pouco mais que isso.
+    http_post("/v1/ia", &corpo, 150_000)
 }
 
 #[cfg(test)]

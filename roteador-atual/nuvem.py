@@ -1421,7 +1421,12 @@ def _enviar_anthropic(p, k, modelo, sistema, pedido, max_tokens, timeout, racioc
     uso = {"in": int(u.get("input_tokens", 0) or 0),
            "out": int(u.get("output_tokens", 0) or 0),
            "cache_w": int(u.get("cache_creation_input_tokens", 0) or 0),
-           "cache_r": int(u.get("cache_read_input_tokens", 0) or 0)}
+           "cache_r": int(u.get("cache_read_input_tokens", 0) or 0),
+           # 26/09: por que parou ("max_tokens" = cortado no teto) e se houve
+           # raciocínio escondido (conta como saída, e é o que demora)
+           "fim": str(d.get("stop_reason") or ""),
+           "pensou": sum(1 for b in d.get("content", []) or []
+                         if isinstance(b, dict) and b.get("type") in ("thinking", "redacted_thinking"))}
     return texto, uso, None
 
 def _enviar_openai(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocinio,
@@ -1457,7 +1462,9 @@ def _enviar_openai(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocini
     cached = int(((u.get("prompt_tokens_details") or {}).get("cached_tokens", 0)) or 0)
     # OpenAI cacheia sozinho, sem ser pedido, e não cobra escrita: só leitura a 10%
     uso = {"in": max(0, pt - cached), "out": int(u.get("completion_tokens", 0) or 0),
-           "cache_w": 0, "cache_r": cached}
+           "cache_w": 0, "cache_r": cached,
+           "fim": "max_tokens" if ch.get("finish_reason") == "length" else str(ch.get("finish_reason") or ""),
+           "pensou": int(((u.get("completion_tokens_details") or {}).get("reasoning_tokens", 0)) or 0)}
     usd = u.get("cost") if isinstance(u.get("cost"), (int, float)) else None   # OpenRouter
     return texto, uso, usd
 
@@ -1528,10 +1535,12 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
         rac = "none"
     enviar = _enviar_anthropic if p.get("formato") == "anthropic" else _enviar_openai
     ttl = cache_de(sistema, r["modelo"], c) if p.get("formato") == "anthropic" else None
+    teto = int(max_tokens or c.get("max_tokens", 1500))
+    espera = tempo_de_espera(teto, c)
+    t0 = datetime.datetime.now()
     try:
-        texto, uso, usd = enviar(p, k, r["modelo"], sistema, pedido,
-                                 int(max_tokens or c.get("max_tokens", 1500)),
-                                 int(c.get("timeout_s", 40)), rac, ttl)
+        texto, uso, usd = enviar(p, k, r["modelo"], sistema, pedido, teto, espera, rac, ttl)
+        ms = int((datetime.datetime.now() - t0).total_seconds() * 1000)
         n_in, n_out = uso["in"], uso["out"]
         local = bool(p.get("sem_chave"))
         c_call = float(usd) if usd is not None else custo(
@@ -1547,17 +1556,25 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
                        "economia": r.get("regra") == "economia",
                        "modelo_pedido": r.get("modelo_pedido") or rotulo,
                        "mes_usd": round(float(g.get("usd") or 0), 4)})
+        extra = {"ms": ms, "teto": teto, "fim": uso.get("fim", ""), "pensou": uso.get("pensou", 0)}
         if not texto:
-            registrar(c, n_in, n_out, "vazia", c_call, g["usd"], modelo=rotulo)
+            registrar(c, n_in, n_out, "vazia", c_call, g["usd"], modelo=rotulo, **extra)
             return None, "nuvem_vazia"
 
         travas = c.get("modos_com_trava")
         if not isinstance(travas, list):
             travas = ["formatar"]
         avisos = conferir(pedido, texto) if m_ef in travas else []
-        registrar(c, n_in, n_out, "ok_conferir" if avisos else "ok", c_call, g["usd"], modelo=rotulo)
+        cortado = uso.get("fim") == "max_tokens"
+        estado = "ok_cortado" if cortado else ("ok_conferir" if avisos else "ok")
+        registrar(c, n_in, n_out, estado, c_call, g["usd"], modelo=rotulo, **extra)
         if avisos:
             texto = "[conferir — a IA acrescentou: " + "; ".join(avisos) + "]\n" + texto
+        if cortado:
+            # 26/09: 6 laudos no Sonnet 5 saíram com 3.900–4.000 tokens, o teto da
+            # rota. A API para no meio e o texto vinha como se estivesse inteiro.
+            texto = ("[a IA parou no limite de tamanho (%d tokens): o FIM do laudo pode estar "
+                     "faltando — confira a conclusão antes de assinar]\n" % teto) + texto
 
         if marcar and c.get("marcar_saida"):
             ini, fim = c.get("marca_inicio", ""), c.get("marca_fim", "")
@@ -1567,21 +1584,54 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
             texto = (ini + "\n" if ini else "") + texto + ("\n" + fim if fim else "")
         return texto, "nuvem"
     except _ErroAPI as e:
-        registrar(c, 0, 0, "http %s" % e.code, modelo=rotulo)
+        registrar(c, 0, 0, "http %s" % e.code, modelo=rotulo,
+                  ms=int((datetime.datetime.now() - t0).total_seconds() * 1000), teto=teto)
         return None, "nuvem_erro_http_%s: %s" % (e.code, e.det)
     except Exception as e:
-        registrar(c, 0, 0, type(e).__name__, modelo=rotulo)
+        # tempo esgotado: a API continua gerando e COBRA, mas a resposta não chega.
+        # O log guarda quanto se esperou e o teto, para ver se o tempo é que é curto.
+        registrar(c, 0, 0, type(e).__name__, modelo=rotulo,
+                  ms=int((datetime.datetime.now() - t0).total_seconds() * 1000), teto=teto)
         return None, "nuvem_erro_%s" % type(e).__name__
 
-def registrar(c, n_in, n_out, estado, usd=0.0, acumulado=0.0, modelo=None):
-    """Log de auditoria. Nunca grava conteúdo de laudo — só contadores."""
+def registrar(c, n_in, n_out, estado, usd=0.0, acumulado=0.0, modelo=None,
+              ms=None, teto=None, fim="", pensou=0):
+    """Log de auditoria. Nunca grava conteúdo de laudo — só contadores.
+    26/09: + tempo de resposta, teto de saída, por que parou e raciocínio (colunas no
+    fim da linha; quem lê só a 1a coluna, como o cálculo do cache, não muda)."""
     try:
+        extra = ""
+        if ms is not None:
+            extra += "\tms=%d" % ms
+        if teto:
+            extra += "\tteto=%d" % teto
+        if fim:
+            extra += "\tfim=%s" % fim
+        if pensou:
+            extra += "\tpensou=%d" % pensou
         with open(LOG, "a", encoding="utf-8") as f:
-            f.write("%s\t%s\t%s\tin=%d\tout=%d\tusd=%.5f\tmes=%.4f\n" % (
+            f.write("%s\t%s\t%s\tin=%d\tout=%d\tusd=%.5f\tmes=%.4f%s\n" % (
                 datetime.datetime.now().isoformat(timespec="seconds"),
-                modelo or c.get("modelo", ""), estado, n_in, n_out, usd, acumulado))
+                modelo or c.get("modelo", ""), estado, n_in, n_out, usd, acumulado, extra))
     except Exception:
         pass
+
+
+def tempo_de_espera(teto, c=None):
+    """Quanto esperar a resposta, em segundos. Proporcional ao tamanho pedido.
+
+    26/09: o timeout era 40 s fixo, e a rota do laudo pede até 4.000 tokens. O
+    Sonnet 5 escreve os laudos mais longos (mediana 1.694 tokens; Opus 5: 1.174) e
+    foi o único a estourar o tempo: 12 de 170 chamadas, todas nas respostas longas.
+    Sem streaming, nada chega antes de a resposta inteira ficar pronta — e o que a
+    API gerou é cobrado mesmo quando a resposta não chega. Agora: 30 s + 1 s a cada
+    40 tokens de teto, nunca menos que o timeout_s do config — e no máximo
+    timeout_max_s (85 s), porque o botão de reprocessar do app desiste em 90 s:
+    esperar mais aqui só faria a resposta chegar depois de a tela desistir."""
+    c = c or {}
+    base = int(c.get("timeout_s", 40) or 40)
+    maximo = int(c.get("timeout_max_s", 85) or 85)
+    return max(base, min(maximo, 30 + int(teto or 0) // 40))
 
 def estado():
     """Situação da IA para a interface (botão de IA e contador). Nunca inclui chave."""
