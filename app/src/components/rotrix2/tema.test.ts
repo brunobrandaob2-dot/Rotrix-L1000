@@ -8,9 +8,12 @@
 //      vai para o RIS e o laudo some no fundo branco de lá)
 
 import { readFileSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const aqui = import.meta.dir;
+// import.meta.dir é só do Bun: o tsc do build do .exe não conhece e PARA o build
+// (27/09: foi isso que segurou a versão nova no GitHub)
+const aqui = dirname(fileURLToPath(import.meta.url));
 const casos: [boolean, string][] = [];
 
 const telas = readdirSync(aqui).filter((f) => f.endsWith(".tsx"));

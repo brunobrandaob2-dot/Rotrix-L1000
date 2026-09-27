@@ -4,9 +4,7 @@ on:
   push:
     paths:
       - "roteador-atual/**"
-      - "app/src/components/rotrix2/**"
-      - "app/src/styles/**"
-      - "app/src/App.css"
+      - "app/src/**"
       - ".github/workflows/validar-mascaras.yml"
   pull_request:
   workflow_dispatch:
@@ -87,3 +85,6 @@ jobs:
       - name: A folha segue o tema (escuro = cinza-chumbo e letra branca; Ctrl+C sem a cor da tela)
         working-directory: app
         run: bun src/components/rotrix2/tema.test.ts
+      - name: Tipos do app (o mesmo tsc do build do .exe; em 27/09 um teste com API so do Bun parou o .exe)
+        working-directory: app
+        run: bun install --frozen-lockfile && bunx tsc --noEmit -p .
