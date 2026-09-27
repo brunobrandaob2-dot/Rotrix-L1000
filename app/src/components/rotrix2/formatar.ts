@@ -38,6 +38,16 @@ const ROTULO_MAX = 56;
 const NAO_ROTULO =
   /^(em|na|no|nas|nos|de|da|do|das|dos|com|sem|para|por|ao|aos|à|às|apos|após|antes|quando|se|nao|não|ha|há|havia|houve|nota|nota-se|observa|observa-se|observam|observam-se|verifica|verifica-se|identifica|identifica-se|exame|estudo|obs)\b/i;
 
+/**
+ * "Parênquima pulmonar:  texto" -> { rotulo: "Parênquima pulmonar", resto: "texto" }.
+ * O mesmo critério que põe o rótulo em negrito na folha; null se não é linha de estrutura.
+ */
+export const rotuloDeEstrutura = (linha: string): { rotulo: string; resto: string } | null => {
+  const e = ROTULO_ESTRUTURA.exec((linha || "").replace(/\u00a0/g, " ").trim());
+  if (!e || e[1].length > ROTULO_MAX || NAO_ROTULO.test(e[1])) return null;
+  return { rotulo: e[1].slice(0, -1).trim(), resto: e[3].trim() };
+};
+
 const soMaiusculas = (linha: string): boolean => {
   const letras = linha.replace(/[^A-Za-zÁ-Úá-ú]/g, "");
   return letras.length >= 4 && letras === letras.toUpperCase();

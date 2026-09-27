@@ -59,6 +59,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_versao.py
       - name: A lista de modelos da barra do Laudo responde antes de o app desistir (2,5 s)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_lista_rapida.py
+      - name: A mesma estrutura numa linha so antes da IA (frases prontas ditadas uma a uma)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_juntar_rotulos.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)
@@ -85,6 +87,9 @@ jobs:
       - name: A folha segue o tema (escuro = cinza-chumbo e letra branca; Ctrl+C sem a cor da tela)
         working-directory: app
         run: bun src/components/rotrix2/tema.test.ts
+      - name: Frase de estrutura que ja esta na folha entra NA linha dela
+        working-directory: app
+        run: bun src/components/rotrix2/juntar.test.ts
       - name: Tipos do app (o mesmo tsc do build do .exe; em 27/09 um teste com API so do Bun parou o .exe)
         working-directory: app
         run: bun install --frozen-lockfile && bunx tsc --noEmit -p .

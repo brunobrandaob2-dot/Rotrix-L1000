@@ -37,6 +37,7 @@ import {
 import { Button } from "../ui/Button";
 import { Dica } from "./Dica";
 import { textoEmHtml, htmlEmTexto, htmlEmMarcado, htmlDaFolha, copiarRico } from "./formatar";
+import { juntarNaFolha } from "./juntarEstrutura";
 import { BotoesDaFolha } from "./BotoesDaFolha";
 import { ImagemNaFolha } from "./ImagemNaFolha";
 
@@ -198,12 +199,26 @@ export const LaudoPage: React.FC<Props> = ({
   // ---------- o texto do ditado volta para a folha ----------
   useEffect(() => {
     const p = listen<string>("rotrix-ditado", (ev) => {
-      const texto = ev.payload || "";
+      let texto = ev.payload || "";
       setGravando(null);
       if (!texto.trim()) return;
       const el = folha.current;
       if (el) {
         el.focus();
+        // 27/09: frase de uma estrutura que já está na ANÁLISE ("Parênquima
+        // pulmonar:") entra NA linha dela, não numa linha nova (juntarEstrutura.ts)
+        const { sobra, juntadas } = juntarNaFolha(el, texto);
+        if (juntadas > 0) {
+          setAviso(juntadas === 1 ? "juntei na estrutura que já estava na folha" : `juntei ${juntadas} frases nas estruturas da folha`);
+          if (!sobra.trim()) {
+            if (esperandoIA.current) {
+              esperandoIA.current = false;
+              void rodarIA();
+            }
+            return;
+          }
+          texto = sobra;
+        }
         const sel = window.getSelection();
         const noCursor = Boolean(sel && sel.rangeCount && el.contains(sel.anchorNode));
         // máscara (várias linhas) entra formatada, com os títulos em negrito;

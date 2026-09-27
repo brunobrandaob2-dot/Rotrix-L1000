@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-27.1"
+VERSAO = "2026-09-27.2"
 
 
 def _impressao_do_codigo():
@@ -674,6 +674,54 @@ def dentro_analise(linhas, i):
 
 def _sem_hifen(t):
     return re.sub(r"^\s*-\s+", "", t)
+
+def _juntar_na_estrutura(atual, novo):
+    """O texto de uma estrutura depois de receber mais um achado (mesma regra do
+    montar: a normalidade que estava sai; frase repetida não duplica)."""
+    novo = (novo or "").strip()
+    if not novo:
+        return (atual or "").strip()
+    ficam = [f for f in re.split(r"(?<=[.])\s+", (atual or "").strip())
+             if f and not _NEGATIVA.match(f)]
+    if any(normalizar(f) == normalizar(novo) for f in ficam):
+        return " ".join(ficam)
+    if not ficam:
+        return novo
+    if not re.search(r"[.!?]$", ficam[-1]):
+        ficam[-1] += "."
+    return " ".join(ficam + [novo[0].upper() + novo[1:]])
+
+
+def juntar_rotulos_repetidos(texto):
+    """A mesma estrutura numa linha só, antes de o laudo ir para a IA.
+
+    27/09: frases prontas ditadas uma a uma chegam como várias linhas
+    "Parênquima pulmonar: ..." e o Terra, proibido de reordenar a ANÁLISE, deixava
+    cada uma na sua linha. Ele quer o parênquima numa linha só, com todas as frases.
+    Isto junta localmente (sem custo, sem depender do modelo obedecer): a partir da
+    2a linha com o mesmo rótulo, o texto vai para a 1a e a linha repetida sai.
+    Só dentro da ANÁLISE; sem ANÁLISE (frases soltas), vale para o texto todo."""
+    linhas = (texto or "").split("\n")
+    a = _idx(linhas, {"ANALISE", "RELATORIO", "ACHADOS"})
+    ini, fim = (a + 1, _fim_secao(linhas, a)) if a is not None else (0, len(linhas))
+    primeira, apagar = {}, set()
+    for i in range(ini, fim):
+        l = linhas[i]
+        if _cab(l) or not _ROTULO.match(l):
+            continue
+        rot, _, resto = l.partition(":")
+        chave = normalizar(_sem_hifen(rot))
+        if chave in primeira:
+            j = primeira[chave]
+            rj, _, cj = linhas[j].partition(":")
+            linhas[j] = rj + ":  " + _juntar_na_estrutura(cj, resto)
+            apagar.add(i)
+        else:
+            primeira[chave] = i
+    if not apagar:
+        return texto
+    return "\n".join(l for i, l in enumerate(linhas) if i not in apagar)
+
 
 def montar(base_txt, blocos, ditado=None):
     linhas = base_txt.split("\n")
@@ -3822,6 +3870,8 @@ def ia_no_texto(texto, instrucao="", modelo=""):
         return {"ok": False, "motivo": "nuvem_desligada", "texto": texto}
     if modelo:
         c = nuvem.com_modelo(c, modelo)
+    # a mesma estrutura numa linha só ANTES da IA: não depende do modelo obedecer
+    texto = juntar_rotulos_repetidos(texto)
     instrucao = (instrucao or "").strip()
     if instrucao:
         pedido = "INSTRUÇÃO FALADA: %s\n\nLAUDO NA TELA:\n%s" % (instrucao, texto)
@@ -3850,6 +3900,7 @@ def revisar_laudo_inteiro(texto):
     c = nuvem.config()
     if not c.get("ativa"):
         return None, "nuvem_desligada"
+    texto = juntar_rotulos_repetidos(texto)
     novo, origem = nuvem.chamar("LAUDO NA TELA:\n" + texto, c, modo="laudo",
                                 marcar=False, max_tokens=4000)
     if origem == "nuvem" and novo:
