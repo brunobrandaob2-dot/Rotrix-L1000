@@ -34,15 +34,34 @@ export const PISTA_BARATO = /haiku|mini|flash|lite|small|nano|fast|turbo/i;
 /** Pistas de id do modelo FORTE. "opus" ganha de "sonnet" quando os dois existem. */
 export const PISTA_FORTE = /opus|ultra|max|pro\b|large|sonnet/i;
 
-export const maisBarato = (modelos: { id: string }[]): string =>
-  modelos.find((m) => PISTA_BARATO.test(m.id))?.id || modelos[0]?.id || "";
+/**
+ * Pistas de id de modelo que NÃO conversa pela rota do roteador (/chat/completions):
+ * codex e "-pro" da OpenAI só existem na API Responses (404), e os de áudio,
+ * imagem, embedding e busca não escrevem laudo. 27/09: o Comparativo caía no
+ * "gpt-5.1-codex-max" porque "max" é pista de forte — e dava 404.
+ */
+export const NAO_CONVERSA =
+  /codex|^(?:gpt-[\w.]+|o\d+)-pro(-|$)|deep-research|turbo-instruct|embed|tts|whisper|dall-e|image|audio|realtime|moderation|transcri|\bsearch\b|sora/i;
 
-export const maisForte = (modelos: { id: string }[]): string => {
-  const fortes = modelos.filter((m) => PISTA_FORTE.test(m.id));
-  return (
-    fortes.find((m) => /opus|ultra|max/i.test(m.id))?.id || fortes[0]?.id || modelos[0]?.id || ""
-  );
+/** O id conversa pela rota do roteador? (tira o "provedor:" da frente antes) */
+export const conversa = (id: string): boolean => !NAO_CONVERSA.test((id || "").replace(/^[a-z]+:/, ""));
+
+const conversam = <T extends { id: string }>(modelos: T[]): T[] =>
+  modelos.filter((m) => conversa(m.id));
+
+export const maisBarato = (modelos: { id: string }[]): string => {
+  const ok = conversam(modelos);
+  return ok.find((m) => PISTA_BARATO.test(m.id))?.id || ok[0]?.id || "";
 };
+
+/** O forte que a pista RECONHECE (opus > sonnet > ...); "" se nenhum id der pista. */
+export const forteReconhecido = (modelos: { id: string }[]): string => {
+  const fortes = conversam(modelos).filter((m) => PISTA_FORTE.test(m.id));
+  return fortes.find((m) => /opus|ultra|max/i.test(m.id))?.id || fortes[0]?.id || "";
+};
+
+export const maisForte = (modelos: { id: string }[]): string =>
+  forteReconhecido(modelos) || conversam(modelos)[0]?.id || "";
 
 const existe = (modelos: { id: string }[], id: string): boolean =>
   !!id && modelos.some((m) => m.id === id);
@@ -80,6 +99,31 @@ export const escolherForte = (
   doConfig ||
   "";
 
-/** O mais forte, mas só do provedor do config (o Comparativo usa este). */
+/** O mais forte, mas só do provedor do config. */
 export const maisForteDoAtual = (modelos: { id: string }[]): string =>
   maisForte(doProvedorAtual(modelos));
+
+/**
+ * O modelo do Comparativo. 27/09: a tela do Comparativo mostrava SEMPRE o "mais
+ * forte" calculado — trocar no seletor não pegava (voltava sozinho) e ainda
+ * mexia no botão forte do Laudo por baixo. Agora:
+ *   1. o que ELE escolheu no Comparativo (guardado à parte do Laudo)
+ *   2. o forte reconhecível do provedor do config (opus, sonnet...)
+ *   3. o modelo do config.json, se existe na lista (a OpenAI não dá pista no id)
+ *   4. o primeiro do provedor do config que conversa
+ */
+export const escolherComparativo = (
+  modelos: { id: string; provedor?: string }[],
+  salvo: string,
+  doConfig: string,
+): string => {
+  const atuais = doProvedorAtual(modelos);
+  return (
+    (existe(modelos, salvo) && conversa(salvo) && salvo) ||
+    forteReconhecido(atuais) ||
+    (existe(modelos, doConfig) && doConfig) ||
+    maisForte(atuais) ||
+    doConfig ||
+    ""
+  );
+};

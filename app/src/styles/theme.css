@@ -26,6 +26,16 @@
   --dark-color-warning: #fbbf24;
   --dark-color-error: #f87171;
 
+  /* Rotrix: a folha do laudo e as outras folhas de texto. 27/09: no tema escuro
+     ele quer fundo cinza-chumbo bem escuro e letra branca, integrado ao app; no
+     claro continua papel branco com letra preta. */
+  --light-color-papel: #ffffff;
+  --light-color-papel-texto: #000000;
+  --light-color-papel-linha: rgba(0, 0, 0, 0.1);
+  --dark-color-papel: #1e1f21;
+  --dark-color-papel-texto: #ffffff;
+  --dark-color-papel-linha: rgba(255, 255, 255, 0.14);
+
   /* Tokens that do not change between light and dark */
   --color-background-ui: #da5893;
   --color-text-stroke: #f6f6f6;
@@ -39,6 +49,9 @@
   --color-mid-gray: var(--light-color-mid-gray);
   --color-warning: var(--light-color-warning);
   --color-error: var(--light-color-error);
+  --color-papel: var(--light-color-papel);
+  --color-papel-texto: var(--light-color-papel-texto);
+  --color-papel-linha: var(--light-color-papel-linha);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -50,6 +63,9 @@
     --color-mid-gray: var(--dark-color-mid-gray);
     --color-warning: var(--dark-color-warning);
     --color-error: var(--dark-color-error);
+    --color-papel: var(--dark-color-papel);
+    --color-papel-texto: var(--dark-color-papel-texto);
+    --color-papel-linha: var(--dark-color-papel-linha);
   }
 }
 
@@ -64,6 +80,9 @@
  * the settings window and the recording overlay alike — honours the override.
  */
 :root[data-theme="light"] {
+  --color-papel: var(--light-color-papel);
+  --color-papel-texto: var(--light-color-papel-texto);
+  --color-papel-linha: var(--light-color-papel-linha);
   --color-text: var(--light-color-text);
   --color-background: var(--light-color-background);
   --color-logo-primary: var(--light-color-logo-primary);
@@ -74,6 +93,9 @@
 }
 
 :root[data-theme="dark"] {
+  --color-papel: var(--dark-color-papel);
+  --color-papel-texto: var(--dark-color-papel-texto);
+  --color-papel-linha: var(--dark-color-papel-linha);
   --color-text: var(--dark-color-text);
   --color-background: var(--dark-color-background);
   --color-logo-primary: var(--dark-color-logo-primary);

@@ -56,10 +56,13 @@ const ABAS: { id: Aba; nome: string; icone: React.ElementType }[] = [
 // A lista de modelos vem da API do provedor instalado, não de tabela aqui.
 // Tabela escrita à mão envelhece e amarra o app a um fornecedor: quem instala
 // com chave de outro continuava vendo os nomes do primeiro na tela.
-import { escolherLeve, escolherForte, maisForteDoAtual } from "./modelos";
+import { escolherLeve, escolherForte, escolherComparativo, conversa } from "./modelos";
+import { ligarCopiaLimpa } from "./copiaLimpa";
 
 const GUARDADO = "rotrix2.modeloForte";
 const GUARDADO_LEVE = "rotrix2.modeloLeve";
+// 27/09: o Comparativo tem a escolha dele, separada do botão forte do Laudo
+const GUARDADO_COMPARATIVO = "rotrix2.modeloComparativo";
 
 // Nome curto de um modelo, para caber no botão. Sai do PRÓPRIO identificador
 // que o provedor devolveu — nenhum nome de fabricante escrito aqui. Assim a
@@ -128,6 +131,13 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
       return "";
     }
   });
+  const [modeloComparativo, setModeloComparativo] = useState<string>(() => {
+    try {
+      return localStorage.getItem(GUARDADO_COMPARATIVO) || "";
+    } catch {
+      return "";
+    }
+  });
 
   // quantos exames estão esperando (marcador da aba Fila)
   const contarFila = useCallback(async () => {
@@ -186,7 +196,9 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
         falhas?: Record<string, string>;
         atualizando?: string[];
       };
-      const nova = d.ok && d.modelos ? d.modelos : [];
+      // codex/pro da OpenAI, áudio, imagem, embedding: não conversam pela rota do
+      // roteador (404). Fora de TODOS os seletores, mesmo com roteador antigo.
+      const nova = (d.ok && d.modelos ? d.modelos : []).filter((m) => conversa(m.id));
       const chegando = d.motivo === "sem_resposta_ainda";
       // provedor lento (não falhou): a lista que já estava fica até a nova chegar
       setListaModelos((antes) => (nova.length === 0 && chegando && antes.length > 0 ? antes : nova));
@@ -214,6 +226,9 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
   }, []);
 
   recarregarRef.current = recarregarIa;
+
+  // tema escuro: Ctrl+C numa folha não leva a letra branca da tela para o RIS
+  useEffect(() => ligarCopiaLimpa(), []);
 
   useEffect(() => {
     void recarregarIa();
@@ -249,6 +264,14 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
   const trocarModeloLeve = (id: string) => {
     setModeloLeve(id);
     guardar(GUARDADO_LEVE, id);
+  };
+
+  // o seletor do Comparativo mexe só no Comparativo (antes mexia no forte do Laudo
+  // e a tela do Comparativo voltava sozinha para o "mais forte" calculado)
+  const idComparativo = escolherComparativo(listaModelos, modeloComparativo, ia.modelo) || forte;
+  const trocarModeloComparativo = (id: string) => {
+    setModeloComparativo(id);
+    guardar(GUARDADO_COMPARATIVO, id);
   };
 
   const abrirNoLaudo = (texto: string) => {
@@ -346,12 +369,12 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
             />
           </div>
           <div className={subAdendo === "comparativo" ? "flex-1 min-h-0" : "hidden"}>
-            {/* comparativo entra no modelo mais forte disponível, não no que
-                estiver escolhido na barra do Laudo */}
+            {/* comparativo: sem escolha, o mais forte do provedor do config; com
+                escolha no seletor DELE, a escolha manda (separada da barra do Laudo) */}
             <ComparativoPage
               modelos={listaModelos}
-              idModelo={maisForteDoAtual(listaModelos) || forte}
-              aoTrocarModelo={trocarModelo}
+              idModelo={idComparativo}
+              aoTrocarModelo={trocarModeloComparativo}
             />
           </div>
         </div>

@@ -224,7 +224,7 @@ export const AdendoPage: React.FC<{
               value={laudo}
               onChange={(e) => setLaudo(e.target.value)}
               placeholder="cole aqui o laudo inteiro, sem o cabeçalho com o nome do paciente"
-              className="flex-1 min-h-40 w-full resize-none bg-white text-black px-4 py-3 text-[12px] leading-relaxed outline-none rounded-b-lg"
+              className="flex-1 min-h-40 w-full resize-none papel px-4 py-3 text-[12px] leading-relaxed outline-none rounded-b-lg"
             />
           </div>
 
@@ -297,7 +297,7 @@ export const AdendoPage: React.FC<{
               {saida?.ok && saida.texto ? (
                 <TextoDeLaudo
                   texto={saida.texto}
-                  className="text-[12px] leading-relaxed rounded-lg border border-mid-gray/20 bg-white text-black p-4"
+                  className="text-[12px] leading-relaxed rounded-lg border border-mid-gray/20 papel p-4"
                 />
               ) : (
                 <p className="text-xs text-mid-gray">

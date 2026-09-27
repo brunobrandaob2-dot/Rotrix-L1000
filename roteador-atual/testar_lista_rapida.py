@@ -53,7 +53,9 @@ _trava = threading.Lock()
 
 ANT = [{"id": "claude-haiku-4-5", "nome": "Haiku 4.5"}, {"id": "claude-opus-5-5", "nome": "Opus 5.5"},
        {"id": "claude-sonnet-5", "nome": "Sonnet 5"}]
-OAI = [{"id": x, "nome": x} for x in ("gpt-5.6-luna", "gpt-5.6-terra", "o3", "text-embedding-3-large",
+OAI = [{"id": x, "nome": x} for x in ("gpt-5.1-codex-max", "gpt-5-pro", "o1-pro-2025-03-19",
+                                        "gpt-3.5-turbo-instruct", "o3-deep-research",
+                                        "gpt-5.6-luna", "gpt-5.6-terra", "o3", "text-embedding-3-large",
                                         "whisper-1", "gpt-image-1", "tts-1", "davinci-002",
                                         "omni-moderation-latest", "gpt-realtime")]
 
@@ -108,6 +110,16 @@ try:
             not any(x in i for i in ids for x in ("embedding", "whisper", "image", "tts", "davinci",
                                                    "moderation", "realtime")), repr(ids))
     confere("modelos de texto da OpenAI ficam", "openai:o3" in ids and "openai:gpt-5.6-luna" in ids)
+    confere("codex/pro/instruct/deep-research da OpenAI fora (só API Responses: 404)",
+            not any(x in i for i in ids for x in ("codex", "-pro", "instruct", "deep-research")), repr(ids))
+    CONFIG_ANTES = dict(CONFIG)
+    CONFIG.update(provedor="openai", modelo="gpt-5.6-terra")
+    r_oai = roteador.ia_modelos()
+    # os do provedor do config vêm com o id puro (é deles que o app tira o palpite)
+    ids_oai = [m["id"] for m in r_oai.get("modelos", []) if ":" not in m["id"]]
+    confere("provedor do config na OpenAI: o modelo do config vem PRIMEIRO entre os dela",
+            ids_oai[:1] == ["gpt-5.6-terra"], repr(ids_oai[:3]))
+    CONFIG.clear(); CONFIG.update(CONFIG_ANTES)
 
     # 4 e 5
     antes = len(IDAS)

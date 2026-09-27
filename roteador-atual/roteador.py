@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-26.3"
+VERSAO = "2026-09-27.1"
 
 
 def _impressao_do_codigo():
@@ -2956,9 +2956,18 @@ _NAO_E_TEXTO = re.compile(r"embed|tts|whisper|dall-e|moderation|transcri|realtim
                           r"image|\bsearch\b|davinci|babbage|computer-use|sora", re.I)
 
 
-def _de_texto(m):
+# OpenAI: modelos que só existem na API Responses (codex, "-pro", deep-research) ou
+# só na de completions antiga (instruct). O roteador chama /chat/completions: 404.
+# 27/09 03h22: "gpt-5.1-codex-max" escolhido deu 404; o Comparativo caía nele
+# sozinho ("max" é pista de modelo forte no app).
+_SO_FORA_DO_CHAT_OPENAI = re.compile(r"codex|^(?:gpt-[\w.]+|o\d+)-pro(-|$)|deep-research|instruct", re.I)
+
+
+def _de_texto(m, provedor=""):
     mid = m.get("id") if isinstance(m, dict) else str(m)
-    return bool(mid) and not _NAO_E_TEXTO.search(mid)
+    if not mid or _NAO_E_TEXTO.search(mid):
+        return False
+    return not (provedor == "openai" and _SO_FORA_DO_CHAT_OPENAI.search(mid))
 
 
 def _esquecer_listas():
@@ -3125,7 +3134,12 @@ def ia_modelos(provedor=""):
     juntos, quais, falhas, atrasados = [], [], {}, []
     for nome in nomes:
         r = _resultado_de_um(c, nome)
-        lista = [m for m in (r.get("modelos") or []) if _de_texto(m)]
+        lista = [m for m in (r.get("modelos") or []) if _de_texto(m, nome)]
+        if nome == atual:
+            # o modelo do config.json na frente: app antigo, sem pista de "forte" no
+            # id (OpenAI), caía no primeiro da lista em ordem alfabética
+            doc = (c.get("modelo") or "").strip()
+            lista.sort(key=lambda m: 0 if ((m.get("id") if isinstance(m, dict) else str(m)) == doc) else 1)
         if r.get("atualizando"):
             atrasados.append(nome)
         if not lista:

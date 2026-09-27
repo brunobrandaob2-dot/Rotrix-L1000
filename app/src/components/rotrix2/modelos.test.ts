@@ -9,7 +9,15 @@
 // Ele instalou aquela versão e seguiu pagando dez vezes mais. Este teste existe
 // para que nenhum botão volte a escolher modelo por ordem de lista.
 
-import { escolherLeve, escolherForte, maisForte, maisBarato, maisForteDoAtual } from "./modelos";
+import {
+  escolherLeve,
+  escolherForte,
+  escolherComparativo,
+  maisForte,
+  maisBarato,
+  maisForteDoAtual,
+  conversa,
+} from "./modelos";
 
 // A lista como a API devolveu no dia — Fable em primeiro, que foi o estrago.
 const LISTA = [
@@ -29,6 +37,20 @@ const MISTA_ANTHROPIC = [
 const SO_OUTROS = [
   { id: "anthropic:claude-opus-5-5", provedor: "anthropic" },
   { id: "anthropic:claude-haiku-4-5", provedor: "anthropic" },
+];
+
+// config em OPENAI (27/09): a lista real tem codex, pro, sora... e nenhum id com pista
+// de forte que converse
+const OPENAI = [
+  { id: "chat-latest" },
+  { id: "gpt-5.1-codex-max" },
+  { id: "gpt-5-pro" },
+  { id: "gpt-5.6-luna" },
+  { id: "gpt-5.6-sol" },
+  { id: "gpt-5.6-terra" },
+  { id: "sora-2-pro" },
+  { id: "text-embedding-3-large" },
+  { id: "anthropic:claude-opus-5-5", provedor: "anthropic" },
 ];
 
 const casos: [boolean, string][] = [
@@ -95,6 +117,34 @@ const casos: [boolean, string][] = [
   [escolherLeve(SO_OUTROS, "") === "", "OpenAI sem resposta: o leve não pega a Anthropic"],
   [maisForteDoAtual(SO_OUTROS) === "", "comparativo: nenhum modelo do provedor do config, nada de Opus"],
   [maisForteDoAtual(MISTA_ANTHROPIC) === "claude-opus-5-5", "comparativo: o mais forte do provedor do config"],
+
+  // --- 27/09: config na OpenAI; o Comparativo caía no codex-max ("max" é pista de
+  // forte) e dava 404; e trocar no seletor do Comparativo não pegava
+  [
+    escolherComparativo(OPENAI, "", "gpt-5.6-terra") === "gpt-5.6-terra",
+    "comparativo na OpenAI sem escolha: o modelo do config, NUNCA o codex-max",
+  ],
+  [maisForte(OPENAI) !== "gpt-5.1-codex-max", "maisForte nunca devolve codex (só existe na API Responses)"],
+  [
+    escolherComparativo(OPENAI, "gpt-5.6-sol", "gpt-5.6-terra") === "gpt-5.6-sol",
+    "comparativo: a escolha dele no seletor pega",
+  ],
+  [
+    escolherComparativo(OPENAI, "anthropic:claude-opus-5-5", "gpt-5.6-terra") === "anthropic:claude-opus-5-5",
+    "comparativo: pode escolher outro provedor de propósito",
+  ],
+  [
+    escolherComparativo(OPENAI, "gpt-5.1-codex-max", "gpt-5.6-terra") === "gpt-5.6-terra",
+    "comparativo: escolha antiga de codex (que dá 404) é ignorada",
+  ],
+  [
+    escolherComparativo(MISTA_ANTHROPIC, "", "claude-sonnet-5") === "claude-opus-5-5",
+    "comparativo na Anthropic sem escolha: continua no mais forte (opus)",
+  ],
+  [!conversa("gpt-5-pro") && !conversa("o1-pro-2025-03-19") && !conversa("openai:gpt-5.2-codex"),
+    "pro/codex da OpenAI ficam fora"],
+  [conversa("gemini-2.5-pro") && conversa("gpt-5.6-terra") && conversa("o3"),
+    "gemini-pro e os gpt de conversa ficam"],
 ];
 
 console.log("=== qual IA cada botão aciona ===");

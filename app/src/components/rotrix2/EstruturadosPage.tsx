@@ -629,8 +629,8 @@ export const EstruturadosPage: React.FC = () => {
         <div className="px-3 py-2 border-b border-mid-gray/20 text-[11px] text-mid-gray">
           o que vai para a folha
         </div>
-        <div className="flex-1 min-h-0 overflow-y-auto bg-white">
-          <pre className="px-6 py-5 text-black text-[11.5px] leading-[1.65] whitespace-pre-wrap font-sans">
+        <div className="flex-1 min-h-0 overflow-y-auto papel">
+          <pre className="px-6 py-5 text-[11.5px] leading-[1.65] whitespace-pre-wrap font-sans">
             {textoTodo.replace(/\*\*/g, "") || "marque os achados e aperte Montar"}
           </pre>
         </div>

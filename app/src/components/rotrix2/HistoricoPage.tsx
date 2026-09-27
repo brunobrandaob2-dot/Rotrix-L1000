@@ -284,7 +284,7 @@ export const HistoricoPage: React.FC<{
                 <div className="p-3">
                   <TextoDeLaudo
                     texto={texto || "(sem texto)"}
-                    className="text-[12px] leading-relaxed rounded-lg border border-mid-gray/20 bg-white text-black p-4 min-h-56 max-h-[420px] overflow-y-auto select-text"
+                    className="text-[12px] leading-relaxed rounded-lg border border-mid-gray/20 papel p-4 min-h-56 max-h-[420px] overflow-y-auto select-text"
                   />
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     <Button

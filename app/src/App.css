@@ -45,6 +45,28 @@
   background-color: var(--color-background);
 }
 
+/* Rotrix: folha de texto (Laudo, Adendo, Comparativo...). Cor pelo tema — ver
+   --color-papel em styles/theme.css. */
+.papel {
+  background-color: var(--color-papel);
+  color: var(--color-papel-texto);
+}
+
+/* No escuro, texto COLADO de outro programa na folha do Laudo pode trazer cor
+   própria (preto do RIS, fundo branco do Word) e sumir no fundo escuro. Só a
+   TELA ignora essa cor: o HTML guardado na folha não muda, e o que vai para o
+   RIS sai pelo copiar limpo (copiaLimpa.ts), sem a cor branca da tela. */
+:root[data-theme="dark"] [data-rotrix="folha"] * {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) [data-rotrix="folha"] * {
+    color: inherit !important;
+    background-color: transparent !important;
+  }
+}
+
 .container {
   margin: 0;
   padding-top: 10vh;

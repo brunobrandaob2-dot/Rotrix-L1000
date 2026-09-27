@@ -266,7 +266,7 @@ const PainelMedidas: React.FC<{
         )}
 
         {saida && (
-          <div className="rounded-lg bg-white text-black p-3">
+          <div className="rounded-lg papel p-3">
             <pre className="whitespace-pre-wrap font-mono text-[11px] leading-[1.5]">
               {saida.texto.replace(/\*\*/g, "")}
             </pre>
@@ -438,7 +438,7 @@ const PainelIdadeOssea: React.FC<{
               <b className="text-text">{String(r.z)}</b> · percentil{" "}
               <b className="text-text">{String(r.percentil)}%</b>
             </div>
-            <div className="rounded-lg bg-white text-black p-3">
+            <div className="rounded-lg papel p-3">
               <pre className="whitespace-pre-wrap text-[11px] leading-[1.5]">
                 {String(r.texto || "").replace(/\*\*/g, "")}
               </pre>
@@ -682,7 +682,7 @@ const PainelCalculos: React.FC<{
                   <b className="text-text">{String(r.variacao_diametro_pct)}%</b></>
               )}
             </div>
-            <div className="rounded-lg bg-white text-black p-3 text-[11.5px] leading-[1.55]">
+            <div className="rounded-lg papel p-3 text-[11.5px] leading-[1.55]">
               {String(r.frase || "")}
             </div>
             {((r.avisos as string[]) || []).map((a) => (
@@ -783,7 +783,7 @@ const PainelPrescricoes: React.FC<{
         </div>
         <div className="flex-1 min-w-0 overflow-y-auto p-3">
           {texto ? (
-            <div className="rounded-lg bg-white text-black p-3">
+            <div className="rounded-lg papel p-3">
               <pre className="whitespace-pre-wrap text-[11px] leading-[1.55]">
                 {texto.replace(/\*\*/g, "")}
               </pre>

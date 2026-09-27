@@ -5,6 +5,8 @@ on:
     paths:
       - "roteador-atual/**"
       - "app/src/components/rotrix2/**"
+      - "app/src/styles/**"
+      - "app/src/App.css"
       - ".github/workflows/validar-mascaras.yml"
   pull_request:
   workflow_dispatch:
@@ -82,3 +84,6 @@ jobs:
       - name: Qual IA cada botao aciona (nenhum botao paga caro por acaso)
         working-directory: app
         run: bun src/components/rotrix2/modelos.test.ts
+      - name: A folha segue o tema (escuro = cinza-chumbo e letra branca; Ctrl+C sem a cor da tela)
+        working-directory: app
+        run: bun src/components/rotrix2/tema.test.ts

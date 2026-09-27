@@ -188,11 +188,11 @@ export const PrescricoesPage: React.FC = () => {
         </div>
 
         <div className="flex-1 min-w-0 flex flex-col">
-          <div className="flex-1 min-h-0 overflow-y-auto bg-white">
+          <div className="flex-1 min-h-0 overflow-y-auto papel">
             {texto ? (
               <div
                 ref={folha}
-                className="min-h-full px-10 py-8 text-black text-[12.5px] leading-[1.7] outline-none [&_.lacuna]:bg-[#fdeef6] [&_.lacuna]:text-[#9d2168] [&_.lacuna]:rounded-sm [&_.lacuna]:px-1 [&_.lacuna]:font-semibold [&_.lacuna-op]:bg-[#fdeef6] [&_.lacuna-op]:text-[#9d2168] [&_.lacuna-op]:rounded-sm [&_.lacuna-op]:px-1 [&_.lacuna-op]:font-semibold [&_.lacuna-op]:border-0"
+                className="min-h-full px-10 py-8 text-[12.5px] leading-[1.7] outline-none [&_.lacuna]:bg-[#fdeef6] [&_.lacuna]:text-[#9d2168] [&_.lacuna]:rounded-sm [&_.lacuna]:px-1 [&_.lacuna]:font-semibold [&_.lacuna-op]:bg-[#fdeef6] [&_.lacuna-op]:text-[#9d2168] [&_.lacuna-op]:rounded-sm [&_.lacuna-op]:px-1 [&_.lacuna-op]:font-semibold [&_.lacuna-op]:border-0"
                 dangerouslySetInnerHTML={{ __html: html }}
               />
             ) : (

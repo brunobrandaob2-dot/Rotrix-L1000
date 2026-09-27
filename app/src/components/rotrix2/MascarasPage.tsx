@@ -533,7 +533,7 @@ export const MascarasPage: React.FC<{
               {texto ? (
                 <TextoDeLaudo
                   texto={texto}
-                  className="text-[11.5px] leading-relaxed rounded-lg border border-mid-gray/20 bg-white text-black p-3"
+                  className="text-[11.5px] leading-relaxed rounded-lg border border-mid-gray/20 papel p-3"
                 />
               ) : (
                 <p className="text-xs text-mid-gray">

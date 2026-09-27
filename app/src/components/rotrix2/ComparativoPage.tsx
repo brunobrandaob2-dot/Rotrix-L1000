@@ -336,6 +336,9 @@ export const ComparativoPage: React.FC<Props> = ({
               title="qual IA faz a comparação"
               className="h-7 rounded-lg border border-mid-gray/25 bg-background text-xs px-1 cursor-pointer"
             >
+              {idModelo !== "" && !modelos.some((m) => m.id === idModelo) && (
+                <option value={idModelo}>{idModelo} (fora da lista)</option>
+              )}
               {modelos.map((m) => (
                 <option key={m.id} value={m.id}>
                   {m.nome}
@@ -381,7 +384,7 @@ export const ComparativoPage: React.FC<Props> = ({
             value={anterior}
             onChange={(e) => setAnterior(e.target.value)}
             placeholder="cole aqui o laudo do exame anterior"
-            className="flex-1 min-h-0 w-full resize-none bg-white text-black px-6 py-5 text-[12px] leading-[1.6] outline-none"
+            className="flex-1 min-h-0 w-full resize-none papel px-6 py-5 text-[12px] leading-[1.6] outline-none"
           />
         </div>
 
@@ -394,7 +397,7 @@ export const ComparativoPage: React.FC<Props> = ({
             ref={atual}
             onFocus={() => setOndeDitar("atual")}
             placeholder="dite ou escreva o laudo de agora — ou aperte Gerar o atual"
-            className="flex-1 min-h-0 w-full resize-none bg-white text-black px-6 py-5 text-[12px] leading-[1.6] outline-none"
+            className="flex-1 min-h-0 w-full resize-none papel px-6 py-5 text-[12px] leading-[1.6] outline-none"
           />
         </div>
       </div>

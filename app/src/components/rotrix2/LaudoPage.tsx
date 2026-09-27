@@ -633,7 +633,7 @@ export const LaudoPage: React.FC<Props> = ({
 
       {/* ---------- a folha ---------- */}
       {/* a folha ocupa a janela inteira: sem moldura escura em volta dela */}
-      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden bg-white">
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden papel">
         <div
           ref={folha}
           contentEditable
@@ -645,9 +645,9 @@ export const LaudoPage: React.FC<Props> = ({
             // a folha cresce com o texto e marca onde termina cada página,
             // como no Word: a linha tracejada aparece a cada 720 px de texto
             backgroundImage:
-              "repeating-linear-gradient(to bottom, transparent 0 716px, rgba(0,0,0,.10) 716px 717px, transparent 717px 720px)",
+              "repeating-linear-gradient(to bottom, transparent 0 716px, var(--color-papel-linha) 716px 717px, transparent 717px 720px)",
           }}
-          className="w-full min-h-full h-auto bg-white text-black px-10 py-8 text-[12px] leading-[1.6] outline-none select-text cursor-text break-words [&_*]:max-w-full"
+          className="w-full min-h-full h-auto papel px-10 py-8 text-[12px] leading-[1.6] outline-none select-text cursor-text break-words [&_*]:max-w-full"
         />
       </div>
 
