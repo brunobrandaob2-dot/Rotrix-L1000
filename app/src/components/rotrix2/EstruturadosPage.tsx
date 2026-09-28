@@ -20,6 +20,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { LayoutGrid, CornerDownLeft, Copy, Trash2 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { htmlDeTexto, semMarcas, copiarRico } from "./formatar";
+import { LyonEstruturado } from "./LyonEstruturado";
 
 type Segmento = "cervical" | "toracica" | "lombar";
 type Modalidade = "tc" | "rm";
@@ -199,6 +200,8 @@ const Chip: React.FC<{
 );
 
 export const EstruturadosPage: React.FC = () => {
+  // 27/09: além da coluna, o joelho (protocolo de Lyon), com o passo a passo
+  const [exame, setExame] = useState<"coluna" | "lyon">("coluna");
   const [segmento, setSegmento] = useState<Segmento>("lombar");
   const [modalidade, setModalidade] = useState<Modalidade>("rm");
   const [campos, setCampos] = useState<Campos | null>(null);
@@ -317,10 +320,15 @@ export const EstruturadosPage: React.FC = () => {
     });
   };
 
+  if (exame === "lyon") {
+    return <LyonEstruturado aoTrocar={() => setExame("coluna")} />;
+  }
+
   if (!campos) {
     return (
-      <div className="p-6 text-[12.5px] text-mid-gray">
+      <div className="p-6 text-[12.5px] text-mid-gray flex flex-col gap-2 items-start">
         o roteador ainda não respondeu com a grade deste segmento
+        <Chip onClick={() => setExame("lyon")}>Joelho · Lyon</Chip>
       </div>
     );
   }
@@ -332,6 +340,12 @@ export const EstruturadosPage: React.FC = () => {
         <div className="flex items-center gap-2 px-3 py-2 border-b border-mid-gray/20 flex-wrap">
           <LayoutGrid size={15} />
           <span className="text-[13px] font-semibold">Estruturados</span>
+          <div className="flex gap-1 ms-2">
+            <Chip on onClick={() => undefined}>
+              Coluna
+            </Chip>
+            <Chip onClick={() => setExame("lyon")}>Joelho · Lyon</Chip>
+          </div>
           <div className="flex gap-1 ms-2">
             {SEGMENTOS.map(([id, nome]) => (
               <Chip key={id} on={segmento === id} onClick={() => setSegmento(id)}>

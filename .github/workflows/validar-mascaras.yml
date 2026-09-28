@@ -65,6 +65,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_local_ditado.py
       - name: O print com as medidas vai para a IA junto com o laudo (Anthropic e OpenAI)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_imagem_ia.py
+      - name: Protocolo de Lyon estruturado (os numeros viram o laudo, sempre igual)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_lyon.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)

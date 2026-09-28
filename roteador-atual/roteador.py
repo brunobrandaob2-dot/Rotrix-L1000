@@ -58,10 +58,14 @@ try:
     import estruturados      # grade de níveis da coluna: montagem por regra
 except Exception:
     estruturados = None
+try:
+    import lyon              # TC dos joelhos, protocolo de Lyon: montagem por regra
+except Exception:
+    lyon = None
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-27.5"
+VERSAO = "2026-09-27.6"
 
 
 def _impressao_do_codigo():
@@ -2875,6 +2879,9 @@ class Handler(BaseHTTPRequestHandler):
         if self.path.rstrip("/").startswith(("/estruturados/campos", "/v1/estruturados/campos")):
             from urllib.parse import urlparse, parse_qs
             q = parse_qs(urlparse(self.path).query)
+            if (q.get("segmento") or [""])[0] == "lyon":
+                return self._json(200, lyon.campos() if lyon else
+                                  {"ok": False, "motivo": "lyon_indisponivel"})
             if estruturados is None:
                 return self._json(200, {"ok": False, "motivo": "estruturados_indisponivel"})
             return self._json(200, estruturados.campos(
@@ -3707,6 +3714,14 @@ def mascara_normal(regiao, modalidade):
 
 def estruturados_montar(corpo):
     """POST /v1/estruturados — devolve o laudo inteiro, não só as alterações."""
+    if (corpo or {}).get("tipo") == "lyon":
+        # 27/09: TC dos joelhos, protocolo de Lyon (lyon.py). Laudo inteiro por regra.
+        if lyon is None:
+            return {"ok": False, "motivo": "lyon_indisponivel"}
+        resposta = lyon.montar(corpo)
+        if resposta.get("ok"):
+            resposta["texto"] = formatar_saida(resposta["texto"])
+        return resposta
     if estruturados is None:
         return {"ok": False, "motivo": "estruturados_indisponivel"}
     segmento = (corpo or {}).get("segmento") or "lombar"
