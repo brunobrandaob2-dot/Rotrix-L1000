@@ -1,111 +1,138 @@
 # -*- coding: utf-8 -*-
-"""TC dos joelhos — protocolo de Lyon, estruturado (27/09).
+"""TC dos joelhos — protocolo de Lyon, estruturado (27–28/09).
 
-Ele pediu o Lyon na aba Estruturados, com o passo a passo de como medir ao lado
-de cada campo (o infográfico). Mesma regra dos outros estruturados:
+28/09: ele mandou A máscara dele ("eu quero que seja essa a máscara do joelho de
+Lyon nos estruturados"): texto corrido para patela, fêmur/tíbia, espaços e
+derrame, e uma TABELA de medidas por joelho, com o valor normal de cada uma:
 
-1. **A frase sai por regra, não pela IA.** Os mesmos números dão sempre o mesmo
-   laudo. Os cortes são os do infográfico:
-   - ângulo do sulco acima de 145° = aumentado;
-   - Caton-Deschamps acima de 1,2 = patela alta, abaixo de 0,6 = patela baixa;
-   - inclinação patelar acima de 20° (quadríceps relaxado) = aumentada;
-   - TT-TG até 15 mm normal, de 15 a 19 limítrofe, 20 ou mais aumentada;
-   - TT-PCL acima de 24 mm = aumentada.
-2. **Campo vazio não vira lacuna**: a linha sai (regra de urgência dele). Só a
-   tróclea, a patela e as estruturas ósseas têm frase normal por padrão.
-3. **A CONCLUSÃO só tem o que está alterado ou limítrofe**, lado a lado. Sem nada
-   alterado, a frase normal (FRASE_NORMAL) — a dele, quando ele disser outra.
-4. **O que ele corrigiu fica**: "tróclea rasa" existe sem ser displasia (27/09,
-   o caso do TT-TG de 16 mm). A tela avisa, sem trocar a escolha dele, quando o
-   ângulo do sulco passa de 145° com a tróclea marcada como habitual ou rasa.
+    Ângulo do sulco troclear                ≤ 143º
+    Razão troclear medial-lateral           > 40%
+    Inclinação troclear lateral             > 11º
+    Inclinação patelar ("tilt")             < 20º
+    Inclinação patelar ("tilt") contração   10-26º
+    Índice de Insall-Salvati                0,8 - 1,3
+    TA-GT                                   15 mm (+/- 4)
 
-O passo a passo (onde, como, corte) também sai daqui, para a tela só desenhar:
-corrigir um texto do guia é ATUALIZAR, sem .exe novo.
+O texto dele entra como ele escreveu (inclusive o "º"). O que é regra:
+
+1. **Os valores normais são os da máscara dele** — é contra eles que cada medida
+   é julgada (TA-GT normal de 11 a 19 mm; 20 mm já é alterado).
+2. **Campo vazio não vira lacuna**: a linha da tabela sai; um joelho sem nenhuma
+   medida fica sem tabela.
+3. **Os dois joelhos**: título "DO JOELHO DIREITO E ESQUERDO" e ", bilateral" no
+   texto corrido, como na máscara. Um joelho só: sem "bilateral".
+4. **Seções do modelo dele** (INDICAÇÃO CLÍNICA, COMPARAÇÃO, CONCLUSÃO): a máscara
+   que ele mandou não as tem, mas o modelo dele diz que elas não saem. A
+   CONCLUSÃO lista só o que está fora do normal; sem nada, FRASE_NORMAL.
+
+O passo a passo (onde, como, normal) também sai daqui: corrigir um texto do guia
+é ATUALIZAR, sem .exe novo.
 """
 
-TITULO = "TOMOGRAFIA COMPUTADORIZADA {alvo} - PROTOCOLO DE LYON"
-TECNICA = ("aquisições tomográficas {alvo_min} conforme protocolo de Lyon, sem injeção "
-           "intravenosa de meio de contraste iodado.")
+TITULO = "TOMOGRAFIA COMPUTADORIZADA DO {alvo}"
+TECNICA = "Foram realizados cortes tomográficos computadorizados axiais do joelho em extensão."
 COMPARACAO = "estudos anteriores não disponíveis para análise comparativa."
 FRASE_NORMAL = "Parâmetros femoropatelares dentro dos limites da normalidade."
 
 LADOS = {"direito": ["d"], "esquerdo": ["e"], "ambos": ["d", "e"]}
 NOME = {"d": ("direita", "direito"), "e": ("esquerda", "esquerdo")}
 
-TROCLEA = ["habitual", "rasa", "displasia A", "displasia B", "displasia C", "displasia D"]
-POSICAO = ["centrada", "discreta lateralização", "subluxação lateral"]
-OSSOS = ["sem fraturas ou lesões ósseas focais evidentes",
-         "sem outras alterações ósseas significativas"]
+POSICAO = ["normoposicionada no sulco troclear",
+           "discretamente lateralizada em relação ao sulco troclear",
+           "subluxada lateralmente"]
+WIBERG = ["1", "2", "3"]
 
-# O guia: um passo por linha da máscara. Os ids dos campos são os do formulário.
+# (id, rótulo na tabela, unidade, valor normal como na máscara, julgamento, frase da conclusão)
+# julgamento(x) -> None (normal) ou a palavra do estado
+LINHAS = [
+    ("sulco", "Ângulo do sulco troclear", "º", "≤ 143º",
+     lambda x: "aumentado" if x > 143 else None, "Ângulo do sulco troclear {estado}"),
+    ("razao", "Razão troclear medial-lateral", "%", "> 40%",
+     lambda x: "reduzida" if x <= 40 else None, "Razão troclear medial-lateral {estado}"),
+    ("lti", "Inclinação troclear lateral", "º", "> 11º",
+     lambda x: "reduzida" if x <= 11 else None, "Inclinação troclear lateral {estado}"),
+    ("tilt_rel", "Inclinação patelar (\"tilt\")", "º", "< 20º",
+     lambda x: "aumentada" if x >= 20 else None, "Inclinação patelar {estado}"),
+    ("tilt_con", "Inclinação patelar (\"tilt\") contração", "º", "10-26º",
+     lambda x: "aumentada" if x > 26 else ("reduzida" if x < 10 else None),
+     "Inclinação patelar sob contração {estado}"),
+    ("insall", "Índice de Insall-Salvati", "", "0,8 - 1,3",
+     lambda x: "aumentado" if x > 1.3 else ("reduzido" if x < 0.8 else None),
+     "Índice de Insall-Salvati {estado}"),
+    ("tagt", "TA-GT", " mm", "15 mm (+/- 4)",
+     lambda x: "aumentada" if x > 19 else ("reduzida" if x < 11 else None),
+     "Distância TA-GT {estado}"),
+]
+# a ordem da CONCLUSÃO: o que mais pesa na instabilidade primeiro
+ORDEM_CONCLUSAO = ["sulco", "razao", "lti", "insall", "tagt", "tilt_rel", "tilt_con"]
+NUMEROS = tuple(l[0] for l in LINHAS)
+
+# colunas da tabela (texto): rótulo até 44, "Mensurado" até 60, depois o normal
+COL_1, COL_2 = 44, 60
+
 PASSOS = [
-    {"id": "troclea", "titulo": "Tróclea femoral: displasia de Dejour",
-     "onde": "Sagital em perfil verdadeiro, pelo sulco; e axial no corte proximal da tróclea.",
-     "como": ["Na sagital, procure três sinais: cruzamento (a linha do fundo do sulco cruza o "
-              "contorno anterior dos côndilos), esporão supratroclear e duplo contorno.",
-              "No axial, trace as duas facetas a partir do ponto mais profundo do sulco e meça "
-              "o ângulo entre elas.",
-              "A: só cruzamento, rasa e simétrica · B: cruzamento e esporão, plana ou convexa · "
-              "C: cruzamento e duplo contorno, faceta lateral convexa e medial hipoplásica · "
-              "D: os três sinais e um degrau vertical (\"penhasco\")."],
-     "corte": "ângulo do sulco acima de 145° = displasia",
-     "campos": [{"id": "troclea", "rotulo": "tróclea", "tipo": "opcao", "opcoes": TROCLEA},
-                {"id": "sulco", "rotulo": "ângulo do sulco", "tipo": "numero", "unidade": "°"}]},
-    {"id": "patela", "titulo": "Patela: altura (Caton-Deschamps)",
-     "onde": "Sagital no meio da patela, com a maior superfície articular e o planalto tibial.",
-     "como": ["AP: comprimento da superfície articular da patela.",
-              "AT: da margem inferior da superfície articular ao ângulo anterossuperior do "
-              "planalto tibial.",
-              "Índice = AT ÷ AP. Em hiperextensão ele sai artificialmente baixo."],
-     "corte": "0,6 a 1,2 normal · acima de 1,2 alta · abaixo de 0,6 baixa",
-     "campos": [{"id": "cd", "rotulo": "Caton-Deschamps", "tipo": "numero", "unidade": ""}]},
-    {"id": "femoropatelar", "titulo": "Articulação femoropatelar: inclinação patelar",
-     "onde": "Axial no corte de maior largura da patela, em extensão, quadríceps relaxado e "
-             "contraído.",
+    {"id": "troclea", "titulo": "Tróclea: sulco, razão das facetas e inclinação lateral",
+     "onde": "Axial no primeiro corte proximal com a tróclea completa (intercôndilo em "
+             "\"arco romano\"), em extensão.",
+     "como": ["Ângulo do sulco: trace as duas facetas a partir do ponto mais profundo do sulco "
+              "e meça o ângulo entre elas.",
+              "Razão medial-lateral: comprimento da faceta medial ÷ comprimento da faceta "
+              "lateral × 100.",
+              "Inclinação troclear lateral: ângulo entre a faceta lateral e a tangente ao "
+              "contorno posterior dos côndilos."],
+     "corte": "normal: sulco ≤ 143º · razão > 40% · inclinação lateral > 11º",
+     "campos": [{"id": "sulco", "rotulo": "sulco", "tipo": "numero", "unidade": "º"},
+                {"id": "razao", "rotulo": "razão M/L", "tipo": "numero", "unidade": "%"},
+                {"id": "lti", "rotulo": "inclinação lateral", "tipo": "numero", "unidade": "º"}]},
+    {"id": "patela", "titulo": "Patela: posição e altura (Insall-Salvati)",
+     "onde": "Axial para a posição no sulco; sagital no meio da patela para a altura.",
+     "como": ["Posição: a patela está no sulco troclear, lateralizada ou subluxada?",
+              "Tendão: do polo inferior da patela à inserção na tuberosidade da tíbia.",
+              "Patela: o maior comprimento (diagonal) da patela.",
+              "Índice = tendão ÷ patela."],
+     "corte": "normal: Insall-Salvati de 0,8 a 1,3",
+     "campos": [{"id": "posicao", "rotulo": "posição", "tipo": "opcao", "opcoes": POSICAO},
+                {"id": "insall", "rotulo": "Insall-Salvati", "tipo": "numero", "unidade": ""}]},
+    {"id": "femoropatelar", "titulo": "Inclinação patelar (\"tilt\")",
+     "onde": "Axial no corte de maior largura da patela, em extensão, com o quadríceps "
+             "relaxado e contraído.",
      "como": ["Trace a tangente ao contorno posterior dos dois côndilos femorais.",
               "Trace o eixo transverso da patela (a linha da sua maior largura).",
               "Meça o ângulo entre as duas; repita com o quadríceps contraído."],
-     "corte": "acima de 20° (relaxado) = patológica",
-     "campos": [{"id": "posicao", "rotulo": "posição da patela", "tipo": "opcao", "opcoes": POSICAO},
-                {"id": "tilt_rel", "rotulo": "inclinação, relaxado", "tipo": "numero", "unidade": "°"},
-                {"id": "tilt_con", "rotulo": "inclinação, contraído", "tipo": "numero", "unidade": "°"}]},
-    {"id": "tttg", "titulo": "Distância TT-TG",
-     "onde": "Dois axiais superpostos: o primeiro corte com o intercôndilo em \"arco romano\" "
-             "completo e o corte da inserção do tendão patelar na tuberosidade (TAT).",
+     "corte": "normal: relaxado < 20º · contração de 10 a 26º",
+     "campos": [{"id": "tilt_rel", "rotulo": "relaxado", "tipo": "numero", "unidade": "º"},
+                {"id": "tilt_con", "rotulo": "contração", "tipo": "numero", "unidade": "º"}]},
+    {"id": "tagt", "titulo": "TA-GT (tuberosidade anterior – garganta troclear)",
+     "onde": "Dois axiais superpostos: o do sulco troclear (arco romano) e o da inserção do "
+             "tendão patelar na tuberosidade.",
      "como": ["Tangente ao contorno posterior dos côndilos femorais.",
-              "Perpendicular pelo ponto mais profundo do sulco troclear (TG).",
-              "Perpendicular pelo centro da inserção do tendão patelar na TAT (TT).",
-              "Distância entre as duas perpendiculares, em mm. Pés em rotação neutra: 5° de "
-              "abdução somam cerca de 3,4 mm."],
-     "corte": "até 15 mm normal · 15 a 19 limítrofe · 20 mm ou mais patológica (TC)",
-     "campos": [{"id": "tttg", "rotulo": "TT-TG", "tipo": "numero", "unidade": "mm"}]},
-    {"id": "ttpcl", "titulo": "Distância TT-PCL",
-     "onde": "Axial da tíbia logo abaixo da cartilagem e acima da cabeça da fíbula, superposto "
-             "ao corte da TAT.",
-     "como": ["Tangente ao contorno posterior dos côndilos tibiais.",
-              "Perpendicular pela borda medial da inserção do LCP.",
-              "Perpendicular pelo centro da inserção do tendão patelar na TAT.",
-              "Distância entre as duas, em mm. Só usa a tíbia: não muda com a rotação."],
-     "corte": "acima de 24 mm = patológica",
-     "campos": [{"id": "ttpcl", "rotulo": "TT-PCL", "tipo": "numero", "unidade": "mm"}]},
+              "Perpendicular pelo ponto mais profundo do sulco troclear.",
+              "Perpendicular pelo centro da inserção do tendão patelar na tuberosidade.",
+              "Distância entre as duas, em mm. Pés em rotação neutra: 5º de abdução somam "
+              "cerca de 3,4 mm."],
+     "corte": "normal: 15 mm (+/- 4), ou seja, de 11 a 19 mm",
+     "campos": [{"id": "tagt", "rotulo": "TA-GT", "tipo": "numero", "unidade": "mm"}]},
 ]
 
-NUMEROS = ("sulco", "cd", "tilt_rel", "tilt_con", "tttg", "ttpcl")
+GLOBAIS = [{"id": "wiberg", "rotulo": "Morfologia da patela (Wiberg)", "opcoes": WIBERG,
+            "padrao": "2", "prefixo": "tipo "}]
 
 
 def campos():
-    """O que a tela desenha: lados, passos (com o guia) e as opções das estruturas ósseas."""
+    """O que a tela desenha: lados, passos (com o guia) e as escolhas do exame todo."""
     return {"ok": True, "tipo": "lyon", "lados": list(LADOS), "passos": PASSOS,
-            "ossos": OSSOS, "frase_normal": FRASE_NORMAL}
+            "globais": GLOBAIS, "frase_normal": FRASE_NORMAL}
 
 
 def _num(v):
-    """'16', '1,60', '22.5' -> float; vazio ou texto -> None."""
+    """'16', '8,5', '22.5' -> float; vazio ou texto -> None."""
     if v is None:
         return None
     if isinstance(v, (int, float)):
         return float(v)
-    t = str(v).strip().replace(",", ".")
+    t = str(v).strip().replace(",", ".").rstrip("º°%").strip()
+    if t.lower().endswith("mm"):
+        t = t[:-2].strip()
     if not t:
         return None
     try:
@@ -115,164 +142,121 @@ def _num(v):
 
 
 def _fmt(x, casas=1):
-    """16.0 -> '16'; 1.3 -> '1,3'; 22.5 -> '22,5' (vírgula, sem zero à toa)."""
+    """20.0 -> '20'; 8.5 -> '8,5'; 1.2 -> '1,2' (vírgula, sem zero à toa)."""
     if abs(x - round(x)) < 1e-9:
         return str(int(round(x)))
     return ("%.*f" % (casas, x)).rstrip("0").rstrip(".").replace(".", ",")
 
 
-def _lado(valores, s):
-    """Os valores de um lado: {'troclea': ..., 'sulco': float|None, ...}."""
-    v = {}
-    for k in ("troclea", "posicao"):
-        v[k] = str(valores.get("%s_%s" % (k, s)) or "").strip()
-    for k in NUMEROS:
-        v[k] = _num(valores.get("%s_%s" % (k, s)))
-    return v
+def _valor(chave, unidade, x):
+    return _fmt(x, 2 if chave == "insall" else 1) + unidade
 
 
-def _linhas_do_lado(v, s, avisos):
-    """{secao: frase} de um lado + [linhas da conclusão] desse lado."""
-    fem, masc = NOME[s]
-    frases, conc = {}, []
-
-    # --- tróclea
-    tro = v["troclea"] or "habitual"
-    if tro not in TROCLEA:
-        tro = "habitual"
-    if tro == "habitual":
-        t = "de morfologia habitual"
-    elif tro == "rasa":
-        t = "rasa, sem outras alterações morfológicas"
-    else:
-        t = "displasia troclear tipo %s de Dejour" % tro.split()[-1]
-    if v["sulco"] is not None:
-        t += " (ângulo do sulco de %s°)" % _fmt(v["sulco"])
-        if v["sulco"] > 145 and tro in ("habitual", "rasa"):
-            avisos.append("ângulo do sulco de %s° à %s com a tróclea marcada como %s: acima de 145° "
-                          "é displasia (tipo A de Dejour)" % (_fmt(v["sulco"]), fem, tro))
-    frases["troclea"] = t + "."
-
-    # --- posição da patela (vai para a articulação femoropatelar e, alterada, para a conclusão)
-    pos = v["posicao"] if v["posicao"] in POSICAO else "centrada"
-    pos_frase = {"centrada": "patela centrada, sem subluxação",
-                 "discreta lateralização": "discreta lateralização da patela, sem subluxação franca",
-                 "subluxação lateral": "subluxação lateral da patela"}[pos]
-    pos_conc = {"discreta lateralização": "discreta lateralização da patela",
-                "subluxação lateral": "subluxação lateral da patela"}.get(pos)
-    if tro != "habitual":
-        base = ("Tróclea femoral %s rasa" % fem) if tro == "rasa" else \
-               ("Displasia troclear tipo %s de Dejour à %s" % (tro.split()[-1], fem))
-        conc.append(base + (", com %s" % pos_conc if pos_conc else "") + ".")
-    elif pos_conc:
-        conc.append("%s %s." % (pos_conc[0].upper() + pos_conc[1:], fem))
-
-    # --- patela: altura
-    p = "de morfologia habitual"
-    if v["cd"] is not None:
-        cd = v["cd"]
-        if cd > 1.2:
-            classe = "patela alta"
-            conc.append("Patela alta à %s (índice de Caton-Deschamps de %s)." % (fem, _fmt(cd, 2)))
-        elif cd < 0.6:
-            classe = "patela baixa"
-            conc.append("Patela baixa à %s (índice de Caton-Deschamps de %s)." % (fem, _fmt(cd, 2)))
-        else:
-            classe = "altura normal"
-        p += ", com índice de Caton-Deschamps de %s (%s)" % (_fmt(cd, 2), classe)
-        if cd > 3:
-            avisos.append("Caton-Deschamps de %s à %s: índice é uma razão (0,6 a 1,2), confira"
-                          % (_fmt(cd, 2), fem))
-    frases["patela"] = p + "."
-
-    # --- inclinação patelar
-    inc = ""
-    if v["tilt_rel"] is not None:
-        inc = "inclinação patelar de %s° com o quadríceps relaxado" % _fmt(v["tilt_rel"])
-        if v["tilt_con"] is not None:
-            inc += " e de %s° contraído" % _fmt(v["tilt_con"])
-        if v["tilt_rel"] > 20:
-            inc += " (aumentada; patológica acima de 20°)"
-            conc.append("Inclinação patelar aumentada à %s (%s°)." % (fem, _fmt(v["tilt_rel"])))
-        else:
-            inc += " (patológica acima de 20°)"
-    elif v["tilt_con"] is not None:
-        inc = "inclinação patelar de %s° com o quadríceps contraído" % _fmt(v["tilt_con"])
-    frases["femoropatelar"] = pos_frase + ("; " + inc if inc else "") + "."
-
-    # --- TT-TG
-    if v["tttg"] is not None:
-        x = v["tttg"]
-        if x <= 15:
-            classe = "dentro dos limites da normalidade"
-        elif x < 20:
-            classe = "limítrofe"
-            conc.append("Distância TT-TG %s limítrofe (%s mm)." % (fem, _fmt(x)))
-        else:
-            classe = "aumentada"
-            conc.append("Distância TT-TG %s aumentada (%s mm)." % (fem, _fmt(x)))
-        frases["tttg"] = "%s mm, %s (normal até 15 mm; patológica a partir de 20 mm)." % (_fmt(x), classe)
-        if x < 5:
-            avisos.append("TT-TG de %s mm à %s: se o visualizador deu em cm, digite em mm "
-                          "(1,60 cm = 16 mm)" % (_fmt(x), fem))
-    # --- TT-PCL
-    if v["ttpcl"] is not None:
-        x = v["ttpcl"]
-        if x > 24:
-            classe = "aumentada"
-            conc.append("Distância TT-PCL %s aumentada (%s mm)." % (fem, _fmt(x)))
-        else:
-            classe = "dentro dos limites da normalidade"
-        frases["ttpcl"] = "%s mm, %s (patológica acima de 24 mm)." % (_fmt(x), classe)
-        if x < 5:
-            avisos.append("TT-PCL de %s mm à %s: se o visualizador deu em cm, digite em mm"
-                          % (_fmt(x), fem))
-    return frases, conc
+def _tabela(fem, masc, v):
+    """As linhas da tabela de um joelho (sem as medidas vazias), ou [] sem medida nenhuma."""
+    corpo = []
+    for chave, rotulo, un, normal, _j, _f in LINHAS:
+        if v[chave] is None:
+            continue
+        corpo.append(rotulo.ljust(COL_1) + _valor(chave, un, v[chave]).ljust(COL_2 - COL_1) + normal)
+    if not corpo:
+        return []
+    return ["Medidas joelho %s" % masc, "".ljust(COL_1) + "Mensurado".ljust(COL_2 - COL_1) + "Valores normais"] + corpo
 
 
-ROTULOS = [("troclea", "Tróclea femoral"), ("patela", "Patela"),
-           ("femoropatelar", "Articulação femoropatelar"),
-           ("tttg", "Distância TT-TG"), ("ttpcl", "Distância TT-PCL")]
+def _conclusao(fem, v):
+    saida = []
+    frase = {l[0]: l for l in LINHAS}
+    for chave in ORDEM_CONCLUSAO:
+        x = v[chave]
+        if x is None:
+            continue
+        _c, _r, un, _n, julga, molde = frase[chave]
+        estado = julga(x)
+        if not estado:
+            continue
+        t = molde.format(estado=estado) + " à %s (%s)" % (fem, _valor(chave, un, x))
+        if chave == "insall":
+            t += ", compatível com patela %s" % ("alta" if estado == "aumentado" else "baixa")
+        saida.append(t + ".")
+    return saida
+
+
+def _avisos(fem, v, avisos):
+    if v["tagt"] is not None and v["tagt"] < 5:
+        avisos.append("TA-GT de %s mm à %s: se o visualizador deu em cm, digite em mm (1,60 cm = 16 mm)"
+                      % (_fmt(v["tagt"]), fem))
+    if v["insall"] is not None and v["insall"] > 3:
+        avisos.append("Insall-Salvati de %s à %s: é uma razão (0,8 a 1,3), confira" % (_fmt(v["insall"], 2), fem))
+    if v["razao"] is not None and not (0 < v["razao"] <= 150):
+        avisos.append("razão medial-lateral de %s%% à %s: confira" % (_fmt(v["razao"]), fem))
+    if v["sulco"] is not None and not (90 <= v["sulco"] <= 180):
+        avisos.append("ângulo do sulco de %sº à %s: confira" % (_fmt(v["sulco"]), fem))
 
 
 def montar(pedido):
-    """{'lado': 'direito'|'esquerdo'|'ambos', 'valores': {campo_d/e: ...}, 'ossos': str}
-    -> {'ok', 'texto', 'conclusao', 'avisos'}. O laudo inteiro, com ** nos títulos."""
+    """{'lado', 'valores': {campo_d/e}, 'globais': {'wiberg': '2'}} -> o laudo inteiro."""
     if not isinstance(pedido, dict):
         return {"ok": False, "motivo": "pedido_invalido"}
     lado = pedido.get("lado") or "direito"
     if lado not in LADOS:
         return {"ok": False, "motivo": "lado_desconhecido", "aceitos": list(LADOS)}
     valores = pedido.get("valores") or {}
-    if not isinstance(valores, dict):
+    globais = pedido.get("globais") or {}
+    if not isinstance(valores, dict) or not isinstance(globais, dict):
         return {"ok": False, "motivo": "valores_invalidos"}
-    ossos = pedido.get("ossos") if pedido.get("ossos") in OSSOS else OSSOS[0]
+    wiberg = str(globais.get("wiberg") or "2")
+    if wiberg not in WIBERG:
+        wiberg = "2"
 
-    avisos, por_lado, conclusao = [], {}, []
-    for s in LADOS[lado]:
-        frases, conc = _linhas_do_lado(_lado(valores, s), s, avisos)
-        por_lado[s] = frases
-        conclusao.extend(conc)
+    lados = LADOS[lado]
+    dois = len(lados) == 2
+    bil = ", bilateral" if dois else ""
+    avisos, tabelas, conclusao, posicoes = [], [], [], {}
+    for s in lados:
+        fem, masc = NOME[s]
+        v = {k: _num(valores.get("%s_%s" % (k, s))) for k in NUMEROS}
+        pos = str(valores.get("posicao_%s" % s) or "").strip()
+        posicoes[s] = pos if pos in POSICAO else POSICAO[0]
+        _avisos(fem, v, avisos)
+        t = _tabela(fem, masc, v)
+        if t:
+            tabelas.append(t)
+        if posicoes[s] == POSICAO[1]:
+            conclusao.append("Patela %s discretamente lateralizada em relação ao sulco troclear." % fem)
+        elif posicoes[s] == POSICAO[2]:
+            conclusao.append("Subluxação lateral da patela %s." % fem)
+        conclusao.extend(_conclusao(fem, v))
     if not conclusao:
         conclusao = [FRASE_NORMAL]
 
-    if lado == "ambos":
-        alvo, alvo_min = "DOS JOELHOS", "dos joelhos"
+    # patela: uma frase só quando os dois lados estão iguais (como na máscara)
+    if not dois or posicoes["d"] == posicoes["e"]:
+        patela = ("Patela com densidade e contornos preservados, %s, apresentando morfologia do "
+                  "tipo %s de Wiberg%s." % (posicoes[lados[0]], wiberg, bil))
     else:
-        alvo, alvo_min = "DO JOELHO " + lado.upper(), "do joelho " + lado
+        patela = ("Patela com densidade e contornos preservados, apresentando morfologia do tipo %s "
+                  "de Wiberg, bilateral. Patela direita %s; patela esquerda %s."
+                  % (wiberg, posicoes["d"], posicoes["e"]))
 
-    analise = []
-    for chave, rotulo in ROTULOS:
-        for s in LADOS[lado]:
-            f = por_lado[s].get(chave)
-            if f:
-                analise.append("%s %s:  %s" % (rotulo, NOME[s][0], f))
-    analise.append("Estruturas ósseas:  %s." % ossos)
+    if dois:
+        alvo = "JOELHO DIREITO E ESQUERDO"
+    else:
+        alvo = "JOELHO " + lado.upper()
+
+    analise = [
+        patela,
+        "Fêmur distal e tíbia proximal sem alterações%s." % bil,
+        "Espaços articulares com amplitudes anatômicas%s." % bil,
+        "Não há evidências de derrame articular. Planos musculogordurosos íntegros%s." % bil,
+    ]
+    for t in tabelas:
+        analise += [""] + t
 
     texto = "\n".join([
         "**" + TITULO.format(alvo=alvo) + "**",
         "",
-        "**TÉCNICA:**  " + TECNICA.format(alvo_min=alvo_min),
+        "**TÉCNICA:**  " + TECNICA,
         "",
         "**INDICAÇÃO CLÍNICA:**  Em anexo.",
         "",

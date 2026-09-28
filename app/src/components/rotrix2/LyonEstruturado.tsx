@@ -1,5 +1,9 @@
 /* eslint-disable i18next/no-literal-string */
-// Rotrix L-1000 — Estruturados: TC dos joelhos, protocolo de Lyon (27/09).
+// Rotrix L-1000 — Estruturados: TC dos joelhos, protocolo de Lyon (27–28/09).
+//
+// 28/09: a máscara é a DELE — texto corrido e uma tabela de medidas por joelho
+// (sulco, razão das facetas, inclinação troclear lateral, "tilt" relaxado e com
+// contração, Insall-Salvati, TA-GT), com os valores normais dele.
 //
 // Ele pediu o Lyon na aba Estruturados COM o passo a passo de cada medida (o
 // infográfico) ao lado dos campos. Cada passo é um cartão: o desenho, onde e
@@ -35,16 +39,24 @@ interface PassoLyon {
   campos: CampoLyon[];
 }
 
+interface GlobalLyon {
+  id: string;
+  rotulo: string;
+  opcoes: string[];
+  padrao: string;
+  prefixo?: string;
+}
+
 interface CamposLyon {
   ok?: boolean;
   lados: string[];
   passos: PassoLyon[];
-  ossos: string[];
+  globais?: GlobalLyon[];
   frase_normal?: string;
 }
 
 // padrão quando o campo está vazio (o roteador faz o mesmo)
-const PADRAO: Record<string, string> = { troclea: "habitual", posicao: "centrada" };
+const PADRAO: Record<string, string> = { posicao: "normoposicionada no sulco troclear" };
 
 const LADOS_DE: Record<Lado, ("d" | "e")[]> = { direito: ["d"], esquerdo: ["e"], ambos: ["d", "e"] };
 const NOME_LADO = { d: "direito", e: "esquerdo" };
@@ -73,23 +85,24 @@ const DesenhoTroclea = () => (
     <circle cx="220" cy="110" r="5" fill={MEDE} />
     <text x="220" y="40" textAnchor="middle" fill={MEDE} fontSize="18" fontWeight="600">ângulo do sulco</text>
     <line x1="40" y1="256" x2="400" y2="256" stroke={REF} strokeWidth={2} strokeDasharray="8 5" />
+    <text x="96" y="248" fill={REF} fontSize="14">tangente condilar (inclinação lateral)</text>
     <text x="30" y="288" fill="currentColor" fontSize="15">lateral</text>
     <text x="410" y="288" textAnchor="end" fill="currentColor" fontSize="15">medial</text>
   </svg>
 );
 
-const DesenhoCaton = () => (
-  <svg viewBox="0 0 440 300" className="w-full" role="img" aria-label="Sagital com AT e AP do Caton-Deschamps">
+const DesenhoInsall = () => (
+  <svg viewBox="0 0 440 300" className="w-full" role="img" aria-label="Sagital com o tendão patelar e o comprimento da patela (Insall-Salvati)">
     <line x1="250" y1="0" x2="246" y2="100" stroke="currentColor" strokeWidth={2.5} />
     <line x1="345" y1="0" x2="354" y2="110" stroke="currentColor" strokeWidth={2.5} />
     <circle cx="300" cy="142" r="62" fill="currentColor" fillOpacity={0.08} stroke="currentColor" strokeWidth={2.5} />
     <Osso d="M 172 206 L 398 206 L 390 298 L 205 298 L 196 262 Q 158 252 164 232 Q 166 218 172 206 Z" />
     <Osso d="M 148 48 C 118 70 112 120 138 152 C 160 130 172 100 170 72 C 168 60 160 50 148 48 Z" />
-    <line x1="138" y1="152" x2="160" y2="244" stroke="currentColor" strokeOpacity={0.6} strokeWidth={2} />
-    <line x1="168" y1="66" x2="150" y2="138" stroke={REF} strokeWidth={5} />
-    <line x1="150" y1="138" x2="172" y2="206" stroke={MEDE} strokeWidth={5} />
-    <text x="182" y="100" fill={REF} fontSize="22" fontWeight="600">AP</text>
-    <text x="180" y="170" fill={MEDE} fontSize="22" fontWeight="600">AT</text>
+    <line x1="148" y1="46" x2="138" y2="154" stroke={REF} strokeWidth={5} />
+    <line x1="138" y1="154" x2="160" y2="246" stroke={MEDE} strokeWidth={5} />
+    <circle cx="160" cy="246" r="5" fill={MEDE} />
+    <text x="94" y="100" fill={REF} fontSize="18" fontWeight="600">patela</text>
+    <text x="164" y="206" fill={MEDE} fontSize="18" fontWeight="600">tendão</text>
     <text x="300" y="262" textAnchor="middle" fill="currentColor" fontSize="15">tíbia</text>
     <text x="300" y="30" textAnchor="middle" fill="currentColor" fontSize="15">fêmur</text>
   </svg>
@@ -111,7 +124,7 @@ const DesenhoInclinacao = () => (
 );
 
 const DesenhoTTTG = () => (
-  <svg viewBox="0 0 440 300" className="w-full" role="img" aria-label="Axiais sobrepostos com as perpendiculares do TT e do TG">
+  <svg viewBox="0 0 440 300" className="w-full" role="img" aria-label="Axiais sobrepostos com as perpendiculares da TA e da GT">
     <defs>
       <marker id="lyonSetaTG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
         <path d="M 0 0 L 10 5 L 0 10 Z" fill={MEDE} />
@@ -125,42 +138,17 @@ const DesenhoTTTG = () => (
     <circle cx="220" cy="130" r="5" fill={REF} />
     <circle cx="160" cy="76" r="5" fill={MEDE} />
     <line x1="166" y1="44" x2="214" y2="44" stroke={MEDE} strokeWidth={3} markerStart="url(#lyonSetaTG)" markerEnd="url(#lyonSetaTG)" />
-    <text x="190" y="24" textAnchor="middle" fill={MEDE} fontSize="18" fontWeight="600">TT-TG</text>
-    <text x="228" y="150" fill={REF} fontSize="16">TG</text>
-    <text x="104" y="118" fill={MEDE} fontSize="16">TT</text>
-  </svg>
-);
-
-const DesenhoTTPCL = () => (
-  <svg viewBox="0 0 440 300" className="w-full" role="img" aria-label="Axial da tíbia com a borda medial do LCP e a TAT">
-    <defs>
-      <marker id="lyonSetaPCL" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-        <path d="M 0 0 L 10 5 L 0 10 Z" fill={MEDE} />
-      </marker>
-    </defs>
-    <Osso d="M 90 150 C 90 90 150 60 220 62 C 300 60 360 90 362 150 C 364 200 340 238 300 240 C 270 242 250 228 232 226 C 214 226 196 242 160 240 C 118 238 90 205 90 150 Z" />
-    <ellipse cx="232" cy="208" rx="16" ry="12" fill="currentColor" fillOpacity={0.2} stroke="currentColor" strokeWidth={2} />
-    <path d="M 170 70 Q 190 40 210 70" fill="none" stroke="currentColor" strokeWidth={2} strokeDasharray="4 4" />
-    <line x1="24" y1="242" x2="416" y2="242" stroke={REF} strokeWidth={3} />
-    <line x1="248" y1="242" x2="248" y2="30" stroke={REF} strokeWidth={2.5} strokeDasharray="8 5" />
-    <line x1="190" y1="242" x2="190" y2="30" stroke={MEDE} strokeWidth={2.5} strokeDasharray="8 5" />
-    <circle cx="248" cy="208" r="5" fill={REF} />
-    <circle cx="190" cy="54" r="5" fill={MEDE} />
-    <line x1="196" y1="40" x2="242" y2="40" stroke={MEDE} strokeWidth={3} markerStart="url(#lyonSetaPCL)" markerEnd="url(#lyonSetaPCL)" />
-    <text x="219" y="24" textAnchor="middle" fill={MEDE} fontSize="18" fontWeight="600">TT-PCL</text>
-    <text x="256" y="200" fill={REF} fontSize="16">LCP</text>
-    <text x="134" y="104" fill={MEDE} fontSize="16">TT</text>
-    <text x="30" y="288" fill="currentColor" fontSize="15">lateral</text>
-    <text x="410" y="288" textAnchor="end" fill="currentColor" fontSize="15">medial</text>
+    <text x="190" y="24" textAnchor="middle" fill={MEDE} fontSize="18" fontWeight="600">TA-GT</text>
+    <text x="228" y="150" fill={REF} fontSize="16">GT</text>
+    <text x="104" y="118" fill={MEDE} fontSize="16">TA</text>
   </svg>
 );
 
 const DESENHOS: Record<string, React.FC> = {
   troclea: DesenhoTroclea,
-  patela: DesenhoCaton,
+  patela: DesenhoInsall,
   femoropatelar: DesenhoInclinacao,
-  tttg: DesenhoTTTG,
-  ttpcl: DesenhoTTPCL,
+  tagt: DesenhoTTTG,
 };
 
 // ---------------------------------------------------------------------------
@@ -184,7 +172,7 @@ export const LyonEstruturado: React.FC<{ aoTrocar: () => void }> = ({ aoTrocar }
   const [campos, setCampos] = useState<CamposLyon | null>(null);
   const [lado, setLado] = useState<Lado>("direito");
   const [valores, setValores] = useState<Record<string, string>>({});
-  const [ossos, setOssos] = useState("");
+  const [globais, setGlobais] = useState<Record<string, string>>({});
   const [guia, setGuia] = useState(true);
   const [texto, setTexto] = useState("");
   const [avisos, setAvisos] = useState<string[]>([]);
@@ -208,7 +196,7 @@ export const LyonEstruturado: React.FC<{ aoTrocar: () => void }> = ({ aoTrocar }
     const t = window.setTimeout(async () => {
       try {
         const b = await invoke<string>("rotrix_estruturados", {
-          pedido: JSON.stringify({ tipo: "lyon", lado, valores, ossos }),
+          pedido: JSON.stringify({ tipo: "lyon", lado, valores, globais }),
         });
         if (meu !== pedido.current) return; // chegou uma resposta velha
         const d = JSON.parse(b || "{}") as { ok?: boolean; texto?: string; avisos?: string[]; motivo?: string };
@@ -224,7 +212,7 @@ export const LyonEstruturado: React.FC<{ aoTrocar: () => void }> = ({ aoTrocar }
       }
     }, 200);
     return () => window.clearTimeout(t);
-  }, [campos, lado, valores, ossos]);
+  }, [campos, lado, valores, globais]);
 
   const mudar = (chave: string, v: string) => setValores((x) => ({ ...x, [chave]: v }));
 
@@ -333,18 +321,22 @@ export const LyonEstruturado: React.FC<{ aoTrocar: () => void }> = ({ aoTrocar }
               </section>
             );
           })}
-          {campos && (
-            <section className="rounded-lg border border-mid-gray/20 p-3 flex flex-col gap-2">
-              <h3 className="m-0 text-[13.5px] font-semibold">Estruturas ósseas</h3>
+          {campos?.globais?.map((g) => (
+            <section key={g.id} className="rounded-lg border border-mid-gray/20 p-3 flex items-center gap-3 flex-wrap">
+              <h3 className="m-0 text-[13.5px] font-semibold">{g.rotulo}</h3>
               <div className="flex gap-1 flex-wrap">
-                {campos.ossos.map((o) => (
-                  <Chip key={o} on={(ossos || campos.ossos[0]) === o} onClick={() => setOssos(o)}>
-                    {o}
+                {g.opcoes.map((o) => (
+                  <Chip
+                    key={o}
+                    on={(globais[g.id] || g.padrao) === o}
+                    onClick={() => setGlobais((x) => ({ ...x, [g.id]: o }))}
+                  >
+                    {(g.prefixo || "") + o}
                   </Chip>
                 ))}
               </div>
             </section>
-          )}
+          ))}
         </div>
       </div>
 
@@ -388,7 +380,7 @@ export const LyonEstruturado: React.FC<{ aoTrocar: () => void }> = ({ aoTrocar }
             size="sm"
             onClick={() => {
               setValores({});
-              setOssos("");
+              setGlobais({});
             }}
           >
             <span className="flex items-center gap-1.5">
