@@ -43,6 +43,11 @@ RECEITAS = {
     "analise":   ("PAPEL", "COMPARATIVO", "NUMEROS", "SEM_LACUNAS", "SAIDA"),
 }
 
+# Blocos que NÃO entram no prompt de sistema: vão no pedido, só quando precisam.
+# IMAGEM (27/09): regras para o laudo que leva print com medidas. No sistema, mudariam o
+# prompt de toda chamada e o cache se perderia; no pedido, só a chamada com imagem paga.
+BLOCOS_DO_PEDIDO = ("IMAGEM",)
+
 _cache = {"mtime": None, "blocos": None}
 
 
@@ -75,6 +80,11 @@ def blocos(arquivo=None):
     return d
 
 
+def bloco(nome, arquivo=None):
+    """Texto de um bloco do pedido (BLOCOS_DO_PEDIDO), ou None."""
+    return blocos(arquivo).get(nome) or None
+
+
 def montar(modo, arquivo=None):
     """Prompt de sistema da rota, ou None quando o arquivo nao da para usar.
 
@@ -101,7 +111,7 @@ def conferir(arquivo=None):
     if not d:
         problemas.append("nao consegui ler %s" % (arquivo or ARQUIVO))
         return False, problemas
-    precisa = set()
+    precisa = set(BLOCOS_DO_PEDIDO)
     for r in RECEITAS.values():
         precisa.update(r)
     for n in sorted(precisa):

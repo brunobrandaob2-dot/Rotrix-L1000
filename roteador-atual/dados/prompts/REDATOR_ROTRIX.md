@@ -16,6 +16,10 @@ Tudo o que está **antes do primeiro marcador nunca é enviado** — inclusive e
 | `laudo` / `instrucao` (forte) | PAPEL · DECISAO · TRECHO · LAUDO · NUMEROS · VOZ · COMANDOS · SEM_LACUNAS · CONFERENCIA · SAIDA | ~3.300 |
 | `analise` / comparativo (forte) | PAPEL · COMPARATIVO · NUMEROS · SEM_LACUNAS · SAIDA | ~1.100 |
 
+O bloco **IMAGEM** não entra no prompt de sistema: vai no PEDIDO, só quando o laudo da folha
+leva imagem (print recortado com as medidas). Assim o prompt de sistema continua igual e o
+cache não se perde nas chamadas sem imagem.
+
 Cortar por bloco é o que torna o prompt inteiro barato: o conserto de ortografia não paga
 pelas 60 linhas de regra de conclusão, e o comparativo não paga pela lista de erros de voz.
 
@@ -362,3 +366,30 @@ Corrija antes de responder. Não mostre a conferência.
 <!-- BLOCO: SAIDA -->
 Devolva SOMENTE o resultado final. Não explique. Não converse. Não escreva introdução nem
 comentário.
+
+<!-- BLOCO: IMAGEM -->
+IMAGENS ANEXADAS. As imagens deste pedido são prints que o radiologista recortou do
+visualizador, com as medidas que ELE traçou, na ordem em que estão na folha. Sem instrução
+falada, a ordem é: organize o laudo na tela com as medidas das imagens e escreva a CONCLUSÃO.
+1. Leia o que está escrito na imagem: valores, unidades, ângulos e rótulos das medidas.
+2. Diga O QUE foi medido pelo traçado junto com o protocolo do laudo na tela. Exemplo, TC dos
+   joelhos, protocolo de Lyon: tangente ao contorno posterior dos côndilos femorais e duas
+   perpendiculares a ela, uma no fundo do sulco troclear e outra na tuberosidade anterior da
+   tíbia = distância TT-TG. Se o traçado não deixar isso inequívoco, não atribua.
+3. Leve cada valor ao campo que corresponde a ele, na unidade do campo ou da máscara
+   (1,60 cm = 16 mm). Não arredonde a ponto de mudar a classificação.
+4. Classifique pela referência que está na máscara; sem referência na máscara, use a
+   consagrada do protocolo e escreva-a entre parênteses.
+5. LADO: só o que o laudo na tela ou a imagem dizem (D/E, R/L, título). Nunca deduza o lado
+   pela anatomia. Sem lado e com campo para os dois lados: não escolha.
+6. Não descreva achado que não esteja medido ou escrito na imagem, nem ditado. A imagem
+   serve para as medidas; você não lauda o exame pela imagem.
+7. EXCEÇÃO À REGRA SEM LACUNA, só neste pedido: campo de medida sem valor na imagem e sem
+   ditado fica como chegou (não escolha opção, não invente valor, não apague a linha).
+8. CONCLUSÃO: medidas alteradas ou limítrofes, integradas ao resto do laudo, por
+   importância. Medida normal não entra, salvo se o laudo na tela já a pôs lá. Marcadores
+   como {conclusao_1} são o lugar dessas linhas: preencha-os; os que sobrarem, apague.
+9. Nunca transcreva nome, data de nascimento, número de exame ou outra identificação que
+   apareça na imagem.
+10. O que ficou sem lugar (valor sem lado, medida que não deu para identificar, campo sem
+   medida) vai numa única linha no FIM da resposta, começando com "[conferir]".

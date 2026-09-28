@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-27.4"
+VERSAO = "2026-09-27.5"
 
 
 def _impressao_do_codigo():
@@ -2954,7 +2954,8 @@ class Handler(BaseHTTPRequestHandler):
                 if rota.endswith("/ia"):
                     return self._json(200, ia_no_texto(corpo.get("texto") or "",
                                                        corpo.get("instrucao") or "",
-                                                       corpo.get("modelo") or ""))
+                                                       corpo.get("modelo") or "",
+                                                       corpo.get("imagens") or None))
                 if rota.endswith("/fila/proximo"):
                     return self._json(200, estacao_proximo())
                 if rota.endswith("/fila/escolher"):
@@ -3940,21 +3941,73 @@ def adendo(laudo, pedido, tipo="livre", modelo=""):
     return {"ok": False, "motivo": origem}
 
 
-def ia_no_texto(texto, instrucao="", modelo=""):
+# ---------------------------------------------------------------------------
+# IMAGEM NO LAUDO (27/09)
+#
+# O app já punha o print na folha (recortado e redesenhado, sem metadado: é o que
+# tira o nome gravado na borda), mas o botão da IA mandava só o TEXTO. A IA nunca
+# via a imagem, e depois ainda a apagava da folha. Ele anexou o print do TT-TG do
+# protocolo de Lyon, pediu a conclusão e "ele não entende". Agora a imagem vai junto.
+# Só chega aqui o que o app mandou da folha; mesmo assim, o roteador confere que é
+# imagem de verdade (cabeçalho do arquivo), limita quantidade e tamanho, e nunca
+# grava o conteúdo em log.
+# ---------------------------------------------------------------------------
+IMAGENS_MAX = 4
+IMAGEM_MAX_BYTES = 4_500_000          # a Anthropic recusa acima de 5 MB por imagem
+_ASSINATURA = {"image/png": (b"\x89PNG\r\n\x1a\n",), "image/jpeg": (b"\xff\xd8\xff",),
+               "image/webp": (b"RIFF",), "image/gif": (b"GIF87a", b"GIF89a")}
+_DATA_URL = re.compile(r"^data:(image/(?:png|jpeg|webp|gif));base64,([A-Za-z0-9+/=\s]+)$")
+
+
+def imagens_para_ia(lista):
+    """[data URL] -> ([(media_type, base64)], erro). erro != "" = não manda nada."""
+    import base64
+    if not lista:
+        return [], ""
+    if not isinstance(lista, list):
+        return [], "imagem_invalida"
+    if len(lista) > IMAGENS_MAX:
+        return [], "imagens_demais"
+    saida = []
+    for item in lista:
+        m = _DATA_URL.match(item.strip()) if isinstance(item, str) else None
+        if not m:
+            return [], "imagem_invalida"
+        mt, b64 = m.group(1), re.sub(r"\s+", "", m.group(2))
+        try:
+            dados = base64.b64decode(b64, validate=True)
+        except Exception:
+            return [], "imagem_invalida"
+        if len(dados) > IMAGEM_MAX_BYTES:
+            return [], "imagem_grande"
+        if not dados.startswith(_ASSINATURA[mt]):
+            return [], "imagem_invalida"
+        saida.append((mt, b64))
+    return saida, ""
+
+
+def ia_no_texto(texto, instrucao="", modelo="", imagens=None):
     """Rotrix v2: o laudo que está na folha do app passa pela IA e volta pronto.
 
     É o que os botões Haiku/Opus da aba Laudo chamam. Sem instrução, a IA só
     revisa; com instrução falada ("tira a conclusão longa"), ela obedece.
     `modelo` troca o modelo só nesta chamada — é assim que o mesmo botão pode
-    ser Haiku num clique e Opus no outro."""
+    ser Haiku num clique e Opus no outro.
+    `imagens` (27/09): os prints da folha (data URL). Vão para a IA junto com as
+    regras do bloco IMAGEM do REDATOR_ROTRIX.md."""
     texto = texto or ""
     if not texto.strip():
         return {"ok": False, "motivo": "texto_vazio", "texto": texto}
     if nuvem is None:
         return {"ok": False, "motivo": "nuvem_ausente", "texto": texto}
+    imgs, erro = imagens_para_ia(imagens)
+    if erro:
+        return {"ok": False, "motivo": erro, "texto": texto}
     c = nuvem.config()
     if not c.get("ativa"):
         return {"ok": False, "motivo": "nuvem_desligada", "texto": texto}
+    if imgs and c.get("ia_imagens") is False:
+        return {"ok": False, "motivo": "imagem_desligada", "texto": texto}
     if modelo:
         c = nuvem.com_modelo(c, modelo)
     # a mesma estrutura numa linha só ANTES da IA: não depende do modelo obedecer
@@ -3964,14 +4017,29 @@ def ia_no_texto(texto, instrucao="", modelo=""):
         pedido = "INSTRUÇÃO FALADA: %s\n\nLAUDO NA TELA:\n%s" % (instrucao, texto)
     else:
         pedido = "LAUDO NA TELA:\n" + texto
-    novo, origem = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000)
-    if origem == "nuvem" and novo:
+    if imgs:
+        regras = None
         try:
-            _aprender(texto, novo)
+            import prompts
+            regras = prompts.bloco("IMAGEM")
         except Exception:
-            pass
+            regras = None
+        if not regras:
+            # arquivo de prompt velho ou editado sem o bloco: não manda imagem sem regra
+            return {"ok": False, "motivo": "imagem_sem_regra", "texto": texto}
+        pedido = ("%s\n\n%d IMAGEM(NS) ANEXADA(S), na ordem da folha.\n\n%s"
+                  % (regras, len(imgs), pedido))
+    novo, origem = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000,
+                                **({"imagens": imgs} if imgs else {}))
+    if origem == "nuvem" and novo:
+        if not imgs:
+            # com imagem a IA ACRESCENTA (as medidas): isso não é par "errado -> certo"
+            try:
+                _aprender(texto, novo)
+            except Exception:
+                pass
         u = dict(getattr(nuvem, "ULTIMA", {}) or {})
-        return {"ok": True, "texto": novo, "origem": origem,
+        return {"ok": True, "texto": novo, "origem": origem, "imagens": len(imgs),
                 "modelo": u.get("modelo") or c.get("modelo"),
                 "custo_usd": u.get("usd"), "mes_usd": u.get("mes_usd"),
                 "economia": u.get("economia", False),

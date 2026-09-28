@@ -1414,13 +1414,22 @@ pub fn rotrix_colar(app: AppHandle, texto: String) -> Result<(), String> {
 /// Manda o laudo que esta na folha para a IA do roteador e devolve o texto pronto.
 /// `instrucao` vazia = so revisar; com instrucao, a IA obedece ao pedido falado.
 /// `modelo` vazio = o modelo da configuracao.
+/// `imagens` (27/09): os prints que estao na folha, ja recortados e redesenhados
+/// (data URL). Sem elas a IA nunca via a medida do print e nao fazia a conclusao.
+/// Quem nao manda (Historico) continua funcionando: e opcional.
 #[tauri::command(async)]
 #[specta::specta]
-pub fn rotrix_ia_texto(texto: String, instrucao: String, modelo: String) -> Result<String, String> {
+pub fn rotrix_ia_texto(
+    texto: String,
+    instrucao: String,
+    modelo: String,
+    imagens: Option<Vec<String>>,
+) -> Result<String, String> {
     let corpo = serde_json::json!({
         "texto": texto,
         "instrucao": instrucao,
         "modelo": modelo,
+        "imagens": imagens.unwrap_or_default(),
     })
     .to_string();
     // 26/09: o roteador passou a esperar a IA de forma proporcional ao tamanho do

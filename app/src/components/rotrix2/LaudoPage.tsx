@@ -40,6 +40,14 @@ import { textoEmHtml, htmlEmTexto, htmlEmMarcado, htmlDaFolha, copiarRico } from
 import { juntarNaFolha } from "./juntarEstrutura";
 import { BotoesDaFolha } from "./BotoesDaFolha";
 import { ImagemNaFolha } from "./ImagemNaFolha";
+import {
+  IMAGENS_MAX,
+  folhaComImagens,
+  htmlDaImagem,
+  imagensDaFolha,
+  motivoDaImagem,
+  reduzirParaIA,
+} from "./imagemParaIA";
 
 type Modo = "simples" | "leve" | "completo";
 
@@ -73,10 +81,13 @@ const recibo = (r: {
   economia?: boolean;
   cache?: string;
   cache_lido?: number;
+  imagens?: number;
 }): string => {
   const curto = (r.modelo || "IA").split(/[:/]/).pop() || "IA";
   const nome = curto.replace(/[-_]?\d{6,}$/, "");
   const partes = [nome];
+  // a IA viu a imagem? sem isto ele não sabe se a medida do print foi lida
+  if (r.imagens && r.imagens > 0) partes.push(r.imagens === 1 ? "com a imagem" : `com ${r.imagens} imagens`);
   if (typeof r.custo_usd === "number") {
     const c = r.custo_usd * 100;
     partes.push(c < 1 ? `${c.toFixed(2)} centavo` : `${c.toFixed(1)} centavos`);
@@ -168,18 +179,29 @@ export const LaudoPage: React.FC<Props> = ({
         setAviso("a folha está vazia");
         return;
       }
+      // 27/09: o print que está na folha vai junto (antes ia só o texto e a IA
+      // nunca via a medida) e volta para a folha depois (antes era apagado)
+      const imagens = imagensDaFolha(folha.current);
+      if (imagens.length > IMAGENS_MAX) {
+        setAviso(`a folha tem ${imagens.length} imagens; a IA recebe no máximo ${IMAGENS_MAX}`);
+        return;
+      }
+      const antes = folha.current?.innerHTML || "";
       setOcupado("ia");
       setAviso("");
       try {
+        const paraIA = await Promise.all(imagens.map((i) => reduzirParaIA(i)));
         const bruto = await invoke<string>("rotrix_ia_texto", {
           texto,
           instrucao,
           modelo: idModeloCompleto,
+          imagens: paraIA,
         });
         const r = JSON.parse(bruto || "{}");
         if (r.ok && r.texto) {
-          setUltimoIA(texto);
-          if (folha.current) folha.current.innerHTML = textoEmHtml(r.texto);
+          // com imagem, o "desfazer" volta a folha inteira (HTML), imagem junto
+          setUltimoIA(imagens.length ? antes : texto);
+          if (folha.current) folha.current.innerHTML = folhaComImagens(r.texto, imagens);
           // QUAL IA agiu e QUANTO custou. Sem isso ele aperta um botão e não
           // sabe se gastou um centavo ou dez — foi exatamente o que ele
           // perguntou, e trocar o modelo por baixo sem mostrar é pior ainda.
@@ -396,7 +418,7 @@ export const LaudoPage: React.FC<Props> = ({
     const el = folha.current;
     if (!el) return;
     el.focus();
-    const img = `<div><img src="${dataUrl}" style="max-width:100%;height:auto" /></div>`;
+    const img = htmlDaImagem(dataUrl);
     const sel = window.getSelection();
     if (sel && sel.rangeCount && el.contains(sel.anchorNode)) {
       document.execCommand("insertHTML", false, img);
@@ -697,6 +719,8 @@ function motivoEmPortugues(motivo?: string): string {
   if (m.includes("nuvem_ausente") || m.includes("sem_chave"))
     return "falta a chave da IA nas configurações";
   if (m.includes("roteador parado")) return "o roteador está parado";
+  const img = motivoDaImagem(m);
+  if (img) return img;
   return motivo ? `a IA não respondeu (${motivo})` : "a IA não respondeu";
 }
 

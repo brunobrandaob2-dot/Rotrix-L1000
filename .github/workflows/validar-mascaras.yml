@@ -63,6 +63,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_juntar_rotulos.py
       - name: Local ditado entra na frase do banco ("descreva X no lobo Y")
         run: LAUDO_BASE=/tmp/base.sqlite python testar_local_ditado.py
+      - name: O print com as medidas vai para a IA junto com o laudo (Anthropic e OpenAI)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_imagem_ia.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)
@@ -92,6 +94,9 @@ jobs:
       - name: Frase de estrutura que ja esta na folha entra NA linha dela
         working-directory: app
         run: bun src/components/rotrix2/juntar.test.ts
+      - name: A imagem da folha vai para a IA e volta para a folha
+        working-directory: app
+        run: bun src/components/rotrix2/imagem.test.ts
       - name: Tipos do app (o mesmo tsc do build do .exe; em 27/09 um teste com API so do Bun parou o .exe)
         working-directory: app
         run: bun install --frozen-lockfile && bunx tsc --noEmit -p .

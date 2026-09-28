@@ -1223,8 +1223,12 @@ def com_modelo(c, modelo):
     return c
 
 
-def rota(pedido, c=None, modo="analise"):
-    """Decide provedor, modelo e modo. Sem ia_por_exame = o de sempre (topo do config)."""
+def rota(pedido, c=None, modo="analise", com_imagem=False):
+    """Decide provedor, modelo e modo. Sem ia_por_exame = o de sempre (topo do config).
+
+    com_imagem (27/09): o laudo leva print com medidas. Anexar a imagem e apertar o
+    botão É a ordem de analisar: não cai em "só formatar" (que proíbe descrever) nem no
+    modelo barato por economia."""
     c = c or config()
     prov_geral = (c.get("provedor") or "anthropic").strip().lower()
     r = {"provedor": prov_geral, "modelo": (c.get("modelo") or "").strip(), "modo": modo,
@@ -1256,7 +1260,7 @@ def rota(pedido, c=None, modo="analise"):
             r["regra"] = k
             r["por_exame"] = True     # regra escrita por ele na tabela (até "Demais exames")
             break
-    if restringir and modo in _MODOS_RESTRINGIVEIS:
+    if restringir and modo in _MODOS_RESTRINGIVEIS and not com_imagem:
         r["modo"] = "formatar"
 
     # ECONOMIA: o que não exige raciocínio vai para o modelo barato, mesmo que
@@ -1266,7 +1270,7 @@ def rota(pedido, c=None, modo="analise"):
     # 26/09: "padrao" é também o nome da linha "Demais exames" da tabela — a regra
     # escrita por ele caía aqui e era trocada. Agora só a falta de regra economiza.
     if c.get("economizar", True) and r["regra"] == "padrao" and not r.get("por_exame") \
-            and not c.get("modelo_explicito"):
+            and not c.get("modelo_explicito") and not com_imagem:
         if not tarefa_precisa_pensar(pedido, r["modo"]):
             barato = modelo_barato(c, r["provedor"])
             if barato and barato != r["modelo"]:
@@ -1450,8 +1454,31 @@ def _post(url, corpo, headers, timeout):
     except urllib.error.HTTPError as e:
         raise _ErroAPI(e.code, e.read().decode("utf-8", "replace")[:200])
 
+def _conteudo_anthropic(pedido, imagens):
+    """Mensagem do usuário: texto puro, ou as imagens ANTES do texto (como a
+    Anthropic recomenda) quando o laudo leva print."""
+    if not imagens:
+        return pedido
+    partes = [{"type": "image", "source": {"type": "base64", "media_type": mt, "data": b64}}
+              for mt, b64 in imagens]
+    return partes + [{"type": "text", "text": pedido}]
+
+
+def _conteudo_openai(pedido, imagens, detalhe=False):
+    """Mensagem do usuário no formato /chat/completions (texto + image_url em data URL)."""
+    if not imagens:
+        return pedido
+    partes = [{"type": "text", "text": pedido}]
+    for mt, b64 in imagens:
+        img = {"url": "data:%s;base64,%s" % (mt, b64)}
+        if detalhe:
+            img["detail"] = "high"          # número pequeno escrito no print
+        partes.append({"type": "image_url", "image_url": img})
+    return partes
+
+
 def _enviar_anthropic(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocinio,
-                      cache=None):
+                      cache=None, imagens=None):
     bloco = {"type": "text", "text": sistema}
     if cache:
         # ttl "1h" precisa do beta header; "5m" é o padrão da API
@@ -1462,7 +1489,7 @@ def _enviar_anthropic(p, k, modelo, sistema, pedido, max_tokens, timeout, racioc
         "model": modelo,
         "max_tokens": max_tokens,
         "system": [bloco],
-        "messages": [{"role": "user", "content": pedido}],
+        "messages": [{"role": "user", "content": _conteudo_anthropic(pedido, imagens)}],
     }
     cab = {
         "content-type": "application/json",
@@ -1489,11 +1516,12 @@ def _enviar_anthropic(p, k, modelo, sistema, pedido, max_tokens, timeout, racioc
     return texto, uso, None
 
 def _enviar_openai(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocinio,
-                   cache=None):
+                   cache=None, imagens=None):
     """Formato /chat/completions (OpenAI, Gemini, OpenRouter, Ollama e compatíveis)."""
     corpo = {"model": modelo,
              "messages": [{"role": "system", "content": sistema},
-                          {"role": "user", "content": pedido}]}
+                          {"role": "user", "content": _conteudo_openai(
+                              pedido, imagens, detalhe=p.get("nome") == "openai")}]}
     corpo["max_completion_tokens" if p.get("nome") == "openai" else "max_tokens"] = max_tokens
     if raciocinio and raciocinio != "padrao":
         corpo["reasoning_effort"] = raciocinio
@@ -1528,7 +1556,7 @@ def _enviar_openai(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocini
     return texto, uso, usd
 
 
-def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
+def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens=None):
     """Devolve (texto, origem). Nunca levanta excecao.
 
     modo: "revisao" usa o prompt de revisao textual (nao raciocina sobre o caso);
@@ -1541,7 +1569,8 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
     c = c or config()
     if not c.get("ativa"):
         return None, "nuvem_desligada"
-    r = rota(pedido, c, modo)
+    imagens = list(imagens or [])       # [(media_type, base64)] já conferidas no roteador
+    r = rota(pedido, c, modo, com_imagem=bool(imagens))
     m_ef = r["modo"]
     economia = r.get("regra") == "economia"
     # O prompt de sistema vem de dados/prompts/REDATOR_ROTRIX.md, montado por bloco:
@@ -1598,7 +1627,8 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
     espera = tempo_de_espera(teto, c)
     t0 = datetime.datetime.now()
     try:
-        texto, uso, usd = enviar(p, k, r["modelo"], sistema, pedido, teto, espera, rac, ttl)
+        texto, uso, usd = enviar(p, k, r["modelo"], sistema, pedido, teto, espera, rac, ttl,
+                                 imagens=imagens)
         ms = int((datetime.datetime.now() - t0).total_seconds() * 1000)
         n_in, n_out = uso["in"], uso["out"]
         local = bool(p.get("sem_chave"))
@@ -1614,8 +1644,10 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
                        "cache": ttl or "", "cache_lido": uso.get("cache_r", 0),
                        "economia": r.get("regra") == "economia",
                        "modelo_pedido": r.get("modelo_pedido") or rotulo,
-                       "mes_usd": round(float(g.get("usd") or 0), 4)})
-        extra = {"ms": ms, "teto": teto, "fim": uso.get("fim", ""), "pensou": uso.get("pensou", 0)}
+                       "mes_usd": round(float(g.get("usd") or 0), 4),
+                       "imagens": len(imagens)})
+        extra = {"ms": ms, "teto": teto, "fim": uso.get("fim", ""), "pensou": uso.get("pensou", 0),
+                 "imagens": len(imagens)}
         if not texto:
             registrar(c, n_in, n_out, "vazia", c_call, g["usd"], modelo=rotulo, **extra)
             return None, "nuvem_vazia"
@@ -1654,7 +1686,7 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None):
         return None, "nuvem_erro_%s" % type(e).__name__
 
 def registrar(c, n_in, n_out, estado, usd=0.0, acumulado=0.0, modelo=None,
-              ms=None, teto=None, fim="", pensou=0):
+              ms=None, teto=None, fim="", pensou=0, imagens=0):
     """Log de auditoria. Nunca grava conteúdo de laudo — só contadores.
     26/09: + tempo de resposta, teto de saída, por que parou e raciocínio (colunas no
     fim da linha; quem lê só a 1a coluna, como o cálculo do cache, não muda)."""
@@ -1668,6 +1700,8 @@ def registrar(c, n_in, n_out, estado, usd=0.0, acumulado=0.0, modelo=None,
             extra += "\tfim=%s" % fim
         if pensou:
             extra += "\tpensou=%d" % pensou
+        if imagens:
+            extra += "\timg=%d" % imagens          # quantas, nunca o conteúdo
         with open(LOG, "a", encoding="utf-8") as f:
             f.write("%s\t%s\t%s\tin=%d\tout=%d\tusd=%.5f\tmes=%.4f%s\n" % (
                 datetime.datetime.now().isoformat(timespec="seconds"),
