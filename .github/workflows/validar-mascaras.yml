@@ -61,6 +61,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_lista_rapida.py
       - name: A mesma estrutura numa linha so antes da IA (frases prontas ditadas uma a uma)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_juntar_rotulos.py
+      - name: Local ditado entra na frase do banco ("descreva X no lobo Y")
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_local_ditado.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)

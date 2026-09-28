@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-27.2"
+VERSAO = "2026-09-27.3"
 
 
 def _impressao_do_codigo():
@@ -489,6 +489,41 @@ PADRAO_SLOT = re.compile(r"\{(\??[A-Za-z_]+)(?::([^}|]*))?(?:\|([^}]*))?\}")
 
 _BILATERAIS = {"bilateral", "bilaterais", "bilateralmente", "ambos", "ambas"}
 
+# ---------------------------------------------------------------------------
+# LOCAL DITADO NA LACUNA DE LOCAL (27/09)
+#
+# "descreva atelectasia laminar no lobo superior direito" saia SEM lobo nenhum:
+# o bloco oferece {localizacao|nas bases pulmonares/no lobo médio e na língula/
+# nos lobos inferiores}, o que ele disse não é opção, e o modo genérico corta a
+# lacuna calado. Pior no "descrever X" da radiografia: a opção aproximada casava
+# "lobo" com "no lobo médio e na língula" e trocava o lobo que ele ditou.
+# Regra: lacuna de LOCAL cujas opções são locais com preposição ("no/na/nos/nas/
+# em ...") aceita o local que ele ditou, com as palavras dele. Só local de
+# pulmão/tórax; hérnia (central/foraminal), aneurisma, fratura: não mexe.
+# ---------------------------------------------------------------------------
+_LUGAR_PULMAO = re.compile(
+    r"\b(?:n[oa]s?|em)\s+(?:(?:ambos|ambas|todos|todas)\s+(?:os|as)\s+|todo\s+o\s+|toda\s+a\s+)?"
+    r"(?:lobos?|l[íi]ngula|bases?|[áa]pices?|campos?|segmentos?|hemit[óo]rax|pulm[õoã]\w*|"
+    r"regi[õoã]\w*|ter[çc]os?|zonas?|periferia)\b[^,.;]*", re.I)
+_FIM_DO_LUGAR = re.compile(
+    r"\s+(?:sem|com|e|associad\w*|sugestiv\w*|caracteriz\w*|medindo|mede|compat\w*|"
+    r"determinando|de\s+aspecto|de\s+permeio)\b.*$", re.I)
+
+
+def _slot_de_lugar(opcoes):
+    """Opções da lacuna são locais com preposição (ou não há opções)?"""
+    ops = [o.strip() for o in (opcoes or "").split("/") if o.strip() and o.strip() != "___"]
+    return all(re.match(r"(?:n[oa]s?|em|difusamente)\b", normalizar(o)) for o in ops)
+
+
+def _local_ditado(ditado):
+    """O local de pulmão/tórax que ele ditou, com as palavras dele, ou None."""
+    m = _LUGAR_PULMAO.search(ditado or "")
+    if not m:
+        return None
+    lugar = _FIM_DO_LUGAR.sub("", m.group(0)).strip()
+    return lugar if len(lugar.split()) >= 2 else None
+
 def _opcao_aproximada(opcoes, n0):
     """Opção da lacuna dita de outro jeito (só no "descrever X" da radiografia):
     "discreto" ~ "discreta"; "compartimento medial" -> "femorotibial medial"
@@ -543,6 +578,10 @@ def preencher(texto, ditado, contexto=None, aproximar=False):
                 maior = max(achadas, key=len)
                 if all(normalizar(o) in normalizar(maior) for o in achadas):
                     valor = maior
+            # local que ele ditou e não é opção: entra com as palavras dele
+            # (ANTES da aproximação, que trocava "lobo superior" por "lobo médio")
+            if not valor and chave.startswith("local") and _slot_de_lugar(opcoes):
+                valor = _local_ditado(ditado)
             if not valor and aproximar:
                 valor = _opcao_aproximada(opcoes.split("/"), n0)
         if (valor and opcoes and chave.startswith("lado")
