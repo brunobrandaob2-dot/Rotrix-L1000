@@ -77,6 +77,32 @@ if roteador.BANCO.itens:
         out = roteador.rotear(ditado)
         t = out[0] if isinstance(out, tuple) else out
         confere("TC ponta a ponta: " + ditado.split(". ", 1)[1], analise in t and conclusao in t, t[-600:])
+    # 27/09 (2): "pavimentação em mosaico" (vidro fosco com septos interlobulares
+    # espessados de permeio) NÃO é "atenuação em mosaico" (hipoventilação/hipoperfusão).
+    # "pavimentacao" não está no banco e o ouvido a trocava por "movimentacao"; o
+    # "em mosaico" que sobrava caía no bloco de atenuação pelo gatilho solto "mosaico".
+    confere("o ouvido não troca 'pavimentação' por 'movimentação'",
+            "pavimentação" in roteador.ouvido_bruto("descreva pavimentação em mosaico"),
+            roteador.ouvido_bruto("descreva pavimentação em mosaico"))
+    out = roteador.rotear("tomografia de tórax. descreva pavimentação em mosaico no lobo superior direito")
+    t = out[0] if isinstance(out, tuple) else out
+    confere("pavimentação em mosaico não vira atenuação/hipoperfusão",
+            "hipoperfus" not in t and "atenuação em mosaico" not in t, t[-500:])
+    confere("sem bloco próprio: as palavras dele, no parênquima e na conclusão, sem o 'descreva'",
+            "Parênquima pulmonar:  pavimentação em mosaico no lobo superior direito." in t
+            and "\nPavimentação em mosaico no lobo superior direito." in t and "escreva" not in t, t[-500:])
+    out = roteador.rotear("tomografia de tórax. atenuação em mosaico")
+    t = out[0] if isinstance(out, tuple) else out
+    confere("atenuação em mosaico continua no bloco dela", "hipoperfusão com padrão de atenuação em mosaico" in t)
+    # contradição: o achado novo traz "Não há consolidações" e a linha já tem consolidação
+    out = roteador.rotear("tomografia de tórax. descreva consolidação no lobo inferior esquerdo. "
+                          "descreva atelectasia laminar em ambos os campos pulmonares")
+    t = out[0] if isinstance(out, tuple) else out
+    par = [l for l in t.split("\n") if l.startswith("Parênquima pulmonar:")]
+    confere("consolidação + atelectasia: sem 'Não há consolidações' na mesma linha",
+            len(par) == 1 and "consolidação com broncogramas" in par[0] and "Não há consolidações" not in par[0]
+            and "Atelectasias laminares e estrias fibroatelectásicas em ambos os campos pulmonares" in par[0],
+            par[0] if par else t)
 else:
     confere("banco carregado (rode construir_base.py)", False)
 

@@ -63,6 +63,15 @@ confere("frase repetida não duplica",
 confere("sem ANÁLISE (frases soltas): junta também",
         roteador.juntar_rotulos_repetidos("Parênquima pulmonar:  bandas basais.\nParênquima pulmonar:  enfisema.")
         == "Parênquima pulmonar:  bandas basais. Enfisema.")
+# 27/09 (2): a normalidade que vem com o achado novo sai quando NEGA o que já está na linha
+j = roteador.juntar_rotulos_repetidos("Parênquima pulmonar:  consolidação no lobo inferior esquerdo.\n"
+                                      "Parênquima pulmonar:  atelectasias laminares. Não há consolidações ou nódulos suspeitos.")
+confere("sem contradição: 'Não há consolidações' sai quando há consolidação na linha",
+        j == "Parênquima pulmonar:  consolidação no lobo inferior esquerdo. Atelectasias laminares.", j)
+j = roteador.juntar_rotulos_repetidos("Parênquima pulmonar:  enfisema centrolobular.\n"
+                                      "Parênquima pulmonar:  atelectasias laminares. Não há consolidações ou nódulos suspeitos.")
+confere("normalidade que não contradiz fica",
+        j == "Parênquima pulmonar:  enfisema centrolobular. Atelectasias laminares. Não há consolidações ou nódulos suspeitos.", j)
 sem_rotulo = "RADIOGRAFIA DO TÓRAX\n\nTÉCNICA:  PA e perfil.\n\nANÁLISE:\nOpacidades basais.\nSeios livres."
 confere("máscara de frases diretas (sem rótulo) não muda", roteador.juntar_rotulos_repetidos(sem_rotulo) == sem_rotulo)
 confere("laudo sem repetição volta idêntico", roteador.juntar_rotulos_repetidos(sem_rotulo + "\nPleura:  ok.")

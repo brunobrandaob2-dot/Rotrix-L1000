@@ -39,6 +39,32 @@ export const chaveDaEstrutura = (linha: string): { chave: string; rotulo: string
   return { chave, rotulo: r.rotulo, resto: r.resto };
 };
 
+/** Palavras de normalidade que não nomeiam achado (a mesma lista do roteador). */
+const GENERICAS_NEG = [
+  "significativ", "evident", "alteraco", "alteraca", "sinais", "achados", "demais", "restant",
+  "segment", "pulmona", "parenqu", "suspeit", "adjacen", "habitua", "preserv", "normais",
+  "limites", "outras", "outros",
+];
+
+/**
+ * Tira a frase de normalidade que nega um achado presente na mesma linha
+ * ("consolidação no LIE... Não há consolidações" — o laudo se contradizendo).
+ * Mesma regra do roteador (_sem_contradicao em roteador.py).
+ */
+export const semContradicao = (frases: string[]): string[] => {
+  const palavras = (f: string) => normalizar(f).replace(/[^a-z0-9 ]/g, " ").split(/\s+/);
+  const radicais = new Set(
+    frases.filter((f) => !NEGATIVA.test(f)).flatMap(palavras).filter((w) => w.length >= 6).map((w) => w.slice(0, 7)),
+  );
+  return frases.filter((f) => {
+    if (!NEGATIVA.test(f)) return true;
+    const nega = palavras(f)
+      .filter((w) => w.length >= 6 && !GENERICAS_NEG.some((g) => w.startsWith(g)))
+      .map((w) => w.slice(0, 7));
+    return !nega.some((r) => radicais.has(r));
+  });
+};
+
 const frasesDe = (t: string): string[] =>
   (t || "")
     .trim()
@@ -59,7 +85,7 @@ export const juntarConteudo = (existente: string, novo: string): string => {
   if (!ficam.length) return chegou;
   const ultima = ficam[ficam.length - 1];
   if (!/[.!?]$/.test(ultima)) ficam[ficam.length - 1] = ultima + ".";
-  return [...ficam, chegou.charAt(0).toUpperCase() + chegou.slice(1)].join(" ");
+  return semContradicao([...ficam, ...frasesDe(chegou.charAt(0).toUpperCase() + chegou.slice(1))]).join(" ");
 };
 
 /**

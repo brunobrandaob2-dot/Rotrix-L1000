@@ -40,6 +40,18 @@ igual(
 );
 igual(juntarConteudo("bandas basais", "enfisema."), "bandas basais. Enfisema.", "põe o ponto que faltava antes de juntar");
 
+// --- 27/09 (2): a normalidade que chega com o achado novo não pode negar o que já está na linha
+igual(
+  juntarConteudo("consolidação no lobo inferior esquerdo.", "atelectasias laminares. Não há consolidações ou nódulos suspeitos."),
+  "consolidação no lobo inferior esquerdo. Atelectasias laminares.",
+  "sem contradição: 'Não há consolidações' sai quando há consolidação na linha",
+);
+igual(
+  juntarConteudo("enfisema centrolobular.", "atelectasias laminares. Não há consolidações ou nódulos suspeitos."),
+  "enfisema centrolobular. Atelectasias laminares. Não há consolidações ou nódulos suspeitos.",
+  "normalidade que não contradiz fica",
+);
+
 // --- rótulo x cabeçalho
 casos.push([chaveDaEstrutura("Parênquima pulmonar:  bandas.")?.chave === "parenquima pulmonar", "reconhece o rótulo de estrutura"]);
 casos.push([chaveDaEstrutura("CONCLUSÃO:") === null, "CONCLUSÃO não é estrutura"]);

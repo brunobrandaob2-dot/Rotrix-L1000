@@ -61,7 +61,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-27.3"
+VERSAO = "2026-09-27.4"
 
 
 def _impressao_do_codigo():
@@ -627,6 +627,13 @@ def segmentar(texto):
               for p in SEPARADORES.split(protegido) if p and p.strip()]
     return partes or [texto]
 
+# Palavra dita que define OUTRA entidade: bloco cujo gatilho não a tem não serve.
+# 27/09: "pavimentação em mosaico" (vidro fosco com septos interlobulares espessados
+# de permeio) caía no bloco de ATENUAÇÃO em mosaico (hipoventilação/hipoperfusão)
+# pelo gatilho solto "mosaico". São entidades diferentes. Sem bloco próprio, o
+# achado fica sem bloco (visível), nunca no bloco da outra entidade.
+_PALAVRA_DE_ENTIDADE = {"pavimentacao"}
+
 def _bloco_do_segmento(seg, filtro):
     n = normalizar(seg)
     if len(n) < 4:
@@ -638,11 +645,14 @@ def _bloco_do_segmento(seg, filtro):
     # contradizendo, que e o defeito que ele mais cobra.
     alvo = set(sinonimo_busca(n).split())
     perto_bloco = _casador(alvo, 0.85)
+    entidade = alvo & _PALAVRA_DE_ENTIDADE
     melhor, melhor_chave = None, None
     for t, g, tit, txt, sec, con in BANCO.itens:
         if t != "bloco" or not filtro(BANCO.meta.get(tit, ("", "", "", ""))):
             continue
         gt = g.split()
+        if entidade and not entidade <= set(gt):
+            continue
         exatas = sum(1 for w in gt if w in alvo)
         parecidas = sum(1 for w in gt if w not in alvo and len(w) >= 5
                         and perto_bloco(w))
@@ -704,6 +714,31 @@ _NEGATIVA = re.compile(r"^(?:não há|não se|não são|ausência|sem |demais |r
 
 NORMAL = re.compile(r"sem altera\w+ significativ|sem anormalidades|dentro dos limites da normalidade$", re.I)
 
+# Palavras de normalidade que não nomeiam achado (não servem para ver contradição).
+_GENERICAS_NEG = ("significativ", "evident", "alteraco", "alteraca", "sinais", "achados",
+                  "demais", "restant", "segment", "pulmona", "parenqu", "suspeit", "adjacen",
+                  "habitua", "preserv", "normais", "limites", "outras", "outros")
+
+
+def _sem_contradicao(frases):
+    """Tira da mesma estrutura a frase de normalidade que nega um achado presente.
+
+    27/09: "descreva consolidação no LIE. descreva atelectasia laminar" juntava
+    "consolidação no lobo inferior esquerdo... Atelectasias laminares... Não há
+    consolidações ou nódulos suspeitos." — o laudo se contradizendo. A frase de
+    normalidade que vem com o achado novo só sai quando nega o que já está na linha."""
+    positivas = " ".join(normalizar(f) for f in frases if not _NEGATIVA.match(f))
+    radicais = {w[:7] for w in positivas.split() if len(w) >= 6}
+    fica = []
+    for f in frases:
+        if _NEGATIVA.match(f):
+            nega = [w[:7] for w in normalizar(f).split()
+                    if len(w) >= 6 and not w.startswith(_GENERICAS_NEG)]
+            if any(r in radicais for r in nega):
+                continue
+        fica.append(f)
+    return fica
+
 # linha de topico da analise: "Figado:  ..." / "Arterias carotidas comuns:  ..."
 _ROTULO = re.compile(r"^\s*-?\s*[^\W\d_][^:.;]{0,70}:\s")
 
@@ -728,7 +763,8 @@ def _juntar_na_estrutura(atual, novo):
         return novo
     if not re.search(r"[.!?]$", ficam[-1]):
         ficam[-1] += "."
-    return " ".join(ficam + [novo[0].upper() + novo[1:]])
+    junto = ficam + re.split(r"(?<=[.])\s+", novo[0].upper() + novo[1:])
+    return " ".join(_sem_contradicao([f for f in junto if f]))
 
 
 def juntar_rotulos_repetidos(texto):
@@ -783,7 +819,8 @@ def montar(base_txt, blocos, ditado=None):
                         # sai, senão contradiz o segundo achado que entra agora
                         frases = re.split(r"(?<=[.])\s+", atual.strip())
                         frases = [f for f in frases if not _NEGATIVA.match(f)]
-                        linhas[i] = rot + ":  " + " ".join(frases + [resto])
+                        junto = frases + [f for f in re.split(r"(?<=[.])\s+", resto) if f]
+                        linhas[i] = rot + ":  " + " ".join(_sem_contradicao(junto))
                 else:
                     # mascara de frases diretas (radiografia): so acrescenta
                     linhas[i] = linhas[i].rstrip() + " " + _sem_hifen(corpo).strip()
@@ -1332,6 +1369,12 @@ def _mais_perto(w):
         if len(_PERTO) > 20000:
             _PERTO.clear()
         c = difflib.get_close_matches(w, v["lista"], n=1, cutoff=0.78)
+        # 27/09: "pavimentacao" (fora do banco) virava "movimentacao" e o "em mosaico"
+        # que sobrava caía no bloco de ATENUAÇÃO em mosaico — outra entidade. O
+        # reconhecimento de voz erra o meio da palavra, não o começo: palavra do
+        # banco que começa com outra letra não é a mesma palavra (o "h" mudo não conta).
+        if c and c[0].lstrip("h")[:1] != w.lstrip("h")[:1]:
+            c = []
         _PERTO[k] = c[0] if c else w
     return _PERTO[k]
 
@@ -1765,6 +1808,11 @@ def _rotear(ditado, _auto=False):
                         " ".join(segmentos[1:])
             resto_raw = re.sub(r"^[\s,.;:]*(?:com\b|e\b|mais\b)?[\s,.;:]*", "", resto_raw, flags=re.I)
             restantes = segmentar(resto_raw) if resto_raw.strip() else []
+            # "descreva X": o verbo é comando, não achado. Sem isto, achado sem bloco
+            # saía literal como "Parênquima pulmonar:  descreva pavimentação..." e a
+            # CONCLUSÃO começava com "Descreva".
+            restantes = [re.sub(r"^\s*(?:descrev\w*|descriva)\s+", "", x, flags=re.I) or x
+                         for x in restantes]
             # lado do ESTUDO = o que vem no cabecalho e nos trechos sem achado
             # logo depois dele ("rx de joelho, direito, com artrose")
             lead = []
