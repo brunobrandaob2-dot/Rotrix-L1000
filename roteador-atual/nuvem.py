@@ -1245,6 +1245,7 @@ def rota(pedido, c=None, modo="analise", com_imagem=False):
     tipo, onco = tipo_exame(pedido), eh_onco(pedido)
     r["exame"] = "onco" if onco else tipo
     restringir = (c.get("modo_ia") or "").strip().lower() in ("formatar", "so formatar", "só formatar")
+    regra_so_formatar = False
     ia = c.get("ia_por_exame") or {}
     if isinstance(ia, dict) and ia:
         for k in (["onco"] if onco else []) + ([tipo] if tipo else []) + ["padrao"]:
@@ -1263,6 +1264,7 @@ def rota(pedido, c=None, modo="analise", com_imagem=False):
             m = (e.get("modo") or "").strip().lower()
             if m in ("formatar", "so formatar", "só formatar"):
                 restringir = True
+                regra_so_formatar = True
             elif m in ("analisar", "analise", "livre"):
                 restringir = False
             r["regra"] = k
@@ -1270,6 +1272,17 @@ def rota(pedido, c=None, modo="analise", com_imagem=False):
             break
     if restringir and modo in _MODOS_RESTRINGIVEIS and not com_imagem:
         r["modo"] = "formatar"
+
+    # 29/09 tarde: ele colou o print com as medidas e pediu a análise; a chamada foi
+    # para o gpt-6-luna, o modelo que ELE pôs na linha "Só formatar" do RX. Linha
+    # "Só formatar" é a do modelo básico: ler imagem é análise, não formatação.
+    # Com imagem, essa linha cede ao Modelo padrão (ou ao que ele escolheu na barra).
+    if com_imagem and regra_so_formatar:
+        geral = (c.get("modelo") or "").strip()
+        if geral and geral != r["modelo"]:
+            r["modelo_pedido"] = r["modelo"]
+            r["provedor"], r["modelo"] = prov_geral, geral
+            r["regra"] = "imagem"
 
     # ECONOMIA: o que não exige raciocínio vai para o modelo barato, mesmo que
     # ele tenha escolhido um caro na barra. Desligue com "economizar": false.

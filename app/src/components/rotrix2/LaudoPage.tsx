@@ -46,6 +46,7 @@ import {
   folhaComImagens,
   htmlDaImagem,
   imagensDaFolha,
+  imagensSemRecorte,
   motivoDaImagem,
   reduzirParaIA,
 } from "./imagemParaIA";
@@ -180,6 +181,17 @@ export const LaudoPage: React.FC<Props> = ({
       }
       // 27/09: o print que está na folha vai junto (antes ia só o texto e a IA
       // nunca via a medida) e volta para a folha depois (antes era apagado)
+      // 29/09: imagem que entrou sem o recorte (colada antes desta versão, ou vinda
+      // de outro lugar) pode ter o nome do paciente nos cantos: não sai, e ele sabe
+      const semRecorte = imagensSemRecorte(folha.current?.innerHTML || "");
+      if (semRecorte > 0) {
+        setAviso(
+          semRecorte === 1
+            ? "a imagem da folha entrou sem o recorte e não vai para a IA: apague e cole de novo (o recorte abre sozinho)"
+            : `${semRecorte} imagens da folha entraram sem o recorte e não vão para a IA: apague e cole de novo (o recorte abre sozinho)`,
+        );
+        return;
+      }
       const imagens = imagensDaFolha(folha.current);
       if (imagens.length > IMAGENS_MAX) {
         setAviso(`a folha tem ${imagens.length} imagens; a IA recebe no máximo ${IMAGENS_MAX}`);
@@ -412,6 +424,30 @@ export const LaudoPage: React.FC<Props> = ({
   }, []);
 
   const [imagemAberta, setImagemAberta] = useState(false);
+  // 29/09: Ctrl+V (ou arrastar) de imagem DIRETO no corpo do laudo. O navegador
+  // punha o print inteiro na folha, sem recorte, e ele ia assim para a IA. Agora
+  // a imagem abre no recorte, igual ao botão de imagem.
+  const [imagemInicial, setImagemInicial] = useState<Blob | null>(null);
+  const imagemDe = (itens: DataTransferItemList | undefined | null): File | null => {
+    for (const i of Array.from(itens || [])) {
+      if (i.kind === "file" && i.type.startsWith("image/")) return i.getAsFile();
+    }
+    return null;
+  };
+  const colarNaFolha = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    const arq = imagemDe(e.clipboardData?.items);
+    if (!arq) return;
+    e.preventDefault();
+    setImagemInicial(arq);
+    setImagemAberta(true);
+  };
+  const soltarNaFolha = (e: React.DragEvent<HTMLDivElement>) => {
+    const arq = imagemDe(e.dataTransfer?.items);
+    if (!arq) return;
+    e.preventDefault();
+    setImagemInicial(arq);
+    setImagemAberta(true);
+  };
 
   const inserirImagem = useCallback((dataUrl: string) => {
     const el = folha.current;
@@ -666,6 +702,8 @@ export const LaudoPage: React.FC<Props> = ({
           suppressContentEditableWarning
           spellCheck
           data-rotrix="folha"
+          onPaste={colarNaFolha}
+          onDrop={soltarNaFolha}
           style={{
             overflowWrap: "anywhere",
             // a folha cresce com o texto e marca onde termina cada página,
@@ -679,7 +717,11 @@ export const LaudoPage: React.FC<Props> = ({
 
       <ImagemNaFolha
         aberto={imagemAberta}
-        aoFechar={() => setImagemAberta(false)}
+        inicial={imagemInicial}
+        aoFechar={() => {
+          setImagemAberta(false);
+          setImagemInicial(null);
+        }}
         aoConfirmar={inserirImagem}
       />
 

@@ -19,6 +19,8 @@ interface Props {
   aoFechar: () => void;
   /** entrega o PNG já recortado e sem metadado, como data URL */
   aoConfirmar: (dataUrl: string) => void;
+  /** 29/09: imagem colada ou arrastada direto na folha — abre já no recorte */
+  inicial?: Blob | null;
 }
 
 interface Corte {
@@ -32,7 +34,7 @@ interface Corte {
 // cabeçalho e rodapé com nome, data de nascimento e número de acesso.
 const MARGEM = 0.07;
 
-export const ImagemNaFolha: React.FC<Props> = ({ aberto, aoFechar, aoConfirmar }) => {
+export const ImagemNaFolha: React.FC<Props> = ({ aberto, aoFechar, aoConfirmar, inicial }) => {
   const [imagem, setImagem] = useState<HTMLImageElement | null>(null);
   const [corte, setCorte] = useState<Corte | null>(null);
   const [arrastando, setArrastando] = useState<{ x: number; y: number } | null>(null);
@@ -55,6 +57,11 @@ export const ImagemNaFolha: React.FC<Props> = ({ aberto, aoFechar, aoConfirmar }
     img.onerror = () => setErro("não consegui abrir essa imagem");
     img.src = typeof origem === "string" ? origem : URL.createObjectURL(origem);
   }, []);
+
+  // veio da folha (Ctrl+V ou arrastar no corpo do laudo): já abre com ela
+  useEffect(() => {
+    if (aberto && inicial) carregar(inicial);
+  }, [aberto, inicial, carregar]);
 
   // colar
   useEffect(() => {

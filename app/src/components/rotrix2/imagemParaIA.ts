@@ -18,23 +18,40 @@ export const IMAGENS_MAX = 4;
 /** Lado maior que a IA aproveita. Acima disso ela reduz sozinha, e cobra o envio. */
 export const LADO_MAX = 1568;
 
-const IMG_DATA = /<img\b[^>]*?\bsrc\s*=\s*"(data:image\/(?:png|jpeg|webp|gif);base64,[A-Za-z0-9+/=]+)"/gi;
+// 29/09 tarde: "colar a imagem no corpo do laudo" (Ctrl+V direto na folha) punha o
+// print INTEIRO na folha — o navegador vira data URL sozinho — e ele ia para a IA
+// sem o recorte: com o nome do paciente que o visualizador grava nos cantos. Agora
+// a imagem limpa (recortada e redesenhada no canvas) leva esta marca, e só a
+// marcada vai para a IA. Colar ou arrastar na folha abre o recorte (LaudoPage).
+export const MARCA_LIMPA = 'data-rotrix="limpa"';
+
+const TAG_IMG = /<img\b[^>]*>/gi;
+const SRC_DATA = /\bsrc\s*=\s*"(data:image\/(?:png|jpeg|webp|gif);base64,[A-Za-z0-9+/=]+)"/i;
 
 /**
- * As imagens que estão na folha, na ordem. Só as que entraram pelo botão de imagem
- * (data URL feita no canvas, sem metadado). Link externo ou arquivo nunca vai.
+ * As imagens que estão na folha, na ordem. Só as que passaram pelo recorte (marca
+ * `data-rotrix="limpa"`, data URL feita no canvas, sem metadado). Link externo,
+ * arquivo e imagem colada sem recorte nunca vão.
  */
 export const imagensDoHtml = (html: string): string[] => {
   const saida: string[] = [];
-  for (const m of (html || "").matchAll(IMG_DATA)) saida.push(m[1]);
+  for (const m of (html || "").matchAll(TAG_IMG)) {
+    const tag = m[0];
+    const src = SRC_DATA.exec(tag);
+    if (src && tag.includes(MARCA_LIMPA)) saida.push(src[1]);
+  }
   return saida;
 };
+
+/** Quantas imagens da folha NÃO vão para a IA (sem recorte, link externo, SVG...). */
+export const imagensSemRecorte = (html: string): number =>
+  ((html || "").match(TAG_IMG) || []).length - imagensDoHtml(html).length;
 
 export const imagensDaFolha = (el: HTMLElement | null): string[] => imagensDoHtml(el?.innerHTML || "");
 
 /** O mesmo HTML que o botão de imagem põe na folha (LaudoPage, inserirImagem). */
 export const htmlDaImagem = (dataUrl: string): string =>
-  `<div><img src="${dataUrl}" style="max-width:100%;height:auto" /></div>`;
+  `<div><img src="${dataUrl}" ${MARCA_LIMPA} style="max-width:100%;height:auto" /></div>`;
 
 /** O laudo que voltou da IA, com as imagens de volta no fim. */
 export const folhaComImagens = (texto: string, imagens: string[]): string =>

@@ -101,6 +101,28 @@ confere("sem imagem, a regra dele prende a RX em 'formatar'", nuvem.rota(P_RX, C
 confere("com imagem, não prende em 'formatar'",
         nuvem.rota(P_RX, C_RX, "laudo", com_imagem=True)["modo"] == "laudo")
 
+# 29/09 tarde: o config DELE (RX só formatar no gpt-6-luna, TC no gpt-6-sol). O print
+# com medida foi para o Luna, que "não entende". Linha "Só formatar" cede ao padrão.
+C_DELE = {"ativa": True, "provedor": "openai", "modelo": "gpt-6-sol",
+          "ia_por_exame": {"rx": {"provedor": "openai", "modelo": "gpt-6-luna", "modo": "formatar"},
+                           "tc": {"provedor": "openai", "modelo": "gpt-6-sol"}}}
+P_TC = "LAUDO NA TELA:\nTOMOGRAFIA COMPUTADORIZADA DO JOELHO DIREITO\nANÁLISE:\nTA-GT: ___"
+r = nuvem.rota(P_RX, C_DELE, "laudo", com_imagem=True)
+confere("config dele: RX com imagem vai para o Modelo padrão (gpt-6-sol), não para o Luna",
+        r["modelo"] == "gpt-6-sol" and r["provedor"] == "openai" and r["regra"] == "imagem"
+        and r.get("modelo_pedido") == "gpt-6-luna", repr(r))
+confere("config dele: RX sem imagem continua no Luna só formatando",
+        nuvem.rota(P_RX, C_DELE, "laudo")["modelo"] == "gpt-6-luna"
+        and nuvem.rota(P_RX, C_DELE, "laudo")["modo"] == "formatar")
+confere("config dele: TC com imagem fica na regra da TC (gpt-6-sol)",
+        nuvem.rota(P_TC, C_DELE, "laudo", com_imagem=True)["regra"] == "tc")
+r = nuvem.rota(P_RX, nuvem.com_modelo(C_DELE, "gpt-6-astra"), "laudo", com_imagem=True)
+confere("RX com imagem e Astra escolhido na barra: vai o da barra", r["modelo"] == "gpt-6-astra", repr(r))
+C_OUTRO = dict(C_DELE, provedor="anthropic", modelo="claude-opus-5-5")
+r = nuvem.rota(P_RX, C_OUTRO, "laudo", com_imagem=True)
+confere("padrão em outro provedor: provedor e modelo andam juntos",
+        r["provedor"] == "anthropic" and r["modelo"] == "claude-opus-5-5", repr(r))
+
 
 class _R(io.BytesIO):
     def __enter__(self):
