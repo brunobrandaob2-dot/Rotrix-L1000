@@ -123,12 +123,16 @@ const milhar = (v: number | undefined): string =>
   (v ?? 0).toLocaleString("pt-BR");
 
 // Escolha de modelo: lista pronta do provedor + "outro" (digitado).
+// 29/09 "ficou fora de esquadro": na tabela por exame, "outro" abria a caixa de
+// 12rem AO LADO da lista, a célula estourava e empurrava o "Só formatar" para
+// fora do quadro. Com `naCelula`, lista e caixa dividem a célula e encolhem.
 const EscolhaModelo: React.FC<{
   provedor: string;
   modelo: string;
   onChange: (m: string) => void;
   vazio?: string;
-}> = ({ provedor, modelo, onChange, vazio }) => {
+  naCelula?: boolean;
+}> = ({ provedor, modelo, onChange, vazio, naCelula }) => {
   const lista = MODELOS[provedor] ?? [];
   const conhecido = lista.some((m) => m.value === modelo);
   const [digitando, setDigitando] = useState<boolean>(
@@ -137,9 +141,9 @@ const EscolhaModelo: React.FC<{
   // quem usa este componente troca a "key" quando o provedor muda ou a
   // configuração é recarregada: o estado inicial acima é recalculado
   return (
-    <div className="flex gap-2 items-center">
+    <div className={naCelula ? "flex gap-2 items-center min-w-0 w-full" : "flex gap-2 items-center"}>
       <select
-        className={classeSelect}
+        className={naCelula ? classeSelect + " min-w-0 flex-1" : classeSelect}
         value={digitando ? OUTRO : modelo}
         onChange={(e) => {
           const v = e.target.value;
@@ -162,7 +166,7 @@ const EscolhaModelo: React.FC<{
       {digitando && (
         <Input
           variant="compact"
-          className="w-48"
+          className={naCelula ? "min-w-0 flex-1" : "w-48"}
           value={modelo}
           placeholder="nome exato do modelo"
           onChange={(e) => onChange(e.target.value.trim())}
@@ -397,11 +401,11 @@ export const RotrixIA: React.FC = () => {
         description="“Só formatar”: a IA só organiza, põe cada achado na linha certa e corrige a transcrição. Não descreve nem raciocina, e uma trava aponta no topo do laudo tudo o que ela acrescentar."
       >
         <div className="p-4 space-y-2">
-          <div className="grid grid-cols-[9rem_1fr_1.6fr_6rem] gap-2 text-xs text-mid-gray">
+          <div className="grid grid-cols-[9rem_minmax(0,1fr)_minmax(0,1.6fr)_6rem] gap-2 text-xs text-mid-gray">
             <span>Exame</span>
             <span>Provedor</span>
             <span>Modelo</span>
-            <span>Só formatar</span>
+            <span className="text-center">Só formatar</span>
           </div>
           {EXAMES.map((ex) => {
             const r = rotas[ex.chave] ?? {};
@@ -409,11 +413,11 @@ export const RotrixIA: React.FC = () => {
             return (
               <div
                 key={ex.chave}
-                className="grid grid-cols-[9rem_1fr_1.6fr_6rem] gap-2 items-center"
+                className="grid grid-cols-[9rem_minmax(0,1fr)_minmax(0,1.6fr)_6rem] gap-2 items-center"
               >
                 <span className="text-sm">{ex.nome}</span>
                 <select
-                  className={classeSelect}
+                  className={classeSelect + " w-full min-w-0"}
                   value={prov}
                   onChange={(e) =>
                     mudarRota(ex.chave, { provedor: e.target.value })
@@ -431,6 +435,7 @@ export const RotrixIA: React.FC = () => {
                   provedor={prov || provedor}
                   modelo={r.modelo ?? ""}
                   vazio={prov === "" ? "modelo padrão" : "escolha o modelo"}
+                  naCelula
                   onChange={(m) => mudarRota(ex.chave, { modelo: m })}
                 />
                 <input
