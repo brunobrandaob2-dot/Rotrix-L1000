@@ -80,8 +80,13 @@ PADRAO = {
 # ---------- preços (USD por milhão de tokens) ----------
 # Anthropic: platform.claude.com/docs/en/about-claude/pricing — conferido 25/09/2026.
 # OpenAI GPT-5.6: Luna conferido na página oficial do modelo (0,20 / 1,20);
-# Sol e Terra por fonte secundária (set/2026) — conferir e, se mudar, corrigir
-# em config.json -> "precos", sem mexer no código.
+# Terra por fonte secundária (set/2026). Sol corrigido em 29/09 de 5/30 para 4/20:
+# o anúncio do GPT-6 diz que o GPT-6 Sol (2/10) custa a METADE do antecessor, e duas
+# fontes dão 4/20 para o GPT-5.6 Sol.
+# OpenAI GPT-6 (lançado em set/2026; a lista da API no PC dele já traz gpt-6-astra,
+# gpt-6-sol e gpt-6-luna): Sol 2/10 e Luna 0,10/0,50 na página oficial do anúncio;
+# Astra 10/50 por fonte secundária. Não existe "Terra" no GPT-6.
+# Qualquer preço que mudar: config.json -> "precos", sem mexer no código.
 #
 # (prefixo, entrada, saida, mult_leitura_cache)
 # A escolha do prefixo é por MAIS LONGO PRIMEIRO, não pela ordem da lista: "claude-opus"
@@ -99,9 +104,12 @@ PRECOS = [
     ("claude-sonnet-5",    2.0, 10.0, 0.10),
     ("claude-sonnet",      3.0, 15.0, 0.10),
     ("claude-haiku",       1.0,  5.0, 0.10),
-    ("gpt-5.6-sol",        5.0, 30.0, 0.10),
+    ("gpt-5.6-sol",        4.0, 20.0, 0.10),
     ("gpt-5.6-terra",      2.0, 12.0, 0.10),
     ("gpt-5.6-luna",       0.20, 1.20, 0.10),
+    ("gpt-6-astra",       10.0, 50.0, 0.10),
+    ("gpt-6-sol",          2.0, 10.0, 0.10),
+    ("gpt-6-luna",         0.10, 0.50, 0.10),
     # Gemini 3.8 Flash: preço de lançamento até 31/12/2026 (depois 1,50 / 7,50)
     ("gemini-3.8-flash",   0.75, 3.75, 0.10),
 ]

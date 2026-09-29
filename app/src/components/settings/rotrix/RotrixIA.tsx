@@ -58,7 +58,12 @@ const MODELOS: Record<string, { value: string; label: string }[]> = {
     { value: "claude-opus-5", label: "Opus 5" },
     { value: "claude-fable-5-1", label: "Fable 5.1" },
   ],
+  // 29/09: a OpenAI lançou o GPT-6 (Astra, Sol, Luna — não existe Terra no GPT-6).
+  // O GPT-5.6 continua na API; os dois ficam aqui para ele escolher.
   openai: [
+    { value: "gpt-6-luna", label: "GPT-6 Luna (básico: só formatar)" },
+    { value: "gpt-6-sol", label: "GPT-6 Sol" },
+    { value: "gpt-6-astra", label: "GPT-6 Astra (o mais caro)" },
     { value: "gpt-5.6-luna", label: "GPT-5.6 Luna (básico: só formatar)" },
     { value: "gpt-5.6-terra", label: "GPT-5.6 Terra" },
     { value: "gpt-5.6-sol", label: "GPT-5.6 Sol" },
