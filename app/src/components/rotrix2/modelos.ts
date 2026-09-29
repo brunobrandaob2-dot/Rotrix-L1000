@@ -127,3 +127,41 @@ export const escolherComparativo = (
     ""
   );
 };
+
+// ---------------------------------------------------------------------------
+// 29/09 (auditoria "está aparecendo só o 5.6"): na TC e no RX quem manda é a
+// tabela "IA por tipo de exame" de Configurações — o roteador troca o modelo da
+// barra pelo da tabela (nuvem.rota). A barra mostrava a escolha antiga
+// (gpt-5.6-terra) e a chamada ia para o gpt-6-sol. Estas duas funções põem a
+// tabela na barra, para a tela dizer o que vai rodar.
+
+const ORDEM_EXAMES: [string, string][] = [
+  ["tc", "TC"],
+  ["rx", "RX"],
+  ["rm", "RM"],
+  ["angio", "Angio"],
+  ["us", "US"],
+  ["mamo", "Mamo"],
+  ["onco", "Onco"],
+  ["padrao", "demais"],
+];
+
+/** A tabela do config ({"tc": {"modelo": "gpt-6-sol"}} ou "openai:gpt-6-sol") -> {"tc": "gpt-6-sol"}. */
+export const regrasDaTabela = (
+  tabela: Record<string, { modelo?: string } | string> | undefined | null,
+): Record<string, string> => {
+  const out: Record<string, string> = {};
+  if (!tabela || typeof tabela !== "object") return out;
+  for (const [exame, v] of Object.entries(tabela)) {
+    const cru = typeof v === "string" ? v : (v && v.modelo) || "";
+    const modelo = cru.replace(PREFIXO_PROVEDOR, "").trim();
+    if (modelo) out[exame] = modelo;
+  }
+  return out;
+};
+
+/** {"tc": "gpt-6-sol", "rx": "gpt-6-luna"} -> "TC gpt-6-sol · RX gpt-6-luna" (ordem fixa). */
+export const textoDasRegras = (regras: Record<string, string>): string =>
+  ORDEM_EXAMES.filter(([k]) => regras[k])
+    .map(([k, nome]) => `${nome} ${regras[k]}`)
+    .join(" · ");

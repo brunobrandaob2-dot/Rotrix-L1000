@@ -56,20 +56,31 @@ const ABAS: { id: Aba; nome: string; icone: React.ElementType }[] = [
 // A lista de modelos vem da API do provedor instalado, não de tabela aqui.
 // Tabela escrita à mão envelhece e amarra o app a um fornecedor: quem instala
 // com chave de outro continuava vendo os nomes do primeiro na tela.
-import { escolherLeve, escolherForte, escolherComparativo, conversa } from "./modelos";
+import { escolherForte, escolherComparativo, conversa, regrasDaTabela } from "./modelos";
 import { ligarCopiaLimpa } from "./copiaLimpa";
 
 const GUARDADO = "rotrix2.modeloForte";
+// 29/09 (auditoria): o seletor do botão LEVE era enfeite. O leve passa pelo
+// Handy -> /v1/chat/completions do roteador, que ignora o "model" do pedido e
+// usa Configurações (Modelo padrão + tabela por exame). A barra mostrava
+// "5 6 luna" (escolha antiga guardada) e a chamada ia para o gpt-6-luna.
+// Agora a barra mostra o que Configurações manda, e a escolha antiga é apagada.
 const GUARDADO_LEVE = "rotrix2.modeloLeve";
+// o Modelo padrão do config no momento em que ele escolheu o forte na barra:
+// se ele trocar o Modelo padrão em Configurações, a escolha antiga da barra cai
+const GUARDADO_BASE = "rotrix2.modeloForte.base";
 // 27/09: o Comparativo tem a escolha dele, separada do botão forte do Laudo
 const GUARDADO_COMPARATIVO = "rotrix2.modeloComparativo";
 
 // Nome curto de um modelo, para caber no botão. Sai do PRÓPRIO identificador
 // que o provedor devolveu — nenhum nome de fabricante escrito aqui. Assim a
 // tela fica igual seja qual for a chave instalada.
+// 29/09: id curto sai inteiro ("gpt-6-sol"); antes virava "Gpt 6 sol" e
+// "gpt-5.6-terra" virava "5 6 terra", que não diz de que geração é.
 const apelido = (modelo: string): string => {
   const cru = (modelo || "").split(/[:/]/).pop() || "";
   if (!cru) return "IA";
+  if (cru.length <= 16 && !/\d{6,}$/.test(cru)) return cru;
   // tira data no fim ("-20251001") e números de versão soltos, e deixa a
   // primeira parte com letra maiúscula: "claude-haiku-4-5-2025…" -> "Haiku 4.5"
   const partes = cru
@@ -116,14 +127,17 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     texto: "",
     n: 0,
   });
-  // o modelo do botão forte é escolha da tela e fica guardado para a próxima vez
-  const [modeloLeve, setModeloLeve] = useState<string>(() => {
+  // a escolha antiga do leve não mandava em nada: some, para não enganar
+  useEffect(() => {
     try {
-      return localStorage.getItem(GUARDADO_LEVE) || "";
+      localStorage.removeItem(GUARDADO_LEVE);
     } catch {
-      return "";
+      /* sem problema */
     }
-  });
+  }, []);
+  // tabela por exame de Configurações (ex.: TC -> gpt-6-sol), para a barra mostrar
+  const [regras, setRegras] = useState<Record<string, string>>({});
+  // o modelo do botão forte é escolha da tela e fica guardado para a próxima vez
   const [modeloForte, setModeloForte] = useState<string>(() => {
     try {
       return localStorage.getItem(GUARDADO) || "";
@@ -182,9 +196,24 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
       const e = JSON.parse((await invoke<string>("rotrix_ia_estado")) || "{}") as {
         provedor?: string;
         modelo?: string;
+        ia_por_exame?: Record<string, { modelo?: string } | string>;
       };
       provedor = (e.provedor || "anthropic").toLowerCase();
-      setIa({ provedor, modelo: e.modelo || "" });
+      const doConfig = e.modelo || "";
+      setIa({ provedor, modelo: doConfig });
+      setRegras(regrasDaTabela(e.ia_por_exame));
+      // trocou o Modelo padrão em Configurações: a escolha antiga da barra cai
+      try {
+        const salvo = localStorage.getItem(GUARDADO) || "";
+        const base = localStorage.getItem(GUARDADO_BASE) || "";
+        if (salvo && doConfig && base !== doConfig) {
+          localStorage.removeItem(GUARDADO);
+          localStorage.setItem(GUARDADO_BASE, doConfig);
+          setModeloForte("");
+        }
+      } catch {
+        /* sem localStorage: fica como estava */
+      }
     } catch {
       /* roteador parado: fica como estava */
     }
@@ -244,8 +273,8 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
 
   // Qual IA cada botão aciona. A regra inteira, e o porquê dela, está em
   // modelos.ts — foi ali que o "modelo caro escolhido por ninguém" morreu.
-  const idLeve = escolherLeve(listaModelos, modeloLeve);
-  const leve = { id: idLeve, nome: apelido(idLeve) };
+  // o leve usa Configurações: o Modelo padrão (e a tabela, nos exames com regra)
+  const nomeLeve = ia.modelo ? apelido(ia.modelo) : "IA rápida";
   const forte = escolherForte(listaModelos, modeloForte, ia.modelo);
 
   const guardar = (chave: string, id: string) => {
@@ -259,11 +288,7 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
   const trocarModelo = (id: string) => {
     setModeloForte(id);
     guardar(GUARDADO, id);
-  };
-
-  const trocarModeloLeve = (id: string) => {
-    setModeloLeve(id);
-    guardar(GUARDADO_LEVE, id);
+    guardar(GUARDADO_BASE, ia.modelo);
   };
 
   // o seletor do Comparativo mexe só no Comparativo (antes mexia no forte do Laudo
@@ -327,9 +352,8 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
         */}
         <div className={aba === "laudo" ? "h-full" : "hidden"}>
           <LaudoPage
-            modeloLeve={leve.nome}
-            idModeloLeve={leve.id}
-            aoTrocarModeloLeve={trocarModeloLeve}
+            modeloLeve={nomeLeve}
+            regrasIa={regras}
             modeloCompleto={apelido(forte)}
             idModeloCompleto={forte}
             textoEntrando={paraFolha}

@@ -17,6 +17,8 @@ import {
   maisBarato,
   maisForteDoAtual,
   conversa,
+  regrasDaTabela,
+  textoDasRegras,
 } from "./modelos";
 
 // A lista como a API devolveu no dia — Fable em primeiro, que foi o estrago.
@@ -145,6 +147,22 @@ const casos: [boolean, string][] = [
     "pro/codex da OpenAI ficam fora"],
   [conversa("gemini-2.5-pro") && conversa("gpt-5.6-terra") && conversa("o3"),
     "gemini-pro e os gpt de conversa ficam"],
+  // 29/09: a barra mostrava gpt-5.6 e a TC ia para o gpt-6-sol (a tabela manda)
+  [
+    textoDasRegras(
+      regrasDaTabela({
+        rx: { modelo: "gpt-6-luna" },
+        tc: { modelo: "gpt-6-sol" },
+      }),
+    ) === "TC gpt-6-sol · RX gpt-6-luna",
+    "barra: a tabela do config dele (TC e RX) aparece, TC primeiro",
+  ],
+  [
+    textoDasRegras(regrasDaTabela({ padrao: "openai:gpt-6-sol", rm: { modelo: "" } })) ===
+      "demais gpt-6-sol",
+    "barra: 'provedor:modelo' perde o prefixo; regra sem modelo não aparece",
+  ],
+  [textoDasRegras(regrasDaTabela(undefined)) === "", "barra: sem tabela, nada aparece"],
 ];
 
 console.log("=== qual IA cada botão aciona ===");

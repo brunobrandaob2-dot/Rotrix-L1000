@@ -38,6 +38,7 @@ import { Button } from "../ui/Button";
 import { Dica } from "./Dica";
 import { textoEmHtml, htmlEmTexto, htmlEmMarcado, htmlDaFolha, copiarRico } from "./formatar";
 import { juntarNaFolha } from "./juntarEstrutura";
+import { textoDasRegras } from "./modelos";
 import { BotoesDaFolha } from "./BotoesDaFolha";
 import { ImagemNaFolha } from "./ImagemNaFolha";
 import {
@@ -54,9 +55,8 @@ type Modo = "simples" | "leve" | "completo";
 interface Props {
   /** nome do modelo de cada botão, vindo das configurações */
   modeloLeve?: string;
-  /** identificador do modelo leve, e como trocá-lo (fica guardado) */
-  idModeloLeve?: string;
-  aoTrocarModeloLeve?: (id: string) => void;
+  /** tabela "IA por tipo de exame" de Configurações: {"tc": "gpt-6-sol"} */
+  regrasIa?: Record<string, string>;
   modeloCompleto?: string;
   /** identificador do modelo completo para a chamada da IA */
   idModeloCompleto?: string;
@@ -150,8 +150,7 @@ const Sep = () => <span className="h-5 w-px bg-mid-gray/25 mx-1 shrink-0" />;
 
 export const LaudoPage: React.FC<Props> = ({
   modeloLeve = "IA rápida",
-  idModeloLeve = "",
-  aoTrocarModeloLeve,
+  regrasIa = {},
   modeloCompleto = "IA completa",
   idModeloCompleto = "",
   textoEntrando,
@@ -481,28 +480,11 @@ export const LaudoPage: React.FC<Props> = ({
         >
           <Sparkles size={15} />
         </Fer>
-        {modelos.length > 1 ? (
-          <Dica texto="Qual IA o botão leve usa. Escolha guardada para as próximas vezes.">
-            <select
-              value={idModeloLeve}
-              onChange={(e) => aoTrocarModeloLeve?.(e.target.value)}
-              className="h-7 me-1 rounded-lg border border-mid-gray/25 bg-background text-xs px-1 cursor-pointer"
-            >
-              {/* o modelo em uso aparece mesmo fora da lista: a caixa nunca
-                  mostra um modelo e chama outro */}
-              {idModeloLeve !== "" && !modelos.some((m) => m.id === idModeloLeve) && (
-                <option value={idModeloLeve}>{modeloLeve} (sem resposta)</option>
-              )}
-              {modelos.map((m) => (
-                <option key={m.id} value={m.id}>
-                  {m.nome}
-                </option>
-              ))}
-            </select>
-          </Dica>
-        ) : (
-          <span className="text-xs text-mid-gray me-1">{modeloLeve}</span>
-        )}
+        {/* 29/09: aqui havia um seletor que não mandava em nada — o leve passa
+            pelo roteador, que usa Configurações. Agora a barra só diz qual é. */}
+        <Dica texto="O botão leve usa a IA de Configurações > IA: o Modelo padrão e, nos exames com regra, a tabela por exame. Para trocar, é lá.">
+          <span className="text-xs text-mid-gray me-1 cursor-help">{modeloLeve}</span>
+        </Dica>
 
         <Fer
           titulo={`Ditado e ${modeloCompleto}: monta o laudo inteiro. Clique liga e o próximo clique desliga.`}
@@ -514,7 +496,7 @@ export const LaudoPage: React.FC<Props> = ({
           <Sparkles size={15} />
         </Fer>
         {modelos.length > 1 ? (
-          <Dica texto="Qual IA o botão forte usa. Vale também para o botão de reprocessar.">
+          <Dica texto="Qual IA o botão forte usa nos exames SEM regra na tabela de Configurações. Vale também para o botão de reprocessar.">
             <select
               value={idModeloCompleto}
               onChange={(e) => aoTrocarModelo?.(e.target.value)}
@@ -532,6 +514,13 @@ export const LaudoPage: React.FC<Props> = ({
           </Dica>
         ) : (
           <span className="text-xs text-mid-gray me-1">{modeloCompleto}</span>
+        )}
+        {textoDasRegras(regrasIa) !== "" && (
+          <Dica texto="Nestes exames quem manda é a tabela de Configurações > IA, não a barra: o roteador troca o modelo pelo da tabela. O recibo depois de cada laudo mostra qual IA rodou.">
+            <span className="text-[11px] text-mid-gray me-1 cursor-help whitespace-nowrap">
+              tabela: {textoDasRegras(regrasIa)}
+            </span>
+          </Dica>
         )}
         {avisoIa !== "" && (
           <Dica texto={avisoIa}>
