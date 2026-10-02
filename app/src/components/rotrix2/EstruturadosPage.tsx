@@ -59,6 +59,17 @@ interface Campos {
 
 type ValorExtra = string | boolean | string[];
 
+// 02/10: mais de uma herniação no mesmo nível ("uma central e outra lateral").
+// A primeira continua nos botões do nível; as outras ficam em `extra`.
+interface Hernia {
+  tipo: "protrusao" | "extrusao";
+  zona?: string;
+  lado?: string;
+  medida?: string;
+  migracao?: string;
+  contato?: string;
+}
+
 interface Nivel {
   marcados: string[];
   zona?: string;
@@ -67,6 +78,7 @@ interface Nivel {
   migracao?: string;
   contato?: string;
   plato?: string;
+  extra?: Hernia[];
 }
 
 const SEGMENTOS: [Segmento, string][] = [
@@ -78,6 +90,8 @@ const SEGMENTOS: [Segmento, string][] = [
 const CONTATOS = [
   "em contato com a raiz descendente",
   "em contato com o saco dural",
+  // 02/10: está na frase que ele aprovou para duas herniações no mesmo nível
+  "com compressão radicular",
   "sem contato radicular",
 ];
 
@@ -178,6 +192,74 @@ const MapaDoDisco: React.FC<{
 
 // ---------------------------------------------------------------------------
 
+// Uma herniação a mais no nível: tipo, mapa do disco, medida, migração e contato.
+const OutraHernia: React.FC<{
+  h: Hernia;
+  zonas: string[];
+  mudar: (h: Hernia) => void;
+  tirar: () => void;
+}> = ({ h, zonas, mudar, tirar }) => (
+  <div className="mt-2 ms-[58px] rounded-md border border-mid-gray/25 p-2 flex gap-3 flex-wrap items-start">
+    <div className="w-[300px]">
+      <MapaDoDisco
+        zonas={zonas}
+        zona={h.zona}
+        lado={h.lado}
+        aoEscolher={(z, l) => mudar({ ...h, zona: z, lado: l })}
+      />
+    </div>
+    <div className="flex-1 min-w-[220px] space-y-1.5">
+      <div className="flex gap-1.5 items-center">
+        <span className="text-[10px] text-mid-gray w-[52px]">tipo</span>
+        <Chip on={h.tipo === "protrusao"} onClick={() => mudar({ ...h, tipo: "protrusao", migracao: "" })}>
+          protrusão
+        </Chip>
+        <Chip on={h.tipo === "extrusao"} onClick={() => mudar({ ...h, tipo: "extrusao" })}>
+          extrusão
+        </Chip>
+        <button
+          type="button"
+          onClick={tirar}
+          title="tirar esta herniação"
+          className="ms-auto text-[10.5px] text-mid-gray hover:text-red-400 cursor-pointer"
+        >
+          tirar
+        </button>
+      </div>
+      <div className="flex gap-1.5 items-center">
+        <span className="text-[10px] text-mid-gray w-[52px]">medida</span>
+        <input
+          value={h.medida || ""}
+          onChange={(e) => mudar({ ...h, medida: e.target.value })}
+          inputMode="decimal"
+          placeholder="mm"
+          className="h-6 w-20 rounded-md border border-mid-gray/25 bg-background px-2 text-[11.5px]"
+        />
+      </div>
+      {h.tipo === "extrusao" && (
+        <div className="flex gap-1.5 items-center flex-wrap">
+          <span className="text-[10px] text-mid-gray w-[52px]">migração</span>
+          {MIGRACOES.map((m) => (
+            <Chip key={m} on={h.migracao === m} onClick={() => mudar({ ...h, migracao: h.migracao === m ? "" : m })}>
+              {m}
+            </Chip>
+          ))}
+        </div>
+      )}
+      <div className="flex gap-1.5 items-start flex-wrap">
+        <span className="text-[10px] text-mid-gray w-[52px] pt-1">contato</span>
+        <div className="flex flex-wrap gap-1.5 flex-1">
+          {CONTATOS.map((c) => (
+            <Chip key={c} on={h.contato === c} onClick={() => mudar({ ...h, contato: h.contato === c ? "" : c })}>
+              {c.replace("em contato com ", "").replace("sem contato radicular", "sem contato")}
+            </Chip>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 const Chip: React.FC<{
   on?: boolean;
   onClick: () => void;
@@ -259,6 +341,15 @@ export const EstruturadosPage: React.FC = () => {
       ...tudo,
       [nivel]: { ...(tudo[nivel] || { marcados: [] }), [campo]: valor },
     }));
+  };
+
+  // as herniações a mais do nível (a primeira continua nos botões)
+  const mexerOutras = (nivel: string, fazer: (lista: Hernia[]) => Hernia[]) => {
+    setSaida(null);
+    setNiveis((tudo) => {
+      const n = tudo[nivel] || { marcados: [] };
+      return { ...tudo, [nivel]: { ...n, extra: fazer([...(n.extra || [])]) } };
+    });
   };
 
   const montar = useCallback(async () => {
@@ -396,6 +487,7 @@ export const EstruturadosPage: React.FC = () => {
             const n = niveis[nivel] || { marcados: [] };
             const temHernia =
               n.marcados.includes("protrusao") || n.marcados.includes("extrusao");
+            const outras = n.extra || [];
             return (
               <div
                 key={nivel}
@@ -473,6 +565,27 @@ export const EstruturadosPage: React.FC = () => {
                         </div>
                       </div>
                     </div>
+                  </div>
+                )}
+
+                {outras.map((h, i) => (
+                  <OutraHernia
+                    key={i}
+                    h={h}
+                    zonas={campos.zonas}
+                    mudar={(novo) => mexerOutras(nivel, (l) => l.map((x, j) => (j === i ? novo : x)))}
+                    tirar={() => mexerOutras(nivel, (l) => l.filter((_x, j) => j !== i))}
+                  />
+                ))}
+                {(temHernia || outras.length > 0) && (
+                  <div className="mt-1.5 ps-[58px]">
+                    <button
+                      type="button"
+                      onClick={() => mexerOutras(nivel, (l) => [...l, { tipo: "protrusao" }])}
+                      className="text-[10.5px] px-2 py-1 rounded-md border border-dashed border-mid-gray/40 text-mid-gray hover:bg-mid-gray/15 cursor-pointer"
+                    >
+                      + outra herniação neste nível
+                    </button>
                   </div>
                 )}
 

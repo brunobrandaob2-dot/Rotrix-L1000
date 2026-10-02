@@ -561,6 +561,33 @@ def _componente(dados, tipo):
     return texto
 
 
+def _componentes(marcados, dados):
+    """As herniações do nível, na ordem: a dos botões do nível e as "outras".
+
+    02/10, pedido dele: "às vezes eu quero colocar mais de uma protrusão, mais de uma
+    extrusão ... central e também outra lateral". A primeira continua nos botões e
+    campos do nível (zona, lado, medida, contato, migração); as outras vêm em
+    dados["extra"], cada uma com o seu tipo e os seus campos."""
+    dados = dados or {}
+    m = marcados or []
+    comps = []
+    tipo = "protrusao" if "protrusao" in m else ("extrusao" if "extrusao" in m else "")
+    if tipo:
+        comps.append(dict(dados, tipo=tipo))
+    for x in dados.get("extra") or []:
+        if isinstance(x, dict) and x.get("tipo") in ("protrusao", "extrusao"):
+            comps.append(x)
+    return comps
+
+
+def _lista_a(itens):
+    """"a X", "a X e a Y", "a X, a Y e a Z" (regência de "associado a")."""
+    itens = [i for i in itens if i]
+    if len(itens) <= 1:
+        return "".join(itens)
+    return ", a ".join(itens[:-1]) + " e a " + itens[-1]
+
+
 def frase_do_nivel(nivel, marcados, dados=None):
     """A linha de um nível. Vazia quando nada foi marcado.
 
@@ -575,14 +602,15 @@ def frase_do_nivel(nivel, marcados, dados=None):
     senão a frase diz *disco* duas vezes."""
     dados = dados or {}
     m = [x for x in ORDEM if x in (marcados or [])]
-    if "normal" in (marcados or []) and not m:
+    comps = _componentes(marcados, dados)
+    if "normal" in (marcados or []) and not m and not comps:
         return "%s:  sem alterações." % nivel
-    if not m:
+    if not m and not comps:
         return ""
 
     tem_altura = "altura" in m
     tem_abaul = "abaulamento" in m
-    hernia = "protrusao" if "protrusao" in m else ("extrusao" if "extrusao" in m else "")
+    hernia = bool(comps)
 
     pedacos = []
     if tem_altura:
@@ -591,15 +619,19 @@ def frase_do_nivel(nivel, marcados, dados=None):
         # sem nada antes, o disco precisa ser nomeado; com algo antes, não
         pedacos.append(("abaulamento difuso" if pedacos else "abaulamento discal difuso"))
     if hernia:
-        comp = _componente(dados, hernia)
         if tem_abaul:
-            # o abaulamento manda, a herniação entra como componente
-            ligacao = "associado a componente " + comp
+            # o abaulamento manda, as herniações entram como componentes
+            # ("associado a componente protruso central e a componente extruso ...")
+            ligacao = "associado a " + _lista_a(["componente " + _componente(c, c["tipo"]) for c in comps])
             pedacos[-1] = pedacos[-1] + (", " if not tem_altura else " ") + ligacao
         else:
-            nome = "protrusão discal" if hernia == "protrusao" else "extrusão discal"
-            resto = comp.split(" ", 1)[1] if " " in comp else ""
-            pedacos.append((nome + " " + resto).strip())
+            textos = []
+            for c in comps:
+                comp = _componente(c, c["tipo"])
+                nome = "protrusão discal" if c["tipo"] == "protrusao" else "extrusão discal"
+                resto = comp.split(" ", 1)[1] if " " in comp else ""
+                textos.append((nome + " " + resto).strip())
+            pedacos.append(_lista(textos))
     # Osteófito, uncoartrose e Schmorl não são do disco: viram frase própria.
     # Emendados na frase do disco por vírgula, ficavam pendurados no fim de uma
     # oração que já tinha três vírgulas ("...com contato radicular, uncoartrose").
@@ -630,25 +662,24 @@ def frase_do_nivel(nivel, marcados, dados=None):
 def conclusao_do_nivel(nivel, marcados, dados=None):
     """Só herniação vai para a conclusão. Abaulamento e altura entram na linha
     de discopatia, que é uma só para o exame inteiro."""
-    dados = dados or {}
-    m = marcados or []
-    if "extrusao" in m:
-        nome, tipo = "Extrusão discal", "extrusao"
-    elif "protrusao" in m:
-        nome, tipo = "Protrusão discal", "protrusao"
-    else:
+    comps = _componentes(marcados, dados or {})
+    if not comps:
         return ""
-    zona = (dados.get("zona") or "").strip()
-    lado = (dados.get("lado") or "").strip()
-    partes = [nome]
-    if zona:
-        partes.append(zona)
-    if lado:
-        partes.append(lado)
-    frase = " ".join(partes) + " em %s" % nivel
-    contato = (dados.get("contato") or "").strip()
-    if contato and "sem" not in contato:
-        frase += ", %s" % contato
+    itens, contatos = [], []
+    for i, c in enumerate(comps):
+        nome = "protrusão discal" if c["tipo"] == "protrusao" else "extrusão discal"
+        partes = [nome.capitalize() if i == 0 else nome]
+        for chave in ("zona", "lado"):
+            v = (c.get(chave) or "").strip()
+            if v:
+                partes.append(v)
+        itens.append(" ".join(partes))
+        contato = (c.get("contato") or "").strip()
+        if contato and "sem" not in contato and contato not in contatos:
+            contatos.append(contato)
+    frase = _lista(itens) + " em %s" % nivel
+    if contatos:
+        frase += ", %s" % _lista(contatos)
     return frase + "."
 
 
@@ -746,7 +777,7 @@ def blocos(pedido):
             f = "%s:  sem alterações." % nivel
         if f:
             linhas_nivel.append(f)
-            if marcados:
+            if marcados or d.get("extra"):
                 usados.append(nivel)
             c = conclusao_do_nivel(nivel, marcados, d)
             if c:
@@ -807,7 +838,8 @@ def montar(pedido, base=None, motor=None):
 
     bl = blocos(pedido)
     usados = [n for n in NIVEIS[segmento]
-              if ((pedido.get("niveis") or {}).get(n) or {}).get("marcados")]
+              if ((pedido.get("niveis") or {}).get(n) or {}).get("marcados")
+              or ((pedido.get("niveis") or {}).get(n) or {}).get("extra")]
 
     achados = "\n".join(t for _tit, t, _s, _c, _g in bl if t)
     conclusoes = "\n".join(c for _tit, _t, _s, c, _g in bl if c)
