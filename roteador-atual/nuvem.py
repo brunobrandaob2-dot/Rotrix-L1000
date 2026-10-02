@@ -897,8 +897,20 @@ def _texto_do_laudo(texto):
     return re.sub(r"US\$\s*[\d.,]+", " ", t)
 
 def tipo_exame(texto):
-    """'rx', 'tc', 'rm', 'angio', 'mamo', 'us' ou '' — pelo que aparece primeiro no laudo."""
-    alto = " " + re.sub(r"[^A-Z0-9-]+", " ", _sem_acento(_texto_do_laudo(texto)).upper()) + " "
+    """'rx', 'tc', 'rm', 'angio', 'mamo', 'us' ou '' — pelo que aparece primeiro no laudo.
+    02/10: tela vazia e sem máscara no botão de raciocínio -> vale o nome do exame que
+    ele disse no DITADO (só nele: as regras do DESCREVA citam "TC" e "radiografia")."""
+    achou = _tipo_em(_texto_do_laudo(texto))
+    if not achou:
+        m = re.search(r"DITADO DO RADIOLOGISTA:\s*\n(.*?)(?:\n\s*\n(?:INSTRUÇÃO FALADA|LAUDO NA TELA):|\Z)",
+                      texto or "", re.S)
+        if m:
+            achou = _tipo_em(m.group(1))
+    return achou
+
+
+def _tipo_em(trecho):
+    alto = " " + re.sub(r"[^A-Z0-9-]+", " ", _sem_acento(trecho).upper()) + " "
     melhor, pos = "", None
     for tipo, chaves in _TIPOS_EXAME:
         for k in chaves:
@@ -1231,7 +1243,7 @@ def com_modelo(c, modelo):
     return c
 
 
-def rota(pedido, c=None, modo="analise", com_imagem=False):
+def rota(pedido, c=None, modo="analise", com_imagem=False, analise=False):
     """Decide provedor, modelo e modo. Sem ia_por_exame = o de sempre (topo do config).
 
     com_imagem (27/09): o laudo leva print com medidas. Anexar a imagem e apertar o
@@ -1270,19 +1282,22 @@ def rota(pedido, c=None, modo="analise", com_imagem=False):
             r["regra"] = k
             r["por_exame"] = True     # regra escrita por ele na tabela (até "Demais exames")
             break
-    if restringir and modo in _MODOS_RESTRINGIVEIS and not com_imagem:
+    # 02/10: o botão de RACIOCÍNIO (ditado cru, bloco DESCREVA) pede análise como a
+    # imagem pede: não cai em "só formatar" nem no modelo básico da linha da tabela
+    forte = com_imagem or analise
+    if restringir and modo in _MODOS_RESTRINGIVEIS and not forte:
         r["modo"] = "formatar"
 
     # 29/09 tarde: ele colou o print com as medidas e pediu a análise; a chamada foi
     # para o gpt-6-luna, o modelo que ELE pôs na linha "Só formatar" do RX. Linha
     # "Só formatar" é a do modelo básico: ler imagem é análise, não formatação.
     # Com imagem, essa linha cede ao Modelo padrão (ou ao que ele escolheu na barra).
-    if com_imagem and regra_so_formatar:
+    if forte and regra_so_formatar:
         geral = (c.get("modelo") or "").strip()
         if geral and geral != r["modelo"]:
             r["modelo_pedido"] = r["modelo"]
             r["provedor"], r["modelo"] = prov_geral, geral
-            r["regra"] = "imagem"
+            r["regra"] = "imagem" if com_imagem else "raciocinio"
 
     # ECONOMIA: o que não exige raciocínio vai para o modelo barato, mesmo que
     # ele tenha escolhido um caro na barra. Desligue com "economizar": false.
@@ -1291,7 +1306,7 @@ def rota(pedido, c=None, modo="analise", com_imagem=False):
     # 26/09: "padrao" é também o nome da linha "Demais exames" da tabela — a regra
     # escrita por ele caía aqui e era trocada. Agora só a falta de regra economiza.
     if c.get("economizar", True) and r["regra"] == "padrao" and not r.get("por_exame") \
-            and not c.get("modelo_explicito") and not com_imagem:
+            and not c.get("modelo_explicito") and not forte:
         if not tarefa_precisa_pensar(pedido, r["modo"]):
             barato = modelo_barato(c, r["provedor"])
             if barato and barato != r["modelo"]:
@@ -1577,7 +1592,8 @@ def _enviar_openai(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocini
     return texto, uso, usd
 
 
-def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens=None):
+def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens=None,
+           analise=False):
     """Devolve (texto, origem). Nunca levanta excecao.
 
     modo: "revisao" usa o prompt de revisao textual (nao raciocina sobre o caso);
@@ -1591,7 +1607,7 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
     if not c.get("ativa"):
         return None, "nuvem_desligada"
     imagens = list(imagens or [])       # [(media_type, base64)] já conferidas no roteador
-    r = rota(pedido, c, modo, com_imagem=bool(imagens))
+    r = rota(pedido, c, modo, com_imagem=bool(imagens), analise=analise)
     m_ef = r["modo"]
     economia = r.get("regra") == "economia"
     # O prompt de sistema vem de dados/prompts/REDATOR_ROTRIX.md, montado por bloco:

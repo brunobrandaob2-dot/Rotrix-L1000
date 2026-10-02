@@ -1304,6 +1304,12 @@ pub fn folha_quer_o_texto() -> bool {
     DITADO_PARA_FOLHA.swap(false, std::sync::atomic::Ordering::SeqCst)
 }
 
+/// O ditado em curso vai para a folha? Sem consumir a bandeira (02/10: o botao de
+/// raciocinio com o roteador ligado precisa tambem da fala CRUA, que sai antes).
+pub fn folha_vai_querer_o_texto() -> bool {
+    DITADO_PARA_FOLHA.load(std::sync::atomic::Ordering::SeqCst)
+}
+
 /// Dispara, a partir de um botao da tela, a mesma acao de um atalho.
 /// `binding`: "transcribe" (ditado simples) ou "transcribe_with_post_process"
 /// (ditado que passa pelo roteador). `comeco` = true no apertar, false no soltar.
@@ -1417,6 +1423,9 @@ pub fn rotrix_colar(app: AppHandle, texto: String) -> Result<(), String> {
 /// `imagens` (27/09): os prints que estao na folha, ja recortados e redesenhados
 /// (data URL). Sem elas a IA nunca via a medida do print e nao fazia a conclusao.
 /// Quem nao manda (Historico) continua funcionando: e opcional.
+/// `ditado` (02/10): o botao de RACIOCINIO manda a fala crua; a IA descreve cada
+/// achado (bloco DESCREVA). `roteado`: o switch "roteador" estava ligado e a folha
+/// ja tem o que o roteador encaixou; a IA confere isso contra a fala.
 #[tauri::command(async)]
 #[specta::specta]
 pub fn rotrix_ia_texto(
@@ -1424,12 +1433,16 @@ pub fn rotrix_ia_texto(
     instrucao: String,
     modelo: String,
     imagens: Option<Vec<String>>,
+    ditado: Option<String>,
+    roteado: Option<bool>,
 ) -> Result<String, String> {
     let corpo = serde_json::json!({
         "texto": texto,
         "instrucao": instrucao,
         "modelo": modelo,
         "imagens": imagens.unwrap_or_default(),
+        "ditado": ditado.unwrap_or_default(),
+        "roteado": roteado.unwrap_or(false),
     })
     .to_string();
     // 26/09: o roteador passou a esperar a IA de forma proporcional ao tamanho do

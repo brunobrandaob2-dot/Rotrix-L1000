@@ -22,8 +22,17 @@
 coracao aumentado	cardiomegalia area cardiaca aumentada
 coracao grande	cardiomegalia
 coracao aumentado de volume	cardiomegalia area cardiaca aumentada
-placa	ateroma ateromatose calcificacao
-placas	ateromas ateromatose calcificacoes
+# 02/10 (auditoria dos gatilhos): "placa" sozinha virava ateroma em QUALQUER ditado —
+# "avulsão da placa volar na mão" puxava "ateromas calcificados". Só placa de vaso:
+placa na aorta	ateroma ateromatose calcificacao
+placas na aorta	ateromas ateromatose calcificacoes
+placa calcificada	ateroma ateromatose calcificacao
+placas calcificadas	ateromas ateromatose calcificacoes
+placa nas carotidas	ateroma ateromatose calcificacao
+placas nas carotidas	ateromas ateromatose calcificacoes
+placa na carotida	ateroma ateromatose calcificacao
+placa vascular	ateroma ateromatose calcificacao
+placas vasculares	ateromas ateromatose calcificacoes
 entupimento	obstrucao estenose
 veia inchada	ectasia dilatacao venosa
 

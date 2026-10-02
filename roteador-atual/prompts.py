@@ -46,7 +46,11 @@ RECEITAS = {
 # Blocos que NÃO entram no prompt de sistema: vão no pedido, só quando precisam.
 # IMAGEM (27/09): regras para o laudo que leva print com medidas. No sistema, mudariam o
 # prompt de toda chamada e o cache se perderia; no pedido, só a chamada com imagem paga.
-BLOCOS_DO_PEDIDO = ("IMAGEM",)
+# DESCREVA (02/10): o botão de raciocínio manda o ditado cru; as regras de como descrever
+# cada achado vão no pedido, só nessa chamada.
+# ROTEADO (02/10): o switch "roteador" do botão de raciocínio ligado -> a tela já tem o que
+# o roteador encaixou, e a IA confere isso contra a fala.
+BLOCOS_DO_PEDIDO = ("IMAGEM", "DESCREVA", "ROTEADO")
 
 _cache = {"mtime": None, "blocos": None}
 

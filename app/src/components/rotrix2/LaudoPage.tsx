@@ -83,12 +83,14 @@ const recibo = (r: {
   cache?: string;
   cache_lido?: number;
   imagens?: number;
+  ditado?: boolean;
 }): string => {
   const curto = (r.modelo || "IA").split(/[:/]/).pop() || "IA";
   const nome = curto.replace(/[-_]?\d{6,}$/, "");
   const partes = [nome];
   // a IA viu a imagem? sem isto ele não sabe se a medida do print foi lida
   if (r.imagens && r.imagens > 0) partes.push(r.imagens === 1 ? "com a imagem" : `com ${r.imagens} imagens`);
+  if (r.ditado) partes.push("raciocínio");
   if (typeof r.custo_usd === "number") {
     const c = r.custo_usd * 100;
     partes.push(c < 1 ? `${c.toFixed(2)} centavo` : `${c.toFixed(1)} centavos`);
@@ -110,6 +112,15 @@ const BINDING: Record<Modo, string> = {
   leve: "transcribe_with_post_process",
   completo: "transcribe_with_post_process",
 };
+
+// 02/10: o botão de RACIOCÍNIO tem um switch "roteador". Desligado (padrão), a fala
+// vai crua para a IA, que escreve a descrição padrão de cada achado (bloco DESCREVA)
+// — o roteador não encaixa nada e o banco de frases não entra. Ligado, o ditado passa
+// pelos gatilhos e pelo banco como antes, e a IA confere o que foi encaixado contra a
+// fala crua (bloco ROTEADO). Pedido dele: "desligar o roteador a hora que eu quiser".
+const GUARDADO_ROTEADOR = "rotrix2.raciocinioComRoteador";
+const bindingDe = (modo: Modo, comRoteador: boolean): string =>
+  modo === "completo" && !comRoteador ? "transcribe" : BINDING[modo];
 
 const SEGURAR_MS = 300; // igual ao hold_threshold_ms do Handy
 
@@ -168,14 +179,41 @@ export const LaudoPage: React.FC<Props> = ({
   const apertadoEm = useRef(0);
   const soltouCedo = useRef(false);
   const esperandoIA = useRef(false); // o ditado atual termina na IA grande?
+  const [comRoteador, setComRoteador] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(GUARDADO_ROTEADOR) === "1";
+    } catch {
+      return false;
+    }
+  });
+  const comRoteadorRef = useRef(comRoteador);
+  comRoteadorRef.current = comRoteador;
+  const trocarRoteador = () => {
+    const novo = !comRoteador;
+    setComRoteador(novo);
+    try {
+      localStorage.setItem(GUARDADO_ROTEADOR, novo ? "1" : "0");
+    } catch {
+      /* sem problema: volta ao padrão no próximo início */
+    }
+    setAviso(
+      novo
+        ? "raciocínio com roteador: gatilhos e banco antes, a IA confere contra a sua fala"
+        : "raciocínio sem roteador: a fala vai crua para a IA, que descreve cada achado",
+    );
+  };
+  // a fala crua do ditado em curso (o roteador ligado manda as duas: crua e roteada)
+  const ultimoCru = useRef("");
 
   const textoDaFolha = useCallback(() => htmlEmTexto(folha.current), []);
 
   // ---------- IA sobre o texto que está na folha ----------
   const rodarIA = useCallback(
-    async (instrucao = "") => {
+    async (opc: { instrucao?: string; ditado?: string; roteado?: boolean } = {}) => {
+      const instrucao = opc.instrucao || "";
+      const ditado = (opc.ditado || "").trim();
       const texto = textoDaFolha();
-      if (!texto) {
+      if (!texto && !ditado) {
         setAviso("a folha está vazia");
         return;
       }
@@ -207,11 +245,13 @@ export const LaudoPage: React.FC<Props> = ({
           instrucao,
           modelo: idModeloCompleto,
           imagens: paraIA,
+          ditado,
+          roteado: Boolean(opc.roteado),
         });
         const r = JSON.parse(bruto || "{}");
         if (r.ok && r.texto) {
-          // com imagem, o "desfazer" volta a folha inteira (HTML), imagem junto
-          setUltimoIA(imagens.length ? antes : texto);
+          // com imagem (ou ditado de raciocínio), o "desfazer" volta a folha inteira
+          setUltimoIA(imagens.length || ditado ? antes : texto);
           if (folha.current) folha.current.innerHTML = folhaComImagens(r.texto, imagens);
           // QUAL IA agiu e QUANTO custou. Sem isso ele aperta um botão e não
           // sabe se gastou um centavo ou dez — foi exatamente o que ele
@@ -231,10 +271,31 @@ export const LaudoPage: React.FC<Props> = ({
 
   // ---------- o texto do ditado volta para a folha ----------
   useEffect(() => {
+    // 02/10: com o roteador ligado, a fala crua chega antes da roteada
+    const cru = listen<string>("rotrix-ditado-cru", (ev) => {
+      ultimoCru.current = ev.payload || "";
+    });
     const p = listen<string>("rotrix-ditado", (ev) => {
       let texto = ev.payload || "";
       setGravando(null);
       if (!texto.trim()) return;
+      // raciocínio SEM roteador: a fala não entra na folha; vai crua para a IA,
+      // que descreve e põe cada achado no lugar
+      if (esperandoIA.current && !comRoteadorRef.current) {
+        esperandoIA.current = false;
+        ultimoCru.current = "";
+        void rodarIA({ ditado: texto });
+        return;
+      }
+      // raciocínio COM roteador: o que o roteador montou entra na folha (abaixo, como
+      // sempre) e depois a IA confere contra a fala crua
+      const falaCrua = ultimoCru.current || texto;
+      ultimoCru.current = "";
+      const depois = () => {
+        if (!esperandoIA.current) return;
+        esperandoIA.current = false;
+        void rodarIA({ ditado: falaCrua, roteado: true });
+      };
       const el = folha.current;
       if (el) {
         el.focus();
@@ -244,10 +305,7 @@ export const LaudoPage: React.FC<Props> = ({
         if (juntadas > 0) {
           setAviso(juntadas === 1 ? "juntei na estrutura que já estava na folha" : `juntei ${juntadas} frases nas estruturas da folha`);
           if (!sobra.trim()) {
-            if (esperandoIA.current) {
-              esperandoIA.current = false;
-              void rodarIA();
-            }
+            depois();
             return;
           }
           texto = sobra;
@@ -266,13 +324,11 @@ export const LaudoPage: React.FC<Props> = ({
           el.innerHTML = (el.innerHTML || "") + textoEmHtml(texto);
         }
       }
-      if (esperandoIA.current) {
-        esperandoIA.current = false;
-        void rodarIA();
-      }
+      depois();
     });
     return () => {
       p.then((fn) => fn());
+      cru.then((fn) => fn());
     };
   }, [rodarIA]);
 
@@ -291,7 +347,7 @@ export const LaudoPage: React.FC<Props> = ({
   const acao = async (modo: Modo, comeco: boolean) => {
     try {
       await invoke("rotrix_acao", {
-        binding: BINDING[modo],
+        binding: bindingDe(modo, comRoteador),
         comeco,
         paraFolha: true,
       });
@@ -523,7 +579,11 @@ export const LaudoPage: React.FC<Props> = ({
         </Dica>
 
         <Fer
-          titulo={`Ditado e ${modeloCompleto}: monta o laudo inteiro. Clique liga e o próximo clique desliga.`}
+          titulo={
+            comRoteador
+              ? `Raciocínio com ${modeloCompleto}: o roteador monta antes e a IA confere contra a sua fala. Diga "descreva X" à vontade. Clique liga e o próximo clique desliga.`
+              : `Raciocínio com ${modeloCompleto}: a fala vai crua para a IA, que descreve cada achado no padrão e põe no lugar. Diga "descreva X" à vontade. Clique liga e o próximo clique desliga.`
+          }
           atalho="Ctrl+Alt+A"
           tom={gravando === "completo" ? "vermelho" : "azul"}
           onPointerDown={() => apertou("completo")}
@@ -531,6 +591,39 @@ export const LaudoPage: React.FC<Props> = ({
         >
           <Sparkles size={15} />
         </Fer>
+        <Dica
+          texto={
+            comRoteador
+              ? "Roteador LIGADO no raciocínio: o ditado passa pelos gatilhos e pelo banco antes, e a IA confere o que foi encaixado contra a sua fala. Clique para desligar."
+              : "Roteador DESLIGADO no raciocínio: a fala vai crua para a IA, sem gatilho e sem banco de frases. Clique para ligar."
+          }
+        >
+          <button
+            type="button"
+            role="switch"
+            aria-checked={comRoteador}
+            aria-label="roteador no botão de raciocínio"
+            onClick={trocarRoteador}
+            className={`h-7 me-1 px-2 rounded-lg border text-[11px] flex items-center gap-1.5 cursor-pointer transition-colors ${
+              comRoteador
+                ? "border-logo-primary/60 bg-logo-primary/20"
+                : "border-mid-gray/30 text-mid-gray hover:border-mid-gray/60"
+            }`}
+          >
+            <span
+              className={`inline-block w-6 h-3.5 rounded-full relative transition-colors ${
+                comRoteador ? "bg-logo-primary" : "bg-mid-gray/40"
+              }`}
+            >
+              <span
+                className={`absolute top-0.5 h-2.5 w-2.5 rounded-full bg-neutral-100 transition-all ${
+                  comRoteador ? "left-3" : "left-0.5"
+                }`}
+              />
+            </span>
+            roteador
+          </button>
+        </Dica>
         {modelos.length > 1 ? (
           <Dica texto="Qual IA o botão forte usa nos exames SEM regra na tabela de Configurações. Vale também para o botão de reprocessar.">
             <select

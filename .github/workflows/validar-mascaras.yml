@@ -67,6 +67,12 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_imagem_ia.py
       - name: Protocolo de Lyon estruturado (os numeros viram o laudo, sempre igual)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_lyon.py
+      - name: Botao de raciocinio (ditado cru para a IA, sem gatilho; switch do roteador)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_raciocinio.py
+      - name: Coluna estruturada com mais de uma herniacao por nivel
+        run: python testar_coluna_hernias.py
+      - name: Gatilho nao entra onde nao deve (trancas da auditoria de 02/10)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_gatilhos_trancas.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)
@@ -99,6 +105,9 @@ jobs:
       - name: A imagem da folha vai para a IA e volta para a folha
         working-directory: app
         run: bun src/components/rotrix2/imagem.test.ts
+      - name: Botao de raciocinio e switch do roteador (fiacao app + Rust)
+        working-directory: app
+        run: bun src/components/rotrix2/raciocinio.test.ts
       - name: Tipos do app (o mesmo tsc do build do .exe; em 27/09 um teste com API so do Bun parou o .exe)
         working-directory: app
         run: bun install --frozen-lockfile && bunx tsc --noEmit -p .

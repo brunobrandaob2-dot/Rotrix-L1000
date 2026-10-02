@@ -775,6 +775,12 @@ impl ShortcutAction for TranscribeAction {
                                 utils::redact_text(&transcription)
                             );
 
+                            // Rotrix (02/10): o botao de raciocinio com o roteador ligado
+                            // confere o que o roteador encaixou contra a fala crua
+                            if post_process && crate::rotrix::folha_vai_querer_o_texto() {
+                                let _ = ah.emit("rotrix-ditado-cru", transcription.clone());
+                            }
+
                             if post_process {
                                 if use_streaming_overlay {
                                     tm.emit_stream_working(StreamWorkKind::Polishing);

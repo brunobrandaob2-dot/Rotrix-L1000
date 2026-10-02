@@ -12,7 +12,7 @@ import os as _os, sys as _sys
 # Python embutido (Rotrix) nao poe a pasta do script no caminho: garante aqui
 _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
 import formato
-import collections, json, re, sqlite3, sys, unicodedata, difflib, threading, os, time
+import collections, functools, json, re, sqlite3, sys, unicodedata, difflib, threading, os, time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 try:
     import nuvem
@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-09-29.2"
+VERSAO = "2026-10-02.1"
 
 
 def _impressao_do_codigo():
@@ -638,6 +638,125 @@ def segmentar(texto):
 # achado fica sem bloco (visível), nunca no bloco da outra entidade.
 _PALAVRA_DE_ENTIDADE = {"pavimentacao"}
 
+# ---------------------------------------------------------------------------
+# 02/10 (auditoria dos gatilhos, auditar_cruzamentos.py): duas trancas no casamento
+# de bloco. Com o banco do PC dele, 1.460 ditados de achado caíam em bloco SEM
+# relação: "avulsão da placa volar na mão" puxava "ateromas calcificados" pelo
+# gatilho "placas"; "artrodese cervical" puxava coxartrose porque "artrodese" é
+# PARECIDA com "artrose".
+#  1. palavra ditada que EXISTE no banco não é erro de voz: casa igual ou pela
+#     flexão (atelectasia/atelectasias, carótida/carotídea), nunca por semelhança.
+#     Semelhança fica só para palavra que o banco não conhece (erro de voz).
+#  2. o NÚCLEO do trecho (o primeiro substantivo, "avulsão" em "avulsão da placa")
+#     tem de estar no gatilho. Achado sem bloco fica visível, não vira outro.
+# 02/10: "tc de tórax com derrame" abria a variante aguda_derrame_ATELECTASIA, e a
+# atelectasia (que ele não ditou) entrava no laudo. A variante só entra quando os
+# achados do NOME dela foram ditados; senão fica a máscara normal + o bloco do achado.
+_PALAVRAS_DE_VARIANTE = {"aguda", "agudo", "cronica", "cronico", "normal", "pos", "com", "sem",
+                         "variante", "achado", "achados", "padrao", "simples"}
+
+
+_CABECAS = {"n": None, "set": set()}
+
+
+def _cabecas_de_achado():
+    """Radicais (7 letras) dos substantivos que abrem gatilho de bloco: os NOMES de
+    achado do banco (derrame, atelectasia...). "idoso" e "alteracoes" não são achado."""
+    if _CABECAS["n"] != len(BANCO.itens):
+        c = set()
+        for t, g, tit, txt, sec, con in BANCO.itens:
+            if t == "bloco" and g:
+                n = _nucleo(g.split())
+                if n:
+                    c.add(n[:7])
+        _CABECAS.update(n=len(BANCO.itens), set=c)
+    return _CABECAS["set"]
+
+
+def _variante_so_com_o_ditado(titulo, ditado_norm):
+    nome = titulo.rsplit("/", 1)[-1].lower()
+    cabecas = _cabecas_de_achado()
+    achados = [w for w in re.findall(r"[a-z]+", nome) if len(w) >= 4 and w not in _PALAVRAS_DE_VARIANTE
+               and w[:7] in cabecas]
+    ditas = ditado_norm.split()
+    return all(any(_mesma_familia(a, d) or a[:6] == d[:6] for d in ditas) for a in achados)
+
+
+_SUFIXO_DOENCA = ("ectomia", "otomia", "plastia", "listese", "megalia", "patias", "patia",
+                  "algia", "dese", "lise", "cele", "omas", "oma", "ites", "ite", "oses", "ose")
+_NAO_E_NUCLEO = set("""presenca ausencia sinais sinal imagem imagens area areas foco focos aspecto
+evidencia evidencias nota notase observa observase identifica identificase verifica tambem
+ainda outra outro outras outros pequeno pequena pequenos pequenas grande grandes volumoso
+volumosa multiplos multiplas varios varias diversos diversas alguns algumas descreva descreve
+descrever coloque colocar acrescente incluir""".split())
+
+
+def _flexao(w):
+    """Radical de flexão (número e gênero): atelectasias -> atelectasi, carótidas -> carotid."""
+    for fim, troca in (("coes", "cao"), ("oes", "ao"), ("ais", "al"), ("eis", "el"), ("res", "r"),
+                       ("zes", "z"), ("ses", "s")):
+        if w.endswith(fim) and len(w) > len(fim) + 3:
+            w = w[: -len(fim)] + troca
+            break
+    else:
+        if w.endswith("s") and len(w) > 4:
+            w = w[:-1]
+    if w.endswith(("a", "o", "e")) and len(w) > 4:
+        w = w[:-1]
+    return w
+
+
+@functools.lru_cache(maxsize=200000)
+def _mesma_familia(a, b):
+    """Mesma palavra com outra flexão ou derivação próxima (nódulo/nodular,
+    carótida/carotídea) — e NUNCA doença x órgão (apêndice/apendicite), nem dois
+    procedimentos/doenças (artrose/artrodese, espondilólise/espondilolistese)."""
+    if a == b or _flexao(a) == _flexao(b):
+        return True
+    p = 0
+    for x, y in zip(a, b):
+        if x != y:
+            break
+        p += 1
+    # prefixo comum quase do tamanho da palavra menor: "pneumo" junta pneumonia e
+    # pneumotórax, que não são família
+    if p < max(5, min(len(a), len(b)) - 2):
+        return False
+    for suf in _SUFIXO_DOENCA:
+        ea, eb = a.endswith(suf), b.endswith(suf)
+        if ea != eb:
+            raiz = (a if ea else b)[: -len(suf)]
+            outra = b if ea else a
+            # "ateromatose" e "ateromatosas", "esteatose" e "esteatótico" são família
+            if suf in ("ose", "oses") and outra.startswith((raiz + "os", raiz + "ot")):
+                continue
+            # "ateroma" e "ateromatosa", "carcinoma" e "carcinomatose" também
+            if suf in ("oma", "omas") and outra.startswith(raiz + "omat"):
+                continue
+            return False
+    return True
+
+
+def _nucleos(palavras, quantos=2):
+    """As primeiras palavras de conteúdo do trecho: o núcleo e o que o especifica."""
+    saida = []
+    for w in palavras:
+        if len(w) < 4 or w.isdigit():
+            continue
+        if w in _NAO_E_NUCLEO or w in _MODIFICADORES or w in _LOCAIS or w in _SO_GRAU \
+                or w in _QUALIFICA:
+            continue
+        saida.append(w)
+        if len(saida) >= quantos:
+            break
+    return saida
+
+
+def _nucleo(palavras):
+    n = _nucleos(palavras, 1)
+    return n[0] if n else ""
+
+
 def _bloco_do_segmento(seg, filtro):
     n = normalizar(seg)
     if len(n) < 4:
@@ -648,8 +767,31 @@ def _bloco_do_segmento(seg, filtro):
     # mascara dizendo "ausencia de derrame pleural" logo embaixo — laudo se
     # contradizendo, que e o defeito que ele mais cobra.
     alvo = set(sinonimo_busca(n).split())
-    perto_bloco = _casador(alvo, 0.85)
+    voc = _vocab()["set"]
+    # semelhança só para palavra que o banco não conhece (erro de voz)
+    perto_bloco = _casador({w for w in alvo if w not in voc}, 0.85)
     entidade = alvo & _PALAVRA_DE_ENTIDADE
+    nucleo = _nucleo(n.split())
+    nucleos = _nucleos(n.split())
+    # "água no pulmão", "placa na aorta": o termo técnico do sinônimo (derrame pleural,
+    # ateromatose) também vale como núcleo
+    ditas = set(n.split())
+    nucleos_sin = _nucleos([w for w in sinonimo_busca(n).split() if w not in ditas])
+    nucleo_1 = nucleos[:1] + nucleos_sin[:1]
+    nucleos = nucleos + nucleos_sin
+    # "w do gatilho é da família de alguma palavra ditada?" — uma vez por palavra distinta
+    por_inicio = collections.defaultdict(list)
+    for a in alvo:
+        por_inicio[a[:3]].append(a)
+    memo_fam = {}
+
+    def da_familia(w):
+        r = memo_fam.get(w)
+        if r is None:
+            r = any(_mesma_familia(w, a) for a in por_inicio.get(w[:3], ()))
+            memo_fam[w] = r
+        return r
+
     melhor, melhor_chave = None, None
     for t, g, tit, txt, sec, con in BANCO.itens:
         if t != "bloco" or not filtro(BANCO.meta.get(tit, ("", "", "", ""))):
@@ -658,13 +800,21 @@ def _bloco_do_segmento(seg, filtro):
         if entidade and not entidade <= set(gt):
             continue
         exatas = sum(1 for w in gt if w in alvo)
+        familia = sum(1 for w in gt if w not in alvo and da_familia(w))
         parecidas = sum(1 for w in gt if w not in alvo and len(w) >= 5
-                        and perto_bloco(w))
-        if (exatas + parecidas) / len(gt) < 0.8:
+                        and not da_familia(w) and perto_bloco(w))
+        if (exatas + familia + parecidas) / len(gt) < 0.8:
+            continue
+        # gatilho de uma palavra só ("placas") exige o NÚCLEO; gatilho maior aceita o
+        # núcleo ou a palavra seguinte ("placas ATEROMATOSAS" -> "ateromas calcificados")
+        if nucleos and not any(_mesma_familia(w, nc) for w in gt for nc in
+                               (nucleo_1 if len(gt) == 1 else nucleos)) and \
+                not (nucleo not in voc and perto_bloco(nucleo) and
+                     any(difflib.SequenceMatcher(None, w, nucleo).ratio() >= 0.85 for w in gt)):
             continue
         # criterio: mais palavras EXATAS, depois gatilho mais longo, depois menos
         # palavras so parecidas ("espondilolise" nao cai em "espondilolistese")
-        chave = (exatas, len(gt), -parecidas)
+        chave = (exatas, len(gt), -(familia + parecidas))
         if melhor_chave is None or chave > melhor_chave:
             melhor, melhor_chave = (tit, txt, sec, con), chave
     return melhor
@@ -1770,6 +1920,11 @@ def _rotear(ditado, _auto=False):
         _tex, _t2, _sc = None, None, 0.0
         _t2, _tex, _sc = BANCO.buscar(n, "mascara")
         exata = _sc >= 1.0 and _tex is not None
+        # 02/10: o gatilho "exato" de uma VARIANTE (derrame + atelectasia) só vale com
+        # os achados do nome dela ditados; senão fica o cabeçalho (máscara normal)
+        if exata and not str((BANCO.meta.get(_t2) or ("",) * 4)[3]).startswith("normal") and \
+                not _variante_so_com_o_ditado(_t2, n):
+            exata = False
         if exata:
             cab_raw, cab_norm, tit, txt = bruto, n, _t2, _tex
         if not exata and rx_literal is not None and _config().get("rx_literal", True) and \
@@ -1841,7 +1996,8 @@ def _rotear(ditado, _auto=False):
                         break                          # so descarta palavra de grau/lado
                     t2, x2, sc2, _g2 = BANCO.buscar2(normalizar(nucleo + " com " + " ".join(pal[:k])), "mascara")
                     if x2 is not None and sc2 >= 1.0 and t2 != tit and \
-                            BANCO.meta.get(t2, ("",) * 4)[:3] == reg:
+                            BANCO.meta.get(t2, ("",) * 4)[:3] == reg and \
+                            _variante_so_com_o_ditado(t2, n):
                         tit, txt = t2, x2
                         restantes.remove(x)
                         trocou = True
@@ -1933,13 +2089,22 @@ def _cabecalho_do_exame(bruto, resto_norm, fronteira=None, so_rx=False):
         if so_rx and BANCO.meta.get(tit, ("",) * 4)[1] != "rx":
             continue
         if resto_norm == g or resto_norm.startswith(g + " "):
+            # 02/10: "tomografia de tórax com derrame pleural" é gatilho da variante
+            # derrame + ATELECTASIA; sem a atelectasia ditada, o exame fica no normal
+            if not str((BANCO.meta.get(tit) or ("",) * 4)[3]).startswith("normal") and \
+                    not _variante_so_com_o_ditado(tit, resto_norm):
+                continue
             cands.setdefault(g, (tit, txt))
     for g in sorted(cands, key=len, reverse=True):
         cru = _trecho_cru(bruto, g)
         if cru is None:
             continue
-        if so_rx:
-            cru = cru.rstrip(",.;:!?")     # a virgula depois do exame e fronteira
+        # a pontuação colada no fim do nome do exame é FRONTEIRA, não parte dele.
+        # 02/10: "tomografia de abdome superior e pelve. derrame..." — o "pelve."
+        # engolia o ponto, a sobra virava " derrame..." (sem fronteira) e o exame
+        # caía para "abdome superior"; "tomografia de tórax. derrame..." não achava
+        # cabeçalho nenhum e abria a variante "derrame + atelectasia" pelo achado.
+        cru = cru.rstrip(",.;:!?")
         sobra = bruto[len(cru):]
         if (fronteira or _FRONTEIRA).match(sobra) or not _relevante(sobra):
             tit, txt = cands[g]
@@ -2962,7 +3127,9 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(200, ia_no_texto(corpo.get("texto") or "",
                                                        corpo.get("instrucao") or "",
                                                        corpo.get("modelo") or "",
-                                                       corpo.get("imagens") or None))
+                                                       corpo.get("imagens") or None,
+                                                       corpo.get("ditado") or "",
+                                                       bool(corpo.get("roteado"))))
                 if rota.endswith("/fila/proximo"):
                     return self._json(200, estacao_proximo())
                 if rota.endswith("/fila/escolher"):
@@ -4001,7 +4168,51 @@ def imagens_para_ia(lista):
     return saida, ""
 
 
-def ia_no_texto(texto, instrucao="", modelo="", imagens=None):
+_GATILHO_NORMAL = {"n": None, "mapa": {}}
+
+def _gatilhos_de_mascara_normal():
+    """{gatilho normalizado: (titulo, texto)} só das máscaras NORMAIS (o nome do exame)."""
+    if _GATILHO_NORMAL["n"] != len(BANCO.itens):
+        mapa = {}
+        for t, g, tit, txt, _s, _c in BANCO.itens:
+            if t != "mascara" or not g or not txt:
+                continue
+            meta = BANCO.meta.get(tit) or ()
+            if len(meta) >= 4 and str(meta[3]).startswith("normal"):
+                mapa.setdefault(g, (tit, txt))
+        _GATILHO_NORMAL.update(n=len(BANCO.itens), mapa=mapa)
+    return _GATILHO_NORMAL["mapa"]
+
+
+def _mascara_do_ditado(ditado):
+    """Botão de raciocínio com a folha vazia (02/10): SÓ o nome do exame no começo do
+    ditado escolhe a máscara, e ela é sempre uma máscara NORMAL. Achado nenhum entra
+    por gatilho.
+
+    Antes, "tomografia de tórax. derrame pleural bilateral, pequeno à direita" abria a
+    variante "derrame + atelectasia" e a atelectasia, que ele não ditou, ia junto.
+    Aqui vale o MAIOR começo do ditado que é exatamente o gatilho de uma máscara normal
+    ("tomografia de abdome superior e pelve" ganha de "tomografia de abdome superior").
+    Devolve (texto_da_mascara ou "", resto_do_ditado)."""
+    bruto = (ditado or "").strip()
+    if not bruto:
+        return "", ""
+    mapa = _gatilhos_de_mascara_normal()
+    palavras = bruto.split()
+    for k in range(min(12, len(palavras)), 0, -1):
+        pref = " ".join(palavras[:k])
+        achou = None
+        for n in (normalizar(pref), normalizar(ouvido_bruto(pref))):
+            if n in mapa:
+                achou = mapa[n]
+                break
+        if achou:
+            resto = " ".join(palavras[k:]).strip(" ,.;:-")
+            return formatar_saida(achou[1]), resto
+    return "", bruto
+
+
+def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado=False):
     """Rotrix v2: o laudo que está na folha do app passa pela IA e volta pronto.
 
     É o que os botões Haiku/Opus da aba Laudo chamam. Sem instrução, a IA só
@@ -4009,9 +4220,16 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None):
     `modelo` troca o modelo só nesta chamada — é assim que o mesmo botão pode
     ser Haiku num clique e Opus no outro.
     `imagens` (27/09): os prints da folha (data URL). Vão para a IA junto com as
-    regras do bloco IMAGEM do REDATOR_ROTRIX.md."""
+    regras do bloco IMAGEM do REDATOR_ROTRIX.md.
+    `ditado` (02/10): o botão de RACIOCÍNIO. A fala chega crua, sem passar pelos
+    gatilhos nem pelo banco de frases (decisão dele: "ignora o banco e faz uma
+    descrição padrão"). Só as trocas fixas do ouvido.tsv dele são aplicadas. A IA
+    recebe as regras do bloco DESCREVA e escreve cada achado no léxico padrão.
+    `roteado` (02/10, o switch "roteador" ligado): a folha já tem o que o roteador
+    encaixou desse ditado; o bloco ROTEADO manda a IA conferir isso contra a fala."""
     texto = texto or ""
-    if not texto.strip():
+    ditado = (ditado or "").strip()
+    if not texto.strip() and not ditado:
         return {"ok": False, "motivo": "texto_vazio", "texto": texto}
     if nuvem is None:
         return {"ok": False, "motivo": "nuvem_ausente", "texto": texto}
@@ -4028,10 +4246,36 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None):
     # a mesma estrutura numa linha só ANTES da IA: não depende do modelo obedecer
     texto = juntar_rotulos_repetidos(texto)
     instrucao = (instrucao or "").strip()
+    regras_ditado = None
+    if ditado:
+        # só as trocas fixas dele (ouvido.tsv) e a grafia; nada de gatilho, bloco,
+        # vocabulário aproximado ou máscara escolhida por achado
+        try:
+            ditado = grafia_sz(ouvido_fixo(ditado)) or ditado
+        except Exception:
+            pass
+        if not texto.strip():
+            mascara, resto = _mascara_do_ditado(ditado)
+            if mascara:
+                texto, ditado = mascara, (resto or ditado)
+        try:
+            import prompts
+            regras_ditado = prompts.bloco("DESCREVA")
+            if regras_ditado:
+                regras_ditado += "\n\n" + (prompts.bloco("ROTEADO") if roteado else
+                                           "ROTEADOR DESLIGADO: nada do ditado foi encaixado na tela "
+                                           "e o banco de frases não foi usado.")
+        except Exception:
+            regras_ditado = None
+        if not regras_ditado or (roteado and "ROTEADOR LIGADO" not in regras_ditado):
+            return {"ok": False, "motivo": "descreva_sem_regra", "texto": texto}
+    tela = texto if texto.strip() else "(vazia, sem máscara)"
     if instrucao:
-        pedido = "INSTRUÇÃO FALADA: %s\n\nLAUDO NA TELA:\n%s" % (instrucao, texto)
+        pedido = "INSTRUÇÃO FALADA: %s\n\nLAUDO NA TELA:\n%s" % (instrucao, tela)
     else:
-        pedido = "LAUDO NA TELA:\n" + texto
+        pedido = "LAUDO NA TELA:\n" + tela
+    if ditado:
+        pedido = "%s\n\nDITADO DO RADIOLOGISTA:\n%s\n\n%s" % (regras_ditado, ditado, pedido)
     if imgs:
         regras = None
         try:
@@ -4044,10 +4288,14 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None):
             return {"ok": False, "motivo": "imagem_sem_regra", "texto": texto}
         pedido = ("%s\n\n%d IMAGEM(NS) ANEXADA(S), na ordem da folha.\n\n%s"
                   % (regras, len(imgs), pedido))
-    novo, origem = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000,
-                                **({"imagens": imgs} if imgs else {}))
+    extra = {}
+    if imgs:
+        extra["imagens"] = imgs
+    if ditado:
+        extra["analise"] = True       # raciocínio: a linha "Só formatar" cede ao padrão
+    novo, origem = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000, **extra)
     if origem == "nuvem" and novo:
-        if not imgs:
+        if not imgs and not ditado:
             # com imagem a IA ACRESCENTA (as medidas): isso não é par "errado -> certo"
             try:
                 _aprender(texto, novo)
@@ -4055,6 +4303,7 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None):
                 pass
         u = dict(getattr(nuvem, "ULTIMA", {}) or {})
         return {"ok": True, "texto": novo, "origem": origem, "imagens": len(imgs),
+                "ditado": bool(ditado),
                 "modelo": u.get("modelo") or c.get("modelo"),
                 "custo_usd": u.get("usd"), "mes_usd": u.get("mes_usd"),
                 "economia": u.get("economia", False),
