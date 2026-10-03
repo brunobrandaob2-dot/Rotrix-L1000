@@ -75,6 +75,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_gatilhos_trancas.py
       - name: Recusa da triagem diz o que e onde; log sem conteudo
         run: LAUDO_BASE=/tmp/base.sqlite python testar_bloqueio.py
+      - name: ATUALIZAR desliga no PC dele a linha que o Rotrix retirou da tabela (.tsv)
+        run: python testar_mesclar_tsv.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)

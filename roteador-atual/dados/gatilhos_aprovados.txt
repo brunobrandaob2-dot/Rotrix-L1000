@@ -134,3 +134,6 @@ protocolo de coronarias
 # prescricao/tc/geral
 prescricao de contraste iodado
 prescricao de iodo
+
+# usuario/tc/joelho (máscara DELE, 28/09; gatilho escrito por ele — Lyon só existe na TC)
+protocolo de lyon do joelho

@@ -23,7 +23,10 @@ coracao aumentado	cardiomegalia area cardiaca aumentada
 coracao grande	cardiomegalia
 coracao aumentado de volume	cardiomegalia area cardiaca aumentada
 # 02/10 (auditoria dos gatilhos): "placa" sozinha virava ateroma em QUALQUER ditado —
-# "avulsão da placa volar na mão" puxava "ateromas calcificados". Só placa de vaso:
+# "avulsão da placa volar na mão" puxava "ateromas calcificados". Só placa de vaso.
+# As duas linhas antigas, retiradas (o mesclar_tsv do ATUALIZAR as desliga no PC dele):
+#retirada	placa	ateroma ateromatose calcificacao
+#retirada	placas	ateromas ateromatose calcificacoes
 placa na aorta	ateroma ateromatose calcificacao
 placas na aorta	ateromas ateromatose calcificacoes
 placa calcificada	ateroma ateromatose calcificacao
