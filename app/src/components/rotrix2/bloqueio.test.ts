@@ -11,12 +11,12 @@ import { motivoDoBloqueio } from "./bloqueio";
 const aqui = dirname(fileURLToPath(import.meta.url));
 const laudo = readFileSync(join(aqui, "LaudoPage.tsx"), "utf8");
 const m = motivoDoBloqueio(
-  "nuvem_bloqueada: data completa “12/08/2025” na folha",
+  "nuvem_bloqueada: sequência longa de dígitos “987654321” na folha",
 );
 const casos: [boolean, string][] = [
   [
     m ===
-      "não enviei para a IA: data completa “12/08/2025” na folha. Tire isso e aperte de novo.",
+      "não enviei para a IA: sequência longa de dígitos “987654321” na folha. Tire isso e aperte de novo.",
     "recusa com o que e onde",
   ],
   [

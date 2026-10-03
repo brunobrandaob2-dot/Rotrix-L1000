@@ -185,6 +185,8 @@ _CAMPO_PACIENTE = re.compile(
     r"sexo|prontu[aá]rio|atendimento|conv[eê]nio|pedido|accession|n[ºo°]\.?\s*(?:do\s+)?exame|"
     r"c[oó]digo|registro|m[eé]dico solicitante|solicitante|data do exame|data)\s*[:：]", re.I | re.M)
 
+_DATA_COMPLETA = re.compile(r"\b\d{2}/\d{2}/\d{4}\b")
+
 def identificadores(texto):
     """Motivos pelos quais o texto não pode entrar (vazio = liberado)."""
     motivos = []
@@ -193,6 +195,10 @@ def identificadores(texto):
         motivos += nuvem.triagem(texto)
     except Exception:
         pass
+    # 03/10: a nuvem passou a aceitar data (decisão dele, para o comparativo). Aqui não
+    # muda nada: laudo real com data continua sem virar máscara.
+    if _DATA_COMPLETA.search(texto or ""):
+        motivos.append("data completa")
     if _CAMPO_PACIENTE.search(texto or ""):
         motivos.append("campo de dados do paciente")
     return motivos

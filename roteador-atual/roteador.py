@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-10-03.1"
+VERSAO = "2026-10-03.2"
 
 
 def _impressao_do_codigo():
@@ -4083,7 +4083,7 @@ def adendo(laudo, pedido, tipo="livre", modelo=""):
     """Aba Adendos: o laudo já assinado + o que ele quer -> texto do adendo.
 
     O laudo colado passa pela mesma triagem do resto: se tiver identificador de
-    paciente (CPF, prontuário, data completa de nascimento, e-mail, "Paciente:"),
+    paciente (CPF, prontuário, número longo, e-mail, "Paciente:"; data passa desde 03/10),
     nada é enviado — o aviso volta dizendo o que tirar."""
     laudo = (laudo or "").strip()
     pedido = (pedido or "").strip()
@@ -4319,7 +4319,8 @@ def _resposta_bloqueada(texto, tela, ditado, instrucao):
 
     O `motivo` continua começando por "nuvem_bloqueada" e leva a explicação junto,
     porque o app instalado mostra o motivo cru entre parênteses: com isto ele já lê
-    'nuvem_bloqueada: data completa “12/08/2025” na folha' sem reinstalar nada.
+    'nuvem_bloqueada: linha de identificação do paciente “Paciente:” na folha' sem
+    reinstalar nada. (Data não barra mais desde 03/10: decisão dele.)
     Se o que barrou não estiver em nenhuma das três partes, está nas REGRAS que o
     roteador põe no pedido — erro nosso, e a tela diz isso."""
     partes = []

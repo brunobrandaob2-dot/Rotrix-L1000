@@ -568,16 +568,22 @@ def testar(c=None, nome=None, modelo="", timeout=20):
             "modelo": modelo or c.get("modelo") or ""}
 
 # ---------- filtro de identificadores ----------
+# 03/10, decisão dele: "tira essa restrição ... eu nunca vou colocar nada referente ao
+# paciente na IA. Quando eu fizer comparativo, o máximo vai ser uma data, e isso não
+# configura infringir a LGPD." DATA não barra mais (nem a do exame anterior, nem a de
+# nascimento da idade óssea, nem "Idade:"). Continua barrando o que identifica a pessoa:
+# CPF, número longo (prontuário/acesso), e-mail e a linha de cabeçalho com o nome
+# ("Paciente:", "Nome:" ...), que entra quando se cola o laudo do RIS inteiro — foi isso
+# que barrou 11 vezes o atalho em 23/09.
 BLOQUEIOS = [
     (re.compile(r"\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b"), "CPF"),
-    (re.compile(r"\b\d{2}/\d{2}/\d{4}\b"), "data completa"),
     (re.compile(r"\b\d{8,}\b"), "sequência longa de dígitos"),
     (re.compile(r"\bprontuário\s*n?[ºo]?\s*\d+", re.I), "número de prontuário"),
     (re.compile(r"\b[\w.+-]+@[\w-]+\.\w+\b"), "e-mail"),
 ]
 
 _CAMPO_PACIENTE = re.compile(
-    r"^\s*(?:paciente|pac\.|nome do paciente|nome|data de nascimento|nascimento|idade|"
+    r"^\s*(?:paciente|pac\.|nome do paciente|nome|"
     r"prontu[aá]rio|atendimento|conv[eê]nio|accession|m[eé]dico solicitante|solicitante)\s*[:：]",
     re.I | re.M)
 
@@ -597,9 +603,9 @@ def triagem(texto):
 # 03/10, pergunta dele: "pq a nuvem está dizendo que a IA está bloqueada?". A tela
 # dizia só "a IA não respondeu (nuvem_bloqueada)": nem O QUE barrou, nem ONDE. E o
 # nuvem.log não registrava a recusa, então nem depois dava para saber.
-# O trecho mostrado é para a TELA DELE (fica no computador, §17): a data e o número
-# aparecem como estão, para ele achar; CPF, e-mail e linha de paciente aparecem só
-# pelo rótulo — nunca o nome nem o número do documento.
+# O trecho mostrado é para a TELA DELE (fica no computador, §17): o número longo
+# aparece como está, para ele achar; CPF, e-mail e linha de paciente aparecem só pelo
+# rótulo — nunca o nome nem o número do documento.
 _SO_ROTULO = {"CPF", "e-mail", "número de prontuário"}
 
 
@@ -619,7 +625,7 @@ def triagem_trechos(texto):
 
 
 def descrever_bloqueio(trechos, onde=""):
-    """'data completa “12/08/2025” na folha' — o que a tela dele mostra."""
+    """'sequência longa de dígitos “987654321” na folha' — o que a tela dele mostra."""
     partes = []
     for nome, trecho in trechos:
         partes.append("%s “%s”" % (nome, trecho) if trecho else nome)
@@ -1017,7 +1023,7 @@ def _exemplos_estilo(c=None):
             t = ler_texto(os.path.join(pasta, f)).strip()
         except OSError:
             continue
-        # exemplo com identificador (CPF, data completa, prontuário, e-mail, "Paciente:")
+        # exemplo com identificador (CPF, prontuário, número longo, e-mail, "Paciente:"; data passa desde 03/10)
         # nunca vai para a nuvem, nem como exemplo de estilo
         if triagem(t) or _CAMPO_PACIENTE.search(t):
             continue

@@ -464,7 +464,10 @@ confere("cache: log curto não decide por estatística",
 # 25/09 esse pedido ia para a nuvem inteiro.
 for _t, _deve in [("Paciente: FULANO BELTRANO\nTC DE TÓRAX", True),
                   ("Nome do paciente: X", True),
-                  ("Data de nascimento: 12 de maio", True),
+                  # 03/10, decisão dele: data não barra (comparativo, idade óssea)
+                  ("Data de nascimento: 12 de maio", False),
+                  ("estável em relação ao exame de 12/08/2025", False),
+                  ("Idade: 45 anos", False),
                   ("Prontuário: 4455", True),
                   ("TC de tórax com nódulo de 5 mm no lobo superior direito", False),
                   ("o paciente refere dor há dois dias", False)]:
