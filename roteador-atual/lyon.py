@@ -269,3 +269,26 @@ def montar(pedido):
     ] + conclusao)
     return {"ok": True, "tipo": "lyon", "lado": lado, "texto": texto,
             "conclusao": "\n".join(conclusao), "avisos": avisos, "completo": True}
+
+
+def mascara_de_voz():
+    """A máscara que o DITADO abre ("tomografia dos joelhos protocolo de Lyon").
+
+    03/10, ele: "a parte do joelho no protocolo de Lyon não está com a máscara mais
+    atual que a gente fez". Não estava: a máscara de voz dele (mascaras_usuario/tc/
+    joelho/tc_joelhos_protocolo_de_lyon.txt) era a de 27/09 — Caton-Deschamps,
+    TT-PCL, Dejour —, e a de 28/09 (a dele, texto corrido + tabela por joelho) só
+    existia na aba Estruturados. Agora a de voz sai DAQUI: os dois joelhos, a
+    tabela com a coluna "Mensurado" em branco para ele preencher, os valores normais
+    dele. Mudou o Lyon? Muda num lugar só."""
+    r = montar({"lado": "ambos", "valores": {}, "globais": {}})
+    linhas = r["texto"].split("\n")
+    i = linhas.index("**COMPARAÇÃO:**  " + COMPARACAO)
+    tabelas = []
+    for s_, (fem, masc) in (("d", NOME["d"]), ("e", NOME["e"])):
+        corpo = [rot.ljust(COL_1) + "".ljust(COL_2 - COL_1) + normal
+                 for _k, rot, _u, normal, _j, _f in LINHAS]
+        tabelas += ["Medidas joelho %s" % masc,
+                    "".ljust(COL_1) + "Mensurado".ljust(COL_2 - COL_1) + "Valores normais"] + corpo + [""]
+    return "\n".join(linhas[:i] + tabelas + linhas[i:])
+

@@ -262,12 +262,28 @@ def _arquivo_do_usuario(modalidade, regiao, nome):
     return arq
 
 
-def _gravar(arq, gatilhos, modalidade, regiao, texto, origem):
+def _tipo(cab, arq_origem):
+    """O tipo da máscara (normal / aguda / cronica) que a cópia tem de manter.
+
+    03/10: _gravar escrevia "tipo_mascara: normal" em TODA cópia — a variante
+    "aguda_fratura_patela" virava máscara normal e passava a abrir pelo nome do
+    exame. Vale o cabeçalho; sem ele, o nome do arquivo (como o construir_base)."""
+    t = _meta(cab, "tipo_mascara")
+    if t:
+        return t
+    n = os.path.basename(arq_origem or "").lower()
+    for pref in ("normal", "cronica", "aguda"):
+        if n.startswith(pref):
+            return pref
+    return "normal"
+
+
+def _gravar(arq, gatilhos, modalidade, regiao, texto, origem, tipo="normal"):
     cab = ["# gatilhos: " + " | ".join(gatilhos),
            "# categoria: usuario",
            "# modalidade: " + (modalidade or "outro"),
            "# regiao: " + _slug(regiao or "outros", 24),
-           "# tipo_mascara: normal",
+           "# tipo_mascara: " + (tipo or "normal"),
            "# origem: " + origem]
     os.makedirs(os.path.dirname(arq), exist_ok=True)
     with open(arq, "w", encoding="utf-8") as f:
@@ -319,9 +335,48 @@ def aplicar(propostas, banco=None, refazer=None, conferir_no_banco=True):
                     arq = _arquivo_do_usuario(_meta(cab, "modalidade"), _meta(cab, "regiao"),
                                               tit.rsplit("/", 1)[-1])
                 _gravar(arq, gat, _meta(cab, "modalidade"), _meta(cab, "regiao"),
-                        p["depois"], "oficina " + carimbo)
+                        p["depois"], "oficina " + carimbo, _tipo(cab, origem))
                 feitas.append({"acao": acao, "titulo": tit,
                                "arquivo": os.path.relpath(arq, DADOS).replace("\\", "/")})
+            elif acao == "editar":
+                # 03/10: a caixa da máscara na aba Máscaras ficou editável — ELE
+                # muda os gatilhos e o texto. Sempre como máscara dele: a dele é
+                # reescrita (com cópia); a do Rotrix ganha uma cópia dele por cima.
+                tit = p["titulo"]
+                origem = caminho_da_mascara(tit)
+                if not origem or not os.path.exists(origem):
+                    erros.append("máscara não encontrada: " + str(tit))
+                    continue
+                cab, _corpo = _texto_da_mascara(origem)
+                gat = [str(g).strip() for g in (p.get("gatilhos") or []) if str(g).strip()]
+                gat = gat or _gatilhos_do_cabecalho(cab)
+                if not gat:
+                    erros.append("sem comando de voz para " + tit)
+                    continue
+                comeu = [g for g in gat if comando_no_comeco(g)]
+                if comeu:
+                    erros.append('o comando "%s" começa com "%s", que o roteador entende como '
+                                 'instrução; use "%s"' % (comeu[0], comando_no_comeco(comeu[0]),
+                                                          sem_a_palavra_de_comando(comeu[0])))
+                    continue
+                corpo = str(p.get("depois") or "").strip()
+                if not corpo:
+                    erros.append("texto vazio para " + tit)
+                    continue
+                if tit.startswith("usuario/"):
+                    arq = origem
+                    _copiar_antes(arq, copias)
+                else:
+                    arq = _arquivo_do_usuario(_meta(cab, "modalidade") or _meta_do_titulo(tit, 1),
+                                              _meta(cab, "regiao") or _meta_do_titulo(tit, 2),
+                                              tit.rsplit("/", 1)[-1])
+                _gravar(arq, gat, _meta(cab, "modalidade") or _meta_do_titulo(tit, 1),
+                        _meta(cab, "regiao") or _meta_do_titulo(tit, 2),
+                        corpo, "oficina " + carimbo, _tipo(cab, origem))
+                rel = os.path.relpath(arq, DADOS).replace("\\", "/")
+                feitas.append({"acao": acao, "titulo": tit, "arquivo": rel,
+                               "titulo_novo": "usuario/" + rel[len("mascaras_usuario/"):-4]
+                               if rel.startswith("mascaras_usuario/") else tit})
             elif acao == "criar":
                 arq = _arquivo_do_usuario(p.get("modalidade"), p.get("regiao"), p.get("nome"))
                 _gravar(arq, p.get("gatilhos") or [], p.get("modalidade"), p.get("regiao"),
@@ -345,7 +400,7 @@ def aplicar(propostas, banco=None, refazer=None, conferir_no_banco=True):
                         arq = _arquivo_do_usuario(_meta(cab, "modalidade"), _meta(cab, "regiao"),
                                                   tit.rsplit("/", 1)[-1])
                     _gravar(arq, gat, _meta(cab, "modalidade"), _meta(cab, "regiao"),
-                            novo, "oficina " + carimbo)
+                            novo, "oficina " + carimbo, _tipo(cab, origem))
                     feitas.append({"acao": acao, "titulo": tit,
                                    "arquivo": os.path.relpath(arq, DADOS).replace("\\", "/")})
             else:
@@ -549,6 +604,12 @@ def auditar(banco=None):
         "gatilho_disputado": disputados[:40],
         "comeca_com_comando": decapitados[:40],
     }
+
+
+def _meta_do_titulo(titulo, i):
+    """"msk/tc/joelho/normal" -> parte i (1 = modalidade, 2 = região); "" se não houver."""
+    partes = (titulo or "").split("/")      # "usuario/tc/joelho/x" tem o mesmo desenho
+    return partes[i] if 0 <= i < len(partes) - 1 else ""
 
 
 def _meta(cabecalho, campo):

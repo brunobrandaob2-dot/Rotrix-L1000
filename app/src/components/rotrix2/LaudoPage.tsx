@@ -57,13 +57,16 @@ type Modo = "simples" | "leve" | "completo";
 interface Props {
   /** nome do modelo de cada botão, vindo das configurações */
   modeloLeve?: string;
+  /** 03/10: o id da IA do botão leve e como trocá-la (grava no config.json) */
+  idModeloLeve?: string;
+  aoTrocarModeloLeve?: (id: string) => void;
   /** tabela "IA por tipo de exame" de Configurações: {"tc": "gpt-6-sol"} */
   regrasIa?: Record<string, string>;
   modeloCompleto?: string;
   /** identificador do modelo completo para a chamada da IA */
   idModeloCompleto?: string;
   /** texto vindo de outra aba (Histórico → "Abrir no Laudo"); `n` muda a cada envio */
-  textoEntrando?: { texto: string; n: number };
+  textoEntrando?: { texto: string; n: number; de?: string };
   /** modelos que o botão forte pode usar */
   modelos?: { id: string; nome: string }[];
   /** troca o modelo do botão forte (fica guardado para as próximas vezes) */
@@ -163,6 +166,8 @@ const Sep = () => <span className="h-5 w-px bg-mid-gray/25 mx-1 shrink-0" />;
 
 export const LaudoPage: React.FC<Props> = ({
   modeloLeve = "IA rápida",
+  idModeloLeve = "",
+  aoTrocarModeloLeve,
   regrasIa = {},
   modeloCompleto = "IA completa",
   idModeloCompleto = "",
@@ -333,15 +338,18 @@ export const LaudoPage: React.FC<Props> = ({
     };
   }, [rodarIA]);
 
-  // ---------- texto trazido de outra aba (Histórico) ----------
+  // ---------- texto trazido de outra aba (Histórico; 03/10: Máscaras) ----------
   useEffect(() => {
     if (!textoEntrando || !textoEntrando.texto) return;
     const el = folha.current;
     if (!el) return;
-    setUltimoIA(el.innerText || "");
+    // guarda o HTML (com negrito) para o "desfazer" voltar a folha como estava
+    const antes = el.innerText.trim() ? el.innerHTML : "";
+    setUltimoIA(antes);
     el.innerHTML = textoEmHtml(textoEntrando.texto);
     el.focus();
-    setAviso("texto trazido do histórico");
+    const de = textoEntrando.de || "texto do histórico";
+    setAviso(antes ? `${de} na folha · Desfazer volta o que estava` : `${de} na folha`);
   }, [textoEntrando]);
 
   // ---------- ditado: clique curto liga/desliga, segurar grava ----------
@@ -565,7 +573,7 @@ export const LaudoPage: React.FC<Props> = ({
         </Fer>
 
         <Fer
-          titulo={`Ditado com ${modeloLeve}: monta a máscara e arruma a escrita. Clique liga e o próximo clique desliga.`}
+          titulo={`Ditado leve: monta a máscara e arruma a escrita na máquina. "Revisar…", "analisar…" e "formar laudo com IA" usam ${modeloLeve}. Clique liga e o próximo clique desliga.`}
           atalho="Ctrl+Alt+Espaço"
           tom={gravando === "leve" ? "vermelho" : "ciano"}
           onPointerDown={() => apertou("leve")}
@@ -573,11 +581,36 @@ export const LaudoPage: React.FC<Props> = ({
         >
           <Sparkles size={15} />
         </Fer>
-        {/* 29/09: aqui havia um seletor que não mandava em nada — o leve passa
-            pelo roteador, que usa Configurações. Agora a barra só diz qual é. */}
-        <Dica texto="O botão leve usa a IA de Configurações > IA: o Modelo padrão e, nos exames com regra, a tabela por exame. Para trocar, é lá.">
-          <span className="text-xs text-mid-gray me-1 cursor-help">{modeloLeve}</span>
-        </Dica>
+        {/* 03/10: o seletor voltou, e agora manda. O leve monta pela máscara, na
+            máquina; a IA dele só entra por comando de voz ("revisar…", "analisar…",
+            "formar laudo com IA"). A escolha vai para o config.json (modelo_leve). */}
+        {modelos.length > 1 && aoTrocarModeloLeve ? (
+          <Dica
+            texto={
+              'Qual IA o botão leve usa quando você diz "revisar…", "analisar…" ou "formar laudo com IA" (sem esses comandos o leve monta pela máscara, sem IA). Nos exames com regra na tabela de Configurações, a tabela manda.'
+            }
+          >
+            <select
+              value={idModeloLeve}
+              onChange={(e) => aoTrocarModeloLeve(e.target.value)}
+              aria-label="IA do botão leve"
+              className="h-7 me-1 rounded-lg border border-mid-gray/25 bg-background text-xs px-1 cursor-pointer"
+            >
+              {idModeloLeve !== "" && !modelos.some((m) => m.id === idModeloLeve) && (
+                <option value={idModeloLeve}>{modeloLeve} (sem resposta)</option>
+              )}
+              {modelos.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.nome}
+                </option>
+              ))}
+            </select>
+          </Dica>
+        ) : (
+          <Dica texto="O botão leve usa a IA de Configurações > IA (a lista de modelos ainda não chegou).">
+            <span className="text-xs text-mid-gray me-1 cursor-help">{modeloLeve}</span>
+          </Dica>
+        )}
 
         <Fer
           titulo={

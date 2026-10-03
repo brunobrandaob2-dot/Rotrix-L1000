@@ -9,10 +9,11 @@
 // A IA lê só o texto das máscaras. Laudo de paciente nunca entra aqui.
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { Mic, RefreshCw, Sparkles, Search, Check, Undo2 } from "lucide-react";
+import { Mic, RefreshCw, Sparkles, Search, Check, Undo2, CornerDownLeft, Save } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useDitado } from "./useDitado";
 import { TextoDeLaudo } from "./TextoDeLaudo";
+import { gatilhosDaCaixa } from "./gatilhos";
 
 interface Mascara {
   titulo: string;
@@ -85,9 +86,24 @@ const motivoEmPortugues = (m?: string): string => {
   return m;
 };
 
+// 03/10: a máscara aberta, como o roteador devolve para editar
+interface Aberta {
+  texto?: string;
+  /** como sai na folha (o mesmo caminho do ditado do nome dela) */
+  folha?: string;
+  editavel?: boolean;
+  /** o corpo cru do arquivo, com as lacunas {x|a/b} — é o que se grava */
+  corpo?: string;
+  /** os comandos de voz como estão escritos no arquivo */
+  gatilhos_escritos?: string[];
+  eh_sua?: boolean;
+}
+
 export const MascarasPage: React.FC<{
   aoAbrirConfig?: (secao: string) => void;
-}> = ({ aoAbrirConfig }) => {
+  /** 03/10: "Pôr no laudo" — a máscara vai para a folha da aba Laudo */
+  aoAbrirNoLaudo?: (texto: string, nome: string) => void;
+}> = ({ aoAbrirConfig, aoAbrirNoLaudo }) => {
   const [busca, setBusca] = useState("");
   const [banco, setBanco] = useState<Banco | null>(null);
   const [carregando, setCarregando] = useState(false);
@@ -102,6 +118,15 @@ export const MascarasPage: React.FC<{
   const [ultimaAplicacao, setUltimaAplicacao] = useState("");
   const [aviso, setAviso] = useState("");
   const caixaPedido = useRef<HTMLTextAreaElement>(null);
+  // 03/10: a caixa da máscara escolhida é editável (comandos de voz e texto)
+  const [aberta, setAberta] = useState<Aberta | null>(null);
+  const [gatEdit, setGatEdit] = useState("");
+  const [corpoEdit, setCorpoEdit] = useState("");
+  const [salvando, setSalvando] = useState(false);
+  const mudou =
+    !!aberta?.editavel &&
+    (corpoEdit !== (aberta.corpo || "") ||
+      gatilhosDaCaixa(gatEdit).join("|") !== (aberta.gatilhos_escritos || []).join("|"));
 
   const ler = useCallback(async (q: string) => {
     setCarregando(true);
@@ -132,14 +157,70 @@ export const MascarasPage: React.FC<{
   const abrir = async (m: Mascara) => {
     setEscolhida(m);
     setTexto("");
+    setAberta(null);
     try {
       const bruto = await invoke<string>("rotrix_mascaras_banco", {
         busca: "",
         titulo: m.titulo,
       });
-      setTexto((JSON.parse(bruto || "{}") as { texto?: string }).texto || "");
+      const a = JSON.parse(bruto || "{}") as Aberta;
+      setTexto(a.texto || "");
+      setAberta(a);
+      setGatEdit((a.gatilhos_escritos || []).join("\n"));
+      setCorpoEdit(a.corpo || "");
     } catch (e) {
       setAviso(String(e));
+    }
+  };
+
+  const porNoLaudo = () => {
+    if (!escolhida) return;
+    const t = aberta?.folha || texto;
+    if (!t) {
+      setAviso("a máscara ainda não carregou");
+      return;
+    }
+    if (mudou) setAviso("pus a versão GRAVADA — salve as mudanças para elas irem também");
+    aoAbrirNoLaudo?.(t, escolhida.nome);
+  };
+
+  const salvarEdicao = async () => {
+    if (!escolhida || !aberta?.editavel) return;
+    const gatilhos = gatilhosDaCaixa(gatEdit);
+    if (!gatilhos.length) {
+      setAviso("a máscara precisa de pelo menos um comando de voz");
+      return;
+    }
+    if (!corpoEdit.trim()) {
+      setAviso("o texto da máscara está vazio");
+      return;
+    }
+    setSalvando(true);
+    setAviso("gravando e refazendo o banco — leva alguns segundos…");
+    try {
+      const r = await chamar({
+        aplicar: JSON.stringify([
+          { acao: "editar", titulo: escolhida.titulo, gatilhos, depois: corpoEdit },
+        ]),
+      });
+      if (r.ok) {
+        setUltimaAplicacao(r.desfazer || "");
+        const novo = (r.itens || [])[0] as { titulo_novo?: string } | undefined;
+        const titulo = novo?.titulo_novo || escolhida.titulo;
+        setAviso(
+          (aberta.eh_sua ? "máscara salva" : "salva como máscara SUA (a do Rotrix ficou intacta)") +
+            " · já vale no ditado" +
+            (r.erros && r.erros.length ? ` · ${r.erros[0]}` : ""),
+        );
+        await ler(busca.trim());
+        await abrir({ ...escolhida, titulo, gatilhos });
+      } else {
+        setAviso(motivoEmPortugues(r.motivo) + (r.erros?.length ? ` (${r.erros[0]})` : ""));
+      }
+    } catch (e) {
+      setAviso(String(e));
+    } finally {
+      setSalvando(false);
     }
   };
 
@@ -322,6 +403,118 @@ export const MascarasPage: React.FC<{
 
         {/* direita */}
         <div className="flex-1 min-w-0 flex flex-col gap-3 overflow-y-auto">
+          {/* máscara escolhida — 03/10: editável e com "Pôr no laudo"; fica EM CIMA,
+              porque é nela que ele mexe ao escolher uma máscara na lista */}
+          <div className="rounded-lg border border-mid-gray/20 bg-background shrink-0 min-h-40 flex flex-col">
+            <div className="flex items-center gap-2 px-3 py-2 border-b border-mid-gray/20 bg-mid-gray/5">
+              <span className="text-xs font-semibold truncate">
+                {escolhida ? escolhida.nome : "escolha uma máscara na lista"}
+              </span>
+              {escolhida && (
+                <span className="text-[10px] text-mid-gray shrink-0">
+                  {escolhida.tamanho} caracteres
+                  {aberta?.editavel ? (aberta.eh_sua ? " · sua" : " · do Rotrix") : ""}
+                </span>
+              )}
+              {escolhida && (
+                <div className="ms-auto flex items-center gap-1.5">
+                  {mudou && (
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      disabled={salvando}
+                      onClick={() => {
+                        setGatEdit((aberta?.gatilhos_escritos || []).join("\n"));
+                        setCorpoEdit(aberta?.corpo || "");
+                      }}
+                    >
+                      Descartar
+                    </Button>
+                  )}
+                  {aberta?.editavel && (
+                    <Button
+                      variant="primary-soft"
+                      size="sm"
+                      disabled={!mudou || salvando || aplicando}
+                      onClick={() => void salvarEdicao()}
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <Save size={13} /> {salvando ? "gravando…" : "Salvar"}
+                      </span>
+                    </Button>
+                  )}
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    disabled={!texto || !aoAbrirNoLaudo}
+                    onClick={porNoLaudo}
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <CornerDownLeft size={13} /> Pôr no laudo
+                    </span>
+                  </Button>
+                </div>
+              )}
+            </div>
+            <div className="p-3 flex flex-col gap-2">
+              {escolhida && aberta?.editavel ? (
+                <>
+                  <label className="flex flex-col gap-1">
+                    <span className="text-[10px] text-mid-gray">
+                      comandos de voz — um por linha
+                    </span>
+                    <textarea
+                      value={gatEdit}
+                      onChange={(e) => setGatEdit(e.target.value)}
+                      rows={Math.min(6, Math.max(2, gatEdit.split("\n").length))}
+                      spellCheck={false}
+                      className="w-full resize-y rounded-lg border border-mid-gray/25 bg-background px-2.5 py-1.5 text-[11.5px] leading-relaxed outline-none focus:border-logo-primary/50"
+                    />
+                  </label>
+                  <label className="flex flex-col gap-1">
+                    <span className="text-[10px] text-mid-gray">
+                      texto da máscara — **negrito**, {"{lacuna|opção 1/opção 2}"} como no arquivo
+                    </span>
+                    <textarea
+                      value={corpoEdit}
+                      onChange={(e) => setCorpoEdit(e.target.value)}
+                      rows={18}
+                      spellCheck={false}
+                      className="w-full min-h-80 resize-y rounded-lg border border-mid-gray/25 papel px-3 py-2 text-[11.5px] leading-relaxed font-mono outline-none focus:border-logo-primary/50"
+                    />
+                  </label>
+                  {!aberta.eh_sua && (
+                    <p className="text-[10.5px] text-mid-gray">
+                      máscara do Rotrix: ao salvar, vira uma cópia SUA com estes comandos de
+                      voz, e a sua passa a valer. A do Rotrix fica intacta.
+                    </p>
+                  )}
+                </>
+              ) : escolhida && texto ? (
+                <>
+                  <div className="flex flex-wrap gap-1.5">
+                    {escolhida.gatilhos.map((g) => (
+                      <span
+                        key={g}
+                        className="text-[10px] rounded bg-logo-primary/15 px-1.5 py-0.5"
+                      >
+                        {g}
+                      </span>
+                    ))}
+                  </div>
+                  <TextoDeLaudo
+                    texto={texto}
+                    className="text-[11.5px] leading-relaxed rounded-lg border border-mid-gray/20 papel p-3"
+                  />
+                </>
+              ) : (
+                <p className="text-xs text-mid-gray">
+                  o texto da máscara aparece aqui, com os comandos de voz que a
+                  chamam — e dá para editar os dois.
+                </p>
+              )}
+            </div>
+          </div>
           {/* oficina: pedido, propostas e aplicação */}
           <div className="rounded-lg border border-mid-gray/20 bg-background">
             <div className="flex items-center gap-2 px-3 py-2 border-b border-mid-gray/20 bg-mid-gray/5">
@@ -505,44 +698,6 @@ export const MascarasPage: React.FC<{
             </div>
           </div>
 
-          {/* máscara escolhida */}
-          <div className="rounded-lg border border-mid-gray/20 bg-background flex-1 min-h-40 flex flex-col">
-            <div className="flex items-center gap-2 px-3 py-2 border-b border-mid-gray/20 bg-mid-gray/5">
-              <span className="text-xs font-semibold truncate">
-                {escolhida ? escolhida.nome : "escolha uma máscara na lista"}
-              </span>
-              {escolhida && (
-                <span className="text-[10px] text-mid-gray shrink-0">
-                  {escolhida.tamanho} caracteres
-                </span>
-              )}
-            </div>
-            <div className="p-3 overflow-y-auto">
-              {escolhida && (
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  {escolhida.gatilhos.map((g) => (
-                    <span
-                      key={g}
-                      className="text-[10px] rounded bg-logo-primary/15 px-1.5 py-0.5"
-                    >
-                      {g}
-                    </span>
-                  ))}
-                </div>
-              )}
-              {texto ? (
-                <TextoDeLaudo
-                  texto={texto}
-                  className="text-[11.5px] leading-relaxed rounded-lg border border-mid-gray/20 papel p-3"
-                />
-              ) : (
-                <p className="text-xs text-mid-gray">
-                  o texto da máscara aparece aqui, com os comandos de voz que a
-                  chamam.
-                </p>
-              )}
-            </div>
-          </div>
         </div>
       </div>
 

@@ -679,6 +679,7 @@ pub fn run(cli_args: CliArgs) {
             rotrix::rotrix_mascaras_ia,
             rotrix::rotrix_adendo,
             rotrix::rotrix_medidas,
+            rotrix::rotrix_ler_print,
             rotrix::rotrix_medidas_campos,
             rotrix::rotrix_idade_ossea,
             rotrix::rotrix_estruturados,

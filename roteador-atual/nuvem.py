@@ -1637,7 +1637,7 @@ def _enviar_openai(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocini
 
 
 def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens=None,
-           analise=False):
+           analise=False, sistema=None):
     """Devolve (texto, origem). Nunca levanta excecao.
 
     modo: "revisao" usa o prompt de revisao textual (nao raciocina sobre o caso);
@@ -1657,7 +1657,10 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
     # O prompt de sistema vem de dados/prompts/REDATOR_ROTRIX.md, montado por bloco:
     # cada rota manda só os blocos de que precisa. As constantes SISTEMA_* continuam
     # aqui como RESERVA, para o caso de o arquivo faltar num pacote velho.
-    sistema = prompts.montar(m_ef)
+    # 03/10: leitura de print (escanometria, idade óssea) manda o PRÓPRIO prompt de
+    # sistema — o do redator pede laudo, e a leitura tem de devolver só JSON
+    proprio = sistema
+    sistema = proprio if proprio else prompts.montar(m_ef)
     if sistema is None:
         if economia and m_ef in ("formatar", "revisao"):
             sistema = SISTEMA_BARATO
@@ -1670,9 +1673,10 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
     # forte — 69% da entrada, mais que o prompt inteiro. As regras de estilo que eles
     # ensinavam por imitação agora estão escritas no REDATOR_ROTRIX.md, então o teto
     # caiu para 6.000 (config: teto_exemplos_chars). No caminho barato não entram.
-    if m_ef in ("laudo", "instrucao") and not economia:
+    if m_ef in ("laudo", "instrucao") and not economia and not proprio:
         sistema += _exemplos_estilo(c)
-    sistema += _prompt_perfil(c, pedido)
+    if not proprio:
+        sistema += _prompt_perfil(c, pedido)
     if max_tokens is None:
         max_tokens = teto_saida(pedido, c)
     motivos = triagem(pedido)
@@ -1821,6 +1825,7 @@ def estado():
         "ativa": bool(c.get("ativa")),
         "provedor": (c.get("provedor") or "anthropic").lower(),
         "modelo": c.get("modelo") or "",
+        "modelo_leve": c.get("modelo_leve") or "",     # 03/10: a IA do botão leve
         "modo_ia": c.get("modo_ia") or "",
         "ia_por_exame": {k: _entrada_rota(v) for k, v in ia.items()} if isinstance(ia, dict) else {},
         "chaves": {nome: bool(chave_de(c, nome)) for nome in PROVEDORES},

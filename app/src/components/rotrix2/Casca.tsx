@@ -123,7 +123,7 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     provedor: "anthropic",
     modelo: "",
   });
-  const [paraFolha, setParaFolha] = useState<{ texto: string; n: number }>({
+  const [paraFolha, setParaFolha] = useState<{ texto: string; n: number; de?: string }>({
     texto: "",
     n: 0,
   });
@@ -137,6 +137,9 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
   }, []);
   // tabela por exame de Configurações (ex.: TC -> gpt-6-sol), para a barra mostrar
   const [regras, setRegras] = useState<Record<string, string>>({});
+  // 03/10: a IA do botão leve voltou a ser escolha da barra — agora gravada no
+  // config.json (modelo_leve), onde o roteador lê nas chamadas do leve
+  const [modeloLeve, setModeloLeve] = useState<string>("");
   // o modelo do botão forte é escolha da tela e fica guardado para a próxima vez
   const [modeloForte, setModeloForte] = useState<string>(() => {
     try {
@@ -196,11 +199,13 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
       const e = JSON.parse((await invoke<string>("rotrix_ia_estado")) || "{}") as {
         provedor?: string;
         modelo?: string;
+        modelo_leve?: string;
         ia_por_exame?: Record<string, { modelo?: string } | string>;
       };
       provedor = (e.provedor || "anthropic").toLowerCase();
       const doConfig = e.modelo || "";
       setIa({ provedor, modelo: doConfig });
+      setModeloLeve(e.modelo_leve || "");
       setRegras(regrasDaTabela(e.ia_por_exame));
       // trocou o Modelo padrão em Configurações: a escolha antiga da barra cai
       try {
@@ -273,8 +278,23 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
 
   // Qual IA cada botão aciona. A regra inteira, e o porquê dela, está em
   // modelos.ts — foi ali que o "modelo caro escolhido por ninguém" morreu.
-  // o leve usa Configurações: o Modelo padrão (e a tabela, nos exames com regra)
-  const nomeLeve = ia.modelo ? apelido(ia.modelo) : "IA rápida";
+  // o leve: a escolha da barra (config.json: modelo_leve); vazio = Modelo padrão.
+  // Nos exames com regra na tabela por exame, a tabela manda (igual ao forte).
+  const idLeve = modeloLeve || ia.modelo;
+  const nomeLeve = idLeve ? apelido(idLeve) : "IA rápida";
+  const trocarModeloLeve = async (id: string) => {
+    // escolher o próprio Modelo padrão grava vazio: se ele trocar o padrão em
+    // Configurações, o leve acompanha
+    const valor = id === ia.modelo ? "" : id;
+    const antes = modeloLeve;
+    setModeloLeve(valor);
+    try {
+      await invoke("rotrix_ia_salvar", { ajustes: JSON.stringify({ modelo_leve: valor }) });
+    } catch (e) {
+      setModeloLeve(antes);
+      setAvisoIa(`não gravei a IA do botão leve: ${String(e)}`);
+    }
+  };
   const forte = escolherForte(listaModelos, modeloForte, ia.modelo);
 
   const guardar = (chave: string, id: string) => {
@@ -299,8 +319,8 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     guardar(GUARDADO_COMPARATIVO, id);
   };
 
-  const abrirNoLaudo = (texto: string) => {
-    setParaFolha((p) => ({ texto, n: p.n + 1 }));
+  const abrirNoLaudo = (texto: string, de?: string) => {
+    setParaFolha((p) => ({ texto, n: p.n + 1, de }));
     setAba("laudo");
   };
 
@@ -353,6 +373,8 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
         <div className={aba === "laudo" ? "h-full" : "hidden"}>
           <LaudoPage
             modeloLeve={nomeLeve}
+            idModeloLeve={idLeve}
+            aoTrocarModeloLeve={(id) => void trocarModeloLeve(id)}
             regrasIa={regras}
             modeloCompleto={apelido(forte)}
             idModeloCompleto={forte}
@@ -405,7 +427,12 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
         {aba === "fila" && <FilaPage />}
         {aba === "prescricoes" && <PrescricoesPage />}
         {aba === "estruturados" && <EstruturadosPage />}
-        {aba === "mascaras" && <MascarasPage aoAbrirConfig={abrirConfig} />}
+        {aba === "mascaras" && (
+          <MascarasPage
+            aoAbrirConfig={abrirConfig}
+            aoAbrirNoLaudo={(texto, nome) => abrirNoLaudo(texto, `máscara ${nome}`)}
+          />
+        )}
         {aba === "historico" && (
           <HistoricoPage aoAbrirNoLaudo={abrirNoLaudo} idModeloCompleto={forte} />
         )}

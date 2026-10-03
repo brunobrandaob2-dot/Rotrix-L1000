@@ -468,6 +468,7 @@ pub fn rotrix_ia_estado(app: AppHandle) -> Result<String, String> {
         "ativa": c.get("ativa").and_then(|x| x.as_bool()).unwrap_or(false),
         "provedor": c.get("provedor").and_then(|x| x.as_str()).unwrap_or("anthropic"),
         "modelo": c.get("modelo").and_then(|x| x.as_str()).unwrap_or(""),
+        "modelo_leve": c.get("modelo_leve").and_then(|x| x.as_str()).unwrap_or(""),
         "modo_ia": c.get("modo_ia").and_then(|x| x.as_str()).unwrap_or(""),
         "ia_por_exame": c.get("ia_por_exame").cloned().unwrap_or(serde_json::json!({})),
         "chaves": chaves,
@@ -504,6 +505,14 @@ pub fn rotrix_ia_salvar(app: AppHandle, ajustes: String) -> Result<(), String> {
             return Err(format!("nome de modelo invalido: {v}"));
         }
         obj.insert("modelo".into(), serde_json::Value::String(v.into()));
+    }
+    // 03/10: a IA do botao leve (comandos "revisar", "analisar", "formar laudo com IA"),
+    // escolhida na barra do Laudo. Vazio = a do Modelo padrao.
+    if let Some(v) = novo.get("modelo_leve").and_then(|x| x.as_str()) {
+        if !v.is_empty() && !modelo_valido(v) {
+            return Err(format!("nome de modelo invalido: {v}"));
+        }
+        obj.insert("modelo_leve".into(), serde_json::Value::String(v.into()));
     }
     if let Some(v) = novo.get("modo_ia").and_then(|x| x.as_str()) {
         if !["", "formatar"].contains(&v) {
@@ -847,6 +856,21 @@ pub fn rotrix_medidas(exame: String, valores: String) -> Result<String, String> 
         "/v1/medidas",
         &serde_json::json!({ "exame": exame, "valores": v }).to_string(),
         20_000,
+    )
+}
+
+/// 03/10: le um print (ja recortado e redesenhado na tela, sem metadado) e devolve
+/// valores para o formulario: as medidas da escanometria/panoramicas, ou a leitura
+/// do atlas na idade ossea (so a imagem e o sexo vao; a data de nascimento nao).
+#[specta::specta]
+#[tauri::command(async)]
+pub fn rotrix_ler_print(alvo: String, imagem: String, extra: String) -> Result<String, String> {
+    let e: serde_json::Value =
+        serde_json::from_str(&extra).unwrap_or(serde_json::Value::Object(Default::default()));
+    http_post(
+        "/v1/ler_print",
+        &serde_json::json!({ "alvo": alvo, "imagem": imagem, "extra": e }).to_string(),
+        120_000,
     )
 }
 

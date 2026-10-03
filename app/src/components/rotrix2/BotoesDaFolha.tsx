@@ -20,6 +20,64 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "../ui/Button";
+import { ImagemNaFolha } from "./ImagemNaFolha";
+import { reduzirParaIA, motivoDaImagem } from "./imagemParaIA";
+import { motivoDoBloqueio } from "./bloqueio";
+
+// 03/10: "eu queria poder simplesmente anexar uma imagem, colar um print com as
+// medidas" — o botão do print só mostrava um aviso. Agora o print passa pelo MESMO
+// recorte da folha (tira a borda com nome gravado nos pixels e o metadado), vai ao
+// roteador, a IA lê e devolve números; eles entram no formulário para ele conferir.
+// A conta continua aqui na máquina, como sempre.
+type Lido = {
+  ok?: boolean;
+  motivo?: string;
+  detalhe?: string;
+  valores?: Record<string, string>;
+  nao_achei?: string[];
+  obs?: string;
+  anos?: number;
+  meses?: number;
+  entre?: string;
+  achados?: string;
+  confianca?: string;
+  modelo?: string;
+  custo_usd?: number;
+};
+
+export const motivoDaLeitura = (m?: string, detalhe?: string): string => {
+  const x = (m || "").toLowerCase();
+  const bloq = motivoDoBloqueio(m);
+  if (bloq) return bloq;
+  const img = motivoDaImagem(x);
+  if (img) return img;
+  if (x === "nuvem_desligada") return "a IA está desligada nas configurações";
+  if (x.includes("sem_chave")) return "falta a chave da IA nas configurações";
+  if (x === "resposta_fora_do_formato") return "a IA respondeu fora do formato; tente de novo";
+  if (x === "imagem_nao_serve") return `a IA não conseguiu ler: ${detalhe || "imagem"}`;
+  if (x.includes("not found") || x.includes("404"))
+    return "o roteador é antigo para isto: rode o ATUALIZAR e o LIGAR";
+  return m ? `a IA não leu o print (${m})` : "a IA não leu o print";
+};
+
+const lerPrint = async (
+  alvo: string,
+  dataUrl: string,
+  extra: Record<string, string> = {},
+): Promise<Lido> => {
+  const imagem = await reduzirParaIA(dataUrl);
+  const bruto = await invoke<string>("rotrix_ler_print", {
+    alvo,
+    imagem,
+    extra: JSON.stringify(extra),
+  });
+  return JSON.parse(bruto || "{}") as Lido;
+};
+
+const centavos = (usd?: number): string =>
+  typeof usd === "number"
+    ? ` · ${(usd * 100).toFixed(usd * 100 < 1 ? 2 : 1).replace(".", ",")} centavo`
+    : "";
 
 // ---------------------------------------------------------------------------
 
@@ -144,9 +202,47 @@ const PainelMedidas: React.FC<{
   const [saida, setSaida] = useState<{ texto: string; avisos: string[] } | null>(null);
   const [erro, setErro] = useState("");
   const [ocupado, setOcupado] = useState(false);
+  const [recorte, setRecorte] = useState(false);
+  const [lendo, setLendo] = useState(false);
+  const [lidos, setLidos] = useState<string[]>([]);
+  const [recado, setRecado] = useState("");
+
+  const aoRecortar = async (dataUrl: string) => {
+    setRecorte(false);
+    setLendo(true);
+    setErro("");
+    setRecado("");
+    try {
+      const r = await lerPrint(exame, dataUrl);
+      if (!r.ok) {
+        setErro(motivoDaLeitura(r.motivo, r.detalhe));
+        return;
+      }
+      const v = r.valores || {};
+      setValores((x) => ({ ...x, ...v }));
+      setLidos(Object.keys(v));
+      setSaida(null);
+      const rot: Record<string, string> = {};
+      for (const [k, n] of conf?.leitura || []) rot[k] = n;
+      const falta = (r.nao_achei || []).map((k) => rot[k] || k);
+      setRecado(
+        (Object.keys(v).length
+          ? `li ${Object.keys(v).length} medida(s) do print — confira os campos marcados antes de calcular`
+          : "não achei medida legível no print") +
+          (falta.length ? ` · faltou: ${falta.join(", ")}` : "") +
+          (r.obs ? ` · ${r.obs}` : "") +
+          (r.modelo ? ` · ${r.modelo}${centavos(r.custo_usd)}` : ""),
+      );
+    } catch (e) {
+      setErro(motivoDaLeitura(String(e)));
+    } finally {
+      setLendo(false);
+    }
+  };
 
   const trocar = (k: string, v: string) => {
     setValores((x) => ({ ...x, [k]: v }));
+    setLidos((l) => l.filter((x) => x !== k));
     setSaida(null);
   };
 
@@ -216,7 +312,10 @@ const PainelMedidas: React.FC<{
                   value={valores[k] ?? ""}
                   onChange={(e) => trocar(k, e.target.value)}
                   inputMode="decimal"
-                  className="h-7 rounded-lg border border-mid-gray/25 bg-background px-2 text-[12px]"
+                  className={`h-7 rounded-lg border bg-background px-2 text-[12px] ${
+                    lidos.includes(k) ? "border-logo-primary/70 bg-logo-primary/10" : "border-mid-gray/25"
+                  }`}
+                  title={lidos.includes(k) ? "lido do print — confira" : undefined}
                 />
               </label>
             ))}
@@ -249,15 +348,23 @@ const PainelMedidas: React.FC<{
 
         <button
           type="button"
-          onClick={() =>
-            setErro(
-              "colar o print entra junto com o botão de imagem da folha: a imagem passa pelo recorte e pela limpeza de metadados antes de sair",
-            )
-          }
-          className="w-full h-9 rounded-lg border border-logo-primary/45 bg-logo-primary/12 flex items-center justify-center gap-2 text-[11.5px] font-semibold cursor-pointer hover:bg-logo-primary/22"
+          disabled={lendo}
+          onClick={() => setRecorte(true)}
+          className="w-full h-9 rounded-lg border border-logo-primary/45 bg-logo-primary/12 flex items-center justify-center gap-2 text-[11.5px] font-semibold cursor-pointer hover:bg-logo-primary/22 disabled:opacity-60"
         >
-          <ImagePlus size={15} /> Colar print com as medidas
+          <ImagePlus size={15} /> {lendo ? "a IA está lendo o print…" : "Colar print com as medidas"}
         </button>
+        <ImagemNaFolha
+          aberto={recorte}
+          aoFechar={() => setRecorte(false)}
+          aoConfirmar={(d) => void aoRecortar(d)}
+          rotulo="Ler as medidas com a IA"
+        />
+        {recado && (
+          <div className="text-[11px] rounded-lg border border-logo-primary/35 bg-logo-primary/8 px-2.5 py-2">
+            {recado}
+          </div>
+        )}
 
         {erro && (
           <div className="text-[11px] rounded-lg border border-amber-400/40 bg-amber-100/10 text-amber-300 px-2.5 py-2">
@@ -299,7 +406,7 @@ const PainelMedidas: React.FC<{
         >
           Pôr na folha
         </Button>
-        <Button variant="secondary" size="sm" onClick={() => { setValores({}); setSaida(null); setErro(""); }}>
+        <Button variant="secondary" size="sm" onClick={() => { setValores({}); setSaida(null); setErro(""); setLidos([]); setRecado(""); }}>
           Limpar
         </Button>
       </div>
@@ -324,6 +431,34 @@ const PainelIdadeOssea: React.FC<{
   const [meses, setMeses] = useState("");
   const [r, setR] = useState<Record<string, unknown> | null>(null);
   const [erro, setErro] = useState("");
+  const [recorte, setRecorte] = useState(false);
+  const [lendo, setLendo] = useState(false);
+  const [leitura, setLeitura] = useState<Lido | null>(null);
+
+  // 03/10: "jogar a imagem e a data de aniversário e a IA já calculava". A IA
+  // recebe SÓ a radiografia (recortada, sem metadado) e o sexo — a data de
+  // nascimento fica aqui. Ela propõe a idade óssea no atlas; ele confere e calcula.
+  const aoRecortar = async (dataUrl: string) => {
+    setRecorte(false);
+    setLendo(true);
+    setErro("");
+    setLeitura(null);
+    try {
+      const d = await lerPrint("idade_ossea", dataUrl, { sexo });
+      if (!d.ok) {
+        setErro(motivoDaLeitura(d.motivo, d.detalhe));
+        return;
+      }
+      setAnos(String(d.anos ?? ""));
+      setMeses(String(d.meses ?? 0));
+      setR(null);
+      setLeitura(d);
+    } catch (e) {
+      setErro(motivoDaLeitura(String(e)));
+    } finally {
+      setLendo(false);
+    }
+  };
 
   const calcular = useCallback(async () => {
     setErro("");
@@ -399,6 +534,39 @@ const PainelIdadeOssea: React.FC<{
           </div>
         </div>
         <div>
+          <button
+            type="button"
+            disabled={lendo}
+            onClick={() => setRecorte(true)}
+            className="w-full h-9 mb-2 rounded-lg border border-logo-primary/45 bg-logo-primary/12 flex items-center justify-center gap-2 text-[11.5px] font-semibold cursor-pointer hover:bg-logo-primary/22 disabled:opacity-60"
+          >
+            <ImagePlus size={15} />{" "}
+            {lendo ? "a IA está lendo a radiografia…" : "Colar a radiografia da mão (a IA lê no atlas)"}
+          </button>
+          <ImagemNaFolha
+            aberto={recorte}
+            aoFechar={() => setRecorte(false)}
+            aoConfirmar={(d) => void aoRecortar(d)}
+            rotulo="Ler a idade óssea com a IA"
+          />
+          {leitura && (
+            <div className="text-[11px] rounded-lg border border-logo-primary/35 bg-logo-primary/8 px-2.5 py-2 mb-2">
+              IA: <b>{leitura.anos} anos e {leitura.meses} meses</b>
+              {leitura.entre ? ` (entre ${leitura.entre})` : ""}
+              {leitura.confianca ? ` · confiança ${leitura.confianca.replace("media", "média")}` : ""}
+              {leitura.achados ? (
+                <>
+                  <br />
+                  {leitura.achados}
+                </>
+              ) : null}
+              <br />
+              <span className="text-mid-gray">
+                sugestão para conferir no atlas — o número é seu
+                {leitura.modelo ? ` · ${leitura.modelo}${centavos(leitura.custo_usd)}` : ""}
+              </span>
+            </div>
+          )}
           <div className="text-[9.5px] font-bold tracking-wider text-mid-gray mb-1">
             IDADE ÓSSEA LIDA NO ATLAS
           </div>

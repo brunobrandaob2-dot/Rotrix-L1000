@@ -77,6 +77,10 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_bloqueio.py
       - name: ATUALIZAR desliga no PC dele a linha que o Rotrix retirou da tabela (.tsv)
         run: python testar_mesclar_tsv.py
+      - name: Print para o formulario (escanometria, idade ossea) e a IA do botao leve
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_ler_print.py
+      - name: Mascaras editaveis, Por no laudo e a mascara de voz do Lyon
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_mascaras_editar.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)
@@ -115,6 +119,9 @@ jobs:
       - name: Recusa da triagem diz o que barrou e onde (app)
         working-directory: app
         run: bun src/components/rotrix2/bloqueio.test.ts
+      - name: Mascaras editaveis, seletor do leve e print (fiacao app + Rust)
+        working-directory: app
+        run: bun src/components/rotrix2/mascaras.test.ts
       - name: Tipos do app (o mesmo tsc do build do .exe; em 27/09 um teste com API so do Bun parou o .exe)
         working-directory: app
         run: bun install --frozen-lockfile && bunx tsc --noEmit -p .

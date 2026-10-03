@@ -21,6 +21,8 @@ interface Props {
   aoConfirmar: (dataUrl: string) => void;
   /** 29/09: imagem colada ou arrastada direto na folha — abre já no recorte */
   inicial?: Blob | null;
+  /** 03/10: o botão final diz o que acontece (na escanometria a imagem vai para a IA ler) */
+  rotulo?: string;
 }
 
 interface Corte {
@@ -34,7 +36,13 @@ interface Corte {
 // cabeçalho e rodapé com nome, data de nascimento e número de acesso.
 const MARGEM = 0.07;
 
-export const ImagemNaFolha: React.FC<Props> = ({ aberto, aoFechar, aoConfirmar, inicial }) => {
+export const ImagemNaFolha: React.FC<Props> = ({
+  aberto,
+  aoFechar,
+  aoConfirmar,
+  inicial,
+  rotulo = "Pôr na folha",
+}) => {
   const [imagem, setImagem] = useState<HTMLImageElement | null>(null);
   const [corte, setCorte] = useState<Corte | null>(null);
   const [arrastando, setArrastando] = useState<{ x: number; y: number } | null>(null);
@@ -236,7 +244,7 @@ export const ImagemNaFolha: React.FC<Props> = ({ aberto, aoFechar, aoConfirmar, 
         <div className="flex gap-2 px-3 py-2 border-t border-mid-gray/20">
           <Button variant="primary" size="sm" disabled={!imagem} onClick={confirmar}>
             <span className="flex items-center gap-1.5">
-              <Check size={14} /> Pôr na folha
+              <Check size={14} /> {rotulo}
             </span>
           </Button>
           <Button

@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-10-03.2"
+VERSAO = "2026-10-03.3"
 
 
 def _impressao_do_codigo():
@@ -1785,7 +1785,7 @@ def formar_laudo(resto, com_ia):
             except Exception:
                 sel = ""
             if sel:
-                novo, origem = revisar_laudo_inteiro(sel)
+                novo, origem = revisar_laudo_inteiro(sel, leve=True)
                 if novo and origem == "nuvem":
                     return formato.padronizar(novo), "nuvem_formar_tela"
                 return sel, "nuvem_formar_tela_falhou:" + str(origem)
@@ -1796,7 +1796,7 @@ def formar_laudo(resto, com_ia):
     if not ativa:
         return texto, "formar:" + origem + "+ia_desligada"
     try:
-        c = nuvem.config()
+        c = _config_leve()
         pedido = "LAUDO NA TELA:\n" + texto.replace("**", "")
         novo, o2 = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000)
     except Exception as e:
@@ -1878,7 +1878,7 @@ def _rotear(ditado, _auto=False):
                         except Exception:
                             sel = ""
                         if sel:
-                            novo, origem = revisar_laudo_inteiro(sel)
+                            novo, origem = revisar_laudo_inteiro(sel, leve=True)
                             if novo and origem == "nuvem":
                                 return formato.padronizar(novo), "nuvem_laudo_inteiro"
                             return sel, origem
@@ -1886,7 +1886,7 @@ def _rotear(ditado, _auto=False):
                         # manda para a nuvem o texto JA passado pela revisao
                         # local: o modelo so precisa resolver o que sobrou
                         pedido = revisar_local(pedido)
-                    texto, origem = nuvem.chamar(pedido, c, modo=modo)
+                    texto, origem = nuvem.chamar(pedido, _config_leve(), modo=modo)
                     if texto is not None:
                         if modo == "revisao" and origem == "nuvem":
                             _aprender(pedido, texto)
@@ -3074,9 +3074,13 @@ class Handler(BaseHTTPRequestHandler):
                           "/mascaras/banco", "/mascaras/ia", "/mascaras/auditar",
                           "/medidas", "/idade_ossea", "/calculos", "/ia/testar",
                           "/prescricoes", "/comparativo", "/estrutura",
-                          "/estruturados", "/checklist", "/atualizar", "/adendo")):
+                          "/estruturados", "/checklist", "/atualizar", "/adendo",
+                          "/ler_print")):
             corpo = self._corpo()
             try:
+                if rota.endswith("/ler_print"):
+                    return self._json(200, ler_print(corpo.get("alvo") or "", corpo.get("imagem") or "",
+                                                     corpo.get("extra") or {}))
                 if rota.endswith("/ia/testar"):
                     return self._json(200, ia_testar(corpo.get("provedor") or "",
                                                      corpo.get("modelo") or ""))
@@ -3543,6 +3547,129 @@ def idade_ossea_laudo(corpo):
     return r
 
 
+# ---------------------------------------------------------------------------
+# Leitura de print (03/10): escanometria, panorâmicas e idade óssea
+# ---------------------------------------------------------------------------
+# Pedido dele: "eu queria poder simplesmente anexar uma imagem, colar um print com
+# as medidas" (o botão "Colar print com as medidas" só mostrava um aviso) e, na
+# idade óssea, "jogar a imagem e a data de aniversário e a IA já calculava".
+# A divisão de trabalho continua a de sempre: a IA LÊ (números do print; na idade
+# óssea, a leitura do atlas), devolve JSON, e o formulário mostra para ele conferir.
+# A conta, o arredondamento e o texto do laudo são daqui, na máquina. A data de
+# nascimento nunca vai para a IA: na idade óssea ela recebe só a imagem e o sexo
+# (ler sem saber a idade cronológica é o que o método pede, sem viés).
+_SISTEMA_LEITURA = """Você lê imagens de uma estação de radiologia para um radiologista.
+Responda SOMENTE com um objeto JSON válido, sem texto antes ou depois, sem markdown.
+Nunca invente número: se um valor não está legível na imagem, não o devolva."""
+
+_REGRAS_MEDIDAS = """PRINT COM MEDIDAS — {titulo}
+A imagem é um print do visualizador com as medidas feitas pelo radiologista
+(réguas, ângulos, anotações). Leia os valores ESCRITOS na imagem e associe cada um ao
+campo certo pela legenda, pela posição (direita/esquerda do PACIENTE: na radiografia
+em AP o lado direito do paciente fica à esquerda da imagem, salvo marcador R/L
+dizendo o contrário) e pela unidade.
+
+CAMPOS (chave: o que é):
+{campos}
+
+Regras:
+- Só o número, com vírgula decimal, na unidade do campo (converta mm<->cm se a
+  legenda do print estiver na outra unidade e diga isso em "obs").
+- Escanometria: são as leituras na RÉGUA (posição em cm do centro de cada
+  articulação), não comprimentos.
+- Campo que você não achou: fora de "valores" e dentro de "nao_achei".
+- Lado em dúvida: ponha o valor, e explique em "obs".
+
+Devolva: {{"valores": {{"chave": "12,5"}}, "nao_achei": ["chave"], "obs": "texto curto"}}"""
+
+_REGRAS_IDADE_OSSEA = """RADIOGRAFIA DA MÃO E PUNHO — IDADE ÓSSEA (Greulich & Pyle)
+Sexo: {sexo}. A idade cronológica NÃO é informada de propósito: leia sem viés.
+
+Compare com os padrões do atlas de Greulich & Pyle do sexo informado e escolha o
+padrão mais parecido, olhando nesta ordem:
+- quais centros de ossificação do carpo e das epífises já apareceram;
+- tamanho e forma das epífises das falanges e dos metacarpos em relação às
+  metáfises (mais estreita, mesma largura, recobrindo/"capeando");
+- fusão das epífises: falanges distais, depois proximais e médias, metacarpos,
+  e por fim ulna e rádio distais;
+- sesamoide do polegar (adutor) e o gancho do hamato.
+Na dúvida entre dois padrões, diga os dois em "entre" e escolha um.
+
+Devolva: {{"anos": 9, "meses": 0, "entre": "8a10m e 10a0m", "achados": "o que você
+viu, em uma ou duas frases técnicas", "confianca": "alta|media|baixa"}}
+Se a imagem não for uma radiografia de mão e punho legível, devolva
+{{"erro": "o motivo"}}."""
+
+
+def _numero_lido(v):
+    """'12,5' / 12.5 / '12,5 cm' -> '12,5'; o resto -> ''."""
+    m = re.search(r"-?\d+(?:[.,]\d+)?", str(v if v is not None else ""))
+    return m.group(0).replace(".", ",") if m else ""
+
+
+def ler_print(alvo, imagem, extra=None):
+    """Lê um print e devolve valores para o formulário (nada vai para a folha daqui)."""
+    extra = extra if isinstance(extra, dict) else {}
+    if not imagem:
+        return {"ok": False, "motivo": "sem_imagem"}
+    imgs, erro = imagens_para_ia([imagem] if isinstance(imagem, str) else imagem)
+    if erro:
+        return {"ok": False, "motivo": erro}
+    if not imgs:
+        return {"ok": False, "motivo": "sem_imagem"}
+    if nuvem is None:
+        return {"ok": False, "motivo": "nuvem_ausente"}
+    c = nuvem.config()
+    if not c.get("ativa"):
+        return {"ok": False, "motivo": "nuvem_desligada"}
+    if imgs and c.get("ia_imagens") is False:
+        return {"ok": False, "motivo": "imagem_desligada"}
+    if alvo == "idade_ossea":
+        sexo = "feminino" if str(extra.get("sexo") or "").lower().startswith("f") else "masculino"
+        pedido = _REGRAS_IDADE_OSSEA.format(sexo=sexo)
+    elif medidas is not None and alvo in medidas.CAMPOS:
+        conf = medidas.CAMPOS[alvo]
+        chaves = [k for k, _r in conf.get("leitura", [])]
+        pedido = _REGRAS_MEDIDAS.format(titulo=conf["titulo"], campos="\n".join(
+            "- %s: %s" % (k, r) for k, r in conf.get("leitura", [])))
+    else:
+        return {"ok": False, "motivo": "alvo_desconhecido"}
+    texto, origem = nuvem.chamar(pedido, c, modo="analise", marcar=False, max_tokens=1500,
+                                 imagens=imgs, analise=True, sistema=_SISTEMA_LEITURA)
+    if origem != "nuvem" or not texto:
+        return {"ok": False, "motivo": origem}
+    dados = None
+    try:
+        dados = json.loads(texto[texto.index("{"):texto.rindex("}") + 1])
+    except (ValueError, TypeError):
+        dados = None
+    if not isinstance(dados, dict):
+        return {"ok": False, "motivo": "resposta_fora_do_formato"}
+    u = dict(getattr(nuvem, "ULTIMA", {}) or {})
+    recibo = {"modelo": u.get("modelo"), "custo_usd": u.get("usd"), "mes_usd": u.get("mes_usd")}
+    if alvo == "idade_ossea":
+        if dados.get("erro"):
+            return dict(recibo, ok=False, motivo="imagem_nao_serve", detalhe=str(dados["erro"])[:200])
+        try:
+            anos, meses = int(dados.get("anos")), int(dados.get("meses") or 0)
+        except (TypeError, ValueError):
+            return dict(recibo, ok=False, motivo="resposta_fora_do_formato")
+        if not (0 <= anos <= 20 and 0 <= meses <= 11):
+            return dict(recibo, ok=False, motivo="resposta_fora_do_formato")
+        return dict(recibo, ok=True, anos=anos, meses=meses,
+                    entre=str(dados.get("entre") or "")[:60],
+                    achados=str(dados.get("achados") or "")[:400],
+                    confianca=str(dados.get("confianca") or "")[:10])
+    brutos = dados.get("valores") if isinstance(dados.get("valores"), dict) else {}
+    valores = {}
+    for k in chaves:                         # só as chaves do formulário; o resto cai fora
+        v = _numero_lido(brutos.get(k))
+        if v:
+            valores[k] = v
+    nao = [k for k in chaves if k not in valores]
+    return dict(recibo, ok=True, valores=valores, nao_achei=nao, obs=str(dados.get("obs") or "")[:300])
+
+
 def auditar_banco():
     """As quatro conferências do banco, para o botão "Auditar o banco"."""
     if oficina is None:
@@ -3988,10 +4115,51 @@ def mascaras_banco(busca="", titulo="", limite=120):
             return any(busca_n in g for g in d["gatilhos"])
         lista = [d for d in lista if casa(d)]
     lista.sort(key=lambda d: (d["regiao"], d["titulo"]))
-    return {"ok": True, "total": len(por_titulo), "regioes": regioes,
+    fora = {"ok": True, "total": len(por_titulo), "regioes": regioes,
             "mascaras": lista[:max(1, int(limite or 120))],
             "cortou": len(lista) > int(limite or 120),
             "titulo": titulo or "", "texto": texto_pedido or ""}
+    if titulo and texto_pedido is not None:
+        fora.update(_mascara_para_editar(titulo))
+        fora["folha"] = mascara_para_folha(titulo, texto_pedido)
+    return fora
+
+
+def _mascara_para_editar(titulo):
+    """03/10, pedido dele: "eu quero que essa caixa de texto seja editável" — os
+    gatilhos como ELE escreveu (o cabeçalho do arquivo, não a forma normalizada do
+    banco) e o corpo cru, com as lacunas {x|a/b}, que é o que se grava."""
+    if oficina is None:
+        return {"editavel": False}
+    arq = oficina.caminho_da_mascara(titulo)
+    if not arq or not os.path.exists(arq):
+        return {"editavel": False}
+    cab, corpo = oficina._texto_da_mascara(arq)
+    return {"editavel": True, "corpo": corpo, "gatilhos_escritos": oficina._gatilhos_do_cabecalho(cab),
+            "eh_sua": titulo.startswith("usuario/")}
+
+
+def mascara_para_folha(titulo, txt=None):
+    """03/10, botão "Pôr no laudo" da aba Máscaras: a máscara como o ditado do nome
+    dela traria (sem achado), pronta para a folha — mesmo caminho do roteador:
+    lacuna resolvida pelo ditado (vazio), modo genérico, regras dele, negrito."""
+    if txt is None:
+        txt = next((it[3] for it in BANCO.itens if it[0] == "mascara" and it[2] == titulo), None)
+    if not txt:
+        return ""
+    try:
+        texto = preencher(txt, "")
+        if _config().get("laudo_generico", True):
+            texto = generalizar(texto)
+        if correcao_mod is not None:
+            try:
+                texto = correcao_mod.aplicar_regras(texto, "mascara:" + titulo)
+            except Exception:
+                pass
+        return formatar_saida(texto)
+    except Exception as e:
+        print("AVISO: mascara_para_folha falhou (%s)" % type(e).__name__, file=sys.stderr)
+        return formatar_saida(txt)
 
 
 def mascaras_ia(instrucao, busca="", limite=25, texto="", aplicar=None, desfazer=None):
@@ -4338,11 +4506,27 @@ def _resposta_bloqueada(texto, tela, ditado, instrucao):
                          for onde, a in partes for nome, trecho in a]}
 
 
-def revisar_laudo_inteiro(texto):
-    """Laudo inteiro -> revisao da nuvem, sem marca, pronto para colar por cima."""
+def _config_leve():
+    """Config das chamadas de nuvem que saem do botão LEVE.
+
+    03/10, ele: "a barra ao lado da IA mais fraca, de novo, eu não estou conseguindo
+    selecionar qual IA eu quero ali". Em 29/09 o seletor tinha virado rótulo porque
+    não mandava em nada: o leve monta pela máscara, na máquina, e a nuvem só entra
+    por comando de voz ("revisar ...", "analisar ...", "formar laudo com IA"). Agora
+    a escolha da barra vai para config.json (modelo_leve) e manda nessas chamadas.
+    Nos exames com regra na tabela por exame, a tabela continua mandando (igual ao
+    botão forte). Vazio: o Modelo padrão, como antes."""
+    c = nuvem.config()
+    m = str(c.get("modelo_leve") or "").strip()
+    return nuvem.com_modelo(c, m) if m else c
+
+
+def revisar_laudo_inteiro(texto, leve=False):
+    """Laudo inteiro -> revisao da nuvem, sem marca, pronto para colar por cima.
+    `leve`: veio do botão leve (comando de voz) — vale a IA escolhida para ele."""
     if nuvem is None:
         return None, "nuvem_ausente"
-    c = nuvem.config()
+    c = _config_leve() if leve else nuvem.config()
     if not c.get("ativa"):
         return None, "nuvem_desligada"
     texto = juntar_rotulos_repetidos(texto)
