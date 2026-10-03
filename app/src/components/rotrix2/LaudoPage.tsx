@@ -39,6 +39,7 @@ import { Dica } from "./Dica";
 import { textoEmHtml, htmlEmTexto, htmlEmMarcado, htmlDaFolha, copiarRico } from "./formatar";
 import { juntarNaFolha } from "./juntarEstrutura";
 import { textoDasRegras } from "./modelos";
+import { motivoDoBloqueio } from "./bloqueio";
 import { BotoesDaFolha } from "./BotoesDaFolha";
 import { ImagemNaFolha } from "./ImagemNaFolha";
 import {
@@ -836,6 +837,9 @@ export const LaudoPage: React.FC<Props> = ({
 };
 
 function motivoEmPortugues(motivo?: string): string {
+  // primeiro: o texto da recusa pode trazer qualquer palavra depois dos dois-pontos
+  const bloqueio = motivoDoBloqueio(motivo);
+  if (bloqueio) return bloqueio;
   const m = (motivo || "").toLowerCase();
   if (m.includes("texto_vazio")) return "a folha está vazia";
   if (m.includes("nuvem_desligada"))

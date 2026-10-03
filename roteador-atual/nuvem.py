@@ -207,7 +207,10 @@ def _horas_de_chamada(caminho=None, limite=400):
     except OSError:
         return fora
     for ln in linhas:
-        carimbo = ln.split("\t", 1)[0].strip()
+        col = ln.split("\t")
+        if len(col) > 2 and col[2].startswith("bloqueada"):
+            continue                      # recusa local (03/10): não foi para a nuvem
+        carimbo = col[0].strip()
         try:
             fora.append(datetime.datetime.fromisoformat(carimbo))
         except ValueError:
@@ -589,6 +592,41 @@ def triagem(texto):
     if _CAMPO_PACIENTE.search(texto or ""):
         motivos.append("linha de identificação do paciente")
     return motivos
+
+
+# 03/10, pergunta dele: "pq a nuvem está dizendo que a IA está bloqueada?". A tela
+# dizia só "a IA não respondeu (nuvem_bloqueada)": nem O QUE barrou, nem ONDE. E o
+# nuvem.log não registrava a recusa, então nem depois dava para saber.
+# O trecho mostrado é para a TELA DELE (fica no computador, §17): a data e o número
+# aparecem como estão, para ele achar; CPF, e-mail e linha de paciente aparecem só
+# pelo rótulo — nunca o nome nem o número do documento.
+_SO_ROTULO = {"CPF", "e-mail", "número de prontuário"}
+
+
+def triagem_trechos(texto):
+    """[(motivo, trecho_para_a_tela_dele)] — o mesmo critério da triagem()."""
+    t = texto or ""
+    saida = []
+    for rx, nome in BLOQUEIOS:
+        m = rx.search(t)
+        if m:
+            saida.append((nome, "" if nome in _SO_ROTULO else m.group(0)))
+    m = _CAMPO_PACIENTE.search(t)
+    if m:
+        rotulo = m.group(0).strip().rstrip(":：").strip()
+        saida.append(("linha de identificação do paciente", rotulo[:1].upper() + rotulo[1:] + ":"))
+    return saida
+
+
+def descrever_bloqueio(trechos, onde=""):
+    """'data completa “12/08/2025” na folha' — o que a tela dele mostra."""
+    partes = []
+    for nome, trecho in trechos:
+        partes.append("%s “%s”" % (nome, trecho) if trecho else nome)
+    return ", ".join(partes) + ((" " + onde) if onde else "")
+
+
+ULTIMO_BLOQUEIO = []          # [(motivo, trecho)] da última recusa (só memória)
 
 SISTEMA_REVISAO = """Você é um revisor de transcrição médica especializado em RADIOLOGIA.
 
@@ -1633,7 +1671,13 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
         max_tokens = teto_saida(pedido, c)
     motivos = triagem(pedido)
     if motivos:
-        return ("[não enviei para a nuvem: o texto contém " + ", ".join(motivos) +
+        global ULTIMO_BLOQUEIO
+        ULTIMO_BLOQUEIO = triagem_trechos(pedido)
+        # no log: só o NOME do motivo (nunca a data, o número ou a linha)
+        registrar(c, 0, 0, "bloqueada(%s)" % ", ".join(motivos),
+                  modelo=(r.get("modelo") if r.get("provedor") == "anthropic"
+                          else "%s:%s" % (r.get("provedor"), r.get("modelo"))))
+        return ("[não enviei para a nuvem: o texto contém " + descrever_bloqueio(ULTIMO_BLOQUEIO) +
                 "]\n" + pedido), "nuvem_bloqueada"
     p = provedor_cfg(c, r["provedor"])
     if not p.get("url"):

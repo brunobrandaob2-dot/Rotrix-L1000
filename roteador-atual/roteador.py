@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-10-02.1"
+VERSAO = "2026-10-03.1"
 
 
 def _impressao_do_codigo():
@@ -4309,7 +4309,32 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
                 "economia": u.get("economia", False),
                 # cache: a tela diz se o prompt de sistema saiu por 10% ou inteiro
                 "cache": u.get("cache", ""), "cache_lido": u.get("cache_lido", 0)}
+    if origem == "nuvem_bloqueada":
+        return _resposta_bloqueada(texto, tela, ditado, instrucao)
     return {"ok": False, "motivo": origem, "texto": texto}
+
+
+def _resposta_bloqueada(texto, tela, ditado, instrucao):
+    """03/10: a recusa diz O QUE a triagem achou e ONDE (folha, ditado, instrução).
+
+    O `motivo` continua começando por "nuvem_bloqueada" e leva a explicação junto,
+    porque o app instalado mostra o motivo cru entre parênteses: com isto ele já lê
+    'nuvem_bloqueada: data completa “12/08/2025” na folha' sem reinstalar nada.
+    Se o que barrou não estiver em nenhuma das três partes, está nas REGRAS que o
+    roteador põe no pedido — erro nosso, e a tela diz isso."""
+    partes = []
+    for onde, t in (("na folha", tela), ("no ditado", ditado), ("na instrução falada", instrucao)):
+        achados = nuvem.triagem_trechos(t) if t else []
+        if achados:
+            partes.append((onde, achados))
+    if partes:
+        frase = "; ".join(nuvem.descrever_bloqueio(a, onde) for onde, a in partes)
+    else:
+        frase = nuvem.descrever_bloqueio(list(getattr(nuvem, "ULTIMO_BLOQUEIO", []) or []),
+                                         "nas regras do prompt (erro do Rotrix, não do laudo)")
+    return {"ok": False, "motivo": "nuvem_bloqueada: " + frase, "texto": texto,
+            "bloqueio": [{"onde": onde, "motivo": nome, "trecho": trecho}
+                         for onde, a in partes for nome, trecho in a]}
 
 
 def revisar_laudo_inteiro(texto):
