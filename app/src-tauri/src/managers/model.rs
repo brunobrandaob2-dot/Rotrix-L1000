@@ -653,6 +653,44 @@ impl ModelManager {
             },
         );
 
+        // 04/10 (Rotrix): o Large v3 inteiro ficou lento no PC dele. O Turbo é o
+        // Large v3 com o decodificador enxugado (4 camadas em vez de 32): a precisão
+        // fica perto do Large e o tempo cai muito. Esta é a versão COMPRIMIDA (q5_0),
+        // como o Medium (q4_1): metade do tamanho do Turbo cheio e mais rápida no
+        // processador. Mesmo arquivo do repositório oficial do whisper.cpp
+        // (ggerganov/whisper.cpp), sha256 conferido.
+        available_models.insert(
+            "turbo-q5".to_string(),
+            ModelInfo {
+                id: "turbo-q5".to_string(),
+                name: "Whisper Turbo comprimido".to_string(),
+                description: "Precisão perto do Large v3, bem mais rápido (q5).".to_string(),
+                filename: "ggml-large-v3-turbo-q5_0.bin".to_string(),
+                source: ModelSource::Url {
+                    url: "https://blob.handy.computer/ggml-large-v3-turbo-q5_0.bin".to_string(),
+                    sha256: Some(
+                        "394221709cd5ad1f40c46e6031ca61bce88931e6e088c188294c6d5a55ffa7e2"
+                            .to_string(),
+                    ),
+                },
+                size_mb: 548,
+                is_downloaded: false,
+                is_downloading: false,
+                partial_size: 0,
+                is_directory: false,
+                engine_type: EngineType::TranscribeCpp,
+                accuracy_score: 0.82,
+                speed_score: 0.55,
+                supports_translation: false,
+                is_recommended: false,
+                supported_languages: whisper_languages.clone(),
+                supports_language_selection: true,
+                is_custom: false,
+                supports_streaming: false,
+                supports_language_detection: true,
+            },
+        );
+
         available_models.insert(
             "large".to_string(),
             ModelInfo {

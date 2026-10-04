@@ -122,6 +122,9 @@ jobs:
       - name: Mascaras editaveis, seletor do leve e print (fiacao app + Rust)
         working-directory: app
         run: bun src/components/rotrix2/mascaras.test.ts
+      - name: Whisper Turbo comprimido na lista de modelos
+        working-directory: app
+        run: bun src/components/rotrix2/whisper.test.ts
       - name: Tipos do app (o mesmo tsc do build do .exe; em 27/09 um teste com API so do Bun parou o .exe)
         working-directory: app
         run: bun install --frozen-lockfile && bunx tsc --noEmit -p .
