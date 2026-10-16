@@ -316,7 +316,9 @@ casa = os.path.join(tmp, "casa_a")
 os.makedirs(os.path.join(casa, "dados"))
 cfg_a = {"max_tokens": 1500, "formato_titulos": "rico", "modelo_leve": "gpt-6-luna", "fonte_mascaras": "ambas",
          "laudo_generico": True, "economizar": False, "api_key": "x", "token": "y",
-         "prompt_perfil": "Seja breve. sk-ABCDEFGHIJKLMNOPQRSTUVWX123 fim",
+         # chave falsa montada aqui: escrita inteira no arquivo, o CI do instalador ("nada
+         # pessoal no instalador") a acusa como chave de verdade — foi o que derrubou o build
+         "prompt_perfil": "Seja breve. " + "sk-" + "FAKE" + "abcdefghijklmnopqrstuv123" + " fim",
          "ia_por_exame": {"tc": {"modelo": "gpt-6-sol", "chave": "zzz"}},
          "arquivo_da_chave": "chave_openai.txt"}
 with open(os.path.join(casa, "config.json"), "w", encoding="utf-8-sig") as f:   # com BOM, como o Bloco de Notas

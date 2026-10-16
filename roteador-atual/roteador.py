@@ -1127,7 +1127,7 @@ def _limpar_sobras(s):
 
 
 def _partir_por_virgula(frase):
-    """Como re.split(r"(,\s*)"), mas a virgula DENTRO de parenteses nao separa.
+    r"""Como re.split(r"(,\s*)"), mas a virgula DENTRO de parenteses nao separa.
 
     "(referencia: acima de 4,5 cm)" era cortado no 4|,5: o pedaco com a lacuna saia
     levando "(referencia: acima de 4" e o laudo ficava com ",5 cm)". Doze mascaras
