@@ -290,28 +290,35 @@ def gasto_ler():
     return base
 
 def gasto_somar(modelo, n_in, n_out, usd=None):
-    g = gasto_ler()
-    v = custo(modelo, n_in, n_out) if usd is None else float(usd)
-    g["usd"] += v
-    g["chamadas"] += 1
-    g["tokens_in"] += n_in
-    g["tokens_out"] += n_out
-    # por modelo: alimenta o contador ao lado do botão de IA
-    pm = g.get("por_modelo")
-    if not isinstance(pm, dict):
-        pm = {}
-    item = pm.get(modelo) or {"usd": 0.0, "chamadas": 0, "tokens_in": 0, "tokens_out": 0}
-    item["usd"] = float(item.get("usd", 0)) + v
-    item["chamadas"] = int(item.get("chamadas", 0)) + 1
-    item["tokens_in"] = int(item.get("tokens_in", 0)) + n_in
-    item["tokens_out"] = int(item.get("tokens_out", 0)) + n_out
-    pm[modelo] = item
-    g["por_modelo"] = pm
-    try:
-        json.dump(g, open(GASTO, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-    except Exception:
-        pass
-    return g
+    # 16/10 (auditoria 4.x): duas chamadas ao mesmo tempo (o laudo e o botão leve)
+    # liam o mesmo gasto e a última a gravar apagava a soma da outra. Agora em fila
+    # e com troca atômica (arquivo cortado zerava o mês).
+    with _TRAVA_ARQUIVOS:
+        g = gasto_ler()
+        v = custo(modelo, n_in, n_out) if usd is None else float(usd)
+        g["usd"] += v
+        g["chamadas"] += 1
+        g["tokens_in"] += n_in
+        g["tokens_out"] += n_out
+        # por modelo: alimenta o contador ao lado do botão de IA
+        pm = g.get("por_modelo")
+        if not isinstance(pm, dict):
+            pm = {}
+        item = pm.get(modelo) or {"usd": 0.0, "chamadas": 0, "tokens_in": 0, "tokens_out": 0}
+        item["usd"] = float(item.get("usd", 0)) + v
+        item["chamadas"] = int(item.get("chamadas", 0)) + 1
+        item["tokens_in"] = int(item.get("tokens_in", 0)) + n_in
+        item["tokens_out"] = int(item.get("tokens_out", 0)) + n_out
+        pm[modelo] = item
+        g["por_modelo"] = pm
+        try:
+            tmp = GASTO + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(g, f, ensure_ascii=False, indent=2)
+            os.replace(tmp, GASTO)
+        except Exception:
+            pass
+        return g
 
 def ler_texto(caminho):
     """Texto de arquivo salvo à mão no Windows: UTF-8 (com ou sem BOM), UTF-16
@@ -580,12 +587,31 @@ BLOQUEIOS = [
     (re.compile(r"\b\d{8,}\b"), "sequência longa de dígitos"),
     (re.compile(r"\bprontuário\s*n?[ºo]?\s*\d+", re.I), "número de prontuário"),
     (re.compile(r"\b[\w.+-]+@[\w-]+\.\w+\b"), "e-mail"),
+    # 16/10 (auditoria 4.1): passavam "Atendimento 1234567" (7 dígitos), RG e telefone.
+    # Só 6-7 dígitos: com 8 ou mais a "sequência longa" acima já barra (um motivo só).
+    (re.compile(r"\b(?:atendimento|acesso|o\.?s\.?|pedido|requisi[cç][aã]o|exame)\s*"
+                r"(?:n[º°o.]*\s*)?[:#]?\s*\d{6,7}\b", re.I), "número de atendimento"),
+    (re.compile(r"\b\d{1,2}\.\d{3}\.\d{3}-[\dxX]\b"), "RG"),
+    (re.compile(r"\(\d{2}\)\s?9?\d{4}-?\d{4}\b|\b9\d{4}-\d{4}\b"), "telefone"),
 ]
 
+# 16/10 (auditoria 4.1): "Pac: Nome", "PACIENTE - NOME" (separador além do dois-pontos)
 _CAMPO_PACIENTE = re.compile(
-    r"^\s*(?:paciente|pac\.|nome do paciente|nome|"
-    r"prontu[aá]rio|atendimento|conv[eê]nio|accession|m[eé]dico solicitante|solicitante)\s*[:：]",
+    r"^\s*(?:paciente|pac\.?|nome do paciente|nome|"
+    r"prontu[aá]rio|atendimento|conv[eê]nio|accession|acesso|m[eé]dico solicitante|"
+    r"solicitante)\s*[:：\-–]",
     re.I | re.M)
+
+# 16/10 (auditoria 4.1): "Paciente João da Silva, 45 anos" — sem separador, a linha que
+# começa por "paciente" seguida de NOME PRÓPRIO (duas palavras com maiúscula). "Paciente
+# com dor", "Paciente em decúbito" não barram: a palavra seguinte é minúscula.
+_MAIUSC = "A-ZÁÉÍÓÚÂÊÔÃÕÇÀ"
+_NOME_PACIENTE = re.compile(
+    r"^\s*(?:[Pp]aciente|PACIENTE)\s+(?!(?:COM|SEM|EM|DE|DO|DA|NO|NA|APRESENTA|REFERE|IDOSO|IDOSA|"
+    r"ADULTO|ADULTA|MASCULINO|FEMININO|COLABORATIVO|POSICIONADO|POSICIONADA)\b)"
+    r"[" + _MAIUSC + r"][" + _MAIUSC + r"a-záéíóúâêôãõçà]+\s+(?:(?:d[aeo]s?|D[AEO]S?)\s+)?"
+    r"[" + _MAIUSC + r"][" + _MAIUSC + r"a-záéíóúâêôãõçà]+",
+    re.M)
 
 def triagem(texto):
     """Devolve lista de motivos de bloqueio. Vazia = liberado."""
@@ -595,7 +621,7 @@ def triagem(texto):
     # Quem cola um laudo do RIS na folha cola o cabeçalho "Paciente: ..." com ele, e
     # aí o nome ia para a nuvem, contra a §17. Nome solto no meio da prosa continua
     # invisível para a triagem: isso nenhuma regex resolve.
-    if _CAMPO_PACIENTE.search(texto or ""):
+    if _CAMPO_PACIENTE.search(texto or "") or _NOME_PACIENTE.search(texto or ""):
         motivos.append("linha de identificação do paciente")
     return motivos
 
@@ -606,7 +632,7 @@ def triagem(texto):
 # O trecho mostrado é para a TELA DELE (fica no computador, §17): o número longo
 # aparece como está, para ele achar; CPF, e-mail e linha de paciente aparecem só pelo
 # rótulo — nunca o nome nem o número do documento.
-_SO_ROTULO = {"CPF", "e-mail", "número de prontuário"}
+_SO_ROTULO = {"CPF", "e-mail", "número de prontuário", "número de atendimento", "RG", "telefone"}
 
 
 def triagem_trechos(texto):
@@ -619,8 +645,10 @@ def triagem_trechos(texto):
             saida.append((nome, "" if nome in _SO_ROTULO else m.group(0)))
     m = _CAMPO_PACIENTE.search(t)
     if m:
-        rotulo = m.group(0).strip().rstrip(":：").strip()
+        rotulo = m.group(0).strip().rstrip(":：-–").strip()
         saida.append(("linha de identificação do paciente", rotulo[:1].upper() + rotulo[1:] + ":"))
+    elif _NOME_PACIENTE.search(t):
+        saida.append(("linha de identificação do paciente", "Paciente"))   # nunca o nome
     return saida
 
 
@@ -920,13 +948,19 @@ def _sem_acento(s):
 
 # tipo de exame: vale a palavra-chave que aparece PRIMEIRO no texto (o título),
 # para "comparação com tomografia" no meio de uma RM não mudar o tipo
+# 16/10 (auditoria 3.5): + RAIOS X, ESCANOMETRIA, IDADE ÓSSEA, PANORÂMICA, USG, URO-TC,
+# ENTERO, ARTRO-RM, PET-CT; COLANGIORRESSONÂNCIA é RM (antes virava angio por conter
+# "ANGIORRESSON" — "COLANGIORRESSON" começa antes e ganha; colangio-TC continua TC).
 _TIPOS_EXAME = (("angio", ("ANGIOTOMOGRAFIA", "ANGIO-TC", "ANGIOTC", "ANGIO TC", "ANGIORRESSON",
                            "ANGIO-RM", "ANGIO RM", "ANGIORM")),
-                ("rm", ("RESSONANCIA", " RM ")),
-                ("tc", ("TOMOGRAFIA", " TC ")),
-                ("rx", ("RADIOGRAFIA", "RAIO X", "RAIO-X", " RX ")),
+                ("rm", ("RESSONANCIA", " RM ", "COLANGIORRESSON", "COLANGIO-RM", "COLANGIO RM",
+                        "COLANGIORM", "ARTRO-RM", "ARTRORRESSON", "ENTERO-RM",
+                        "ENTERORRESSON", "URORRESSON", "-RM ")),
+                ("tc", ("TOMOGRAFIA", " TC ", "URO-TC", "ENTERO-TC", "PET-CT", "PET-TC", "-TC ")),
+                ("rx", ("RADIOGRAFIA", "RAIO X", "RAIO-X", "RAIOS X", "RAIOS-X", " RX ",
+                        "ESCANOMETRIA", "IDADE OSSEA", "PANORAMICA", "TELERRADIOGRAFIA")),
                 ("mamo", ("MAMOGRAFIA",)),
-                ("us", ("ULTRASSONOGRAFIA", "ULTRASSOM", "ECOGRAFIA", " US ", "DOPPLER")))
+                ("us", ("ULTRASSONOGRAFIA", "ULTRASSOM", "ECOGRAFIA", " US ", " USG ", "DOPPLER")))
 _ONCO = re.compile(r"\bRECIST|\bONCOLOG|\bESTADIAMENTO|\bRESPOSTA (?:AO|DE|A) TRATAMENTO|"
                    r"\bLESO?(?:AO|ES) ALVO|\bNADIR\b|\bLUGANO\b|\bMRECIST|\bIRECIST")
 
@@ -944,7 +978,11 @@ def tipo_exame(texto):
     """'rx', 'tc', 'rm', 'angio', 'mamo', 'us' ou '' — pelo que aparece primeiro no laudo.
     02/10: tela vazia e sem máscara no botão de raciocínio -> vale o nome do exame que
     ele disse no DITADO (só nele: as regras do DESCREVA citam "TC" e "radiografia")."""
-    achou = _tipo_em(_texto_do_laudo(texto))
+    # 16/10 (auditoria 3.5): o TÍTULO decide (primeira linha do laudo); só sem tipo
+    # no título vale o texto inteiro, como antes
+    laudo = _texto_do_laudo(texto)
+    titulo = next((l for l in laudo.split("\n") if l.strip()), "")
+    achou = _tipo_em(titulo) or _tipo_em(laudo)
     if not achou:
         m = re.search(r"DITADO DO RADIOLOGISTA:\s*\n(.*?)(?:\n\s*\n(?:INSTRUÇÃO FALADA|LAUDO NA TELA):|\Z)",
                       texto or "", re.S)
@@ -1047,6 +1085,15 @@ def _exemplos_estilo(c=None):
 # QUAL IA agiu e QUANTO custou -- foi o que faltou quando ele perguntou
 # "como eu sei quando estou acionando a cara?".
 ULTIMA = {}
+# 16/10: o recibo da chamada DESTA thread. ULTIMA é de todas: com o laudo e o botão
+# leve ao mesmo tempo, a tela de um mostrava o modelo e o custo do outro.
+_ULTIMA_DESTA = threading.local()
+
+
+def ultima_desta_chamada():
+    """Recibo da última chamada feita por esta thread ({} se ela não chegou a gastar)."""
+    v = getattr(_ULTIMA_DESTA, "v", None)
+    return dict(v) if isinstance(v, dict) else {}
 
 # ---------- economia: modelo barato para o que nao exige raciocinio ----------
 # Ele gastou US$ 10 em cinco dias. A conta nao vem do modelo escolhido, vem de
@@ -1278,6 +1325,10 @@ def com_modelo(c, modelo):
     # 26/09: o botão da barra MANDA (v0.4.5b prometeu isso e só o "atualizar
     # anterior" marcava). Sem isto, a economia trocava o Opus escolhido por Haiku.
     c["modelo_explicito"] = True
+    # 16/10: o Modelo padrão de antes da troca — rota() compara com ele para saber
+    # se o da barra foi ESCOLHA dele (diferente do padrão) ou só o padrão repetido
+    c.setdefault("_padrao_antes", ((c.get("provedor") or "anthropic").strip().lower(),
+                                   (c.get("modelo") or "").strip()))
     e = _entrada_rota(modelo)
     if e.get("provedor") in PROVEDORES and e.get("modelo"):
         c["provedor"] = e["provedor"]
@@ -1287,7 +1338,7 @@ def com_modelo(c, modelo):
     return c
 
 
-def rota(pedido, c=None, modo="analise", com_imagem=False, analise=False):
+def rota(pedido, c=None, modo="analise", com_imagem=False, analise=False, tarefa=None):
     """Decide provedor, modelo e modo. Sem ia_por_exame = o de sempre (topo do config).
 
     com_imagem (27/09): o laudo leva print com medidas. Anexar a imagem e apertar o
@@ -1298,8 +1349,24 @@ def rota(pedido, c=None, modo="analise", com_imagem=False, analise=False):
     r = {"provedor": prov_geral, "modelo": (c.get("modelo") or "").strip(), "modo": modo,
          "raciocinio": (c.get("raciocinio") or "").strip().lower(), "exame": "", "regra": "padrao",
          "por_exame": False}
+    # 16/10 (auditoria 3.2/3.4): TAREFA do roteador (Oficina de máscaras, comparativo,
+    # checklist, atualizar, adendo, correção): não é laudo de um exame. A tabela por
+    # exame, a linha "Só formatar" e a economia não valem — o pedido da Oficina cita
+    # "rx joelho" no modelo dele e toda tarefa ia para o gpt-6-luna "só formatar".
+    if tarefa:
+        r["regra"] = "tarefa:" + str(tarefa)
+        r["exame"] = tipo_exame(pedido)
+        return r
     tipo, onco = tipo_exame(pedido), eh_onco(pedido)
     r["exame"] = "onco" if onco else tipo
+    # 16/10 (pedido dele: Luna também na TC): modelo escolhido na barra DIFERENTE do
+    # Modelo padrão é escolha dele e vence a tabela por exame naquele laudo. Sem
+    # escolha, a barra mostra o padrão e a tabela manda, como antes.
+    antes = c.get("_padrao_antes")
+    if c.get("modelo_explicito") and antes and tuple(antes) != (prov_geral, r["modelo"]):
+        r["regra"] = "barra"
+        r["por_exame"] = True          # escolha dele: a economia não troca
+        return r
     restringir = (c.get("modo_ia") or "").strip().lower() in ("formatar", "so formatar", "só formatar")
     regra_so_formatar = False
     ia = c.get("ia_por_exame") or {}
@@ -1636,8 +1703,122 @@ def _enviar_openai(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocini
     return texto, uso, usd
 
 
+# 16/10 (auditoria 1): modelo BÁSICO da OpenAI (luna, mini, nano) sem nível de raciocínio
+# escrito pensava no padrão: 69 chamadas do gpt-6-luna levaram 15 s de mediana (71% dos
+# tokens pensando) contra 3,6 s com "none". Quem escolhe o básico escolhe velocidade
+# (pedido dele, 16/10: Luna para TC simples). O raciocínio da linha da tabela, se
+# escrito, continua mandando; o modelo forte (sol, terra...) continua no padrão.
+def _modelo_basico(modelo):
+    return bool(re.search(r"(?:^|[-_.])(?:luna|mini|nano)(?:$|[-_.])", (modelo or "").lower()))
+
+
+# ---------- resposta por diferença (16/10, auditoria 1: velocidade) ----------
+# O tempo da IA é quase todo ESCREVER. Para trocar duas linhas de um laudo de 40, ela
+# reescrevia as 40. Agora as linhas vão numeradas e ela devolve só as que mudam;
+# o roteador aplica. Resposta fora do formato: o chamador refaz no modo antigo.
+DIF_MIN_LINHAS = 8          # laudo curto: reescrever inteiro custa pouco e não vale o risco
+_MARCA_LAUDO = re.compile(r"LAUDO NA TELA:[ \t]*\n")
+_LINHA_DIF = re.compile(r"^\s*#(\d{1,3})(\+?)\s*[:：]\s?(.*?)\s*$")
+_APAGAR = re.compile(r"^\(?\s*apagar(?:\s+(?:a\s+|esta\s+)?linha)?\s*\)?\s*\.?$", re.I)
+_SEM_MUDANCAS = re.compile(r"^\W*sem\s+mudan[çc]as?\W*$", re.I)
+
+
+def _laudo_do_pedido(pedido):
+    """(antes, laudo) — o laudo é tudo depois de "LAUDO NA TELA:"."""
+    m = _MARCA_LAUDO.search(pedido or "")
+    if not m:
+        return None, None
+    return pedido[:m.start()], pedido[m.end():]
+
+
+def pedido_por_diferenca(pedido):
+    """O mesmo pedido com as linhas do laudo numeradas e a regra da resposta.
+    None quando não vale a pena (laudo curto) ou a regra falta no prompt."""
+    antes, laudo = _laudo_do_pedido(pedido)
+    if laudo is None:
+        return None
+    cheias = [l for l in laudo.split("\n") if l.strip()]
+    if len(cheias) < DIF_MIN_LINHAS:
+        return None
+    regra = prompts.bloco("DIFERENCA") if prompts else None
+    if not regra:
+        return None
+    numerado = "\n".join("#%d: %s" % (i, l) for i, l in enumerate(cheias, 1))
+    return "%s\n\n%sLAUDO NA TELA:\n%s" % (regra, antes, numerado)
+
+
+def aplicar_diferenca(pedido, resposta):
+    """(texto_novo, formato). formato: "dif", "sem_mudancas" ou "inteiro" (a IA
+    preferiu devolver o laudo todo). (None, "invalida") quando a resposta não é
+    confiável — aí o chamador pede de novo no modo antigo. Estrito de propósito:
+    na dúvida, refaz; nunca cola um laudo remendado pela metade."""
+    _antes, laudo = _laudo_do_pedido(pedido)
+    if laudo is None:
+        return None, "invalida"
+    r = (resposta or "").strip()
+    r = re.sub(r"^```[^\n]*\n", "", r)
+    r = re.sub(r"\n```\s*$", "", r).strip()
+    if not r:
+        return None, "invalida"
+    corpo = [l for l in r.split("\n") if l.strip()]
+    if any(l.strip().startswith("[a IA parou") for l in corpo):
+        return None, "invalida"                 # cortada no teto: remendo pela metade
+    if len(corpo) == 1 and _SEM_MUDANCAS.match(corpo[0]):
+        return laudo, "sem_mudancas"
+    achados = [_LINHA_DIF.match(l) for l in corpo]
+    if not any(achados):
+        # sem número nenhum: a IA devolveu o laudo inteiro (pode, se mudou muito)
+        return r, "inteiro"
+    if not all(achados):
+        return None, "invalida"                 # metade remendo, metade texto
+    linhas = laudo.split("\n")
+    n = sum(1 for l in linhas if l.strip())
+    trocas, novas = {}, {}
+    for m in achados:
+        k, mais, txt = int(m.group(1)), m.group(2) == "+", m.group(3)
+        if mais:
+            if not 0 <= k <= n or _APAGAR.match(txt or ""):
+                return None, "invalida"
+            novas.setdefault(k, []).append(txt)
+        else:
+            if not 1 <= k <= n or k in trocas:
+                return None, "invalida"
+            if _APAGAR.match(txt or ""):
+                trocas[k] = None
+            elif not txt.strip(" *"):
+                return None, "invalida"         # linha trocada por nada: ambíguo
+            else:
+                trocas[k] = txt
+    # apagar mais da metade não é "diferença": a regra manda devolver o laudo inteiro
+    if sum(1 for v in trocas.values() if v is None) * 2 > n:
+        return None, "invalida"
+    saida = list(novas.get(0, []))
+    i = 0
+    for l in linhas:
+        if not l.strip():
+            saida.append(l)
+            continue
+        i += 1
+        if i in trocas:
+            if trocas[i] is not None:
+                saida.append(trocas[i])
+        else:
+            saida.append(l)
+        saida.extend(novas.get(i, []))
+    novo = "\n".join(saida)
+    if not re.search(r"\n[ \t]*\n[ \t]*\n", laudo):
+        # linha apagada entre duas em branco não deixa buraco duplo
+        novo = re.sub(r"\n[ \t]*\n(?:[ \t]*\n)+", "\n\n", novo)
+    if not laudo.startswith("\n"):
+        novo = novo.lstrip("\n")
+    if novo == laudo:
+        return laudo, "sem_mudancas"
+    return novo, "dif"
+
+
+
 def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens=None,
-           analise=False, sistema=None):
+           analise=False, sistema=None, tarefa=None, diferenca=False):
     """Devolve (texto, origem). Nunca levanta excecao.
 
     modo: "revisao" usa o prompt de revisao textual (nao raciocina sobre o caso);
@@ -1646,12 +1827,17 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
           "formatar" so organiza, delimita e corrige (nunca descreve).
     A rota por exame (ia_por_exame) pode trocar o provedor/modelo e prender
     analise/laudo/instrucao no modo "formatar".
+    `diferenca` (16/10): laudo inteiro em modo laudo/instrucao vai com as linhas
+    numeradas e a IA devolve só o que muda. A ROTA e a TRIAGEM olham o pedido de
+    sempre (o número na frente da linha esconderia "Paciente:" da triagem). O recibo
+    desta thread diz formato="dif"; quem chamou aplica com aplicar_diferenca().
     """
+    _ULTIMA_DESTA.v = None              # recibo velho desta thread não vale para esta chamada
     c = c or config()
     if not c.get("ativa"):
         return None, "nuvem_desligada"
     imagens = list(imagens or [])       # [(media_type, base64)] já conferidas no roteador
-    r = rota(pedido, c, modo, com_imagem=bool(imagens), analise=analise)
+    r = rota(pedido, c, modo, com_imagem=bool(imagens), analise=analise, tarefa=tarefa)
     m_ef = r["modo"]
     economia = r.get("regra") == "economia"
     # O prompt de sistema vem de dados/prompts/REDATOR_ROTRIX.md, montado por bloco:
@@ -1673,7 +1859,10 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
     # forte — 69% da entrada, mais que o prompt inteiro. As regras de estilo que eles
     # ensinavam por imitação agora estão escritas no REDATOR_ROTRIX.md, então o teto
     # caiu para 6.000 (config: teto_exemplos_chars). No caminho barato não entram.
-    if m_ef in ("laudo", "instrucao") and not economia and not proprio:
+    # 16/10: tarefa que devolve JSON (Oficina, checklist, comparativo, correção) não
+    # precisa dos exemplos de estilo: eram ~2.600 tokens a mais em cada uma
+    json_ = str(tarefa or "") in ("oficina", "checklist", "comparativo", "correcao")
+    if m_ef in ("laudo", "instrucao") and not economia and not proprio and not json_:
         sistema += _exemplos_estilo(c)
     if not proprio:
         sistema += _prompt_perfil(c, pedido)
@@ -1709,16 +1898,36 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
                     "se quiser continuar.]\n%s" % (limite, g["usd"], pedido)), "nuvem_teto"
 
     # modelo básico da OpenAI em modo que não raciocina: pede raciocínio "none"
+    # 16/10 (auditoria 1): a ECONOMIA também — ela só manda para o barato o que não
+    # precisa pensar, e o gpt-6-luna raciocinando no padrão levava 15 s (sem: 3,6 s).
+    # Laudo, instrução, análise, imagem e raciocínio continuam no padrão do modelo:
+    # decisão dele (16/10) é não deixar a IA "mais burra" para ganhar tempo.
     rac = r["raciocinio"]
-    if not rac and p.get("nome") == "openai" and m_ef in ("formatar", "revisao"):
+    if not rac and p.get("nome") == "openai" and (m_ef in ("formatar", "revisao") or economia
+                                                  or _modelo_basico(r["modelo"])):
         rac = "none"
     enviar = _enviar_anthropic if p.get("formato") == "anthropic" else _enviar_openai
     ttl = cache_de(sistema, r["modelo"], c) if p.get("formato") == "anthropic" else None
     teto = int(max_tokens or c.get("max_tokens", 1500))
+    # 16/10 (auditoria 3.3): na OpenAI o raciocínio conta dentro do teto de saída. Com
+    # teto de 300 ("analisar" de frase curta) o modelo pensava 400-1.100 tokens e a
+    # resposta voltava VAZIA. Quem raciocina ganha piso para pensar e ainda escrever.
+    if p.get("formato") != "anthropic" and rac != "none":
+        teto = max(teto, int(c.get("teto_com_raciocinio", 3000) or 3000))
     espera = tempo_de_espera(teto, c)
+    travas = c.get("modos_com_trava")
+    if not isinstance(travas, list):
+        travas = ["formatar"]
+    # resposta por diferença: só laudo/instrução, sem imagem, sem trava de conferência
+    # (a trava compara palavra por palavra a entrada com a SAÍDA inteira)
+    formato_resp, envio = "", pedido
+    if diferenca and m_ef in ("laudo", "instrucao") and m_ef not in travas and not imagens:
+        dif = pedido_por_diferenca(pedido)
+        if dif:
+            formato_resp, envio = "dif", dif
     t0 = datetime.datetime.now()
     try:
-        texto, uso, usd = enviar(p, k, r["modelo"], sistema, pedido, teto, espera, rac, ttl,
+        texto, uso, usd = enviar(p, k, r["modelo"], sistema, envio, teto, espera, rac, ttl,
                                  imagens=imagens)
         ms = int((datetime.datetime.now() - t0).total_seconds() * 1000)
         n_in, n_out = uso["in"], uso["out"]
@@ -1730,22 +1939,24 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
         g = gasto_somar(rotulo, n_in + uso.get("cache_w", 0) + uso.get("cache_r", 0),
                         n_out, usd=c_call)   # resposta vazia também é cobrada
         # o que rodou de verdade, para a tela dizer qual IA agiu e quanto custou
-        ULTIMA.update({"modelo": rotulo, "usd": round(float(c_call or 0), 5),
-                       "tokens_in": n_in, "tokens_out": n_out, "modo": m_ef,
-                       "cache": ttl or "", "cache_lido": uso.get("cache_r", 0),
-                       "economia": r.get("regra") == "economia",
-                       "modelo_pedido": r.get("modelo_pedido") or rotulo,
-                       "mes_usd": round(float(g.get("usd") or 0), 4),
-                       "imagens": len(imagens)})
+        recibo = {"modelo": rotulo, "usd": round(float(c_call or 0), 5),
+                  "tokens_in": n_in, "tokens_out": n_out, "modo": m_ef,
+                  "cache": ttl or "", "cache_lido": uso.get("cache_r", 0),
+                  "economia": r.get("regra") == "economia",
+                  "modelo_pedido": r.get("modelo_pedido") or rotulo,
+                  "mes_usd": round(float(g.get("usd") or 0), 4),
+                  "imagens": len(imagens), "regra": r.get("regra", ""),
+                  "formato": formato_resp}
+        ULTIMA.update(recibo)
+        _ULTIMA_DESTA.v = recibo
         extra = {"ms": ms, "teto": teto, "fim": uso.get("fim", ""), "pensou": uso.get("pensou", 0),
-                 "imagens": len(imagens)}
+                 "imagens": len(imagens), "regra": r.get("regra", ""), "modo": m_ef,
+                 "exame": r.get("exame", ""), "cache_r": uso.get("cache_r", 0),
+                 "rac": rac or "", "formato": formato_resp}
         if not texto:
             registrar(c, n_in, n_out, "vazia", c_call, g["usd"], modelo=rotulo, **extra)
             return None, "nuvem_vazia"
 
-        travas = c.get("modos_com_trava")
-        if not isinstance(travas, list):
-            travas = ["formatar"]
         avisos = conferir(pedido, texto) if m_ef in travas else []
         cortado = uso.get("fim") == "max_tokens"
         estado = "ok_cortado" if cortado else ("ok_conferir" if avisos else "ok")
@@ -1767,20 +1978,25 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
         return texto, "nuvem"
     except _ErroAPI as e:
         registrar(c, 0, 0, "http %s" % e.code, modelo=rotulo,
-                  ms=int((datetime.datetime.now() - t0).total_seconds() * 1000), teto=teto)
+                  ms=int((datetime.datetime.now() - t0).total_seconds() * 1000), teto=teto,
+                  regra=r.get("regra", ""), modo=m_ef, exame=r.get("exame", ""))
         return None, "nuvem_erro_http_%s: %s" % (e.code, e.det)
     except Exception as e:
         # tempo esgotado: a API continua gerando e COBRA, mas a resposta não chega.
         # O log guarda quanto se esperou e o teto, para ver se o tempo é que é curto.
         registrar(c, 0, 0, type(e).__name__, modelo=rotulo,
-                  ms=int((datetime.datetime.now() - t0).total_seconds() * 1000), teto=teto)
+                  ms=int((datetime.datetime.now() - t0).total_seconds() * 1000), teto=teto,
+                  regra=r.get("regra", ""), modo=m_ef, exame=r.get("exame", ""))
         return None, "nuvem_erro_%s" % type(e).__name__
 
 def registrar(c, n_in, n_out, estado, usd=0.0, acumulado=0.0, modelo=None,
-              ms=None, teto=None, fim="", pensou=0, imagens=0):
+              ms=None, teto=None, fim="", pensou=0, imagens=0, regra="", modo="", exame="",
+              cache_r=0, rac="", formato=""):
     """Log de auditoria. Nunca grava conteúdo de laudo — só contadores.
     26/09: + tempo de resposta, teto de saída, por que parou e raciocínio (colunas no
-    fim da linha; quem lê só a 1a coluna, como o cálculo do cache, não muda)."""
+    fim da linha; quem lê só a 1a coluna, como o cálculo do cache, não muda).
+    16/10: + por que foi esse modelo (regra), o modo, o tipo de exame, quanto veio do
+    cache e o raciocínio pedido — a auditoria de 14/10 teve de ADIVINHAR isso."""
     try:
         extra = ""
         if ms is not None:
@@ -1793,6 +2009,12 @@ def registrar(c, n_in, n_out, estado, usd=0.0, acumulado=0.0, modelo=None,
             extra += "\tpensou=%d" % pensou
         if imagens:
             extra += "\timg=%d" % imagens          # quantas, nunca o conteúdo
+        for nome, v in (("regra", regra), ("modo", modo), ("exame", exame), ("rac", rac),
+                        ("formato", formato)):
+            if v:
+                extra += "\t%s=%s" % (nome, re.sub(r"\s+", "_", str(v))[:40])
+        if cache_r:
+            extra += "\tcache_r=%d" % int(cache_r)
         with open(LOG, "a", encoding="utf-8") as f:
             f.write("%s\t%s\t%s\tin=%d\tout=%d\tusd=%.5f\tmes=%.4f%s\n" % (
                 datetime.datetime.now().isoformat(timespec="seconds"),

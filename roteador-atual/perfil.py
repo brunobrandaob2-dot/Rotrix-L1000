@@ -6,13 +6,17 @@ Entra no arquivo (.rotrix.zip):
   - dados/ouvido.tsv               as suas correções de ouvido
   - config.json                    ajustes, prompt do perfil e rota de IA por exame
   - aprendizado.json               pares de palavras aprendidos
+  - dados/minhas_regras.json       as frases que você mandou tirar/acrescentar
+                                   (sem o texto do pedido, só a regra)
   - dados/estilo/usuario_*.txt     SÓ se você pedir (são laudos seus)
 
 Nunca entra: chave de IA (chave_*.txt), gasto, base.sqlite (é gerada),
-o diagnóstico do Radius, a fila da estação e o sal do Radius.
+o diagnóstico do Radius, a fila da estação, o sal do Radius e o
+dados/correcoes.jsonl (guarda o texto que você ditou, que pode ter trecho de laudo).
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -29,20 +33,110 @@ CHAVES_CONFIG = ("prompt_perfil", "prompt_por_exame", "ia_por_exame", "modelo", 
                  "ativa", "gatilhos", "gatilhos_revisao", "limite_mes_usd", "marcar_saida",
                  "marca_inicio", "marca_fim", "rx_literal", "tc_literal", "alteradas_primeiro",
                  "perfil_automatico", "processador_colagem", "modo_ia", "temperatura",
-                 "max_tokens", "timeout_s")
-# nunca sai daqui
-PROIBIDO = ("chave", "api_key", "apikey", "token", "secret", "senha")
+                 "max_tokens", "timeout_s",
+                 # 16/10: sem estas o outro computador saía diferente (negrito, IA do
+                 # botão leve, de onde vêm as máscaras, raciocínio, laudo genérico...)
+                 "modelo_leve", "formato_titulos", "fonte_mascaras", "economizar",
+                 "ia_imagens", "laudo_generico", "raciocinio", "timeout_max_s",
+                 "teto_com_raciocinio", "cache", "modelo_barato", "modos_com_trava",
+                 "saida_por_diferenca")
+# nunca sai daqui: pelo NOME da chave...
+_NOME_PROIBIDO = re.compile(r"chave|api_?key|secret|senha|password|bearer|(?:^|_)token(?:_|$)", re.I)
+# ...e pelo VALOR (uma chave colada no lugar errado continua sendo chave)
+_VALOR_PROIBIDO = re.compile(r"\b(?:sk-[A-Za-z0-9_\-]{16,}|sk-ant-[A-Za-z0-9_\-]{8,}|AIza[0-9A-Za-z_\-]{20,}|"
+                             r"[A-Za-z0-9_\-]{40,})\b")
+PROIBIDO = ("chave", "api_key", "apikey", "secret", "senha")   # compatibilidade
+
+
+def _limpo(v):
+    """Tira do valor (recursivo) qualquer coisa com cara de chave. None = descartar."""
+    if isinstance(v, str):
+        w = _VALOR_PROIBIDO.sub("[removido]", v)
+        return None if w.strip() == "[removido]" else w
+    if isinstance(v, dict):
+        fora = {}
+        for k, x in v.items():
+            if _NOME_PROIBIDO.search(str(k)):
+                continue
+            y = _limpo(x)
+            if y is not None:
+                fora[k] = y
+        return fora
+    if isinstance(v, list):
+        return [y for y in (_limpo(x) for x in v) if y is not None]
+    return v
 
 
 def _sem_chave(cfg):
     fora = {}
     for k, v in (cfg or {}).items():
-        if k not in CHAVES_CONFIG:
+        if k not in CHAVES_CONFIG or _NOME_PROIBIDO.search(k):
             continue
-        if any(p in k.lower() for p in PROIBIDO):
-            continue
-        fora[k] = v
+        v = _limpo(v)
+        if v is not None:
+            fora[k] = v
     return fora
+
+
+ARQ_REGRAS = os.path.join(DADOS, "minhas_regras.json")
+_CAMPOS_REGRA = ("id", "tipo", "frase", "escopo", "errado", "certo", "quando", "ativa", "desativada")
+
+
+def _regras_exportaveis():
+    """As regras de tirar/acrescentar/ouvido, sem o texto do pedido (pode ter laudo)."""
+    try:
+        with open(ARQ_REGRAS, encoding="utf-8-sig") as f:
+            d = json.load(f)
+    except (OSError, ValueError):
+        return None
+    regras = [{k: r[k] for k in _CAMPOS_REGRA if k in r}
+              for r in (d.get("regras") or []) if isinstance(r, dict)
+              and str(r.get("tipo") or "") in ("tirar", "acrescentar", "ouvido")]
+    return {"regras": regras} if regras else None
+
+
+def _chave_regra(r):
+    return (str(r.get("tipo") or ""), re.sub(r"\s+", " ", str(r.get("frase") or r.get("errado") or "")).strip().lower(),
+            str(r.get("escopo") or "").strip().lower())
+
+
+def _juntar_regras(texto):
+    """As regras que chegam entram por baixo; as suas ficam (nada é apagado)."""
+    try:
+        novas = (json.loads(texto) or {}).get("regras") or []
+    except ValueError:
+        return 0
+    try:
+        with open(ARQ_REGRAS, encoding="utf-8-sig") as f:
+            d = json.load(f)
+        if not isinstance(d, dict) or not isinstance(d.get("regras"), list):
+            d = {"regras": []}
+    except (OSError, ValueError):
+        d = {"regras": []}
+    tem = {_chave_regra(r) for r in d["regras"] if isinstance(r, dict)}
+    ids = {str(r.get("id")) for r in d["regras"] if isinstance(r, dict)}
+    n = 0
+    for r in novas:
+        if not isinstance(r, dict) or str(r.get("tipo") or "") not in ("tirar", "acrescentar", "ouvido"):
+            continue
+        r = {k: r[k] for k in _CAMPOS_REGRA if k in r}
+        if _chave_regra(r) in tem:
+            continue
+        base, i = str(r.get("id") or "imp"), 2
+        while str(r.get("id")) in ids:
+            r["id"] = "%s-%d" % (base, i)
+            i += 1
+        d["regras"].append(r)
+        tem.add(_chave_regra(r))
+        ids.add(str(r["id"]))
+        n += 1
+    if n:
+        os.makedirs(DADOS, exist_ok=True)
+        tmp = ARQ_REGRAS + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(d, f, ensure_ascii=False, indent=2)
+        os.replace(tmp, ARQ_REGRAS)
+    return n
 
 
 def _arquivos_usuario(incluir_estilo=False):
@@ -71,7 +165,7 @@ def _arquivos_usuario(incluir_estilo=False):
 
 def _config():
     try:
-        with open(os.path.join(AQUI, "config.json"), encoding="utf-8") as f:
+        with open(os.path.join(AQUI, "config.json"), encoding="utf-8-sig") as f:
             return json.load(f)
     except (OSError, ValueError):
         return {}
@@ -93,10 +187,14 @@ def exportar(destino=None, incluir_estilo=False):
         "ouvido": any(n == "dados/ouvido.tsv" for _c, n in itens),
         "config": True,
     }
+    regras = _regras_exportaveis()
+    manifesto["regras"] = len(regras["regras"]) if regras else 0
     tmp = destino + ".tmp"
     with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as z:
         z.writestr("perfil.json", json.dumps(manifesto, ensure_ascii=False, indent=2))
         z.writestr("config.json", json.dumps(_sem_chave(_config()), ensure_ascii=False, indent=2))
+        if regras:
+            z.writestr("dados/minhas_regras.json", json.dumps(regras, ensure_ascii=False, indent=2))
         for caminho, nome in itens:
             z.write(caminho, nome)
     os.replace(tmp, destino)
@@ -109,7 +207,8 @@ def _seguro(nome):
     n = nome.replace("\\", "/").lstrip("/")
     if ".." in n.split("/"):
         return None
-    if n in ("perfil.json", "config.json", "aprendizado.json", "dados/ouvido.tsv"):
+    if n in ("perfil.json", "config.json", "aprendizado.json", "dados/ouvido.tsv",
+             "dados/minhas_regras.json"):
         return n
     if n.startswith("dados/mascaras_usuario/") and n.lower().endswith(".txt"):
         return n
@@ -123,7 +222,7 @@ def _juntar_ouvido(novo_texto):
     destino = os.path.join(DADOS, "ouvido.tsv")
     atuais = []
     if os.path.exists(destino):
-        with open(destino, encoding="utf-8") as f:
+        with open(destino, encoding="utf-8-sig") as f:
             atuais = f.read().splitlines()
     tem = {l.split("\t")[0].strip().lower() for l in atuais if "\t" in l and not l.startswith("#")}
     novas = [l for l in novo_texto.splitlines()
@@ -141,11 +240,11 @@ def importar(arquivo, modo="juntar"):
     arquivo = os.path.expandvars(os.path.expanduser(arquivo or ""))
     if not os.path.exists(arquivo):
         return {"ok": False, "motivo": "arquivo_nao_encontrado"}
-    res = {"ok": True, "mascaras": 0, "laudos_de_estilo": 0, "ouvido": 0, "config": False}
+    res = {"ok": True, "mascaras": 0, "laudos_de_estilo": 0, "ouvido": 0, "config": False, "regras": 0}
     with zipfile.ZipFile(arquivo) as z:
         nomes = [n for n in z.namelist() if not n.endswith("/")]
         try:
-            manifesto = json.loads(z.read("perfil.json").decode("utf-8"))
+            manifesto = json.loads(z.read("perfil.json").decode("utf-8-sig"))
         except (KeyError, ValueError):
             return {"ok": False, "motivo": "nao_e_um_perfil_rotrix"}
         if manifesto.get("marca") != MARCA:
@@ -160,11 +259,14 @@ def importar(arquivo, modo="juntar"):
             if seguro == "perfil.json":
                 continue
             if seguro == "dados/ouvido.tsv":
-                res["ouvido"] = _juntar_ouvido(dados.decode("utf-8", "replace"))
+                res["ouvido"] = _juntar_ouvido(dados.decode("utf-8-sig", "replace"))
+                continue
+            if seguro == "dados/minhas_regras.json":
+                res["regras"] = _juntar_regras(dados.decode("utf-8-sig", "replace"))
                 continue
             if seguro == "config.json":
                 atual = _config()
-                atual.update(_sem_chave(json.loads(dados.decode("utf-8", "replace"))))
+                atual.update(_sem_chave(json.loads(dados.decode("utf-8-sig", "replace"))))
                 with open(os.path.join(AQUI, "config.json"), "w", encoding="utf-8") as f:
                     json.dump(atual, f, ensure_ascii=False, indent=2)
                 res["config"] = True

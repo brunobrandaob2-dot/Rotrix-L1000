@@ -46,6 +46,21 @@ nada, rode INICIAR.ps1.
     a IA não descreve; tudo o que ela acrescentar ou trocar (palavra,
     número, unidade, lado, negação) aparece numa linha
     [conferir — ...] no topo do laudo. Apague a linha depois de conferir.
+    A IA escolhida na barra (diferente do Modelo padrão) vence a tabela
+    naquele laudo: dá para usar o Luna numa TC simples.
+
+ RESPOSTA POR DIFERENÇA (16/10)
+    Laudo de 8 linhas ou mais vai para a IA com as linhas numeradas, e
+    ela devolve só as que mudam; o roteador aplica. Escrever o laudo
+    inteiro de novo era o que mais pesava no tempo. Se a resposta vier
+    fora do formato, o roteador pede de novo do jeito antigo.
+    Desligar: "saida_por_diferenca": false no config.json.
+
+ TESTE ÀS CEGAS (TESTE_CEGO_IA.bat)
+    20 ditados INVENTADOS de TC em três IAs (Sol padrão, Sol com
+    raciocínio baixo, Luna sem raciocínio), embaralhadas. Mostra o custo
+    estimado e pergunta antes. Abre logs_teste\teste_cego_<data>\
+    TESTE_CEGO.html; o GABARITO.html só depois de escolher.
 
 
 ────────────────────────────────────────────────────────────────

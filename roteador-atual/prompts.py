@@ -50,7 +50,8 @@ RECEITAS = {
 # cada achado vão no pedido, só nessa chamada.
 # ROTEADO (02/10): o switch "roteador" do botão de raciocínio ligado -> a tela já tem o que
 # o roteador encaixou, e a IA confere isso contra a fala.
-BLOCOS_DO_PEDIDO = ("IMAGEM", "DESCREVA", "ROTEADO")
+# DIFERENCA (16/10): laudo inteiro com as linhas numeradas; a IA devolve só o que muda.
+BLOCOS_DO_PEDIDO = ("IMAGEM", "DESCREVA", "ROTEADO", "DIFERENCA")
 
 _cache = {"mtime": None, "blocos": None}
 

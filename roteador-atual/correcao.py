@@ -200,7 +200,8 @@ def _pela_ia(texto, nuvem, config):
         return []
     try:
         c = dict(config or {})
-        resposta, origem = nuvem.chamar(_PROMPT_IA + texto.strip()[:800], c, modo="analise")
+        resposta, origem = nuvem.chamar(_PROMPT_IA + texto.strip()[:800], c, modo="analise",
+                                        tarefa="correcao")
     except Exception:
         return []
     if not resposta or origem != "nuvem":
@@ -314,6 +315,16 @@ def _vale(regra, origem):
     return _n(esc) in _n(origem or "")
 
 
+_SECAO_DE_LAUDO = re.compile(r"^\s*\**\s*(?:T[ÉE]CNICA|AN[ÁA]LISE|CONCLUS[ÃA]O|IMPRESS[ÃA]O)\b", re.I | re.M)
+
+
+def _laudo_inteiro(texto, origem=""):
+    o = (origem or "").lower()
+    if o.startswith(("mascara", "composto", "rx_literal", "tc_literal", "estruturad", "lyon")):
+        return True
+    return bool(_SECAO_DE_LAUDO.search(texto or ""))
+
+
 def aplicar_regras(texto, origem=""):
     """Tira as frases que o médico mandou tirar e põe as que ele mandou pôr."""
     tirar, acrescentar = _regras_ativas()
@@ -323,6 +334,11 @@ def aplicar_regras(texto, origem=""):
     fora = [_n(r["frase"]) for r in tirar if _vale(r, origem) and r.get("frase")]
     if fora:
         linhas = [l for l in linhas if not (l.strip() and _n(l) in fora)]
+    # 16/10 (auditoria 3.7): "sempre acrescentar a frase X" é regra de LAUDO. Sem
+    # exame no pedido ela ficava sem escopo e entrava depois de cada frase ditada
+    # (e até do ditado cru por estouro de tempo). Só entra em laudo inteiro.
+    if not _laudo_inteiro(texto, origem):
+        acrescentar = []
     for r in acrescentar:
         if not _vale(r, origem) or not r.get("frase"):
             continue

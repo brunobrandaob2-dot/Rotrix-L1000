@@ -20,6 +20,13 @@ O bloco **IMAGEM** não entra no prompt de sistema: vai no PEDIDO, só quando o 
 leva imagem (print recortado com as medidas). Assim o prompt de sistema continua igual e o
 cache não se perde nas chamadas sem imagem.
 
+O bloco **DIFERENCA** (16/10) também vai no PEDIDO, só no laudo inteiro de 8 linhas ou mais
+(botão de IA da folha, "revisar laudo", instrução sobre o laudo selecionado): as linhas vão
+numeradas e a IA devolve só as que mudam. Escrever um laudo de 40 linhas para trocar duas
+era o que mais pesava no tempo de resposta. O roteador aplica a troca; resposta fora do
+formato faz uma segunda chamada no modo antigo (laudo inteiro). Desligue com
+`"saida_por_diferenca": false` no config.json.
+
 O bloco **DESCREVA** (02/10) também vai no PEDIDO, só quando ele usa o botão de raciocínio:
 o ditado chega cru, sem gatilho e sem frase do banco, e a IA escreve a descrição padrão de
 cada achado.
@@ -464,3 +471,21 @@ Confira o que ele encaixou contra o DITADO:
 - achado ditado que ele não encaixou, ou encaixou diferente (lado, grau, local, número),
   você descreve ou corrige pelas regras acima;
 - não mexa no que não tem relação com o ditado de agora (o resto do laudo da tela fica).
+
+<!-- BLOCO: DIFERENCA -->
+RESPOSTA POR DIFERENÇA. As linhas do laudo na tela vêm numeradas (#1, #2, ...). Faça o
+trabalho de sempre, com todas as regras acima, mas NÃO reescreva o laudo: devolva só as
+linhas que mudam, uma por linha, neste formato:
+#7: o texto completo, já corrigido, da linha 7
+#7+: uma linha nova logo depois da linha 7 (várias #7+ entram na ordem em que vierem)
+#0+: uma linha nova antes da linha 1
+#9: (apagar)
+- O número é sempre o da linha na tela.
+- A linha trocada vai inteira, com o rótulo e as marcas ** que ela tinha, sem o "#7:" dentro
+  do texto.
+- Linha que fica igual não aparece.
+- Juntar duas linhas: troque a primeira e apague a segunda.
+- Nada de explicação, cabeçalho ou bloco de código.
+Se nada precisa mudar, devolva exatamente: SEM MUDANÇAS
+Se for mudar mais da metade das linhas, devolva o laudo inteiro, sem números, como faria
+sem esta regra.

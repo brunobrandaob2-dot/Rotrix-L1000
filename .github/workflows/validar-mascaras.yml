@@ -81,6 +81,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_ler_print.py
       - name: Mascaras editaveis, Por no laudo e a mascara de voz do Lyon
         run: LAUDO_BASE=/tmp/base.sqlite python testar_mascaras_editar.py
+      - name: Fase 1 da auditoria de 14/10 (resposta por diferenca, rotas, triagem, perfil, gasto)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_fase1.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)

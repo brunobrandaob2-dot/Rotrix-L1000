@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-10-03.3"
+VERSAO = "2026-10-16.1"
 
 
 def _impressao_do_codigo():
@@ -166,6 +166,11 @@ class Banco:
         self.lock = threading.Lock()
         self.itens = []          # (tipo, gatilho_norm, titulo, texto)
         self.meta = {}
+        # 16/10 (auditoria 3.6): sobe a cada carga. Os caches derivados do banco
+        # (vocabulário, máscara normal por região, índice...) comparavam o NÚMERO de
+        # itens: editar o texto de uma máscara sem mudar gatilho não renovava nada, e o
+        # raciocínio com a folha vazia seguia com a máscara antiga até reiniciar.
+        self.geracao = 0
         self.carregar()
     def carregar(self):
         """Lê a base. Se a leitura falhar (arquivo sendo refeito, vazio, corrompido),
@@ -205,6 +210,7 @@ class Banco:
                 itens.append(tuple(r[:6]))
                 meta.setdefault(r[2], tuple(x or "" for x in r[6:10]))
             self.itens, self.meta, self.mtime = itens, meta, mtime
+            self.geracao += 1
             print(f"base carregada: {len(self.itens)} gatilhos", flush=True)
     def atualizada(self):
         """Recarrega sozinho se a base.sqlite foi trocada no disco."""
@@ -662,14 +668,14 @@ _CABECAS = {"n": None, "set": set()}
 def _cabecas_de_achado():
     """Radicais (7 letras) dos substantivos que abrem gatilho de bloco: os NOMES de
     achado do banco (derrame, atelectasia...). "idoso" e "alteracoes" não são achado."""
-    if _CABECAS["n"] != len(BANCO.itens):
+    if _CABECAS["n"] != BANCO.geracao:
         c = set()
         for t, g, tit, txt, sec, con in BANCO.itens:
             if t == "bloco" and g:
                 n = _nucleo(g.split())
                 if n:
                     c.add(n[:7])
-        _CABECAS.update(n=len(BANCO.itens), set=c)
+        _CABECAS.update(n=BANCO.geracao, set=c)
     return _CABECAS["set"]
 
 
@@ -1244,12 +1250,17 @@ def _limpas(frases):
     return fora
 
 
+# aviso que o próprio sistema escreve entre colchetes: nunca é lacuna
+_AVISO_DO_SISTEMA = re.compile(
+    r"^\s*\[(?:\[|n[ãa]o enviei|conferir|a IA parou|pedido de descri)", re.I)
+
+
 def generalizar(texto):
     """Passa o laudo inteiro. Titulo e cabecalho nao sao tocados."""
     fora = []
     for linha in (texto or "").split("\n"):
         s = linha.strip()
-        if not s or s.startswith("**") and s.endswith("**"):
+        if not s or s.startswith("**") and s.endswith("**") or _AVISO_DO_SISTEMA.match(s):
             fora.append(linha)
             continue
         if not _LACUNA.search(linha):
@@ -1264,12 +1275,32 @@ def generalizar(texto):
     return "\n".join(fora)
 
 
+_COLADOR = {"quando": 0.0, "tem": False}
+
+
+def _colador_presente():
+    """O colador com negrito (colador.exe do app, ou o processador do Handy) existe?
+    16/10 (auditoria 2.x): instalação nova do app não tinha formato_titulos no
+    config, o padrão era "texto" e o colador recebia o laudo SEM as marcas — fora do
+    Rotrix o laudo colava sem negrito. Sem a chave no config, o padrão segue o colador."""
+    agora = time.time()
+    if agora - _COLADOR["quando"] > 30:
+        aqui = os.path.dirname(os.path.abspath(__file__))
+        cands = (os.environ.get("ROTEADOR_COLADOR") or "", os.path.join(aqui, "colador.exe"),
+                 os.path.join(os.environ.get("APPDATA", ""), "com.pais.handy",
+                              "handy_radiology_paste.exe") if os.environ.get("APPDATA") else "")
+        _COLADOR["tem"] = any(c and os.path.exists(c) for c in cands)
+        _COLADOR["quando"] = agora
+    return _COLADOR["tem"]
+
+
 def formatar_saida(texto):
     """Os cabecalhos vem marcados como **TECNICA:** no banco.
     formato_titulos = "texto"    -> tira as marcas (cola texto puro)
                       "rico"     -> mantem; o colar.exe converte em negrito
-                      "markdown" -> mantem as marcas como estao"""
-    modo = (_config().get("formato_titulos") or "texto").lower()
+                      "markdown" -> mantem as marcas como estao
+    Sem a chave no config: "rico" se o colador existe, senão "texto"."""
+    modo = (_config().get("formato_titulos") or ("rico" if _colador_presente() else "texto")).lower()
     if modo in ("rico", "markdown"):
         # rotulos da ANALISE ("Figado:") tambem em negrito
         return formato.negritar_rotulos(texto)
@@ -1366,7 +1397,7 @@ def revisar_local(texto):
         # com o processador de colagem ativo, os comandos falados ("parágrafo",
         # "nova linha", "vírgula"...) ficam com ELE, que vale para os dois atalhos
         # e tem a semantica que o Bruno refinou no v8
-        pont = not _config().get("processador_colagem", False)
+        pont = not _config().get("processador_colagem", _colador_presente())
         return _com_ponto_final(revisor.revisar(texto, pontuacao=pont))
     except Exception:
         return texto
@@ -1443,13 +1474,13 @@ frase frases achado achados adendo mascara modelo revisar revisao corrigir anali
 comparar recist direito direita esquerdo esquerda bilateral""".split())
 
 def _vocab():
-    if _VOCAB["n"] != len(BANCO.itens):
+    if _VOCAB["n"] != BANCO.geracao:
         c = collections.Counter()
         for t, g, tit, txt, sec, con in BANCO.itens:
             for w in (g + " " + normalizar(txt or "")).split():
                 if len(w) >= 4 and not w.isdigit():
                     c[w] += 1
-        _VOCAB.update(n=len(BANCO.itens), set=set(c), lista=[w for w, _ in c.most_common()])
+        _VOCAB.update(n=BANCO.geracao, set=set(c), lista=[w for w, _ in c.most_common()])
     return _VOCAB
 
 # ---------- s / z / c / ss: o reconhecimento de voz troca ("risartrose",
@@ -1461,13 +1492,13 @@ _PAL_TXT = re.compile(r"[A-Za-zÀ-ÿ]+")
 
 
 def _formas_do_banco():
-    if _GRAFIA["n"] != len(BANCO.itens):
+    if _GRAFIA["n"] != BANCO.geracao:
         cont = collections.defaultdict(collections.Counter)
         for t, g, tit, txt, sec, con in BANCO.itens:
             for w in _PAL_TXT.findall(txt or ""):
                 if len(w) >= 5:
                     cont[normalizar(w)][w.lower()] += 1
-        _GRAFIA.update(n=len(BANCO.itens), forma={k: c.most_common(1)[0][0] for k, c in cont.items()})
+        _GRAFIA.update(n=BANCO.geracao, forma={k: c.most_common(1)[0][0] for k, c in cont.items()})
     return _GRAFIA["forma"]
 
 
@@ -1619,7 +1650,7 @@ def _indice_achados():
     SIGNIFICADO (palavras em comum) em vez de por semelhanca de letras — "coracao
     aumentado de volume" casava com "rotacao no exame" quando a conta era so
     SequenceMatcher."""
-    if _INDICE["n"] != len(BANCO.itens):
+    if _INDICE["n"] != BANCO.geracao:
         itens = []
         for t, g, tit, txt, sec, con in BANCO.itens:
             if t not in ("frase", "bloco") or not txt:
@@ -1631,7 +1662,7 @@ def _indice_achados():
             itens.append((tit, g, linha, meta[2] or "", t,
                           _raizes(g.split()),
                           _raizes(normalizar(corpo).split())))
-        _INDICE.update(n=len(BANCO.itens), itens=itens)
+        _INDICE.update(n=BANCO.geracao, itens=itens)
     return _INDICE["itens"]
 
 
@@ -1815,7 +1846,11 @@ def rotear(ditado, _auto=False):
     Envelope do _rotear: o que sai passa pelo modo generico, para lacuna de
     DETALHE nao chegar na tela. Ele lauda urgencia: nao mede Cobb no plantao."""
     texto, origem = _rotear(ditado, _auto)
-    if texto and _config().get("laudo_generico", True):
+    # 16/10 (auditoria 3.1): a resposta da NUVEM não passa pelo modo genérico. Ele
+    # apaga o que está entre colchetes e comia a marca "[[ análise assistida ... ]]"
+    # (sobrava "] (gpt-6-luna · US$ ...)" colado no laudo) e o aviso
+    # "[não enviei para a nuvem: o texto contém CPF]" (o texto ia sem o aviso).
+    if texto and not str(origem).startswith("nuvem") and _config().get("laudo_generico", True):
         try:
             texto = generalizar(texto)
         except Exception as e:
@@ -1856,6 +1891,9 @@ def _rotear(ditado, _auto=False):
             if novo and origem == "nuvem":
                 return formato.padronizar(novo), "nuvem_instrucao"
             return sel, origem
+        # 16/10 (auditoria 3.8): sem texto selecionado não há laudo para instruir;
+        # antes a própria instrução ("Melhore a conclusão.") era colada no laudo
+        return "", "instrucao_sem_selecao"
 
     # --- rota de nuvem: so por gatilho explicito ---
     if nuvem is not None:
@@ -1869,6 +1907,12 @@ def _rotear(ditado, _auto=False):
             for g, modo in rotas:
                 gn = normalizar(g)
                 if gn and (n == gn or n.startswith(gn + " ")):
+                    # 16/10 (auditoria 3.8): "Análise: fígado com esteatose" é o nome da
+                    # SEÇÃO ditado, não o comando — com dois-pontos não vai para a nuvem
+                    k = len(gn.split())
+                    m_sec = re.match(r"^\s*(\S+(?:\s+\S+){%d})\s*:" % (k - 1), bruto)
+                    if m_sec and normalizar(m_sec.group(1)) == gn:
+                        continue
                     pedido = bruto[len(g):].strip(" ,.:;-") or bruto
                     if modo == "revisao" and os.name == "nt" and \
                             normalizar(pedido) in ("", "laudo", "o laudo", "texto", "o texto", n):
@@ -1882,6 +1926,9 @@ def _rotear(ditado, _auto=False):
                             if novo and origem == "nuvem":
                                 return formato.padronizar(novo), "nuvem_laudo_inteiro"
                             return sel, origem
+                        # 16/10 (auditoria 3.8): "revisar laudo" sem nada selecionado
+                        # mandava "Revisar laudo." para a nuvem e colava a resposta
+                        return "", "revisar_sem_selecao"
                     if modo == "revisao":
                         # manda para a nuvem o texto JA passado pela revisao
                         # local: o modelo so precisa resolver o que sobrou
@@ -1894,6 +1941,10 @@ def _rotear(ditado, _auto=False):
                     # nuvem indisponivel: cai na revisao local e segue
                     if modo == "revisao":
                         return revisar_local(pedido), "revisado_local_sem_nuvem"
+                    # 16/10 (auditoria 3.3): segue no local SEM a palavra de comando —
+                    # antes colava "Analisar nódulo..." no laudo
+                    original = pedido
+                    bruto = grafia_sz(ouvido_fixo(_sem_preambulo(pedido)))
                     break
 
     # OUVIDO: o que o reconhecimento de voz errou, antes de procurar
@@ -2217,7 +2268,7 @@ def _rad_tc(texto, minimo=4):
 
 def _vocab_rotulos(reg):
     """{rotulo_norm: Counter(radicais)} dos blocos do banco da regiao."""
-    if _VOC_ROT["n"] != len(BANCO.itens):
+    if _VOC_ROT["n"] != BANCO.geracao:
         por = {}
         for t, g, tit, txt, sec, con in BANCO.itens:
             if t != "bloco" or not sec:
@@ -2228,7 +2279,7 @@ def _vocab_rotulos(reg):
             d = por.setdefault(tuple(m[:3]), {})
             c = d.setdefault(normalizar(sec), collections.Counter())
             c.update(_rad_tc(g) | _rad_tc(txt or ""))
-        _VOC_ROT.update(n=len(BANCO.itens), por=por)
+        _VOC_ROT.update(n=BANCO.geracao, por=por)
     return _VOC_ROT["por"].get(tuple(reg), {})
 
 
@@ -2544,7 +2595,7 @@ _LADO_W = set("direito direita esquerdo esquerda bilateral bilaterais ambos lado
 
 def _normais_da_regiao(meta):
     """Gatilhos das mascaras NORMAIS da mesma regiao: [(gatilho, titulo, texto)]."""
-    if _NORMAIS["n"] != len(BANCO.itens):
+    if _NORMAIS["n"] != BANCO.geracao:
         por = {}
         for t, g, tit, txt, sec, con in BANCO.itens:
             m = BANCO.meta.get(tit, ("",) * 4)
@@ -2552,7 +2603,7 @@ def _normais_da_regiao(meta):
                 por.setdefault(m[:3], []).append((g, tit, txt))
         for k in por:
             por[k].sort(key=lambda x: -len(x[0]))
-        _NORMAIS.update(n=len(BANCO.itens), por_regiao=por)
+        _NORMAIS.update(n=BANCO.geracao, por_regiao=por)
     return _NORMAIS["por_regiao"].get(tuple(meta[:3]), [])
 
 
@@ -3169,7 +3220,10 @@ class Handler(BaseHTTPRequestHandler):
             body = json.loads(self.rfile.read(n).decode("utf-8") or "{}")
             ditado = extrair_ditado(body)
             texto, origem = rotear(ditado)
-            if (not origem.startswith("nuvem")) and (time.time() - t0 > ORCAMENTO_S):
+            # 16/10 (auditoria 3.3): o teto de 8 s é do roteamento LOCAL. Se a nuvem foi
+            # tentada (até "revisado_local_sem_nuvem"), a espera foi dela: devolver o ditado
+            # cru jogava fora a revisão local pronta e colava "revisar ..." no laudo.
+            if ("nuvem" not in origem) and (time.time() - t0 > ORCAMENTO_S):
                 texto, origem = ditado, "estouro_de_tempo"
             if correcao_mod is not None:
                 try:
@@ -3645,7 +3699,7 @@ def ler_print(alvo, imagem, extra=None):
         dados = None
     if not isinstance(dados, dict):
         return {"ok": False, "motivo": "resposta_fora_do_formato"}
-    u = dict(getattr(nuvem, "ULTIMA", {}) or {})
+    u = nuvem.ultima_desta_chamada() or dict(getattr(nuvem, "ULTIMA", {}) or {})
     recibo = {"modelo": u.get("modelo"), "custo_usd": u.get("usd"), "mes_usd": u.get("mes_usd")}
     if alvo == "idade_ossea":
         if dados.get("erro"):
@@ -3784,7 +3838,7 @@ def atualizar_anterior(anterior, mudancas, modelo=""):
     partes = [_ATUALIZAR_REGRAS, "",
               "LAUDO ANTERIOR:", corpo[:16000], "",
               "O QUE ESTÁ DIFERENTE HOJE (palavras do radiologista):", mudancas[:4000]]
-    texto, origem = nuvem.chamar("\n".join(partes), c, modo="instrucao",
+    texto, origem = nuvem.chamar("\n".join(partes), c, modo="instrucao", tarefa="atualizar",
                                  marcar=False, max_tokens=4000)
     if origem != "nuvem" or not texto:
         return {"ok": False, "motivo": origem}
@@ -3838,7 +3892,7 @@ def checklist_do_anterior(anterior, modelo=""):
     if achados:
         return {"ok": False, "motivo": "tem_identificador", "achados": sorted(set(achados))}
     texto, origem = nuvem.chamar(_CHECKLIST_REGRAS + "\n\nLAUDO ANTERIOR:\n" + corpo[:16000],
-                                 c, modo="instrucao", marcar=False, max_tokens=2000)
+                                 c, modo="instrucao", marcar=False, max_tokens=2000, tarefa="checklist")
     if origem != "nuvem" or not texto:
         return {"ok": False, "motivo": origem}
     dados = _so_json_comparativo(texto)
@@ -3903,7 +3957,7 @@ def comparativo(anterior, atual, modelo=""):
     partes = [_COMPARATIVO_REGRAS, "",
               "EXAME ANTERIOR:", corpos[0][:16000], "",
               "EXAME ATUAL:", corpos[1][:16000]]
-    texto, origem = nuvem.chamar("\n".join(partes), c, modo="instrucao",
+    texto, origem = nuvem.chamar("\n".join(partes), c, modo="instrucao", tarefa="comparativo",
                                  marcar=False, max_tokens=3000)
     if origem != "nuvem" or not texto:
         return {"ok": False, "motivo": origem}
@@ -4201,7 +4255,8 @@ def mascaras_ia(instrucao, busca="", limite=25, texto="", aplicar=None, desfazer
                 "recado": "não achei máscara parecida com esse pedido — diga a região "
                           "(por exemplo: joelho, tórax) ou cole a máscara inteira."}
     pedido = oficina.montar_pedido(instrucao, texto, escolhidas)
-    resposta, origem = nuvem.chamar(pedido, c, modo="instrucao", marcar=False, max_tokens=4000)
+    resposta, origem = nuvem.chamar(pedido, c, modo="instrucao", marcar=False, max_tokens=4000,
+                                    tarefa="oficina")
     if origem != "nuvem" or not resposta:
         return {"ok": False, "motivo": origem, "lidas": len(escolhidas)}
     dados = oficina._so_json(resposta)
@@ -4283,7 +4338,7 @@ def adendo(laudo, pedido, tipo="livre", modelo=""):
               "SITUAÇÃO: " + instrucao, "",
               "PEDIDO DO RADIOLOGISTA:", pedido, "",
               "LAUDO JÁ ASSINADO (para referência):", corpo[:20000]]
-    texto, origem = nuvem.chamar("\n".join(partes), c, modo="instrucao",
+    texto, origem = nuvem.chamar("\n".join(partes), c, modo="instrucao", tarefa="adendo",
                                  marcar=False, max_tokens=3000)
     if origem == "nuvem" and texto:
         return {"ok": True, "texto": texto.strip(), "quando": quando,
@@ -4340,7 +4395,7 @@ _GATILHO_NORMAL = {"n": None, "mapa": {}}
 
 def _gatilhos_de_mascara_normal():
     """{gatilho normalizado: (titulo, texto)} só das máscaras NORMAIS (o nome do exame)."""
-    if _GATILHO_NORMAL["n"] != len(BANCO.itens):
+    if _GATILHO_NORMAL["n"] != BANCO.geracao:
         mapa = {}
         for t, g, tit, txt, _s, _c in BANCO.itens:
             if t != "mascara" or not g or not txt:
@@ -4348,7 +4403,7 @@ def _gatilhos_de_mascara_normal():
             meta = BANCO.meta.get(tit) or ()
             if len(meta) >= 4 and str(meta[3]).startswith("normal"):
                 mapa.setdefault(g, (tit, txt))
-        _GATILHO_NORMAL.update(n=len(BANCO.itens), mapa=mapa)
+        _GATILHO_NORMAL.update(n=BANCO.geracao, mapa=mapa)
     return _GATILHO_NORMAL["mapa"]
 
 
@@ -4378,6 +4433,35 @@ def _mascara_do_ditado(ditado):
             resto = " ".join(palavras[k:]).strip(" ,.;:-")
             return formatar_saida(achou[1]), resto
     return "", bruto
+
+
+def _laudo_pela_ia(pedido, c, **extra):
+    """nuvem.chamar no modo laudo, com a resposta por diferença quando dá (16/10).
+
+    Devolve (texto, origem, formato). formato: "dif", "sem_mudancas", "inteiro",
+    "inteiro_apos_dif" (o remendo veio fora do formato e a 2a chamada foi no modo
+    antigo) ou "" (diferença não usada: laudo curto, imagem, ditado, desligada)."""
+    dif = bool(c.get("saida_por_diferenca", True)) and not extra.get("imagens") \
+        and not extra.get("analise")
+    novo, origem = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000,
+                                diferenca=dif, **extra)
+    if origem != "nuvem" or not novo:
+        return novo, origem, ""
+    u = nuvem.ultima_desta_chamada()
+    if u.get("formato") != "dif":
+        return novo, origem, ""
+    aplicado, formato = nuvem.aplicar_diferenca(pedido, novo)
+    if aplicado is not None:
+        return aplicado, origem, formato
+    # remendo fora do formato: refaz UMA vez no modo antigo (laudo inteiro)
+    nuvem.registrar(c, 0, 0, "dif_invalida", modelo=u.get("modelo"), regra=u.get("regra", ""),
+                    modo=u.get("modo", ""), formato="dif")
+    usd1 = float(u.get("usd") or 0)
+    novo, origem = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000, **extra)
+    v = getattr(nuvem, "_ULTIMA_DESTA", None)
+    if v is not None and isinstance(getattr(v, "v", None), dict):
+        v.v["usd"] = round(float(v.v.get("usd") or 0) + usd1, 5)   # o recibo soma as duas
+    return novo, origem, "inteiro_apos_dif"
 
 
 def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado=False):
@@ -4461,7 +4545,7 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
         extra["imagens"] = imgs
     if ditado:
         extra["analise"] = True       # raciocínio: a linha "Só formatar" cede ao padrão
-    novo, origem = nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000, **extra)
+    novo, origem, formato_resp = _laudo_pela_ia(pedido, c, **extra)
     if origem == "nuvem" and novo:
         if not imgs and not ditado:
             # com imagem a IA ACRESCENTA (as medidas): isso não é par "errado -> certo"
@@ -4469,14 +4553,16 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
                 _aprender(texto, novo)
             except Exception:
                 pass
-        u = dict(getattr(nuvem, "ULTIMA", {}) or {})
+        u = nuvem.ultima_desta_chamada() or dict(getattr(nuvem, "ULTIMA", {}) or {})
         return {"ok": True, "texto": novo, "origem": origem, "imagens": len(imgs),
                 "ditado": bool(ditado),
                 "modelo": u.get("modelo") or c.get("modelo"),
                 "custo_usd": u.get("usd"), "mes_usd": u.get("mes_usd"),
                 "economia": u.get("economia", False),
                 # cache: a tela diz se o prompt de sistema saiu por 10% ou inteiro
-                "cache": u.get("cache", ""), "cache_lido": u.get("cache_lido", 0)}
+                "cache": u.get("cache", ""), "cache_lido": u.get("cache_lido", 0),
+                # 16/10: "dif" = a IA devolveu só as linhas que mudaram
+                "formato": formato_resp}
     if origem == "nuvem_bloqueada":
         return _resposta_bloqueada(texto, tela, ditado, instrucao)
     return {"ok": False, "motivo": origem, "texto": texto}
@@ -4514,8 +4600,8 @@ def _config_leve():
     não mandava em nada: o leve monta pela máscara, na máquina, e a nuvem só entra
     por comando de voz ("revisar ...", "analisar ...", "formar laudo com IA"). Agora
     a escolha da barra vai para config.json (modelo_leve) e manda nessas chamadas.
-    Nos exames com regra na tabela por exame, a tabela continua mandando (igual ao
-    botão forte). Vazio: o Modelo padrão, como antes."""
+    16/10: escolha DIFERENTE do Modelo padrão vence a tabela por exame (como no botão
+    forte; pedido dele: Luna também na TC). Vazio: o Modelo padrão, e a tabela manda."""
     c = nuvem.config()
     m = str(c.get("modelo_leve") or "").strip()
     return nuvem.com_modelo(c, m) if m else c
@@ -4530,8 +4616,7 @@ def revisar_laudo_inteiro(texto, leve=False):
     if not c.get("ativa"):
         return None, "nuvem_desligada"
     texto = juntar_rotulos_repetidos(texto)
-    novo, origem = nuvem.chamar("LAUDO NA TELA:\n" + texto, c, modo="laudo",
-                                marcar=False, max_tokens=4000)
+    novo, origem, _f = _laudo_pela_ia("LAUDO NA TELA:\n" + texto, c)
     if origem == "nuvem" and novo:
         _aprender(texto, novo)
     return novo, origem
@@ -4545,7 +4630,8 @@ def instruir_laudo(texto, instrucao):
     if not c.get("ativa"):
         return None, "nuvem_desligada"
     pedido = "INSTRUÇÃO FALADA: %s\n\nLAUDO NA TELA:\n%s" % (instrucao.strip(), texto)
-    return nuvem.chamar(pedido, c, modo="laudo", marcar=False, max_tokens=4000)
+    novo, origem, _f = _laudo_pela_ia(pedido, c)
+    return novo, origem
 
 
 def _base_em_dia():
