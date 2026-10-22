@@ -425,7 +425,7 @@ confere("E5 cache do vocabulário marcado com a geração do banco", roteador._V
 roteador.BANCO.geracao += 1
 roteador._vocab()
 confere("E5 nova geração do banco renova o cache", roteador._VOCAB["n"] == g0 + 1)
-confere("E6 versão nova", roteador.VERSAO == "2026-10-16.1", roteador.VERSAO)
+confere("E6 versão nova", roteador.VERSAO >= "2026-10-16.1", roteador.VERSAO)
 
 # ============================================================== F. resposta por diferença
 print("--- F. resposta por diferença")

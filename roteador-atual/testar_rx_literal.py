@@ -75,6 +75,24 @@ CASOS = [
      ["Prótese com redução da densidade óssea."], ["Densidade óssea preservada"]),
     ("Raio x de tórax, espondilose torácica, fratura consolidada do arco costal esquerdo.",
      ["Campos pulmonares sem opacidades focais."], ["Arcabouço ósseo sem alterações"]),
+    # 22/10, ele: o "e" entre peças de osteossíntese não separa — é um conjunto só, no lugar dito
+    ("raio x de punho direito com placa e parafusos metálicos fixados no rádio distal",
+     ["Placa e parafusos metálicos fixados no rádio distal."], ["\nPlaca.\n", "\nParafusos metálicos"]),
+    ("raio x do punho esquerdo com placa e parafusos metálicos no rádio distal e fratura consolidada da ulna",
+     ["Placa e parafusos metálicos no rádio distal.", "Fratura consolidada da ulna."], ["\nPlaca.\n"]),
+    ("raio x de fêmur esquerdo com haste intramedular e parafusos de bloqueio",
+     ["Haste intramedular e parafusos de bloqueio."], ["\nHaste intramedular.\n"]),
+    ("raio x de punho direito com placa, parafusos e fios de kirschner no rádio distal",
+     ["Placa, parafusos e fios de Kirschner no rádio distal."], ["\nPlaca.\n", "kirschner"]),
+    ("raio x de quadril direito com artroplastia total do quadril e fios de cerclagem",
+     ["Artroplastia total do quadril e fios de cerclagem."], []),
+    # cada peça com o SEU lugar continua separada; e o "e" entre achados de verdade também
+    ("raio x do antebraço direito com placa no rádio e parafusos na ulna",
+     ["Placa no rádio.", "Parafusos na ulna."], []),
+    ("raio x de tórax no leito com tubo orotraqueal e sonda nasogástrica",
+     ["Tubo orotraqueal.", "Sonda nasogástrica."], ["Tubo orotraqueal e sonda"]),
+    ("raio x de joelho direito com gonartrose e placa na tíbia proximal",
+     ["Placa na tíbia proximal.", "Gonartrose."], []),
 ]
 
 

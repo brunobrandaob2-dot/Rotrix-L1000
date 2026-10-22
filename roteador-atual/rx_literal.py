@@ -340,6 +340,26 @@ def _tipo_sep(sep):
 
 _DISP_GENERICO = re.compile(r"(?:material (?:de sintese|metalico)|osteossintese|sintese metalica)")
 
+# 22/10, ele: "placa e parafusos metálicos fixados no rádio distal" saía "Placa." numa
+# linha e "Parafusos metálicos fixados no rádio distal." na outra. Material de
+# osteossíntese dito em série é UM conjunto: o "e" (ou a vírgula) junta, e o lugar dito
+# vale para todos. Só separa quando cada peça tem o SEU lugar ("placa no rádio e
+# parafusos na ulna"). Tubo, sonda, cateter, dreno e marcapasso continuam um por linha.
+_FERRAGEM = re.compile(r"\b(?:placas?(?! pleura)|parafusos?|hastes?|material (?:de sintese|metalico)|"
+                       r"osteossintese|sintese metalica|fixador(?:es)?|kirschner|fios? (?:de|metalicos?)|"
+                       r"cerclagem|banda de tensao|arames?|pinos?|ancoras?|cages?|espacador(?:es)?|"
+                       r"artrodese|cimento|proteses?|endoproteses?|artroplastia|grampos?)\b")
+_LUGAR = re.compile(r"\b(?:do|da|dos|das|no|na|nos|nas|em|sobre|entre|ao|aos|junto)\b|"
+                    r"\b(?:fixad|projetad|posicionad|localizad|inserid|ancorad|transfixa)\w*")
+
+
+def _ferragem(n):
+    return bool(_FERRAGEM.search(n))
+
+
+def _tem_lugar(n):
+    return bool(_LUGAR.search(n))
+
 
 def _continua(tipo, seg, anterior=""):
     """O trecho continua o achado anterior?
@@ -360,6 +380,9 @@ def _continua(tipo, seg, anterior=""):
     if pal[0] == "sem" and len(pal) > 1 and pal[1] in SEM_QUALIF:
         return "cabeca"                  # "fratura do rádio, sem desvio"
     na = normalizar(anterior)
+    if tipo in ("e", "virg") and _ferragem(na) and _ferragem(n) \
+            and not (_tem_lugar(na) and _tem_lugar(n)):
+        return "cabeca"                  # "placa e parafusos metálicos fixados no rádio distal"
     if tipo == "e" and _DISP_GENERICO.fullmatch(na) and eh_dispositivo(n):
         return "cabeca"                  # "material de síntese e haste intramedular no fêmur"
     if tipo == "e":
@@ -442,6 +465,7 @@ def limpar(texto, revisar=None):
         except Exception:
             pass
     t = _niveis(t)
+    t = re.sub(r"\bkirschner\b", "Kirschner", t, flags=re.I)     # nome próprio (fios de Kirschner)
     t = re.sub(r"\s+", " ", t).strip(" ,;:")
     t = re.sub(r"[.]+$", "", t).strip()
     if not t:
