@@ -54,8 +54,12 @@ NO_LAUDO = [
     ("tomografia de torax com coracao aumentado de volume",
      "dimensões cardíacas", None),
     ("tomografia de torax com placa na aorta", "ateromatose", None),
-    ("tomografia de abdome com rim inchado", "ilata", None),
 ]
+# 03/11: "rim inchado" saiu daqui. Passava por engano: "ilata" estava na frase NORMAL
+# ("Não há cálculos ou dilatação de vias coletoras") e a marca "[não encontrado no banco
+# — completar: Rim inchado.]" era apagada pelo modo genérico — a hidronefrose ditada sumia
+# e o laudo dizia o contrário. Com a marca preservada, o caso aparece como é: o
+# roteamento ainda não acha; a oficina acha (lista abaixo).
 
 # Estes o ROTEAMENTO ainda nao pega — a tabela entra na busca de bloco, e nestes dois o
 # caminho composto resolve o segmento antes de chegar la. A lista de candidatos ACHA os
@@ -63,6 +67,7 @@ NO_LAUDO = [
 # escolhe uma vez na oficina e o trecho vira gatilho de verdade, de graca e para sempre.
 # Ficam listados aqui, com o motivo, em vez de escondidos.
 SO_PELA_OFICINA = [
+    ("rim inchado", "abdome", "hidronefrose"),
     ("intestino preso", "abdome", "fecal"),
     ("cerebro encolhido", "cranio", "atrofia"),
 ]
@@ -79,8 +84,12 @@ for ditado, tem, nao_pode in NO_LAUDO:
     # a fala crua nunca fica escrita como se fosse termo tecnico
     cru = ditado.split(" com ", 1)[1] if " com " in ditado else ""
     if cru:
+        # a marca "[não encontrado no banco — completar: …]" pode (e deve) trazer a fala
+        # dele: é aviso para completar, não texto técnico do laudo (03/11)
+        t_laudo = "\n".join(l for l in t.splitlines()
+                            if not l.strip().lower().startswith(("[não encontrado", "[nao encontrado")))
         confere("%-52s não escreve a fala crua" % ditado[:50],
-                cru.lower() not in t.lower(), "ficou: %r" % cru)
+                cru.lower() not in t_laudo.lower(), "ficou: %r" % cru)
 
 print()
 print("=== os que so a oficina pega hoje (roteamento ainda nao) ===")

@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-10-22.1"
+VERSAO = "2026-11-03.1"
 
 
 def _impressao_do_codigo():
@@ -1251,8 +1251,13 @@ def _limpas(frases):
 
 
 # aviso que o próprio sistema escreve entre colchetes: nunca é lacuna
+# 03/11: "[não encontrado no banco — completar: …]" é o achado ditado que não casou com
+# bloco nenhum. O modo genérico tratava o colchete como lacuna e APAGAVA a linha: o
+# achado sumia do laudo final e a conclusão continuava "sem alterações" ("angio de aorta
+# abdominal e ilíacas com aneurisma de 4,5 cm" saía normal; "TC de crânio de idoso com
+# cisto coloide de 8 mm" saía sem o cisto). Aviso do sistema nunca é lacuna.
 _AVISO_DO_SISTEMA = re.compile(
-    r"^\s*\[(?:\[|n[ãa]o enviei|conferir|a IA parou|pedido de descri)", re.I)
+    r"^\s*\[(?:\[|n[ãa]o enviei|n[ãa]o encontrado|conferir|a IA parou|pedido de descri)", re.I)
 
 
 def generalizar(texto):
