@@ -163,6 +163,38 @@ def panoramica_mmii(valores):
     return {"ok": True, "valores": v, "avisos": []}
 
 
+# 09/11 (expoweb aprovado, skill panoramica-coluna): graus e cm em quartos; ângulo acima do
+# possível é o suplementar lido no lugar (o software mostra os dois) -> usa troca − x e avisa
+SUPLEMENTAR = {"cifose": (90, 180, "cifose torácica"), "lordose": (90, 180, "lordose lombar"),
+               "ferguson": (70, 90, "Ferguson")}
+NUMEROS_COLUNA = ("cobb", "sva", "cifose", "ferguson", "lordose", "valor")
+
+
+def _num(v):
+    try:
+        return float(str(v).replace(",", ".").replace("−", "-").strip())
+    except (TypeError, ValueError):
+        return None
+
+
+def panoramica_coluna(valores):
+    v = dict(valores)
+    avisos = []
+    for k in NUMEROS_COLUNA:
+        x = _num(v.get(k)) if v.get(k) not in (None, "") else None
+        if x is None:
+            continue
+        if k in SUPLEMENTAR and x > SUPLEMENTAR[k][0]:
+            maxv, troca, nome = SUPLEMENTAR[k]
+            avisos.append("%s de %s graus: acima de %d, provavelmente o suplementar; usei %d − x = %s graus. "
+                          "Confira na estação." % (nome, cm(x), maxv, troca, cm(quarto(troca - x))))
+            x = troca - x
+        v[k] = quarto(x)
+    if any(k in v for k in NUMEROS_COLUNA):
+        avisos.append("graus e cm arredondados em quartos (,00 / ,25 / ,50 / ,75).")
+    return {"ok": True, "valores": v, "avisos": avisos}
+
+
 def _texto_valor(k, x):
     if isinstance(x, float):
         return cm(x)
@@ -209,6 +241,8 @@ def montar(exame, dados):
         r = escanometria(dados)
     elif exame == "panoramica_mmii":
         r = panoramica_mmii(dados)
+    elif exame == "panoramica_coluna":
+        r = panoramica_coluna(dados)
     else:
         r = {"ok": True, "valores": dict(dados), "avisos": []}
     if not r.get("ok"):

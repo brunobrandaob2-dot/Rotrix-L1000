@@ -22,6 +22,7 @@ import {
 const aqui = dirname(fileURLToPath(import.meta.url));
 const laudo = readFileSync(join(aqui, "LaudoPage.tsx"), "utf8");
 const botoes = readFileSync(join(aqui, "BotoesDaFolha.tsx"), "utf8");
+const roteador = readFileSync(join(aqui, "../../../../roteador-atual/roteador.py"), "utf8");
 
 const INCOERENTE = `TOMOGRAFIA COMPUTADORIZADA DO ABDOME TOTAL
 
@@ -351,6 +352,22 @@ const casos: [boolean, string][] = [
   [
     /setPainel\(\{ tipo: "medidas", exame: "densitometria" \}\)/.test(botoes),
     "botão Densitometria abre o painel de medidas (campos e conta no roteador)",
+  ],
+  [
+    /export const INSTRUCAO_REVISAR = "revisar o laudo";/.test(laudo) &&
+      /INSTRUCAO_REVISAR = "revisar o laudo"/.test(roteador),
+    "Revisar: a instrução do app é a que o roteador reconhece",
+  ],
+  [
+    /export const INSTRUCAO_ANALISAR_RX = "analisar a radiografia";/.test(laudo) &&
+      /INSTRUCAO_ANALISAR_RX = "analisar a radiografia"/.test(roteador),
+    "Analisar RX: a instrução do app é a que o roteador reconhece",
+  ],
+  [
+    /if \(!imagensDaFolha\(folha\.current\)\.length\)[\s\S]{0,200}return;[\s\S]{0,40}rodarIA\(\{ instrucao: INSTRUCAO_ANALISAR_RX \}\)/.test(
+      laudo,
+    ),
+    "Analisar RX sem radiografia na folha: avisa e não gasta IA",
   ],
 ];
 

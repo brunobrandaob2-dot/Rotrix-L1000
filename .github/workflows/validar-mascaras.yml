@@ -69,6 +69,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_lyon.py
       - name: Densitometria (mascaras A/B/C, menor escore, exclusao de vertebra, LSC)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_densitometria.py
+      - name: Botoes Revisar e Analisar RX (bloco certo no pedido, conferencia da revisao)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_revisar_rx.py
       - name: Botao de raciocinio (ditado cru para a IA, sem gatilho; switch do roteador)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_raciocinio.py
       - name: Coluna estruturada com mais de uma herniacao por nivel

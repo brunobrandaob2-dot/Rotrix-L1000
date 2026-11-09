@@ -51,7 +51,8 @@ RECEITAS = {
 # ROTEADO (02/10): o switch "roteador" do botão de raciocínio ligado -> a tela já tem o que
 # o roteador encaixou, e a IA confere isso contra a fala.
 # DIFERENCA (16/10): laudo inteiro com as linhas numeradas; a IA devolve só o que muda.
-BLOCOS_DO_PEDIDO = ("IMAGEM", "DESCREVA", "ROTEADO", "DIFERENCA")
+# REVISAO e RADIOGRAFIA (09/11): botões Revisar e Analisar RX da aba Laudo, só no pedido
+BLOCOS_DO_PEDIDO = ("IMAGEM", "DESCREVA", "ROTEADO", "DIFERENCA", "REVISAO", "RADIOGRAFIA")
 
 _cache = {"mtime": None, "blocos": None}
 

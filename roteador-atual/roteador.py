@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-11-09.2"
+VERSAO = "2026-11-09.3"
 
 
 def _impressao_do_codigo():
@@ -4521,6 +4521,39 @@ def _laudo_pela_ia(pedido, c, **extra):
     return novo, origem, "inteiro_apos_dif"
 
 
+# 09/11: botões Revisar e Analisar RX da aba Laudo. O app manda a instrução fixa pelo mesmo
+# comando do reprocessar (o Rust não muda); aqui ela vira o bloco REVISAO ou RADIOGRAFIA.
+INSTRUCAO_REVISAR = "revisar o laudo"
+INSTRUCAO_ANALISAR_RX = "analisar a radiografia"
+
+_RX_MEDIDA_REV = re.compile(r"\d+(?:[.,]\d+)?\s*(?:cm³|cm3|cm|mm|UH|mL|ml|%|°|graus)", re.IGNORECASE)
+_RX_NEGACAO_REV = re.compile(r"\b(?:n[ãa]o|sem|aus[êe]ncia)\b", re.IGNORECASE)
+
+
+def _conferir_revisao(antes, depois):
+    """O que a revisão mudou de SENTIDO, conferido aqui (sem IA): número novo ou sumido,
+    lado que apareceu ou sumiu, negação a menos. Vira a linha [conferir — revisão: ...]."""
+    def medidas(t):
+        return {re.sub(r"\s+", "", m.group(0)).replace(".", ",").lower() for m in _RX_MEDIDA_REV.finditer(t or "")}
+    out = []
+    novas = sorted(medidas(depois) - medidas(antes))
+    sumiram = sorted(medidas(antes) - medidas(depois))
+    if novas:
+        out.append("medida nova " + ", ".join(novas[:4]))
+    if sumiram:
+        out.append("medida que sumiu " + ", ".join(sumiram[:4]))
+    for raiz, nome in (("direit", "direito"), ("esquerd", "esquerdo")):
+        a, d = (len(re.findall(raiz, t or "", re.IGNORECASE)) for t in (antes, depois))
+        if a == 0 and d > 0:
+            out.append("lado %s apareceu" % nome)
+        elif a > 0 and d == 0:
+            out.append("lado %s sumiu" % nome)
+    na, nd = (len(_RX_NEGACAO_REV.findall(t or "")) for t in (antes, depois))
+    if nd < na:
+        out.append("%d negação(ões) a menos" % (na - nd))
+    return out
+
+
 def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado=False):
     """Rotrix v2: o laudo que está na folha do app passa pela IA e volta pronto.
 
@@ -4555,6 +4588,9 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
     # a mesma estrutura numa linha só ANTES da IA: não depende do modelo obedecer
     texto = juntar_rotulos_repetidos(texto)
     instrucao = (instrucao or "").strip()
+    botao = {INSTRUCAO_REVISAR: "revisar", INSTRUCAO_ANALISAR_RX: "rx"}.get(instrucao.lower(), "")
+    if botao == "rx" and not imgs:
+        return {"ok": False, "motivo": "rx_sem_imagem", "texto": texto}
     regras_ditado = None
     if ditado:
         # só as trocas fixas dele (ouvido.tsv) e a grafia; nada de gatilho, bloco,
@@ -4585,11 +4621,22 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
         pedido = "LAUDO NA TELA:\n" + tela
     if ditado:
         pedido = "%s\n\nDITADO DO RADIOLOGISTA:\n%s\n\n%s" % (regras_ditado, ditado, pedido)
+    if botao == "revisar":
+        try:
+            import prompts
+            regras_rev = prompts.bloco("REVISAO")
+        except Exception:
+            regras_rev = None
+        if not regras_rev:
+            return {"ok": False, "motivo": "revisao_sem_regra", "texto": texto}
+        pedido = "%s\n\n%s" % (regras_rev, pedido)
     if imgs:
         regras = None
         try:
             import prompts
-            regras = prompts.bloco("IMAGEM")
+            # Analisar RX: a IA lê a radiografia (bloco RADIOGRAFIA, a matriz ditado × imagem);
+            # fora dele, a imagem serve só para as medidas (bloco IMAGEM)
+            regras = prompts.bloco("RADIOGRAFIA" if botao == "rx" else "IMAGEM")
         except Exception:
             regras = None
         if not regras:
@@ -4600,11 +4647,15 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
     extra = {}
     if imgs:
         extra["imagens"] = imgs
-    if ditado:
-        extra["analise"] = True       # raciocínio: a linha "Só formatar" cede ao padrão
+    if ditado or botao:
+        extra["analise"] = True       # raciocínio/revisão/RX: a linha "Só formatar" cede ao padrão
     novo, origem, formato_resp = _laudo_pela_ia(pedido, c, **extra)
     if origem == "nuvem" and novo:
-        if not imgs and not ditado:
+        if botao == "revisar":
+            achou = _conferir_revisao(texto, novo)
+            if achou:
+                novo = "[conferir — revisão: %s]\n%s" % ("; ".join(achou), novo)
+        if not imgs and not ditado and not botao:     # revisão não ensina par de palavras
             # com imagem a IA ACRESCENTA (as medidas): isso não é par "errado -> certo"
             try:
                 _aprender(texto, novo)
@@ -4612,7 +4663,7 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
                 pass
         u = nuvem.ultima_desta_chamada() or dict(getattr(nuvem, "ULTIMA", {}) or {})
         return {"ok": True, "texto": novo, "origem": origem, "imagens": len(imgs),
-                "ditado": bool(ditado),
+                "ditado": bool(ditado), "botao": botao,
                 "modelo": u.get("modelo") or c.get("modelo"),
                 "custo_usd": u.get("usd"), "mes_usd": u.get("mes_usd"),
                 "economia": u.get("economia", False),

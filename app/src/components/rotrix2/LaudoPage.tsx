@@ -35,6 +35,8 @@ import {
   CornerDownLeft,
   Timer,
   ListChecks,
+  FileCheck2,
+  ScanSearch,
 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Dica } from "./Dica";
@@ -126,6 +128,11 @@ const recibo = (r: {
   }
   return partes.join(" · ");
 };
+
+// 09/11: as instruções fixas dos botões Revisar e Analisar RX (o roteador as reconhece:
+// INSTRUCAO_REVISAR / INSTRUCAO_ANALISAR_RX em roteador.py)
+export const INSTRUCAO_REVISAR = "revisar o laudo";
+export const INSTRUCAO_ANALISAR_RX = "analisar a radiografia";
 
 const BINDING: Record<Modo, string> = {
   simples: "transcribe",
@@ -850,6 +857,29 @@ export const LaudoPage: React.FC<Props> = ({
         >
           <RotateCw size={15} />
         </Fer>
+        {/* 09/11: skills dentro do Rotrix. Revisar = revisao-laudo-radiologico (termo técnico,
+            alterações primeiro, conclusão sem medida, diferenciais, recomendação); o roteador
+            confere o que mudou de sentido. Analisar RX = skill radiografia: a IA LÊ a imagem
+            colada e reconcilia com o ditado (confirma; troca só erro objetivo, com ressalva;
+            achado novo de confiança média/baixa só na ressalva; nunca tira achado ditado). */}
+        <Fer
+          titulo={`Revisar o laudo com ${modeloCompleto} (skill de revisão): termo técnico, alterações primeiro, conclusão sem medida, diferenciais e recomendação. O que mudar de sentido volta numa linha [conferir]. Desfazer (⏱) volta o anterior.`}
+          onClick={() => void rodarIA({ instrucao: INSTRUCAO_REVISAR })}
+        >
+          <FileCheck2 size={15} />
+        </Fer>
+        <Fer
+          titulo={`Analisar RX com ${modeloCompleto} (skill de radiografia): a IA lê a radiografia colada na folha e reconcilia com o seu ditado. Confirma o que a imagem mostra; troca só erro objetivo (lado, osso, nível), com ressalva; achado novo de confiança média ou baixa vai só na linha [conferir]; nunca tira achado que você ditou.`}
+          onClick={() => {
+            if (!imagensDaFolha(folha.current).length) {
+              setAviso("cole a radiografia na folha (Ctrl+V; o recorte abre sozinho) e aperte Analisar RX de novo");
+              return;
+            }
+            void rodarIA({ instrucao: INSTRUCAO_ANALISAR_RX });
+          }}
+        >
+          <ScanSearch size={15} />
+        </Fer>
         <Fer
           titulo="Traz de volta o texto anterior: o de antes da IA, ou o que você acabou de apagar."
           ativo={Boolean(ultimoIA)}
@@ -1182,6 +1212,9 @@ function motivoEmPortugues(motivo?: string): string {
   if (m.includes("nuvem_ausente") || m.includes("sem_chave"))
     return "falta a chave da IA nas configurações";
   if (m.includes("roteador parado")) return "o roteador está parado";
+  if (m.includes("rx_sem_imagem")) return "Analisar RX precisa da radiografia colada na folha";
+  if (m.includes("revisao_sem_regra") || m.includes("imagem_sem_regra"))
+    return "o roteador é antigo para este botão: rode o ATUALIZAR e o LIGAR";
   const img = motivoDaImagem(m);
   if (img) return img;
   return motivo ? `a IA não respondeu (${motivo})` : "a IA não respondeu";

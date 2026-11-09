@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Densitometria (máscaras A/B/C dele) montada na máquina (python testar_densitometria.py).
+Também: panorâmica de coluna em quartos e com o ângulo suplementar corrigido (mesmo pacote).
 
 09/11: veio da skill densitometria e do expoweb aprovado. Os números entram, a máscara,
 a classificação pelo menor escore e as ressalvas saem daqui; o texto é o da máscara
@@ -90,6 +91,14 @@ def main():
     src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "roteador.py"), encoding="utf-8").read()
     ok('not r.get("pronto")' in src, "o padronizar não desmonta a máscara da densitometria")
     ok("medidas.densitometria.REGRAS_PRINT" in src and "_data_lida" in src, "print do densitômetro com regra própria; data lida como data")
+
+    # panorâmica de coluna (09/11, mesmo pacote): quartos e ângulo suplementar
+    pc = medidas.panoramica_coluna({"cobb": "23,3", "cifose": "142", "ferguson": "38", "sva": "-2,1", "risser": "V"})
+    ok(pc["valores"]["cobb"] == 23.25 and pc["valores"]["sva"] == -2.0, "panorâmica de coluna: graus e cm em quartos")
+    ok(pc["valores"]["cifose"] == 38.0 and "suplementar" in " ".join(pc["avisos"]),
+       "cifose 142 (suplementar lido): 180 − x = 38, com aviso")
+    ok(pc["valores"]["risser"] == "V", "escolhas passam como vieram")
+    ok(medidas.panoramica_coluna({})["avisos"] == [], "sem número, sem aviso")
 
     print()
     print("densitometria: tudo certo" if not falhas else "densitometria: %d falha(s)" % len(falhas))
