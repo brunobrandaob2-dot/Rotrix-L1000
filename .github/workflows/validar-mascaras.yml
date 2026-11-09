@@ -87,6 +87,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_marca_nao_encontrado.py
       - name: Atalho sem nome de exame so abre por igualdade ou inicio do ditado (testar_trava_frouxo.py)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_trava_frouxo.py
+      - name: Um roteador so na porta (testar_porta_exclusiva.py)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_porta_exclusiva.py
       - name: Testar o importador de máscaras e laudos próprios
         run: python testar_importar.py
       - name: Testar o RX literal (achados com as palavras ditadas)

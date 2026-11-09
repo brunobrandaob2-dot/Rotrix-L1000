@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-11-08.1"
+VERSAO = "2026-11-09.1"
 
 
 def _impressao_do_codigo():
@@ -4695,6 +4695,30 @@ def _base_em_dia():
         return True
 
 
+
+class _Servidor(ThreadingHTTPServer):
+    # 09/11: no Windows, SO_REUSEADDR deixa um SEGUNDO roteador escutar a mesma 8123
+    # sem erro nenhum. Foi o que aconteceu: o LIGAR subiu o 2026-11-08.1 e quem continuou
+    # respondendo ao Rotrix foi o processo velho (2026-11-03.1). Sem reuso, o segundo
+    # roteador não abre a porta e avisa, em vez de ficar escondido atrás do primeiro.
+    allow_reuse_address = os.name != "nt"
+
+
+def _abrir_servidor(tentativas=10, espera=1.0, porta=None):
+    """O servidor na porta, ou None se outro processo segura a porta (tenta por ~10 s:
+    o roteador velho pode estar terminando de fechar)."""
+    ultimo = None
+    for _ in range(max(1, tentativas)):
+        try:
+            return _Servidor((HOST, PORT if porta is None else porta), Handler)
+        except OSError as e:
+            ultimo = e
+            time.sleep(espera)
+    print("[PAROU] a porta %d já tem outro roteador (%s). Rode o 2_LIGAR.bat: ele derruba "
+          "os roteadores velhos e sobe este." % (PORT if porta is None else porta, ultimo), flush=True)
+    return None
+
+
 if __name__ == "__main__":
     # atualização trocou a base (sem as máscaras do usuário) ou a fonte mudou: refaz
     if not _base_em_dia():
@@ -4705,6 +4729,9 @@ if __name__ == "__main__":
             BANCO.carregar()
         except Exception as e:
             print("não consegui refazer a base:", e, flush=True)
+    srv = _abrir_servidor()
+    if srv is None:
+        sys.exit(1)
     if os.name == "nt":
         try:
             import atalho_win
@@ -4730,7 +4757,6 @@ if __name__ == "__main__":
             except Exception:
                 pass
         threading.Thread(target=_diag_radius, daemon=True).start()
-    srv = ThreadingHTTPServer((HOST, PORT), Handler)
     print(f"roteador em http://{HOST}:{PORT}/v1  (Ctrl+C para sair)", flush=True)
     try: srv.serve_forever()
     except KeyboardInterrupt: print("\nencerrado")
