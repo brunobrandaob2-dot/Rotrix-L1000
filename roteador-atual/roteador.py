@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-11-09.1"
+VERSAO = "2026-11-09.2"
 
 
 def _impressao_do_codigo():
@@ -3605,7 +3605,8 @@ def medidas_exame(exame, valores):
     if not isinstance(valores, dict):
         return {"ok": False, "motivo": "valores_invalidos"}
     r = medidas.montar(exame, valores)
-    if r.get("ok") and r.get("texto"):
+    # densitometria (09/11) já sai no formato da máscara dela; o padronizar a desmontaria
+    if r.get("ok") and r.get("texto") and not r.get("pronto"):
         r["texto"] = formato.padronizar(r["texto"]) if hasattr(formato, "padronizar") else r["texto"]
     return r
 
@@ -3704,6 +3705,12 @@ def _numero_lido(v):
     return m.group(0).replace(".", ",") if m else ""
 
 
+def _data_lida(v):
+    """'14/10/2024' fica data (o _numero_lido a cortaria em '14')."""
+    m = re.search(r"\d{1,2}/\d{1,2}/\d{2,4}", str(v if v is not None else ""))
+    return m.group(0) if m else ""
+
+
 def ler_print(alvo, imagem, extra=None):
     """Lê um print e devolve valores para o formulário (nada vai para a folha daqui)."""
     extra = extra if isinstance(extra, dict) else {}
@@ -3724,6 +3731,13 @@ def ler_print(alvo, imagem, extra=None):
     if alvo == "idade_ossea":
         sexo = "feminino" if str(extra.get("sexo") or "").lower().startswith("f") else "masculino"
         pedido = _REGRAS_IDADE_OSSEA.format(sexo=sexo)
+    elif medidas is not None and alvo == "densitometria" and "densitometria" in medidas.CAMPOS:
+        # 09/11: a tabela do densitômetro tem regra própria (coluna de % x escore, lado
+        # pelo rótulo do software e não pela imagem) — skill densitometria
+        conf = medidas.CAMPOS[alvo]
+        chaves = [k for k, _r in conf.get("leitura", [])]
+        pedido = medidas.densitometria.REGRAS_PRINT.format(campos="\n".join(
+            "- %s: %s" % (k, r) for k, r in conf.get("leitura", [])))
     elif medidas is not None and alvo in medidas.CAMPOS:
         conf = medidas.CAMPOS[alvo]
         chaves = [k for k, _r in conf.get("leitura", [])]
@@ -3760,7 +3774,7 @@ def ler_print(alvo, imagem, extra=None):
     brutos = dados.get("valores") if isinstance(dados.get("valores"), dict) else {}
     valores = {}
     for k in chaves:                         # só as chaves do formulário; o resto cai fora
-        v = _numero_lido(brutos.get(k))
+        v = _data_lida(brutos.get(k)) if k.endswith("_data") else _numero_lido(brutos.get(k))
         if v:
             valores[k] = v
     nao = [k for k in chaves if k not in valores]

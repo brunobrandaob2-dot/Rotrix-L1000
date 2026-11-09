@@ -880,8 +880,10 @@ def rotas_novas(falhas):
     Todas locais. Nenhuma delas pode mandar nada para fora, e nenhuma pode
     quebrar com entrada torta — o app manda o que o médico digitou."""
     c = roteador.medidas_campos()
-    if not c.get("ok") or sorted(c["exames"]) != ["escanometria", "panoramica_coluna", "panoramica_mmii"]:
-        falhas.append("rotas: /medidas/campos não trouxe os três exames (%r)" % c.get("exames"))
+    # 09/11: a densitometria entrou pelo mesmo caminho (densitometria.py)
+    if not c.get("ok") or sorted(c["exames"]) != ["densitometria", "escanometria", "panoramica_coluna",
+                                                   "panoramica_mmii"]:
+        falhas.append("rotas: /medidas/campos não trouxe os quatro exames (%r)" % sorted(c.get("exames") or {}))
     for nome, conf in (c.get("exames") or {}).items():
         if not conf.get("mascara") or not conf.get("titulo"):
             falhas.append("rotas: o exame %s veio sem máscara ou título" % nome)

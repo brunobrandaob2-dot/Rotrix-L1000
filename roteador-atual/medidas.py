@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Exames de medida: escanometria, panorâmica de MMII e panorâmica da coluna.
+"""Exames de medida: escanometria, panorâmica de MMII, panorâmica da coluna e (09/11) densitometria.
 
 Os três funcionam igual:
 
@@ -80,6 +80,14 @@ CAMPOS = {
         "calculado": [],
     },
 }
+
+# 09/11: densitometria (máscaras A/B/C dele) entra pelo mesmo caminho — formulário,
+# print lido pela IA, conta aqui. O texto é montado no densitometria.py, não no banco.
+try:
+    import densitometria
+    CAMPOS["densitometria"] = densitometria.CAMPOS
+except ImportError:          # pragma: no cover - o roteador segue sem a densitometria
+    densitometria = None
 
 # conferência de sanidade da escanometria, da habilidade salva
 SANIDADE = {"femur": (43, 8), "tibia": (35, 8), "mi": (78, 14)}
@@ -193,6 +201,8 @@ def montar(exame, dados):
 
     `dados` são as leituras cruas. A conta é feita aqui; a máscara vem do
     banco, então o texto é sempre o dele."""
+    if exame == "densitometria" and densitometria is not None:
+        return densitometria.laudo(dados)      # texto pronto: não passa pelo padronizar
     import roteador
     conf = CAMPOS[exame]
     if exame == "escanometria":

@@ -20,6 +20,7 @@ import {
   Calculator,
   ChevronDown,
   ImagePlus,
+  ScanLine,
   X,
 } from "lucide-react";
 import { Button } from "../ui/Button";
@@ -86,7 +87,8 @@ const centavos = (usd?: number): string =>
 
 // ---------------------------------------------------------------------------
 
-type Exame = "escanometria" | "panoramica_mmii" | "panoramica_coluna";
+// 09/11: densitometria entra pelo mesmo painel (campos e conta no roteador, densitometria.py)
+type Exame = "escanometria" | "panoramica_mmii" | "panoramica_coluna" | "densitometria";
 
 interface CampoLeitura {
   0: string;
@@ -307,7 +309,11 @@ const PainelMedidas: React.FC<{
       <div className="flex-1 min-h-0 overflow-y-auto p-3 space-y-3">
         <div>
           <div className="text-[9.5px] font-bold tracking-wider text-mid-gray mb-1.5">
-            {exame === "escanometria" ? "LEITURAS NA RÉGUA (cm)" : "MEDIDAS"}
+            {exame === "escanometria"
+              ? "LEITURAS NA RÉGUA (cm)"
+              : exame === "densitometria"
+                ? "VALORES DO RELATÓRIO (BMD com 3 casas, escore com 1)"
+                : "MEDIDAS"}
           </div>
           <div className="grid grid-cols-2 gap-2">
             {conf.leitura.map(([k, rot]) => (
@@ -1082,6 +1088,13 @@ export const BotoesDaFolha: React.FC<Props> = ({ aoInserir }) => {
           </div>
         </Menu>
       </div>
+
+      <Fer
+        titulo="Densitometria (DXA): máscaras A, B e C — formulário ou print do densitômetro; a conta e a classificação pelo menor escore são locais"
+        onClick={() => setPainel({ tipo: "medidas", exame: "densitometria" })}
+      >
+        <ScanLine size={14} /> Densitometria
+      </Fer>
 
       <Fer titulo="Prescrições do banco" onClick={() => setPainel({ tipo: "prescricao" })}>
         <FileText size={14} /> Prescrição

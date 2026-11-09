@@ -348,6 +348,10 @@ const casos: [boolean, string][] = [
     /setPainel\(\{ tipo: "calculos" \}\)/.test(botoes),
     "o volume de sempre continua no menu",
   ],
+  [
+    /setPainel\(\{ tipo: "medidas", exame: "densitometria" \}\)/.test(botoes),
+    "botão Densitometria abre o painel de medidas (campos e conta no roteador)",
+  ],
 ];
 
 let falhas = 0;

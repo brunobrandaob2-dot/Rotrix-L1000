@@ -67,6 +67,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_imagem_ia.py
       - name: Protocolo de Lyon estruturado (os numeros viram o laudo, sempre igual)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_lyon.py
+      - name: Densitometria (mascaras A/B/C, menor escore, exclusao de vertebra, LSC)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_densitometria.py
       - name: Botao de raciocinio (ditado cru para a IA, sem gatilho; switch do roteador)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_raciocinio.py
       - name: Coluna estruturada com mais de uma herniacao por nivel

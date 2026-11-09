@@ -128,6 +128,18 @@ RESPOSTA["texto"] = '{"valores": {"cobb": "23º", "sva": "-2,1"}}'
 r = roteador.ler_print("panoramica_coluna", URL)
 confere("panorâmica da coluna: grau e negativo", r.get("valores") == {"cobb": "23", "sva": "-2,1"}, repr(r))
 
+# densitometria (09/11): regra própria do densitômetro; a data fica data; campo estranho cai
+VISTO.clear()
+RESPOSTA["texto"] = ('{"valores": {"col_bmd": "0.912", "col_t": "-1.9 (-26%)", "colo_e_t": "-2,3", '
+                     '"ant_data": "14/10/2024", "nome": "FULANO"}}')
+r = roteador.ler_print("densitometria", URL)
+_s, pedido = mensagens()
+confere("densitometria: o pedido é o do densitômetro (% x escore, lado pelo rótulo do software)",
+        "PRINT DO DENSITÔMETRO" in pedido and "rótulo do software" in pedido and "col_bmd:" in pedido, pedido[:200])
+confere("densitometria: vírgula, escore sem a %, data inteira, campo estranho fora",
+        r.get("valores") == {"col_bmd": "0,912", "col_t": "-1,9", "colo_e_t": "-2,3", "ant_data": "14/10/2024"},
+        repr(r.get("valores")))
+
 # 3. idade óssea
 VISTO.clear()
 RESPOSTA["texto"] = ('{"anos": 9, "meses": 0, "entre": "8a10m e 10a0m", "achados": "epífises das falanges '
