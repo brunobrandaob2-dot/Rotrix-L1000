@@ -2,6 +2,9 @@
 // Rotrix L-1000 — os quatro botões do fim da fileira de formatação da folha.
 //
 // Escanometria (com três divisões) · Idade óssea · Prescrição · Cálculos.
+// 09/11: Cálculos virou menu — o volume de sempre e as calculadoras novas do
+// expoweb (adrenal, esteatose, VDT, Evans, NASCET). A aba Laudo abre uma delas já
+// preenchida pelo evento "rotrix:calculadora" (sugestão da conferência).
 //
 // Cada um abre um painel. Nos exames de medida e na idade óssea o painel é um
 // FORMULÁRIO: os números entram, o laudo sai pronto. A conta acontece no
@@ -23,6 +26,8 @@ import { Button } from "../ui/Button";
 import { ImagemNaFolha } from "./ImagemNaFolha";
 import { reduzirParaIA, motivoDaImagem } from "./imagemParaIA";
 import { motivoDoBloqueio } from "./bloqueio";
+import { CALCULADORAS, EVENTO_CALCULADORA, type IdCalc, type Valores } from "./calculadoras";
+import { PainelCalculadora } from "./PainelCalculadora";
 
 // 03/10: "eu queria poder simplesmente anexar uma imagem, colar um print com as
 // medidas" — o botão do print só mostrava um aviso. Agora o print passa pelo MESMO
@@ -986,7 +991,12 @@ const PainelPrescricoes: React.FC<{
 export const BotoesDaFolha: React.FC<Props> = ({ aoInserir }) => {
   const [menu, setMenu] = useState<"" | "escanometria" | "idade" | "prescricao" | "calculos">("");
   const [painel, setPainel] = useState<
-    { tipo: "medidas"; exame: Exame } | { tipo: "idade" } | { tipo: "prescricao" } | { tipo: "calculos" } | null
+    | { tipo: "medidas"; exame: Exame }
+    | { tipo: "idade" }
+    | { tipo: "prescricao" }
+    | { tipo: "calculos" }
+    | { tipo: "calc"; id: IdCalc; valores?: Valores; vez: number }
+    | null
   >(null);
   const [campos, setCampos] = useState<Record<string, ConfExame>>({});
 
@@ -997,6 +1007,19 @@ export const BotoesDaFolha: React.FC<Props> = ({ aoInserir }) => {
         if (d.ok && d.exames) setCampos(d.exames);
       })
       .catch(() => undefined);
+  }, []);
+
+  // a conferência da folha achou números (adrenal com 3 UH, fígado e baço): abre preenchida
+  useEffect(() => {
+    const abrir = (e: Event) => {
+      const d = (e as CustomEvent<{ id?: IdCalc; valores?: Valores }>).detail || {};
+      if (d.id && CALCULADORAS[d.id]) {
+        setMenu("");
+        setPainel({ tipo: "calc", id: d.id, valores: d.valores, vez: Date.now() });
+      }
+    };
+    window.addEventListener(EVENTO_CALCULADORA, abrir);
+    return () => window.removeEventListener(EVENTO_CALCULADORA, abrir);
   }, []);
 
   const fechar = () => setPainel(null);
@@ -1064,12 +1087,42 @@ export const BotoesDaFolha: React.FC<Props> = ({ aoInserir }) => {
         <FileText size={14} /> Prescrição
       </Fer>
 
-      <Fer
-        titulo="Cálculo de volume: L × AP × T × 0,523"
-        onClick={() => setPainel({ tipo: "calculos" })}
-      >
-        <Calculator size={14} /> Cálculos
-      </Fer>
+      <div className="relative">
+        <Fer
+          titulo="Volume (L × AP × T × 0,523) e as calculadoras: adrenal, esteatose, VDT, Evans, NASCET"
+          aberto={menu === "calculos"}
+          onClick={() => setMenu((m) => (m === "calculos" ? "" : "calculos"))}
+        >
+          <Calculator size={14} /> Cálculos <ChevronDown size={11} />
+        </Fer>
+        <Menu aberto={menu === "calculos"} aoFechar={() => setMenu("")}>
+          <div className="text-[9.5px] font-bold tracking-wider text-mid-gray px-2 pt-1 pb-1">
+            CALCULAR
+          </div>
+          <ItemMenu
+            nome="Volume"
+            resumo="L × AP × T × 0,523 — próstata, tireoide, ovário, bexiga e o resto"
+            onClick={() => {
+              setMenu("");
+              setPainel({ tipo: "calculos" });
+            }}
+          />
+          {Object.values(CALCULADORAS).map((c) => (
+            <ItemMenu
+              key={c.id}
+              nome={c.nome}
+              resumo={c.resumo}
+              onClick={() => {
+                setMenu("");
+                setPainel({ tipo: "calc", id: c.id, vez: Date.now() });
+              }}
+            />
+          ))}
+          <div className="px-2.5 py-1.5 text-[10.5px] text-mid-gray">
+            Conta na máquina, sem IA. Os limiares estão marcados para a sua revisão clínica.
+          </div>
+        </Menu>
+      </div>
 
       {painel && (
         <div className="fixed inset-y-0 end-0 z-50 w-[430px] bg-background border-s border-mid-gray/30 shadow-2xl flex flex-col">
@@ -1087,6 +1140,15 @@ export const BotoesDaFolha: React.FC<Props> = ({ aoInserir }) => {
           )}
           {painel.tipo === "calculos" && (
             <PainelCalculos aoInserir={aoInserir} aoFechar={fechar} />
+          )}
+          {painel.tipo === "calc" && (
+            <PainelCalculadora
+              key={`${painel.id}-${painel.vez}`}
+              calc={CALCULADORAS[painel.id]}
+              inicial={painel.valores}
+              aoInserir={aoInserir}
+              aoFechar={fechar}
+            />
           )}
         </div>
       )}

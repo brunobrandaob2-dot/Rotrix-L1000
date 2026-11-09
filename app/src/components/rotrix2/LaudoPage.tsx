@@ -33,6 +33,8 @@ import {
   Brush,
   Copy,
   CornerDownLeft,
+  Timer,
+  ListChecks,
 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Dica } from "./Dica";
@@ -42,6 +44,20 @@ import { textoDasRegras } from "./modelos";
 import { motivoDoBloqueio } from "./bloqueio";
 import { BotoesDaFolha } from "./BotoesDaFolha";
 import { ImagemNaFolha } from "./ImagemNaFolha";
+import { conferir, resumoDaConferencia, type Pendencia } from "./conferencia";
+import { sugerirCalculadoras, CALCULADORAS, EVENTO_CALCULADORA, type Sugestao } from "./calculadoras";
+import {
+  formatarTempo,
+  tituloDoExame,
+  registrar,
+  nomearUltimo,
+  resumo as resumoDosTempos,
+  isoLocal,
+  lerTempos,
+  gravarTempos,
+  emCsv,
+  type Tempo,
+} from "./cronometro";
 import {
   IMAGENS_MAX,
   folhaComImagens,
@@ -212,6 +228,98 @@ export const LaudoPage: React.FC<Props> = ({
   const ultimoCru = useRef("");
 
   const textoDaFolha = useCallback(() => htmlEmTexto(folha.current), []);
+
+  // ---------- cronômetro (09/11) ----------
+  // Liga junto com o raciocínio e para quando o raciocínio desliga (o segundo clique,
+  // a IA começa a ler). O chip do rodapé liga e para na mão. Só o título do exame
+  // vai para o registro local (cronometro.ts, §17).
+  const [cronoDesde, setCronoDesde] = useState<number | null>(null);
+  const cronoComo = useRef<Tempo["como"]>("raciocinio");
+  const [cronoUltimo, setCronoUltimo] = useState<number | null>(null);
+  const [, setTique] = useState(0);
+  const [resumoTempos, setResumoTempos] = useState(() => resumoDosTempos(lerTempos(), new Date()));
+  useEffect(() => {
+    if (cronoDesde === null) return;
+    const id = setInterval(() => setTique((n) => n + 1), 1000);
+    return () => clearInterval(id);
+  }, [cronoDesde]);
+  const cronoDesdeRef = useRef<number | null>(null);
+  const cronoLigar = useCallback((como: Tempo["como"]) => {
+    cronoComo.current = como;
+    cronoDesdeRef.current = Date.now();
+    setCronoDesde(cronoDesdeRef.current);
+  }, []);
+  const cronoParar = useCallback(() => {
+    const desde = cronoDesdeRef.current;
+    if (desde === null) return;
+    cronoDesdeRef.current = null;
+    setCronoDesde(null);
+    const segundos = Math.round((Date.now() - desde) / 1000);
+    const lista = registrar(lerTempos(), {
+      fim: isoLocal(new Date()),
+      segundos,
+      exame: tituloDoExame(htmlEmTexto(folha.current)),
+      como: cronoComo.current,
+    });
+    gravarTempos(lista);
+    setResumoTempos(resumoDosTempos(lista, new Date()));
+    setCronoUltimo(segundos);
+  }, []);
+  const ultimoGravando = useRef<Modo | null>(null);
+  useEffect(() => {
+    const antes = ultimoGravando.current;
+    ultimoGravando.current = gravando;
+    if (gravando === "completo" && antes !== "completo") {
+      if (cronoDesdeRef.current === null) cronoLigar("raciocinio");
+    } else if (antes === "completo" && gravando !== "completo") {
+      cronoParar();
+    }
+  }, [gravando, cronoLigar, cronoParar]);
+  // o raciocínio para antes da IA montar a folha: o título entra no copiar/colar
+  const nomearTempo = useCallback((texto: string) => {
+    const lista = lerTempos();
+    const nova = nomearUltimo(lista, tituloDoExame(texto), new Date());
+    if (nova !== lista) gravarTempos(nova);
+  }, []);
+  const copiarTempos = async () => {
+    try {
+      await navigator.clipboard.writeText(emCsv(lerTempos()));
+      setAviso("tempos copiados (CSV: data;hora;segundos;tempo;exame) · cole no Excel");
+    } catch {
+      setAviso("não consegui copiar os tempos");
+    }
+  };
+
+  // ---------- conferência ao vivo + trava ao copiar/colar (09/11) ----------
+  const GUARDADO_CONFERENCIA = "rotrix2.conferencia";
+  const [pendencias, setPendencias] = useState<Pendencia[]>([]);
+  const [sugestoes, setSugestoes] = useState<Sugestao[]>([]);
+  const [confAberta, setConfAberta] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(GUARDADO_CONFERENCIA) !== "0";
+    } catch {
+      return true;
+    }
+  });
+  const trocarConferencia = () => {
+    setConfAberta((v) => {
+      try {
+        localStorage.setItem(GUARDADO_CONFERENCIA, v ? "0" : "1");
+      } catch {
+        /* volta aberta no próximo início */
+      }
+      return !v;
+    });
+  };
+  const [trava, setTrava] = useState<{ acao: "copiar" | "colar"; itens: Pendencia[] } | null>(null);
+  useEffect(() => {
+    if (!trava) return;
+    const sair = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setTrava(null);
+    };
+    window.addEventListener("keydown", sair);
+    return () => window.removeEventListener("keydown", sair);
+  }, [trava]);
 
   // ---------- IA sobre o texto que está na folha ----------
   const rodarIA = useCallback(
@@ -400,22 +508,29 @@ export const LaudoPage: React.FC<Props> = ({
   // ---------- saída ----------
   // Copiar com formatação: vai HTML (para quem aceita texto rico) e texto puro
   // junto, para o campo simples receber o laudo limpo.
-  const copiar = async () => {
+  const copiar = async (forcar = false) => {
     const texto = textoDaFolha();
     if (!texto) return;
+    const itens = conferir(texto);
+    if (itens.length && !forcar) {
+      setTrava({ acao: "copiar", itens });
+      return;
+    }
+    nomearTempo(texto);
     try {
       const rico = await copiarRico(htmlDaFolha(folha.current), texto);
       setAviso(
-        rico
+        (rico
           ? "copiado com a formatação"
-          : "copiado (sem formatação: o campo não aceita texto rico)",
+          : "copiado (sem formatação: o campo não aceita texto rico)") +
+          (itens.length ? ` · com ${resumoDaConferencia(itens)}` : ""),
       );
     } catch {
       setAviso("não consegui copiar");
     }
   };
 
-  const colarNoRis = useCallback(async () => {
+  const colarNoRis = useCallback(async (forcar = false) => {
     // o colador espera os cabeçalhos marcados com ** e uma linha por parágrafo;
     // é isso que vira negrito e espaçamento no RIS
     const texto = htmlEmMarcado(folha.current);
@@ -423,16 +538,23 @@ export const LaudoPage: React.FC<Props> = ({
       setAviso("a folha está vazia");
       return;
     }
+    // 09/11: a trava não bloqueia; só pergunta quando a conferência achou algo
+    const itens = conferir(htmlEmTexto(folha.current));
+    if (itens.length && !forcar) {
+      setTrava({ acao: "colar", itens });
+      return;
+    }
+    nomearTempo(htmlEmTexto(folha.current));
     setOcupado("colar");
     try {
       await invoke("rotrix_colar", { texto });
-      setAviso("colado na janela de antes");
+      setAviso("colado na janela de antes" + (itens.length ? ` · com ${resumoDaConferencia(itens)}` : ""));
     } catch (e) {
       setAviso(String(e));
     } finally {
       setOcupado("");
     }
-  }, []);
+  }, [nomearTempo]);
 
   // Apaga na hora, sem perguntar nada: o laudo fica guardado no botão de
   // voltar (Ctrl+Z também funciona, porque a folha é um campo editável).
@@ -485,6 +607,29 @@ export const LaudoPage: React.FC<Props> = ({
       clearTimeout(tarefa);
       obs.disconnect();
       el.removeEventListener("input", guardar);
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = folha.current;
+    if (!el) return;
+    let tarefa: ReturnType<typeof setTimeout> | undefined;
+    const recontar = () => {
+      clearTimeout(tarefa);
+      tarefa = setTimeout(() => {
+        const t = htmlEmTexto(el);
+        setPendencias(conferir(t));
+        setSugestoes(sugerirCalculadoras(t));
+      }, 300);
+    };
+    recontar();
+    const obs = new MutationObserver(recontar);
+    obs.observe(el, { childList: true, subtree: true, characterData: true });
+    el.addEventListener("input", recontar);
+    return () => {
+      clearTimeout(tarefa);
+      obs.disconnect();
+      el.removeEventListener("input", recontar);
     };
   }, []);
 
@@ -727,7 +872,7 @@ export const LaudoPage: React.FC<Props> = ({
         </Fer>
 
         <div className="ms-auto flex items-center gap-1.5">
-          <Button variant="secondary" size="sm" onClick={copiar}>
+          <Button variant="secondary" size="sm" onClick={() => void copiar()}>
             <span className="flex items-center gap-1.5">
               <Copy size={14} /> Copiar
             </span>
@@ -813,6 +958,22 @@ export const LaudoPage: React.FC<Props> = ({
           <Brush size={14} />
         </Fer>
         <BotoesDaFolha aoInserir={inserirNaFolha} aoAvisar={setAviso} />
+        <Dica texto="Conferência do laudo, sem IA: lado, contraste, achado só na conclusão, medida na conclusão, lacunas, indicação. Clique para mostrar ou esconder o painel.">
+          <button
+            type="button"
+            onClick={trocarConferencia}
+            className={`h-7 ms-1 px-2 rounded-lg border flex items-center gap-1.5 text-[11.5px] cursor-pointer transition-colors ${
+              pendencias.some((p) => p.grau === "vermelho")
+                ? "border-red-500/60 bg-red-500/15"
+                : pendencias.length
+                  ? "border-amber-400/60 bg-amber-100/15"
+                  : "border-mid-gray/30 hover:bg-mid-gray/10"
+            } ${confAberta ? "font-semibold" : ""}`}
+          >
+            <ListChecks size={14} /> Conferência
+            <span className="text-[10.5px] tabular-nums">{pendencias.length}</span>
+          </button>
+        </Dica>
         {(ocupado === "ia" || gravando) && (
           <span className="text-xs text-mid-gray ms-2">
             {gravando ? rotulo(gravando) : "a IA está lendo o laudo…"}
@@ -822,7 +983,8 @@ export const LaudoPage: React.FC<Props> = ({
 
       {/* ---------- a folha ---------- */}
       {/* a folha ocupa a janela inteira: sem moldura escura em volta dela */}
-      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden papel">
+      <div className="flex-1 min-h-0 flex">
+      <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden papel">
         <div
           ref={folha}
           contentEditable
@@ -841,6 +1003,111 @@ export const LaudoPage: React.FC<Props> = ({
           className="w-full min-h-full h-auto papel px-10 py-8 text-[12px] leading-[1.6] outline-none select-text cursor-text break-words [&_*]:max-w-full"
         />
       </div>
+      {confAberta && (
+        <aside className="w-[270px] shrink-0 border-s border-mid-gray/20 bg-background overflow-y-auto p-3 space-y-3">
+          <div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-[9.5px] font-bold tracking-wider text-mid-gray">CONFERÊNCIA DO LAUDO</span>
+              <span className="ms-auto text-[10.5px] tabular-nums">{pendencias.length}</span>
+            </div>
+            {pendencias.length === 0 ? (
+              <div className="text-[11px] text-mid-gray">
+                {textoDaFolha() ? "Nada a apontar." : "Folha vazia."}
+              </div>
+            ) : (
+              <div className="space-y-1.5">
+                {pendencias.map((p, i) => (
+                  <div
+                    key={`${p.titulo}-${i}`}
+                    className={`rounded-lg border-s-[3px] border border-mid-gray/20 px-2.5 py-1.5 text-[11px] leading-snug ${
+                      p.grau === "vermelho" ? "border-s-red-500" : "border-s-amber-400"
+                    }`}
+                  >
+                    <div className="text-[9.5px] font-bold tracking-wider mb-0.5">{p.titulo}</div>
+                    {p.texto}
+                    {p.trecho && (
+                      <div className="mt-1 text-[10.5px] text-mid-gray italic break-words">“{p.trecho}”</div>
+                    )}
+                  </div>
+                ))}
+                <div className="text-[10px] text-mid-gray">Copiar e Colar no RIS perguntam antes de sair.</div>
+              </div>
+            )}
+          </div>
+          <div>
+            <div className="text-[9.5px] font-bold tracking-wider text-mid-gray mb-1.5">CALCULADORA SUGERIDA</div>
+            {sugestoes.length === 0 ? (
+              <div className="text-[11px] text-mid-gray">Nenhuma medida que peça calculadora.</div>
+            ) : (
+              <div className="space-y-1.5">
+                {sugestoes.map((sg, i) => (
+                  <div key={`${sg.id}-${i}`} className="rounded-lg border border-logo-primary/30 px-2.5 py-1.5 text-[11px] leading-snug">
+                    {sg.texto}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        window.dispatchEvent(
+                          new CustomEvent(EVENTO_CALCULADORA, { detail: { id: sg.id, valores: sg.valores } }),
+                        )
+                      }
+                      className="mt-1 block text-[10.5px] px-2 py-0.5 rounded-md border border-logo-primary/50 bg-logo-primary/15 hover:bg-logo-primary/25 cursor-pointer"
+                    >
+                      Abrir {CALCULADORAS[sg.id].nome.split(" — ")[0]} preenchida
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </aside>
+      )}
+      </div>
+
+      {trava && (
+        <div className="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4">
+          <div className="w-full max-w-[460px] max-h-[80vh] flex flex-col rounded-xl border border-mid-gray/30 bg-background shadow-2xl">
+            <div className="px-4 py-3 border-b border-mid-gray/20">
+              <div className="text-[13px] font-semibold">
+                A conferência achou {resumoDaConferencia(trava.itens)}
+              </div>
+              <div className="text-[11px] text-mid-gray">
+                A trava não bloqueia: só pergunta antes de {trava.acao === "colar" ? "colar no RIS" : "copiar"}.
+              </div>
+            </div>
+            <div className="flex-1 min-h-0 overflow-y-auto p-3 space-y-1.5">
+              {trava.itens.map((p, i) => (
+                <div
+                  key={`${p.titulo}-${i}`}
+                  className={`rounded-lg border-s-[3px] border border-mid-gray/20 px-2.5 py-1.5 text-[11.5px] leading-snug ${
+                    p.grau === "vermelho" ? "border-s-red-500" : "border-s-amber-400"
+                  }`}
+                >
+                  <div className="text-[9.5px] font-bold tracking-wider mb-0.5">{p.titulo}</div>
+                  {p.texto}
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-2 px-4 py-3 border-t border-mid-gray/20">
+              <Button variant="primary" size="sm" autoFocus onClick={() => setTrava(null)}>
+                Voltar e corrigir
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => {
+                  const acaoTrava = trava.acao;
+                  setTrava(null);
+                  if (acaoTrava === "colar") void colarNoRis(true);
+                  else void copiar(true);
+                }}
+              >
+                {trava.acao === "colar" ? "Colar mesmo assim" : "Copiar mesmo assim"}
+              </Button>
+              <span className="ms-auto self-center text-[10.5px] text-mid-gray">Esc volta</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <ImagemNaFolha
         aberto={imagemAberta}
@@ -860,6 +1127,41 @@ export const LaudoPage: React.FC<Props> = ({
         <Button variant="secondary" size="sm" onClick={() => void colarNoRis()}>
           Colar lá · Ctrl+Enter
         </Button>
+        <Dica
+          texto={`Cronômetro do laudo: liga sozinho quando você liga o raciocínio e para quando desliga (a IA começa a ler). Clique aqui para ligar ou parar na mão. ${resumoTempos}.`}
+        >
+          <button
+            type="button"
+            onClick={() => (cronoDesde === null ? cronoLigar("mao") : cronoParar())}
+            aria-label="cronômetro do laudo"
+            className={`h-7 px-2 rounded-lg border flex items-center gap-1.5 text-[11.5px] tabular-nums cursor-pointer transition-colors ${
+              cronoDesde !== null
+                ? "border-red-500/60 bg-red-500/15 font-semibold"
+                : "border-mid-gray/30 hover:bg-mid-gray/10"
+            }`}
+          >
+            <Timer size={14} />
+            {cronoDesde !== null ? (
+              <>
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                {formatarTempo((Date.now() - cronoDesde) / 1000)}
+              </>
+            ) : cronoUltimo !== null ? (
+              <>último {formatarTempo(cronoUltimo)}</>
+            ) : (
+              <>0:00</>
+            )}
+          </button>
+        </Dica>
+        <Dica texto="Copia todos os tempos guardados neste computador (CSV para o Excel). Só data, hora, duração e o título do exame — nada do paciente.">
+          <button
+            type="button"
+            onClick={() => void copiarTempos()}
+            className="h-7 px-1.5 rounded-lg border border-mid-gray/30 text-[10.5px] text-mid-gray hover:bg-mid-gray/10 cursor-pointer"
+          >
+            tempos
+          </button>
+        </Dica>
         <span className="ms-auto text-[11px] text-mid-gray">
           {aviso ||
             "clique curto liga e desliga · segurar grava enquanto segura"}
