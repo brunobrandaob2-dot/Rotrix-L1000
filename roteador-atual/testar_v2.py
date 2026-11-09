@@ -418,7 +418,10 @@ def oficina_de_mascaras(falhas):
     if not any("joelho" in d["titulo"] for d in esc[:3]):
         falhas.append("oficina: a máscara certa não ficou entre as 3 primeiras: %s"
                       % [d["titulo"] for d in esc[:3]])
-    alvo = next((d for d in esc if "joelho" in d["titulo"]), esc[0])
+    # 06/11: com as máscaras dele, a mais parecida pode ser DELE (usuario/...): aí a oficina
+    # grava em cima da cópia dele, que é o certo, e a conferência abaixo acusava à toa.
+    alvo = next((d for d in esc if "joelho" in d["titulo"] and not d["titulo"].startswith("usuario/")),
+                next((d for d in esc if "joelho" in d["titulo"]), esc[0]))
 
     # a IA responde em JSON; o validador aceita o que dá para aplicar e recusa o resto
     texto_novo = ("**RADIOGRAFIA DO JOELHO {lado}**\n\n**TÉCNICA:** incidências "

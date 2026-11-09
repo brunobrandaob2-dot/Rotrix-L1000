@@ -39,8 +39,12 @@ def aprovados():
         return set()
 
 
-def frouxos(ignorar_aprovados=True):
-    """[(regiao, titulo, gatilho)] — gatilho de máscara sem palavra de exame."""
+def frouxos(ignorar_aprovados=True, atalhos_dele=False):
+    """[(regiao, titulo, gatilho)] — gatilho de máscara sem palavra de exame.
+
+    08/11 (opção A): atalho curto de máscara DELE ("usuario/...", "lombar 2") é escolha
+    dele e o roteador só o abre por igualdade ou início do ditado (_gatilho_frouxo).
+    Não derruba o CI; atalhos_dele=True lista só esses. No banco do Rotrix continua zero."""
     ok = aprovados() if ignorar_aprovados else set()
     fora = []
     for tipo, g, tit, _txt, _sec, _con in R.BANCO.itens:
@@ -50,6 +54,8 @@ def frouxos(ignorar_aprovados=True):
             continue                      # nomeia o exame: a regra nova protege
         if g in ok:
             continue                      # nome de exame liberado por ele
+        if tit.startswith("usuario/") != atalhos_dele:
+            continue
         meta = R.BANCO.meta.get(tit, ("", "", "", ""))
         regiao = "%s/%s/%s" % (meta[0] or "?", meta[1] or "?", meta[2] or "?")
         fora.append((regiao, tit, g))
@@ -96,6 +102,10 @@ def main(argv):
               % (len(itens), len(por_regiao)))
         for k in sorted(por_regiao, key=lambda x: -len(por_regiao[x])):
             print("  %-46s %4d" % (k, len(por_regiao[k])))
+        dele = frouxos(atalhos_dele=True)
+        if dele:
+            print("\natalhos das máscaras dele (só abrem por igualdade ou início do ditado): %d"
+                  % len(dele))
         print("\npara ver uma região:  python3 auditar_gatilhos.py <parte do nome>")
 
     return 1 if itens else 0

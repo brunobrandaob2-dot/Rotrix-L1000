@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-11-03.1"
+VERSAO = "2026-11-08.1"
 
 
 def _impressao_do_codigo():
@@ -247,6 +247,8 @@ class Banco:
                 continue                      # frases so por comando explicito ou exato
             if t == "mascara" and not _modalidade_compativel(alvo, g):
                 continue                      # gatilho diz o exame, o ditado nao
+            if t == "mascara" and _gatilho_frouxo(g):
+                continue                      # 08/11: sem nome de exame, só igual/início
             gt = g.split()
             if len(gt) < 2 and not (len(gt) == 1 and len(gt[0]) >= 6):
                 continue
@@ -277,6 +279,8 @@ class Banco:
                 continue
             if t == "mascara" and not _modalidade_compativel(alvo_set, g):
                 continue                      # mesma regra do passo 3
+            if t == "mascara" and _gatilho_frouxo(g):
+                continue                      # 08/11: mesma trava do passo 3
             # palavra curta do gatilho ("pe", "mao", "tc") tem de estar EXATA no
             # ditado: "tc de pelve" nao pode virar "tc de pe" por semelhanca
             if any(len(w) <= 3 and w not in alvo_set for w in g.split()):
@@ -316,6 +320,32 @@ _FAMILIA_MOD = {
     "mg": set("mamografia".split()),
 }
 _PALAVRA_MOD = {w: f for f, ws in _FAMILIA_MOD.items() for w in ws}
+
+
+# ---------- gatilho sem nome de exame: só por igualdade ou início do ditado ----------
+# 06/11 (auditoria): os atalhos curtos de 03/11 ("joelho direito", "lombar 2") não dizem
+# o exame. Pela cobertura e pelo difuso, "dor no joelho direito" abria a RADIOGRAFIA DO
+# JOELHO e "dor lombar há três meses" a coluna lombar GRAU 3. Ele escolheu manter os
+# atalhos (opção A, 08/11); a trava é o preço: gatilho de máscara sem palavra de exame,
+# fora de dados/gatilhos_aprovados.txt, só casa nos passos 1 (igual) e 2 (início).
+_APROVADOS_FLEX = None
+
+
+def _aprovados_flex():
+    global _APROVADOS_FLEX
+    if _APROVADOS_FLEX is None:
+        try:
+            with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "dados",
+                                   "gatilhos_aprovados.txt"), encoding="utf-8") as f:
+                _APROVADOS_FLEX = {l.strip() for l in f if l.strip() and not l.startswith("#")}
+        except OSError:
+            _APROVADOS_FLEX = set()
+    return _APROVADOS_FLEX
+
+
+def _gatilho_frouxo(g):
+    """Gatilho de máscara sem palavra de exame e fora da lista aprovada."""
+    return not _familias_do_gatilho(g) and g not in _aprovados_flex()
 
 
 def _familias_do_gatilho(g):
@@ -2697,6 +2727,9 @@ _VIRGULA_FALADA = [(re.compile(r"\s+ponto e v[ií]rgula\b", re.I), ";"),
                    (re.compile(r"\s+ponto final\b", re.I), ".")]
 
 
+_SO_LADO_E_GRAU = re.compile(r"(?:(?:direit|esquerd)[oa]s? )?(?:[1-5]|um|dois|tres|quatro|cinco)")
+
+
 def _compor_rx_literal(bruto_lit, bruto, cab_raw, cab_norm, tit, txt):
     """(texto, origem) ou None (entao segue o modo antigo)."""
     meta = BANCO.meta.get(tit, ("",) * 4)
@@ -2718,7 +2751,12 @@ def _compor_rx_literal(bruto_lit, bruto, cab_raw, cab_norm, tit, txt):
         # achado vira a mascara NORMAL + o achado com as palavras ditadas
         g0 = next(((g, t0, x0) for g, t0, x0 in _normais_da_regiao(meta)
                    if cab_norm == g or cab_norm.startswith(g + " ")), None)
-        if g0 is not None and not rx_literal.eh_rotulo(cab_norm[len(g0[0]):].strip()):
+        resto_cab = cab_norm[len(g0[0]):].strip() if g0 is not None else ""
+        # 08/11: "raio x de tornozelo direito 2" — lado + grau não é achado. A máscara do
+        # grau fica (a normal DELE do tornozelo, mesma categoria, roubava o ditado).
+        if g0 is not None and _SO_LADO_E_GRAU.fullmatch(resto_cab):
+            g0 = None
+        if g0 is not None and not rx_literal.eh_rotulo(resto_cab):
             k = _fim_cabecalho(toks, g0[0])
             if k is not None and k < len(toks):
                 tit, txt = g0[1], g0[2]

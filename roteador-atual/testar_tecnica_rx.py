@@ -81,7 +81,11 @@ for ditado, regiao, linha1, linha2 in ESPERADO:
     texto, origem = roteador.rotear(ditado)
     linhas = (texto or "").split("\n")
     tec = [l for l in linhas if l.startswith("**TÉCNICA:**")]
-    ok_regiao = regiao in (origem or "")
+    # 08/11: o atalho da normal dele ("usuario/rx/pe/normal_atalho") é cópia da normal do
+    # Rotrix e declara a mesma região (categoria msk): conta como a região certa.
+    tit_saiu = (origem or "").split(":", 1)[-1].split("+")[0]
+    meta_saiu = roteador.BANCO.meta.get(tit_saiu, ("",) * 4)
+    ok_regiao = regiao in (origem or "") or "/".join(meta_saiu[:3]) == regiao
     confere("%-30s cai em %s" % (ditado, regiao), ok_regiao, "caiu em %s" % origem)
     if not tec:
         confere("%-30s tem TÉCNICA" % ditado, False, "sem TÉCNICA")
