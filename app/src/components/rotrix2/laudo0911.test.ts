@@ -23,6 +23,9 @@ const aqui = dirname(fileURLToPath(import.meta.url));
 const laudo = readFileSync(join(aqui, "LaudoPage.tsx"), "utf8");
 const botoes = readFileSync(join(aqui, "BotoesDaFolha.tsx"), "utf8");
 const roteador = readFileSync(join(aqui, "../../../../roteador-atual/roteador.py"), "utf8");
+const telaIA = readFileSync(join(aqui, "../settings/rotrix/RotrixIA.tsx"), "utf8");
+const rust = readFileSync(join(aqui, "../../../src-tauri/src/rotrix.rs"), "utf8");
+const tiposRust = (rust.match(/const TIPOS_EXAME: &\[&str\] = &\[([\s\S]*?)\];/) || ["", ""])[1];
 
 const INCOERENTE = `TOMOGRAFIA COMPUTADORIZADA DO ABDOME TOTAL
 
@@ -368,6 +371,16 @@ const casos: [boolean, string][] = [
       laudo,
     ),
     "Analisar RX sem radiografia na folha: avisa e não gasta IA",
+  ],
+  [
+    ["revisar", "revisar_2", "analisar_rx"].every(
+      (k) => telaIA.includes(`chave: "${k}"`) && tiposRust.includes(`"${k}"`),
+    ),
+    "Configurações > IA: linhas Botão Revisar, 2ª IA e Analisar RX (e o Rust grava as três)",
+  ],
+  [
+    /usar a revisão da 2ª IA/.test(laudo) && /setSegunda\(\{/.test(laudo),
+    "rodapé oferece trocar pela revisão da 2ª IA",
   ],
 ];
 

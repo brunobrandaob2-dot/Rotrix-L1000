@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-11-09.3"
+VERSAO = "2026-11-10.1"
 
 
 def _impressao_do_codigo():
@@ -4554,6 +4554,39 @@ def _conferir_revisao(antes, depois):
     return out
 
 
+def _linhas_da_conclusao(t):
+    out, dentro = [], False
+    for l in (t or "").split("\n"):
+        lim = l.replace("**", "").strip()
+        if re.match(r"^(CONCLUS[ÃA]O|IMPRESS[ÃA]O)", lim, re.IGNORECASE):
+            dentro = True
+            resto = lim.split(":", 1)[1].strip() if ":" in lim else ""
+            if resto:
+                out.append(resto)
+            continue
+        if dentro and lim and not lim.startswith("["):
+            out.append(lim)
+    return out
+
+
+def _comparar_revisoes(um, dois):
+    """10/11: o que a 2ª IA disse diferente da 1ª — conclusão que só ela tem, e medida,
+    lado ou negação que divergem entre as duas. Vira a linha [conferir — 2ª IA ...]."""
+    def norma(x):
+        return re.sub(r"[^\w ]", "", unicodedata.normalize("NFC", x.lower())).strip()
+    c1 = [norma(x) for x in _linhas_da_conclusao(um)]
+    so_dela = []
+    for l in _linhas_da_conclusao(dois):
+        n = norma(l)
+        if n and not any(difflib.SequenceMatcher(None, n, x).ratio() >= 0.8 for x in c1):
+            so_dela.append("conclusão dela: \"%s\"" % (l if len(l) <= 90 else l[:87] + "..."))
+    dif = [x.replace("apareceu", "só nela").replace("sumiu", "só na 1ª")
+           .replace("medida nova", "medida só nela").replace("medida que sumiu", "medida só na 1ª")
+           .replace("negação(ões) a menos", "negação(ões) a menos nela")
+           for x in _conferir_revisao(um, dois)]
+    return so_dela[:3] + dif
+
+
 def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado=False):
     """Rotrix v2: o laudo que está na folha do app passa pela IA e volta pronto.
 
@@ -4649,8 +4682,39 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
         extra["imagens"] = imgs
     if ditado or botao:
         extra["analise"] = True       # raciocínio/revisão/RX: a linha "Só formatar" cede ao padrão
+    if botao:
+        extra["botao"] = botao        # 10/11: a linha "Revisar"/"Analisar RX" da tabela escolhe a IA
+    # 10/11: 2ª IA da revisão (linha "Revisar · 2ª IA" da tabela): roda junto, em paralelo
+    seg, t2 = {}, None
+    if botao == "revisar":
+        e2 = nuvem._entrada_rota((c.get("ia_por_exame") or {}).get("revisar_2"))
+        if e2.get("provedor") or e2.get("modelo"):
+            def _segunda():
+                try:
+                    seg["r"] = _laudo_pela_ia(pedido, c, **dict(extra, botao="revisar_2"))
+                    seg["u"] = nuvem.ultima_desta_chamada() or {}
+                except Exception as ex:          # a 2ª nunca derruba a 1ª
+                    seg["r"] = (None, "erro: %s" % type(ex).__name__, "")
+            t2 = threading.Thread(target=_segunda, daemon=True)
+            t2.start()
     novo, origem, formato_resp = _laudo_pela_ia(pedido, c, **extra)
+    u1 = nuvem.ultima_desta_chamada() or dict(getattr(nuvem, "ULTIMA", {}) or {})
+    if t2 is not None:
+        t2.join(timeout=200)
+    segunda = None
+    if t2 is not None:
+        n2, o2, _f2 = seg.get("r") or (None, "sem_resposta", "")
+        u2 = seg.get("u") or {}
+        if o2 == "nuvem" and n2:
+            segunda = {"texto": n2, "modelo": u2.get("modelo"), "custo_usd": u2.get("usd")}
+        else:
+            segunda = {"erro": o2}
     if origem == "nuvem" and novo:
+        if segunda and segunda.get("texto"):
+            dif2 = _comparar_revisoes(novo, segunda["texto"])
+            if dif2:
+                nome2 = str(segunda.get("modelo") or "2ª IA").split(":")[-1]
+                novo = "[conferir — 2ª IA (%s): %s]\n%s" % (nome2, "; ".join(dif2), novo)
         if botao == "revisar":
             achou = _conferir_revisao(texto, novo)
             if achou:
@@ -4661,11 +4725,14 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
                 _aprender(texto, novo)
             except Exception:
                 pass
-        u = nuvem.ultima_desta_chamada() or dict(getattr(nuvem, "ULTIMA", {}) or {})
+        u = u1
+        custo = u.get("usd")
+        if segunda and isinstance(segunda.get("custo_usd"), (int, float)) and isinstance(custo, (int, float)):
+            custo = round(custo + segunda["custo_usd"], 5)      # o recibo soma as duas IAs
         return {"ok": True, "texto": novo, "origem": origem, "imagens": len(imgs),
-                "ditado": bool(ditado), "botao": botao,
+                "ditado": bool(ditado), "botao": botao, "segunda": segunda,
                 "modelo": u.get("modelo") or c.get("modelo"),
-                "custo_usd": u.get("usd"), "mes_usd": u.get("mes_usd"),
+                "custo_usd": custo, "mes_usd": u.get("mes_usd"),
                 "economia": u.get("economia", False),
                 # cache: a tela diz se o prompt de sistema saiu por 10% ou inteiro
                 "cache": u.get("cache", ""), "cache_lido": u.get("cache_lido", 0),

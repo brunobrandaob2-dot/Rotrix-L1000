@@ -85,6 +85,17 @@ const EXAMES: { chave: string; nome: string }[] = [
   { chave: "padrao", nome: "Demais exames" },
 ];
 
+// 10/11 (pedido dele): a IA de cada botão da aba Laudo. A linha do botão vence a barra e
+// a tabela por exame; vazia, o botão usa a IA da barra (e a linha "Só formatar" do exame
+// cede ao padrão, como no raciocínio). "Só formatar" não se aplica: revisar e ler
+// radiografia são análise.
+const BOTOES: { chave: string; nome: string }[] = [
+  { chave: "revisar", nome: "Botão Revisar" },
+  // "mais de uma IA se eu tiver OpenAI e Anthropic": a 2ª revisa junto, em paralelo
+  { chave: "revisar_2", nome: "Revisar · 2ª IA" },
+  { chave: "analisar_rx", nome: "Botão Analisar RX" },
+];
+
 // Como o Bruno descreveu: básicos (Luna, Haiku) só formatam; RM e oncológico no Sonnet.
 const SUGESTAO: Record<string, Rota> = {
   rx: { provedor: "openai", modelo: "gpt-5.6-luna", modo: "formatar" },
@@ -239,10 +250,10 @@ export const RotrixIA: React.FC = () => {
       const item: Rota = {};
       if (r.provedor) item.provedor = r.provedor;
       if (r.modelo) item.modelo = r.modelo;
-      if (r.modo) item.modo = r.modo;
+      if (r.modo && !BOTOES.some((b) => b.chave === k)) item.modo = r.modo;
       if (r.raciocinio) item.raciocinio = r.raciocinio;
       if (item.provedor && !item.modelo && item.provedor !== provedor) {
-        const nome = EXAMES.find((x) => x.chave === k)?.nome ?? k;
+        const nome = [...EXAMES, ...BOTOES].find((x) => x.chave === k)?.nome ?? k;
         setMensagem("Escolha o modelo de " + nome + ".");
         return;
       }
@@ -448,6 +459,55 @@ export const RotrixIA: React.FC = () => {
                     })
                   }
                 />
+              </div>
+            );
+          })}
+          <div className="pt-3 text-xs text-mid-gray">
+            Botões da aba Laudo: a linha do botão vence a barra e a tabela acima. Em
+            branco, o botão usa a IA da barra. Com a 2ª IA preenchida (ex.: Claude na 1ª,
+            GPT na 2ª), a revisão roda nas duas ao mesmo tempo — custo dobra, a espera é a da
+            mais lenta: a 1ª vai para a folha, o que a 2ª disser diferente vem na linha
+            [conferir], e o rodapé oferece trocar pela 2ª. O Analisar RX precisa de um
+            modelo que leia imagem.
+          </div>
+          {BOTOES.map((bt) => {
+            const r = rotas[bt.chave] ?? {};
+            const prov = r.provedor ?? "";
+            return (
+              <div
+                key={bt.chave}
+                className="grid grid-cols-[9rem_minmax(0,1fr)_minmax(0,1.6fr)_6rem] gap-2 items-center"
+              >
+                <span className="text-sm">{bt.nome}</span>
+                <select
+                  className={classeSelect + " w-full min-w-0"}
+                  value={prov}
+                  onChange={(e) => mudarRota(bt.chave, { provedor: e.target.value })}
+                >
+                  <option value="">
+                    {bt.chave === "revisar_2" ? "desligada" : "igual à barra"}
+                  </option>
+                  {PROVEDORES.map((p) => (
+                    <option key={p.value} value={p.value}>
+                      {p.label}
+                    </option>
+                  ))}
+                </select>
+                <EscolhaModelo
+                  key={bt.chave + "-" + (prov || provedor) + "-" + versao}
+                  provedor={prov || provedor}
+                  modelo={r.modelo ?? ""}
+                  vazio={
+                    bt.chave === "revisar_2"
+                      ? "desligada"
+                      : prov === ""
+                        ? "modelo da barra"
+                        : "escolha o modelo"
+                  }
+                  naCelula
+                  onChange={(m) => mudarRota(bt.chave, { modelo: m })}
+                />
+                <span className="text-xs text-mid-gray text-center">—</span>
               </div>
             );
           })}

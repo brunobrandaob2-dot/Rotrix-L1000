@@ -1338,7 +1338,13 @@ def com_modelo(c, modelo):
     return c
 
 
-def rota(pedido, c=None, modo="analise", com_imagem=False, analise=False, tarefa=None):
+# 10/11 (pedido dele): linha própria na tabela para os botões Revisar e Analisar RX.
+# Chave da tabela de cada botão (o roteador passa "revisar" / "rx").
+# "revisar_2" (10/11, "mais de uma IA se eu tiver OpenAI e Anthropic"): a 2ª IA da revisão.
+CHAVE_DO_BOTAO = {"revisar": "revisar", "rx": "analisar_rx", "revisar_2": "revisar_2"}
+
+
+def rota(pedido, c=None, modo="analise", com_imagem=False, analise=False, tarefa=None, botao=""):
     """Decide provedor, modelo e modo. Sem ia_por_exame = o de sempre (topo do config).
 
     com_imagem (27/09): o laudo leva print com medidas. Anexar a imagem e apertar o
@@ -1359,6 +1365,27 @@ def rota(pedido, c=None, modo="analise", com_imagem=False, analise=False, tarefa
         return r
     tipo, onco = tipo_exame(pedido), eh_onco(pedido)
     r["exame"] = "onco" if onco else tipo
+    # 10/11: a linha do botão (Revisar / Analisar RX) é a escolha mais específica dele:
+    # vence a barra e a tabela por exame, sem "só formatar" e sem economia. Linha vazia =
+    # segue o caminho de sempre (barra; tabela com a linha "Só formatar" cedendo ao padrão).
+    chave = CHAVE_DO_BOTAO.get(botao or "")
+    ia_tab = c.get("ia_por_exame") or {}
+    if chave and isinstance(ia_tab, dict):
+        e = _entrada_rota(ia_tab.get(chave))
+        prov = (e.get("provedor") or "").strip().lower()
+        mod = (e.get("modelo") or "").strip()
+        if prov or mod:
+            if prov:
+                r["provedor"] = prov
+                if prov != prov_geral and not mod:
+                    r["modelo"] = ""
+            if mod:
+                r["modelo"] = mod
+            if (e.get("raciocinio") or "").strip():
+                r["raciocinio"] = e["raciocinio"].strip().lower()
+            r["regra"] = "botao:" + chave
+            r["por_exame"] = True
+            return r
     # 16/10 (pedido dele: Luna também na TC): modelo escolhido na barra DIFERENTE do
     # Modelo padrão é escolha dele e vence a tabela por exame naquele laudo. Sem
     # escolha, a barra mostra o padrão e a tabela manda, como antes.
@@ -1818,7 +1845,7 @@ def aplicar_diferenca(pedido, resposta):
 
 
 def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens=None,
-           analise=False, sistema=None, tarefa=None, diferenca=False):
+           analise=False, sistema=None, tarefa=None, diferenca=False, botao=""):
     """Devolve (texto, origem). Nunca levanta excecao.
 
     modo: "revisao" usa o prompt de revisao textual (nao raciocina sobre o caso);
@@ -1837,7 +1864,7 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
     if not c.get("ativa"):
         return None, "nuvem_desligada"
     imagens = list(imagens or [])       # [(media_type, base64)] já conferidas no roteador
-    r = rota(pedido, c, modo, com_imagem=bool(imagens), analise=analise, tarefa=tarefa)
+    r = rota(pedido, c, modo, com_imagem=bool(imagens), analise=analise, tarefa=tarefa, botao=botao)
     m_ef = r["modo"]
     economia = r.get("regra") == "economia"
     # O prompt de sistema vem de dados/prompts/REDATOR_ROTRIX.md, montado por bloco:

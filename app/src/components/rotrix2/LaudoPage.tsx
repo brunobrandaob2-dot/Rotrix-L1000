@@ -106,6 +106,7 @@ const recibo = (r: {
   cache_lido?: number;
   imagens?: number;
   ditado?: boolean;
+  segunda?: { modelo?: string; erro?: string } | null;
 }): string => {
   const curto = (r.modelo || "IA").split(/[:/]/).pop() || "IA";
   const nome = curto.replace(/[-_]?\d{6,}$/, "");
@@ -113,6 +114,9 @@ const recibo = (r: {
   // a IA viu a imagem? sem isto ele não sabe se a medida do print foi lida
   if (r.imagens && r.imagens > 0) partes.push(r.imagens === 1 ? "com a imagem" : `com ${r.imagens} imagens`);
   if (r.ditado) partes.push("raciocínio");
+  // 10/11: revisão com duas IAs — o custo já vem somado
+  if (r.segunda?.modelo) partes.push(`+ 2ª IA ${(r.segunda.modelo.split(/[:/]/).pop() || "").replace(/[-_]?\d{6,}$/, "")}`);
+  else if (r.segunda?.erro) partes.push("2ª IA não respondeu");
   if (typeof r.custo_usd === "number") {
     const c = r.custo_usd * 100;
     partes.push(c < 1 ? `${c.toFixed(2)} centavo` : `${c.toFixed(1)} centavos`);
@@ -205,6 +209,8 @@ export const LaudoPage: React.FC<Props> = ({
   const [aviso, setAviso] = useState("");
   const [marcas, setMarcas] = useState(true);
   const [ultimoIA, setUltimoIA] = useState<string>("");
+  // 10/11: a revisão da 2ª IA, pronta para trocar pela da 1ª (rodapé)
+  const [segunda, setSegunda] = useState<{ html: string; modelo: string } | null>(null);
   const apertadoEm = useRef(0);
   const soltouCedo = useRef(false);
   const esperandoIA = useRef(false); // o ditado atual termina na IA grande?
@@ -359,6 +365,7 @@ export const LaudoPage: React.FC<Props> = ({
       const antes = folha.current?.innerHTML || "";
       setOcupado("ia");
       setAviso("");
+      setSegunda(null);
       try {
         const paraIA = await Promise.all(imagens.map((i) => reduzirParaIA(i)));
         const bruto = await invoke<string>("rotrix_ia_texto", {
@@ -374,6 +381,11 @@ export const LaudoPage: React.FC<Props> = ({
           // com imagem (ou ditado de raciocínio), o "desfazer" volta a folha inteira
           setUltimoIA(imagens.length || ditado ? antes : texto);
           if (folha.current) folha.current.innerHTML = folhaComImagens(r.texto, imagens);
+          if (r.segunda?.texto)
+            setSegunda({
+              html: folhaComImagens(r.segunda.texto, imagens),
+              modelo: String(r.segunda.modelo || "2ª IA").split(/[:/]/).pop() || "2ª IA",
+            });
           // QUAL IA agiu e QUANTO custou. Sem isso ele aperta um botão e não
           // sabe se gastou um centavo ou dez — foi exatamente o que ele
           // perguntou, e trocar o modelo por baixo sem mostrar é pior ainda.
@@ -863,13 +875,13 @@ export const LaudoPage: React.FC<Props> = ({
             colada e reconcilia com o ditado (confirma; troca só erro objetivo, com ressalva;
             achado novo de confiança média/baixa só na ressalva; nunca tira achado ditado). */}
         <Fer
-          titulo={`Revisar o laudo com ${modeloCompleto} (skill de revisão): termo técnico, alterações primeiro, conclusão sem medida, diferenciais e recomendação. O que mudar de sentido volta numa linha [conferir]. Desfazer (⏱) volta o anterior.`}
+          titulo={`Revisar o laudo com ${regrasIa.revisar || modeloCompleto} (skill de revisão; a IA se escolhe em Configurações > IA, linha "Botão Revisar"): termo técnico, alterações primeiro, conclusão sem medida, diferenciais e recomendação. O que mudar de sentido volta numa linha [conferir]. Desfazer (⏱) volta o anterior.`}
           onClick={() => void rodarIA({ instrucao: INSTRUCAO_REVISAR })}
         >
           <FileCheck2 size={15} />
         </Fer>
         <Fer
-          titulo={`Analisar RX com ${modeloCompleto} (skill de radiografia): a IA lê a radiografia colada na folha e reconcilia com o seu ditado. Confirma o que a imagem mostra; troca só erro objetivo (lado, osso, nível), com ressalva; achado novo de confiança média ou baixa vai só na linha [conferir]; nunca tira achado que você ditou.`}
+          titulo={`Analisar RX com ${regrasIa.analisar_rx || modeloCompleto} (skill de radiografia; a IA se escolhe em Configurações > IA, linha "Botão Analisar RX"): a IA lê a radiografia colada na folha e reconcilia com o seu ditado. Confirma o que a imagem mostra; troca só erro objetivo (lado, osso, nível), com ressalva; achado novo de confiança média ou baixa vai só na linha [conferir]; nunca tira achado que você ditou.`}
           onClick={() => {
             if (!imagensDaFolha(folha.current).length) {
               setAviso("cole a radiografia na folha (Ctrl+V; o recorte abre sozinho) e aperte Analisar RX de novo");
@@ -1192,6 +1204,23 @@ export const LaudoPage: React.FC<Props> = ({
             tempos
           </button>
         </Dica>
+        {segunda && (
+          <Dica texto="A revisão da 2ª IA. Troca a folha pela dela; o Desfazer (⏱) volta a da 1ª.">
+            <button
+              type="button"
+              onClick={() => {
+                if (!folha.current) return;
+                setUltimoIA(folha.current.innerHTML);
+                folha.current.innerHTML = segunda.html;
+                setAviso(`revisão da 2ª IA (${segunda.modelo}) na folha · Desfazer volta a da 1ª`);
+                setSegunda(null);
+              }}
+              className="h-7 px-2 rounded-lg border border-logo-primary/50 bg-logo-primary/15 text-[11px] hover:bg-logo-primary/25 cursor-pointer"
+            >
+              usar a revisão da 2ª IA ({segunda.modelo})
+            </button>
+          </Dica>
+        )}
         <span className="ms-auto text-[11px] text-mid-gray">
           {aviso ||
             "clique curto liga e desliga · segurar grava enquanto segura"}

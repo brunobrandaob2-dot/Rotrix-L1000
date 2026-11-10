@@ -148,6 +148,52 @@ confere("conferência: medida nova, medida sumida, lado trocado, negação a men
 confere("conferência: só redação não acusa nada",
         roteador._conferir_revisao("Fígado sem lesões, 12 cm.", "Fígado de dimensões normais, sem lesões, 12 cm.") == [])
 
+# 6. (10/11) a linha do botão na tabela escolhe a IA — e vence a barra
+cb = {"ativa": True, "provedor": "anthropic", "modelo": "claude-sonnet-5",
+      "ia_por_exame": {"rx": {"provedor": "openai", "modelo": "gpt-6-luna", "modo": "formatar"},
+                       "revisar": {"provedor": "openai", "modelo": "gpt-6-sol"}}}
+rr = nuvem.rota("RADIOGRAFIA DO JOELHO", nuvem.com_modelo(cb, "anthropic:claude-opus-5"), "laudo",
+                analise=True, botao="revisar")
+confere("linha 'Botão Revisar' escolhe a IA da revisão (vence a barra e a linha do RX)",
+        (rr["provedor"], rr["modelo"], rr["regra"], rr["modo"]) == ("openai", "gpt-6-sol", "botao:revisar", "laudo"),
+        repr(rr))
+rr = nuvem.rota("RADIOGRAFIA DO JOELHO", cb, "laudo", analise=True, botao="rx")
+confere("sem linha do Analisar RX: caminho de sempre (o 'Só formatar' do RX cede ao padrão)",
+        rr["regra"] != "botao:analisar_rx" and rr["modo"] == "laudo" and rr["modelo"] == "claude-sonnet-5", repr(rr))
+
+# 7. (10/11) "mais de uma IA": 2ª IA da revisão roda junto; diferença vira [conferir]
+DUAS = {"gpt-6-sol": LAUDO.replace("Nefrolitíase.", "Nefrolitíase."),
+        "gpt-6-luna": LAUDO.replace("Nefrolitíase.", "Nefrolitíase.\nEsteatose hepática.")}
+MODELOS_VISTOS = []
+
+
+def _falso2(req, timeout=None, context=None):
+    corpo = json.loads(req.data.decode("utf-8"))
+    MODELOS_VISTOS.append(corpo.get("model"))
+    txt = DUAS.get(corpo.get("model"), "SEM MUDANÇAS")
+    return _R(json.dumps({"choices": [{"message": {"content": txt}, "finish_reason": "stop"}],
+                          "usage": {"prompt_tokens": 900, "completion_tokens": 60}}).encode())
+
+
+urllib.request.urlopen = _falso2
+cfg(ia_por_exame={"revisar": {"provedor": "openai", "modelo": "gpt-6-sol"},
+                  "revisar_2": {"provedor": "openai", "modelo": "gpt-6-luna"}})
+r = roteador.ia_no_texto(LAUDO, instrucao=roteador.INSTRUCAO_REVISAR)
+confere("2ª IA: as duas foram chamadas (Sol e Luna)", sorted(MODELOS_VISTOS) == ["gpt-6-luna", "gpt-6-sol"],
+        repr(MODELOS_VISTOS))
+confere("2ª IA: a 1ª vai para a folha", r.get("ok") and "Esteatose" not in (r.get("texto") or "").split("]\n")[-1],
+        repr(r)[:300])
+confere("2ª IA: a revisão dela volta para o botão de trocar",
+        "Esteatose hepática." in ((r.get("segunda") or {}).get("texto") or ""), repr(r.get("segunda"))[:200])
+confere("2ª IA: conclusão que só ela tem vai no [conferir — 2ª IA]",
+        "[conferir — 2ª IA (gpt-6-luna): conclusão dela: \"Esteatose hepática.\"" in (r.get("texto") or ""),
+        (r.get("texto") or "")[:200])
+MODELOS_VISTOS.clear()
+cfg(ia_por_exame={"revisar": {"provedor": "openai", "modelo": "gpt-6-sol"}})
+r = roteador.ia_no_texto(LAUDO, instrucao=roteador.INSTRUCAO_REVISAR)
+confere("sem a 2ª IA: uma chamada só", MODELOS_VISTOS == ["gpt-6-sol"] and r.get("segunda") is None, repr(MODELOS_VISTOS))
+urllib.request.urlopen = _falso
+
 print()
 print("revisar e analisar RX: tudo certo" if not falhas else "revisar e analisar RX: %d falha(s)" % len(falhas))
 sys.exit(1 if falhas else 0)

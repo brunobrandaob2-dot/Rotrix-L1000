@@ -417,7 +417,20 @@ pub fn rotrix_abrir_pasta(app: AppHandle) -> Result<(), String> {
 
 const PROVEDORES: &[&str] = &["anthropic", "openai", "gemini", "openrouter", "ollama", "compativel"];
 const PROVEDORES_COM_CHAVE: &[&str] = &["anthropic", "openai", "gemini", "openrouter", "compativel"];
-const TIPOS_EXAME: &[&str] = &["rx", "tc", "rm", "angio", "mamo", "us", "onco", "padrao"];
+// 10/11: "revisar", "revisar_2" (2a IA da revisao) e "analisar_rx" sao as linhas dos botoes
+const TIPOS_EXAME: &[&str] = &[
+    "rx",
+    "tc",
+    "rm",
+    "angio",
+    "mamo",
+    "us",
+    "onco",
+    "padrao",
+    "revisar",
+    "revisar_2",
+    "analisar_rx",
+];
 
 fn ler_config(p: &Path) -> Result<serde_json::Value, String> {
     let txt = std::fs::read_to_string(p).unwrap_or_else(|_| "{}".to_string());
