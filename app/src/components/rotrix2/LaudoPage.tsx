@@ -138,6 +138,24 @@ const recibo = (r: {
 export const INSTRUCAO_REVISAR = "revisar o laudo";
 // 10/11: "o botão revisão deve revisar incoerências, mas também melhorar o laudo caso eu queira"
 export const INSTRUCAO_MELHORAR = "revisar e melhorar o laudo";
+
+// 10/11: "liberdade" só no Revisar › reescrever. As opções e a orientação dele vão nas
+// linhas de baixo da instrução; o roteador as lê (OPCOES_REVISAO em roteador.py).
+export const OPCOES_REVISAO = [
+  { id: "defensivo", nome: "Mais defensivo", dica: "linguagem de probabilidade no achado sutil, complementação quando o método é pouco específico" },
+  { id: "tecnico", nome: "Mais técnico", dica: "léxico radiológico preciso e descritores completos com o que já está no laudo" },
+  { id: "inferencias", nome: "Inferências", dica: "provável natureza ou mecanismo, associação entre achados, diferenciais" },
+  { id: "conciso", nome: "Mais conciso", dica: "junta o redundante, tira repetição, conclusão curta" },
+];
+export const instrucaoReescrever = (opcoes: string[], orientacao: string): string =>
+  [
+    INSTRUCAO_MELHORAR,
+    opcoes.length ? `OPÇÕES: ${opcoes.join("; ")}` : "",
+    orientacao.trim() ? `ORIENTAÇÃO: ${orientacao.trim()}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+const GUARDADO_REVISAO = "rotrix2.revisao";
 export const INSTRUCAO_ANALISAR_RX = "analisar a radiografia";
 
 const BINDING: Record<Modo, string> = {
@@ -212,6 +230,35 @@ export const LaudoPage: React.FC<Props> = ({
   const [marcas, setMarcas] = useState(true);
   const [ultimoIA, setUltimoIA] = useState<string>("");
   const [menuRevisar, setMenuRevisar] = useState(false);
+  const lerRevisao = (): { opcoes: string[]; orientacao: string } => {
+    try {
+      const v = JSON.parse(localStorage.getItem(GUARDADO_REVISAO) || "{}");
+      return {
+        opcoes: Array.isArray(v.opcoes) ? v.opcoes : ["tecnico", "inferencias"],
+        orientacao: typeof v.orientacao === "string" ? v.orientacao : "",
+      };
+    } catch {
+      return { opcoes: ["tecnico", "inferencias"], orientacao: "" };
+    }
+  };
+  const [revOpcoes, setRevOpcoes] = useState<string[]>(() => lerRevisao().opcoes);
+  const [revOrientacao, setRevOrientacao] = useState<string>(() => lerRevisao().orientacao);
+  const gravarRevisao = (opcoes: string[], orientacao: string) => {
+    try {
+      localStorage.setItem(GUARDADO_REVISAO, JSON.stringify({ opcoes, orientacao }));
+    } catch {
+      /* sem armazenamento: vale só nesta sessão */
+    }
+  };
+  const trocarOpcaoRevisao = (id: string) => {
+    const novas = revOpcoes.includes(id) ? revOpcoes.filter((x) => x !== id) : [...revOpcoes, id];
+    setRevOpcoes(novas);
+    gravarRevisao(novas, revOrientacao);
+  };
+  const guardarOrientacao = (t: string) => {
+    setRevOrientacao(t);
+    gravarRevisao(revOpcoes, t);
+  };
   // 10/11: a revisão da 2ª IA, pronta para trocar pela da 1ª (rodapé)
   const [segunda, setSegunda] = useState<{ html: string; modelo: string } | null>(null);
   const apertadoEm = useRef(0);
@@ -888,37 +935,66 @@ export const LaudoPage: React.FC<Props> = ({
           {menuRevisar && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setMenuRevisar(false)} />
-              <div className="absolute z-50 top-full mt-1 start-0 w-[320px] rounded-xl border border-mid-gray/30 bg-background shadow-2xl p-1.5">
-                {[
-                  {
-                    instrucao: INSTRUCAO_REVISAR,
-                    nome: "Conferir incoerências",
-                    resumo:
-                      "lado, contraste × realce, conclusão × análise, medida, contradição, lacuna. Corrige só o incoerente e aponta o resto; não mexe na redação.",
-                  },
-                  {
-                    instrucao: INSTRUCAO_MELHORAR,
-                    nome: "Conferir e melhorar a redação",
-                    resumo:
-                      "as incoerências + linguagem técnica, descrições completas com o que já está no laudo, alterações primeiro, conclusão sem medida, diferenciais.",
-                  },
-                ].map((op) => (
+              <div className="absolute z-50 top-full mt-1 start-0 w-[340px] rounded-xl border border-mid-gray/30 bg-background shadow-2xl p-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuRevisar(false);
+                    void rodarIA({ instrucao: INSTRUCAO_REVISAR });
+                  }}
+                  className="w-full text-start px-2.5 py-2 rounded-lg hover:bg-logo-primary/20 cursor-pointer"
+                >
+                  <div className="text-[12.5px] font-semibold">Conferir incoerências</div>
+                  <div className="text-[10.5px] text-mid-gray leading-tight">
+                    lado, contraste × realce, conclusão × análise, medida, contradição, lacuna. Corrige só o
+                    incoerente e aponta o resto; não mexe na redação.
+                  </div>
+                </button>
+                <div className="mt-1 px-2.5 py-2 rounded-lg border border-logo-primary/30">
+                  <div className="text-[12.5px] font-semibold">Revisar e reescrever</div>
+                  <div className="text-[10.5px] text-mid-gray leading-tight mb-1.5">
+                    liberdade de revisor: reescreve no léxico radiológico, inclui inferências, tira o que ficou
+                    ruim. Achado alterado nunca sai; medida, lado e nível não mudam.
+                  </div>
+                  <div className="flex flex-wrap gap-1 mb-1.5">
+                    {OPCOES_REVISAO.map((o) => (
+                      <button
+                        key={o.id}
+                        type="button"
+                        title={o.dica}
+                        onClick={() => trocarOpcaoRevisao(o.id)}
+                        className={`text-[10.5px] px-2 py-0.5 rounded-md border cursor-pointer ${
+                          revOpcoes.includes(o.id)
+                            ? "border-logo-primary/60 bg-logo-primary/25 font-bold"
+                            : "border-mid-gray/25 hover:bg-mid-gray/15"
+                        }`}
+                      >
+                        {o.nome}
+                      </button>
+                    ))}
+                  </div>
+                  <textarea
+                    value={revOrientacao}
+                    onChange={(e) => guardarOrientacao(e.target.value)}
+                    rows={2}
+                    maxLength={1200}
+                    placeholder="orientação (opcional): ex.: alterações pulmonares mais defensivas; conclusão em uma linha"
+                    className="w-full rounded-md border border-mid-gray/25 bg-background px-2 py-1 text-[11px] leading-snug resize-y"
+                  />
                   <button
-                    key={op.instrucao}
                     type="button"
                     onClick={() => {
                       setMenuRevisar(false);
-                      void rodarIA({ instrucao: op.instrucao });
+                      void rodarIA({ instrucao: instrucaoReescrever(revOpcoes, revOrientacao) });
                     }}
-                    className="w-full text-start px-2.5 py-2 rounded-lg hover:bg-logo-primary/20 cursor-pointer"
+                    className="mt-1.5 w-full h-7 rounded-md bg-logo-primary text-white text-[11.5px] font-semibold cursor-pointer hover:opacity-90"
                   >
-                    <div className="text-[12.5px] font-semibold">{op.nome}</div>
-                    <div className="text-[10.5px] text-mid-gray leading-tight">{op.resumo}</div>
+                    Revisar e reescrever
                   </button>
-                ))}
+                </div>
                 <div className="px-2.5 py-1.5 text-[10.5px] leading-snug text-mid-gray">
-                  Nunca inventa nem tira achado. O que mudar de sentido volta numa linha [conferir]; o
-                  Desfazer (⏱) volta o anterior.
+                  Nas duas: achado alterado nunca sai; medida, lado e nível nunca mudam. O que mudar de
+                  sentido volta numa linha [conferir]; o Desfazer (⏱) volta o anterior.
                 </div>
               </div>
             </>

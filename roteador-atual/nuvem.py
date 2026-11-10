@@ -1384,6 +1384,10 @@ def rota(pedido, c=None, modo="analise", com_imagem=False, analise=False, tarefa
                 r["modelo"] = mod
             if (e.get("raciocinio") or "").strip():
                 r["raciocinio"] = e["raciocinio"].strip().lower()
+            elif botao == "melhorar" and _modelo_basico(r["modelo"]):
+                # 10/11: Luna/mini no reescrever (liberdade de revisor): um pouco de
+                # raciocínio, em vez do "none" que o básico recebe para formatar
+                r["raciocinio"] = "low"
             r["regra"] = "botao:" + chave
             r["por_exame"] = True
             return r
@@ -1931,6 +1935,8 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
     # Laudo, instrução, análise, imagem e raciocínio continuam no padrão do modelo:
     # decisão dele (16/10) é não deixar a IA "mais burra" para ganhar tempo.
     rac = r["raciocinio"]
+    if not rac and botao == "melhorar" and _modelo_basico(r["modelo"]):
+        rac = "low"        # 10/11: reescrever com liberdade de revisor também no Luna/mini
     if not rac and p.get("nome") == "openai" and (m_ef in ("formatar", "revisao") or economia
                                                   or _modelo_basico(r["modelo"])):
         rac = "none"

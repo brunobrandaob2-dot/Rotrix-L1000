@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-11-10.2"
+VERSAO = "2026-11-10.3"
 
 
 def _impressao_do_codigo():
@@ -4555,6 +4555,45 @@ def _conferir_revisao(antes, depois):
     return out
 
 
+# 10/11: as opções do Revisar › reescrever (chips no app). O texto de cada uma vai no pedido.
+OPCOES_REVISAO = {
+    "defensivo": ("REDAÇÃO DEFENSIVA: achado sutil ou incerto em linguagem de probabilidade (\"sugere\", "
+                  "\"pode corresponder a\", \"não se pode excluir\"); nada afirmado além do que o achado "
+                  "descrito sustenta; diferencial e complementação quando a especificidade do método é baixa; "
+                  "normalidade dita dentro dos limites do método quando a avaliação é limitada."),
+    "tecnico": ("MAIS TÉCNICO: léxico radiológico preciso da modalidade, descritores completos (localização, "
+                "morfologia, contornos, atenuação/sinal/ecogenicidade, relação com estruturas adjacentes) com o "
+                "que já está no laudo."),
+    "inferencias": ("INFERÊNCIAS: inclua a provável natureza ou mecanismo de cada alteração descrita, a "
+                    "associação entre achados do mesmo processo e os diferenciais pertinentes."),
+    "conciso": ("MAIS CONCISO: junte frases redundantes, tire repetição e explicação desnecessária, conclusão "
+                "curta."),
+}
+_OPCAO_POR_NOME = {"defensivo": "defensivo", "defensiva": "defensivo", "tecnico": "tecnico", "técnico": "tecnico",
+                   "inferencias": "inferencias", "inferências": "inferencias", "conciso": "conciso"}
+
+
+def _opcoes_da_revisao(resto):
+    """'OPÇÕES: defensivo; técnico\nORIENTAÇÃO: texto' -> (["defensivo", "tecnico"], "texto")."""
+    opcoes, orient, dentro_orient = [], [], False
+    for linha in (resto or "").split("\n"):
+        lim = linha.strip()
+        m = re.match(r"^(OP[ÇC][ÕO]ES|ORIENTA[ÇC][ÃA]O)\s*:\s*(.*)$", lim, re.IGNORECASE)
+        if m and m.group(1).upper().startswith("OP"):
+            for nome in re.split(r"[;,]", m.group(2)):
+                k = _OPCAO_POR_NOME.get(nome.strip().lower())
+                if k and k not in opcoes:
+                    opcoes.append(k)
+            dentro_orient = False
+        elif m:
+            dentro_orient = True
+            if m.group(2).strip():
+                orient.append(m.group(2).strip())
+        elif dentro_orient and lim:
+            orient.append(lim)
+    return opcoes, "\n".join(orient)[:1200]
+
+
 def _linhas_da_conclusao(t):
     out, dentro = [], False
     for l in (t or "").split("\n"):
@@ -4622,9 +4661,13 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
     # a mesma estrutura numa linha só ANTES da IA: não depende do modelo obedecer
     texto = juntar_rotulos_repetidos(texto)
     instrucao = (instrucao or "").strip()
+    # 10/11: o Revisar › reescrever manda, nas linhas de baixo, as OPÇÕES marcadas e a
+    # ORIENTAÇÃO escrita por ele; a 1ª linha é o comando do botão
+    cabeca, _sep, resto_instr = instrucao.partition("\n")
     botao = {INSTRUCAO_REVISAR: "revisar", INSTRUCAO_MELHORAR: "melhorar",
-             INSTRUCAO_ANALISAR_RX: "rx"}.get(instrucao.lower(), "")
+             INSTRUCAO_ANALISAR_RX: "rx"}.get(cabeca.strip().lower(), "")
     revisao = botao in ("revisar", "melhorar")
+    opcoes_rev, orientacao_rev = _opcoes_da_revisao(resto_instr) if botao == "melhorar" else ([], "")
     if botao == "rx" and not imgs:
         return {"ok": False, "motivo": "rx_sem_imagem", "texto": texto}
     regras_ditado = None
@@ -4651,7 +4694,16 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
         if not regras_ditado or (roteado and "ROTEADOR LIGADO" not in regras_ditado):
             return {"ok": False, "motivo": "descreva_sem_regra", "texto": texto}
     tela = texto if texto.strip() else "(vazia, sem máscara)"
-    if instrucao:
+    if botao == "melhorar":
+        partes_p = ["PEDIDO: revisar e reescrever o laudo."]
+        if opcoes_rev:
+            partes_p.append("OPÇÕES MARCADAS:\n" + "\n".join("- " + OPCOES_REVISAO[o] for o in opcoes_rev))
+        if orientacao_rev:
+            partes_p.append("ORIENTAÇÃO DO RADIOLOGISTA (manda no estilo, dentro dos limites):\n" + orientacao_rev)
+        pedido = "%s\n\nLAUDO NA TELA:\n%s" % ("\n\n".join(partes_p), tela)
+    elif botao == "revisar":
+        pedido = "PEDIDO: conferir incoerências.\n\nLAUDO NA TELA:\n%s" % tela
+    elif instrucao:
         pedido = "INSTRUÇÃO FALADA: %s\n\nLAUDO NA TELA:\n%s" % (instrucao, tela)
     else:
         pedido = "LAUDO NA TELA:\n" + tela
@@ -4661,9 +4713,10 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
         try:
             import prompts
             regras_rev = prompts.bloco("REVISAO")
-            if regras_rev and botao == "melhorar":
-                mel = prompts.bloco("MELHORAR")
-                regras_rev = (regras_rev + "\n\n" + mel) if mel else None
+            # conferir: REVISAO + SO_CONFERIR (não mexe na redação); reescrever: REVISAO +
+            # MELHORAR (liberdade de revisor, decisão dele de 10/11)
+            extra_rev = prompts.bloco("MELHORAR" if botao == "melhorar" else "SO_CONFERIR")
+            regras_rev = (regras_rev + "\n\n" + extra_rev) if (regras_rev and extra_rev) else None
         except Exception:
             regras_rev = None
         if not regras_rev:

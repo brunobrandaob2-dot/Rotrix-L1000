@@ -365,8 +365,16 @@ const casos: [boolean, string][] = [
     /export const INSTRUCAO_MELHORAR = "revisar e melhorar o laudo";/.test(laudo) &&
       /INSTRUCAO_MELHORAR = "revisar e melhorar o laudo"/.test(roteador) &&
       /Conferir incoerências/.test(laudo) &&
-      /Conferir e melhorar a redação/.test(laudo),
-    "Revisar abre duas opções: conferir incoerências ou conferir e melhorar a redação",
+      /Revisar e reescrever/.test(laudo),
+    "Revisar abre duas opções: conferir incoerências ou revisar e reescrever",
+  ],
+  [
+    ["defensivo", "tecnico", "inferencias", "conciso"].every(
+      (k) => laudo.includes(`id: "${k}"`) && roteador.includes(`"${k}": (`),
+    ) &&
+      /`OPÇÕES: \$\{opcoes\.join\("; "\)\}`/.test(laudo) &&
+      /`ORIENTAÇÃO: \$\{orientacao\.trim\(\)\}`/.test(laudo),
+    "reescrever: as opções do app são as que o roteador conhece, no formato que ele lê"
   ],
   [
     /export const INSTRUCAO_ANALISAR_RX = "analisar a radiografia";/.test(laudo) &&

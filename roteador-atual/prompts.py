@@ -52,7 +52,7 @@ RECEITAS = {
 # o roteador encaixou, e a IA confere isso contra a fala.
 # DIFERENCA (16/10): laudo inteiro com as linhas numeradas; a IA devolve só o que muda.
 # REVISAO, MELHORAR e RADIOGRAFIA (09–10/11): botões Revisar e Analisar RX da aba Laudo, só no pedido
-BLOCOS_DO_PEDIDO = ("IMAGEM", "DESCREVA", "ROTEADO", "DIFERENCA", "REVISAO", "MELHORAR", "RADIOGRAFIA")
+BLOCOS_DO_PEDIDO = ("IMAGEM", "DESCREVA", "ROTEADO", "DIFERENCA", "REVISAO", "SO_CONFERIR", "MELHORAR", "RADIOGRAFIA")
 
 _cache = {"mtime": None, "blocos": None}
 

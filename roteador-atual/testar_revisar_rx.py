@@ -105,9 +105,9 @@ RESPOSTA["texto"] = LAUDO.replace("não há lesões focais", "sem lesões focais
     "cálculo de 0,6 cm", "cálculo de 0,6 cm no rim esquerdo").replace("Nefrolitíase.", "Nefrolitíase à esquerda. Medindo 0,8 cm.")
 r = roteador.ia_no_texto(LAUDO, instrucao=roteador.INSTRUCAO_REVISAR)
 _s, pedido = mensagens()
-confere("revisar (conferir incoerências): bloco REVISAO, sem o MELHORAR",
-        "CONFERÊNCIA DE INCOERÊNCIAS" in pedido and "MELHORAR O LAUDO" not in pedido
-        and "NÃO corrija: aponte" in pedido, pedido[:300])
+confere("revisar (conferir incoerências): REVISAO + SO_CONFERIR, sem a liberdade do reescrever",
+        "CONFERÊNCIA DE INCOERÊNCIAS" in pedido and "SÓ A CONFERÊNCIA" in pedido
+        and "REESCREVER O LAUDO" not in pedido and "NÃO corrija: aponte" in pedido, pedido[:300])
 confere("revisar: laudo inteiro, sem numerar linhas (sem diferença)", "#1" not in pedido, pedido[-300:])
 confere("revisar: volta ok com botao=revisar", r.get("ok") is True and r.get("botao") == "revisar", repr(r)[:200])
 t = r.get("texto") or ""
@@ -119,15 +119,29 @@ confere("revisar: não ensina par de palavras ao revisor local", not APRENDEU)
 # 1b. (10/11) Revisar › melhorar a redação: REVISAO + MELHORAR, mesma conferência local
 VISTO.clear()
 RESPOSTA["texto"] = LAUDO
-r = roteador.ia_no_texto(LAUDO, instrucao=roteador.INSTRUCAO_MELHORAR)
+r = roteador.ia_no_texto(LAUDO, instrucao=roteador.INSTRUCAO_MELHORAR + "\nOPÇÕES: defensivo; técnico"
+                                     "\nORIENTAÇÃO: alterações pulmonares mais defensivas\nconclusão curta")
 _s, pedido = mensagens()
-confere("melhorar: blocos REVISAO e MELHORAR no pedido",
-        "CONFERÊNCIA DE INCOERÊNCIAS" in pedido and "MELHORAR O LAUDO" in pedido
-        and "Nada de achado, medida ou característica que não esteja no laudo" in pedido, pedido[:300])
+confere("reescrever: REVISAO + MELHORAR (liberdade de revisor), sem o SO_CONFERIR",
+        "CONFERÊNCIA DE INCOERÊNCIAS" in pedido and "REESCREVER O LAUDO" in pedido and "LIBERDADE" in pedido
+        and "SÓ A CONFERÊNCIA" not in pedido, pedido[:300])
+confere("reescrever: limites que ficam (achado alterado não sai; medida, lado e nível não mudam)",
+        "Achado alterado nunca sai do laudo" in pedido and "Nenhuma medida, número, lado, nível" in pedido)
+confere("reescrever: opções marcadas e orientação dele vão no pedido",
+        "REDAÇÃO DEFENSIVA" in pedido and "MAIS TÉCNICO" in pedido and "INFERÊNCIAS:" not in pedido
+        and "ORIENTAÇÃO DO RADIOLOGISTA" in pedido and "alterações pulmonares mais defensivas\nconclusão curta" in pedido,
+        pedido[pedido.find("PEDIDO:"):pedido.find("PEDIDO:") + 400])
 confere("melhorar: volta ok com botao=melhorar e sem [conferir] quando nada mudou de sentido",
         r.get("ok") is True and r.get("botao") == "melhorar" and not (r.get("texto") or "").startswith("[conferir"),
         repr(r)[:200])
 confere("melhorar usa a linha do Botão Revisar", nuvem.CHAVE_DO_BOTAO.get("melhorar") == "revisar")
+confere("reescrever no Luna: raciocínio 'low' (o básico formatando recebe 'none')",
+        nuvem.rota("TC DO TÓRAX", {"ativa": True, "provedor": "openai", "modelo": "gpt-6-sol",
+                                   "ia_por_exame": {"revisar": {"provedor": "openai", "modelo": "gpt-6-luna"}}},
+                   "laudo", analise=True, botao="melhorar")["raciocinio"] == "low")
+src_n = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "nuvem.py"), encoding="utf-8").read()
+confere("chamar dá 'low' ao básico no reescrever em qualquer rota",
+        'if not rac and botao == "melhorar" and _modelo_basico(r["modelo"]):' in src_n)
 
 # 2. Analisar RX sem imagem: recusa sem chamar a IA
 VISTO.clear()
