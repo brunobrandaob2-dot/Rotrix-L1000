@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-11-10.1"
+VERSAO = "2026-11-10.2"
 
 
 def _impressao_do_codigo():
@@ -4523,7 +4523,8 @@ def _laudo_pela_ia(pedido, c, **extra):
 
 # 09/11: botões Revisar e Analisar RX da aba Laudo. O app manda a instrução fixa pelo mesmo
 # comando do reprocessar (o Rust não muda); aqui ela vira o bloco REVISAO ou RADIOGRAFIA.
-INSTRUCAO_REVISAR = "revisar o laudo"
+INSTRUCAO_REVISAR = "revisar o laudo"              # conferir incoerências (corrige só o incoerente)
+INSTRUCAO_MELHORAR = "revisar e melhorar o laudo"   # 10/11: + linguagem e descrições (bloco MELHORAR)
 INSTRUCAO_ANALISAR_RX = "analisar a radiografia"
 
 _RX_MEDIDA_REV = re.compile(r"\d+(?:[.,]\d+)?\s*(?:cm³|cm3|cm|mm|UH|mL|ml|%|°|graus)", re.IGNORECASE)
@@ -4621,7 +4622,9 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
     # a mesma estrutura numa linha só ANTES da IA: não depende do modelo obedecer
     texto = juntar_rotulos_repetidos(texto)
     instrucao = (instrucao or "").strip()
-    botao = {INSTRUCAO_REVISAR: "revisar", INSTRUCAO_ANALISAR_RX: "rx"}.get(instrucao.lower(), "")
+    botao = {INSTRUCAO_REVISAR: "revisar", INSTRUCAO_MELHORAR: "melhorar",
+             INSTRUCAO_ANALISAR_RX: "rx"}.get(instrucao.lower(), "")
+    revisao = botao in ("revisar", "melhorar")
     if botao == "rx" and not imgs:
         return {"ok": False, "motivo": "rx_sem_imagem", "texto": texto}
     regras_ditado = None
@@ -4654,10 +4657,13 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
         pedido = "LAUDO NA TELA:\n" + tela
     if ditado:
         pedido = "%s\n\nDITADO DO RADIOLOGISTA:\n%s\n\n%s" % (regras_ditado, ditado, pedido)
-    if botao == "revisar":
+    if revisao:
         try:
             import prompts
             regras_rev = prompts.bloco("REVISAO")
+            if regras_rev and botao == "melhorar":
+                mel = prompts.bloco("MELHORAR")
+                regras_rev = (regras_rev + "\n\n" + mel) if mel else None
         except Exception:
             regras_rev = None
         if not regras_rev:
@@ -4686,7 +4692,7 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
         extra["botao"] = botao        # 10/11: a linha "Revisar"/"Analisar RX" da tabela escolhe a IA
     # 10/11: 2ª IA da revisão (linha "Revisar · 2ª IA" da tabela): roda junto, em paralelo
     seg, t2 = {}, None
-    if botao == "revisar":
+    if revisao:
         e2 = nuvem._entrada_rota((c.get("ia_por_exame") or {}).get("revisar_2"))
         if e2.get("provedor") or e2.get("modelo"):
             def _segunda():
@@ -4715,7 +4721,7 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
             if dif2:
                 nome2 = str(segunda.get("modelo") or "2ª IA").split(":")[-1]
                 novo = "[conferir — 2ª IA (%s): %s]\n%s" % (nome2, "; ".join(dif2), novo)
-        if botao == "revisar":
+        if revisao:
             achou = _conferir_revisao(texto, novo)
             if achou:
                 novo = "[conferir — revisão: %s]\n%s" % ("; ".join(achou), novo)

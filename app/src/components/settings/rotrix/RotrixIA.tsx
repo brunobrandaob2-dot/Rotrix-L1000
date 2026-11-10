@@ -463,7 +463,8 @@ export const RotrixIA: React.FC = () => {
             );
           })}
           <div className="pt-3 text-xs text-mid-gray">
-            Botões da aba Laudo: a linha do botão vence a barra e a tabela acima. Em
+            Botões da aba Laudo (a linha do Revisar vale para as duas opções dele: conferir
+            incoerências e melhorar a redação): a linha do botão vence a barra e a tabela acima. Em
             branco, o botão usa a IA da barra. Com a 2ª IA preenchida (ex.: Claude na 1ª,
             GPT na 2ª), a revisão roda nas duas ao mesmo tempo — custo dobra, a espera é a da
             mais lenta: a 1ª vai para a folha, o que a 2ª disser diferente vem na linha

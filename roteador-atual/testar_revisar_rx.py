@@ -105,7 +105,9 @@ RESPOSTA["texto"] = LAUDO.replace("não há lesões focais", "sem lesões focais
     "cálculo de 0,6 cm", "cálculo de 0,6 cm no rim esquerdo").replace("Nefrolitíase.", "Nefrolitíase à esquerda. Medindo 0,8 cm.")
 r = roteador.ia_no_texto(LAUDO, instrucao=roteador.INSTRUCAO_REVISAR)
 _s, pedido = mensagens()
-confere("revisar: o pedido leva o bloco REVISÃO", "REVISÃO DO LAUDO (botão Revisar" in pedido, pedido[:300])
+confere("revisar (conferir incoerências): bloco REVISAO, sem o MELHORAR",
+        "CONFERÊNCIA DE INCOERÊNCIAS" in pedido and "MELHORAR O LAUDO" not in pedido
+        and "NÃO corrija: aponte" in pedido, pedido[:300])
 confere("revisar: laudo inteiro, sem numerar linhas (sem diferença)", "#1" not in pedido, pedido[-300:])
 confere("revisar: volta ok com botao=revisar", r.get("ok") is True and r.get("botao") == "revisar", repr(r)[:200])
 t = r.get("texto") or ""
@@ -113,6 +115,19 @@ confere("revisar: [conferir — revisão] no topo com lado novo e medida nova",
         t.startswith("[conferir — revisão:") and "lado esquerdo apareceu" in t.split("\n")[0]
         and "0,8cm" in t.split("\n")[0], t.split("\n")[0])
 confere("revisar: não ensina par de palavras ao revisor local", not APRENDEU)
+
+# 1b. (10/11) Revisar › melhorar a redação: REVISAO + MELHORAR, mesma conferência local
+VISTO.clear()
+RESPOSTA["texto"] = LAUDO
+r = roteador.ia_no_texto(LAUDO, instrucao=roteador.INSTRUCAO_MELHORAR)
+_s, pedido = mensagens()
+confere("melhorar: blocos REVISAO e MELHORAR no pedido",
+        "CONFERÊNCIA DE INCOERÊNCIAS" in pedido and "MELHORAR O LAUDO" in pedido
+        and "Nada de achado, medida ou característica que não esteja no laudo" in pedido, pedido[:300])
+confere("melhorar: volta ok com botao=melhorar e sem [conferir] quando nada mudou de sentido",
+        r.get("ok") is True and r.get("botao") == "melhorar" and not (r.get("texto") or "").startswith("[conferir"),
+        repr(r)[:200])
+confere("melhorar usa a linha do Botão Revisar", nuvem.CHAVE_DO_BOTAO.get("melhorar") == "revisar")
 
 # 2. Analisar RX sem imagem: recusa sem chamar a IA
 VISTO.clear()

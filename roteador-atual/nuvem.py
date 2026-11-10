@@ -1341,7 +1341,8 @@ def com_modelo(c, modelo):
 # 10/11 (pedido dele): linha própria na tabela para os botões Revisar e Analisar RX.
 # Chave da tabela de cada botão (o roteador passa "revisar" / "rx").
 # "revisar_2" (10/11, "mais de uma IA se eu tiver OpenAI e Anthropic"): a 2ª IA da revisão.
-CHAVE_DO_BOTAO = {"revisar": "revisar", "rx": "analisar_rx", "revisar_2": "revisar_2"}
+# "melhorar" (10/11): o Revisar › melhorar a redação usa a mesma linha do Revisar.
+CHAVE_DO_BOTAO = {"revisar": "revisar", "melhorar": "revisar", "rx": "analisar_rx", "revisar_2": "revisar_2"}
 
 
 def rota(pedido, c=None, modo="analise", com_imagem=False, analise=False, tarefa=None, botao=""):

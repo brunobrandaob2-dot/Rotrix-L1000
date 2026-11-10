@@ -362,6 +362,13 @@ const casos: [boolean, string][] = [
     "Revisar: a instrução do app é a que o roteador reconhece",
   ],
   [
+    /export const INSTRUCAO_MELHORAR = "revisar e melhorar o laudo";/.test(laudo) &&
+      /INSTRUCAO_MELHORAR = "revisar e melhorar o laudo"/.test(roteador) &&
+      /Conferir incoerências/.test(laudo) &&
+      /Conferir e melhorar a redação/.test(laudo),
+    "Revisar abre duas opções: conferir incoerências ou conferir e melhorar a redação",
+  ],
+  [
     /export const INSTRUCAO_ANALISAR_RX = "analisar a radiografia";/.test(laudo) &&
       /INSTRUCAO_ANALISAR_RX = "analisar a radiografia"/.test(roteador),
     "Analisar RX: a instrução do app é a que o roteador reconhece",

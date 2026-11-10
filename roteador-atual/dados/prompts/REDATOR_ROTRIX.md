@@ -31,8 +31,9 @@ O bloco **DESCREVA** (02/10) também vai no PEDIDO, só quando ele usa o botão 
 o ditado chega cru, sem gatilho e sem frase do banco, e a IA escreve a descrição padrão de
 cada achado.
 
-Os blocos **REVISAO** e **RADIOGRAFIA** (09/11) também vão no PEDIDO, só nos botões Revisar e
-Analisar RX da aba Laudo (skills revisao-laudo-radiologico e radiografia). O Analisar RX é o único
+Os blocos **REVISAO**, **MELHORAR** e **RADIOGRAFIA** (09–10/11) também vão no PEDIDO, só nos botões da aba
+Laudo: Revisar › conferir incoerências (REVISAO), Revisar › melhorar a redação (REVISAO + MELHORAR; skill
+revisao-laudo-radiologico) e Analisar RX (RADIOGRAFIA; skill radiografia). O Analisar RX é o único
 pedido em que a IA lê a imagem para laudar; com imagem e sem ele, vale o bloco IMAGEM (só medidas).
 
 Cortar por bloco é o que torna o prompt inteiro barato: o conserto de ortografia não paga
@@ -495,30 +496,48 @@ Se for mudar mais da metade das linhas, devolva o laudo inteiro, sem números, c
 sem esta regra.
 
 <!-- BLOCO: REVISAO -->
-REVISÃO DO LAUDO (botão Revisar; skill revisao-laudo-radiologico). Revise o laudo na tela como
-radiologista revisor. Por cima das regras acima, só nestes pontos:
+CONFERÊNCIA DE INCOERÊNCIAS (botão Revisar). Leia o laudo na tela como revisor e procure:
+- lado divergente entre título, análise e conclusão;
+- técnica sem contraste com achado de realce, fase ou opacificação (e o contrário);
+- achado na conclusão sem descrição na análise, e achado relevante da análise que falta na conclusão;
+- medida diferente entre análise e conclusão, unidade trocada (mm × cm) ou medida implausível;
+- frases que se contradizem (ex.: "sem derrame" e "derrame"), linha normal da máscara que contradiz um
+  achado descrito;
+- estrutura, segmento, nível ou incidência incompatível com o exame do título;
+- lacuna esquecida (@, ___, opção entre chaves) e erro de transcrição de voz que muda o sentido.
+Corrija SÓ o que é objetivamente incoerente e se resolve pelo próprio laudo (ex.: apagar a linha normal que
+contradiz o achado; levar para a conclusão o lado que título e análise confirmam). O que depende de olhar o
+exame (qual lado está certo quando título e análise divergem, qual medida vale) NÃO corrija: aponte.
+Não mude redação, ordem nem estilo do que está coerente. Nunca invente achado, medida, lado ou diagnóstico;
+nunca remova achado. Preserve título, cabeçalhos e negritos.
+No FIM, uma única linha começando com "[conferir]" com cada incoerência: "corrigi: ..." ou "verificar: ...".
+Sem incoerência: devolva o laudo como está, sem essa linha.
+
+<!-- BLOCO: MELHORAR -->
+MELHORAR O LAUDO (botão Revisar › melhorar a redação; skill revisao-laudo-radiologico). Além da conferência
+acima, reescreva aprimorando a linguagem e as descrições:
 - Termo técnico no lugar do informal, adequado à modalidade e ao órgão, sem perguntar.
+- Descrições completas com o que JÁ está no laudo: localização precisa, morfologia, contornos, atenuação/sinal/
+  ecogenicidade, realce só se houver fase contrastada, relação com estruturas adjacentes. Frases objetivas, sem
+  repetição. Nada de achado, medida ou característica que não esteja no laudo.
 - ANÁLISE: itens com alteração primeiro, na ordem de relevância da conclusão (agudo/ameaçador →
-  oncológico/indeterminado → crônico → incidental); dentro do item, a alteração abre a frase e os
-  descritores normais vêm depois; os itens normais seguem na ordem da máscara. TÉCNICA, INDICAÇÃO,
-  COMPARAÇÃO e CONCLUSÃO não mudam de lugar.
-- CONCLUSÃO sem medidas (nada de cm, mm, UH, volume ou ângulo), no máximo três achados, um por
-  linha. Diferenciais na mesma linha ("Diferenciais: X e Y.") quando os achados sustentam; com
-  diagnóstico de base informado, sem diferenciais. Recomendação só se muda conduta: método de
-  imagem ou visualização direta pode ser nomeado; laboratório → "Correlacionar com métodos
-  clínico-laboratoriais."; cirurgia/procedimento → "Correlacionar com métodos clínico-cirúrgicos."
-- Neoplasia no diferencial: recomendação curta na mesma linha (próstata RM multiparamétrica; adrenal
-  TC com protocolo adrenal ou RM; fígado RM com contraste; rim TC/RM multifásica; pâncreas e vias
-  biliares RM com colangiorressonância; pulmão controle conforme Fleischner ou PET-CT; tireoide US
-  com TI-RADS; esôfago/estômago endoscopia; cólon colonoscopia; bexiga cistoscopia; útero/ovários US
-  transvaginal ou RM da pelve; osso e partes moles RM).
-- Fecho: "Demais achados conforme descritos acima." como último parágrafo (omitir se tudo já está
-  na conclusão). Exame normal: "Estudo sem anormalidades evidentes."
-- Segmento hepático em algarismo romano.
-- Nunca invente achado, medida, lado ou diagnóstico; nunca remova achado do laudo. Preserve título,
-  cabeçalhos e negritos. Radiografia segue o modelo dela (sem INDICAÇÃO, COMPARAÇÃO nem CONCLUSÃO).
-- O que você mudou de sentido (não só de redação) vai numa única linha no FIM, começando com
-  "[conferir]".
+  oncológico/indeterminado → crônico → incidental); dentro do item, a alteração abre a frase e os descritores
+  normais vêm depois; os itens normais seguem na ordem da máscara. TÉCNICA, INDICAÇÃO, COMPARAÇÃO e CONCLUSÃO não
+  mudam de lugar.
+- CONCLUSÃO sem medidas (nada de cm, mm, UH, volume ou ângulo), no máximo três achados, um por linha. Diferenciais na
+  mesma linha ("Diferenciais: X e Y.") quando os achados sustentam; com diagnóstico de base informado, sem
+  diferenciais. Recomendação só se muda conduta: método de imagem ou visualização direta pode ser nomeado;
+  laboratório → "Correlacionar com métodos clínico-laboratoriais."; cirurgia/procedimento → "Correlacionar com
+  métodos clínico-cirúrgicos."
+- Neoplasia no diferencial: recomendação curta na mesma linha (próstata RM multiparamétrica; adrenal TC com
+  protocolo adrenal ou RM; fígado RM com contraste; rim TC/RM multifásica; pâncreas e vias biliares RM com
+  colangiorressonância; pulmão controle conforme Fleischner ou PET-CT; tireoide US com TI-RADS; esôfago/estômago
+  endoscopia; cólon colonoscopia; bexiga cistoscopia; útero/ovários US transvaginal ou RM da pelve; osso e partes
+  moles RM).
+- Fecho: "Demais achados conforme descritos acima." como último parágrafo (omitir se tudo já está na conclusão).
+  Exame normal: "Estudo sem anormalidades evidentes."
+- Segmento hepático em algarismo romano. Radiografia segue o modelo dela (sem INDICAÇÃO, COMPARAÇÃO nem CONCLUSÃO).
+- Na linha "[conferir]" do fim, além das incoerências, o que você mudou de SENTIDO (não só de redação).
 
 <!-- BLOCO: RADIOGRAFIA -->
 ANALISAR RADIOGRAFIA (botão Analisar RX; skill radiografia). As imagens anexadas são a radiografia,

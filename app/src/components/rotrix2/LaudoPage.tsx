@@ -136,6 +136,8 @@ const recibo = (r: {
 // 09/11: as instruções fixas dos botões Revisar e Analisar RX (o roteador as reconhece:
 // INSTRUCAO_REVISAR / INSTRUCAO_ANALISAR_RX em roteador.py)
 export const INSTRUCAO_REVISAR = "revisar o laudo";
+// 10/11: "o botão revisão deve revisar incoerências, mas também melhorar o laudo caso eu queira"
+export const INSTRUCAO_MELHORAR = "revisar e melhorar o laudo";
 export const INSTRUCAO_ANALISAR_RX = "analisar a radiografia";
 
 const BINDING: Record<Modo, string> = {
@@ -209,6 +211,7 @@ export const LaudoPage: React.FC<Props> = ({
   const [aviso, setAviso] = useState("");
   const [marcas, setMarcas] = useState(true);
   const [ultimoIA, setUltimoIA] = useState<string>("");
+  const [menuRevisar, setMenuRevisar] = useState(false);
   // 10/11: a revisão da 2ª IA, pronta para trocar pela da 1ª (rodapé)
   const [segunda, setSegunda] = useState<{ html: string; modelo: string } | null>(null);
   const apertadoEm = useRef(0);
@@ -874,12 +877,53 @@ export const LaudoPage: React.FC<Props> = ({
             confere o que mudou de sentido. Analisar RX = skill radiografia: a IA LÊ a imagem
             colada e reconcilia com o ditado (confirma; troca só erro objetivo, com ressalva;
             achado novo de confiança média/baixa só na ressalva; nunca tira achado ditado). */}
-        <Fer
-          titulo={`Revisar o laudo com ${regrasIa.revisar || modeloCompleto} (skill de revisão; a IA se escolhe em Configurações > IA, linha "Botão Revisar"): termo técnico, alterações primeiro, conclusão sem medida, diferenciais e recomendação. O que mudar de sentido volta numa linha [conferir]. Desfazer (⏱) volta o anterior.`}
-          onClick={() => void rodarIA({ instrucao: INSTRUCAO_REVISAR })}
-        >
-          <FileCheck2 size={15} />
-        </Fer>
+        <div className="relative">
+          <Fer
+            titulo={`Revisar com ${regrasIa.revisar || modeloCompleto} (a IA se escolhe em Configurações > IA, linha "Botão Revisar"). Abre duas opções: só conferir incoerências, ou conferir e melhorar a redação.`}
+            ativo={menuRevisar}
+            onClick={() => setMenuRevisar((v) => !v)}
+          >
+            <FileCheck2 size={15} />
+          </Fer>
+          {menuRevisar && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setMenuRevisar(false)} />
+              <div className="absolute z-50 top-full mt-1 start-0 w-[320px] rounded-xl border border-mid-gray/30 bg-background shadow-2xl p-1.5">
+                {[
+                  {
+                    instrucao: INSTRUCAO_REVISAR,
+                    nome: "Conferir incoerências",
+                    resumo:
+                      "lado, contraste × realce, conclusão × análise, medida, contradição, lacuna. Corrige só o incoerente e aponta o resto; não mexe na redação.",
+                  },
+                  {
+                    instrucao: INSTRUCAO_MELHORAR,
+                    nome: "Conferir e melhorar a redação",
+                    resumo:
+                      "as incoerências + linguagem técnica, descrições completas com o que já está no laudo, alterações primeiro, conclusão sem medida, diferenciais.",
+                  },
+                ].map((op) => (
+                  <button
+                    key={op.instrucao}
+                    type="button"
+                    onClick={() => {
+                      setMenuRevisar(false);
+                      void rodarIA({ instrucao: op.instrucao });
+                    }}
+                    className="w-full text-start px-2.5 py-2 rounded-lg hover:bg-logo-primary/20 cursor-pointer"
+                  >
+                    <div className="text-[12.5px] font-semibold">{op.nome}</div>
+                    <div className="text-[10.5px] text-mid-gray leading-tight">{op.resumo}</div>
+                  </button>
+                ))}
+                <div className="px-2.5 py-1.5 text-[10.5px] leading-snug text-mid-gray">
+                  Nunca inventa nem tira achado. O que mudar de sentido volta numa linha [conferir]; o
+                  Desfazer (⏱) volta o anterior.
+                </div>
+              </div>
+            </>
+          )}
+        </div>
         <Fer
           titulo={`Analisar RX com ${regrasIa.analisar_rx || modeloCompleto} (skill de radiografia; a IA se escolhe em Configurações > IA, linha "Botão Analisar RX"): a IA lê a radiografia colada na folha e reconcilia com o seu ditado. Confirma o que a imagem mostra; troca só erro objetivo (lado, osso, nível), com ressalva; achado novo de confiança média ou baixa vai só na linha [conferir]; nunca tira achado que você ditou.`}
           onClick={() => {
