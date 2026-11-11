@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-11-10.3"
+VERSAO = "2026-11-11.1"
 
 
 def _impressao_do_codigo():
@@ -4910,7 +4910,75 @@ def _abrir_servidor(tentativas=10, espera=1.0, porta=None):
     return None
 
 
+# 11/11: o app traz uma cópia do roteador (AppData\com.rotrix.l1000\roteador) e a liga
+# quando a 8123 está livre na hora em que ele abre. Essa cópia não tem as chaves nem as
+# máscaras dele: no PC dele ela pegou a porta (25.296 gatilhos, "chaves": false) e a IA
+# parou. Agora a cópia do app cede ao roteador de Documentos\laudo-router quando ele existe.
+def _documentos_para_ceder(aqui=None, home=None):
+    """A pasta laudo-router para a qual esta cópia deve ceder, ou None."""
+    aqui = os.path.abspath(aqui or os.path.dirname(os.path.abspath(__file__)))
+    if "com.rotrix.l1000" not in aqui.lower().replace("\\", "/"):
+        return None                               # já é o de Documentos (ou outro qualquer)
+    if os.environ.get("ROTRIX_NAO_CEDER"):
+        return None
+    home = home or os.environ.get("USERPROFILE") or os.path.expanduser("~")
+    doc = os.path.join(home, "Documents", "laudo-router")
+    if os.path.isfile(os.path.join(doc, "roteador.py")) and os.path.abspath(doc) != aqui:
+        return doc
+    return None
+
+
+def _python_de_documentos():
+    """O mesmo Python que o 2_LIGAR usa (o instalado); sem ele, o do app."""
+    base = os.environ.get("LOCALAPPDATA") or ""
+    for v in ("Python313", "Python312", "Python311"):
+        for exe in ("pythonw.exe", "python.exe"):
+            p = os.path.join(base, "Programs", "Python", v, exe)
+            if base and os.path.isfile(p):
+                return p
+    return sys.executable
+
+
+def _ceder_para_documentos(doc, espera_s=90, porta=None, python=None):
+    """Liga o roteador de Documentos, solto do app (não morre quando o app fecha), e
+    espera ele responder na porta com a pasta dele. True = pode sair."""
+    import subprocess
+    import urllib.request
+    porta = PORT if porta is None else porta
+    env = dict(os.environ)
+    env.pop("ROTEADOR_COLADOR", None)            # o colador é o da pasta dele, não o do app
+    flags = 0
+    if os.name == "nt":
+        flags = 0x00000008 | 0x00000200 | 0x08000000   # DETACHED | NEW_PROCESS_GROUP | NO_WINDOW
+    try:
+        subprocess.Popen([python or _python_de_documentos(), "roteador.py"], cwd=doc, env=env,
+                         creationflags=flags, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                         stderr=subprocess.DEVNULL, close_fds=True)
+    except Exception as e:
+        print("não consegui ligar o roteador de %s (%s)" % (doc, type(e).__name__), flush=True)
+        return False
+    abrir = urllib.request.build_opener(urllib.request.ProxyHandler({})).open
+    alvo = os.path.normcase(os.path.abspath(doc))
+    fim = time.time() + espera_s
+    while time.time() < fim:
+        try:
+            with abrir("http://127.0.0.1:%d/v1/versao" % porta, timeout=2) as r:
+                v = json.loads(r.read().decode("utf-8"))
+            if os.path.normcase(os.path.abspath(v.get("pasta") or "")) == alvo:
+                return True
+        except Exception:
+            pass
+        time.sleep(1)
+    return False
+
+
 if __name__ == "__main__":
+    _doc = _documentos_para_ceder()
+    if _doc:
+        if _ceder_para_documentos(_doc):
+            print("cedi a porta ao roteador de %s (o das chaves e das máscaras)" % _doc, flush=True)
+            sys.exit(0)
+        print("o roteador de %s não respondeu: sigo com a cópia do app" % _doc, flush=True)
     # atualização trocou a base (sem as máscaras do usuário) ou a fonte mudou: refaz
     if not _base_em_dia():
         try:
