@@ -21,6 +21,11 @@ Módulo puro: não depende do banco (o roteador faz a escolha da máscara).
 import re
 import unicodedata
 
+try:
+    import formato as _formato            # 13/11: lista de ordinais/segmentos não parte
+except Exception:                          # pragma: no cover
+    _formato = None
+
 
 def normalizar(s):
     s = unicodedata.normalize("NFD", s or "")
@@ -309,6 +314,8 @@ _SEP = re.compile(r"\s*[,;]\s*(?:(?:e|com)\b\s*)?|\s*\.(?:\s+|$)|\s+(?:e|com)\s+
 
 def partir(texto):
     """[(separador, trecho)] preservando o separador, sem partir "1,5 cm"."""
+    if _formato is not None:
+        texto = _formato.proteger_listas(texto)   # "3º, 4º e 5º metatarsos" é um achado só
     prot = re.sub(r"(\d)\s*([,.])\s*(\d)",
                   lambda m: m.group(1) + ("\x00" if m.group(2) == "," else "\x01") + m.group(3), texto)
     partes, ult, sep = [], 0, ""
@@ -322,7 +329,8 @@ def partir(texto):
         ult = m.end()
     if prot[ult:].strip():
         partes.append((sep, prot[ult:]))
-    return [(s, seg.replace("\x00", ",").replace("\x01", ".").strip()) for s, seg in partes]
+    soltar = _formato.soltar_listas if _formato is not None else (lambda x: x)
+    return [(s, soltar(seg.replace("\x00", ",").replace("\x01", ".")).strip()) for s, seg in partes]
 
 
 def _tipo_sep(sep):

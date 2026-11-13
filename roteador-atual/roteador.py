@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-11-11.1"
+VERSAO = "2026-11-13.1"
 
 
 def _impressao_do_codigo():
@@ -426,6 +426,13 @@ def _lobo(n):
     return None
 
 def _segmento(n):
+    # 13/11: "segmento dois", "segmentos cinco e seis", "segmento 4a" -> romano (Couinaud);
+    # antes só pegava algarismo ("segmento 2") e a lacuna saía vazia com o número por extenso
+    m = formato._RX_SEG.search(n)
+    if m:
+        r = formato.segmentos_hepaticos("figado: " + m.group(0)).split(": ", 1)[1]
+        if r != m.group(0):
+            return r
     m = re.search(r"\bsegmento\s+([ivx]+|\d+)\b", n)
     return "segmento " + m.group(1).upper() if m else None
 
@@ -663,7 +670,9 @@ _DECIMAL = re.compile(r"(\d)\s*[,.]\s*(\d)")
 def segmentar(texto):
     # protege "1,5 cm" e "1.5 cm" para o separador nao partir a medida ao meio
     protegido = _DECIMAL.sub(lambda m: m.group(1) + "\x00" + m.group(2), texto)
-    partes = [p.replace("\x00", ",").strip()
+    # 13/11: "nos segmentos cinco e seis do fígado", "do 3º, 4º e 5º metatarsos": um achado só
+    protegido = formato.proteger_listas(protegido)
+    partes = [formato.soltar_listas(p.replace("\x00", ",")).strip()
               for p in SEPARADORES.split(protegido) if p and p.strip()]
     return partes or [texto]
 
@@ -1336,6 +1345,8 @@ def formatar_saida(texto):
                       "markdown" -> mantem as marcas como estao
     Sem a chave no config: "rico" se o colador existe, senão "texto"."""
     modo = (_config().get("formato_titulos") or ("rico" if _colador_presente() else "texto")).lower()
+    # 13/11: 3º, 4º e 5º metatarsos; 5ª costela; segmento hepático em romano (formato.numeracao)
+    texto = formato.numeracao(texto)
     if modo in ("rico", "markdown"):
         # rotulos da ANALISE ("Figado:") tambem em negrito
         return formato.negritar_rotulos(texto)
@@ -1507,6 +1518,15 @@ _VOCAB = {"n": None, "set": set(), "lista": []}
 _CURTAS_OK = set("""com sem mais para pela pelo pelos pelas entre sobre apos ante como onde
 frase frases achado achados adendo mascara modelo revisar revisao corrigir analise analisar
 comparar recist direito direita esquerdo esquerda bilateral""".split())
+# 13/11: número dito por extenso nunca é erro de voz. O vocabulário do banco trocava
+# "cinco" -> "clinico", "quarta" -> "quarenta", "sexto" -> "sexo", "terceira" -> "terceiro":
+# "nódulos nos segmentos cinco e seis do fígado" partia no "e" e ia para as adrenais.
+_NUMERAIS_FALADOS = set("""um uma dois duas tres quatro cinco seis sete oito nove dez onze doze treze
+quatorze catorze quinze dezesseis dezessete dezoito dezenove vinte trinta quarenta cinquenta sessenta
+setenta oitenta noventa cem cento duzentos trezentos quatrocentos quinhentos mil primeiro primeira
+primeiros primeiras segundo segunda segundos segundas terceiro terceira terceiros terceiras quarto
+quarta quartos quartas quinto quinta quintos quintas sexto sexta sextos sextas setimo setima setimos
+setimas oitavo oitava oitavos oitavas nono nona nonos nonas decimo decima decimos decimas""".split())
 
 def _vocab():
     if _VOCAB["n"] != BANCO.geracao:
@@ -1791,7 +1811,8 @@ def ouvido_bruto(bruto):
     def troca(m):
         w = m.group(0)
         nw = normalizar(w)
-        if " " in nw or len(nw) < 5 or nw in v["set"] or nw.isdigit() or nw in _CURTAS_OK:
+        if " " in nw or len(nw) < 5 or nw in v["set"] or nw.isdigit() or nw in _CURTAS_OK \
+                or nw in _NUMERAIS_FALADOS:
             return w
         c = _mais_perto(nw)
         return c if c != nw else w
@@ -2318,6 +2339,9 @@ def _vocab_rotulos(reg):
     return _VOC_ROT["por"].get(tuple(reg), {})
 
 
+_SEG_DE_OUTRO = formato._RX_SEG_OUTRO
+
+
 def _rotulo_para(orfao, reg, presentes):
     """Rotulo (normalizado) do laudo onde o achado entra; None se nao ha um claro.
     Cada palavra do achado vota nos rotulos pela fracao dos blocos do banco
@@ -2325,6 +2349,12 @@ def _rotulo_para(orfao, reg, presentes):
     rad = _rad_tc(orfao)
     if not rad:
         return None
+    # 13/11: "nódulo no segmento sete" (Couinaud, sem dizer "fígado") ia para as adrenais
+    # pelo "nódulo". Segmento numerado sem outra estrutura dita é do fígado.
+    fig = [r for r in presentes if "figado" in r]
+    if fig and formato._RX_SEG_I.search(orfao) and not _SEG_DE_OUTRO.search(normalizar(orfao)) \
+            and not any(rad & _rad_tc(r) for r in presentes if r not in fig):
+        return fig[0]
     voc = _vocab_rotulos(reg)
     total = collections.Counter()
     for rot in presentes:
@@ -4769,7 +4799,9 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
         else:
             segunda = {"erro": o2}
     if origem == "nuvem" and novo:
+        novo = formato.numeracao(novo)                # 13/11: ordinais e segmento hepático, como no banco
         if segunda and segunda.get("texto"):
+            segunda["texto"] = formato.numeracao(segunda["texto"])
             dif2 = _comparar_revisoes(novo, segunda["texto"])
             if dif2:
                 nome2 = str(segunda.get("modelo") or "2ª IA").split(":")[-1]

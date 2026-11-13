@@ -311,13 +311,20 @@ NÚMEROS E UNIDADES — nunca por extenso: mm, cm, m, mL, L, %.
     "cinco por quatro por três centímetros"   → 5 x 4 x 3 cm
 Vírgula como separador decimal. NUNCA altere o valor.
 
-ALGARISMOS ROMANOS — duas situações, só essas:
+ALGARISMOS ROMANOS — três situações, só essas:
 - níveis linfonodais cervicais: nível 2 → nível II; nível 2A → nível IIA; níveis 2 e 3 →
   níveis II e III (letra A/B em caixa alta depois do romano);
 - grau de listese: anterolistese grau 1 → grau I; retrolistese de L5 sobre S1 grau 1 →
-  retrolistese de L5 sobre S1, grau I.
-Não converta mais nada. Medida, vértebra, nível discal, segmento hepático, costela, idade
-e quantidade continuam em arábico.
+  retrolistese de L5 sobre S1, grau I;
+- segmento hepático: segmento 7 / segmento sete → segmento VII; segmentos 5 e 6 → segmentos V e VI;
+  segmento 4a → segmento IVa.
+ORDINAIS ANATÔMICOS — numeral com o indicador, nunca por extenso: terceiro, quarto e quinto
+metatarsos → 3º, 4º e 5º metatarsos; quinta costela → 5ª costela; segundo dedo → 2º dedo; do
+terceiro ao quinto arcos costais → do 3º ao 5º arcos costais; primeira articulação
+metatarsofalângica → 1ª articulação metatarsofalângica; segunda falange → 2ª falange (metacarpos,
+quirodáctilos, pododáctilos, raios, espaços intercostais e intermetatarsais também).
+Não converta mais nada. Medida, vértebra, nível discal, idade e quantidade ("2 costelas")
+continuam em arábico.
 
 <!-- BLOCO: VOZ -->
 ERROS DE RECONHECIMENTO DE VOZ — corrija pelo contexto radiológico. As trocas fixas que

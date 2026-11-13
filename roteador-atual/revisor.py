@@ -86,7 +86,11 @@ UNIDADES = [
     (r"hounsfield\b",               "UH"),
     (r"cent[íi]metros?\s+c[úu]bicos?\b", "cm³"),
 ]
-UNIDADES_RX = [(re.compile(r"(?<=[\d\s])" + p, re.IGNORECASE), s) for p, s in UNIDADES]
+# 13/11: "segundo" é também ordinal e preposição ("o segundo dedo", "segundo a classificação"):
+# só vira "s" logo depois de número ("30 segundos"). Antes "do segundo metatarso" saía "do s metatarso".
+_SO_DEPOIS_DE_NUMERO = {"s"}
+UNIDADES_RX = [(re.compile((r"(?:(?<=\d)|(?<=\d\s))" if s in _SO_DEPOIS_DE_NUMERO else r"(?<=[\d\s])") + p,
+                           re.IGNORECASE), s) for p, s in UNIDADES]
 
 
 _EXT = "|".join(_PAL)

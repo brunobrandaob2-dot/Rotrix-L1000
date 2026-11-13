@@ -73,6 +73,8 @@ jobs:
         run: LAUDO_BASE=/tmp/base.sqlite python testar_revisar_rx.py
       - name: A copia do roteador que vem no app cede ao de Documentos (chaves e mascaras dele)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_ceder.py
+      - name: Numeracao anatomica - 3o metatarso, 5a costela, segmento hepatico em romano (testar_numeracao.py)
+        run: python testar_numeracao.py
       - name: Botao de raciocinio (ditado cru para a IA, sem gatilho; switch do roteador)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_raciocinio.py
       - name: Coluna estruturada com mais de uma herniacao por nivel

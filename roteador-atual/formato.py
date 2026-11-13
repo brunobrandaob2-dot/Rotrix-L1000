@@ -144,3 +144,182 @@ def negritar_rotulos(texto):
         if dentro and s and not s.startswith("**") and not s.startswith("["):
             linhas[i] = rotulo_negrito(l)
     return "\n".join(linhas)
+
+
+# ---------------------------------------------------------------------------
+# 13/11 (pedido dele): numeração anatômica. Ditado vem "terceira costela", "quinto
+# metatarso", "segmento cinco"; o padrão dele é:
+#   - metatarsos, metacarpos, dedos, arcos costais, costelas, espaços intercostais:
+#     numeral com o indicador — 3º, 4º e 5º metatarsos; 5ª costela;
+#   - segmento hepático: algarismo romano — segmento VII; segmentos V e VI; IVa.
+# Vale para TUDO o que sai (banco, ditado, IA).
+# ---------------------------------------------------------------------------
+_ORD_PAL = {"primeir": 1, "segund": 2, "terceir": 3, "quart": 4, "quint": 5, "sext": 6,
+            "setim": 7, "sétim": 7, "oitav": 8, "non": 9, "decim": 10, "décim": 10}
+_ORD_PALAVRA = (r"(?:d[eé]cim[oa]\s+(?:primeir[oa]|segund[oa])|primeir[oa]|segund[oa]|terceir[oa]|"
+                r"quart[oa]|quint[oa]|sext[oa]|s[eé]tim[oa]|oitav[oa]|non[oa]|d[eé]cim[oa])")
+_ORD_DIG = r"(?:1[0-2]|[1-9])(?:\s?[ºª°]|[oa](?![a-zà-ú]))?"
+_ORD_TOK = r"(?:%s|%s)" % (_ORD_PALAVRA, _ORD_DIG)
+# "do primeiro e do segundo metatarsos", "o segundo e o terceiro dedos": o artigo repete
+# "terceiro quarto e quinto metatarsos" (a voz não pôs a vírgula): o espaço também separa
+_ORD_SEP = (r"(?:\s*,\s*(?:e\s+)?(?:d?[oa]s?\s+)?|\s+e\s+(?:d?[oa]s?\s+)?|\s+a\s+|\s+ao\s+|"
+            r"\s+at[eé]\s+o\s+|\s*/\s*|\s*-\s*|\s+)")
+# substantivo -> gênero (o indicador segue o gênero: 3º metatarso, 5ª costela)
+_ORD_NOMES = [(r"metatars(?:o|os|iano|ianos)", "m"), (r"metacarp(?:o|os|iano|ianos)", "m"),
+              (r"dedos?", "m"), (r"pododá?a?ctilos?|pododactilos?", "m"), (r"quirodá?a?ctilos?|quirodactilos?", "m"),
+              (r"artelhos?", "m"), (r"arcos?\s+costa(?:l|is)", "m"), (r"espa[çc]os?\s+intercosta(?:l|is)", "m"),
+              (r"espa[çc]os?\s+inter(?:metatarsa|metacarpa|digita)(?:l|is)", "m"),
+              (r"metatarsa(?:l|is)", "m"), (r"metacarpa(?:l|is)", "m"), (r"raios?(?![\s-]*x\b)", "m"),
+              (r"(?:articula[çc](?:[ãa]o|[õo]es)\s+)?meta(?:tarso|carpo)-?fal[aâ]ng(?:[ií]ca|eana)s?", "f"),
+              (r"falanges?", "f"), (r"costelas?", "f")]
+_RX_ORD = re.compile(r"(?<![\w/])(%s(?:%s%s)*)\s+(%s)\b" % (
+    _ORD_TOK, _ORD_SEP, _ORD_TOK, "|".join("(?:%s)" % n for n, _g in _ORD_NOMES)), re.IGNORECASE)
+_RX_TOK = re.compile(_ORD_TOK, re.IGNORECASE)
+
+
+def _valor_ordinal(tok):
+    t = tok.strip().lower()
+    m = re.match(r"(\d+)", t)
+    if m:
+        return int(m.group(1)), bool(re.search(r"[ºª°oa]$", t.replace(" ", "")))
+    t = _sa(t).lower()
+    base = 10 if t.startswith("decim") and " " in t else 0
+    ult = t.split()[-1]
+    for raiz, v in _ORD_PAL.items():
+        r = _sa(raiz).lower()
+        if ult.startswith(r):
+            return (base + v if base else v), True
+    return None, False
+
+
+def _genero(nome):
+    n = _sa(nome).lower()
+    for padrao, g in _ORD_NOMES:
+        if re.fullmatch(_sa(padrao).lower(), n):
+            return g
+    return "m"
+
+
+def ordinais_anatomicos(texto):
+    """'terceiro, quarto e quinto metatarsos' -> '3º, 4º e 5º metatarsos'; 'quinta costela' -> '5ª costela'.
+    Número sem indicador só vira ordinal em lista ("3, 4 e 5 metatarsos") ou com o substantivo no
+    singular ("5 metatarso"): "fraturas em 2 costelas" é quantidade e fica."""
+    def troca(m):
+        corrida, nome = m.group(1), m.group(2)
+        toks = list(_RX_TOK.finditer(corrida))
+        # só espaço entre dois ordinais vale para palavra com palavra ("terceiro quarto e quinto") ou
+        # número com número ("3 4 e 5"); misturado ("grau 2 1º metatarso", "segundo 3 costelas")
+        # a lista começa no último corte
+        for i in range(len(toks) - 1, 0, -1):
+            sep = corrida[toks[i - 1].end():toks[i].start()]
+            a_, b_ = toks[i - 1].group(0).replace(" ", ""), toks[i].group(0).replace(" ", "")
+            if not sep.strip() and not ((a_.isalpha() and b_.isalpha()) or (a_.isdigit() and b_.isdigit())):
+                corte = toks[i].start()
+                return corrida[:corte] + ordinais_anatomicos(corrida[corte:] + m.group(0)[len(corrida):])
+        so_digitos_sem_marca = all(_valor_ordinal(t.group(0))[0] is not None and
+                                   not _valor_ordinal(t.group(0))[1] for t in toks)
+        plural = _sa(nome).lower().rstrip().endswith(("s", "is"))
+        if so_digitos_sem_marca and len(toks) == 1 and plural:
+            return m.group(0)                     # "2 costelas": quantidade
+        ind = "ª" if _genero(nome) == "f" else "º"
+        partes, pos = [], 0
+        for t in toks:
+            v, _marca = _valor_ordinal(t.group(0))
+            if v is None:
+                return m.group(0)
+            sep = corrida[pos:t.start()]
+            partes.append(", " if partes and sep and not sep.strip() else sep)   # "3º 4º e 5º" -> "3º, 4º e 5º"
+            palavra = t.group(0).strip().lower()
+            # dito por extenso, o gênero é o da palavra ("primeira metatarsofalângica")
+            ind_t = (("ª" if palavra.endswith("a") else "º") if palavra[-1:].isalpha() and
+                     not re.fullmatch(r"\d+\s?[oa]", palavra) else ind)
+            partes.append("%d%s" % (v, ind_t))
+            pos = t.end()
+        partes.append(corrida[pos:])
+        return "".join(partes) + " " + nome
+    return _RX_ORD.sub(troca, texto or "")
+
+
+_ROMANO = {1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII"}
+_CARD = {"um": 1, "dois": 2, "tres": 3, "três": 3, "quatro": 4, "cinco": 5, "seis": 6, "sete": 7, "oito": 8}
+# "4a"/"4 a"/"quatro a" = IVa; mas "segmentos 5 a 8" é intervalo (o "a" seguido de outro segmento)
+_SUB = r"(?:\s?[ab](?![\w])(?!\s+(?:[1-8]|VIII|VII|VI|IV|V|III|II|I|um|dois|tr[eê]s|quatro|cinco|seis|sete|oito)\b))"
+_SEG_TOK = (r"(?:[1-8]%s?(?![\d])|(?:VIII|VII|VI|IV|V|III|II|I)%s?(?![A-Za-z])|quatro%s?|"
+            r"um|dois|tr[eê]s|cinco|seis|sete|oito|primeiro|segundo|terceiro|quarto|quinto|sexto|"
+            r"s[eé]timo|oitavo)") % (_SUB, _SUB, _SUB)
+_SEG_SEP = r"(?:\s*,\s*|\s+e\s+|\s+a\s+|\s+ao\s+|\s*/\s*|\s*-\s*)"
+_RX_SEG = re.compile(r"\b(segmentos?)\s+(%s(?:%s%s)*)" % (_SEG_TOK, _SEG_SEP, _SEG_TOK))
+_RX_SEG_TOK = re.compile(_SEG_TOK)
+# segmento de outra estrutura: pulmão, duodeno, ureter, alças, vasos, coluna
+_RX_SEG_OUTRO = re.compile(r"\blobo\s+(?:inferior|superior|medio)|pulm|bronc|lingula|duoden|ureter|intestin|"
+                           r"colon|\bileo|jejun|alca|coluna|medula|vertebr|aort|arteri|\bveia|carot|basilar|"
+                           r"coronar|ventric|\bm[1-4]\b|\b[av][1-4]\b|\bp[1-3]\b")
+_RX_FIGADO = re.compile(r"f[ií]gado|hep[aá]tic|hepatoc|lobo\s+(?:direito|esquerdo|caudado)", re.IGNORECASE)
+
+
+def _romano_do_segmento(tok):
+    t = tok.strip()
+    m = re.fullmatch(r"([1-8])\s?([ab])?", t)
+    if m:
+        return _ROMANO[int(m.group(1))] + (m.group(2) or "")
+    if re.fullmatch(r"(?:VIII|VII|VI|IV|V|III|II|I)(?:\s?[ab])?", t):
+        return t.replace(" ", "")
+    m = re.fullmatch(r"quatro\s?([ab])", t, re.IGNORECASE)
+    if m:
+        return "IV" + m.group(1).lower()
+    s = _sa(t).lower()
+    if s in {_sa(k).lower(): v for k, v in _CARD.items()}:
+        return _ROMANO[{_sa(k).lower(): v for k, v in _CARD.items()}[s]]
+    v, _m = _valor_ordinal(t)
+    return _ROMANO.get(v) if v else None
+
+
+def segmentos_hepaticos(texto):
+    """No fígado, 'segmento 7' / 'segmento sete' / 'segmentos 5 e 6' / 'segmento 4a' -> romano.
+    Só nas linhas que falam do fígado: 'segmento proximal do ureter' e segmentos pulmonares ficam."""
+    saida = []
+    # a CONCLUSÃO repete "Nódulo no segmento 7." sem dizer fígado: no laudo que fala do fígado,
+    # segmento numerado sem outra estrutura na linha também é do fígado
+    laudo_do_figado = bool(_RX_FIGADO.search(texto or ""))
+    for linha in (texto or "").split("\n"):
+        if _RX_FIGADO.search(linha) or (laudo_do_figado and not _RX_SEG_OUTRO.search(_sa(linha).lower())):
+            def troca(m):
+                corrida = m.group(2)
+                partes, pos = [], 0
+                for t in _RX_SEG_TOK.finditer(corrida):
+                    r = _romano_do_segmento(t.group(0))
+                    if r is None:
+                        return m.group(0)
+                    partes.append(corrida[pos:t.start()])
+                    partes.append(r)
+                    pos = t.end()
+                partes.append(corrida[pos:])
+                return m.group(1) + " " + "".join(partes)
+            linha = _RX_SEG.sub(troca, linha)
+        saida.append(linha)
+    return "\n".join(saida)
+
+
+def numeracao(texto):
+    """Os dois padrões juntos — chamado no fim de toda saída do roteador."""
+    return segmentos_hepaticos(ordinais_anatomicos(texto))
+
+
+# 13/11: a lista é UM achado. No ditado "nas bases do terceiro, quarto e quinto metatarsos"
+# o separador de achados (vírgula, " e ") partia em "nas bases do terceiro." / "4º e 5º
+# metatarsos..." — três linhas no laudo; "nódulos nos segmentos cinco e seis do fígado"
+# partia no " e " e o "nódulos nos segmentos 5" ia parar nas adrenais. Os separadores de
+# dentro da lista ficam trancados enquanto o ditado é partido e voltam em cada pedaço.
+_LISTA_VIRG, _LISTA_E = "\x05", "\x06"
+_RX_SEG_I = re.compile(_RX_SEG.pattern, re.IGNORECASE)
+
+
+def proteger_listas(texto):
+    def tranca(m):
+        t = re.sub(r"\s*,\s*", _LISTA_VIRG, m.group(0))
+        return re.sub(r"\s+e\s+", _LISTA_E, t)
+    return _RX_SEG_I.sub(tranca, _RX_ORD.sub(tranca, texto or ""))
+
+
+def soltar_listas(texto):
+    return (texto or "").replace(_LISTA_VIRG, ", ").replace(_LISTA_E, " e ")
