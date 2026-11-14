@@ -300,6 +300,26 @@ def eh_dispositivo(n):
     return bool(DISP.search(n)) and not re.search(r"\bplacas? pleura", n)
 
 
+# 13/11, ele: "se na máscara vem cânula orotraqueal e eu falo cânula de traqueostomia, tem que
+# mudar". O dispositivo ditado TROCA a linha do mesmo dispositivo na máscara (máscara de leito
+# com cânula, cateter central e sonda), em vez de ficar uma em cima da outra.
+_FAMILIA_DISP = [
+    ("via_aerea", re.compile(r"\b(?:canulas?|tubos? (?:oro|endo|naso)?traque\w*|tubo traqueal|traqueostomia|tot|tqt)\b")),
+    ("cateter_central", re.compile(r"\b(?:cateter(?:es)? (?:venoso|central|de duplo|de hemodialise|de shilley)\w*|"
+                                   r"acesso venoso central|cvc|picc|port a cath|portocath)\b")),
+    ("sonda", re.compile(r"\b(?:sondas?|sng|sne|snd|sog)\b")),
+    ("dreno", re.compile(r"\bdrenos?\b")),
+    ("marcapasso", re.compile(r"\b(?:marca ?passo|cardiodesfibrilador|cdi)\b")),
+]
+
+
+def familia_dispositivo(n):
+    for nome, rx in _FAMILIA_DISP:
+        if rx.search(n):
+            return nome
+    return None
+
+
 def so_qualifica(n):
     pal = n.split()
     return bool(pal) and all(w in QUALIF or _NIVEL_W.match(w) or w.isdigit() for w in pal)
@@ -718,6 +738,10 @@ def compor(base, achados, revisar=None, tirar_dispositivos_lacuna=False, normais
         if eh_dispositivo(nf):
             esc = _escolher_protese(nf, itens) if _PROTESE.search(nf) else None
             if esc is None:
+                fam = familia_dispositivo(nf)
+                if fam:
+                    removidas.update(it["orig_id"] for it in itens if it["orig"] and eh_dispositivo(it["n0"])
+                                     and familia_dispositivo(it["n0"]) == fam)
                 topo.append(t)
                 continue
         else:

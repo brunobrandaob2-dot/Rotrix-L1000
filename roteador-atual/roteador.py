@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-11-13.1"
+VERSAO = "2026-11-13.2"
 
 
 def _impressao_do_codigo():
@@ -256,7 +256,9 @@ class Banco:
             for w in gt:
                 if w in alvo:
                     achou += 1
-                elif len(w) >= 4 and perto_anat(w):
+                elif len(w) >= 4 and w not in _NUMERAIS_FALADOS and perto_anat(w):
+                    # 13/11: número só casa igual — "raio x dos joelhos" abria o "joelho dois"
+                    # (grau 2) porque "dois" parecia "dos"
                     achou += 1
                 elif (len(w) >= 4 and w not in _GENERICAS) or len(w) <= 3 and w not in ("de", "do", "da", "e", "x"):
                     # palavra de anatomia/achado (ou curta, como "pe") faltando:
@@ -288,7 +290,7 @@ class Banco:
             # e toda palavra de ANATOMIA/achado do gatilho precisa de par no
             # ditado: "pelve" nao vira "perna", "pescoco" nao vira "pe"
             if any(len(w) >= 4 and w not in _GENERICAS and w not in alvo_set
-                   and not perto_cont(w)
+                   and (w in _NUMERAIS_FALADOS or not perto_cont(w))
                    for w in g.split()):
                 continue
             r = difflib.SequenceMatcher(None, consulta_norm, g).ratio()
@@ -2757,7 +2759,8 @@ _VIRGULA_FALADA = [(re.compile(r"\s+ponto e v[ií]rgula\b", re.I), ";"),
                    (re.compile(r"\s+ponto final\b", re.I), ".")]
 
 
-_SO_LADO_E_GRAU = re.compile(r"(?:(?:direit|esquerd)[oa]s? )?(?:[1-5]|um|dois|tres|quatro|cinco)")
+# 13/11: tórax vai de 1 a 9 (6 a 9 = no leito); o número é a máscara, não achado
+_SO_LADO_E_GRAU = re.compile(r"(?:(?:direit|esquerd)[oa]s? )?(?:[1-9]|um|dois|tres|quatro|cinco|seis|sete|oito|nove)")
 
 
 def _compor_rx_literal(bruto_lit, bruto, cab_raw, cab_norm, tit, txt):
@@ -2873,7 +2876,8 @@ def _compor_rx_literal(bruto_lit, bruto, cab_raw, cab_norm, tit, txt):
     if "dispositiv" not in cab_norm:
         txt = rx_literal.sem_dispositivos_do_molde(txt)
     # "raio x dos joelhos", "de ambos os pes": exame dos dois lados
-    if re.search(r"\b(?:ambos|ambas|bilateral|bilaterais)\b|\b(?:dos|das) \w+s\b",
+    # 13/11: "dos arcos costais", "dos seios da face" é o NOME do exame no plural, não os dois lados
+    if re.search(r"\b(?:ambos|ambas|bilateral|bilaterais)\b|\b(?:dos|das) (?!arcos costais|seios (?:da face|paranasais))\w+s\b",
                  normalizar(bruto_lit[:corte])) and not re.search(r"\b(?:direit|esquerd)", normalizar(ctx)):
         ctx = ctx + " bilateral"
     # lacunas da mascara: so pelo CABECALHO. O nivel/lobo/medida de um achado nao

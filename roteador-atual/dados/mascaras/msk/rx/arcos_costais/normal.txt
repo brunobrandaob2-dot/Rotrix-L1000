@@ -3,7 +3,7 @@
 # modalidade: rx
 # regiao: arcos_costais
 # tipo_mascara: normal
-**RADIOGRAFIA DOS ARCOS COSTAIS**
+**RADIOGRAFIA DOS ARCOS COSTAIS {LADO_A|À DIREITA/À ESQUERDA}**
 
 **TÉCNICA:**  incidências anteroposterior e oblíqua.
 
