@@ -547,6 +547,10 @@ LIMITES (os únicos):
 - Nenhuma medida, número, lado, nível ou segmento novo ou diferente do que está no laudo.
 - Nenhuma estrutura ou achado que o laudo não mencione (inferência é sobre o que está descrito).
 - Título e técnica continuam dizendo o mesmo exame.
+- Classificação (Bosniak, LI-RADS, BI-RADS, TI-RADS, Lung-RADS, Fleischner, Kellgren-Lawrence...) só quando o
+  laudo traz o critério que ela exige (ex.: realce em exame COM contraste); sem o critério, não classifique.
+- Sem frase de enchimento ("demais achados conforme descritos acima") e sem recomendação de exame que o
+  achado descrito não justifique.
 
 EXEMPLOS (antes → depois; são modelos de raciocínio, não frases para copiar):
 - "Áreas de maior densidade no pulmão em vidro fosco, em mosaico." → "Áreas de atenuação em vidro fosco

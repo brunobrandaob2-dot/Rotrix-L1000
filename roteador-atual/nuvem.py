@@ -1670,6 +1670,14 @@ def _enviar_anthropic(p, k, modelo, sistema, pedido, max_tokens, timeout, racioc
         "system": [bloco],
         "messages": [{"role": "user", "content": _conteudo_anthropic(pedido, imagens)}],
     }
+    # 16/11: Sonnet 5 / Opus 5 PENSAM sozinhos (raciocínio adaptativo, esforço "high") quando
+    # o pedido não diz nada — e o pensamento conta dentro do max_tokens. Ver claude_pensar().
+    if raciocinio and claude_pensa_por_padrao(modelo):
+        if raciocinio == "none":
+            corpo["thinking"] = {"type": "disabled"}
+        else:
+            corpo["thinking"] = {"type": "adaptive"}
+            corpo["output_config"] = {"effort": raciocinio}
     cab = {
         "content-type": "application/json",
         "x-api-key": k,
@@ -1677,7 +1685,18 @@ def _enviar_anthropic(p, k, modelo, sistema, pedido, max_tokens, timeout, racioc
     }
     if cache == "1h":
         cab["anthropic-beta"] = "extended-cache-ttl-2025-04-11"
-    d = _post(p.get("url") or URL, corpo, cab, timeout)
+    try:
+        d = _post(p.get("url") or URL, corpo, cab, timeout)
+    except _ErroAPI as e:
+        # modelo que não aceita o controle de raciocínio: tenta de novo sem ele
+        det = (e.det or "").lower()
+        if e.code == 400 and ("thinking" in corpo or "output_config" in corpo) and \
+                any(x in det for x in ("thinking", "effort", "output_config")):
+            corpo.pop("thinking", None)
+            corpo.pop("output_config", None)
+            d = _post(p.get("url") or URL, corpo, cab, timeout)
+        else:
+            raise
     partes = [b.get("text", "") for b in d.get("content", []) if b.get("type") == "text"]
     texto = "\n".join(x for x in partes if x).strip()
     # tokens REAIS cobrados, vindos da própria resposta da API. Escrita e leitura de
@@ -1690,7 +1709,9 @@ def _enviar_anthropic(p, k, modelo, sistema, pedido, max_tokens, timeout, racioc
            # 26/09: por que parou ("max_tokens" = cortado no teto) e se houve
            # raciocínio escondido (conta como saída, e é o que demora)
            "fim": str(d.get("stop_reason") or ""),
-           "pensou": sum(1 for b in d.get("content", []) or []
+           # 16/11: tokens de raciocínio quando a API diz; senão, quantos blocos de pensamento
+           "pensou": int(((u.get("output_tokens_details") or {}).get("thinking_tokens", 0)) or 0) or
+                     sum(1 for b in d.get("content", []) or []
                          if isinstance(b, dict) and b.get("type") in ("thinking", "redacted_thinking"))}
     return texto, uso, None
 
@@ -1740,6 +1761,42 @@ def _enviar_openai(p, k, modelo, sistema, pedido, max_tokens, timeout, raciocini
 # tokens pensando) contra 3,6 s com "none". Quem escolhe o básico escolhe velocidade
 # (pedido dele, 16/10: Luna para TC simples). O raciocínio da linha da tabela, se
 # escrito, continua mandando; o modelo forte (sol, terra...) continua no padrão.
+# 16/11 (auditoria): "a API da Anthropic está gastando e fazendo laudo quebrado". Em
+# novembro, 73 chamadas do Sonnet 5: 40 voltaram VAZIAS e 15 CORTADAS (só 14 ok) — US$ 3,72
+# pagos por nada, mediana de 40 s. O Sonnet 5 e o Opus 5 raciocinam sozinhos (adaptativo,
+# esforço "high") quando o pedido não fala de raciocínio, e o pensamento entra no
+# max_tokens: os 4.000 tokens acabavam no pensamento e o laudo não chegava a ser escrito.
+# Agora: formatar/escrever o laudo e o ditado cru vão SEM raciocínio (é o que o Haiku e o
+# Luna já fazem); botão (Revisar, reescrever, 2ª IA, Analisar RX) e imagem raciocinam POUCO
+# ("low"), com teto que cabe o pensamento e o laudo. A linha da tabela ("raciocinio") e o
+# config "claude_raciocinio": {"laudo": "none", "ditado": "none", "analise": "low"} mandam.
+_CLAUDE_PENSA = re.compile(r"^claude-(?:sonnet|opus|haiku)-(?:[5-9])(?:[-.]|$)", re.IGNORECASE)
+_ESFORCOS = ("low", "medium", "high", "xhigh", "max")
+
+
+def claude_pensa_por_padrao(modelo):
+    return bool(_CLAUDE_PENSA.match((modelo or "").strip()))
+
+
+def claude_pensar(r, c, analise=False, botao="", imagens=None):
+    """"none" (sem raciocínio) ou o esforço ("low"...) para um Claude que pensa por padrão;
+    None para os outros (Haiku 4.5, Sonnet 4.x: não pensam se ninguém pedir)."""
+    if not claude_pensa_por_padrao(r.get("modelo")):
+        return None
+    pedido = (r.get("raciocinio") or "").strip().lower()
+    if pedido in ("none", "nenhum", "desligado", "off", "minimal", "sem"):
+        return "none"
+    if pedido in _ESFORCOS:
+        return pedido
+    # botão (Revisar, reescrever, 2ª IA, Analisar RX) e imagem: um pouco de raciocínio.
+    # Ditado cru (botão de raciocínio, bloco DESCREVA) é escrever o que ele ditou: sem.
+    forte = bool(botao) or bool(imagens)
+    cfg = c.get("claude_raciocinio") if isinstance(c.get("claude_raciocinio"), dict) else {}
+    chave = "analise" if forte else ("ditado" if analise else "laudo")
+    v = str(cfg.get(chave) or ("low" if forte else "none")).strip().lower()
+    return v if v in _ESFORCOS else "none"
+
+
 def _modelo_basico(modelo):
     return bool(re.search(r"(?:^|[-_.])(?:luna|mini|nano)(?:$|[-_.])", (modelo or "").lower()))
 
@@ -1943,6 +2000,13 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
     enviar = _enviar_anthropic if p.get("formato") == "anthropic" else _enviar_openai
     ttl = cache_de(sistema, r["modelo"], c) if p.get("formato") == "anthropic" else None
     teto = int(max_tokens or c.get("max_tokens", 1500))
+    if p.get("formato") == "anthropic":
+        rac_claude = claude_pensar(r, c, analise=analise, botao=botao, imagens=imagens)
+        if rac_claude:
+            rac = rac_claude
+            if rac != "none":
+                # o pensamento entra no max_tokens: folga para pensar E escrever o laudo
+                teto = max(teto, int(c.get("teto_com_raciocinio_claude", 8000) or 8000))
     # 16/10 (auditoria 3.3): na OpenAI o raciocínio conta dentro do teto de saída. Com
     # teto de 300 ("analisar" de frase curta) o modelo pensava 400-1.100 tokens e a
     # resposta voltava VAZIA. Quem raciocina ganha piso para pensar e ainda escrever.
@@ -1963,6 +2027,24 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
     try:
         texto, uso, usd = enviar(p, k, r["modelo"], sistema, envio, teto, espera, rac, ttl,
                                  imagens=imagens)
+        usd_antes = 0.0
+        if p.get("formato") == "anthropic" and rac and rac != "none" and uso.get("pensou") \
+                and (not texto or uso.get("fim") == "max_tokens"):
+            # 16/11: pensou e não escreveu (ou parou no meio): o pensamento ficou com o teto.
+            # Registra o que foi pago e refaz UMA vez sem raciocínio — laudo vazio nunca volta.
+            usd_antes = float(custo(r["modelo"], uso["in"], uso["out"], c,
+                                    cache_w=uso.get("cache_w", 0), cache_r=uso.get("cache_r", 0),
+                                    ttl=ttl or "5m") or 0)
+            g0 = gasto_somar(rotulo, uso["in"] + uso.get("cache_w", 0) + uso.get("cache_r", 0),
+                             uso["out"], usd=usd_antes)
+            registrar(c, uso["in"], uso["out"], "vazia_pensando" if not texto else "cortada_pensando",
+                      usd_antes, g0["usd"], modelo=rotulo,
+                      ms=int((datetime.datetime.now() - t0).total_seconds() * 1000), teto=teto,
+                      fim=uso.get("fim", ""), pensou=uso.get("pensou", 0), regra=r.get("regra", ""),
+                      modo=m_ef, exame=r.get("exame", ""), cache_r=uso.get("cache_r", 0), rac=rac)
+            rac = "none"
+            texto, uso, usd = enviar(p, k, r["modelo"], sistema, envio, teto, espera, rac, ttl,
+                                     imagens=imagens)
         ms = int((datetime.datetime.now() - t0).total_seconds() * 1000)
         n_in, n_out = uso["in"], uso["out"]
         local = bool(p.get("sem_chave"))
@@ -1973,7 +2055,7 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
         g = gasto_somar(rotulo, n_in + uso.get("cache_w", 0) + uso.get("cache_r", 0),
                         n_out, usd=c_call)   # resposta vazia também é cobrada
         # o que rodou de verdade, para a tela dizer qual IA agiu e quanto custou
-        recibo = {"modelo": rotulo, "usd": round(float(c_call or 0), 5),
+        recibo = {"modelo": rotulo, "usd": round(float(c_call or 0) + usd_antes, 5),
                   "tokens_in": n_in, "tokens_out": n_out, "modo": m_ef,
                   "cache": ttl or "", "cache_lido": uso.get("cache_r", 0),
                   "economia": r.get("regra") == "economia",
