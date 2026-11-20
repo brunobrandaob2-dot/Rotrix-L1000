@@ -79,6 +79,8 @@ jobs:
         run: python testar_torax_leito.py
       - name: Sonnet 5 / Opus 5 com raciocinio sob controle - laudo vazio nunca volta (testar_claude_raciocinio.py)
         run: python testar_claude_raciocinio.py
+      - name: Motivo de a IA nao responder em portugues - limite do mes (testar_motivo_ia.py)
+        run: LAUDO_BASE=/tmp/base.sqlite python testar_motivo_ia.py
       - name: Botao de raciocinio (ditado cru para a IA, sem gatilho; switch do roteador)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_raciocinio.py
       - name: Coluna estruturada com mais de uma herniacao por nivel

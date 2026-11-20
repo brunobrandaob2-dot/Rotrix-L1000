@@ -101,6 +101,7 @@ const recibo = (r: {
   modelo?: string;
   custo_usd?: number;
   mes_usd?: number;
+  limite_mes_usd?: number;
   economia?: boolean;
   cache?: string;
   cache_lido?: number;
@@ -121,7 +122,15 @@ const recibo = (r: {
     const c = r.custo_usd * 100;
     partes.push(c < 1 ? `${c.toFixed(2)} centavo` : `${c.toFixed(1)} centavos`);
   }
-  if (typeof r.mes_usd === "number") partes.push(`mês US$ ${r.mes_usd.toFixed(2)}`);
+  if (typeof r.mes_usd === "number") {
+    // 20/11: perto do limite do mês, o recibo avisa antes de a IA parar
+    const lim = r.limite_mes_usd || 0;
+    partes.push(
+      lim > 0 && r.mes_usd >= 0.8 * lim
+        ? `mês US$ ${r.mes_usd.toFixed(2)} de ${lim.toFixed(0)} — perto do limite`
+        : `mês US$ ${r.mes_usd.toFixed(2)}`,
+    );
+  }
   if (r.economia) partes.push("(economia: fui no barato)");
   // cache lido = o prompt de sistema saiu por 10% (5% no Opus 5.5). Sem isto ele não
   // tem como saber se pagou o prompt inteiro ou só a leitura.
@@ -1361,6 +1370,16 @@ function motivoEmPortugues(motivo?: string): string {
   if (m.includes("nuvem_ausente") || m.includes("sem_chave"))
     return "falta a chave da IA nas configurações";
   if (m.includes("roteador parado")) return "o roteador está parado";
+  // 20/11: "a IA não respondeu (nuvem_teto)" não dizia nada para ele
+  if (m.includes("nuvem_teto")) {
+    const valores = (motivo || "").match(/US\$ [\d.,]+ de US\$ [\d.,]+/);
+    return `chegou ao limite de gasto do mês${valores ? ` (${valores[0]})` : ""}: aumente em Configurações › IA › Limite do mês`;
+  }
+  if (m.includes("nuvem_vazia")) return "a IA devolveu resposta vazia: tente de novo";
+  if (m.includes("http_401") || m.includes("http_403")) return "a chave da IA foi recusada: confira em Configurações › IA";
+  if (m.includes("http_429") || m.includes("http_529") || m.includes("overloaded"))
+    return "a IA está sobrecarregada agora: tente de novo em instantes";
+  if (m.includes("timeout") || m.includes("timed out")) return "a IA demorou demais e a espera acabou: tente de novo";
   if (m.includes("rx_sem_imagem")) return "Analisar RX precisa da radiografia colada na folha";
   if (m.includes("revisao_sem_regra") || m.includes("imagem_sem_regra"))
     return "o roteador é antigo para este botão: rode o ATUALIZAR e o LIGAR";

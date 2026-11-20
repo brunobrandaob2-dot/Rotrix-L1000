@@ -65,7 +65,7 @@ except Exception:
 
 BASE = os.environ.get("LAUDO_BASE") or os.path.join(os.path.dirname(os.path.abspath(__file__)), "base.sqlite")
 HOST, PORT = "127.0.0.1", 8123
-VERSAO = "2026-11-16.1"
+VERSAO = "2026-11-20.1"
 
 
 def _impressao_do_codigo():
@@ -4832,10 +4832,28 @@ def ia_no_texto(texto, instrucao="", modelo="", imagens=None, ditado="", roteado
                 # cache: a tela diz se o prompt de sistema saiu por 10% ou inteiro
                 "cache": u.get("cache", ""), "cache_lido": u.get("cache_lido", 0),
                 # 16/10: "dif" = a IA devolveu só as linhas que mudaram
-                "formato": formato_resp}
+                "formato": formato_resp,
+                # 20/11: a tela avisa quando o gasto do mês chega perto do limite
+                "limite_mes_usd": float(c.get("limite_mes_usd", 0) or 0)}
     if origem == "nuvem_bloqueada":
         return _resposta_bloqueada(texto, tela, ditado, instrucao)
-    return {"ok": False, "motivo": origem, "texto": texto}
+    return {"ok": False, "motivo": _motivo_legivel(origem, c), "texto": texto}
+
+
+def _motivo_legivel(origem, c=None):
+    """20/11, ele: "está dizendo 'a IA não respondeu (nuvem_teto)'. Não sei que informação é
+    essa". O código continua no começo (o app reconhece por ele); depois dos dois-pontos, a
+    explicação — o app velho mostra a frase inteira entre parênteses."""
+    o = str(origem or "")
+    if o == "nuvem_teto":
+        try:
+            g = nuvem.gasto_ler()
+            lim = float((c or nuvem.config()).get("limite_mes_usd", 0) or 0)
+            return ("nuvem_teto: chegou ao limite de gasto do mês (US$ %.2f de US$ %.2f) — aumente em "
+                    "Configurações › IA › Limite do mês" % (float(g.get("usd") or 0), lim)).replace(".", ",")
+        except Exception:
+            return "nuvem_teto: chegou ao limite de gasto do mês — aumente em Configurações › IA › Limite do mês"
+    return o
 
 
 def _resposta_bloqueada(texto, tela, ditado, instrucao):

@@ -397,6 +397,24 @@ const casos: [boolean, string][] = [
     /usar a revisão da 2ª IA/.test(laudo) && /setSegunda\(\{/.test(laudo),
     "rodapé oferece trocar pela revisão da 2ª IA",
   ],
+  // 20/11: "a IA não respondeu (nuvem_teto)" — ele não sabia o que era
+  [
+    /m\.includes\("nuvem_teto"\)/.test(laudo) && /limite de gasto do mês/.test(laudo) &&
+      /Configurações › IA › Limite do mês/.test(laudo),
+    "teto do mês aparece em português, com onde aumentar",
+  ],
+  [
+    /m\.includes\("nuvem_vazia"\)/.test(laudo) && /http_401/.test(laudo) && /http_429/.test(laudo),
+    "resposta vazia, chave recusada e IA sobrecarregada em português",
+  ],
+  [
+    /limite_mes_usd\?: number/.test(laudo) && /perto do limite/.test(laudo) && /0\.8 \* lim/.test(laudo),
+    "recibo avisa a partir de 80% do limite do mês",
+  ],
+  [
+    /def _motivo_legivel/.test(roteador) && /"limite_mes_usd": float\(c\.get\("limite_mes_usd"/.test(roteador),
+    "roteador manda o limite no recibo e a explicação do teto no motivo",
+  ],
 ];
 
 let falhas = 0;
