@@ -1321,11 +1321,14 @@ export const LaudoPage: React.FC<Props> = ({
       />
 
       {/* ---------- rodapé ---------- */}
-      <div className="flex items-center gap-2 px-3 py-2 bg-background border-t border-mid-gray/20">
-        <span className="text-[11px] rounded-lg border border-amber-300/50 bg-amber-100/40 text-amber-800 px-2 py-1">
+      {/* 22/11: com a fila aberta a barra fica estreita; os botões não encolhem
+          (antes quebravam em duas linhas e saíam do quadro) e só o aviso da
+          direita é cortado com "…" (o texto inteiro aparece ao passar o mouse). */}
+      <div className="flex items-center gap-2 px-3 py-2 bg-background border-t border-mid-gray/20 min-w-0 overflow-hidden">
+        <span className="shrink-0 whitespace-nowrap text-[11px] rounded-lg border border-amber-300/50 bg-amber-100/40 text-amber-800 px-2 py-1">
           colar na janela que estava na frente
         </span>
-        <Button variant="secondary" size="sm" onClick={() => void colarNoRis()}>
+        <Button variant="secondary" size="sm" className="shrink-0 whitespace-nowrap" onClick={() => void colarNoRis()}>
           Colar lá · Ctrl+Enter
         </Button>
         <Dica
@@ -1335,7 +1338,7 @@ export const LaudoPage: React.FC<Props> = ({
             type="button"
             onClick={() => (cronoDesde === null ? cronoLigar("mao") : cronoParar())}
             aria-label="cronômetro do laudo"
-            className={`h-7 px-2 rounded-lg border flex items-center gap-1.5 text-[11.5px] tabular-nums cursor-pointer transition-colors ${
+            className={`shrink-0 whitespace-nowrap h-7 px-2 rounded-lg border flex items-center gap-1.5 text-[11.5px] tabular-nums cursor-pointer transition-colors ${
               cronoDesde !== null
                 ? "border-red-500/60 bg-red-500/15 font-semibold"
                 : "border-mid-gray/30 hover:bg-mid-gray/10"
@@ -1358,7 +1361,7 @@ export const LaudoPage: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => void copiarTempos()}
-            className="h-7 px-1.5 rounded-lg border border-mid-gray/30 text-[10.5px] text-mid-gray hover:bg-mid-gray/10 cursor-pointer"
+            className="shrink-0 whitespace-nowrap h-7 px-1.5 rounded-lg border border-mid-gray/30 text-[10.5px] text-mid-gray hover:bg-mid-gray/10 cursor-pointer"
           >
             tempos
           </button>
@@ -1374,13 +1377,16 @@ export const LaudoPage: React.FC<Props> = ({
                 setAviso(`revisão da 2ª IA (${segunda.modelo}) na folha · Desfazer volta a da 1ª`);
                 setSegunda(null);
               }}
-              className="h-7 px-2 rounded-lg border border-logo-primary/50 bg-logo-primary/15 text-[11px] hover:bg-logo-primary/25 cursor-pointer"
+              className="shrink-0 whitespace-nowrap h-7 px-2 rounded-lg border border-logo-primary/50 bg-logo-primary/15 text-[11px] hover:bg-logo-primary/25 cursor-pointer"
             >
               usar a revisão da 2ª IA ({segunda.modelo})
             </button>
           </Dica>
         )}
-        <span className="ms-auto text-[11px] text-mid-gray">
+        <span
+          className="ms-auto min-w-0 flex-1 truncate text-end text-[11px] text-mid-gray"
+          title={aviso || undefined}
+        >
           {aviso ||
             "clique curto liga e desliga · segurar grava enquanto segura"}
         </span>
