@@ -44,6 +44,8 @@ confere("Mirabox: botão sem tela B", M.ler(ack(0x30, 1)) == [("b1", "tecla", Tr
 confere("Mirabox: giratório esquerdo para a direita", M.ler(ack(0x91, 0)) == [("g0", "girar+", True)])
 confere("Mirabox: clique do giratório de cima", M.ler(ack(0x35, 1)) == [("g1", "clique", True)])
 confere("Mirabox: relatório sem ACK é ignorado", M.ler(b"XYZ" + bytes(20)) == [])
+confere("Mirabox: com o byte 0x00 do relatório na frente (ReadFile do Windows)",
+        M.ler(b"\x00" + ack(3, 1)) == [("k2", "tecla", True)])
 
 E = deck.Elgato2
 p = E.imagem(3, bytes(2500))

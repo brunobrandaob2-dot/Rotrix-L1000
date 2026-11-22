@@ -2940,7 +2940,7 @@ def fila_radius():
     if radius is None:
         return {"disponivel": False, "itens": [], "atual": None, "perfil_automatico": False}
     pasta = radius.pasta_radius(c)
-    extras = radius.pastas_observadas(c)[1:]
+    extras = radius.pastas_extras(c)
     fila = radius.ler_fila(pasta, extras)
     at = radius.atual(fila)
     for x in fila:
@@ -3119,7 +3119,7 @@ def _cabecalho_automatico():
         return ""
     try:
         _c = _config()
-        fila = radius.ler_fila(radius.pasta_radius(_c), radius.pastas_observadas(_c)[1:])
+        fila = radius.ler_fila(radius.pasta_radius(_c), radius.pastas_extras(_c))
         for x in fila:
             x["cabecalho"] = radius.cabecalho(x)
         at = estacao_atual(fila)
@@ -3343,7 +3343,7 @@ def fila_apagar(ids):
         return {"ok": False, "motivo": "radius_ausente"}
     try:
         c = _config()
-        return radius.apagar(radius.pasta_radius(c), ids, c, radius.pastas_observadas(c)[1:])
+        return radius.apagar(radius.pasta_radius(c), ids, c, radius.pastas_extras(c))
     except Exception as e:
         return {"ok": False, "motivo": "%s" % type(e).__name__}
 
@@ -3385,7 +3385,7 @@ def fila_abrir(ids, ultimo=False, visualizador=None, janela=None):
         return {"ok": False, "motivo": "radius_ausente"}
     try:
         c = _config()
-        extras = radius.pastas_observadas(c)[1:]
+        extras = radius.pastas_extras(c)
         if ultimo or not ids:
             fila = [x for x in radius.ler_fila(radius.pasta_radius(c), extras)
                     if not x.get("laudado")]

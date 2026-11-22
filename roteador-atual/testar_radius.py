@@ -301,6 +301,19 @@ def main():
     # pasta que não existe: fila vazia, sem erro
     if radius.ler_fila(os.path.join(pasta, "nao_existe")) != []:
         falhas.append("pasta inexistente")
+    # 22/11/2026: pasta do Radius apagada -> a pasta Downloads continua sendo lida
+    base = tempfile.mkdtemp()
+    try:
+        downloads = os.path.join(base, "Downloads")
+        os.makedirs(downloads)
+        cfg = {"radius_pasta": os.path.join(base, "Radius Downloads"), "pastas_extras": [downloads]}
+        if radius.pastas_extras(cfg) != [os.path.abspath(downloads)]:
+            falhas.append("sem a pasta do Radius, Downloads sumia da fila: %r" % radius.pastas_extras(cfg))
+        os.makedirs(cfg["radius_pasta"])
+        if radius.pastas_extras(cfg) != [os.path.abspath(downloads)]:
+            falhas.append("com a pasta do Radius, extras errados: %r" % radius.pastas_extras(cfg))
+    finally:
+        shutil.rmtree(base, ignore_errors=True)
     for f in falhas:
         print("FALHOU", f)
     print("radius: tudo certo" if not falhas else "radius: %d falha(s)" % len(falhas))

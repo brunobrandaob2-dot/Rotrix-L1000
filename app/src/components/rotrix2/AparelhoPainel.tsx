@@ -132,7 +132,23 @@ export const AparelhoPainel: React.FC<{
     gravar({ ...conf, paginas: conf.paginas.map((p, i) => (p === pagina ? { ...p, m } : p)) });
   };
 
-  // --- imagens para o aparelho: refeitas quando o mapa ou as teclas mudam ---
+  // --- imagens para o aparelho: refeitas SÓ quando o desenho muda ---
+  // 22/11: o efeito dependia de objetos novos a cada leitura (4 s) e de cada
+  // renderização; as imagens eram reenviadas sem parar. Agora a chave é o que
+  // aparece nas teclas + quais aparelhos estão conectados (reconectou, repinta).
+  const assinatura = JSON.stringify({
+    m: modelo?.id,
+    con: (est?.conectados || []).filter((c) => c.modelo === modelo?.id).map((c) => c.chave),
+    p: conf.paginas.map((p) =>
+      (modelo?.slots || [])
+        .filter((x) => x[0] === "k")
+        .map((s) => {
+          const id = p.m[s];
+          const t = typeof id === "string" ? porId[id] : null;
+          return t ? [t.nome, t.grupo, t.icone || "", t.acao] : null;
+        }),
+    ),
+  });
   const espera = useRef<number | null>(null);
   useEffect(() => {
     if (!modelo || !est?.conectados.some((c) => c.modelo === modelo.id)) return;
@@ -153,7 +169,7 @@ export const AparelhoPainel: React.FC<{
         setAviso(`não mandei as imagens: ${String(e)}`);
       }
     }, 700);
-  }, [modelo, conf, porId, est?.conectados]);
+  }, [assinatura]);
 
   if (!est || !modelo)
     return <div className="text-[12.5px] text-mid-gray">procurando o aparelho…</div>;

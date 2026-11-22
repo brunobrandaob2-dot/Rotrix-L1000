@@ -783,6 +783,11 @@ export const LaudoPage: React.FC<Props> = ({
   const paraComandos = useRef<Record<string, () => void>>({});
   paraComandos.current = {
     colar: () => void colarNoRis(),
+    // 22/11: "Ditar" = o 3º botão (a IA ouve, organiza e reescreve); "Máscara por
+    // voz" = o 2º (chama a máscara pelos atalhos); o 1º (transcrição crua) fica
+    // como opção. Apertar de novo para de gravar, como no clique curto.
+    ditar_ia: () => apertou("completo"),
+    ditar_mascara: () => apertou("leve"),
     ditar: () => apertou("simples"),
     conferencia: () => trocarConferencia(),
     revisar: () => void rodarIA({ instrucao: INSTRUCAO_REVISAR }),

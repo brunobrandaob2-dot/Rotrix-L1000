@@ -198,7 +198,7 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
   useEffect(() => {
     const ouvir = async (e: Event) => {
       const c = (e as CustomEvent<{ comando?: string }>).detail?.comando || "";
-      const naFolha = ["colar", "ditar", "conferencia", "revisar", "analisar_rx"];
+      const naFolha = ["colar", "ditar", "ditar_ia", "ditar_mascara", "conferencia", "revisar", "analisar_rx"];
       if (naFolha.includes(c)) {
         setAba("laudo");
         // a folha está sempre montada: o comando chega depois de ela aparecer

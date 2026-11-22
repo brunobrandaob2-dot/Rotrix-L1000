@@ -96,6 +96,17 @@ def pastas_observadas(config=None):
     return achadas
 
 
+def pastas_extras(config=None):
+    """As pastas observadas que NÃO são a do Radius (ex.: Downloads).
+
+    22/11/2026: quem chamava usava `pastas_observadas(c)[1:]`, contando que a
+    primeira fosse sempre a do Radius. Com a pasta do Radius apagada, ela some
+    da lista — e o [1:] jogava fora a pasta Downloads: a fila ficava vazia com
+    98 exames em Downloads."""
+    principal = os.path.normcase(os.path.abspath(pasta_radius(config)))
+    return [p for p in pastas_observadas(config) if os.path.normcase(p) != principal]
+
+
 def achar_arquivos(pasta, profundidade=2):
     """Arquivos de estado do Radius, só pelo NOME (nenhum outro arquivo é aberto)."""
     achados = []

@@ -89,5 +89,27 @@ open(arq, "w", encoding="utf-8").write("{quebrado")
 confere("arquivo quebrado -> painel padrão", painel.carregar(arq)["paginas"][0]["nome"] == "Expediente")
 confere("nenhum .tmp sobrando", not [f for f in os.listdir(pasta) if f.endswith(".tmp")], os.listdir(pasta))
 
+# --- migração da versão 1 (22/11): Ditar = IA; Máscara por voz; transcrição crua ---
+v1 = {"versao": 1, "paginas": [{"nome": "Laudo", "teclas": [
+    {"id": "l_proximo", "nome": "Próximo", "acao": "rotrix", "grupo": "laudo", "comando": "proximo"},
+    {"id": "l_ditar", "nome": "Ditar", "acao": "rotrix", "grupo": "laudo", "comando": "ditar"},
+    {"id": "minha", "nome": "Minha tecla", "acao": "sistema", "grupo": "sis", "comando": "mudo"}]},
+    {"nome": "Expediente", "teclas": [{"id": "mascaras", "nome": "Máscaras", "acao": "rotrix", "grupo": "texto",
+                                       "comando": "mascaras"}]}],
+    "aparelhos": {"akp03e": {"paginas": [{"nome": "Laudo", "m": {"k1": "l_ditar", "k4": "mascaras"}}]}}}
+mg = painel.normalizar(v1)
+ts = {t["id"]: t for t in painel.todas_as_teclas(mg)}
+confere("migração: Ditar vira o ditado com IA", ts["l_ditar"]["comando"] == "ditar_ia" and ts["l_ditar"]["nome"] == "Ditar (IA)",
+        ts["l_ditar"])
+confere("migração: entra Máscara por voz logo depois do Próximo",
+        [t["id"] for t in mg["paginas"][0]["teclas"]][:3] == ["l_proximo", "l_mascara_voz", "l_ditar"],
+        [t["id"] for t in mg["paginas"][0]["teclas"]])
+confere("migração: transcrição crua vira tecla à parte", ts.get("l_cru", {}).get("comando") == "ditar")
+confere("migração: a tecla dele fica", "minha" in ts)
+mapa = mg["aparelhos"]["akp03e"]["paginas"][0]["m"]
+confere("migração: no aparelho, a tecla de Máscaras chama a máscara por voz",
+        mapa == {"k1": "l_ditar", "k4": "l_mascara_voz"}, mapa)
+confere("migração: grava como versão 2", mg["versao"] == 2)
+
 print("\npainel: %s" % ("tudo certo" if not falhas else "%d falha(s)" % falhas))
 sys.exit(1 if falhas else 0)

@@ -29,7 +29,9 @@ import threading
 import time
 
 EH_WINDOWS = sys.platform == "win32"
-VERSAO = 1
+# 2 (22/11): "Ditar" = o ditado com IA (3º botão da folha); "Máscara por voz" =
+# o 2º botão; a transcrição crua (1º botão) vira tecla à parte.
+VERSAO = 2
 
 # ---------------------------------------------------------------------------
 # Modelos de layout (os do Snap do Windows 11, iguais aos do Workflow Hub).
@@ -169,7 +171,8 @@ GRUPOS = ("laudo", "ia", "texto", "app", "jan", "sis")
 # o que cada tecla faz
 ACOES = ("programa", "site", "rotrix", "sistema", "atalho", "texto", "expediente", "organizar")
 TIPOS_PROGRAMA = ("exe", "powershell", "appx")
-COMANDOS_ROTRIX = ("proximo", "abrir_marcados", "fila", "colar", "ditar", "conferencia",
+COMANDOS_ROTRIX = ("proximo", "abrir_marcados", "fila", "colar", "ditar", "ditar_ia", "ditar_mascara",
+                   "conferencia",
                    "revisar", "analisar_rx", "coronarias", "laudo", "fila_aba", "mascaras")
 COMANDOS_SISTEMA = ("volume_mais", "volume_menos", "mudo", "musica", "proxima_musica",
                     "musica_anterior", "bloquear")
@@ -230,8 +233,10 @@ def padrao():
                   _tecla("mascaras", "Máscaras", "rotrix", "texto", "file", comando="mascaras")] + progs
     laudo = [
         _tecla("l_proximo", "Próximo da fila", "rotrix", "laudo", "next", comando="proximo"),
+        _tecla("l_mascara_voz", "Máscara por voz", "rotrix", "texto", "file", comando="ditar_mascara"),
+        _tecla("l_ditar", "Ditar (IA)", "rotrix", "ia", "mic", comando="ditar_ia"),
         _tecla("l_colar", "Colar no RIS", "rotrix", "laudo", "clip", comando="colar"),
-        _tecla("l_ditar", "Ditar", "rotrix", "laudo", "mic", comando="ditar"),
+        _tecla("l_cru", "Transcrição crua", "rotrix", "sis", "type", comando="ditar"),
         _tecla("l_conf", "Conferência", "rotrix", "laudo", "check", comando="conferencia"),
         _tecla("l_revisar", "Revisar", "rotrix", "ia", "spark", comando="revisar"),
         _tecla("l_rx", "Analisar RX", "rotrix", "ia", "scan", comando="analisar_rx"),
@@ -269,7 +274,7 @@ GIROS = ("volume", "pagina", "rolar", "zoom", "brilho")
 def aparelhos_padrao():
     return {"akp03e": {"brilho": 80, "auto": True, "paginas": [
         {"nome": "Laudo", "app": "", "m": {
-            "k0": "l_proximo", "k1": "l_ditar", "k2": "l_colar", "k3": "l_revisar", "k4": "mascaras",
+            "k0": "l_proximo", "k1": "l_mascara_voz", "k2": "l_ditar", "k3": "l_revisar", "k4": "l_colar",
             "k5": "mesa", "b0": "expediente", "b1": "organizar", "b2": "s_mudo",
             "g0": {"girar": "rolar", "clique": "l_proximo"}, "g1": {"girar": "pagina", "clique": "l_conf"},
             "g2": {"girar": "volume", "clique": "s_mudo"}}},
@@ -364,10 +369,52 @@ def tecla_valida(t):
     return k
 
 
+def _migrar_para_2(cru):
+    """Painel salvo na versão 1: "Ditar" vira o ditado com IA, entram "Máscara por
+    voz" e "Transcrição crua", e no aparelho a tecla que abria a aba Máscaras
+    passa a chamar a máscara por voz. O resto do que ele montou fica igual."""
+    import copy
+    cru = copy.deepcopy(cru)
+    paginas = cru.get("paginas") if isinstance(cru.get("paginas"), list) else []
+    ids = {t.get("id") for p in paginas if isinstance(p, dict) for t in (p.get("teclas") or []) if isinstance(t, dict)}
+    for p in paginas:
+        if not isinstance(p, dict):
+            continue
+        teclas = p.get("teclas") or []
+        for t in teclas:
+            if isinstance(t, dict) and t.get("id") == "l_ditar" and t.get("comando") == "ditar":
+                t.update(comando="ditar_ia", grupo="ia")
+                if t.get("nome") in ("Ditar", "", None):
+                    t["nome"] = "Ditar (IA)"
+        if any(isinstance(t, dict) and t.get("id") == "l_proximo" for t in teclas):
+            pos = next(i for i, t in enumerate(teclas) if isinstance(t, dict) and t.get("id") == "l_proximo") + 1
+            if "l_mascara_voz" not in ids:
+                teclas.insert(pos, _tecla("l_mascara_voz", "Máscara por voz", "rotrix", "texto", "file",
+                                          comando="ditar_mascara"))
+                ids.add("l_mascara_voz")
+            if "l_cru" not in ids:
+                teclas.append(_tecla("l_cru", "Transcrição crua", "rotrix", "sis", "type", comando="ditar"))
+                ids.add("l_cru")
+    ap = cru.get("aparelhos")
+    if isinstance(ap, dict) and isinstance(ap.get("akp03e"), dict):
+        for pg in ap["akp03e"].get("paginas") or []:
+            m = pg.get("m") if isinstance(pg, dict) else None
+            if isinstance(m, dict) and m.get("k4") == "mascaras" and "l_mascara_voz" in ids:
+                m["k4"] = "l_mascara_voz"
+    return cru
+
+
 def normalizar(cru):
     base = padrao()
     if not isinstance(cru, dict):
         cru = {}
+    elif cru.get("paginas"):
+        try:
+            versao = int(cru.get("versao") or 1)
+        except (TypeError, ValueError):
+            versao = 1
+        if versao < 2:
+            cru = _migrar_para_2(cru)
     aj = dict(base["ajustes"])
     if isinstance(cru.get("ajustes"), dict):
         aj.update({k: v for k, v in cru["ajustes"].items() if k in aj})

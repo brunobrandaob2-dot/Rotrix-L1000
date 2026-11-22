@@ -124,8 +124,16 @@ class Mirabox:
 
     @classmethod
     def ler(cls, dados, _estado=None):
-        """Bytes de um relatório -> [(slot, tipo, apertado)]"""
-        if len(dados) < 11 or bytes(dados[:3]) != b"ACK":
+        """Bytes de um relatório -> [(slot, tipo, apertado)]
+
+        22/11 (no aparelho dele): lendo direto pelo Windows (ReadFile), o
+        relatório chega com o número dele (0x00) na frente — a biblioteca hidapi
+        tirava esse byte sozinha. Sem tirar, nenhum "ACK" batia e nenhum aperto
+        chegava."""
+        dados = bytes(dados)
+        if len(dados) > 3 and dados[0] == 0 and dados[1:4] == b"ACK":
+            dados = dados[1:]
+        if len(dados) < 11 or dados[:3] != b"ACK":
             return []
         cod, est = dados[9], dados[10]
         if cod == 0:
