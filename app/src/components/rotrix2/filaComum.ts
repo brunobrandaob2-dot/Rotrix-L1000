@@ -51,6 +51,9 @@ export const lerFila = async (): Promise<Fila> =>
   JSON.parse((await invoke<string>("rotrix_fila")) || "{}") as Fila;
 
 export const pronto = (e: Estudo): boolean => Boolean(e.feito || e.laudado);
+/** Ainda baixando? 22/11: era /baix/ e pegava "baixado por fora" (os ZIPs
+ *  soltos de Downloads) — todos ficavam sem o botão Abrir. */
+export const baixando = (e: Estudo): boolean => /baixando/i.test(e.status || "");
 /** veio do E-Laudos (Radius) ou é um ZIP solto (Mobilemed e outros)? */
 export const ehOutro = (e: Estudo): boolean => e.origem === "pasta";
 
@@ -150,7 +153,7 @@ export const ligarAutoabrir = (v: boolean): void => {
 /** O próximo exame a abrir: o mais antigo pronto e não laudado do E-Laudos. */
 export const proximoPendente = (f: Fila, menosEste?: string | null): Estudo | null => {
   const cands = (f.itens || []).filter(
-    (e) => !pronto(e) && !ehOutro(e) && e.id !== menosEste && !/baix/i.test(e.status || ""),
+    (e) => !pronto(e) && !ehOutro(e) && e.id !== menosEste && !baixando(e),
   );
   if (!cands.length) return null;
   return [...cands].sort((a, b) => (a.entrou || "").localeCompare(b.entrou || ""))[0];

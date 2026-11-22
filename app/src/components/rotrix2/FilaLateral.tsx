@@ -18,6 +18,7 @@ import {
   type Visualizador,
   lerFila,
   pronto,
+  baixando,
   ehOutro,
   hora,
   nomeDoExame,
@@ -218,7 +219,7 @@ export const FilaLateral: React.FC<Props> = ({ modo, aberta, aoMostrar, aoTrocar
           itens.map((i) => {
             const m = marcados.includes(i.id);
             const vez = i.id === daVez;
-            const baixando = /baix/i.test(i.status || "");
+            const emDownload = baixando(i);
             return (
               <div
                 key={i.id}
@@ -238,7 +239,7 @@ export const FilaLateral: React.FC<Props> = ({ modo, aberta, aoMostrar, aoTrocar
                   {m && <Check size={10} />}
                 </span>
                 <span className="text-mid-gray tabular-nums text-[11px]">{hora(i.entrou)}</span>
-                {baixando ? (
+                {emDownload ? (
                   <span className="text-[10.5px] text-amber-600">baixando</span>
                 ) : (
                   <button

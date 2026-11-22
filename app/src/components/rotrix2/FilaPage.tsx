@@ -21,6 +21,7 @@ import {
   type JanelaRW,
   lerFila,
   pronto,
+  baixando,
   ehOutro,
   hora,
   dia,
@@ -384,7 +385,7 @@ export const FilaPage: React.FC = () => {
               {itens.map((i) => {
                 const marcado = marcados.includes(i.id);
                 const vez = i.id === daVez;
-                const baixando = /baix/i.test(i.status || "");
+                const emDownload = baixando(i);
                 return (
                   <tr
                     key={i.id}
@@ -409,7 +410,7 @@ export const FilaPage: React.FC = () => {
                       {hora(i.entrou)}
                     </td>
                     <td>
-                      {baixando ? (
+                      {emDownload ? (
                         <span className="text-[11px] text-amber-600">baixando</span>
                       ) : (
                         <button
@@ -430,7 +431,7 @@ export const FilaPage: React.FC = () => {
                       {nomeDoExame(i)}
                     </td>
                     <td className="text-mid-gray tabular-nums text-[12px]">{tamanho(i.bytes)}</td>
-                    <td className={`text-[12px] ${pronto(i) ? "text-emerald-600" : baixando ? "text-amber-600" : ""}`}>
+                    <td className={`text-[12px] ${pronto(i) ? "text-emerald-600" : emDownload ? "text-amber-600" : ""}`}>
                       {vez && !pronto(i) ? "da vez" : pronto(i) ? "Laudado" : i.status || "Pronto"}
                     </td>
                   </tr>
