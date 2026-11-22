@@ -462,8 +462,9 @@ class Gerente:
         self.ao_evento = ao_evento
         self.aparelhos = {}       # chave -> Aparelho
         self.vistos = []          # o que está na USB (inclusive sem suporte)
-        self.imagens = {}         # chave do modelo -> {pagina: {slot: jpeg}}
-        self.pagina = {}          # chave do aparelho -> índice da página
+        self.imagens = {}         # chave do modelo -> {(perfil, pagina): {slot: jpeg}}
+        self.pagina = {}          # chave do aparelho -> índice da página (dentro do perfil)
+        self.perfil = {}          # chave do aparelho -> índice do perfil
         self.brilhos = {}         # modelo -> %
         self.trava = threading.RLock()
         self.rodando = False
@@ -523,6 +524,7 @@ class Gerente:
                     continue
                 self.aparelhos[a.chave] = a
                 self.pagina.setdefault(a.chave, 0)
+                self.perfil.setdefault(a.chave, 0)
                 try:
                     a.brilho(self.brilhos.get(m["id"], 80))
                 except OSError:
@@ -530,7 +532,8 @@ class Gerente:
                 self._repintar(a)
 
     def _repintar(self, a):
-        imgs = (self.imagens.get(a.modelo["id"]) or {}).get(self.pagina.get(a.chave, 0)) or {}
+        onde = (self.perfil.get(a.chave, 0), self.pagina.get(a.chave, 0))
+        imgs = (self.imagens.get(a.modelo["id"]) or {}).get(onde) or {}
         if imgs:
             try:
                 a.pintar(imgs)
@@ -539,11 +542,13 @@ class Gerente:
 
     # --- a tela manda ---
     def receber_imagens(self, modelo_id, paginas):
-        """paginas: {indice: {slot: base64 JPEG}}"""
+        """paginas: {"perfil.pagina": {slot: base64 JPEG}} ("3" sozinho = perfil 0)"""
         conv = {}
         for p, slots in (paginas or {}).items():
             try:
-                conv[int(p)] = {s: base64.b64decode(v) for s, v in (slots or {}).items() if v}
+                partes = str(p).split(".")
+                onde = (int(partes[0]), int(partes[1])) if len(partes) == 2 else (0, int(partes[0]))
+                conv[onde] = {s: base64.b64decode(v) for s, v in (slots or {}).items() if v}
             except (ValueError, TypeError):
                 continue
         with self.trava:
@@ -553,11 +558,14 @@ class Gerente:
                     self._repintar(a)
         return sum(len(v) for v in conv.values())
 
-    def trocar_pagina(self, chave, indice, total):
+    def trocar_pagina(self, chave, indice, total, perfil=None):
+        """Vai para a página `indice` (dentro do perfil; com `perfil`, troca de perfil também)."""
         with self.trava:
             a = self.aparelhos.get(chave)
             if not a or total <= 0:
                 return
+            if perfil is not None:
+                self.perfil[chave] = max(0, int(perfil))
             self.pagina[chave] = indice % total
             self._repintar(a)
 
@@ -574,7 +582,8 @@ class Gerente:
     def estado(self):
         with self.trava:
             conectados = [{"chave": a.chave, "modelo": a.modelo["id"], "nome": a.modelo["nome"],
-                           "pagina": self.pagina.get(a.chave, 0), "erro": a.erro,
+                           "pagina": self.pagina.get(a.chave, 0), "perfil": self.perfil.get(a.chave, 0),
+                           "erro": a.erro,
                            "testado": bool(a.modelo.get("testado"))}
                           for a in self.aparelhos.values()]
             sem = [{"nome": SEM_SUPORTE[(d["vid"], d["pid"])]} for d in self.vistos

@@ -239,14 +239,16 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     const t = window.setInterval(async () => {
       try {
         const r = (await painel("deck_eventos")) as unknown as {
-          eventos?: { comando?: string; pagina_aparelho?: string; indice?: number }[];
+          eventos?: { comando?: string; pagina_aparelho?: string; indice?: number; perfil?: number }[];
           ultimo?: { slot: string; em: number } | null;
         };
         for (const e of r.eventos || []) {
           if (e.comando)
             window.dispatchEvent(new CustomEvent("rotrix:painel-comando", { detail: { comando: e.comando } }));
           if (typeof e.indice === "number")
-            window.dispatchEvent(new CustomEvent("rotrix:deck-pagina", { detail: { indice: e.indice } }));
+            window.dispatchEvent(
+              new CustomEvent("rotrix:deck-pagina", { detail: { indice: e.indice, perfil: e.perfil } }),
+            );
         }
         if (r.ultimo && r.ultimo.em > ultimo) {
           ultimo = r.ultimo.em;

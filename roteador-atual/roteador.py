@@ -3356,12 +3356,12 @@ def painel_rota(acao, corpo):
     painel.ligar_vigia()  # lembra a janela "de fora" para colar texto e atalhos
     if acao == "carregar":
         cfg = painel.carregar()
-        return {"ok": True, "config": cfg, "estado": painel.estado(cfg)}
+        return {"ok": True, "config": painel.para_tela(cfg), "estado": painel.estado(cfg)}
     if acao == "estado":
         return painel.estado(painel.carregar())
     if acao == "salvar":
         cfg = painel.salvar(corpo.get("config") or {})
-        return {"ok": True, "config": cfg, "estado": painel.estado(cfg)}
+        return {"ok": True, "config": painel.para_tela(cfg), "estado": painel.estado(cfg)}
     if acao == "executar":
         return painel.executar(painel.carregar(), str(corpo.get("id") or ""))
     if acao == "expediente":

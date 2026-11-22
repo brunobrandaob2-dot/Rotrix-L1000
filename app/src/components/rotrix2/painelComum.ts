@@ -13,7 +13,9 @@ export type Acao =
   | "atalho"
   | "texto"
   | "expediente"
-  | "organizar";
+  | "organizar"
+  | "aparelho"
+  | "multi";
 
 export interface Lugar {
   display: string;
@@ -46,6 +48,11 @@ export interface Tecla {
   // atalho / texto
   teclas?: string;
   texto?: string;
+  // aparelho: nome (ou número) do perfil/página para "ir para"
+  destino?: string;
+  // multi: ids das teclas, em ordem, e a pausa entre elas
+  passos?: string[];
+  espera_ms?: number;
 }
 
 export interface Pagina {
@@ -173,6 +180,17 @@ export const ACOES: [Acao, string][] = [
   ["texto", "Texto pronto"],
   ["expediente", "Iniciar expediente"],
   ["organizar", "Organizar janelas"],
+  ["aparelho", "Trocar perfil / página do aparelho"],
+  ["multi", "Multiação (várias teclas em sequência)"],
+];
+
+export const COMANDOS_APARELHO: [string, string][] = [
+  ["perfil_proximo", "Próximo perfil"],
+  ["perfil_anterior", "Perfil anterior"],
+  ["perfil_ir", "Ir para o perfil…"],
+  ["pagina_proxima", "Próxima página"],
+  ["pagina_anterior", "Página anterior"],
+  ["pagina_ir", "Ir para a página…"],
 ];
 
 export const NAVEGADORES: [string, string][] = [

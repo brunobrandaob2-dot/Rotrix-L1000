@@ -32,6 +32,7 @@ import {
   ACOES,
   COMANDOS_ROTRIX,
   COMANDOS_SISTEMA,
+  COMANDOS_APARELHO,
   NAVEGADORES,
   comandoRotrix,
   novaTecla,
@@ -174,12 +175,13 @@ const SeletorLugar: React.FC<{
 
 const EditorTecla: React.FC<{
   t: Tecla;
+  todas: Tecla[];
   estado: EstadoPainel | null;
   aoMudar: (t: Tecla) => void;
   aoMover: (d: -1 | 1) => void;
   aoTirar: () => void;
   aoFechar: () => void;
-}> = ({ t, estado, aoMudar, aoMover, aoTirar, aoFechar }) => {
+}> = ({ t, todas, estado, aoMudar, aoMover, aoTirar, aoFechar }) => {
   const m = (p: Partial<Tecla>) => aoMudar({ ...t, ...p });
   const trocarAcao = (a: Acao) => {
     const base: Partial<Tecla> = { acao: a };
@@ -190,6 +192,8 @@ const EditorTecla: React.FC<{
     if (a === "atalho") Object.assign(base, { teclas: t.teclas || "Ctrl+Shift+V" });
     if (a === "texto") Object.assign(base, { texto: t.texto || "" });
     if (a === "expediente" || a === "organizar") base.grupo = "jan";
+    if (a === "aparelho") Object.assign(base, { comando: "perfil_proximo", grupo: "sis" as Grupo });
+    if (a === "multi") Object.assign(base, { passos: t.passos || [], espera_ms: t.espera_ms ?? 400 });
     m(base);
   };
   return (
@@ -274,6 +278,87 @@ const EditorTecla: React.FC<{
             ))}
           </select>
         </Linha>
+      )}
+      {t.acao === "aparelho" && (
+        <>
+          <Linha rotulo="Faz">
+            <select className={campo} value={t.comando} onChange={(e) => m({ comando: e.target.value })}>
+              {COMANDOS_APARELHO.map(([id, nome]) => (
+                <option key={id} value={id}>
+                  {nome}
+                </option>
+              ))}
+            </select>
+          </Linha>
+          {(t.comando === "perfil_ir" || t.comando === "pagina_ir") && (
+            <Linha
+              rotulo={t.comando === "perfil_ir" ? "Perfil" : "Página"}
+              ajuda="O nome, como está no desenho do aparelho (ou o número: 1, 2…). Página = dentro do perfil em que o aparelho está."
+            >
+              <input className={campo} value={t.destino || ""} maxLength={30} onChange={(e) => m({ destino: e.target.value })} />
+            </Linha>
+          )}
+        </>
+      )}
+      {t.acao === "multi" && (
+        <>
+          <Linha rotulo="Passos" ajuda="As teclas, nesta ordem. Ex.: abrir o RadiAnt, esperar, Próximo da fila, Máscara por voz.">
+            <div className="flex flex-col gap-1">
+              {(t.passos || []).map((pid, i) => (
+                <div key={i} className="flex gap-1 items-center">
+                  <span className="w-4 text-end text-[11px] text-mid-gray tabular-nums">{i + 1}</span>
+                  <select
+                    className={campo}
+                    value={pid}
+                    onChange={(e) => m({ passos: (t.passos || []).map((x, k) => (k === i ? e.target.value : x)) })}
+                  >
+                    {todas
+                      .filter((x) => x.acao !== "multi")
+                      .map((x) => (
+                        <option key={x.id} value={x.id}>
+                          {x.nome}
+                        </option>
+                      ))}
+                  </select>
+                  <button
+                    type="button"
+                    aria-label="Tirar o passo"
+                    onClick={() => m({ passos: (t.passos || []).filter((_x, k) => k !== i) })}
+                    className="h-7 w-7 shrink-0 grid place-items-center rounded-md border border-mid-gray/30 text-mid-gray cursor-pointer"
+                  >
+                    <X size={12} />
+                  </button>
+                </div>
+              ))}
+              {(t.passos || []).length < 12 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const primeira = todas.find((x) => x.acao !== "multi");
+                    if (primeira) m({ passos: [...(t.passos || []), primeira.id] });
+                  }}
+                  className="self-start h-7 px-2 rounded-md border border-mid-gray/30 text-[12px] cursor-pointer"
+                >
+                  <Plus size={12} className="inline" /> passo
+                </button>
+              )}
+            </div>
+          </Linha>
+          <Linha rotulo="Pausa entre eles" ajuda="Tempo para o programa anterior abrir antes do próximo passo (até 5 s).">
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                min={0}
+                max={5000}
+                step={100}
+                className={campo}
+                value={t.espera_ms ?? 400}
+                onChange={(e) => m({ espera_ms: Math.max(0, Math.min(5000, Number(e.target.value) || 0)) })}
+              />
+              <span className="text-mid-gray">ms</span>
+            </div>
+          </Linha>
+        </>
       )}
       {t.acao === "atalho" && (
         <Linha rotulo="Teclas" ajuda="Vai para a janela em que você estava antes de clicar no Rotrix. Ex.: Ctrl+Shift+V, Alt+F4, F5.">
@@ -637,6 +722,7 @@ export const PainelPage: React.FC<{ pendentes: number }> = ({ pendentes }) => {
     const partes: string[] = [];
     if (t.atalho_global) partes.push(t.atalho_global);
     if (t.acao === "expediente") partes.push("abre e organiza");
+    else if (t.acao === "multi") partes.push(`${(t.passos || []).length} passos`);
     else if (t.acao === "programa" || t.acao === "site") {
       if (estado?.achados[t.id] === false) partes.push("não achado");
       else partes.push(estado?.abertos[t.id] ? "aberto" : "fechado");
@@ -753,6 +839,7 @@ export const PainelPage: React.FC<{ pendentes: number }> = ({ pendentes }) => {
             <EditorTecla
               key={tSel.id}
               t={tSel}
+              todas={cfg.paginas.flatMap((p) => p.teclas).filter((x) => x.id !== tSel.id)}
               estado={estado}
               aoMudar={mudarTecla}
               aoMover={mover}

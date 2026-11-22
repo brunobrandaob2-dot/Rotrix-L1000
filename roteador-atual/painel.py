@@ -31,7 +31,7 @@ import time
 EH_WINDOWS = sys.platform == "win32"
 # 2 (22/11): "Ditar" = o ditado com IA (3º botão da folha); "Máscara por voz" =
 # o 2º botão; a transcrição crua (1º botão) vira tecla à parte.
-VERSAO = 2
+VERSAO = 3
 
 # ---------------------------------------------------------------------------
 # Modelos de layout (os do Snap do Windows 11, iguais aos do Workflow Hub).
@@ -169,13 +169,17 @@ def adivinhar_lugar(win, monitores):
 # Cores por grupo (a tela desenha): laudo, ia, texto, app, jan, sis.
 GRUPOS = ("laudo", "ia", "texto", "app", "jan", "sis")
 # o que cada tecla faz
-ACOES = ("programa", "site", "rotrix", "sistema", "atalho", "texto", "expediente", "organizar")
+ACOES = ("programa", "site", "rotrix", "sistema", "atalho", "texto", "expediente", "organizar",
+         "aparelho", "multi")
 TIPOS_PROGRAMA = ("exe", "powershell", "appx")
 COMANDOS_ROTRIX = ("proximo", "abrir_marcados", "fila", "colar", "ditar", "ditar_ia", "ditar_mascara",
                    "conferencia",
                    "revisar", "analisar_rx", "coronarias", "laudo", "fila_aba", "mascaras")
 COMANDOS_SISTEMA = ("volume_mais", "volume_menos", "mudo", "musica", "proxima_musica",
                     "musica_anterior", "bloquear")
+# trocar perfil / página do Stream Deck (como "Switch Profile" / "Next Page" da Elgato)
+COMANDOS_APARELHO = ("perfil_proximo", "perfil_anterior", "perfil_ir",
+                     "pagina_proxima", "pagina_anterior", "pagina_ir")
 NAVEGADORES = ("padrao", "chrome", "edge", "brave", "firefox", "opera")
 
 # Monitores deste PC quando o Hub foi montado (só para o layout inicial)
@@ -190,6 +194,15 @@ def _tecla(id_, nome, acao, grupo, icone, **extra):
     t = {"id": id_, "nome": nome, "acao": acao, "grupo": grupo, "icone": icone}
     t.update(extra)
     return t
+
+
+def teclas_do_aparelho():
+    """Teclas que mexem no próprio Stream Deck (versão 3)."""
+    return [
+        _tecla("d_perfil", "Próximo perfil", "aparelho", "sis", "profile", comando="perfil_proximo"),
+        _tecla("d_pagina", "Próxima página", "aparelho", "sis", "pages", comando="pagina_proxima"),
+        _tecla("d_pagina_ant", "Página anterior", "aparelho", "sis", "pages", comando="pagina_anterior"),
+    ]
 
 
 def padrao():
@@ -248,8 +261,10 @@ def padrao():
         _tecla("s_vmenos", "Volume −", "sistema", "sis", "vol", comando="volume_menos"),
         _tecla("s_mudo", "Mudo", "sistema", "sis", "mute", comando="mudo"),
         _tecla("s_musica", "Música ▶ ❚❚", "sistema", "sis", "media", comando="musica"),
+        _tecla("s_ant", "Música anterior", "sistema", "sis", "media", comando="musica_anterior"),
+        _tecla("s_prox", "Próxima música", "sistema", "sis", "media", comando="proxima_musica"),
         _tecla("s_bloq", "Bloquear a tela", "sistema", "sis", "lock", comando="bloquear"),
-    ]
+    ] + teclas_do_aparelho()
     return {
         "versao": VERSAO,
         "ajustes": {"navegador": "padrao", "navegador_exe": "", "perfil": "",
@@ -263,27 +278,58 @@ def padrao():
 
 # ---------------------------------------------------------------------------
 # Fase 3: o que cada tecla / botão / giratório do aparelho físico faz.
-# aparelhos[modelo] = {"brilho", "auto", "paginas": [{"nome", "app", "m": {slot: ...}}]}
+# Como no Stream Deck da Elgato: PERFIS (um conjunto de teclas para cada
+# trabalho, que pode abrir sozinho com um programa — o "Smart Profile"), cada
+# perfil com PÁGINAS (até 10 na Elgato; aqui 20).
+# aparelhos[modelo] = {"brilho", "auto", "perfis": [
+#     {"nome", "app", "paginas": [{"nome", "app", "m": {slot: ...}}]}]}
 #   "kN" / "bN": id de uma tecla do Painel
 #   "gN": {"girar": GIRO, "clique": id de tecla}
-# "app": parte do nome do programa da frente (ex.: "radiant") -> a página troca sozinha
+# "app": parte do nome do programa da frente (ex.: "radiant") -> o perfil (ou a
+# página, dentro do perfil) troca sozinho e volta quando o programa sai da frente.
 # ---------------------------------------------------------------------------
-GIROS = ("volume", "pagina", "rolar", "zoom", "brilho")
+GIROS = ("volume", "pagina", "perfil", "rolar", "zoom", "brilho")
+MAX_PERFIS, MAX_PAGINAS = 20, 20
+
+
+def _giros_padrao():
+    return {"g0": {"girar": "rolar", "clique": "l_proximo"}, "g1": {"girar": "pagina", "clique": "l_conf"},
+            "g2": {"girar": "volume", "clique": "s_mudo"}}
 
 
 def aparelhos_padrao():
-    return {"akp03e": {"brilho": 80, "auto": True, "paginas": [
-        {"nome": "Laudo", "app": "", "m": {
-            "k0": "l_proximo", "k1": "l_mascara_voz", "k2": "l_ditar", "k3": "l_revisar", "k4": "l_colar",
-            "k5": "mesa", "b0": "expediente", "b1": "organizar", "b2": "s_mudo",
-            "g0": {"girar": "rolar", "clique": "l_proximo"}, "g1": {"girar": "pagina", "clique": "l_conf"},
-            "g2": {"girar": "volume", "clique": "s_mudo"}}},
-        {"nome": "Programas", "app": "", "m": {
-            "k0": "radiowant", "k1": "radiant", "k2": "mesa", "k3": "onelaudos", "k4": "claude",
-            "k5": "whatsapp", "b0": "expediente", "b1": "organizar", "b2": "s_mudo",
-            "g0": {"girar": "rolar", "clique": "l_proximo"}, "g1": {"girar": "pagina", "clique": "l_conf"},
-            "g2": {"girar": "volume", "clique": "s_mudo"}}},
+    laudo = {"k0": "l_proximo", "k1": "l_mascara_voz", "k2": "l_ditar", "k3": "l_revisar", "k4": "l_colar",
+             "k5": "mesa", "b0": "expediente", "b1": "organizar", "b2": "d_perfil"}
+    progs = {"k0": "radiowant", "k1": "radiant", "k2": "mesa", "k3": "onelaudos", "k4": "claude",
+             "k5": "whatsapp", "b0": "expediente", "b1": "organizar", "b2": "d_perfil"}
+    sistema = {"k0": "s_vmenos", "k1": "s_vmais", "k2": "s_mudo", "k3": "s_ant", "k4": "s_musica",
+               "k5": "s_prox", "b0": "expediente", "b1": "organizar", "b2": "d_perfil"}
+    return {"akp03e": {"brilho": 80, "auto": True, "perfis": [
+        {"nome": "Laudo", "app": "", "paginas": [
+            {"nome": "Laudo", "app": "", "m": dict(laudo, **_giros_padrao())},
+            {"nome": "Programas", "app": "", "m": dict(progs, **_giros_padrao())}]},
+        {"nome": "Sistema", "app": "", "paginas": [
+            {"nome": "Som e música", "app": "", "m": dict(sistema, **_giros_padrao())}]},
     ]}}
+
+
+def _pagina_aparelho_valida(p, ids):
+    if not isinstance(p, dict):
+        return None
+    m = {}
+    for slot, v in (p.get("m") or {}).items():
+        if not re.match(r"^[kb]\d{1,2}$|^g\d$", str(slot)):
+            continue
+        if slot.startswith("g"):
+            if isinstance(v, dict):
+                g = {"girar": v.get("girar") if v.get("girar") in GIROS else "",
+                     "clique": v.get("clique") if v.get("clique") in ids else ""}
+                if g["girar"] or g["clique"]:
+                    m[slot] = g
+        elif v in ids:
+            m[slot] = v
+    return {"nome": _texto(p.get("nome") or "Página", 24), "app": _texto(p.get("app"), 60).lower().strip(),
+            "m": m}
 
 
 def _aparelho_valido(a, ids):
@@ -293,27 +339,22 @@ def _aparelho_valido(a, ids):
         brilho = max(5, min(100, int(a.get("brilho", 80))))
     except (TypeError, ValueError):
         brilho = 80
-    paginas = []
-    for p in (a.get("paginas") or [])[:20]:
-        if not isinstance(p, dict):
+    crus = a.get("perfis")
+    if not isinstance(crus, list):
+        # versão 2: só páginas -> um perfil "Principal" com elas
+        crus = [{"nome": "Principal", "app": "", "paginas": a.get("paginas") or []}]
+    perfis = []
+    for pf in crus[:MAX_PERFIS]:
+        if not isinstance(pf, dict):
             continue
-        m = {}
-        for slot, v in (p.get("m") or {}).items():
-            if not re.match(r"^[kb]\d{1,2}$|^g\d$", str(slot)):
-                continue
-            if slot.startswith("g"):
-                if isinstance(v, dict):
-                    g = {"girar": v.get("girar") if v.get("girar") in GIROS else "",
-                         "clique": v.get("clique") if v.get("clique") in ids else ""}
-                    if g["girar"] or g["clique"]:
-                        m[slot] = g
-            elif v in ids:
-                m[slot] = v
-        paginas.append({"nome": _texto(p.get("nome") or "Página", 24), "app": _texto(p.get("app"), 60).lower(),
-                        "m": m})
-    if not paginas:
-        paginas = [{"nome": "Página 1", "app": "", "m": {}}]
-    return {"brilho": brilho, "auto": bool(a.get("auto", True)), "paginas": paginas}
+        paginas = [x for x in (_pagina_aparelho_valida(p, ids) for p in (pf.get("paginas") or [])[:MAX_PAGINAS]) if x]
+        if not paginas:
+            paginas = [{"nome": "Página 1", "app": "", "m": {}}]
+        perfis.append({"nome": _texto(pf.get("nome") or "Perfil", 24),
+                       "app": _texto(pf.get("app"), 60).lower().strip(), "paginas": paginas})
+    if not perfis:
+        perfis = [{"nome": "Principal", "app": "", "paginas": [{"nome": "Página 1", "app": "", "m": {}}]}]
+    return {"brilho": brilho, "auto": bool(a.get("auto", True)), "perfis": perfis}
 
 
 _ATALHO = re.compile(r"^((Ctrl|Alt|Shift|Win)\+)*([A-Z0-9]|F([1-9]|1[0-9]|2[0-4])|"
@@ -366,6 +407,19 @@ def tecla_valida(t):
         k["texto"] = _texto(t.get("texto"), 4000)
         if not k["texto"].strip():
             return None
+    elif a == "aparelho":
+        if t.get("comando") not in COMANDOS_APARELHO:
+            return None
+        k["comando"] = t["comando"]
+        k["destino"] = _texto(t.get("destino"), 30)  # nome do perfil/página (…_ir)
+    elif a == "multi":
+        # várias teclas em sequência (a "Multi Action" da Elgato); os passos são
+        # ids de outras teclas, conferidos em normalizar()
+        k["passos"] = [_texto(x, 60) for x in (t.get("passos") or []) if isinstance(x, str) and x][:12]
+        try:
+            k["espera_ms"] = max(0, min(5000, int(t.get("espera_ms", 400))))
+        except (TypeError, ValueError):
+            k["espera_ms"] = 400
     return k
 
 
@@ -404,6 +458,41 @@ def _migrar_para_2(cru):
     return cru
 
 
+def _migrar_para_3(cru):
+    """Versão 2 -> 3: o aparelho ganha PERFIS. As páginas que ele montou viram o
+    perfil "Principal"; entra um perfil "Sistema" (som e música) e as teclas de
+    trocar perfil/página. No AKP03E, o botão C (que era Mudo — o giratório da
+    direita também é) passa a trocar o perfil."""
+    import copy
+    cru = copy.deepcopy(cru)
+    paginas = cru.get("paginas") if isinstance(cru.get("paginas"), list) else []
+    ids = {t.get("id") for p in paginas if isinstance(p, dict) for t in (p.get("teclas") or []) if isinstance(t, dict)}
+    sis = next((p for p in paginas if isinstance(p, dict) and any(
+        isinstance(t, dict) and t.get("acao") == "sistema" for t in (p.get("teclas") or []))), None)
+    if sis is None and paginas and isinstance(paginas[-1], dict):
+        sis = paginas[-1]
+    if sis is not None:
+        sis.setdefault("teclas", [])
+        extra = [_tecla("s_ant", "Música anterior", "sistema", "sis", "media", comando="musica_anterior"),
+                 _tecla("s_prox", "Próxima música", "sistema", "sis", "media", comando="proxima_musica")]
+        for t in extra + teclas_do_aparelho():
+            if t["id"] not in ids:
+                sis["teclas"].append(t)
+                ids.add(t["id"])
+    ap = cru.get("aparelhos")
+    if isinstance(ap, dict) and isinstance(ap.get("akp03e"), dict) and "perfis" not in ap["akp03e"]:
+        a = ap["akp03e"]
+        pags = a.get("paginas") or []
+        for pg in pags:
+            m = pg.get("m") if isinstance(pg, dict) else None
+            if isinstance(m, dict) and m.get("b2") == "s_mudo":
+                m["b2"] = "d_perfil"
+        sistema = aparelhos_padrao()["akp03e"]["perfis"][1]
+        a["perfis"] = [{"nome": "Principal", "app": "", "paginas": pags}, sistema]
+        a.pop("paginas", None)
+    return cru
+
+
 def normalizar(cru):
     base = padrao()
     if not isinstance(cru, dict):
@@ -415,6 +504,8 @@ def normalizar(cru):
             versao = 1
         if versao < 2:
             cru = _migrar_para_2(cru)
+        if versao < 3:
+            cru = _migrar_para_3(cru)
     aj = dict(base["ajustes"])
     if isinstance(cru.get("ajustes"), dict):
         aj.update({k: v for k, v in cru["ajustes"].items() if k in aj})
@@ -449,6 +540,11 @@ def normalizar(cru):
             elif k["atalho_global"]:
                 usados.add(k["atalho_global"])
     ids = {k["id"] for p in paginas for k in p["teclas"]}
+    multis = {k["id"] for p in paginas for k in p["teclas"] if k["acao"] == "multi"}
+    for p in paginas:
+        for k in p["teclas"]:
+            if k["acao"] == "multi":  # passo de multiação não pode ser outra multiação
+                k["passos"] = [x for x in k["passos"] if x in ids and x not in multis]
     cru_ap = cru.get("aparelhos") if isinstance(cru.get("aparelhos"), dict) else base["aparelhos"]
     aparelhos = {}
     for mid, a in list(cru_ap.items())[:20]:
@@ -471,8 +567,44 @@ def carregar(caminho=None):
         return normalizar(None)
 
 
+def para_tela(cfg):
+    """O que vai para a tela. Leva também "paginas" (= as do 1º perfil) em cada
+    aparelho, para a tela antiga (sem perfis) não quebrar até ser atualizada."""
+    import copy
+    c = copy.deepcopy(cfg)
+    for a in (c.get("aparelhos") or {}).values():
+        a["paginas"] = a["perfis"][0]["paginas"]
+    return c
+
+
+def _juntar_com_o_disco(cfg, caminho):
+    """Tela antiga mandou só "paginas" num aparelho que já tem perfis: elas
+    substituem as do 1º perfil e os outros perfis ficam (nada se perde)."""
+    ap = cfg.get("aparelhos") if isinstance(cfg, dict) else None
+    if not isinstance(ap, dict):
+        return cfg
+    velhos = [m for m, a in ap.items() if isinstance(a, dict) and "perfis" not in a and "paginas" in a]
+    if not velhos:
+        return cfg
+    try:
+        disco = carregar(caminho).get("aparelhos") or {}
+    except Exception:
+        return cfg
+    import copy
+    cfg = copy.deepcopy(cfg)
+    for m in velhos:
+        if m in disco:
+            a = cfg["aparelhos"][m]
+            perfis = copy.deepcopy(disco[m]["perfis"])
+            perfis[0]["paginas"] = a.pop("paginas")
+            a["perfis"] = perfis
+    return cfg
+
+
 def salvar(cfg, caminho=None):
     caminho = caminho or caminho_padrao()
+    if isinstance(cfg, dict) and (cfg.get("versao") or 0) >= 3:
+        cfg = _juntar_com_o_disco(cfg, caminho)
     limpo = normalizar(cfg)
     tmp = caminho + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
@@ -938,11 +1070,17 @@ def _abrir(tecla, ajustes):
         return {"ok": True, "frase": "abrindo %s no navegador padrão" % tecla["nome"]}
     if cmd["precisa"] and not os.path.exists(cmd["precisa"]):
         return {"ok": False, "motivo": "nao_achado", "frase": "não achei o arquivo de %s" % tecla["nome"]}
+    # 22/11 (no PC dele): DETACHED_PROCESS deixa o processo SEM console nenhum, e
+    # o powershell.exe fecha na hora — a Mesa de Laudo (.ps1) nunca abria, embora
+    # a tela dissesse "abrindo". Script .ps1: só CREATE_NO_WINDOW (console
+    # escondido). Programa com janela: grupo de processos próprio, sem destacar.
+    flags = 0x08000000 if cmd["oculto"] else 0  # CREATE_NO_WINDOW
+    flags |= 0x00000200  # CREATE_NEW_PROCESS_GROUP: não morre junto com o roteador
     try:
         subprocess.Popen([cmd["exe"]] + cmd["args"],
                          cwd=cmd["cwd"] if cmd["cwd"] and os.path.isdir(cmd["cwd"]) else None,
-                         creationflags=(0x08000000 if cmd["oculto"] else 0) | 0x00000008,  # sem janela | destacado
-                         close_fds=True)
+                         creationflags=flags, close_fds=True,
+                         stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except OSError as e:
         return {"ok": False, "motivo": "falhou_abrir", "frase": "não consegui abrir %s (%s)" % (tecla["nome"], type(e).__name__)}
     return {"ok": True, "frase": "abrindo %s" % tecla["nome"]}
@@ -992,6 +1130,11 @@ def executar(cfg, id_tecla):
         return expediente(cfg)
     if a == "organizar":
         return organizar(cfg)
+    if a == "aparelho":
+        ligar_deck()
+        return _acao_aparelho(t)
+    if a == "multi":
+        return _multi(cfg, t)
     return {"ok": True, "na_tela": True, "comando": t.get("comando")}
 
 
@@ -1088,6 +1231,107 @@ def _cfg_aparelho(modelo_id):
     return cfg, (cfg.get("aparelhos") or {}).get(modelo_id)
 
 
+def _onde(g, chave, a):
+    """(perfil, página) em que o aparelho está, sempre dentro dos limites."""
+    pf = (g.perfil.get(chave, 0) if g else 0) % len(a["perfis"])
+    pags = a["perfis"][pf]["paginas"]
+    return pf, (g.pagina.get(chave, 0) if g else 0) % len(pags)
+
+
+def _por_nome(lista, nome):
+    """Índice pelo nome (sem ligar para maiúsculas) ou pelo número (1, 2…)."""
+    n = str(nome or "").strip().lower()
+    for i, x in enumerate(lista):
+        if x["nome"].strip().lower() == n:
+            return i
+    if n.isdigit() and 1 <= int(n) <= len(lista):
+        return int(n) - 1
+    return None
+
+
+def mover_aparelho(modelo_id, chave, perfil=None, pagina=0, manual=True):
+    """Leva um aparelho (ou, sem chave, todos daquele modelo) para perfil/página."""
+    g = _DECK["gerente"]
+    _cfg, a = _cfg_aparelho(modelo_id)
+    if not g or not a:
+        return False
+    if chave == "simulado":
+        chave = None  # "Apertar (simular)" na tela: o aparelho de verdade muda também
+    alvos = [ap for ap in list(g.aparelhos.values())
+             if ap.modelo["id"] == modelo_id and (chave is None or ap.chave == chave)]
+    for ap in alvos:
+        pf = (g.perfil.get(ap.chave, 0) if perfil is None else perfil) % len(a["perfis"])
+        total = len(a["perfis"][pf]["paginas"])
+        g.trocar_pagina(ap.chave, pagina, total, perfil=pf)
+        if manual:
+            _DECK["voltar_para"].pop(ap.chave, None)
+        _avisar_tela({"pagina_aparelho": ap.chave, "modelo": modelo_id, "perfil": pf, "indice": pagina % total})
+    if not alvos:
+        # simulado na tela, sem aparelho conectado: só a tela muda
+        pf = (perfil or 0) % len(a["perfis"])
+        _avisar_tela({"pagina_aparelho": chave or "", "modelo": modelo_id, "perfil": pf,
+                      "indice": pagina % len(a["perfis"][pf]["paginas"])})
+    return True
+
+
+def _acao_aparelho(t, modelo_id=None, chave=None):
+    """Tecla "aparelho": trocar perfil/página. Da tela, vale para todo aparelho conectado."""
+    g = _DECK["gerente"]
+    if not g:
+        return {"ok": False, "motivo": "deck_ausente"}
+    cfg = carregar()
+    if modelo_id:
+        lista = [(modelo_id, chave)]
+    else:
+        lista = sorted({(ap.modelo["id"], None) for ap in list(g.aparelhos.values())})
+    feitos = 0
+    for mid, ch in lista:
+        a = (cfg.get("aparelhos") or {}).get(mid)
+        if not a:
+            continue
+        ch_ref = ch or next((ap.chave for ap in list(g.aparelhos.values()) if ap.modelo["id"] == mid), None)
+        pf, pg = _onde(g, ch_ref, a)
+        c = t["comando"]
+        if c in ("perfil_proximo", "perfil_anterior"):
+            mover_aparelho(mid, ch, (pf + (1 if c == "perfil_proximo" else -1)) % len(a["perfis"]), 0)
+        elif c == "perfil_ir":
+            novo = _por_nome(a["perfis"], t.get("destino"))
+            if novo is None:
+                continue
+            mover_aparelho(mid, ch, novo, 0)
+        elif c in ("pagina_proxima", "pagina_anterior"):
+            mover_aparelho(mid, ch, pf, pg + (1 if c == "pagina_proxima" else -1))
+        elif c == "pagina_ir":
+            novo = _por_nome(a["perfis"][pf]["paginas"], t.get("destino"))
+            if novo is None:
+                continue
+            mover_aparelho(mid, ch, pf, novo)
+        feitos += 1
+    if not feitos:
+        return {"ok": False, "motivo": "sem_aparelho",
+                "frase": "nenhum aparelho conectado (ou o perfil/página não existe)"}
+    return {"ok": True, "frase": t["nome"]}
+
+
+def _multi(cfg, t, modelo_id=None, chave=None):
+    """Multiação: as teclas dos passos, uma depois da outra, com uma pausa entre elas."""
+    feitos = []
+    for i, pid in enumerate(t.get("passos") or []):
+        if i:
+            time.sleep(t.get("espera_ms", 400) / 1000.0)
+        p = tecla_por_id(cfg, pid)
+        if not p or p["acao"] == "multi":
+            continue
+        if p["acao"] == "rotrix":
+            _avisar_tela({"comando": p["comando"]})
+        elif p["acao"] == "aparelho":
+            _acao_aparelho(p, modelo_id, chave)
+        else:
+            executar(cfg, pid)
+        feitos.append(p["nome"])
+    return {"ok": bool(feitos), "frase": "%s: %s" % (t["nome"], " → ".join(feitos) or "nada")}
+
+
 def _ao_evento(ap, slot, tipo, apertado):
     """Um aperto/giro no aparelho -> a ação mapeada no Painel."""
     _DECK["ultimo"] = {"chave": ap.chave, "slot": slot, "tipo": tipo, "apertado": apertado, "em": time.time()}
@@ -1097,31 +1341,31 @@ def _ao_evento(ap, slot, tipo, apertado):
     if not a:
         return
     g = _DECK["gerente"]
-    pag_i = g.pagina.get(ap.chave, 0) if g else 0
-    paginas = a["paginas"]
-    m = paginas[pag_i % len(paginas)]["m"] if paginas else {}
-    ref = m.get(slot)
+    pf, pg = _onde(g, ap.chave, a)
+    ref = a["perfis"][pf]["paginas"][pg]["m"].get(slot)
+    mid = ap.modelo["id"]
     if slot.startswith("g"):
         ref = ref or {}
         if tipo == "clique":
-            _executar_ref(cfg, ref.get("clique"))
+            _executar_ref(cfg, ref.get("clique"), mid, ap.chave)
             return
         d = 1 if tipo == "girar+" else -1
         giro = ref.get("girar")
         if giro == "volume":
             tecla_de_sistema("volume_mais" if d > 0 else "volume_menos")
-        elif giro == "pagina" and g:
-            g.trocar_pagina(ap.chave, pag_i + d, len(paginas))
-            _avisar_tela({"pagina_aparelho": ap.chave, "indice": (pag_i + d) % len(paginas)})
+        elif giro == "pagina":
+            mover_aparelho(mid, ap.chave, pf, pg + d)
+        elif giro == "perfil":
+            mover_aparelho(mid, ap.chave, pf + d, 0)
         elif giro == "rolar":
             rodinha(-d)
         elif giro == "zoom":
             rodinha(d, com_ctrl=True)
         elif giro == "brilho" and g:
             a["brilho"] = max(5, min(100, a["brilho"] + 5 * d))
-            g.ajustar_brilho(ap.modelo["id"], a["brilho"])
+            g.ajustar_brilho(mid, a["brilho"])
         return
-    _executar_ref(cfg, ref)
+    _executar_ref(cfg, ref, mid, ap.chave)
 
 
 def _avisar_tela(item):
@@ -1130,7 +1374,7 @@ def _avisar_tela(item):
         del _DECK["fila"][:-50]
 
 
-def _executar_ref(cfg, id_tecla):
+def _executar_ref(cfg, id_tecla, modelo_id=None, chave=None):
     if not id_tecla:
         return
     t = tecla_por_id(cfg, id_tecla)
@@ -1139,11 +1383,32 @@ def _executar_ref(cfg, id_tecla):
     if t["acao"] == "rotrix":
         _avisar_tela({"comando": t["comando"]})  # a tela do Rotrix faz (folha, fila, abas)
         return
+    if t["acao"] == "aparelho":
+        _acao_aparelho(t, modelo_id, chave)  # na hora: é só trocar as imagens
+        return
+    if t["acao"] == "multi":
+        threading.Thread(target=_multi, args=(cfg, t, modelo_id, chave), daemon=True).start()
+        return
     threading.Thread(target=executar, args=(cfg, id_tecla), daemon=True).start()
 
 
+def alvo_automatico(a, onde, exe):
+    """Para onde o aparelho vai com o programa `exe` na frente (None = nenhum pede).
+    1º um perfil com "app" (o Smart Profile da Elgato); 2º uma página do perfil
+    atual com "app"."""
+    pf, _pg = onde
+    for i, p in enumerate(a["perfis"]):
+        if p.get("app") and p["app"] in exe:
+            if i == pf:
+                return onde  # já está nele (talvez noutra página, escolhida à mão)
+            j = next((k for k, x in enumerate(p["paginas"]) if x.get("app") and x["app"] in exe), 0)
+            return (i, j)
+    j = next((k for k, x in enumerate(a["perfis"][pf]["paginas"]) if x.get("app") and x["app"] in exe), None)
+    return (pf, j) if j is not None else None
+
+
 def _pagina_pelo_programa():
-    """Página que troca sozinha pelo programa da frente ("app" da página)."""
+    """Perfil/página que troca sozinho pelo programa da frente e volta depois."""
     while True:
         try:
             g = _DECK["gerente"]
@@ -1157,17 +1422,14 @@ def _pagina_pelo_programa():
                     a = (cfg.get("aparelhos") or {}).get(ap.modelo["id"])
                     if not a or not a.get("auto"):
                         continue
-                    atual = g.pagina.get(ap.chave, 0)
-                    alvo = next((i for i, p in enumerate(a["paginas"]) if p.get("app") and p["app"] in exe), None)
-                    if alvo is not None and alvo != atual:
-                        if not a["paginas"][atual % len(a["paginas"])].get("app"):
-                            _DECK["voltar_para"][ap.chave] = atual
-                        g.trocar_pagina(ap.chave, alvo, len(a["paginas"]))
-                        _avisar_tela({"pagina_aparelho": ap.chave, "indice": alvo})
-                    elif alvo is None and a["paginas"][atual % len(a["paginas"])].get("app"):
-                        volta = _DECK["voltar_para"].pop(ap.chave, 0)
-                        g.trocar_pagina(ap.chave, volta, len(a["paginas"]))
-                        _avisar_tela({"pagina_aparelho": ap.chave, "indice": volta})
+                    onde = _onde(g, ap.chave, a)
+                    alvo = alvo_automatico(a, onde, exe)
+                    if alvo is not None and alvo != onde:
+                        _DECK["voltar_para"].setdefault(ap.chave, onde)
+                        mover_aparelho(ap.modelo["id"], ap.chave, alvo[0], alvo[1], manual=False)
+                    elif alvo is None and ap.chave in _DECK["voltar_para"]:
+                        volta = _DECK["voltar_para"].pop(ap.chave)
+                        mover_aparelho(ap.modelo["id"], ap.chave, volta[0], volta[1], manual=False)
         except Exception:
             pass
         time.sleep(1.0)
@@ -1207,20 +1469,29 @@ def deck_rota(acao, corpo):
             fila, _DECK["fila"] = _DECK["fila"], []
         return {"ok": True, "eventos": fila, "ultimo": _DECK["ultimo"]}
     if acao == "deck_pagina":
-        _cfg, a = _cfg_aparelho(str(corpo.get("modelo") or ""))
-        total = len(a["paginas"]) if a else 1
-        for ap in list(g.aparelhos.values()):
-            if ap.modelo["id"] == corpo.get("modelo"):
-                g.trocar_pagina(ap.chave, int(corpo.get("indice") or 0), total)
+        try:
+            pf = int(corpo["perfil"]) if corpo.get("perfil") is not None else None
+            pg = int(corpo.get("indice") or 0)
+        except (TypeError, ValueError):
+            return {"ok": False, "motivo": "indice"}
+        mover_aparelho(str(corpo.get("modelo") or ""), None, pf, pg)
         return {"ok": True}
     if acao == "deck_brilho":
         g.ajustar_brilho(str(corpo.get("modelo") or ""), max(5, min(100, int(corpo.get("brilho") or 80))))
         return {"ok": True}
     if acao == "deck_simular":
-        # "Apertar (simular)" na tela: o mesmo caminho de um aperto de verdade
+        # "Apertar (simular)" na tela: o mesmo caminho de um aperto de verdade,
+        # no perfil/página que a tela mostra
+        mid = str(corpo.get("modelo") or "")
+
         class _Falso:
             chave = "simulado"
-            modelo = {"id": str(corpo.get("modelo") or "")}
+            modelo = {"id": mid}
+        try:
+            g.perfil["simulado"] = int(corpo.get("perfil") or 0)
+            g.pagina["simulado"] = int(corpo.get("pagina") or 0)
+        except (TypeError, ValueError):
+            pass
         _ao_evento(_Falso(), str(corpo.get("slot") or ""), str(corpo.get("tipo") or "tecla"), True)
         return {"ok": True}
     return {"ok": False, "motivo": "acao_desconhecida"}

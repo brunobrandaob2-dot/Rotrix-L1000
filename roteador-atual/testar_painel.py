@@ -57,7 +57,7 @@ confere("atalho inválido é descartado", painel.tecla_valida({"id": "x", "acao"
 confere("atalho válido passa", (painel.tecla_valida({"id": "x", "acao": "atalho", "teclas": "Ctrl+Shift+V"}) or {}).get("teclas") == "Ctrl+Shift+V")
 k = painel.tecla_valida({"id": "s", "acao": "site", "sites": ["exemplo.com", " ", "http://a.b"]})
 confere("site sem https ganha https; vazio sai", k and k["sites"] == ["https://exemplo.com", "http://a.b"], k)
-dup = painel.normalizar({"paginas": [{"nome": "A", "teclas": [
+dup = painel.normalizar({"versao": 3, "paginas": [{"nome": "A", "teclas": [
     {"id": "a", "acao": "sistema", "comando": "mudo", "atalho_global": "F13"},
     {"id": "b", "acao": "sistema", "comando": "musica", "atalho_global": "F13"},
     {"id": "a", "acao": "sistema", "comando": "bloquear"}]}]})
@@ -106,10 +106,70 @@ confere("migração: entra Máscara por voz logo depois do Próximo",
         [t["id"] for t in mg["paginas"][0]["teclas"]])
 confere("migração: transcrição crua vira tecla à parte", ts.get("l_cru", {}).get("comando") == "ditar")
 confere("migração: a tecla dele fica", "minha" in ts)
-mapa = mg["aparelhos"]["akp03e"]["paginas"][0]["m"]
+mapa = mg["aparelhos"]["akp03e"]["perfis"][0]["paginas"][0]["m"]
 confere("migração: no aparelho, a tecla de Máscaras chama a máscara por voz",
         mapa == {"k1": "l_ditar", "k4": "l_mascara_voz"}, mapa)
-confere("migração: grava como versão 2", mg["versao"] == 2)
+confere("migração: grava como versão 3", mg["versao"] == 3)
+
+# --- versão 3: perfis no aparelho ---
+v2 = {"versao": 2, "paginas": painel.padrao()["paginas"][:2] + [{"nome": "Sistema", "teclas": [
+    {"id": "s_mudo", "nome": "Mudo", "acao": "sistema", "grupo": "sis", "comando": "mudo"}]}],
+      "aparelhos": {"akp03e": {"brilho": 60, "auto": False, "paginas": [
+          {"nome": "Minha", "app": "radiant", "m": {"k0": "mesa", "b2": "s_mudo"}},
+          {"nome": "Outra", "app": "", "m": {"k1": "radiant"}}]}}}
+m3 = painel.normalizar(v2)
+ap = m3["aparelhos"]["akp03e"]
+ts3 = {t["id"]: t for t in painel.todas_as_teclas(m3)}
+confere("perfis: as páginas dele viram o perfil Principal",
+        [p["nome"] for p in ap["perfis"][0]["paginas"]] == ["Minha", "Outra"] and ap["perfis"][0]["nome"] == "Principal",
+        ap["perfis"][0])
+confere("perfis: brilho e auto dele ficam", ap["brilho"] == 60 and ap["auto"] is False)
+confere("perfis: entra um perfil Sistema", [p["nome"] for p in ap["perfis"]] == ["Principal", "Sistema"])
+confere("perfis: o botão C (Mudo) passa a trocar o perfil", ap["perfis"][0]["paginas"][0]["m"]["b2"] == "d_perfil")
+confere("perfis: entram as teclas de trocar perfil/página e de música",
+        all(i in ts3 for i in ("d_perfil", "d_pagina", "d_pagina_ant", "s_ant", "s_prox")), sorted(ts3))
+confere("perfis: o perfil Sistema só aponta para teclas que existem",
+        all(v in ts3 for k, v in ap["perfis"][1]["paginas"][0]["m"].items() if k[0] != "g"))
+confere("perfis: normalizar de novo não muda nada", painel.normalizar(m3) == m3)
+
+# tela antiga (sem perfis) com o roteador novo
+import tempfile
+arq = os.path.join(tempfile.mkdtemp(), "painel.json")
+painel.salvar(m3, arq)
+tela = painel.para_tela(painel.carregar(arq))
+confere("tela antiga recebe as páginas do 1º perfil", tela["aparelhos"]["akp03e"]["paginas"][0]["nome"] == "Minha")
+velha = {k: v for k, v in tela.items()}
+velha["aparelhos"] = {"akp03e": {"brilho": 70, "auto": True, "paginas": [{"nome": "Mudou", "app": "", "m": {"k0": "mesa"}}]}}
+salvo = painel.salvar(velha, arq)["aparelhos"]["akp03e"]
+confere("tela antiga salva: troca só o 1º perfil, o perfil Sistema fica",
+        [p["nome"] for p in salvo["perfis"]] == ["Principal", "Sistema"] and salvo["perfis"][0]["paginas"][0]["nome"] == "Mudou"
+        and salvo["brilho"] == 70, salvo)
+confere("o arquivo não guarda o apelido 'paginas'", "paginas" not in painel.carregar(arq)["aparelhos"]["akp03e"])
+
+# teclas novas
+t = painel.tecla_valida({"id": "x", "nome": "X", "acao": "aparelho", "comando": "perfil_ir", "destino": "Sistema"})
+confere("tecla aparelho: ir para o perfil pelo nome", t and t["destino"] == "Sistema")
+confere("tecla aparelho: comando inventado sai",
+        painel.tecla_valida({"id": "x", "acao": "aparelho", "comando": "explodir"}) is None)
+base = painel.padrao()
+base["paginas"][0]["teclas"] += [
+    {"id": "mx", "nome": "Abrir tudo", "acao": "multi", "passos": ["mesa", "nao_existe", "mx", "radiant"], "espera_ms": 99999},
+    {"id": "my", "nome": "Outra", "acao": "multi", "passos": ["mx", "mesa"]}]
+mm = {t["id"]: t for t in painel.todas_as_teclas(painel.normalizar(base))}
+confere("multiação: passo que não existe ou que é outra multiação sai",
+        mm["mx"]["passos"] == ["mesa", "radiant"] and mm["my"]["passos"] == ["mesa"], (mm["mx"], mm["my"]))
+confere("multiação: espera vai até 5 s", mm["mx"]["espera_ms"] == 5000)
+
+# perfil automático (o Smart Profile)
+a = {"perfis": [{"nome": "P", "app": "", "paginas": [{"nome": "1", "app": "", "m": {}}, {"nome": "W", "app": "whatsapp", "m": {}}]},
+                {"nome": "RadiAnt", "app": "radiant", "paginas": [{"nome": "a", "app": "", "m": {}}, {"nome": "b", "app": "", "m": {}}]}]}
+confere("automático: programa com perfil -> perfil dele, página 1",
+        painel.alvo_automatico(a, (0, 0), "radiantviewer.exe") == (1, 0))
+confere("automático: já no perfil, noutra página -> fica",
+        painel.alvo_automatico(a, (1, 1), "radiantviewer.exe") == (1, 1))
+confere("automático: página com programa dentro do perfil atual",
+        painel.alvo_automatico(a, (0, 0), "whatsapp.exe") == (0, 1))
+confere("automático: programa nenhum -> não mexe", painel.alvo_automatico(a, (0, 0), "notepad.exe") is None)
 
 print("\npainel: %s" % ("tudo certo" if not falhas else "%d falha(s)" % falhas))
 sys.exit(1 if falhas else 0)

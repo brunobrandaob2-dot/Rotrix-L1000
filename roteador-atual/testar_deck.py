@@ -5,6 +5,7 @@ Monta os bytes de cada comando e lê relatórios de entrada falsos — não prec
 do aparelho e não abre nada. O AKP03E foi conferido no aparelho em 22/11/2026.
 """
 import os
+import base64
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -65,14 +66,60 @@ confere("catálogo diz o tamanho e a rotação da imagem", pub["img"] == {"w": 6
 # --- mapa no painel.json ---
 cfg = painel.normalizar(None)
 a = cfg["aparelhos"].get("akp03e")
-confere("painel padrão já traz o AKP03E mapeado", a and a["paginas"][0]["m"]["k0"] == "l_proximo", a)
-lixo = painel.normalizar({"paginas": cfg["paginas"], "aparelhos": {"akp03e": {"paginas": [
+confere("painel padrão já traz o AKP03E mapeado", a and a["perfis"][0]["paginas"][0]["m"]["k0"] == "l_proximo", a)
+lixo = painel.normalizar({"versao": 3, "paginas": cfg["paginas"], "aparelhos": {"akp03e": {"paginas": [
     {"nome": "X", "m": {"k0": "nao_existe", "k1": "mesa", "zz": "mesa",
                         "g0": {"girar": "foguete", "clique": "mesa"}}}]}, "../x": {}}})
-mm = lixo["aparelhos"]["akp03e"]["paginas"][0]["m"]
+mm = lixo["aparelhos"]["akp03e"]["perfis"][0]["paginas"][0]["m"]
 confere("mapa: tecla inexistente e slot inválido saem; giro inválido vira vazio",
         mm == {"k1": "mesa", "g0": {"girar": "", "clique": "mesa"}}, mm)
 confere("mapa: nome de modelo esquisito não entra", "../x" not in lixo["aparelhos"])
+
+
+# --- perfis no Gerente (sem USB: um aparelho de mentira) ---
+class _Ap:
+    def __init__(self):
+        self.chave, self.modelo, self.pintado = "x1", {"id": "akp03e"}, []
+
+    def pintar(self, imgs):
+        self.pintado.append(dict(imgs))
+
+
+G = deck.Gerente(lambda *a: None)
+falso = _Ap()
+G.aparelhos["x1"] = falso
+um = base64.b64encode(b"A").decode()
+dois = base64.b64encode(b"B").decode()
+G.receber_imagens("akp03e", {"0.0": {"k0": um}, "1.1": {"k0": dois}, "2": {"k0": um}})
+confere("imagens por perfil.página (e o jeito antigo = perfil 0)",
+        set(G.imagens["akp03e"]) == {(0, 0), (1, 1), (0, 2)}, list(G.imagens["akp03e"]))
+G.trocar_pagina("x1", 3, 2, perfil=1)
+confere("trocar perfil + página repinta a imagem certa",
+        G.perfil["x1"] == 1 and G.pagina["x1"] == 1 and falso.pintado[-1] == {"k0": b"B"}, (G.perfil, G.pagina))
+
+# tecla "Próximo perfil" e giro "perfil", pelo mesmo caminho de um aperto de verdade
+cfg3 = painel.normalizar(None)
+painel.carregar = lambda caminho=None: cfg3
+painel._DECK["gerente"] = G
+G.perfil["x1"], G.pagina["x1"] = 0, 1
+painel._ao_evento(falso, "b2", "tecla", True)  # b2 = Próximo perfil
+confere("botão C (Próximo perfil) leva ao perfil 2, página 1", (G.perfil["x1"], G.pagina["x1"]) == (1, 0),
+        (G.perfil["x1"], G.pagina["x1"]))
+painel._ao_evento(falso, "b2", "tecla", True)
+confere("depois do último perfil volta ao primeiro", G.perfil["x1"] == 0)
+cfg3["aparelhos"]["akp03e"]["perfis"][0]["paginas"][0]["m"]["g1"] = {"girar": "perfil", "clique": ""}
+painel._ao_evento(falso, "g1", "girar-", True)
+confere("giratório no modo perfil anda para trás", G.perfil["x1"] == 1, G.perfil["x1"])
+ev = painel.deck_rota("deck_eventos", {})["eventos"]
+confere("a tela fica sabendo do perfil novo", bool(ev) and ev[-1].get("perfil") == 1 and ev[-1].get("modelo") == "akp03e",
+        ev[-1:])
+r = painel._acao_aparelho({"nome": "Ir", "comando": "perfil_ir", "destino": "laudo"})
+confere("Ir para o perfil pelo nome (sem ligar para maiúsculas)", r["ok"] and G.perfil["x1"] == 0, r)
+r = painel._acao_aparelho({"nome": "Ir", "comando": "perfil_ir", "destino": "Não existe"})
+confere("perfil que não existe: avisa", not r["ok"], r)
+G.pagina["x1"] = 0
+r = painel._acao_aparelho({"nome": "Pág", "comando": "pagina_anterior"})
+confere("página anterior da primeira vai para a última do perfil", r["ok"] and G.pagina["x1"] == 1, G.pagina)
 
 print("\ndeck: %s" % ("tudo certo" if not falhas else "%d falha(s)" % falhas))
 sys.exit(1 if falhas else 0)

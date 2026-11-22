@@ -28,6 +28,9 @@ import {
   Download,
   AppWindow,
   PenLine,
+  Repeat2,
+  Files,
+  ListOrdered,
 } from "lucide-react";
 import type { Tecla } from "./painelComum";
 
@@ -59,6 +62,9 @@ export const ICONES: Record<string, React.ElementType> = {
   download: Download,
   rotrix: PenLine,
   app: AppWindow,
+  profile: Repeat2,
+  pages: Files,
+  multi: ListOrdered,
 };
 
 export const iconePadrao = (t: Tecla): string =>
@@ -73,6 +79,8 @@ export const iconePadrao = (t: Tecla): string =>
         texto: "type",
         expediente: "play",
         organizar: "grid",
+        aparelho: "profile",
+        multi: "multi",
       }[t.acao];
 
 export const iconeDe = (t: Tecla): React.ElementType => ICONES[iconePadrao(t)] || AppWindow;

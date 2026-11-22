@@ -6,7 +6,7 @@
 // desenho; clique numa peça para escolher o que ela faz. As imagens das teclas
 // são desenhadas aqui (deckImagem.ts) e o roteador manda para o aparelho.
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Plus, X } from "lucide-react";
+import { Copy, Pencil, Plus, Trash2, X } from "lucide-react";
 import { Ajuda } from "./Dica";
 import { type ConfigPainel, type Tecla, painel, COR } from "./painelComum";
 import { iconeDe } from "./painelIcones";
@@ -27,7 +27,15 @@ interface ModeloCat {
 
 interface EstadoDeck {
   ok?: boolean;
-  conectados: { chave: string; modelo: string; nome: string; pagina: number; erro: string; testado: boolean }[];
+  conectados: {
+    chave: string;
+    modelo: string;
+    nome: string;
+    pagina: number;
+    perfil?: number;
+    erro: string;
+    testado: boolean;
+  }[];
   sem_suporte: { nome: string }[];
   fabricante_aberto: string[];
   catalogo: Record<string, ModeloCat>;
@@ -41,10 +49,18 @@ interface PaginaAparelho {
   app: string;
   m: Mapa;
 }
+// Como no Stream Deck da Elgato: perfis (um conjunto de teclas para cada
+// trabalho, que pode abrir sozinho com um programa) e, dentro de cada perfil,
+// páginas.
+interface PerfilAparelho {
+  nome: string;
+  app: string;
+  paginas: PaginaAparelho[];
+}
 interface ConfAparelho {
   brilho: number;
   auto: boolean;
-  paginas: PaginaAparelho[];
+  perfis: PerfilAparelho[];
 }
 
 const GIROS: [string, string][] = [
@@ -53,8 +69,40 @@ const GIROS: [string, string][] = [
   ["zoom", "Zoom (Ctrl + rodinha)"],
   ["volume", "Volume do computador"],
   ["pagina", "Trocar a página do aparelho"],
+  ["perfil", "Trocar o perfil do aparelho"],
   ["brilho", "Brilho do aparelho"],
 ];
+
+const PAGINA_VAZIA = (): PaginaAparelho => ({ nome: "Página 1", app: "", m: {} });
+
+/** O que veio do roteador, inclusive no formato antigo (só páginas). */
+const lerConf = (bruto: unknown): ConfAparelho => {
+  const c = (bruto || {}) as Partial<ConfAparelho> & { paginas?: PaginaAparelho[] };
+  const perfis =
+    Array.isArray(c.perfis) && c.perfis.length
+      ? c.perfis
+      : [{ nome: "Principal", app: "", paginas: c.paginas?.length ? c.paginas : [PAGINA_VAZIA()] }];
+  return { brilho: c.brilho ?? 80, auto: c.auto ?? true, perfis };
+};
+
+const BotaoMini: React.FC<{ rotulo: string; aoClicar: () => void; children: React.ReactNode; perigo?: boolean }> = ({
+  rotulo,
+  aoClicar,
+  children,
+  perigo,
+}) => (
+  <button
+    type="button"
+    aria-label={rotulo}
+    title={rotulo}
+    onClick={aoClicar}
+    className={`h-6 w-6 grid place-items-center rounded-md border cursor-pointer ${
+      perigo ? "border-red-500/30 text-red-400" : "border-mid-gray/30 text-mid-gray hover:text-text"
+    }`}
+  >
+    {children}
+  </button>
+);
 
 const nomeDoSlot = (s: string, m: ModeloCat): string => {
   const n = Number(s.slice(1)) + 1;
@@ -70,7 +118,9 @@ export const AparelhoPainel: React.FC<{
 }> = ({ cfg, aoSalvar }) => {
   const [est, setEst] = useState<EstadoDeck | null>(null);
   const [modeloSel, setModeloSel] = useState<string>("");
+  const [perf, setPerf] = useState(0);
   const [pag, setPag] = useState(0);
+  const sincronizou = useRef(false);
   const [sel, setSel] = useState<string | null>(null);
   const [alvo, setAlvo] = useState<string | null>(null);
   const [aviso, setAviso] = useState("");
@@ -88,9 +138,10 @@ export const AparelhoPainel: React.FC<{
   useEffect(() => {
     void ler();
     const t = setInterval(() => void ler(), 4000);
-    // o roteador avisa (pela Casca) quando o aparelho troca de página sozinho
+    // o roteador avisa (pela Casca) quando o aparelho troca de perfil/página
     const p = (e: Event) => {
-      const d = (e as CustomEvent<{ indice: number }>).detail;
+      const d = (e as CustomEvent<{ indice: number; perfil?: number }>).detail;
+      if (typeof d?.perfil === "number") setPerf(d.perfil);
       if (typeof d?.indice === "number") setPag(d.indice);
     };
     const u = (e: Event) => {
@@ -115,21 +166,86 @@ export const AparelhoPainel: React.FC<{
   const teclas = useMemo(() => cfg.paginas.flatMap((p) => p.teclas), [cfg]);
   const porId = useMemo(() => Object.fromEntries(teclas.map((t) => [t.id, t])), [teclas]);
 
-  const conf: ConfAparelho = (cfg as unknown as { aparelhos?: Record<string, ConfAparelho> }).aparelhos?.[
-    modeloId
-  ] || { brilho: 80, auto: true, paginas: [{ nome: "Página 1", app: "", m: {} }] };
-  const pagina = conf.paginas[Math.min(pag, conf.paginas.length - 1)];
+  const conf = lerConf((cfg as unknown as { aparelhos?: Record<string, unknown> }).aparelhos?.[modeloId]);
+  const iPerf = Math.min(perf, conf.perfis.length - 1);
+  const perfil = conf.perfis[iPerf];
+  const iPag = Math.min(pag, perfil.paginas.length - 1);
+  const pagina = perfil.paginas[iPag];
+
+  // ao abrir a aba, o desenho mostra o perfil/página em que o aparelho está
+  useEffect(() => {
+    const c = est?.conectados.find((x) => x.modelo === modeloId);
+    if (c && !sincronizou.current) {
+      sincronizou.current = true;
+      setPerf(c.perfil ?? 0);
+      setPag(c.pagina ?? 0);
+    }
+  }, [est, modeloId]);
 
   const gravar = (novo: ConfAparelho) => {
-    const ap = { ...((cfg as unknown as { aparelhos?: Record<string, ConfAparelho> }).aparelhos || {}) };
+    const ap = { ...((cfg as unknown as { aparelhos?: Record<string, unknown> }).aparelhos || {}) };
     ap[modeloId] = novo;
     aoSalvar({ ...cfg, aparelhos: ap } as unknown as ConfigPainel);
   };
+  const gravarPerfil = (novo: PerfilAparelho) =>
+    gravar({ ...conf, perfis: conf.perfis.map((p, i) => (i === iPerf ? novo : p)) });
+  const gravarPagina = (nova: PaginaAparelho) =>
+    gravarPerfil({ ...perfil, paginas: perfil.paginas.map((p, i) => (i === iPag ? nova : p)) });
   const gravarMapa = (slot: string, valor: string | Giro | null) => {
     const m = { ...pagina.m };
     if (valor === null || valor === "") delete m[slot];
     else m[slot] = valor;
-    gravar({ ...conf, paginas: conf.paginas.map((p, i) => (p === pagina ? { ...p, m } : p)) });
+    gravarPagina({ ...pagina, m });
+  };
+  const irPara = (pf: number, pg: number) => {
+    setPerf(pf);
+    setPag(pg);
+    setSel(null);
+    void painel("deck_pagina", { modelo: modeloId, perfil: pf, indice: pg });
+  };
+  const nomeNovo = (pergunta: string, atual: string): string | null => {
+    const n = window.prompt(pergunta, atual);
+    return n && n.trim() ? n.trim().slice(0, 24) : null;
+  };
+
+  // perfis
+  const novoPerfil = (copiar: boolean) => {
+    if (conf.perfis.length >= 20) return setAviso("até 20 perfis");
+    const nome = nomeNovo("Nome do novo perfil:", copiar ? `${perfil.nome} (cópia)` : "TC");
+    if (!nome) return;
+    const p: PerfilAparelho = copiar
+      ? (JSON.parse(JSON.stringify({ ...perfil, nome, app: "" })) as PerfilAparelho)
+      : { nome, app: "", paginas: [PAGINA_VAZIA()] };
+    gravar({ ...conf, perfis: [...conf.perfis, p] });
+    irPara(conf.perfis.length, 0);
+  };
+  const renomearPerfil = () => {
+    const nome = nomeNovo("Novo nome do perfil:", perfil.nome);
+    if (nome) gravarPerfil({ ...perfil, nome });
+  };
+  const apagarPerfil = () => {
+    if (conf.perfis.length < 2) return;
+    if (!window.confirm(`Apagar o perfil "${perfil.nome}" e as teclas dele no aparelho?`)) return;
+    gravar({ ...conf, perfis: conf.perfis.filter((_p, i) => i !== iPerf) });
+    irPara(0, 0);
+  };
+  // páginas (dentro do perfil)
+  const novaPagina = () => {
+    if (perfil.paginas.length >= 20) return setAviso("até 20 páginas por perfil");
+    const nome = nomeNovo("Nome da nova página:", `Página ${perfil.paginas.length + 1}`);
+    if (!nome) return;
+    gravarPerfil({ ...perfil, paginas: [...perfil.paginas, { nome, app: "", m: {} }] });
+    irPara(iPerf, perfil.paginas.length);
+  };
+  const renomearPagina = () => {
+    const nome = nomeNovo("Novo nome da página:", pagina.nome);
+    if (nome) gravarPagina({ ...pagina, nome });
+  };
+  const apagarPagina = () => {
+    if (perfil.paginas.length < 2) return;
+    if (!window.confirm(`Apagar a página "${pagina.nome}"?`)) return;
+    gravarPerfil({ ...perfil, paginas: perfil.paginas.filter((_p, i) => i !== iPag) });
+    irPara(iPerf, 0);
   };
 
   // --- imagens para o aparelho: refeitas SÓ quando o desenho muda ---
@@ -139,14 +255,16 @@ export const AparelhoPainel: React.FC<{
   const assinatura = JSON.stringify({
     m: modelo?.id,
     con: (est?.conectados || []).filter((c) => c.modelo === modelo?.id).map((c) => c.chave),
-    p: conf.paginas.map((p) =>
-      (modelo?.slots || [])
-        .filter((x) => x[0] === "k")
-        .map((s) => {
-          const id = p.m[s];
-          const t = typeof id === "string" ? porId[id] : null;
-          return t ? [t.nome, t.grupo, t.icone || "", t.acao] : null;
-        }),
+    p: conf.perfis.map((pf) =>
+      pf.paginas.map((p) =>
+        (modelo?.slots || [])
+          .filter((x) => x[0] === "k")
+          .map((s) => {
+            const id = p.m[s];
+            const t = typeof id === "string" ? porId[id] : null;
+            return t ? [t.nome, t.grupo, t.icone || "", t.acao] : null;
+          }),
+      ),
     ),
   });
   const espera = useRef<number | null>(null);
@@ -154,13 +272,17 @@ export const AparelhoPainel: React.FC<{
     if (!modelo || !est?.conectados.some((c) => c.modelo === modelo.id)) return;
     if (espera.current) window.clearTimeout(espera.current);
     espera.current = window.setTimeout(async () => {
-      const paginas: Record<number, Record<string, string>> = {};
-      for (let i = 0; i < conf.paginas.length; i++) {
-        paginas[i] = {};
-        for (const s of modelo.slots.filter((x) => x[0] === "k")) {
-          const id = conf.paginas[i].m[s];
-          const t = typeof id === "string" ? porId[id] || null : null;
-          paginas[i][s] = await imagemDaTecla(t, modelo.img, t ? iconeDe(t) : null);
+      // chave "perfil.página": o roteador guarda todas e troca na hora
+      const paginas: Record<string, Record<string, string>> = {};
+      for (let pf = 0; pf < conf.perfis.length; pf++) {
+        for (let i = 0; i < conf.perfis[pf].paginas.length; i++) {
+          const k = `${pf}.${i}`;
+          paginas[k] = {};
+          for (const s of modelo.slots.filter((x) => x[0] === "k")) {
+            const id = conf.perfis[pf].paginas[i].m[s];
+            const t = typeof id === "string" ? porId[id] || null : null;
+            paginas[k][s] = await imagemDaTecla(t, modelo.img, t ? iconeDe(t) : null);
+          }
         }
       }
       try {
@@ -355,54 +477,95 @@ export const AparelhoPainel: React.FC<{
 
         {/* a peça escolhida */}
         <div className="flex-1 min-w-[260px] flex flex-col gap-2.5">
+          {/* perfis: um conjunto de teclas para cada trabalho */}
           <div className="flex items-center gap-1.5 flex-wrap text-[12.5px]">
-            <span className="text-mid-gray">Página do aparelho</span>
-            {conf.paginas.map((p, i) => (
+            <span className="text-mid-gray w-16">
+              Perfil
+              <Ajuda texto="Cada perfil é um conjunto de teclas (ex.: Laudo, TC, RM, Sistema). Troque por aqui, por uma tecla 'Próximo perfil', por um giratório no modo perfil, ou deixe abrir sozinho com um programa." />
+            </span>
+            {conf.perfis.map((p, i) => (
               <button
                 key={i}
                 type="button"
-                onClick={() => {
-                  setPag(i);
-                  void painel("deck_pagina", { modelo: modeloId, indice: i });
-                }}
+                onClick={() => irPara(i, 0)}
                 className={`h-6 px-2.5 rounded-md border text-[12px] cursor-pointer ${
-                  p === pagina ? "bg-logo-primary border-logo-primary text-white" : "border-mid-gray/30"
+                  i === iPerf ? "bg-logo-primary border-logo-primary text-white" : "border-mid-gray/30"
                 }`}
               >
                 {p.nome}
                 {p.app ? " (auto)" : ""}
               </button>
             ))}
-            <button
-              type="button"
-              aria-label="Nova página do aparelho"
-              onClick={() => {
-                const nome = window.prompt("Nome da nova página do aparelho:", "RadiAnt");
-                if (!nome) return;
-                gravar({ ...conf, paginas: [...conf.paginas, { nome: nome.slice(0, 24), app: "", m: {} }] });
-                setPag(conf.paginas.length);
-              }}
-              className="h-6 w-6 grid place-items-center rounded-md border border-mid-gray/30 cursor-pointer"
-            >
+            <BotaoMini rotulo="Novo perfil" aoClicar={() => novoPerfil(false)}>
               <Plus size={12} />
-            </button>
+            </BotaoMini>
+            <BotaoMini rotulo="Duplicar este perfil" aoClicar={() => novoPerfil(true)}>
+              <Copy size={12} />
+            </BotaoMini>
+            <BotaoMini rotulo="Renomear este perfil" aoClicar={renomearPerfil}>
+              <Pencil size={12} />
+            </BotaoMini>
+            {conf.perfis.length > 1 && (
+              <BotaoMini rotulo="Apagar este perfil" aoClicar={apagarPerfil} perigo>
+                <Trash2 size={12} />
+              </BotaoMini>
+            )}
           </div>
           <label className="flex items-center gap-2 text-[12.5px]">
-            <span className="text-mid-gray w-28">
-              Abre sozinha com
-              <Ajuda texto="Parte do nome do programa (ex.: radiant, radiowant). Quando ele fica na frente, o aparelho vai para esta página; quando sai, volta." />
+            <span className="text-mid-gray w-32 shrink-0">
+              Perfil abre com
+              <Ajuda texto="Parte do nome do programa (ex.: radiant, radiowant, whatsapp). Quando ele fica na frente, o aparelho vai para este perfil; quando sai, volta para onde estava." />
+            </span>
+            <input
+              className="flex-1 h-7 rounded-md border border-mid-gray/30 bg-background px-2 text-[12.5px]"
+              placeholder="nenhum programa"
+              value={perfil.app}
+              onChange={(e) => gravarPerfil({ ...perfil, app: e.target.value })}
+            />
+          </label>
+
+          {/* páginas dentro do perfil */}
+          <div className="flex items-center gap-1.5 flex-wrap text-[12.5px]">
+            <span className="text-mid-gray w-16">Página</span>
+            {perfil.paginas.map((p, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => irPara(iPerf, i)}
+                className={`h-6 px-2.5 rounded-md border text-[12px] cursor-pointer ${
+                  i === iPag ? "bg-logo-primary/80 border-logo-primary text-white" : "border-mid-gray/30"
+                }`}
+              >
+                {p.nome}
+                {p.app ? " (auto)" : ""}
+              </button>
+            ))}
+            <BotaoMini rotulo="Nova página neste perfil" aoClicar={novaPagina}>
+              <Plus size={12} />
+            </BotaoMini>
+            <BotaoMini rotulo="Renomear esta página" aoClicar={renomearPagina}>
+              <Pencil size={12} />
+            </BotaoMini>
+            {perfil.paginas.length > 1 && (
+              <BotaoMini rotulo="Apagar esta página" aoClicar={apagarPagina} perigo>
+                <Trash2 size={12} />
+              </BotaoMini>
+            )}
+          </div>
+          <label className="flex items-center gap-2 text-[12.5px]">
+            <span className="text-mid-gray w-32 shrink-0">
+              Página abre com
+              <Ajuda texto="Dentro deste perfil: com o programa na frente, o aparelho vai para esta página; quando sai, volta." />
             </span>
             <input
               className="flex-1 h-7 rounded-md border border-mid-gray/30 bg-background px-2 text-[12.5px]"
               placeholder="nenhum programa"
               value={pagina.app}
-              onChange={(e) =>
-                gravar({ ...conf, paginas: conf.paginas.map((p) => (p === pagina ? { ...p, app: e.target.value } : p)) })
-              }
+              onChange={(e) => gravarPagina({ ...pagina, app: e.target.value })}
             />
           </label>
           <label className="flex items-center gap-2 text-[12.5px]">
-            <span className="text-mid-gray w-28">Brilho</span>
+            <span className="text-mid-gray w-32 shrink-0">Brilho</span>
             <input
               type="range"
               min={5}
@@ -419,7 +582,7 @@ export const AparelhoPainel: React.FC<{
           </label>
           <label className="flex items-center gap-2 text-[12.5px]">
             <input type="checkbox" checked={conf.auto} onChange={(e) => gravar({ ...conf, auto: e.target.checked })} />
-            Trocar de página pelo programa da frente
+            Trocar de perfil / página pelo programa da frente
           </label>
 
           {sel && (
@@ -455,7 +618,9 @@ export const AparelhoPainel: React.FC<{
                       <button
                         key={tipo}
                         type="button"
-                        onClick={() => void painel("deck_simular", { modelo: modeloId, slot: sel, tipo })}
+                        onClick={() =>
+                          void painel("deck_simular", { modelo: modeloId, slot: sel, tipo, perfil: iPerf, pagina: iPag })
+                        }
                         className="h-7 px-2.5 rounded-md border border-mid-gray/30 text-[12px] cursor-pointer"
                       >
                         {tipo === "girar-" ? "◀ girar" : tipo === "girar+" ? "girar ▶" : "clicar"}
@@ -468,7 +633,9 @@ export const AparelhoPainel: React.FC<{
                   {opcoesTecla(typeof vSel === "string" ? vSel : "", (v) => gravarMapa(sel, v || null))}
                   <button
                     type="button"
-                    onClick={() => void painel("deck_simular", { modelo: modeloId, slot: sel, tipo: "tecla" })}
+                    onClick={() =>
+                      void painel("deck_simular", { modelo: modeloId, slot: sel, tipo: "tecla", perfil: iPerf, pagina: iPag })
+                    }
                     className="self-start h-7 px-3 rounded-md bg-logo-primary text-white text-[12px] font-semibold cursor-pointer"
                   >
                     Apertar (simular)
