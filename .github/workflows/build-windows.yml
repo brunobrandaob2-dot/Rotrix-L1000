@@ -6,8 +6,9 @@ name: Build Windows (Rotrix L-1000)
 
 on:
   push:
-    # main = versão estável; rotrix-pagina = telas novas em teste (compila à parte)
-    branches: [main, rotrix-pagina]
+    # main = versão estável; rotrix-pagina e rotrix-v2 = telas novas em teste
+    # (compilam à parte: só a main publica a versão "ultima" que o app baixa)
+    branches: [main, rotrix-pagina, rotrix-v2]
     paths:
       - "app/**"
       - "roteador-atual/**"

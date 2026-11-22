@@ -51,4 +51,23 @@ export const Dica: React.FC<{
   );
 };
 
+// 22/11/2026 (v2): "essa informação não precisa estar escrita — um íconezinho de
+// interrogação, passo o mouse e aparece a caixinha". Explicação fica atrás do ?,
+// a tela fica só com o que importa.
+export const Ajuda: React.FC<{ texto: string; lado?: "baixo" | "cima" }> = ({
+  texto,
+  lado = "baixo",
+}) => (
+  <Dica texto={texto} lado={lado}>
+    <span
+      tabIndex={0}
+      role="img"
+      aria-label={texto}
+      className="ms-1.5 inline-grid h-4 w-4 place-items-center rounded-full border border-mid-gray/50 text-[10px] font-semibold leading-none text-mid-gray cursor-help hover:border-logo-primary hover:text-logo-primary align-middle"
+    >
+      ?
+    </span>
+  </Dica>
+);
+
 export default Dica;

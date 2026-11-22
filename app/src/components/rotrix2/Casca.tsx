@@ -11,7 +11,6 @@ import {
   PenLine,
   Rows3,
   FilePlus2,
-  Pill,
   Grid3x3,
   LayoutGrid,
   Clock,
@@ -24,11 +23,12 @@ import { LaudoPage } from "./LaudoPage";
 import { FilaPage } from "./FilaPage";
 import { AdendoPage } from "./AdendoPage";
 import { ComparativoPage } from "./ComparativoPage";
-import { PrescricoesPage } from "./PrescricoesPage";
 import { EstruturadosPage } from "./EstruturadosPage";
 import { MascarasPage } from "./MascarasPage";
 import { HistoricoPage } from "./HistoricoPage";
 import { ConfigPage } from "./ConfigPage";
+import { lerFila, pronto, autoabrirLigado, proximoPendente, abrirUm } from "./filaComum";
+import { FilaLateral, modoSalvo, type ModoFila } from "./FilaLateral";
 
 type SubAdendo = "adendo" | "comparativo";
 
@@ -36,7 +36,6 @@ export type Aba =
   | "laudo"
   | "fila"
   | "adendos"
-  | "prescricoes"
   | "estruturados"
   | "mascaras"
   | "historico"
@@ -46,7 +45,6 @@ const ABAS: { id: Aba; nome: string; icone: React.ElementType }[] = [
   { id: "laudo", nome: "Laudo", icone: PenLine },
   { id: "fila", nome: "Fila", icone: Rows3 },
   { id: "adendos", nome: "Adendos", icone: FilePlus2 },
-  { id: "prescricoes", nome: "Prescrições", icone: Pill },
   { id: "estruturados", nome: "Estruturados", icone: Grid3x3 },
   { id: "mascaras", nome: "Máscaras", icone: LayoutGrid },
   { id: "historico", nome: "Histórico", icone: Clock },
@@ -156,14 +154,65 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     }
   });
 
-  // quantos exames estão esperando (marcador da aba Fila)
+  // 22/11/2026 (v2): a fila ao lado da folha do Laudo e o jeito dela
+  const [modoFila, setModoFila] = useState<ModoFila>(modoSalvo);
+  const [filaAberta, setFilaAberta] = useState<boolean>(() => {
+    const m = modoSalvo();
+    return m === "aberta" || m === "escolher";
+  });
+  const modoRef = useRef(modoFila);
+  modoRef.current = modoFila;
+  const trocarModoFila = (m: ModoFila) => {
+    setModoFila(m);
+    try {
+      localStorage.setItem("rotrix2.filaModo", m);
+    } catch {
+      /* fica só nesta sessão */
+    }
+    setFilaAberta(m === "aberta" || m === "escolher");
+  };
+  // F2 mostra/esconde a fila (e leva para o Laudo, se estiver em outra aba)
+  const abaRef = useRef<Aba>("laudo");
+  abaRef.current = aba;
+  useEffect(() => {
+    const tecla = (e: KeyboardEvent) => {
+      if (e.key !== "F2") return;
+      e.preventDefault();
+      if (abaRef.current !== "laudo") {
+        setAba("laudo");
+        setFilaAberta(true);
+      } else {
+        setFilaAberta((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", tecla);
+    return () => window.removeEventListener("keydown", tecla);
+  }, []);
+
+  // quantos exames estão esperando (marcador da aba Fila) e o Autoabrir:
+  // o exame da vez ficou laudado -> o próximo pronto do E-Laudos abre sozinho
+  const vezAntes = useRef<{ id: string | null; pronto: boolean }>({ id: null, pronto: false });
   const contarFila = useCallback(async () => {
     try {
-      const bruto = await invoke<string>("rotrix_fila");
-      const f = JSON.parse(bruto || "{}") as {
-        itens?: { feito?: boolean; laudado?: boolean | null }[];
-      };
-      setNaFila((f.itens || []).filter((i) => !(i.feito || i.laudado)).length);
+      const f = await lerFila();
+      setNaFila((f.itens || []).filter((i) => !pronto(i)).length);
+      const idVez = f.vez || f.atual || null;
+      const eVez = (f.itens || []).find((i) => i.id === idVez);
+      const antes = vezAntes.current;
+      const ficouPronto =
+        antes.id !== null && !antes.pronto &&
+        (idVez === antes.id ? Boolean(eVez && pronto(eVez)) : Boolean((f.itens || []).find((i) => i.id === antes.id && pronto(i))));
+      vezAntes.current = { id: idVez, pronto: Boolean(eVez && pronto(eVez)) };
+      if (ficouPronto) {
+        const prox = autoabrirLigado() ? proximoPendente(f, antes.id) : null;
+        if (prox) {
+          vezAntes.current = { id: prox.id, pronto: false };
+          await abrirUm(prox.id);
+        } else if (modoRef.current === "escolher") {
+          // "só para escolher exame": laudou, a fila volta para escolher o próximo
+          setFilaAberta(true);
+        }
+      }
     } catch {
       setNaFila(0);
     }
@@ -171,7 +220,7 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
 
   useEffect(() => {
     void contarFila();
-    const t = setInterval(() => void contarFila(), 60000);
+    const t = setInterval(() => void contarFila(), 15000);
     const p = listen("rotrix-proximo-exame", () => void contarFila());
     return () => {
       clearInterval(t);
@@ -341,7 +390,11 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
             <button
               key={a.id}
               type="button"
-              onClick={() => setAba(a.id)}
+              onClick={() => {
+                // clicar em Laudo estando nele mostra/esconde a fila do lado
+                if (a.id === "laudo" && aba === "laudo") setFilaAberta((v) => !v);
+                else setAba(a.id);
+              }}
               title={a.nome}
               className={`relative w-[84px] py-2 rounded-lg flex flex-col items-center gap-0.5 text-[11px] cursor-pointer transition-colors ${
                 ativo
@@ -370,7 +423,14 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
           fora o laudo inteiro ao trocar de aba — e o ditado com outra aba aberta
           não tinha onde cair. As outras abas continuam sob demanda.
         */}
-        <div className={aba === "laudo" ? "h-full" : "hidden"}>
+        <div className={aba === "laudo" ? "h-full flex relative" : "hidden"}>
+          <FilaLateral
+            modo={modoFila}
+            aberta={filaAberta}
+            aoMostrar={setFilaAberta}
+            aoTrocarModo={trocarModoFila}
+          />
+          <div className="flex-1 min-w-0 h-full">
           <LaudoPage
             modeloLeve={nomeLeve}
             idModeloLeve={idLeve}
@@ -383,6 +443,7 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
             aoTrocarModelo={trocarModelo}
             avisoIa={avisoIa}
           />
+          </div>
         </div>
         <div className={aba === "adendos" ? "h-full flex flex-col min-h-0" : "hidden"}>
           {/* duas sub-abas: escrever um adendo, ou comparar com o exame anterior */}
@@ -425,7 +486,6 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
           </div>
         </div>
         {aba === "fila" && <FilaPage />}
-        {aba === "prescricoes" && <PrescricoesPage />}
         {aba === "estruturados" && <EstruturadosPage />}
         {aba === "mascaras" && (
           <MascarasPage

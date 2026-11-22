@@ -628,6 +628,17 @@ _RADIANT_CANDIDATOS = (
     r"%LOCALAPPDATA%\\RadiAntViewer\\RadiAntViewer.exe",
 )
 
+# 22/11/2026 (Rotrix v2): o RadioWant (visualizador próprio, Electron) é o
+# segundo visualizador. Aceita ZIPs e pastas na linha de comando; sem
+# --new-window o estudo substitui o da janela aberta.
+_RADIOWANT_CANDIDATOS = (
+    r"%LOCALAPPDATA%\\Programs\\RadioWant\\RadioWant.exe",
+    r"%ProgramFiles%\\RadioWant\\RadioWant.exe",
+)
+# a fila do Radius (PowerShell) guarda aqui o caminho que ele escolheu
+_RADIOWANT_ANOTADO = r"%LOCALAPPDATA%\\Radius Download Queue\\radiowant-path.txt"
+VISUALIZADORES = ("radiant", "radiowant")
+
 
 def _caminhos_no_estudo(d):
     """Valores do estudo que parecem caminho de pasta/arquivo."""
@@ -994,6 +1005,43 @@ def executavel_radiant(config=None):
     return None
 
 
+def executavel_radiowant(config=None):
+    """Caminho do RadioWant: o da configuração, o anotado pela fila do Radius,
+    ou um dos lugares de instalação."""
+    escolhido = (config or {}).get("radiowant_exe") if isinstance(config, dict) else None
+    if escolhido and os.path.isfile(escolhido):
+        return escolhido
+    try:
+        anotado = os.path.expandvars(_RADIOWANT_ANOTADO)
+        if os.path.isfile(anotado):
+            with open(anotado, encoding="utf-8-sig") as f:
+                c = (f.readline() or "").strip()
+            if c and os.path.isfile(c):
+                return c
+    except OSError:
+        pass
+    for cand in _RADIOWANT_CANDIDATOS:
+        c = os.path.expandvars(cand)
+        if os.path.isfile(c):
+            return c
+    return None
+
+
+def visualizador_escolhido(config=None, pedido=None):
+    """'radiant' ou 'radiowant': o do pedido, o do config, ou o RadiAnt."""
+    cfg = config if isinstance(config, dict) else {}
+    v = str(pedido or cfg.get("visualizador") or "radiant").strip().lower()
+    return v if v in VISUALIZADORES else "radiant"
+
+
+def montar_comando_radiowant(exe, caminhos_abrir, nova_janela=False):
+    """RadioWant.exe "a.zip" ["b.zip"] [--new-window]: todos na mesma janela."""
+    args = [exe] + list(caminhos_abrir)
+    if nova_janela:
+        args.append("--new-window")
+    return args
+
+
 def montar_comando(exe, caminhos_abrir, fechar_outras=True, arvore=False):
     """Uma linha de comando só, para tudo abrir na MESMA janela do RadiAnt.
 
@@ -1024,8 +1072,11 @@ def montar_comando(exe, caminhos_abrir, fechar_outras=True, arvore=False):
     return args
 
 
-def abrir(pasta, ids, config=None, extras=()):
-    """Abre os estudos marcados no RadiAnt, todos na mesma janela."""
+def abrir(pasta, ids, config=None, extras=(), visualizador=None, janela=None):
+    """Abre os estudos marcados no RadiAnt ou no RadioWant, todos na mesma janela.
+
+    `visualizador` ('radiant' | 'radiowant') e `janela` ('atual' | 'nova', só o
+    RadioWant usa) vêm do pedido; sem eles vale o que está no config."""
     achados = dict(caminhos(pasta, ids))
     for p in [pasta] + list(extras or []):
         for cod, caminho, _mtime, _nome in _soltos_brutos(p):
@@ -1033,22 +1084,32 @@ def abrir(pasta, ids, config=None, extras=()):
                 achados[cod] = caminho  # exame baixado por fora também abre
     if not achados:
         return {"ok": False, "motivo": "sem_caminho", "pedidos": len(ids or [])}
-    exe = executavel_radiant(config)
-    if not exe:
-        return {"ok": False, "motivo": "radiant_nao_encontrado", "achados": len(achados)}
     cfg = config if isinstance(config, dict) else {}
+    vis = visualizador_escolhido(cfg, visualizador)
     lista = [achados[cod] for cod in (ids or []) if achados.get(cod)]
-    args = montar_comando(exe, lista,
-                          fechar_outras=cfg.get("radiant_fechar_outras", True),
-                          arvore=cfg.get("radiant_arvore", False))
+    if vis == "radiowant":
+        exe = executavel_radiowant(cfg)
+        if not exe:
+            return {"ok": False, "motivo": "radiowant_nao_encontrado", "achados": len(achados),
+                    "visualizador": vis}
+        jan = str(janela or cfg.get("radiowant_janela") or "atual").strip().lower()
+        args = montar_comando_radiowant(exe, lista, nova_janela=(jan == "nova"))
+    else:
+        exe = executavel_radiant(config)
+        if not exe:
+            return {"ok": False, "motivo": "radiant_nao_encontrado", "achados": len(achados),
+                    "visualizador": vis}
+        args = montar_comando(exe, lista,
+                              fechar_outras=cfg.get("radiant_fechar_outras", True),
+                              arvore=cfg.get("radiant_arvore", False))
     try:
         import subprocess
         subprocess.Popen(args, close_fds=True)
     except Exception as e:
         # só o tipo do erro: a mensagem do Windows costuma trazer o caminho
         # inteiro, e o caminho tem o nome do paciente na pasta.
-        return {"ok": False, "motivo": "falhou_abrir", "erro": type(e).__name__}
-    return {"ok": True, "abertos": len(achados), "pedidos": len(ids or [])}
+        return {"ok": False, "motivo": "falhou_abrir", "erro": type(e).__name__, "visualizador": vis}
+    return {"ok": True, "abertos": len(achados), "pedidos": len(ids or []), "visualizador": vis}
 
 
 if __name__ == "__main__":

@@ -580,6 +580,19 @@ pub fn rotrix_ia_salvar(app: AppHandle, ajustes: String) -> Result<(), String> {
         }
         obj.insert("ia_por_exame".into(), serde_json::Value::Object(limpo));
     }
+    // 22/11/2026 (v2): o visualizador do botao Abrir da Fila (e do Ctrl+Alt+R)
+    if let Some(v) = novo.get("visualizador").and_then(|x| x.as_str()) {
+        if !["radiant", "radiowant"].contains(&v) {
+            return Err("visualizador deve ser radiant ou radiowant".into());
+        }
+        obj.insert("visualizador".into(), serde_json::Value::String(v.into()));
+    }
+    if let Some(v) = novo.get("radiowant_janela").and_then(|x| x.as_str()) {
+        if !["atual", "nova"].contains(&v) {
+            return Err("radiowant_janela deve ser atual ou nova".into());
+        }
+        obj.insert("radiowant_janela".into(), serde_json::Value::String(v.into()));
+    }
     gravar_config(&p, &c)?;
     info!("Rotrix: configuracao de IA salva");
     Ok(())

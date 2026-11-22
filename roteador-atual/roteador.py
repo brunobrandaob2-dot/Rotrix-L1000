@@ -2959,7 +2959,12 @@ def fila_radius():
             "atual": at["id"] if at else None,
             "vez": vez["id"] if vez else None,
             "escolhido": d.get("escolhido"),
-            "perfil_automatico": bool(c.get("perfil_automatico", False))}
+            "perfil_automatico": bool(c.get("perfil_automatico", False)),
+            # Rotrix v2: o botão Abrir e o Ctrl+Alt+R obedecem a esta escolha
+            "visualizador": radius.visualizador_escolhido(c),
+            "radiowant_janela": "nova" if str(c.get("radiowant_janela") or "").lower() == "nova" else "atual",
+            "radiowant_achado": bool(radius.executavel_radiowant(c)),
+            "radiant_achado": bool(radius.executavel_radiant(c))}
 
 
 # ---------------------------------------------------------------------------
@@ -3268,7 +3273,9 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json(200, estacao_escolher(corpo.get("id")))
                 if rota.endswith("/fila/abrir"):
                     return self._json(200, fila_abrir(corpo.get("ids") or [],
-                                                      bool(corpo.get("ultimo"))))
+                                                      bool(corpo.get("ultimo")),
+                                                      corpo.get("visualizador"),
+                                                      corpo.get("janela")))
                 if rota.endswith("/fila/apagar"):
                     return self._json(200, fila_apagar(corpo.get("ids") or []))
                 if rota.endswith("/fila/feito"):
@@ -3330,9 +3337,10 @@ def fila_apagar(ids):
         return {"ok": False, "motivo": "%s" % type(e).__name__}
 
 
-def fila_abrir(ids, ultimo=False):
-    """Abre no RadiAnt os estudos marcados — ou, com `ultimo`, o exame que
-    acabou de cair na pasta (é o que o atalho Ctrl+Alt+R faz)."""
+def fila_abrir(ids, ultimo=False, visualizador=None, janela=None):
+    """Abre no RadiAnt ou no RadioWant os estudos marcados — ou, com `ultimo`,
+    o exame que acabou de cair na pasta (é o que o atalho Ctrl+Alt+R faz).
+    Sem `visualizador` no pedido, vale o do config ("visualizador")."""
     if radius is None:
         return {"ok": False, "motivo": "radius_ausente"}
     try:
@@ -3345,7 +3353,7 @@ def fila_abrir(ids, ultimo=False):
                 return {"ok": False, "motivo": "fila_vazia"}
             alvo = max(fila, key=lambda x: x.get("entrou") or "")
             ids = [alvo["id"]]
-        return radius.abrir(radius.pasta_radius(c), ids, c, extras)
+        return radius.abrir(radius.pasta_radius(c), ids, c, extras, visualizador, janela)
     except Exception as e:
         return {"ok": False, "motivo": "%s: %s" % (type(e).__name__, str(e)[:120])}
 
