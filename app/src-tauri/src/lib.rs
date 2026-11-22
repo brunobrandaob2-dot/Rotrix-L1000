@@ -673,6 +673,7 @@ pub fn run(cli_args: CliArgs) {
             rotrix::rotrix_fila_escolher,
             rotrix::rotrix_fila_feito,
             rotrix::rotrix_abrir_estudos,
+            rotrix::rotrix_painel,
             rotrix::rotrix_apagar_estudos,
             rotrix::rotrix_abrir_ultimo,
             rotrix::rotrix_mascaras_banco,

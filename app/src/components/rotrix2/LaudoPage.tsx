@@ -778,6 +778,31 @@ export const LaudoPage: React.FC<Props> = ({
     return () => document.removeEventListener("keydown", tecla);
   }, [colarNoRis]);
 
+  // 22/11/2026 (v2): as teclas do Painel (e, depois, do Stream Deck) apertam os
+  // mesmos botões desta folha, pelo evento "rotrix:comando".
+  const paraComandos = useRef<Record<string, () => void>>({});
+  paraComandos.current = {
+    colar: () => void colarNoRis(),
+    ditar: () => apertou("simples"),
+    conferencia: () => trocarConferencia(),
+    revisar: () => void rodarIA({ instrucao: INSTRUCAO_REVISAR }),
+    analisar_rx: () => {
+      if (!imagensDaFolha(folha.current).length) {
+        setAviso("cole a radiografia na folha (Ctrl+V) e aperte Analisar RX de novo");
+        return;
+      }
+      void rodarIA({ instrucao: INSTRUCAO_ANALISAR_RX });
+    },
+  };
+  useEffect(() => {
+    const ouvir = (e: Event) => {
+      const c = (e as CustomEvent<{ comando?: string }>).detail?.comando || "";
+      paraComandos.current[c]?.();
+    };
+    window.addEventListener("rotrix:comando", ouvir);
+    return () => window.removeEventListener("rotrix:comando", ouvir);
+  }, []);
+
   const rotulo = (modo: Modo) =>
     gravando === modo ? "gravando · clique para parar" : "";
 

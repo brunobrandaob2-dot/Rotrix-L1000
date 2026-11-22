@@ -1093,6 +1093,30 @@ pub fn rotrix_abrir_estudos(ids: Vec<String>) -> Result<String, String> {
     )
 }
 
+/// Rotrix v2 (22/11/2026): aba Painel — o Workflow Hub dentro do Rotrix.
+/// Uma ponte so para /v1/painel/<acao> do roteador (painel.py), com a lista
+/// fechada de acoes. "expediente" espera os programas abrirem (ate ~25 s).
+#[specta::specta]
+#[tauri::command(async)]
+pub fn rotrix_painel(acao: String, corpo: String) -> Result<String, String> {
+    const ACOES: [&str; 8] = [
+        "carregar",
+        "estado",
+        "salvar",
+        "executar",
+        "expediente",
+        "organizar",
+        "capturar",
+        "padrao",
+    ];
+    if !ACOES.contains(&acao.as_str()) {
+        return Err(format!("acao do painel desconhecida: {acao}"));
+    }
+    let espera = if acao == "expediente" || acao == "organizar" { 60_000 } else { 15_000 };
+    let corpo = if corpo.trim().is_empty() { "{}".to_string() } else { corpo };
+    http_post(&format!("/v1/painel/{acao}"), &corpo, espera)
+}
+
 /// Perfil: grava num .rotrix.zip as suas mascaras, o ouvido.tsv e os ajustes.
 /// A chave de IA nunca entra; os laudos de estilo so com incluir_estilo.
 #[specta::specta]

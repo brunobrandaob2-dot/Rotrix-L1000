@@ -15,6 +15,7 @@ import {
   LayoutGrid,
   Clock,
   Cog,
+  LayoutDashboard,
 } from "lucide-react";
 import HandyTextLogo from "../icons/HandyTextLogo";
 import type { SidebarSection } from "../Sidebar";
@@ -29,10 +30,13 @@ import { HistoricoPage } from "./HistoricoPage";
 import { ConfigPage } from "./ConfigPage";
 import { lerFila, pronto, autoabrirLigado, proximoPendente, abrirUm } from "./filaComum";
 import { FilaLateral, modoSalvo, type ModoFila } from "./FilaLateral";
+import { PainelPage } from "./PainelPage";
+import { painel } from "./painelComum";
 
 type SubAdendo = "adendo" | "comparativo";
 
 export type Aba =
+  | "painel"
   | "laudo"
   | "fila"
   | "adendos"
@@ -42,6 +46,7 @@ export type Aba =
   | "config";
 
 const ABAS: { id: Aba; nome: string; icone: React.ElementType }[] = [
+  { id: "painel", nome: "Painel", icone: LayoutDashboard },
   { id: "laudo", nome: "Laudo", icone: PenLine },
   { id: "fila", nome: "Fila", icone: Rows3 },
   { id: "adendos", nome: "Adendos", icone: FilePlus2 },
@@ -188,6 +193,76 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     window.addEventListener("keydown", tecla);
     return () => window.removeEventListener("keydown", tecla);
   }, []);
+
+  // 22/11/2026 (v2): as teclas do Painel que mexem no próprio Rotrix
+  useEffect(() => {
+    const ouvir = async (e: Event) => {
+      const c = (e as CustomEvent<{ comando?: string }>).detail?.comando || "";
+      const naFolha = ["colar", "ditar", "conferencia", "revisar", "analisar_rx"];
+      if (naFolha.includes(c)) {
+        setAba("laudo");
+        // a folha está sempre montada: o comando chega depois de ela aparecer
+        window.setTimeout(
+          () => window.dispatchEvent(new CustomEvent("rotrix:comando", { detail: { comando: c } })),
+          60,
+        );
+        return;
+      }
+      if (c === "laudo") setAba("laudo");
+      else if (c === "fila_aba") setAba("fila");
+      else if (c === "coronarias") setAba("estruturados");
+      else if (c === "mascaras") setAba("mascaras");
+      else if (c === "fila") {
+        if (abaRef.current !== "laudo") {
+          setAba("laudo");
+          setFilaAberta(true);
+        } else setFilaAberta((v) => !v);
+      } else if (c === "proximo") {
+        try {
+          const f = await lerFila();
+          const p = proximoPendente(f, f.vez || f.atual);
+          if (p) await abrirUm(p.id);
+        } catch {
+          /* roteador parado */
+        }
+      }
+    };
+    window.addEventListener("rotrix:painel-comando", ouvir);
+    return () => window.removeEventListener("rotrix:painel-comando", ouvir);
+  }, []);
+
+  // Expediente ao ligar: o Rotrix abre com o Windows; com a opção ligada no
+  // Painel (Telas e início), o expediente começa sozinho depois de N segundos.
+  const [inicio, setInicio] = useState<{ falta: number; frase: string } | null>(null);
+  useEffect(() => {
+    let vivo = true;
+    void painel("carregar")
+      .then((r) => {
+        const a = r.config?.ajustes;
+        if (vivo && a?.iniciar_expediente) setInicio({ falta: a.atraso_s ?? 5, frase: "" });
+      })
+      .catch(() => undefined);
+    return () => {
+      vivo = false;
+    };
+  }, []);
+  useEffect(() => {
+    if (!inicio || inicio.frase || inicio.falta < 0) return;
+    if (inicio.falta === 0) {
+      setInicio({ falta: -1, frase: "Iniciando o expediente…" });
+      void painel("expediente")
+        .then((r) => setInicio({ falta: -1, frase: r.frase || "expediente iniciado" }))
+        .catch((e) => setInicio({ falta: -1, frase: String(e) }));
+      return;
+    }
+    const t = window.setTimeout(() => setInicio((x) => (x ? { ...x, falta: x.falta - 1 } : x)), 1000);
+    return () => window.clearTimeout(t);
+  }, [inicio]);
+  useEffect(() => {
+    if (!inicio || inicio.falta !== -1 || inicio.frase === "Iniciando o expediente…") return;
+    const t = window.setTimeout(() => setInicio(null), 8000);
+    return () => window.clearTimeout(t);
+  }, [inicio]);
 
   // quantos exames estão esperando (marcador da aba Fila) e o Autoabrir:
   // o exame da vez ficou laudado -> o próximo pronto do E-Laudos abre sozinho
@@ -380,9 +455,38 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
 
   return (
     <div className="flex-1 flex min-h-0 overflow-hidden">
+      {inicio && (
+        <div className="fixed z-50 bottom-4 end-4 rounded-xl border border-logo-primary/50 bg-background shadow-2xl px-4 py-3 flex items-center gap-3 text-[13px]">
+          {inicio.falta > 0 ? (
+            <>
+              <span>
+                Iniciando o expediente em <b className="tabular-nums">{inicio.falta}</b> s
+              </span>
+              <button
+                type="button"
+                onClick={() => setInicio({ falta: 0, frase: "" })}
+                className="h-7 px-3 rounded-md bg-logo-primary text-white font-semibold cursor-pointer"
+              >
+                Agora
+              </button>
+              <button
+                type="button"
+                onClick={() => setInicio(null)}
+                className="h-7 px-3 rounded-md border border-mid-gray/30 cursor-pointer"
+              >
+                Cancelar
+              </button>
+            </>
+          ) : (
+            <span>{inicio.frase}</span>
+          )}
+        </div>
+      )}
       {/* barra das abas */}
       <div className="w-24 shrink-0 flex flex-col items-center gap-1 border-e border-mid-gray/20 bg-background py-2">
-        <HandyTextLogo width={72} className="mb-2" />
+        <button type="button" onClick={() => setAba("painel")} title="Painel" className="cursor-pointer">
+          <HandyTextLogo width={72} className="mb-2" />
+        </button>
         {ABAS.map((a) => {
           const Icone = a.icone;
           const ativo = aba === a.id;
@@ -485,6 +589,7 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
             />
           </div>
         </div>
+        {aba === "painel" && <PainelPage pendentes={naFila} />}
         {aba === "fila" && <FilaPage />}
         {aba === "estruturados" && <EstruturadosPage />}
         {aba === "mascaras" && (

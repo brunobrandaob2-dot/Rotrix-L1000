@@ -31,6 +31,10 @@ try:
 except Exception:
     radius = None
 try:
+    import painel             # Rotrix v2: o Workflow Hub dentro do Rotrix (aba Painel)
+except Exception:
+    painel = None
+try:
     import oficina            # oficina de máscaras (propor/aplicar/desfazer)
 except Exception:
     oficina = None
@@ -3200,6 +3204,13 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         rota = self.path.rstrip("/")
+        if "/painel/" in rota:
+            corpo = self._corpo()
+            try:
+                return self._json(200, painel_rota(rota.rsplit("/", 1)[-1], corpo))
+            except Exception as e:
+                print("AVISO: %s falhou (%s: %s)" % (rota, type(e).__name__, e), file=sys.stderr)
+                return self._json(500, {"ok": False, "error": type(e).__name__, "detalhe": str(e)[:200]})
         if rota.endswith(("/fila/proximo", "/fila/escolher", "/fila/feito", "/fila/abrir",
                           "/fila/apagar",
                           "/perfil/exportar", "/perfil/importar",
@@ -3335,6 +3346,33 @@ def fila_apagar(ids):
         return radius.apagar(radius.pasta_radius(c), ids, c, radius.pastas_observadas(c)[1:])
     except Exception as e:
         return {"ok": False, "motivo": "%s" % type(e).__name__}
+
+
+def painel_rota(acao, corpo):
+    """Rotrix v2 — aba Painel (/v1/painel/<acao>). As teclas ficam em painel.json,
+    ao lado do config.json. Só nomes de programas, títulos de janela e posições."""
+    if painel is None:
+        return {"ok": False, "motivo": "painel_ausente"}
+    painel.ligar_vigia()  # lembra a janela "de fora" para colar texto e atalhos
+    if acao == "carregar":
+        cfg = painel.carregar()
+        return {"ok": True, "config": cfg, "estado": painel.estado(cfg)}
+    if acao == "estado":
+        return painel.estado(painel.carregar())
+    if acao == "salvar":
+        cfg = painel.salvar(corpo.get("config") or {})
+        return {"ok": True, "config": cfg, "estado": painel.estado(cfg)}
+    if acao == "executar":
+        return painel.executar(painel.carregar(), str(corpo.get("id") or ""))
+    if acao == "expediente":
+        return painel.expediente(painel.carregar())
+    if acao == "organizar":
+        return painel.organizar(painel.carregar())
+    if acao == "capturar":
+        return painel.capturar(painel.carregar())
+    if acao == "padrao":
+        return {"ok": True, "config": painel.normalizar(None)}
+    return {"ok": False, "motivo": "acao_desconhecida"}
 
 
 def fila_abrir(ids, ultimo=False, visualizador=None, janela=None):
