@@ -66,6 +66,8 @@ export interface ConfigPainel {
   versao: number;
   ajustes: Ajustes;
   paginas: Pagina[];
+  /** fase 3: o mapa de cada modelo de Stream Deck / Stream Dock */
+  aparelhos?: Record<string, unknown>;
 }
 
 export interface Monitor {

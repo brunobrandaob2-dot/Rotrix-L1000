@@ -111,6 +111,8 @@ jobs:
         run: python testar_radius.py
       - name: Painel v2 (layouts das telas, teclas, comandos; sem abrir nem mover nada)
         run: python testar_painel.py
+      - name: Stream Deck / Stream Dock (protocolos e mapa das teclas; sem o aparelho)
+        run: python testar_deck.py
       - name: Testar a TC com as palavras do médico (alterações primeiro)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_tc_literal.py
       - name: Testar o modo estação e o perfil (arquivos falsos)

@@ -103,7 +103,8 @@ export const FilaLateral: React.FC<Props> = ({ modo, aberta, aoMostrar, aoTrocar
 
   const itens = (fila?.itens || []).filter((e) => !pronto(e));
   const daVez = fila?.vez || fila?.atual || null;
-  const vis: Visualizador = fila?.visualizador || "radiant";
+  const [visLocal, setVisLocal] = useState<Visualizador | null>(null);
+  const vis: Visualizador = visLocal || fila?.visualizador || "radiant";
 
   const abrir = async (id: string) => {
     const r = await abrirUm(id);
@@ -270,9 +271,16 @@ export const FilaLateral: React.FC<Props> = ({ modo, aberta, aoMostrar, aoTrocar
                 key={v}
                 type="button"
                 onClick={async () => {
+                  setVisLocal(v);
                   try {
                     await salvarVisualizador({ visualizador: v });
-                    void ler();
+                    const f = await lerFila();
+                    setFila(f);
+                    setAviso(
+                      f.visualizador === undefined
+                        ? "o roteador que está rodando é o antigo: feche e abra o Rotrix"
+                        : `Abrir agora abre no ${v === "radiowant" ? "RadioWant" : "RadiAnt"}`,
+                    );
                   } catch (e) {
                     setAviso(String(e));
                   }
@@ -285,18 +293,21 @@ export const FilaLateral: React.FC<Props> = ({ modo, aberta, aoMostrar, aoTrocar
               </button>
             ))}
           </div>
-          <label className="flex items-center gap-1 text-[11.5px] text-mid-gray">
-            <input
-              type="checkbox"
-              checked={auto}
-              onChange={(e) => {
-                setAuto(e.target.checked);
-                ligarAutoabrir(e.target.checked);
+          <span className="flex items-center">
+            <button
+              type="button"
+              onClick={() => {
+                setAuto(!auto);
+                ligarAutoabrir(!auto);
               }}
-            />
-            Auto
-            <Ajuda texto="Autoabrir: quando o exame da vez fica laudado, o próximo exame pronto abre sozinho." lado="cima" />
-          </label>
+              className={`h-6 px-2.5 rounded-md border text-[11.5px] cursor-pointer ${
+                auto ? "bg-logo-primary border-logo-primary text-white" : "border-mid-gray/30 text-mid-gray"
+              }`}
+            >
+              Autoabrir {auto ? "ligado" : "desligado"}
+            </button>
+            <Ajuda texto="Ligado: quando o exame da vez fica laudado, o próximo exame pronto abre sozinho." lado="cima" />
+          </span>
           <button
             type="button"
             disabled={!marcados.length}

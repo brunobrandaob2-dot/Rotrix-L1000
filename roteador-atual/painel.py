@@ -252,7 +252,63 @@ def padrao():
         "paginas": [{"nome": "Expediente", "teclas": expediente},
                     {"nome": "Laudo", "teclas": laudo},
                     {"nome": "Sistema", "teclas": sistema}],
+        "aparelhos": aparelhos_padrao(),
     }
+
+
+# ---------------------------------------------------------------------------
+# Fase 3: o que cada tecla / botão / giratório do aparelho físico faz.
+# aparelhos[modelo] = {"brilho", "auto", "paginas": [{"nome", "app", "m": {slot: ...}}]}
+#   "kN" / "bN": id de uma tecla do Painel
+#   "gN": {"girar": GIRO, "clique": id de tecla}
+# "app": parte do nome do programa da frente (ex.: "radiant") -> a página troca sozinha
+# ---------------------------------------------------------------------------
+GIROS = ("volume", "pagina", "rolar", "zoom", "brilho")
+
+
+def aparelhos_padrao():
+    return {"akp03e": {"brilho": 80, "auto": True, "paginas": [
+        {"nome": "Laudo", "app": "", "m": {
+            "k0": "l_proximo", "k1": "l_ditar", "k2": "l_colar", "k3": "l_revisar", "k4": "mascaras",
+            "k5": "mesa", "b0": "expediente", "b1": "organizar", "b2": "s_mudo",
+            "g0": {"girar": "rolar", "clique": "l_proximo"}, "g1": {"girar": "pagina", "clique": "l_conf"},
+            "g2": {"girar": "volume", "clique": "s_mudo"}}},
+        {"nome": "Programas", "app": "", "m": {
+            "k0": "radiowant", "k1": "radiant", "k2": "mesa", "k3": "onelaudos", "k4": "claude",
+            "k5": "whatsapp", "b0": "expediente", "b1": "organizar", "b2": "s_mudo",
+            "g0": {"girar": "rolar", "clique": "l_proximo"}, "g1": {"girar": "pagina", "clique": "l_conf"},
+            "g2": {"girar": "volume", "clique": "s_mudo"}}},
+    ]}}
+
+
+def _aparelho_valido(a, ids):
+    if not isinstance(a, dict):
+        return None
+    try:
+        brilho = max(5, min(100, int(a.get("brilho", 80))))
+    except (TypeError, ValueError):
+        brilho = 80
+    paginas = []
+    for p in (a.get("paginas") or [])[:20]:
+        if not isinstance(p, dict):
+            continue
+        m = {}
+        for slot, v in (p.get("m") or {}).items():
+            if not re.match(r"^[kb]\d{1,2}$|^g\d$", str(slot)):
+                continue
+            if slot.startswith("g"):
+                if isinstance(v, dict):
+                    g = {"girar": v.get("girar") if v.get("girar") in GIROS else "",
+                         "clique": v.get("clique") if v.get("clique") in ids else ""}
+                    if g["girar"] or g["clique"]:
+                        m[slot] = g
+            elif v in ids:
+                m[slot] = v
+        paginas.append({"nome": _texto(p.get("nome") or "Página", 24), "app": _texto(p.get("app"), 60).lower(),
+                        "m": m})
+    if not paginas:
+        paginas = [{"nome": "Página 1", "app": "", "m": {}}]
+    return {"brilho": brilho, "auto": bool(a.get("auto", True)), "paginas": paginas}
 
 
 _ATALHO = re.compile(r"^((Ctrl|Alt|Shift|Win)\+)*([A-Z0-9]|F([1-9]|1[0-9]|2[0-4])|"
@@ -345,7 +401,14 @@ def normalizar(cru):
                 k["atalho_global"] = ""
             elif k["atalho_global"]:
                 usados.add(k["atalho_global"])
-    return {"versao": VERSAO, "ajustes": aj, "paginas": paginas}
+    ids = {k["id"] for p in paginas for k in p["teclas"]}
+    cru_ap = cru.get("aparelhos") if isinstance(cru.get("aparelhos"), dict) else base["aparelhos"]
+    aparelhos = {}
+    for mid, a in list(cru_ap.items())[:20]:
+        v = _aparelho_valido(a, ids)
+        if v and re.match(r"^[a-z0-9_]{2,20}$", str(mid)):
+            aparelhos[mid] = v
+    return {"versao": VERSAO, "ajustes": aj, "paginas": paginas, "aparelhos": aparelhos}
 
 
 def caminho_padrao():
@@ -952,6 +1015,168 @@ def expediente(cfg):
         frase += " · não achei: " + ", ".join(falhou)
     return {"ok": not falhou, "abertos": abriu, "falhou": falhou, "frase": frase,
             "resultado": org.get("resultado") if org else {}}
+
+
+def rodinha(passos, com_ctrl=False):
+    """Gira a rodinha do mouse (vai para a janela sob o cursor: rola cortes,
+    com Ctrl dá zoom no visualizador)."""
+    if not EH_WINDOWS:
+        return False
+    if com_ctrl:
+        _u32.keybd_event(0x11, 0, 0, 0)
+    _u32.mouse_event(0x0800, 0, 0, int(120 * passos), 0)  # negativo = rolar para baixo
+    if com_ctrl:
+        _u32.keybd_event(0x11, 0, 2, 0)
+    return True
+
+
+# ---------------------------------------------------------------------------
+# Fase 3: o aparelho físico (deck.py) ligado às teclas do Painel
+# ---------------------------------------------------------------------------
+_DECK = {"gerente": None, "fila": [], "ultimo": None, "trava": threading.Lock(), "voltar_para": {}}
+
+
+def _cfg_aparelho(modelo_id):
+    cfg = carregar()
+    return cfg, (cfg.get("aparelhos") or {}).get(modelo_id)
+
+
+def _ao_evento(ap, slot, tipo, apertado):
+    """Um aperto/giro no aparelho -> a ação mapeada no Painel."""
+    _DECK["ultimo"] = {"chave": ap.chave, "slot": slot, "tipo": tipo, "apertado": apertado, "em": time.time()}
+    if not apertado:
+        return
+    cfg, a = _cfg_aparelho(ap.modelo["id"])
+    if not a:
+        return
+    g = _DECK["gerente"]
+    pag_i = g.pagina.get(ap.chave, 0) if g else 0
+    paginas = a["paginas"]
+    m = paginas[pag_i % len(paginas)]["m"] if paginas else {}
+    ref = m.get(slot)
+    if slot.startswith("g"):
+        ref = ref or {}
+        if tipo == "clique":
+            _executar_ref(cfg, ref.get("clique"))
+            return
+        d = 1 if tipo == "girar+" else -1
+        giro = ref.get("girar")
+        if giro == "volume":
+            tecla_de_sistema("volume_mais" if d > 0 else "volume_menos")
+        elif giro == "pagina" and g:
+            g.trocar_pagina(ap.chave, pag_i + d, len(paginas))
+            _avisar_tela({"pagina_aparelho": ap.chave, "indice": (pag_i + d) % len(paginas)})
+        elif giro == "rolar":
+            rodinha(-d)
+        elif giro == "zoom":
+            rodinha(d, com_ctrl=True)
+        elif giro == "brilho" and g:
+            a["brilho"] = max(5, min(100, a["brilho"] + 5 * d))
+            g.ajustar_brilho(ap.modelo["id"], a["brilho"])
+        return
+    _executar_ref(cfg, ref)
+
+
+def _avisar_tela(item):
+    with _DECK["trava"]:
+        _DECK["fila"].append(item)
+        del _DECK["fila"][:-50]
+
+
+def _executar_ref(cfg, id_tecla):
+    if not id_tecla:
+        return
+    t = tecla_por_id(cfg, id_tecla)
+    if not t:
+        return
+    if t["acao"] == "rotrix":
+        _avisar_tela({"comando": t["comando"]})  # a tela do Rotrix faz (folha, fila, abas)
+        return
+    threading.Thread(target=executar, args=(cfg, id_tecla), daemon=True).start()
+
+
+def _pagina_pelo_programa():
+    """Página que troca sozinha pelo programa da frente ("app" da página)."""
+    while True:
+        try:
+            g = _DECK["gerente"]
+            h = _FORA["hwnd"]
+            if g and g.aparelhos and h and EH_WINDOWS:
+                pid = W.DWORD()
+                _u32.GetWindowThreadProcessId(W.HWND(h), ctypes.byref(pid))
+                exe = os.path.basename(_caminho_do_processo(pid.value)).lower()
+                cfg = carregar()
+                for ap in list(g.aparelhos.values()):
+                    a = (cfg.get("aparelhos") or {}).get(ap.modelo["id"])
+                    if not a or not a.get("auto"):
+                        continue
+                    atual = g.pagina.get(ap.chave, 0)
+                    alvo = next((i for i, p in enumerate(a["paginas"]) if p.get("app") and p["app"] in exe), None)
+                    if alvo is not None and alvo != atual:
+                        if not a["paginas"][atual % len(a["paginas"])].get("app"):
+                            _DECK["voltar_para"][ap.chave] = atual
+                        g.trocar_pagina(ap.chave, alvo, len(a["paginas"]))
+                        _avisar_tela({"pagina_aparelho": ap.chave, "indice": alvo})
+                    elif alvo is None and a["paginas"][atual % len(a["paginas"])].get("app"):
+                        volta = _DECK["voltar_para"].pop(ap.chave, 0)
+                        g.trocar_pagina(ap.chave, volta, len(a["paginas"]))
+                        _avisar_tela({"pagina_aparelho": ap.chave, "indice": volta})
+        except Exception:
+            pass
+        time.sleep(1.0)
+
+
+def ligar_deck():
+    if _DECK["gerente"] is not None:
+        return _DECK["gerente"]
+    try:
+        import deck
+    except Exception:
+        return None
+    g = deck.Gerente(_ao_evento)
+    _DECK["gerente"] = g
+    for mid, a in (carregar().get("aparelhos") or {}).items():
+        g.brilhos[mid] = a.get("brilho", 80)
+    g.iniciar()
+    ligar_vigia()
+    if EH_WINDOWS:
+        threading.Thread(target=_pagina_pelo_programa, name="deck-pagina", daemon=True).start()
+    return g
+
+
+def deck_rota(acao, corpo):
+    g = ligar_deck()
+    if g is None:
+        return {"ok": False, "motivo": "deck_ausente"}
+    if acao == "deck_estado":
+        e = g.estado()
+        e["ok"] = True
+        return e
+    if acao == "deck_imagens":
+        n = g.receber_imagens(str(corpo.get("modelo") or ""), corpo.get("paginas") or {})
+        return {"ok": True, "imagens": n}
+    if acao == "deck_eventos":
+        with _DECK["trava"]:
+            fila, _DECK["fila"] = _DECK["fila"], []
+        return {"ok": True, "eventos": fila, "ultimo": _DECK["ultimo"]}
+    if acao == "deck_pagina":
+        _cfg, a = _cfg_aparelho(str(corpo.get("modelo") or ""))
+        total = len(a["paginas"]) if a else 1
+        for ap in list(g.aparelhos.values()):
+            if ap.modelo["id"] == corpo.get("modelo"):
+                g.trocar_pagina(ap.chave, int(corpo.get("indice") or 0), total)
+        return {"ok": True}
+    if acao == "deck_brilho":
+        g.ajustar_brilho(str(corpo.get("modelo") or ""), max(5, min(100, int(corpo.get("brilho") or 80))))
+        return {"ok": True}
+    if acao == "deck_simular":
+        # "Apertar (simular)" na tela: o mesmo caminho de um aperto de verdade
+        class _Falso:
+            chave = "simulado"
+            modelo = {"id": str(corpo.get("modelo") or "")}
+        _ao_evento(_Falso(), str(corpo.get("slot") or ""), str(corpo.get("tipo") or "tecla"), True)
+        return {"ok": True}
+    return {"ok": False, "motivo": "acao_desconhecida"}
 
 
 def capturar(cfg):

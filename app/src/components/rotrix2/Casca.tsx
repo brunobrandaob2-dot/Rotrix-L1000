@@ -231,6 +231,34 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     return () => window.removeEventListener("rotrix:painel-comando", ouvir);
   }, []);
 
+  // Fase 3: o que veio do Stream Deck / Stream Dock físico. O roteador faz as
+  // ações de fora (programas, volume…); as do Rotrix (folha, fila, abas) chegam
+  // aqui. A pergunta é local (127.0.0.1) e leve.
+  useEffect(() => {
+    let ultimo = 0;
+    const t = window.setInterval(async () => {
+      try {
+        const r = (await painel("deck_eventos")) as unknown as {
+          eventos?: { comando?: string; pagina_aparelho?: string; indice?: number }[];
+          ultimo?: { slot: string; em: number } | null;
+        };
+        for (const e of r.eventos || []) {
+          if (e.comando)
+            window.dispatchEvent(new CustomEvent("rotrix:painel-comando", { detail: { comando: e.comando } }));
+          if (typeof e.indice === "number")
+            window.dispatchEvent(new CustomEvent("rotrix:deck-pagina", { detail: { indice: e.indice } }));
+        }
+        if (r.ultimo && r.ultimo.em > ultimo) {
+          ultimo = r.ultimo.em;
+          window.dispatchEvent(new CustomEvent("rotrix:deck-aperto", { detail: { slot: r.ultimo.slot } }));
+        }
+      } catch {
+        /* roteador parado ou antigo: tenta de novo na próxima */
+      }
+    }, 400);
+    return () => window.clearInterval(t);
+  }, []);
+
   // Expediente ao ligar: o Rotrix abre com o Windows; com a opção ligada no
   // Painel (Telas e início), o expediente começa sozinho depois de N segundos.
   const [inicio, setInicio] = useState<{ falta: number; frase: string } | null>(null);

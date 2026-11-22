@@ -1099,7 +1099,7 @@ pub fn rotrix_abrir_estudos(ids: Vec<String>) -> Result<String, String> {
 #[specta::specta]
 #[tauri::command(async)]
 pub fn rotrix_painel(acao: String, corpo: String) -> Result<String, String> {
-    const ACOES: [&str; 8] = [
+    const ACOES: [&str; 14] = [
         "carregar",
         "estado",
         "salvar",
@@ -1108,6 +1108,13 @@ pub fn rotrix_painel(acao: String, corpo: String) -> Result<String, String> {
         "organizar",
         "capturar",
         "padrao",
+        // fase 3: Stream Deck / Stream Dock (deck.py no roteador)
+        "deck_estado",
+        "deck_imagens",
+        "deck_eventos",
+        "deck_pagina",
+        "deck_brilho",
+        "deck_simular",
     ];
     if !ACOES.contains(&acao.as_str()) {
         return Err(format!("acao do painel desconhecida: {acao}"));

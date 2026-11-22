@@ -129,8 +129,14 @@ export const FilaPage: React.FC = () => {
 
   const conta = (a: Aba) => todos.filter((e) => daAba(a, e)).length;
   const daVez = fila?.vez || fila?.atual || null;
-  const vis: Visualizador = fila?.visualizador || "radiant";
-  const janela: JanelaRW = fila?.radiowant_janela || "atual";
+  // 22/11 (teste dele): o botão escolhido muda NA HORA. Antes ele esperava o
+  // roteador confirmar — e o roteador antigo (Documentos) não sabia guardar,
+  // então o botão "voltava" calado para RadiAnt / Atual.
+  const [visLocal, setVisLocal] = useState<Visualizador | null>(null);
+  const [janelaLocal, setJanelaLocal] = useState<JanelaRW | null>(null);
+  const vis: Visualizador = visLocal || fila?.visualizador || "radiant";
+  const janela: JanelaRW = janelaLocal || fila?.radiowant_janela || "atual";
+  const roteadorAntigo = Boolean(fila?.disponivel) && fila?.visualizador === undefined;
   const selecionado =
     todos.find((e) => e.id === ultimoClique.current) || todos.find((e) => e.id === daVez) || null;
 
@@ -249,20 +255,38 @@ export const FilaPage: React.FC = () => {
     }
   };
 
+  const AVISO_ANTIGO =
+    "o roteador que está rodando é o antigo e não guarda esta escolha: feche o Rotrix (e o Roteador de Laudos) e abra de novo";
+
   const trocarVisualizador = async (v: string) => {
+    setVisLocal(v as Visualizador);
     try {
       await salvarVisualizador({ visualizador: v as Visualizador });
-      setAviso(`o botão Abrir agora abre no ${v === "radiowant" ? "RadioWant" : "RadiAnt"}`);
-      await ler();
+      const f = await lerFila();
+      setFila(f);
+      setAviso(
+        f.visualizador === undefined
+          ? AVISO_ANTIGO
+          : `o botão Abrir agora abre no ${v === "radiowant" ? "RadioWant" : "RadiAnt"}`,
+      );
     } catch (e) {
       setAviso(`não gravei o visualizador: ${String(e)}`);
     }
   };
 
   const trocarJanela = async (v: string) => {
+    setJanelaLocal(v as JanelaRW);
     try {
       await salvarVisualizador({ radiowant_janela: v as JanelaRW });
-      await ler();
+      const f = await lerFila();
+      setFila(f);
+      setAviso(
+        f.radiowant_janela === undefined
+          ? AVISO_ANTIGO
+          : v === "nova"
+            ? "o RadioWant vai abrir cada exame numa janela nova"
+            : "o exame novo vai substituir o que está aberto no RadioWant",
+      );
     } catch (e) {
       setAviso(`não gravei a janela do RadioWant: ${String(e)}`);
     }
@@ -419,6 +443,11 @@ export const FilaPage: React.FC = () => {
 
       {/* rodapé do Radius */}
       <div className="border-t border-mid-gray/20 bg-mid-gray/5 px-4 pt-2 pb-3 flex flex-col gap-2">
+        {roteadorAntigo && (
+          <div className="text-[12px] rounded-md border border-amber-500/40 bg-amber-500/10 px-2 py-1">
+            {AVISO_ANTIGO}.
+          </div>
+        )}
         <div className="flex items-center gap-4 text-[12px] text-mid-gray flex-wrap">
           <span>
             E-Laudos: {conta("elaudos")} | Laudados: {conta("laudados") + conta("laudout")} | Mobilemed e
@@ -443,10 +472,10 @@ export const FilaPage: React.FC = () => {
               aoTrocar={(v) => void trocarVisualizador(v)}
             />
           </div>
-          <div className="flex flex-col gap-1">
+          <div className={`flex flex-col gap-1 ${vis === "radiowant" ? "" : "opacity-45"}`}>
             <span className="text-[11px] text-mid-gray">
               Janela RadioWant
-              <Ajuda texto="Atual: o exame novo substitui o que está aberto no RadioWant. Nova: abre numa janela a mais." />
+              <Ajuda texto="Atual: o exame novo substitui o que está aberto no RadioWant. Nova: abre numa janela a mais. Só vale com o RadioWant escolhido." />
             </span>
             <Seg
               opcoes={[
@@ -457,18 +486,24 @@ export const FilaPage: React.FC = () => {
               aoTrocar={(v) => void trocarJanela(v)}
             />
           </div>
-          <label className="flex items-center gap-1.5 text-[12px] text-mid-gray h-7">
-            <input
-              type="checkbox"
-              checked={auto}
-              onChange={(e) => {
-                setAuto(e.target.checked);
-                ligarAutoabrir(e.target.checked);
+          <div className="flex flex-col gap-1">
+            <span className="text-[11px] text-mid-gray">
+              Autoabrir
+              <Ajuda texto="Ligado: quando o exame da vez fica laudado, o próximo exame pronto do E-Laudos abre sozinho no visualizador." />
+            </span>
+            <Seg
+              opcoes={[
+                ["nao", "Desligado"],
+                ["sim", "Ligado"],
+              ]}
+              valor={auto ? "sim" : "nao"}
+              aoTrocar={(v) => {
+                setAuto(v === "sim");
+                ligarAutoabrir(v === "sim");
+                setAviso(v === "sim" ? "Autoabrir ligado: laudou, o próximo abre sozinho" : "Autoabrir desligado");
               }}
             />
-            Autoabrir
-            <Ajuda texto="Quando o exame da vez fica laudado, o próximo exame pronto do E-Laudos abre sozinho no visualizador." />
-          </label>
+          </div>
 
           <div className="ms-auto flex items-center gap-2 flex-wrap">
             <Button

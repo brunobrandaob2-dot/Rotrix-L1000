@@ -8,33 +8,7 @@
 // As teclas moram em painel.json (roteador, painel.py).
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  Play,
-  LayoutGrid,
-  FileText,
-  Image as Imagem,
-  Sun,
-  Table,
-  Globe,
-  ArrowRight,
-  ClipboardCheck,
-  Sparkles,
-  ScanSearch,
-  Mic,
-  Volume2,
-  VolumeX,
-  MessageCircle,
-  Bot,
-  ListChecks,
-  Layers,
-  Keyboard,
-  Type,
-  Lock,
-  List,
-  Folder,
-  Music,
-  Download,
   AppWindow,
-  PenLine,
   Plus,
   Monitor as MonitorIcone,
   ChevronLeft,
@@ -42,6 +16,8 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import { ICONES, iconePadrao } from "./painelIcones";
+import { AparelhoPainel } from "./AparelhoPainel";
 import { Ajuda } from "./Dica";
 import {
   type ConfigPainel,
@@ -61,41 +37,6 @@ import {
   novaTecla,
 } from "./painelComum";
 
-const ICONES: Record<string, React.ElementType> = {
-  play: Play,
-  grid: LayoutGrid,
-  file: FileText,
-  image: Imagem,
-  sun: Sun,
-  table: Table,
-  globe: Globe,
-  next: ArrowRight,
-  clip: ClipboardCheck,
-  spark: Sparkles,
-  scan: ScanSearch,
-  mic: Mic,
-  vol: Volume2,
-  mute: VolumeX,
-  chat: MessageCircle,
-  bot: Bot,
-  check: ListChecks,
-  layers: Layers,
-  key: Keyboard,
-  type: Type,
-  lock: Lock,
-  list: List,
-  folder: Folder,
-  media: Music,
-  download: Download,
-  rotrix: PenLine,
-  app: AppWindow,
-};
-
-const iconePadrao = (t: Tecla): string =>
-  t.icone && ICONES[t.icone]
-    ? t.icone
-    : { programa: "app", site: "globe", rotrix: "rotrix", sistema: "vol", atalho: "key", texto: "type", expediente: "play", organizar: "grid" }[t.acao];
-
 // --- tecla -------------------------------------------------------------------
 const TeclaTile: React.FC<{
   t: Tecla;
@@ -113,6 +54,8 @@ const TeclaTile: React.FC<{
     <button
       type="button"
       onClick={aoApertar}
+      draggable
+      onDragStart={(e) => e.dataTransfer.setData("text/plain", t.id)}
       className={`relative min-h-[104px] rounded-xl border p-3 flex flex-col justify-between text-start transition-[transform,box-shadow] active:scale-[0.97] cursor-pointer ${
         t.larga ? "col-span-2" : ""
       } ${editando ? "outline-1 outline-dashed outline-offset-2 outline-mid-gray/60" : ""}`}
@@ -545,9 +488,18 @@ export const PainelPage: React.FC<{ pendentes: number }> = ({ pendentes }) => {
       const r = await painel("carregar");
       if (r.config) setCfg(r.config);
       if (r.estado) setEstado(r.estado);
-      if (!r.ok) setAviso(`o roteador não respondeu ao Painel (${r.motivo || "erro"})`);
+      if (!r.ok)
+        setAviso(
+          r.motivo
+            ? `o roteador não respondeu ao Painel (${r.motivo})`
+            : "o roteador que está rodando é o antigo, sem o Painel: feche o Rotrix (e o Roteador de Laudos, se estiver aberto) e abra de novo",
+        );
     } catch (e) {
-      setAviso(`o Painel precisa do roteador ligado (${String(e)})`);
+      setAviso(
+        /404|Not Found/i.test(String(e))
+          ? "o roteador que está rodando é o antigo, sem o Painel: feche o Rotrix (e o Roteador de Laudos, se estiver aberto) e abra de novo"
+          : `o Painel precisa do roteador ligado (${String(e)})`,
+      );
     }
   }, []);
 
@@ -790,6 +742,9 @@ export const PainelPage: React.FC<{ pendentes: number }> = ({ pendentes }) => {
           <Ajuda texto="Bolinha verde: o programa está aberto (o clique traz a janela para a frente). Número: contagem ao vivo, como os exames pendentes." />
         </div>
         {aviso && <div className="text-[12.5px] text-mid-gray">{aviso}</div>}
+
+        {/* fase 3: o Stream Deck / Stream Dock físico */}
+        <AparelhoPainel cfg={cfg} aoSalvar={salvar} />
       </div>
 
       {lateral && (

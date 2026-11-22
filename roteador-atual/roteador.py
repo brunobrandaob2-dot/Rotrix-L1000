@@ -3372,6 +3372,8 @@ def painel_rota(acao, corpo):
         return painel.capturar(painel.carregar())
     if acao == "padrao":
         return {"ok": True, "config": painel.normalizar(None)}
+    if acao.startswith("deck_"):  # fase 3: Stream Deck / Stream Dock
+        return painel.deck_rota(acao, corpo)
     return {"ok": False, "motivo": "acao_desconhecida"}
 
 
