@@ -353,8 +353,10 @@ const casos: [boolean, string][] = [
     "o volume de sempre continua no menu",
   ],
   [
-    /setPainel\(\{ tipo: "medidas", exame: "densitometria" \}\)/.test(botoes),
-    "botão Densitometria abre o painel de medidas (campos e conta no roteador)",
+    // 22/11/2026 (v2): a Densitometria saiu do Rotrix (fica na Mesa de Laudo);
+    // a conta continua no roteador (densitometria.py e o teste Python dela)
+    !/exame: "densitometria"/.test(botoes),
+    "v2: o botão Densitometria saiu da barra da folha (fica na Mesa de Laudo)",
   ],
   [
     /export const INSTRUCAO_REVISAR = "revisar o laudo";/.test(laudo) &&

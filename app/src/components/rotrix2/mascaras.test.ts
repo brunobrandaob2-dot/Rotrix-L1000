@@ -67,22 +67,31 @@ const casos: [boolean, string][] = [
     /novo\.get\("modelo_leve"\)/.test(rust),
     "Rust: rotrix_ia_salvar aceita modelo_leve",
   ],
+  // 22/11/2026 (v2): Escanometria, Idade óssea, Densitometria e Prescrição saíram
+  // da barra da folha (os exames de print ficam na Mesa de Laudo). O teste agora
+  // segura que eles NÃO voltam sem ninguém ver, e que Cálculos continua.
   [
-    !/setErro\(\s*"colar o print entra junto/.test(botoes) &&
-      /lerPrint\(exame, dataUrl\)/.test(botoes),
-    "Escanometria: o botão do print lê de verdade (não é mais só aviso)",
+    !/titulo="Escanometria e panorâmicas"/.test(botoes) &&
+      !/titulo="Cálculo de idade óssea"/.test(botoes) &&
+      !/<ScanLine size=\{14\} \/> Densitometria/.test(botoes) &&
+      !/titulo="Prescrições do banco"/.test(botoes),
+    "v2: Escanometria, Idade óssea, Densitometria e Prescrição fora da barra da folha",
   ],
   [
-    /lerPrint\("idade_ossea", dataUrl, \{ sexo \}\)/.test(botoes),
-    "Idade óssea: só a imagem e o sexo vão (a data de nascimento fica)",
+    /<Calculator size=\{14\} \/> Cálculos/.test(botoes),
+    "v2: o botão Cálculos continua na barra da folha",
+  ],
+  [
+    !/PrescricoesPage/.test(casca) && !/id: "prescricoes"/.test(casca),
+    "v2: a aba Prescrições saiu",
   ],
   [
     /fn rotrix_ler_print/.test(rust) && /rotrix::rotrix_ler_print,/.test(lib),
     "Rust: rotrix_ler_print existe e está registrado",
   ],
   [
-    (botoes.match(/<ImagemNaFolha/g) || []).length === 2,
-    "print e radiografia passam pelo recorte da folha (sem nome nos pixels, sem metadado)",
+    (laudo.match(/<ImagemNaFolha/g) || []).length >= 1,
+    "radiografia passa pelo recorte da folha (sem nome nos pixels, sem metadado)",
   ],
 ];
 let falhas = 0;
