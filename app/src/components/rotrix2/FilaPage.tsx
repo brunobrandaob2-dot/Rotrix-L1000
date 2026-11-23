@@ -16,6 +16,9 @@ import { Botao as Button } from "./Botao"; // fase 6: o Button do Astryx
 import { Ajuda } from "./Dica";
 import { SegmentedControl, SegmentedControlItem } from "@astryxdesign/core/SegmentedControl";
 import { ContextMenu, type ContextMenuOption } from "@astryxdesign/core/ContextMenu";
+import { TabList, Tab } from "@astryxdesign/core/TabList";
+import { Badge } from "@astryxdesign/core/Badge";
+import { TextInput } from "@astryxdesign/core/TextInput";
 import { painel } from "./painelComum";
 import {
   type Estudo,
@@ -432,29 +435,27 @@ export const FilaPage: React.FC = () => {
     <div className="flex flex-col h-full min-h-0 bg-background">
       {/* abas como as do Radius */}
       <div className="flex items-stretch gap-0.5 px-3 border-b border-mid-gray/20 bg-mid-gray/5">
-        {ABAS.map((a) => (
-          <button
-            key={a.id}
-            type="button"
-            onClick={() => setAba(a.id)}
-            className={`h-10 px-4 text-[13px] cursor-pointer border-b-2 ${
-              aba === a.id
-                ? "border-logo-primary text-text font-semibold bg-background"
-                : "border-transparent text-mid-gray hover:text-text"
-            }`}
-          >
-            {a.nome}
-            {a.id !== "estatistica" && (
-              <span className="ms-1 text-[11px] text-mid-gray">({conta(a.id)})</span>
-            )}
-          </button>
-        ))}
+        {/* fase 6: as abas são o TabList do Astryx; a contagem vai num Badge */}
+        <TabList value={aba} onChange={(v) => setAba(v as Aba)} size="sm">
+          {ABAS.map((a) => (
+            <Tab
+              key={a.id}
+              value={a.id}
+              label={a.nome}
+              endContent={a.id !== "estatistica" ? <Badge label={String(conta(a.id))} /> : undefined}
+            />
+          ))}
+        </TabList>
         <div className="ms-auto flex items-center gap-1.5">
-          <input
+          <TextInput
+            type="search"
+            label="Buscar paciente ou exame"
+            isLabelHidden
+            size="sm"
+            width={224}
             value={busca}
-            onChange={(e) => setBusca(e.target.value)}
+            onChange={(v) => setBusca(v)}
             placeholder="Buscar paciente ou exame"
-            className="h-7 w-56 rounded-md border border-mid-gray/30 bg-background px-2 text-[12px]"
           />
           <Button variant="secondary" size="sm" onClick={() => void abrirPasta()}>
             <span className="flex items-center gap-1.5">
