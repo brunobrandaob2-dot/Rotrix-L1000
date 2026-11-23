@@ -12,8 +12,9 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { RefreshCw, FolderOpen, Check } from "lucide-react";
-import { Button } from "../ui/Button";
+import { Botao as Button } from "./Botao"; // fase 6: o Button do Astryx
 import { Ajuda } from "./Dica";
+import { SegmentedControl, SegmentedControlItem } from "@astryxdesign/core/SegmentedControl";
 import { painel } from "./painelComum";
 import {
   type Estudo,
@@ -56,29 +57,19 @@ const daAba = (aba: Aba, e: Estudo): boolean => {
 
 const origem = (e: Estudo): string => (ehOutro(e) ? "Mobilemed / Downloads" : "E-Laudos");
 
+// 23/11 (fase 6): as escolhas do rodapé (visualizador, janela, E-Laudos,
+// Autoabrir) são o SegmentedControl do Astryx.
 const Seg: React.FC<{
   opcoes: [string, string][];
   valor: string;
   aoTrocar: (v: string) => void;
-}> = ({ opcoes, valor, aoTrocar }) => (
-  <div className="inline-flex">
-    {opcoes.map(([id, nome], i) => (
-      <button
-        key={id}
-        type="button"
-        onClick={() => aoTrocar(id)}
-        className={`h-7 px-3 text-[12px] border cursor-pointer -ms-px first:ms-0 ${
-          i === 0 ? "rounded-s-md" : ""
-        } ${i === opcoes.length - 1 ? "rounded-e-md" : ""} ${
-          valor === id
-            ? "bg-logo-primary border-logo-primary text-white relative"
-            : "border-mid-gray/30 text-mid-gray hover:text-text"
-        }`}
-      >
-        {nome}
-      </button>
+  rotulo: string;
+}> = ({ opcoes, valor, aoTrocar, rotulo }) => (
+  <SegmentedControl value={valor} onChange={aoTrocar} label={rotulo} size="sm">
+    {opcoes.map(([id, nome]) => (
+      <SegmentedControlItem key={id} value={id} label={nome} />
     ))}
-  </div>
+  </SegmentedControl>
 );
 
 export const FilaPage: React.FC = () => {
@@ -542,6 +533,7 @@ export const FilaPage: React.FC = () => {
               ]}
               valor={vis}
               aoTrocar={(v) => void trocarVisualizador(v)}
+              rotulo="Visualizador"
             />
           </div>
           <div className={`flex flex-col gap-1 ${vis === "radiowant" ? "" : "opacity-45"}`}>
@@ -556,6 +548,7 @@ export const FilaPage: React.FC = () => {
               ]}
               valor={janela}
               aoTrocar={(v) => void trocarJanela(v)}
+              rotulo="Janela do RadioWant"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -570,6 +563,7 @@ export const FilaPage: React.FC = () => {
               ]}
               valor={linksNoRotrix ? "rotrix" : "radius"}
               aoTrocar={(v) => void trocarLinks(v)}
+              rotulo="Quem baixa do E-Laudos"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -583,6 +577,7 @@ export const FilaPage: React.FC = () => {
                 ["sim", "Ligado"],
               ]}
               valor={auto ? "sim" : "nao"}
+              rotulo="Autoabrir"
               aoTrocar={(v) => {
                 setAuto(v === "sim");
                 ligarAutoabrir(v === "sim");

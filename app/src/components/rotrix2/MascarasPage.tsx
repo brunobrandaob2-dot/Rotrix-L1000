@@ -10,7 +10,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Mic, RefreshCw, Sparkles, Search, Check, Undo2, CornerDownLeft, Save } from "lucide-react";
-import { Button } from "../ui/Button";
+import { Botao as Button } from "./Botao"; // fase 6: o Button do Astryx
 import { useDitado } from "./useDitado";
 import { TextoDeLaudo } from "./TextoDeLaudo";
 import { gatilhosDaCaixa } from "./gatilhos";

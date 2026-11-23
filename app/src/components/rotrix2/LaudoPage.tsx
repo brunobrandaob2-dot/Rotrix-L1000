@@ -38,7 +38,7 @@ import {
   FileCheck2,
   ScanSearch,
 } from "lucide-react";
-import { Button } from "../ui/Button";
+import { Botao as Button } from "./Botao"; // fase 6: o Button do Astryx
 import { Dica } from "./Dica";
 import { textoEmHtml, htmlEmTexto, htmlEmMarcado, htmlDaFolha, copiarRico } from "./formatar";
 import { juntarNaFolha } from "./juntarEstrutura";

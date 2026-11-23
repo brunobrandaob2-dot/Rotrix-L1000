@@ -12,7 +12,7 @@
 // é uma imagem nova, feita aqui, não o arquivo que veio.
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { X, ImagePlus, Crop, Check } from "lucide-react";
-import { Button } from "../ui/Button";
+import { Botao as Button } from "./Botao"; // fase 6: o Button do Astryx
 
 interface Props {
   aberto: boolean;

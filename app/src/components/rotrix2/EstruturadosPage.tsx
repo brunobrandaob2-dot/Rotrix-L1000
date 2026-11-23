@@ -18,7 +18,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { LayoutGrid, CornerDownLeft, Copy, Trash2 } from "lucide-react";
-import { Button } from "../ui/Button";
+import { Botao as Button } from "./Botao"; // fase 6: o Button do Astryx
 import { htmlDeTexto, semMarcas, copiarRico } from "./formatar";
 import { LyonEstruturado } from "./LyonEstruturado";
 

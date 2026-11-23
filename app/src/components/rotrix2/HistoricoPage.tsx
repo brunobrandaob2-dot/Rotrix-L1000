@@ -14,7 +14,7 @@ import { Copy, FolderOpen, RefreshCw, Sparkles, Trash2, PenLine } from "lucide-r
 import { commands, events, type HistoryEntry } from "@/bindings";
 import { useOsType } from "@/hooks/useOsType";
 import { AudioPlayer, AudioPlayerGroup } from "../ui/AudioPlayer";
-import { Button } from "../ui/Button";
+import { Botao as Button } from "./Botao"; // fase 6: o Button do Astryx
 import { copyToClipboard } from "../settings/history/clipboard";
 import { TextoDeLaudo } from "./TextoDeLaudo";
 

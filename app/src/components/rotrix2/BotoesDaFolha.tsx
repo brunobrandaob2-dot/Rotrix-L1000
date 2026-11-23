@@ -15,7 +15,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Calculator, ChevronDown, ImagePlus, X } from "lucide-react";
-import { Button } from "../ui/Button";
+import { Botao as Button } from "./Botao"; // fase 6: o Button do Astryx
 import { ImagemNaFolha } from "./ImagemNaFolha";
 import { reduzirParaIA, motivoDaImagem } from "./imagemParaIA";
 import { motivoDoBloqueio } from "./bloqueio";

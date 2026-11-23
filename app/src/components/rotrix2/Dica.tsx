@@ -1,10 +1,15 @@
-/* eslint-disable i18next/no-literal-string */
-// Rotrix L-1000 v2 — balão de dica.
+// Rotrix L-1000 v2 — balão de dica e o "?" de ajuda.
 //
 // O `title` do HTML não aparece de forma confiável dentro do WebView2 (o motor
 // que o app usa no Windows): você deixa o mouse parado em cima do botão e não
-// vem nada. Então o balão é desenhado por nós.
-import React, { useRef, useState } from "react";
+// vem nada. 23/11 (fase 6): o balão agora é o Tooltip do Astryx — desenhado
+// pelo app, como antes, mas com o tema, a posição que não sai da tela, o
+// teclado (foco mostra o balão) e o Esc para fechar.
+import React from "react";
+import { CircleHelp } from "lucide-react";
+import { Tooltip } from "@astryxdesign/core/Tooltip";
+import { IconButton } from "@astryxdesign/core/IconButton";
+import { Kbd } from "@astryxdesign/core/Kbd";
 
 export const Dica: React.FC<{
   texto: string;
@@ -12,61 +17,36 @@ export const Dica: React.FC<{
   lado?: "baixo" | "cima";
   children: React.ReactNode;
 }> = ({ texto, atalho, lado = "baixo", children }) => {
-  const [aberto, setAberto] = useState(false);
-  const espera = useRef<number | null>(null);
-
-  const entrou = () => {
-    if (espera.current) window.clearTimeout(espera.current);
-    espera.current = window.setTimeout(() => setAberto(true), 350);
-  };
-  const saiu = () => {
-    if (espera.current) window.clearTimeout(espera.current);
-    setAberto(false);
-  };
-
+  if (!texto) return <>{children}</>;
   return (
-    <span
-      className="relative inline-flex"
-      onPointerEnter={entrou}
-      onPointerLeave={saiu}
-      onPointerDown={saiu}
+    <Tooltip
+      content={
+        atalho ? (
+          <>
+            {texto} <Kbd keys={atalho} />
+          </>
+        ) : (
+          texto
+        )
+      }
+      placement={lado === "cima" ? "above" : "below"}
+      delay={350}
+      hasHoverIndication={false}
     >
       {children}
-      {aberto && texto && (
-        <span
-          role="tooltip"
-          className={`pointer-events-none absolute z-50 start-1/2 -translate-x-1/2 w-max max-w-[260px] rounded-lg border border-mid-gray/30 bg-background px-2 py-1.5 text-[11px] leading-snug shadow-lg ${
-            lado === "cima" ? "bottom-full mb-1.5" : "top-full mt-1.5"
-          }`}
-        >
-          {texto}
-          {atalho && (
-            <span className="ms-1.5 rounded bg-mid-gray/20 px-1 py-0.5 text-[10px] font-semibold">
-              {atalho}
-            </span>
-          )}
-        </span>
-      )}
-    </span>
+    </Tooltip>
   );
 };
 
 // 22/11/2026 (v2): "essa informação não precisa estar escrita — um íconezinho de
 // interrogação, passo o mouse e aparece a caixinha". Explicação fica atrás do ?,
-// a tela fica só com o que importa.
+// a tela fica só com o que importa. (O InfoTip do Astryx usa um "i"; ele pediu "?".)
 export const Ajuda: React.FC<{ texto: string; lado?: "baixo" | "cima" }> = ({
   texto,
   lado = "baixo",
 }) => (
   <Dica texto={texto} lado={lado}>
-    <span
-      tabIndex={0}
-      role="img"
-      aria-label={texto}
-      className="ms-1.5 inline-grid h-4 w-4 place-items-center rounded-full border border-mid-gray/50 text-[10px] font-semibold leading-none text-mid-gray cursor-help hover:border-logo-primary hover:text-logo-primary align-middle"
-    >
-      ?
-    </span>
+    <IconButton label={texto} icon={<CircleHelp size={14} />} variant="ghost" size="sm" />
   </Dica>
 );
 

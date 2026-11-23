@@ -4,7 +4,7 @@
 // vivo, sem IA. "Pôr na folha" usa o mesmo aoInserir dos outros painéis.
 import React, { useMemo, useState } from "react";
 import { X } from "lucide-react";
-import { Button } from "../ui/Button";
+import { Botao as Button } from "./Botao"; // fase 6: o Button do Astryx
 import type { Calculadora, Tom, Valores } from "./calculadoras";
 
 const COR: Record<Tom, string> = {
