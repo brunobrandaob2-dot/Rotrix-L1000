@@ -303,6 +303,16 @@ class Fila:
                 self.salvar()
         return {"ok": True}
 
+    def esquecer(self, id_curto):
+        """Tira a linha da fila (o arquivo baixado, se houver, fica)."""
+        with self.trava:
+            d = self._achar(id_curto)
+            if not d or d["Id"] in self.rodando:
+                return {"ok": False, "motivo": "nao_achado"}
+            self.itens.remove(d)
+            self.salvar()
+        return {"ok": True}
+
     def repetir(self, id_curto):
         with self.trava:
             d = self._achar(id_curto)
@@ -469,6 +479,8 @@ def rota(acao, corpo, pasta=None):
         return fila.cancelar(str(corpo.get("id") or ""))
     if acao == "repetir":
         return fila.repetir(str(corpo.get("id") or ""))
+    if acao == "esquecer":
+        return fila.esquecer(str(corpo.get("id") or ""))
     if acao == "ligar":
         return atender_no_rotrix()
     if acao == "desligar":

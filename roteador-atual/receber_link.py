@@ -41,15 +41,30 @@ def ligar_roteador():
                      stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
+def anotar(o_que):
+    """Uma linha por link que o Windows entregou: só a hora e o que aconteceu
+    (nunca o token). Serve para saber se o clique no E-Laudos chegou aqui."""
+    try:
+        pasta = os.path.join(AQUI, "dados")
+        os.makedirs(pasta, exist_ok=True)
+        with open(os.path.join(pasta, "receber_link.log"), "a", encoding="utf-8") as f:
+            f.write("%s  %s\n" % (time.strftime("%Y-%m-%d %H:%M:%S"), o_que))
+    except OSError:
+        pass
+
+
 def main(args):
     uri = (args[0] if args else "").strip()
     if not _URI.match(uri):
+        anotar("link recusado (formato diferente do E-Laudos)")
         return 2
     try:
         if entregar(uri):
+            anotar("link entregue ao roteador")
             return 0
     except Exception:
         pass
+    anotar("roteador fechado: link guardado e roteador ligado")
     guardar(uri)
     try:
         ligar_roteador()

@@ -358,7 +358,7 @@ def _ler_fila(arqs, contar=True):
                 "id": _codigo(d, sal),
                 "modalidade": _limpo(_valor(d, "modality"), sens).upper(),
                 "descricao": _limpo(_valor(d, "studydescription"), sens),
-                "status": _limpo(_valor(d, "status"), sens),
+                "status": status_pt(_limpo(_valor(d, "status"), sens)),
                 "laudado": _laudado(_valor(d, "isreported")),
                 "entrou": _quando(_valor(d, "queueenteredat")),
                 "iniciais": iniciais(_valor(d, "patientname")),
@@ -396,6 +396,17 @@ def _ler_fila(arqs, contar=True):
     fila = list(itens.values())
     fila.sort(key=lambda x: (bool(x["laudado"]), x["entrou"] or ""))
     return fila
+
+
+# 23/11: o Radius grava o status em ingles ("Ready") e a fila mostrava assim
+_STATUS_PT = {"ready": "Pronto", "queued": "Na fila", "downloading": "Baixando",
+              "failed": "Falhou", "interrupted": "Interrompido", "cancelled": "Cancelado",
+              "canceled": "Cancelado", "cancelling": "Cancelando", "missing": "Arquivo sumiu",
+              "opened": "Aberto", "downloaded": "Pronto"}
+
+
+def status_pt(s):
+    return _STATUS_PT.get(str(s or "").strip().lower(), s)
 
 
 def atual(fila):
@@ -529,7 +540,7 @@ def diagnostico(pasta):
         if est:
             fila = [{"modalidade": _limpo(_valor(d, "modality"), sens).upper(),
                      "descricao": _limpo(_valor(d, "studydescription"), sens),
-                     "status": _limpo(_valor(d, "status"), sens),
+                     "status": status_pt(_limpo(_valor(d, "status"), sens)),
                      "laudado": _laudado(_valor(d, "isreported")),
                      "entrou": re.sub(r"\d", "9", str(_valor(d, "queueenteredat") or ""))[:40]} for d in est]
             linhas.append("  Modality: " + _contagem([x["modalidade"] for x in fila]))
