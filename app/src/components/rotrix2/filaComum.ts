@@ -23,6 +23,8 @@ export interface Estudo {
   feito?: boolean;
   arquivos?: number;
   bytes?: number;
+  /** quem está baixando (23/11): o Rotrix pode cancelar e repetir; o Radius não */
+  baixa_por?: "rotrix" | "radius";
 }
 
 export type Visualizador = "radiant" | "radiowant";
@@ -54,6 +56,8 @@ export const pronto = (e: Estudo): boolean => Boolean(e.feito || e.laudado);
 /** Ainda baixando? 22/11: era /baix/ e pegava "baixado por fora" (os ZIPs
  *  soltos de Downloads) — todos ficavam sem o botão Abrir. */
 export const baixando = (e: Estudo): boolean => /baixando/i.test(e.status || "");
+/** 23/11: baixando OU esperando a vez (ainda não dá para abrir) */
+export const emAndamento = (e: Estudo): boolean => /^(baixando|na fila)/i.test(e.status || "");
 /** veio do E-Laudos (Radius) ou é um ZIP solto (Mobilemed e outros)? */
 export const ehOutro = (e: Estudo): boolean => e.origem === "pasta";
 
@@ -76,10 +80,15 @@ export const tamanho = (bytes?: number): string => {
   return mb >= 1024 ? `${(mb / 1024).toFixed(1).replace(".", ",")} GB` : `${Math.round(mb)} MB`;
 };
 
+// 23/11: enquanto baixa, o cabeçalho DICOM ainda não foi lido: como no Radius,
+// "Baixando…" no lugar do nome e o exame em branco
 export const nomeDoExame = (e: Estudo): string =>
-  e.descricao || e.cabecalho || (ehOutro(e) ? "ZIP baixado por fora" : "exame sem descrição");
+  e.descricao ||
+  e.cabecalho ||
+  (emAndamento(e) ? "" : ehOutro(e) ? "ZIP baixado por fora" : "exame sem descrição");
 
-export const nomeDoPaciente = (e: Estudo): string => e.nome || e.iniciais || "—";
+export const nomeDoPaciente = (e: Estudo): string =>
+  e.nome || e.iniciais || (emAndamento(e) ? "Baixando…" : "—");
 
 /** grava no config.json a escolha do visualizador e/ou da janela do RadioWant */
 export const salvarVisualizador = async (ajuste: {

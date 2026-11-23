@@ -15,6 +15,7 @@ import { RefreshCw, FolderOpen, Check } from "lucide-react";
 import { Botao as Button } from "./Botao"; // fase 6: o Button do Astryx
 import { Ajuda } from "./Dica";
 import { SegmentedControl, SegmentedControlItem } from "@astryxdesign/core/SegmentedControl";
+import { ContextMenu, type ContextMenuOption } from "@astryxdesign/core/ContextMenu";
 import { painel } from "./painelComum";
 import {
   type Estudo,
@@ -23,7 +24,7 @@ import {
   type JanelaRW,
   lerFila,
   pronto,
-  baixando,
+  emAndamento,
   ehOutro,
   hora,
   dia,
@@ -111,7 +112,8 @@ export const FilaPage: React.FC = () => {
         };
         if (!vivo || !r.ok) return;
         setEl(r);
-        if ((r.baixando?.length || 0) + (r.na_fila || 0) > 0) setFila(await lerFila());
+        // download andando (pelo Rotrix ou pelo Radius): a linha mostra MB e velocidade
+        if ((r.baixando?.length || 0) + (r.na_fila || 0) > 0 || andando.current) setFila(await lerFila());
       } catch {
         /* roteador antigo (sem a fase 4) ou parado */
       }
@@ -123,6 +125,10 @@ export const FilaPage: React.FC = () => {
       clearInterval(t);
     };
   }, []);
+  const andando = useRef(false);
+  useEffect(() => {
+    andando.current = Boolean(fila?.itens.some(emAndamento));
+  }, [fila]);
   const linksNoRotrix = el?.atende === "rotrix";
   const trocarLinks = async (v: string) => {
     try {
@@ -267,6 +273,41 @@ export const FilaPage: React.FC = () => {
     setAviso(ids.length > 1 && r.ok ? `${r.frase}, juntos na mesma janela` : r.frase);
   };
 
+  // 23/11: botão direito no exame, como no Radius: Abrir, Marcar como laudado
+  // (ou desmarcar) e Remover exame e arquivo (pergunta antes, no rodapé)
+  const [alvoMenu, setAlvoMenu] = useState<Estudo | null>(null);
+  const desmarcarLaudado = async (id: string) => {
+    try {
+      await invoke<string>("rotrix_fila_feito", { id, feito: false });
+      setAviso("voltou para a fila (não laudado)");
+      await ler();
+    } catch (e) {
+      setAviso(String(e));
+    }
+  };
+  const opcoesDoMenu: ContextMenuOption[] = alvoMenu
+    ? [
+        { label: "Abrir", isDisabled: emAndamento(alvoMenu), onClick: () => void abrir(alvoMenu.id) },
+        pronto(alvoMenu)
+          ? { label: "Desmarcar laudado", onClick: () => void desmarcarLaudado(alvoMenu.id) }
+          : {
+              label: "Marcar como laudado",
+              isDisabled: emAndamento(alvoMenu),
+              onClick: () => void marcarLaudados([alvoMenu.id], "marcado como laudado"),
+            },
+        { type: "divider" },
+        {
+          label: "Remover exame e arquivo",
+          variant: "destructive",
+          isDisabled: emAndamento(alvoMenu),
+          onClick: () => {
+            setMarcados([alvoMenu.id]);
+            setConfirmar("marcados");
+          },
+        },
+      ]
+    : [{ label: "Atualizar a lista", onClick: () => void ler() }];
+
   const marcarLaudados = async (ids: string[], frase: string) => {
     if (!ids.length) {
       setAviso("marque os exames primeiro");
@@ -400,6 +441,7 @@ export const FilaPage: React.FC = () => {
         ) : itens.length === 0 ? (
           <p className="p-4 text-sm text-mid-gray">Nenhum exame nesta aba.</p>
         ) : (
+          <ContextMenu items={opcoesDoMenu} label="Ações do exame" menuWidth="220px" size="sm">
           <table className="w-full text-[13px] select-none">
             <thead className="sticky top-0 bg-background z-10">
               <tr className="text-[10px] uppercase tracking-wide text-mid-gray border-b border-mid-gray/20">
@@ -423,20 +465,21 @@ export const FilaPage: React.FC = () => {
                 <th className="w-14 text-start font-medium">mod.</th>
                 <th className="text-start font-medium">exame</th>
                 <th className="w-24 text-start font-medium">tamanho</th>
-                <th className="w-28 text-start font-medium">status</th>
+                <th className="w-52 text-start font-medium">status</th>
               </tr>
             </thead>
             <tbody>
               {itens.map((i) => {
                 const marcado = marcados.includes(i.id);
                 const vez = i.id === daVez;
-                const emDownload = baixando(i);
+                const emDownload = emAndamento(i);
                 return (
                   <tr
                     key={i.id}
                     onMouseDown={(e) => aoApertar(e, i.id)}
                     onMouseEnter={() => aoPassar(i.id)}
-                    onDoubleClick={() => void abrir(i.id)}
+                    onDoubleClick={() => !emDownload && void abrir(i.id)}
+                    onContextMenu={() => setAlvoMenu(i)}
                     className={`border-b border-mid-gray/10 cursor-default ${
                       marcado ? "bg-logo-primary/15" : vez ? "bg-logo-primary/8" : "hover:bg-mid-gray/8"
                     }`}
@@ -455,7 +498,9 @@ export const FilaPage: React.FC = () => {
                       {hora(i.entrou)}
                     </td>
                     <td>
-                      {emDownload ? (
+                      {emDownload && i.baixa_por !== "rotrix" ? (
+                        <span className="text-[11px] text-amber-600">Radius</span>
+                      ) : emDownload ? (
                         <button
                           type="button"
                           data-abrir
@@ -493,7 +538,7 @@ export const FilaPage: React.FC = () => {
                       {nomeDoExame(i)}
                     </td>
                     <td className="text-mid-gray tabular-nums text-[12px]">{tamanho(i.bytes)}</td>
-                    <td className={`text-[12px] ${pronto(i) ? "text-emerald-600" : emDownload ? "text-amber-600" : ""}`}>
+                    <td className={`text-[12px] whitespace-nowrap ${pronto(i) ? "text-emerald-600" : emDownload ? "text-amber-600" : ""}`}>
                       {vez && !pronto(i) ? "da vez" : pronto(i) ? "Laudado" : i.status || "Pronto"}
                     </td>
                   </tr>
@@ -501,6 +546,7 @@ export const FilaPage: React.FC = () => {
               })}
             </tbody>
           </table>
+          </ContextMenu>
         )}
       </div>
 

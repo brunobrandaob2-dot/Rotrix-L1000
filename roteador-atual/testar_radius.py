@@ -54,7 +54,7 @@ def _real(nome, acesso, mod, desc, status, laudado, quando, com_status=True):
     d = {"AccessionNumber": acesso, "CompletedAt": quando, "CreatedAt": quando,
          "FilePath": "C:\\Users\\x\\Downloads\\Radius Downloads\\%s %s\\estudo.zip" % (nome, acesso),
          "Id": "id-" + acesso, "IsReported": laudado, "Modality": mod, "PatientName": nome,
-         "QueueEnteredAt": quando, "Sequence": 3, "SizeBytes": 123456789,
+         "QueueEnteredAt": quando, "Sequence": 3, "SizeBytes": 52428800,
          "StudyDescription": desc, "StudyInstanceUID": "1.2.840.99999." + acesso}
     if com_status:
         d.update({"Status": status, "Token": "SEGREDO-" + acesso, "ComboGroupId": "g1", "Error": ""})
@@ -328,6 +328,44 @@ def main():
         por = {it["descricao"]: it["origem"] for it in radius.ler_fila(base)}
         if por != {"COLUNA": "radius", "TC DE TORAX": "pasta", "TC DE CRANIO": "pasta"}:
             falhas.append("Outros DICOMs do Radius foram para a aba errada: %r" % por)
+    finally:
+        radius._CACHE["chave"] = None
+        shutil.rmtree(base, ignore_errors=True)
+    # 23/11: download em andamento como no Radius (Baixando · MB · MB/s), medindo o .part
+    base = tempfile.mkdtemp()
+    try:
+        radius._CACHE["chave"] = None
+        studies = os.path.join(base, "Studies")
+        os.makedirs(studies)
+        baixando = _real("", "777", "", "", "Queued", False, "2026-11-23T03:37:30")
+        baixando["FilePath"] = os.path.join(studies, "abc.zip")
+        baixando["SizeBytes"] = 0
+        pronto = _real("FULANO", "888", "CT", "TC", "Ready", False, "2026-11-23T03:16:38")
+        pronto["SizeBytes"] = 160 * 1048576
+        with open(os.path.join(base, "state.beta-v3.json"), "w", encoding="utf-8") as f:
+            json.dump([baixando, pronto], f)
+        f1 = {it["entrou"][:16]: it for it in radius.ler_fila(base)}
+        if f1["2026-11-23T03:37"]["status"] != "Na fila":
+            falhas.append("sem .part ainda: devia ser Na fila, veio %r" % f1["2026-11-23T03:37"]["status"])
+        if f1["2026-11-23T03:16"].get("bytes") != 160 * 1048576:
+            falhas.append("o tamanho do Radius (SizeBytes) não chegou: %r" % f1["2026-11-23T03:16"].get("bytes"))
+        with open(os.path.join(studies, "abc.zip.part"), "wb") as f:
+            f.write(b"\0" * (30 * 1048576))
+        idb = f1["2026-11-23T03:37"]["id"]
+        radius._VELOCIDADE.pop(idb, None)
+        from unittest import mock
+        with mock.patch.object(radius.time, "time", return_value=1000.0):
+            f2 = {it["entrou"][:16]: it for it in radius.ler_fila(base)}
+        if f2["2026-11-23T03:37"]["status"] != "Baixando · 30 MB" or f2["2026-11-23T03:37"]["bytes"] != 30 * 1048576:
+            falhas.append("andamento: esperava 'Baixando · 30 MB', veio %r" % f2["2026-11-23T03:37"]["status"])
+        with open(os.path.join(studies, "abc.zip.part"), "ab") as f:
+            f.write(b"\0" * (4 * 1048576))
+        with mock.patch.object(radius.time, "time", return_value=1002.0):
+            f3 = {it["entrou"][:16]: it for it in radius.ler_fila(base)}
+        if f3["2026-11-23T03:37"]["status"] != "Baixando · 34 MB · 2,0 MB/s":
+            falhas.append("velocidade: esperava 'Baixando · 34 MB · 2,0 MB/s', veio %r" % f3["2026-11-23T03:37"]["status"])
+        if f3["2026-11-23T03:37"].get("baixa_por") != "radius":
+            falhas.append("quem baixa devia ser o Radius: %r" % f3["2026-11-23T03:37"].get("baixa_por"))
     finally:
         radius._CACHE["chave"] = None
         shutil.rmtree(base, ignore_errors=True)

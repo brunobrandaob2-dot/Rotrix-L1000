@@ -301,7 +301,7 @@ def ler_fila(pasta, extras=()):
             pass
     chave = tuple(chave)
     if chave == _CACHE["chave"]:
-        return [dict(x) for x in _CACHE["fila"]]
+        return andamento_ao_vivo([dict(x) for x in _CACHE["fila"]])
     fila = _ler_fila(arqs)
     try:
         fila = fila + soltos(pasta, fila)
@@ -320,7 +320,47 @@ def ler_fila(pasta, extras=()):
         x.pop("_mtime", None)
     fila.sort(key=lambda x: (bool(x["laudado"]), x["entrou"] or ""))
     _CACHE.update(chave=chave, fila=fila)
-    return [dict(x) for x in fila]
+    return andamento_ao_vivo([dict(x) for x in fila])
+
+
+# ---------------------------------------------------------------------------
+# 23/11: download em andamento como no Radius — "Baixando · 71 MB · 2 MB/s".
+# O estado (do Radius ou do Rotrix) não guarda o quanto já veio; o que cresce
+# é o arquivo .part ao lado do .zip. A fila mede esse arquivo a cada leitura
+# (fora do cache: o .part cresce sem mudar o arquivo de estado).
+# ---------------------------------------------------------------------------
+_PARTES = {}        # id do estudo -> (caminho do .part, % que o estado já sabe)
+_VELOCIDADE = {}    # id -> (instante, bytes, bytes/s)
+_EM_ANDAMENTO = re.compile(r"^(baixando|na fila|downloading|queued)", re.I)
+
+
+def _mb(n):
+    return ("%.0f" % (n / 1048576.0)) if n >= 10 * 1048576 else ("%.1f" % (n / 1048576.0)).replace(".", ",")
+
+
+def andamento_ao_vivo(fila, agora=None):
+    agora = time.time() if agora is None else agora
+    for x in fila:
+        info = _PARTES.get(x["id"])
+        if not info:
+            continue
+        parte, pct = info
+        try:
+            n = os.path.getsize(parte)
+        except OSError:
+            continue                    # ainda não começou: fica "Na fila"
+        ant = _VELOCIDADE.get(x["id"])
+        vel = ant[2] if ant else 0.0
+        if ant and agora - ant[0] >= 0.8:
+            vel = max(0.0, (n - ant[1]) / (agora - ant[0]))
+        if not ant or agora - ant[0] >= 0.8:
+            _VELOCIDADE[x["id"]] = (agora, n, vel)
+        partes = ["Baixando" + (" " + pct if pct else ""), "%s MB" % _mb(n)]
+        if vel > 0:
+            partes.append("%s MB/s" % _mb(vel))
+        x["status"] = " · ".join(partes)
+        x["bytes"] = n
+    return fila
 
 
 def _quando(v):
@@ -338,6 +378,7 @@ _VISTOS = {"status": {}, "com_descricao": 0, "sem_descricao": 0, "leituras": 0}
 def _ler_fila(arqs, contar=True):
     sal = _sal()
     itens = {}
+    _PARTES.clear()
     for arq in arqs:
         if eh_copia(arq):
             continue
@@ -360,6 +401,8 @@ def _ler_fila(arqs, contar=True):
                 "descricao": _limpo(_valor(d, "studydescription"), sens),
                 "status": status_pt(_limpo(_valor(d, "status"), sens)),
                 "laudado": _laudado(_valor(d, "isreported")),
+                # quem baixa: o Rotrix (state.rotrix.json) pode cancelar e repetir
+                "baixa_por": "rotrix" if fonte.lower() == "state.rotrix.json" else "radius",
                 "entrou": _quando(_valor(d, "queueenteredat")),
                 "iniciais": iniciais(_valor(d, "patientname")),
                 # nome inteiro, para a tela DELE. Ver nome_paciente() para o
@@ -369,6 +412,19 @@ def _ler_fila(arqs, contar=True):
                 "principal": principal,
                 "fonte": fonte,
             }
+            try:
+                tam = int(_valor(d, "sizebytes") or 0)
+            except (TypeError, ValueError):
+                tam = 0
+            if tam > 0:
+                item["bytes"] = tam
+            if _EM_ANDAMENTO.match(item["status"] or ""):
+                cam = [c for c in _caminhos_no_estudo(d) if str(c).lower().endswith(".zip")]
+                temp = str(_valor(d, "temppath") or "")
+                parte = temp if temp.lower().endswith(".part") else (cam[0] + ".part" if cam else "")
+                if parte:
+                    m = re.search(r"\d{1,3}%", item["status"])
+                    _PARTES[item["id"]] = (os.path.expandvars(parte), m.group(0) if m else "")
             if principal and contar:
                 st = item["status"][:30]
                 _VISTOS["status"][st] = _VISTOS["status"].get(st, 0) + 1

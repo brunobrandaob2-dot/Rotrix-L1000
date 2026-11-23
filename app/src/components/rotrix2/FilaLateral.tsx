@@ -18,7 +18,7 @@ import {
   type Visualizador,
   lerFila,
   pronto,
-  baixando,
+  emAndamento,
   ehOutro,
   hora,
   nomeDoExame,
@@ -219,13 +219,13 @@ export const FilaLateral: React.FC<Props> = ({ modo, aberta, aoMostrar, aoTrocar
           itens.map((i) => {
             const m = marcados.includes(i.id);
             const vez = i.id === daVez;
-            const emDownload = baixando(i);
+            const emDownload = emAndamento(i);
             return (
               <div
                 key={i.id}
                 onMouseDown={(e) => apertar(e, i.id)}
                 onMouseEnter={() => passar(i.id)}
-                onDoubleClick={() => void abrir(i.id)}
+                onDoubleClick={() => !emDownload && void abrir(i.id)}
                 className={`grid grid-cols-[16px_40px_52px_minmax(0,1fr)] gap-2 items-center px-3 h-11 border-b border-mid-gray/10 text-[12px] ${
                   m ? "bg-logo-primary/15" : vez ? "bg-logo-primary/8" : "hover:bg-mid-gray/8"
                 }`}
