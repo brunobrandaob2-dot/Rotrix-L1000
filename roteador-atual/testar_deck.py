@@ -105,7 +105,11 @@ G.perfil["x1"], G.pagina["x1"] = 0, 1
 painel._ao_evento(falso, "b2", "tecla", True)  # b2 = Próximo perfil
 confere("botão C (Próximo perfil) leva ao perfil 2, página 1", (G.perfil["x1"], G.pagina["x1"]) == (1, 0),
         (G.perfil["x1"], G.pagina["x1"]))
+painel._ao_evento(falso, "b2", "tecla", True)  # segurando: o aparelho repete o "apertou"
 painel._ao_evento(falso, "b2", "tecla", True)
+confere("segurar a tecla não repete a ação (o Colar colava 4 vezes)", G.perfil["x1"] == 1, G.perfil["x1"])
+painel._ao_evento(falso, "b2", "tecla", False)  # soltou
+painel._ao_evento(falso, "b2", "tecla", True)  # toque novo
 confere("depois do último perfil volta ao primeiro", G.perfil["x1"] == 0)
 cfg3["aparelhos"]["akp03e"]["perfis"][0]["paginas"][0]["m"]["g1"] = {"girar": "perfil", "clique": ""}
 painel._ao_evento(falso, "g1", "girar-", True)
@@ -120,6 +124,19 @@ confere("perfil que não existe: avisa", not r["ok"], r)
 G.pagina["x1"] = 0
 r = painel._acao_aparelho({"nome": "Pág", "comando": "pagina_anterior"})
 confere("página anterior da primeira vai para a última do perfil", r["ok"] and G.pagina["x1"] == 1, G.pagina)
+
+# a regra do toque, sozinha
+painel._DECK["segurando"].clear()
+f = painel.aperto_novo
+confere("1º apertou conta", f("x", "k0", "tecla", True, 100.0))
+confere("repetição segurando não conta", not f("x", "k0", "tecla", True, 100.1) and not f("x", "k0", "tecla", True, 100.9))
+confere("soltou não é ação", not f("x", "k0", "tecla", False, 101.0))
+confere("depois de soltar, conta de novo", f("x", "k0", "tecla", True, 101.1))
+confere("soltou perdido: depois de uma pausa, conta", f("x", "k0", "tecla", True, 103.0))
+confere("outra tecla não é afetada", f("x", "k1", "tecla", True, 103.05))
+confere("giratório continua repetindo", f("x", "g0", "girar+", True, 103.1) and f("x", "g0", "girar+", True, 103.15))
+confere("o estado mostra os últimos eventos (para conferir o aparelho)",
+        any(r[1:5] == ["b2", "tecla", True, False] for r in painel._DECK["recentes"]))  # a repetição fica registrada, sem virar ação
 
 print("\ndeck: %s" % ("tudo certo" if not falhas else "%d falha(s)" % falhas))
 sys.exit(1 if falhas else 0)

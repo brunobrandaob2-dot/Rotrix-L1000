@@ -1483,6 +1483,29 @@ fn devolver_foco() -> bool {
     false
 }
 
+/// A janela da frente e do Rotrix? (pelo processo dono dela)
+/// 23/11: o "Colar no RIS" do Stream Deck chega com o RIS na frente, nao o Rotrix.
+/// Sem esta pergunta o colar achava que a da frente era a nossa: passava o foco
+/// para a janela de TRAS do RIS (colava no lugar errado) ou minimizava o Rotrix.
+#[cfg(windows)]
+fn rotrix_na_frente() -> bool {
+    use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, GetWindowThreadProcessId};
+    unsafe {
+        let h = GetForegroundWindow();
+        if h.0.is_null() {
+            return false;
+        }
+        let mut pid: u32 = 0;
+        GetWindowThreadProcessId(h, Some(&mut pid as *mut u32));
+        pid == std::process::id()
+    }
+}
+
+#[cfg(not(windows))]
+fn rotrix_na_frente() -> bool {
+    true
+}
+
 /// Cola o texto na janela que estava na frente antes do Rotrix.
 ///
 /// Primeiro tenta so devolver o foco para a janela de tras (o app fica visivel,
@@ -1495,7 +1518,9 @@ pub fn rotrix_colar(app: AppHandle, texto: String) -> Result<(), String> {
     if texto.trim().is_empty() {
         return Err("nada para colar".to_string());
     }
-    if !devolver_foco() {
+    // Rotrix fora da frente (o pedido veio do Stream Deck com o RIS aberto): cola
+    // ali mesmo, onde ele esta, sem mexer em janela nenhuma
+    if rotrix_na_frente() && !devolver_foco() {
         if let Some(janela) = app.get_webview_window("main") {
             let _ = janela.minimize();
         }

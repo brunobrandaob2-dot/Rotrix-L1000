@@ -1223,7 +1223,28 @@ def rodinha(passos, com_ctrl=False):
 # ---------------------------------------------------------------------------
 # Fase 3: o aparelho físico (deck.py) ligado às teclas do Painel
 # ---------------------------------------------------------------------------
-_DECK = {"gerente": None, "fila": [], "ultimo": None, "trava": threading.Lock(), "voltar_para": {}}
+_DECK = {"gerente": None, "fila": [], "ultimo": None, "trava": threading.Lock(), "voltar_para": {},
+         "segurando": {}, "recentes": []}
+# 23/11: o "Colar no RIS" do aparelho colava 4 vezes ou mais. Segurando a tecla, o
+# aparelho repete o "apertou"; cada repetição virava uma ação. Agora um toque é uma
+# ação: outro "apertou" da mesma tecla só conta depois de soltar (ou de uma pausa,
+# caso o "soltou" se perca). Os giratórios continuam repetindo — girar é repetir.
+REPETICAO_S = 1.2
+
+
+def aperto_novo(chave, slot, tipo, apertado, agora=None):
+    """True quando este evento deve virar ação (filtra a repetição de tecla segurada)."""
+    agora = time.time() if agora is None else agora
+    if tipo.startswith("girar"):
+        return True
+    k = (chave, slot)
+    seg = _DECK["segurando"]
+    if not apertado:
+        seg.pop(k, None)
+        return False
+    ultimo = seg.get(k)
+    seg[k] = agora
+    return ultimo is None or agora - ultimo > REPETICAO_S
 
 
 def _cfg_aparelho(modelo_id):
@@ -1334,9 +1355,14 @@ def _multi(cfg, t, modelo_id=None, chave=None):
 
 def _ao_evento(ap, slot, tipo, apertado):
     """Um aperto/giro no aparelho -> a ação mapeada no Painel."""
-    _DECK["ultimo"] = {"chave": ap.chave, "slot": slot, "tipo": tipo, "apertado": apertado, "em": time.time()}
-    if not apertado:
+    agora = time.time()
+    novo = aperto_novo(ap.chave, slot, tipo, apertado, agora)
+    # os últimos eventos crus (só tecla e tempo), para conferir o aparelho
+    _DECK["recentes"].append([round(agora, 3), slot, tipo, bool(apertado), novo])
+    del _DECK["recentes"][:-40]
+    if not novo:
         return
+    _DECK["ultimo"] = {"chave": ap.chave, "slot": slot, "tipo": tipo, "apertado": apertado, "em": agora}
     cfg, a = _cfg_aparelho(ap.modelo["id"])
     if not a:
         return
@@ -1460,6 +1486,7 @@ def deck_rota(acao, corpo):
     if acao == "deck_estado":
         e = g.estado()
         e["ok"] = True
+        e["recentes"] = list(_DECK["recentes"])
         return e
     if acao == "deck_imagens":
         n = g.receber_imagens(str(corpo.get("modelo") or ""), corpo.get("paginas") or {})
@@ -1492,6 +1519,8 @@ def deck_rota(acao, corpo):
             g.pagina["simulado"] = int(corpo.get("pagina") or 0)
         except (TypeError, ValueError):
             pass
+        # cada clique em "Apertar (simular)" é um toque novo (não existe o "soltou")
+        _DECK["segurando"].pop(("simulado", str(corpo.get("slot") or "")), None)
         _ao_evento(_Falso(), str(corpo.get("slot") or ""), str(corpo.get("tipo") or "tecla"), True)
         return {"ok": True}
     return {"ok": False, "motivo": "acao_desconhecida"}
