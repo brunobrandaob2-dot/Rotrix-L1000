@@ -51,10 +51,9 @@ const casos: [boolean, string][] = [
     "Máscaras: Salvar grava pela oficina (acao editar)",
   ],
   [
-    /aria-label="IA do botão leve"/.test(laudo) &&
-      /onChange=\{\(e\) => aoTrocarModeloLeve\(e\.target\.value\)\}/.test(
-        laudo,
-      ),
+    // 23/11 (fase 6): o seletor é o Selector do Astryx (antes um <select>)
+    /label="IA do botão leve"/.test(laudo) &&
+      /onChange=\{\(v\) => v != null && aoTrocarModeloLeve\(v\)\}/.test(laudo),
     "Laudo: o seletor do leve existe e troca",
   ],
   [

@@ -25,7 +25,9 @@ const casos: [boolean, string][] = [
     "sem roteador: a fala vai para a IA como ditado e não entra na folha"],
   [/listen<string>\("rotrix-ditado-cru"/.test(laudo) && /rodarIA\(\{ ditado: falaCrua, roteado: true \}\)/.test(laudo),
     "com roteador: a IA recebe a fala crua e sabe que o roteador passou"],
-  [/role="switch"/.test(laudo) && /GUARDADO_ROTEADOR/.test(laudo), "o switch existe e fica guardado"],
+  // 23/11 (fase 6): o interruptor é o Switch do Astryx (antes um <button role="switch">)
+  [/<Switch label="roteador" value=\{comRoteador\} onChange=\{\(\) => trocarRoteador\(\)\}/.test(laudo) &&
+    /GUARDADO_ROTEADOR/.test(laudo), "o switch existe e fica guardado"],
   [/if \(!texto && !ditado\)/.test(laudo), "folha vazia + ditado não é 'folha vazia'"],
   [/ditado: Option<String>/.test(rust) && /"ditado": ditado\.unwrap_or_default\(\)/.test(rust)
     && /"roteado": roteado\.unwrap_or\(false\)/.test(rust), "o comando do app leva ditado e roteado ao roteador"],

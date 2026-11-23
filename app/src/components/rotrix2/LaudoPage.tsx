@@ -39,6 +39,9 @@ import {
   ScanSearch,
 } from "lucide-react";
 import { Botao as Button } from "./Botao"; // fase 6: o Button do Astryx
+import { IconButton } from "@astryxdesign/core/IconButton";
+import { Selector } from "@astryxdesign/core/Selector";
+import { Switch } from "@astryxdesign/core/Switch";
 import { Dica } from "./Dica";
 import { textoEmHtml, htmlEmTexto, htmlEmMarcado, htmlDaFolha, copiarRico } from "./formatar";
 import { juntarNaFolha } from "./juntarEstrutura";
@@ -201,30 +204,20 @@ const Fer: React.FC<{
   onPointerDown?: () => void;
   onPointerUp?: () => void;
   children: React.ReactNode;
-}> = ({ titulo, atalho, ativo, tom = "normal", children, ...ev }) => {
-  const cor =
-    tom === "vermelho"
-      ? "bg-red-500 border-red-500 text-white hover:bg-red-600"
-      : tom === "ciano"
-        ? "bg-logo-primary border-logo-primary text-white hover:opacity-90"
-        : tom === "azul"
-          ? "bg-background-ui border-background-ui text-white hover:opacity-90"
-          : ativo
-            ? "bg-logo-primary/25 border-logo-primary/40"
-            : "bg-background border-mid-gray/25 hover:bg-mid-gray/10";
-  return (
-    <Dica texto={titulo} atalho={atalho}>
-      <button
-        type="button"
-        aria-label={titulo}
-        className={`h-8 w-8 shrink-0 rounded-lg border flex items-center justify-center transition-colors cursor-pointer ${cor}`}
-        {...ev}
-      >
-        {children}
-      </button>
-    </Dica>
-  );
-};
+}> = ({ titulo, atalho, ativo, tom = "normal", children, ...ev }) => (
+  // fase 6: o IconButton do Astryx. Vermelho (gravando, apagar) = destrutivo;
+  // ditado e o que está ligado = principal; o resto = secundário. O balão com
+  // o atalho continua sendo a Dica (Tooltip do Astryx).
+  <Dica texto={titulo} atalho={atalho}>
+    <IconButton
+      label={titulo}
+      icon={children}
+      size="sm"
+      variant={tom === "vermelho" ? "destructive" : tom !== "normal" || ativo ? "primary" : "secondary"}
+      {...ev}
+    />
+  </Dica>
+);
 
 const Sep = () => <span className="h-5 w-px bg-mid-gray/25 mx-1 shrink-0" />;
 
@@ -881,21 +874,21 @@ export const LaudoPage: React.FC<Props> = ({
               'Qual IA o botão leve usa quando você diz "revisar…", "analisar…" ou "formar laudo com IA" (sem esses comandos o leve monta pela máscara, sem IA). Nos exames com regra na tabela de Configurações, a tabela manda.'
             }
           >
-            <select
-              value={idModeloLeve}
-              onChange={(e) => aoTrocarModeloLeve(e.target.value)}
-              aria-label="IA do botão leve"
-              className="h-7 me-1 rounded-lg border border-mid-gray/25 bg-background text-xs px-1 cursor-pointer"
-            >
-              {idModeloLeve !== "" && !modelos.some((m) => m.id === idModeloLeve) && (
-                <option value={idModeloLeve}>{modeloLeve} (sem resposta)</option>
-              )}
-              {modelos.map((m) => (
-                <option key={m.id} value={m.id}>
-                  {m.nome}
-                </option>
-              ))}
-            </select>
+            <div className="me-1 min-w-[180px]">
+              <Selector
+                label="IA do botão leve"
+                isLabelHidden
+                size="sm"
+                value={idModeloLeve}
+                onChange={(v) => v != null && aoTrocarModeloLeve(v)}
+                options={[
+                  ...(idModeloLeve !== "" && !modelos.some((m) => m.id === idModeloLeve)
+                    ? [{ value: idModeloLeve, label: `${modeloLeve} (sem resposta)` }]
+                    : []),
+                  ...modelos.map((m) => ({ value: m.id, label: m.nome })),
+                ]}
+              />
+            </div>
           </Dica>
         ) : (
           <Dica texto="O botão leve usa a IA de Configurações > IA (a lista de modelos ainda não chegou).">
@@ -923,48 +916,27 @@ export const LaudoPage: React.FC<Props> = ({
               : "Roteador DESLIGADO no raciocínio: a fala vai crua para a IA, sem gatilho e sem banco de frases. Clique para ligar."
           }
         >
-          <button
-            type="button"
-            role="switch"
-            aria-checked={comRoteador}
-            aria-label="roteador no botão de raciocínio"
-            onClick={trocarRoteador}
-            className={`h-7 me-1 px-2 rounded-lg border text-[11px] flex items-center gap-1.5 cursor-pointer transition-colors ${
-              comRoteador
-                ? "border-logo-primary/60 bg-logo-primary/20"
-                : "border-mid-gray/30 text-mid-gray hover:border-mid-gray/60"
-            }`}
-          >
-            <span
-              className={`inline-block w-6 h-3.5 rounded-full relative transition-colors ${
-                comRoteador ? "bg-logo-primary" : "bg-mid-gray/40"
-              }`}
-            >
-              <span
-                className={`absolute top-0.5 h-2.5 w-2.5 rounded-full bg-neutral-100 transition-all ${
-                  comRoteador ? "left-3" : "left-0.5"
-                }`}
-              />
-            </span>
-            roteador
-          </button>
+          <div className="me-1">
+            <Switch label="roteador" value={comRoteador} onChange={() => trocarRoteador()} size="sm" />
+          </div>
         </Dica>
         {modelos.length > 1 ? (
           <Dica texto="Qual IA o botão forte usa nos exames SEM regra na tabela de Configurações. Vale também para o botão de reprocessar.">
-            <select
-              value={idModeloCompleto}
-              onChange={(e) => aoTrocarModelo?.(e.target.value)}
-              className="h-7 me-1 rounded-lg border border-mid-gray/25 bg-background text-xs px-1 cursor-pointer"
-            >
-              {idModeloCompleto !== "" && !modelos.some((m) => m.id === idModeloCompleto) && (
-                <option value={idModeloCompleto}>{modeloCompleto} (sem resposta)</option>
-              )}
-              {modelos.map((m) => (
-                <option key={m.id} value={m.id}>
-                  {m.nome}
-                </option>
-              ))}
-            </select>
+            <div className="me-1 min-w-[180px]">
+              <Selector
+                label="IA do botão forte"
+                isLabelHidden
+                size="sm"
+                value={idModeloCompleto}
+                onChange={(v) => v != null && aoTrocarModelo?.(v)}
+                options={[
+                  ...(idModeloCompleto !== "" && !modelos.some((m) => m.id === idModeloCompleto)
+                    ? [{ value: idModeloCompleto, label: `${modeloCompleto} (sem resposta)` }]
+                    : []),
+                  ...modelos.map((m) => ({ value: m.id, label: m.nome })),
+                ]}
+              />
+            </div>
           </Dica>
         ) : (
           <span className="text-xs text-mid-gray me-1">{modeloCompleto}</span>
