@@ -18,6 +18,8 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 import HandyTextLogo from "../icons/HandyTextLogo";
+import { SideNav, SideNavItem } from "@astryxdesign/core/SideNav";
+import { Badge } from "@astryxdesign/core/Badge";
 import type { SidebarSection } from "../Sidebar";
 import type { OnboardingPreviewStep } from "../settings";
 import { LaudoPage } from "./LaudoPage";
@@ -230,6 +232,23 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
     window.addEventListener("rotrix:painel-comando", ouvir);
     return () => window.removeEventListener("rotrix:painel-comando", ouvir);
   }, []);
+
+  // fase 6: a barra lateral (SideNav) recolhida ou aberta, guardada no aparelho
+  const [navRecolhida, setNavRecolhida] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem("rotrix2.nav") === "recolhida";
+    } catch {
+      return false;
+    }
+  });
+  const trocarNav = (v: boolean) => {
+    setNavRecolhida(v);
+    try {
+      localStorage.setItem("rotrix2.nav", v ? "recolhida" : "aberta");
+    } catch {
+      /* sem armazenamento: vale até fechar */
+    }
+  };
 
   // Fase 3: o que veio do Stream Deck / Stream Dock físico. O roteador faz as
   // ações de fora (programas, volume…); as do Rotrix (folha, fila, abas) chegam
@@ -512,41 +531,40 @@ export const Casca: React.FC<Props> = ({ aoVerOnboarding }) => {
           )}
         </div>
       )}
-      {/* barra das abas */}
-      <div className="w-24 shrink-0 flex flex-col items-center gap-1 border-e border-mid-gray/20 bg-background py-2">
-        <button type="button" onClick={() => setAba("painel")} title="Painel" className="cursor-pointer">
-          <HandyTextLogo width={72} className="mb-2" />
-        </button>
+      {/* barra das abas — fase 6: o SideNav do Astryx. Aberta mostra ícone e
+          nome; recolhida (o botão no pé da barra) só os ícones, para sobrar
+          espaço para a folha. A escolha fica guardada. */}
+      <SideNav
+        header={
+          <button type="button" onClick={() => setAba("painel")} title="Painel" className="cursor-pointer px-1 py-1">
+            <HandyTextLogo width={navRecolhida ? 40 : 96} />
+          </button>
+        }
+        collapsible={{
+          isCollapsed: navRecolhida,
+          onCollapsedChange: trocarNav,
+          hasButton: true,
+          buttonLabel: navRecolhida ? "Mostrar os nomes" : "Recolher a barra",
+        }}
+      >
         {ABAS.map((a) => {
           const Icone = a.icone;
-          const ativo = aba === a.id;
           return (
-            <button
+            <SideNavItem
               key={a.id}
-              type="button"
+              label={a.nome}
+              icon={<Icone width={18} height={18} />}
+              isSelected={aba === a.id}
               onClick={() => {
                 // clicar em Laudo estando nele mostra/esconde a fila do lado
                 if (a.id === "laudo" && aba === "laudo") setFilaAberta((v) => !v);
                 else setAba(a.id);
               }}
-              title={a.nome}
-              className={`relative w-[84px] py-2 rounded-lg flex flex-col items-center gap-0.5 text-[11px] cursor-pointer transition-colors ${
-                ativo
-                  ? "bg-logo-primary/25 font-semibold"
-                  : "hover:bg-mid-gray/15 opacity-85 hover:opacity-100"
-              }`}
-            >
-              <Icone width={18} height={18} />
-              {a.nome}
-              {a.id === "fila" && naFila > 0 && (
-                <span className="absolute top-1 end-2 text-[9px] font-bold rounded-full bg-logo-primary text-white px-1.5">
-                  {naFila}
-                </span>
-              )}
-            </button>
+              endContent={a.id === "fila" && naFila > 0 ? <Badge label={String(naFila)} variant="pink" /> : undefined}
+            />
           );
         })}
-      </div>
+      </SideNav>
 
       {/* aba aberta */}
       <div className="flex-1 min-w-0 min-h-0">
