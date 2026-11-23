@@ -345,6 +345,10 @@ def _ler_fila(arqs, contar=True):
         if obj is None:
             continue
         fonte = os.path.basename(arq)
+        # 23/11: other-dicoms-state.json é a lista "Outros DICOMs" do Radius (os
+        # exames da Mobilemed e outros, baixados pelo navegador). Lido como Radius,
+        # todos foram parar na aba E-Laudos quando o Radius abriu de novo.
+        origem = "pasta" if fonte.lower().startswith("other-dicoms") else "radius"
         # estado da vez = state*.json com UM estudo na raiz; uma lista de
         # estudos é fila, e aí vale o status de aberto
         principal = eh_principal(arq) and isinstance(obj, dict) and _eh_estudo(obj)
@@ -361,7 +365,7 @@ def _ler_fila(arqs, contar=True):
                 # nome inteiro, para a tela DELE. Ver nome_paciente() para o
                 # porque isto nao quebra a §17, e os cinco testes que provam.
                 "nome": nome_paciente(_valor(d, "patientname")),
-                "origem": "radius",
+                "origem": origem,
                 "principal": principal,
                 "fonte": fonte,
             }

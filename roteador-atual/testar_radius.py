@@ -314,6 +314,23 @@ def main():
             falhas.append("com a pasta do Radius, extras errados: %r" % radius.pastas_extras(cfg))
     finally:
         shutil.rmtree(base, ignore_errors=True)
+    # 23/11: o Radius 0.5 grava a aba "Outros DICOMs" (Mobilemed e outros, baixados
+    # pelo navegador) em other-dicoms-state.json. Aquilo não é E-Laudos: lido como
+    # Radius, todos os exames da Mobilemed pularam para a aba E-Laudos do Rotrix.
+    base = tempfile.mkdtemp()
+    try:
+        radius._CACHE["chave"] = None
+        with open(os.path.join(base, "state.beta-v3.json"), "w", encoding="utf-8") as f:
+            json.dump([_real("FULANO ELAUDOS", "111", "CR", "COLUNA", "Ready", False, "2026-11-23T01:55:00")], f)
+        with open(os.path.join(base, "other-dicoms-state.json"), "w", encoding="utf-8") as f:
+            json.dump([_real("CICLANO MOBILEMED", "222", "CT", "TC DE TORAX", "Ready", False, "2026-11-23T01:50:00"),
+                       _real("BELTRANO MOBILEMED", "333", "CT", "TC DE CRANIO", "Ready", False, "2026-11-23T01:40:00")], f)
+        por = {it["descricao"]: it["origem"] for it in radius.ler_fila(base)}
+        if por != {"COLUNA": "radius", "TC DE TORAX": "pasta", "TC DE CRANIO": "pasta"}:
+            falhas.append("Outros DICOMs do Radius foram para a aba errada: %r" % por)
+    finally:
+        radius._CACHE["chave"] = None
+        shutil.rmtree(base, ignore_errors=True)
     for f in falhas:
         print("FALHOU", f)
     print("radius: tudo certo" if not falhas else "radius: %d falha(s)" % len(falhas))
