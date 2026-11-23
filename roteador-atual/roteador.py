@@ -35,6 +35,10 @@ try:
 except Exception:
     painel = None
 try:
+    import elaudos            # Rotrix v2 fase 4: baixa os exames do E-Laudos (no lugar do Radius)
+except Exception:
+    elaudos = None
+try:
     import oficina            # oficina de máscaras (propor/aplicar/desfazer)
 except Exception:
     oficina = None
@@ -3204,6 +3208,14 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         rota = self.path.rstrip("/")
+        if "/elaudos/" in rota:
+            # receber_link.py (o Windows chama quando você clica no E-Laudos)
+            corpo = self._corpo()
+            try:
+                return self._json(200, elaudos_rota(rota.rsplit("/", 1)[-1], corpo))
+            except Exception as e:
+                print("AVISO: %s falhou (%s)" % (rota, type(e).__name__), file=sys.stderr)
+                return self._json(200, {"ok": False, "motivo": "erro"})
         if "/painel/" in rota:
             corpo = self._corpo()
             try:
@@ -3374,7 +3386,17 @@ def painel_rota(acao, corpo):
         return {"ok": True, "config": painel.normalizar(None)}
     if acao.startswith("deck_"):  # fase 3: Stream Deck / Stream Dock
         return painel.deck_rota(acao, corpo)
+    if acao.startswith("elaudos_"):  # fase 4: downloads do E-Laudos
+        return elaudos_rota(acao[len("elaudos_"):], corpo)
     return {"ok": False, "motivo": "acao_desconhecida"}
+
+
+def elaudos_rota(acao, corpo):
+    """Fase 4 (/v1/elaudos/<acao>): os exames do E-Laudos baixados pelo Rotrix."""
+    if elaudos is None:
+        return {"ok": False, "motivo": "elaudos_ausente"}
+    pasta = radius.pasta_radius(_config()) if radius is not None else None
+    return elaudos.rota(acao, corpo if isinstance(corpo, dict) else {}, pasta)
 
 
 def fila_abrir(ids, ultimo=False, visualizador=None, janela=None):
@@ -3654,7 +3676,9 @@ def ia_modelos(provedor=""):
                 item["provedor"] = nome
                 # o nome na tela diz de quem é: sem isso "gpt-5.6" e "claude-…"
                 # ficam lado a lado sem nenhuma pista de qual chave vai pagar
-                item["nome"] = "%s · %s" % (nome, (item.get("nome") or mid))
+                # pelo plano (fase 5) o nome já diz de onde vem
+                if not nome.endswith("_local"):
+                    item["nome"] = "%s · %s" % (nome, (item.get("nome") or mid))
             juntos.append(item)
     if not juntos:
         r = _resultado_de_um(c, atual)
@@ -5118,6 +5142,12 @@ if __name__ == "__main__":
             except Exception:
                 pass
         threading.Thread(target=_diag_radius, daemon=True).start()
+    if elaudos is not None:
+        # downloads que ficaram no meio e links que chegaram com o roteador fechado
+        try:
+            elaudos.ligar(radius.pasta_radius(_config()) if radius is not None else None)
+        except Exception as e:
+            print("E-Laudos indisponivel:", type(e).__name__, flush=True)
     print(f"roteador em http://{HOST}:{PORT}/v1  (Ctrl+C para sair)", flush=True)
     try: srv.serve_forever()
     except KeyboardInterrupt: print("\nencerrado")

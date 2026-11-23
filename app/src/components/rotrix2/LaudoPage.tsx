@@ -1406,6 +1406,13 @@ function motivoEmPortugues(motivo?: string): string {
   if (m.includes("nuvem_ausente") || m.includes("sem_chave"))
     return "falta a chave da IA nas configurações";
   if (m.includes("roteador parado")) return "o roteador está parado";
+  // fase 5: IA pelo plano (Claude Code / Codex instalados no PC)
+  if (m.includes("erro_local_limite_do_plano"))
+    return "o limite do seu plano acabou por agora: espere liberar ou escolha um modelo com chave";
+  if (m.includes("erro_local_nao_instalado"))
+    return "o programa da IA pelo plano não está instalado neste PC (Claude Code ou Codex)";
+  if (m.includes("erro_local_tempo_esgotado")) return "a IA pelo plano demorou demais: tente de novo";
+  if (m.includes("erro_local_")) return "a IA pelo plano não respondeu: abra o Claude Code uma vez para conferir o login";
   // 20/11: "a IA não respondeu (nuvem_teto)" não dizia nada para ele
   if (m.includes("nuvem_teto")) {
     const valores = (motivo || "").match(/US\$ [\d.,]+ de US\$ [\d.,]+/);

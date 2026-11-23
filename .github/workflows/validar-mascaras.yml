@@ -113,6 +113,10 @@ jobs:
         run: python testar_painel.py
       - name: Stream Deck / Stream Dock (protocolos e mapa das teclas; sem o aparelho)
         run: python testar_deck.py
+      - name: Downloads do E-Laudos (servidor local de mentira; sem registro do Windows)
+        run: python testar_elaudos.py
+      - name: IA pelo plano (Claude Code / Codex simulados; sem internet)
+        run: python testar_ia_local.py
       - name: Testar a TC com as palavras do médico (alterações primeiro)
         run: LAUDO_BASE=/tmp/base.sqlite python testar_tc_literal.py
       - name: Testar o modo estação e o perfil (arquivos falsos)

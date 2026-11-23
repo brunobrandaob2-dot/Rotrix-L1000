@@ -14,6 +14,7 @@ import { listen } from "@tauri-apps/api/event";
 import { RefreshCw, FolderOpen, Check } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Ajuda } from "./Dica";
+import { painel } from "./painelComum";
 import {
   type Estudo,
   type Fila,
@@ -103,6 +104,59 @@ export const FilaPage: React.FC = () => {
       setCarregando(false);
     }
   }, []);
+
+  // Fase 4: o Rotrix baixa do E-Laudos. Quem atende os links (Radius ou Rotrix)
+  // e o andamento; com download andando, a lista se atualiza a cada 2 s.
+  const [el, setEl] = useState<{ atende?: string; baixando?: unknown[]; na_fila?: number } | null>(null);
+  useEffect(() => {
+    let vivo = true;
+    const passo = async () => {
+      try {
+        const r = (await painel("elaudos_estado")) as unknown as {
+          ok?: boolean;
+          atende?: string;
+          baixando?: unknown[];
+          na_fila?: number;
+        };
+        if (!vivo || !r.ok) return;
+        setEl(r);
+        if ((r.baixando?.length || 0) + (r.na_fila || 0) > 0) setFila(await lerFila());
+      } catch {
+        /* roteador antigo (sem a fase 4) ou parado */
+      }
+    };
+    void passo();
+    const t = setInterval(() => void passo(), 2000);
+    return () => {
+      vivo = false;
+      clearInterval(t);
+    };
+  }, []);
+  const linksNoRotrix = el?.atende === "rotrix";
+  const trocarLinks = async (v: string) => {
+    try {
+      const r = await painel(v === "rotrix" ? "elaudos_ligar" : "elaudos_desligar");
+      setEl((x) => ({ ...(x || {}), atende: (r as unknown as { atende?: string }).atende || x?.atende }));
+      setAviso(
+        r.ok
+          ? v === "rotrix"
+            ? "pronto: clicar no exame no E-Laudos agora baixa pelo Rotrix"
+            : "os links do E-Laudos voltaram para o Radius"
+          : r.frase || `não deu: ${r.motivo || "erro"}`,
+      );
+    } catch (e) {
+      setAviso(String(e));
+    }
+  };
+  const downloadE = async (acao: "cancelar" | "repetir", id: string) => {
+    try {
+      const r = await painel(`elaudos_${acao}`, { id });
+      setAviso(r.ok ? (acao === "cancelar" ? "download cancelado" : "baixando de novo") : r.frase || "não deu");
+      setFila(await lerFila());
+    } catch (e) {
+      setAviso(String(e));
+    }
+  };
 
   useEffect(() => {
     void ler();
@@ -411,7 +465,24 @@ export const FilaPage: React.FC = () => {
                     </td>
                     <td>
                       {emDownload ? (
-                        <span className="text-[11px] text-amber-600">baixando</span>
+                        <button
+                          type="button"
+                          data-abrir
+                          title="Cancelar o download"
+                          onClick={() => void downloadE("cancelar", i.id)}
+                          className="h-6 px-2 rounded-md border border-amber-500/40 text-[11px] text-amber-600 cursor-pointer hover:bg-amber-500/10"
+                        >
+                          Cancelar
+                        </button>
+                      ) : !ehOutro(i) && /^(falhou|cancelado|interrompido)/i.test(i.status || "") ? (
+                        <button
+                          type="button"
+                          data-abrir
+                          onClick={() => void downloadE("repetir", i.id)}
+                          className="h-6 px-2 rounded-md border border-mid-gray/40 text-[11px] cursor-pointer hover:bg-mid-gray/10"
+                        >
+                          De novo
+                        </button>
                       ) : (
                         <button
                           type="button"
@@ -485,6 +556,20 @@ export const FilaPage: React.FC = () => {
               ]}
               valor={janela}
               aoTrocar={(v) => void trocarJanela(v)}
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <span className="text-[11px] text-mid-gray">
+              Baixar do E-Laudos
+              <Ajuda texto="Quem baixa quando você clica num exame no E-Laudos. Rotrix: o próprio Rotrix baixa (até 3 ao mesmo tempo) e o exame aparece aqui na aba E-Laudos, sem o Radius. Radius: volta para o Radius Download Queue." />
+            </span>
+            <Seg
+              opcoes={[
+                ["radius", "Radius"],
+                ["rotrix", "Rotrix"],
+              ]}
+              valor={linksNoRotrix ? "rotrix" : "radius"}
+              aoTrocar={(v) => void trocarLinks(v)}
             />
           </div>
           <div className="flex flex-col gap-1">

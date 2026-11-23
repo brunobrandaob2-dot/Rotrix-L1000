@@ -16,6 +16,7 @@ import threading
 import io, json, os, re, ssl, urllib.request, urllib.error, datetime, difflib, unicodedata
 
 import prompts
+import ia_local
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(AQUI, "config.json")
@@ -49,7 +50,14 @@ PROVEDORES = {
     "compativel": {"formato": "openai", "url": "",
                    "arquivo_da_chave": "chave_compativel.txt",
                    "variavel_de_ambiente": "ROTRIX_API_KEY"},
+    # fase 5 (22/11): pelo PLANO, sem chave — o programa da assinatura instalado
+    # no PC (ia_local.py). Aparecem na lista só se o programa existir.
+    "claude_local": {"formato": "claude_cli", "url": "local:claude",
+                     "arquivo_da_chave": "", "variavel_de_ambiente": "", "sem_chave": True},
+    "codex_local":  {"formato": "codex_cli", "url": "local:codex",
+                     "arquivo_da_chave": "", "variavel_de_ambiente": "", "sem_chave": True},
 }
+FORMATOS_LOCAIS = {"claude_cli": "claude", "codex_cli": "codex"}
 
 PADRAO = {
     "ativa": False,
@@ -480,6 +488,9 @@ def modelos(c=None, nome=None, timeout=12):
     c = c if isinstance(c, dict) else config()
     nome = (nome or c.get("provedor") or "anthropic").lower()
     p = provedor_cfg(c, nome)
+    if p.get("formato") in FORMATOS_LOCAIS:
+        # pelo plano: a lista é a do programa instalado (Sonnet/Opus/Haiku ou o Codex)
+        return ia_local.modelos(FORMATOS_LOCAIS[p["formato"]], c)
     url = _url_de_modelos(p)
     if not url:
         return {"ok": False, "motivo": "sem_url", "provedor": nome, "modelos": []}
@@ -1299,6 +1310,10 @@ def provedores_com_chave(c=None):
     nomes, atual = [], (c.get("provedor") or "anthropic").lower()
     for nome in [atual] + [n for n in PROVEDORES if n != atual]:
         p = provedor_cfg(c, nome)
+        if p.get("formato") in FORMATOS_LOCAIS:
+            if ia_local.disponivel(FORMATOS_LOCAIS[p["formato"]], c):
+                nomes.append(nome)         # o programa da assinatura está instalado
+            continue
         if not _url_de_modelos(p):
             continue                       # sem URL de catálogo não dá para listar
         k, origem = chave_e_origem(c, nome)
@@ -1997,7 +2012,14 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
     if not rac and p.get("nome") == "openai" and (m_ef in ("formatar", "revisao") or economia
                                                   or _modelo_basico(r["modelo"])):
         rac = "none"
-    enviar = _enviar_anthropic if p.get("formato") == "anthropic" else _enviar_openai
+    if p.get("formato") == "claude_cli":
+        def enviar(*a, **kw):
+            return ia_local.enviar_claude(*a, c=c, **kw)
+    elif p.get("formato") == "codex_cli":
+        def enviar(*a, **kw):
+            return ia_local.enviar_codex(*a, c=c, **kw)
+    else:
+        enviar = _enviar_anthropic if p.get("formato") == "anthropic" else _enviar_openai
     ttl = cache_de(sistema, r["modelo"], c) if p.get("formato") == "anthropic" else None
     teto = int(max_tokens or c.get("max_tokens", 1500))
     if p.get("formato") == "anthropic":
@@ -2010,9 +2032,15 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
     # 16/10 (auditoria 3.3): na OpenAI o raciocínio conta dentro do teto de saída. Com
     # teto de 300 ("analisar" de frase curta) o modelo pensava 400-1.100 tokens e a
     # resposta voltava VAZIA. Quem raciocina ganha piso para pensar e ainda escrever.
-    if p.get("formato") != "anthropic" and rac != "none":
+    if p.get("formato") == "claude_cli":
+        # Claude Code não tem "sem raciocínio": o menor esforço é "low" — e é o que
+        # mantém o laudo rápido (o padrão dele pensa muito para formatar texto)
+        rac = rac if rac in _ESFORCOS else "low"
+    if p.get("formato") not in ("anthropic", "claude_cli", "codex_cli") and rac != "none":
         teto = max(teto, int(c.get("teto_com_raciocinio", 3000) or 3000))
     espera = tempo_de_espera(teto, c)
+    if p.get("formato") in FORMATOS_LOCAIS:
+        espera += int(c.get("folga_ia_local_s", 20) or 20)  # o programa leva uns segundos para abrir
     travas = c.get("modos_com_trava")
     if not isinstance(travas, list):
         travas = ["formatar"]
@@ -2092,6 +2120,11 @@ def chamar(pedido, c=None, modo="analise", marcar=True, max_tokens=None, imagens
                 ini = "%s  (%sUS$ %.4f · mês US$ %.2f)" % (ini, qual, c_call, g["usd"])
             texto = (ini + "\n" if ini else "") + texto + ("\n" + fim if fim else "")
         return texto, "nuvem"
+    except ia_local.ErroLocal as e:
+        registrar(c, 0, 0, "local %s" % e.motivo, modelo=rotulo,
+                  ms=int((datetime.datetime.now() - t0).total_seconds() * 1000), teto=teto,
+                  regra=r.get("regra", ""), modo=m_ef, exame=r.get("exame", ""))
+        return None, "nuvem_erro_local_%s" % e.motivo
     except _ErroAPI as e:
         registrar(c, 0, 0, "http %s" % e.code, modelo=rotulo,
                   ms=int((datetime.datetime.now() - t0).total_seconds() * 1000), teto=teto,
