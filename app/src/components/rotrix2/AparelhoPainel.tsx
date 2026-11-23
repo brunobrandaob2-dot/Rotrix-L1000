@@ -8,6 +8,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Copy, Pencil, Plus, Trash2, X } from "lucide-react";
 import { Ajuda } from "./Dica";
+import { CampoTexto, CampoLista, CampoLiga, CampoBarra } from "./campos";
 import { type ConfigPainel, type Tecla, painel, COR } from "./painelComum";
 import { iconeDe } from "./painelIcones";
 import { imagemDaTecla, type Formato } from "./deckImagem";
@@ -380,22 +381,19 @@ export const AparelhoPainel: React.FC<{
   const giros = modelo.slots.filter((s) => s[0] === "g");
   const vSel = sel ? pagina.m[sel] : undefined;
   const opcoesTecla = (valor: string, troca: (v: string) => void) => (
-    <select
-      className="w-full h-8 rounded-md border border-mid-gray/30 bg-background px-2 text-[12.5px]"
-      value={valor}
-      onChange={(e) => troca(e.target.value)}
-    >
-      <option value="">— vazia —</option>
-      {cfg.paginas.map((p) => (
-        <optgroup key={p.nome} label={p.nome}>
-          {p.teclas.map((t: Tecla) => (
-            <option key={t.id} value={t.id}>
-              {t.nome}
-            </option>
-          ))}
-        </optgroup>
-      ))}
-    </select>
+    <CampoLista
+      rotulo="O que esta peça faz"
+      valor={valor}
+      aoMudar={troca}
+      opcoes={[
+        { value: "", label: "— vazia —" },
+        ...cfg.paginas.map((p) => ({
+          type: "section" as const,
+          title: p.nome,
+          options: p.teclas.map((t: Tecla) => ({ value: t.id, label: t.nome })),
+        })),
+      ]}
+    />
   );
 
   return (
@@ -405,22 +403,21 @@ export const AparelhoPainel: React.FC<{
           Aparelho
           <Ajuda texto="Arraste uma tecla do Painel para uma tecla, botão ou giratório do desenho. Clique numa peça para escolher o que ela faz. O Rotrix fala direto com o aparelho pela USB; o programa do fabricante precisa ficar fechado." />
         </b>
-        <select
-          className="h-7 rounded-md border border-mid-gray/30 bg-background px-2 text-[12.5px]"
-          value={modeloId}
-          onChange={(e) => {
-            setModeloSel(e.target.value);
-            setPag(0);
-            setSel(null);
-          }}
-        >
-          {Object.values(est.catalogo).map((m) => (
-            <option key={m.id} value={m.id}>
-              {m.nome}
-              {est.conectados.some((c) => c.modelo === m.id) ? " · conectado" : ""}
-            </option>
-          ))}
-        </select>
+        <div className="min-w-[260px]">
+          <CampoLista
+            rotulo="Modelo do aparelho"
+            valor={modeloId}
+            aoMudar={(v) => {
+              setModeloSel(v);
+              setPag(0);
+              setSel(null);
+            }}
+            opcoes={Object.values(est.catalogo).map((m) => ({
+              value: m.id,
+              label: m.nome + (est.conectados.some((c) => c.modelo === m.id) ? " · conectado" : ""),
+            }))}
+          />
+        </div>
         <span
           className={`text-[11px] rounded-full px-2 py-0.5 border ${
             est.conectados.some((c) => c.modelo === modeloId)
@@ -516,11 +513,11 @@ export const AparelhoPainel: React.FC<{
               Perfil abre com
               <Ajuda texto="Parte do nome do programa (ex.: radiant, radiowant, whatsapp). Quando ele fica na frente, o aparelho vai para este perfil; quando sai, volta para onde estava." />
             </span>
-            <input
-              className="flex-1 h-7 rounded-md border border-mid-gray/30 bg-background px-2 text-[12.5px]"
-              placeholder="nenhum programa"
-              value={perfil.app}
-              onChange={(e) => gravarPerfil({ ...perfil, app: e.target.value })}
+            <CampoTexto
+              rotulo="Perfil abre com"
+              dica="nenhum programa"
+              valor={perfil.app}
+              aoMudar={(v) => gravarPerfil({ ...perfil, app: v })}
             />
           </label>
 
@@ -557,33 +554,35 @@ export const AparelhoPainel: React.FC<{
               Página abre com
               <Ajuda texto="Dentro deste perfil: com o programa na frente, o aparelho vai para esta página; quando sai, volta." />
             </span>
-            <input
-              className="flex-1 h-7 rounded-md border border-mid-gray/30 bg-background px-2 text-[12.5px]"
-              placeholder="nenhum programa"
-              value={pagina.app}
-              onChange={(e) => gravarPagina({ ...pagina, app: e.target.value })}
+            <CampoTexto
+              rotulo="Página abre com"
+              dica="nenhum programa"
+              valor={pagina.app}
+              aoMudar={(v) => gravarPagina({ ...pagina, app: v })}
             />
           </label>
           <label className="flex items-center gap-2 text-[12.5px]">
             <span className="text-mid-gray w-32 shrink-0">Brilho</span>
-            <input
-              type="range"
+            <CampoBarra
+              rotulo="Brilho"
               min={5}
               max={100}
-              value={conf.brilho}
-              className="flex-1"
-              onChange={(e) => {
-                const b = Number(e.target.value);
+              valor={conf.brilho}
+              aoMudar={(b) => {
                 gravar({ ...conf, brilho: b });
                 void painel("deck_brilho", { modelo: modeloId, brilho: b });
               }}
             />
             <span className="w-10 text-end tabular-nums">{conf.brilho}%</span>
           </label>
-          <label className="flex items-center gap-2 text-[12.5px]">
-            <input type="checkbox" checked={conf.auto} onChange={(e) => gravar({ ...conf, auto: e.target.checked })} />
+          <div className="flex items-center gap-2 text-[12.5px]">
+            <CampoLiga
+              rotulo="Trocar de perfil / página pelo programa da frente"
+              valor={conf.auto}
+              aoMudar={(v) => gravar({ ...conf, auto: v })}
+            />
             Trocar de perfil / página pelo programa da frente
-          </label>
+          </div>
 
           {sel && (
             <div className="rounded-lg border border-mid-gray/25 bg-background p-3 flex flex-col gap-2">
@@ -597,17 +596,12 @@ export const AparelhoPainel: React.FC<{
                 <>
                   <label className="grid grid-cols-[80px_1fr] items-center gap-2 text-[12.5px]">
                     <span className="text-mid-gray">Ao girar</span>
-                    <select
-                      className="h-8 rounded-md border border-mid-gray/30 bg-background px-2 text-[12.5px]"
-                      value={(vSel as Giro)?.girar || ""}
-                      onChange={(e) => gravarMapa(sel, { ...((vSel as Giro) || {}), girar: e.target.value })}
-                    >
-                      {GIROS.map(([id, nome]) => (
-                        <option key={id} value={id}>
-                          {nome}
-                        </option>
-                      ))}
-                    </select>
+                    <CampoLista
+                      rotulo="Ao girar"
+                      valor={(vSel as Giro)?.girar || ""}
+                      aoMudar={(v) => gravarMapa(sel, { ...((vSel as Giro) || {}), girar: v })}
+                      opcoes={GIROS.map(([id, nome]) => ({ value: id, label: nome }))}
+                    />
                   </label>
                   <label className="grid grid-cols-[80px_1fr] items-center gap-2 text-[12.5px]">
                     <span className="text-mid-gray">Ao clicar</span>

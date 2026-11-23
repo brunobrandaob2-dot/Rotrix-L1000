@@ -19,6 +19,7 @@ import {
 import { ICONES, iconePadrao } from "./painelIcones";
 import { AparelhoPainel } from "./AparelhoPainel";
 import { Ajuda } from "./Dica";
+import { CampoTexto, CampoArea, CampoLista, CampoLiga, CampoNumero, deParas } from "./campos";
 import {
   type ConfigPainel,
   type EstadoPainel,
@@ -104,17 +105,14 @@ const Linha: React.FC<{ rotulo: string; ajuda?: string; children: React.ReactNod
   ajuda,
   children,
 }) => (
-  <label className="grid grid-cols-[112px_minmax(0,1fr)] gap-2 items-center text-[12.5px]">
+  <div className="grid grid-cols-[112px_minmax(0,1fr)] gap-2 items-center text-[12.5px]">
     <span className="text-mid-gray">
       {rotulo}
       {ajuda && <Ajuda texto={ajuda} />}
     </span>
     {children}
-  </label>
+  </div>
 );
-const campo =
-  "w-full h-8 rounded-md border border-mid-gray/30 bg-background px-2 text-[12.5px]";
-
 const SeletorLugar: React.FC<{
   lugar?: Lugar | null;
   estado: EstadoPainel | null;
@@ -126,47 +124,32 @@ const SeletorLugar: React.FC<{
   if (!mons.length || !mods.length) return <span className="text-mid-gray text-[12px]">sem monitores</span>;
   return (
     <div className="flex flex-col gap-1.5">
-      <select
-        className={campo}
-        value={lugar ? lugar.display : ""}
-        onChange={(e) =>
-          aoTrocar(e.target.value ? { display: e.target.value, layout: lugar?.layout || "full", zone: lugar?.zone || 0 } : null)
-        }
-      >
-        <option value="">sem lugar fixo</option>
-        {mons.map((m) => (
-          <option key={m.id} value={m.id}>
-            {m.nome} · {m.w}×{m.h}
-          </option>
-        ))}
-        {lugar && !mons.some((m) => m.id === lugar.display) && (
-          <option value={lugar.display}>monitor desligado ({lugar.display.split("|")[1]})</option>
-        )}
-      </select>
+      <CampoLista
+        rotulo="Monitor"
+        valor={lugar ? lugar.display : ""}
+        aoMudar={(v) => aoTrocar(v ? { display: v, layout: lugar?.layout || "full", zone: lugar?.zone || 0 } : null)}
+        opcoes={[
+          { value: "", label: "sem lugar fixo" },
+          ...mons.map((m) => ({ value: m.id, label: `${m.nome} · ${m.w}×${m.h}` })),
+          ...(lugar && !mons.some((m) => m.id === lugar.display)
+            ? [{ value: lugar.display, label: `monitor desligado (${lugar.display.split("|")[1]})` }]
+            : []),
+        ]}
+      />
       {lugar && mod && (
         <div className="flex gap-1.5">
-          <select
-            className={campo}
-            value={lugar.layout}
-            onChange={(e) => aoTrocar({ ...lugar, layout: e.target.value, zone: 0 })}
-          >
-            {mods.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.nome}
-              </option>
-            ))}
-          </select>
-          <select
-            className={campo}
-            value={lugar.zone}
-            onChange={(e) => aoTrocar({ ...lugar, zone: Number(e.target.value) })}
-          >
-            {mod.zonas.map((z, i) => (
-              <option key={i} value={i}>
-                {z.nome}
-              </option>
-            ))}
-          </select>
+          <CampoLista
+            rotulo="Divisão da tela"
+            valor={lugar.layout}
+            aoMudar={(v) => aoTrocar({ ...lugar, layout: v, zone: 0 })}
+            opcoes={mods.map((m) => ({ value: m.id, label: m.nome }))}
+          />
+          <CampoLista
+            rotulo="Pedaço da tela"
+            valor={String(lugar.zone)}
+            aoMudar={(v) => aoTrocar({ ...lugar, zone: Number(v) })}
+            opcoes={mod.zonas.map((z, i) => ({ value: String(i), label: z.nome }))}
+          />
         </div>
       )}
     </div>
@@ -206,35 +189,34 @@ const EditorTecla: React.FC<{
         </button>
       </div>
       <Linha rotulo="Nome">
-        <input className={campo} value={t.nome} maxLength={40} onChange={(e) => m({ nome: e.target.value })} />
+        <CampoTexto rotulo="Nome" valor={t.nome} max={40} aoMudar={(v) => m({ nome: v })} />
       </Linha>
       <Linha rotulo="Ação">
-        <select className={campo} value={t.acao} onChange={(e) => trocarAcao(e.target.value as Acao)}>
-          {ACOES.map(([id, nome]) => (
-            <option key={id} value={id}>
-              {nome}
-            </option>
-          ))}
-        </select>
+        <CampoLista rotulo="Ação" valor={t.acao} aoMudar={(v) => trocarAcao(v as Acao)} opcoes={deParas(ACOES)} />
       </Linha>
 
       {t.acao === "programa" && (
         <>
           <Linha rotulo="Tipo">
-            <select className={campo} value={t.tipo} onChange={(e) => m({ tipo: e.target.value as Tecla["tipo"] })}>
-              <option value="exe">Programa (.exe)</option>
-              <option value="powershell">Script do PowerShell (.ps1)</option>
-              <option value="appx">App da Loja da Microsoft</option>
-            </select>
+            <CampoLista
+              rotulo="Tipo"
+              valor={t.tipo || "exe"}
+              aoMudar={(v) => m({ tipo: v as Tecla["tipo"] })}
+              opcoes={deParas([
+                ["exe", "Programa (.exe)"],
+                ["powershell", "Script do PowerShell (.ps1)"],
+                ["appx", "App da Loja da Microsoft"],
+              ])}
+            />
           </Linha>
           <Linha
             rotulo="Arquivo"
             ajuda={t.tipo === "appx" ? "O identificador do app da Loja (ex.: Claude_pzs8sxrjxfjjc!Claude)." : "Aceita variáveis do Windows, como %LOCALAPPDATA%."}
           >
-            <input className={campo} value={t.alvo || ""} onChange={(e) => m({ alvo: e.target.value })} />
+            <CampoTexto rotulo="Arquivo" valor={t.alvo || ""} aoMudar={(v) => m({ alvo: v })} />
           </Linha>
           <Linha rotulo="Título da janela" ajuda="Parte do título da janela, para o Rotrix achar a janela certa (obrigatório para scripts .ps1).">
-            <input className={campo} value={t.titulo || ""} onChange={(e) => m({ titulo: e.target.value })} />
+            <CampoTexto rotulo="Título da janela" valor={t.titulo || ""} aoMudar={(v) => m({ titulo: v })} />
           </Linha>
         </>
       )}
@@ -242,60 +224,49 @@ const EditorTecla: React.FC<{
       {t.acao === "site" && (
         <>
           <Linha rotulo="Sites" ajuda="Um por linha. Abrem juntos.">
-            <textarea
-              className={`${campo} h-16 py-1 resize-y`}
-              value={(t.sites || []).join("\n")}
-              onChange={(e) => m({ sites: e.target.value.split("\n") })}
-            />
+            <CampoArea rotulo="Sites" valor={(t.sites || []).join("\n")} aoMudar={(v) => m({ sites: v.split("\n") })} />
           </Linha>
           <Linha rotulo="Navegador" ajuda="Vazio = o navegador escolhido em Telas e início.">
-            <select className={campo} value={t.navegador || ""} onChange={(e) => m({ navegador: e.target.value })}>
-              <option value="">o do Painel</option>
-              {NAVEGADORES.map(([id, nome]) => (
-                <option key={id} value={id}>
-                  {nome}
-                  {id !== "padrao" && estado && estado.navegadores[id] === false ? " (não instalado)" : ""}
-                </option>
-              ))}
-            </select>
+            <CampoLista
+              rotulo="Navegador"
+              valor={t.navegador || ""}
+              aoMudar={(v) => m({ navegador: v })}
+              opcoes={[{ value: "", label: "o do Painel" }, ...NAVEGADORES.map(([id, nome]) => ({
+              value: id,
+              label: nome + (id !== "padrao" && estado && estado.navegadores[id] === false ? " (não instalado)" : ""),
+            }))]}
+            />
           </Linha>
           <Linha rotulo="Perfil" ajuda="Pasta do perfil do navegador (ex.: Profile 2). Vazio = o perfil de sempre.">
-            <input className={campo} value={t.perfil || ""} onChange={(e) => m({ perfil: e.target.value })} />
+            <CampoTexto rotulo="Perfil do navegador" valor={t.perfil || ""} aoMudar={(v) => m({ perfil: v })} />
           </Linha>
           <Linha rotulo="Título da janela" ajuda="Parte do título da janela do site, para trazer para a frente e posicionar.">
-            <input className={campo} value={t.titulo || ""} onChange={(e) => m({ titulo: e.target.value })} />
+            <CampoTexto rotulo="Título da janela" valor={t.titulo || ""} aoMudar={(v) => m({ titulo: v })} />
           </Linha>
         </>
       )}
 
       {(t.acao === "rotrix" || t.acao === "sistema") && (
         <Linha rotulo="Comando">
-          <select className={campo} value={t.comando} onChange={(e) => m({ comando: e.target.value })}>
-            {(t.acao === "rotrix" ? COMANDOS_ROTRIX : COMANDOS_SISTEMA).map(([id, nome]) => (
-              <option key={id} value={id}>
-                {nome}
-              </option>
-            ))}
-          </select>
+          <CampoLista
+            rotulo="Comando"
+            valor={t.comando || ""}
+            aoMudar={(v) => m({ comando: v })}
+            opcoes={deParas(t.acao === "rotrix" ? COMANDOS_ROTRIX : COMANDOS_SISTEMA)}
+          />
         </Linha>
       )}
       {t.acao === "aparelho" && (
         <>
           <Linha rotulo="Faz">
-            <select className={campo} value={t.comando} onChange={(e) => m({ comando: e.target.value })}>
-              {COMANDOS_APARELHO.map(([id, nome]) => (
-                <option key={id} value={id}>
-                  {nome}
-                </option>
-              ))}
-            </select>
+            <CampoLista rotulo="Faz" valor={t.comando || ""} aoMudar={(v) => m({ comando: v })} opcoes={deParas(COMANDOS_APARELHO)} />
           </Linha>
           {(t.comando === "perfil_ir" || t.comando === "pagina_ir") && (
             <Linha
               rotulo={t.comando === "perfil_ir" ? "Perfil" : "Página"}
               ajuda="O nome, como está no desenho do aparelho (ou o número: 1, 2…). Página = dentro do perfil em que o aparelho está."
             >
-              <input className={campo} value={t.destino || ""} maxLength={30} onChange={(e) => m({ destino: e.target.value })} />
+              <CampoTexto rotulo="Destino" valor={t.destino || ""} max={30} aoMudar={(v) => m({ destino: v })} />
             </Linha>
           )}
         </>
@@ -307,19 +278,12 @@ const EditorTecla: React.FC<{
               {(t.passos || []).map((pid, i) => (
                 <div key={i} className="flex gap-1 items-center">
                   <span className="w-4 text-end text-[11px] text-mid-gray tabular-nums">{i + 1}</span>
-                  <select
-                    className={campo}
-                    value={pid}
-                    onChange={(e) => m({ passos: (t.passos || []).map((x, k) => (k === i ? e.target.value : x)) })}
-                  >
-                    {todas
-                      .filter((x) => x.acao !== "multi")
-                      .map((x) => (
-                        <option key={x.id} value={x.id}>
-                          {x.nome}
-                        </option>
-                      ))}
-                  </select>
+                  <CampoLista
+                    rotulo={`Passo ${i + 1}`}
+                    valor={pid}
+                    aoMudar={(v) => m({ passos: (t.passos || []).map((x, k) => (k === i ? v : x)) })}
+                    opcoes={todas.filter((x) => x.acao !== "multi").map((x) => ({ value: x.id, label: x.nome }))}
+                  />
                   <button
                     type="button"
                     aria-label="Tirar o passo"
@@ -346,14 +310,13 @@ const EditorTecla: React.FC<{
           </Linha>
           <Linha rotulo="Pausa entre eles" ajuda="Tempo para o programa anterior abrir antes do próximo passo (até 5 s).">
             <div className="flex items-center gap-2">
-              <input
-                type="number"
+              <CampoNumero
+                rotulo="Pausa entre os passos"
                 min={0}
                 max={5000}
-                step={100}
-                className={campo}
-                value={t.espera_ms ?? 400}
-                onChange={(e) => m({ espera_ms: Math.max(0, Math.min(5000, Number(e.target.value) || 0)) })}
+                passo={100}
+                valor={t.espera_ms ?? 400}
+                aoMudar={(v) => m({ espera_ms: v })}
               />
               <span className="text-mid-gray">ms</span>
             </div>
@@ -362,23 +325,19 @@ const EditorTecla: React.FC<{
       )}
       {t.acao === "atalho" && (
         <Linha rotulo="Teclas" ajuda="Vai para a janela em que você estava antes de clicar no Rotrix. Ex.: Ctrl+Shift+V, Alt+F4, F5.">
-          <input className={campo} value={t.teclas || ""} onChange={(e) => m({ teclas: e.target.value })} />
+          <CampoTexto rotulo="Teclas" valor={t.teclas || ""} aoMudar={(v) => m({ teclas: v })} />
         </Linha>
       )}
       {t.acao === "texto" && (
         <Linha rotulo="Texto" ajuda="É colado na janela em que você estava antes de clicar no Rotrix.">
-          <textarea
-            className={`${campo} h-20 py-1 resize-y`}
-            value={t.texto || ""}
-            onChange={(e) => m({ texto: e.target.value })}
-          />
+          <CampoArea rotulo="Texto" linhas={4} valor={t.texto || ""} aoMudar={(v) => m({ texto: v })} />
         </Linha>
       )}
 
       {(t.acao === "programa" || t.acao === "site") && (
         <>
           <Linha rotulo="No expediente" ajuda="Abre sozinho ao Iniciar expediente.">
-            <input type="checkbox" checked={Boolean(t.expediente)} onChange={(e) => m({ expediente: e.target.checked })} />
+            <CampoLiga rotulo="No expediente" valor={Boolean(t.expediente)} aoMudar={(v) => m({ expediente: v })} />
           </Linha>
           <Linha rotulo="Lugar na tela" ajuda="Em que monitor e em que pedaço dele a janela fica, como no Snap do Windows.">
             <SeletorLugar lugar={t.lugar} estado={estado} aoTrocar={(l) => m({ lugar: l })} />
@@ -421,7 +380,7 @@ const EditorTecla: React.FC<{
         </div>
       </Linha>
       <Linha rotulo="Tecla larga">
-        <input type="checkbox" checked={Boolean(t.larga)} onChange={(e) => m({ larga: e.target.checked })} />
+        <CampoLiga rotulo="Tecla larga" valor={Boolean(t.larga)} aoMudar={(v) => m({ larga: v })} />
       </Linha>
       <div className="flex gap-1.5 pt-1">
         <button type="button" onClick={() => aoMover(-1)} className="h-7 px-2 rounded-md border border-mid-gray/30 text-[12px] cursor-pointer">
@@ -517,41 +476,42 @@ const TelasEInicio: React.FC<{
       </button>
       <Linha rotulo="Expediente ao ligar" ajuda="Quando o Rotrix abre (ele abre com o Windows), o expediente começa sozinho depois desses segundos. Dá para cancelar no aviso.">
         <span className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={aj.iniciar_expediente}
-            onChange={(e) => aoMudarAjustes({ iniciar_expediente: e.target.checked })}
+          <CampoLiga
+            rotulo="Expediente ao ligar"
+            valor={aj.iniciar_expediente}
+            aoMudar={(v) => aoMudarAjustes({ iniciar_expediente: v })}
           />
-          <input
-            type="number"
+          <CampoNumero
+            rotulo="Segundos até começar"
             min={0}
             max={60}
-            value={aj.atraso_s}
-            onChange={(e) => aoMudarAjustes({ atraso_s: Number(e.target.value) })}
-            className={`${campo} w-16`}
+            largura={90}
+            valor={aj.atraso_s}
+            aoMudar={(v) => aoMudarAjustes({ atraso_s: v })}
           />
           <span className="text-mid-gray text-[12px]">s</span>
         </span>
       </Linha>
       <Linha rotulo="Organizar ao iniciar" ajuda="Depois de abrir os programas, põe cada janela no seu lugar.">
-        <input
-          type="checkbox"
-          checked={aj.organizar_ao_iniciar}
-          onChange={(e) => aoMudarAjustes({ organizar_ao_iniciar: e.target.checked })}
+        <CampoLiga
+          rotulo="Organizar ao iniciar"
+          valor={aj.organizar_ao_iniciar}
+          aoMudar={(v) => aoMudarAjustes({ organizar_ao_iniciar: v })}
         />
       </Linha>
       <Linha rotulo="Navegador dos sites" ajuda="Vale para OneLaudos e qualquer tecla de site; cada tecla pode trocar só para ela.">
-        <select className={campo} value={aj.navegador} onChange={(e) => aoMudarAjustes({ navegador: e.target.value })}>
-          {NAVEGADORES.map(([id, nome]) => (
-            <option key={id} value={id}>
-              {nome}
-              {id !== "padrao" && estado && estado.navegadores[id] === false ? " (não instalado)" : ""}
-            </option>
-          ))}
-        </select>
+        <CampoLista
+          rotulo="Navegador dos sites"
+          valor={aj.navegador}
+          aoMudar={(v) => aoMudarAjustes({ navegador: v })}
+          opcoes={NAVEGADORES.map(([id, nome]) => ({
+              value: id,
+              label: nome + (id !== "padrao" && estado && estado.navegadores[id] === false ? " (não instalado)" : ""),
+            }))}
+        />
       </Linha>
       <Linha rotulo="Perfil" ajuda="Pasta do perfil do navegador (ex.: Profile 2). Vazio = o de sempre.">
-        <input className={campo} value={aj.perfil} onChange={(e) => aoMudarAjustes({ perfil: e.target.value })} />
+        <CampoTexto rotulo="Perfil do navegador" valor={aj.perfil} aoMudar={(v) => aoMudarAjustes({ perfil: v })} />
       </Linha>
     </div>
   );
