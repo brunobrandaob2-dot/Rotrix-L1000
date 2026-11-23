@@ -90,6 +90,9 @@ srv = ThreadingHTTPServer(("127.0.0.1", 0), Falso)
 threading.Thread(target=srv.serve_forever, daemon=True).start()
 BASE = "http://127.0.0.1:%d/rdt" % srv.server_address[1]
 pasta = tempfile.mkdtemp(prefix="elaudos_teste_")
+# nada na pasta do roteador (o Validar confere): o sal e os apagados da fila na temporária
+radius._ARQ_SAL = os.path.join(pasta, ".radius_sal_teste")
+radius._ARQ_APAGADOS = os.path.join(pasta, "apagados_teste.json")
 
 
 def esperar(fila, cond, s=15):
