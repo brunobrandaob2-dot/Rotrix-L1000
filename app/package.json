@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.4.5",
   "type": "module",
+  "packageManager": "bun@1.4.5",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -22,6 +23,9 @@
     "test:formatar": "bun src/components/rotrix2/formatar.test.ts"
   },
   "dependencies": {
+    "@astryxdesign/core": "0.7.17",
+    "@astryxdesign/theme-neutral": "0.7.17",
+    "@stylexjs/stylex": "^0.19.2",
     "@tailwindcss/vite": "^4.1.16",
     "@tauri-apps/api": "^2.11.0",
     "@tauri-apps/plugin-autostart": "~2.5.1",
@@ -50,6 +54,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@astryxdesign/cli": "0.7.17",
     "@playwright/test": "^1.58.0",
     "@tauri-apps/cli": "^2.11.0",
     "@types/node": "^24.9.1",

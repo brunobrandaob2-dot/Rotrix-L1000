@@ -1,0 +1,7 @@
+/* Rotrix v2, fase 6 (Astryx): a ordem das camadas do CSS. Tem de ser a PRIMEIRA
+   folha de estilo da página (main.tsx importa antes de tudo): uma camada fica
+   na posição em que aparece pela primeira vez. Reset embaixo, preflight do
+   Tailwind acima dele, o Astryx no meio e os utilitários do Tailwind por último
+   (as classes que o app já usa continuam vencendo). Ver `astryx docs
+   styling-libraries/tailwind`. */
+@layer reset, theme, base, astryx-base, astryx-theme, components, utilities;

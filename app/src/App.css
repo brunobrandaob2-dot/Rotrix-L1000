@@ -1,4 +1,8 @@
 @import "tailwindcss";
+/* fase 6: o Astryx (reset, componentes). O tema dele vem de src/astryx-themes.ts.
+   A ordem das camadas está em camadas.css, que carrega antes de tudo. */
+@import "@astryxdesign/core/reset.css";
+@import "@astryxdesign/core/astryx.css";
 @import "./styles/theme.css";
 
 /* Register the shared color tokens (src/styles/theme.css) as Tailwind
