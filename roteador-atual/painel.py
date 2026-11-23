@@ -31,7 +31,7 @@ import time
 EH_WINDOWS = sys.platform == "win32"
 # 2 (22/11): "Ditar" = o ditado com IA (3º botão da folha); "Máscara por voz" =
 # o 2º botão; a transcrição crua (1º botão) vira tecla à parte.
-VERSAO = 3
+VERSAO = 4
 
 # ---------------------------------------------------------------------------
 # Modelos de layout (os do Snap do Windows 11, iguais aos do Workflow Hub).
@@ -174,7 +174,8 @@ ACOES = ("programa", "site", "rotrix", "sistema", "atalho", "texto", "expediente
 TIPOS_PROGRAMA = ("exe", "powershell", "appx")
 COMANDOS_ROTRIX = ("proximo", "abrir_marcados", "fila", "colar", "ditar", "ditar_ia", "ditar_mascara",
                    "conferencia",
-                   "revisar", "analisar_rx", "coronarias", "laudo", "fila_aba", "mascaras")
+                   "revisar", "analisar_rx", "coronarias", "laudo", "fila_aba", "mascaras",
+                   "apagar")
 COMANDOS_SISTEMA = ("volume_mais", "volume_menos", "mudo", "musica", "proxima_musica",
                     "musica_anterior", "bloquear")
 # trocar perfil / página do Stream Deck (como "Switch Profile" / "Next Page" da Elgato)
@@ -255,6 +256,7 @@ def padrao():
         _tecla("l_rx", "Analisar RX", "rotrix", "ia", "scan", comando="analisar_rx"),
         _tecla("l_coro", "Coronárias", "rotrix", "laudo", "layers", comando="coronarias"),
         _tecla("l_fila", "Mostrar / esconder fila", "rotrix", "laudo", "list", comando="fila"),
+        _tecla("l_apagar", "Apagar o laudo", "rotrix", "laudo", "trash", comando="apagar"),
     ]
     sistema = [
         _tecla("s_vmais", "Volume +", "sistema", "sis", "vol", comando="volume_mais"),
@@ -493,6 +495,26 @@ def _migrar_para_3(cru):
     return cru
 
 
+def _migrar_para_4(cru):
+    """Versão 3 -> 4 (23/11, pedido dele): a tecla "Apagar o laudo" (o botão da
+    lixeira da folha; o ⏱ traz de volta) entra na página do Laudo, para ele pôr
+    no Stream Deck. Nada mais muda."""
+    import copy
+    cru = copy.deepcopy(cru)
+    paginas = cru.get("paginas") if isinstance(cru.get("paginas"), list) else []
+    ids = {t.get("id") for p in paginas if isinstance(p, dict) for t in (p.get("teclas") or []) if isinstance(t, dict)}
+    if "l_apagar" in ids:
+        return cru
+    alvo = next((p for p in paginas if isinstance(p, dict) and any(
+        isinstance(t, dict) and t.get("id") == "l_proximo" for t in (p.get("teclas") or []))), None)
+    if alvo is None and paginas and isinstance(paginas[0], dict):
+        alvo = paginas[0]
+    if alvo is not None:
+        alvo.setdefault("teclas", []).append(
+            _tecla("l_apagar", "Apagar o laudo", "rotrix", "laudo", "trash", comando="apagar"))
+    return cru
+
+
 def normalizar(cru):
     base = padrao()
     if not isinstance(cru, dict):
@@ -506,6 +528,8 @@ def normalizar(cru):
             cru = _migrar_para_2(cru)
         if versao < 3:
             cru = _migrar_para_3(cru)
+        if versao < 4:
+            cru = _migrar_para_4(cru)
     aj = dict(base["ajustes"])
     if isinstance(cru.get("ajustes"), dict):
         aj.update({k: v for k, v in cru["ajustes"].items() if k in aj})

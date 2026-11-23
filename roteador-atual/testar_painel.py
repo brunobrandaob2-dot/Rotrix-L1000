@@ -57,7 +57,7 @@ confere("atalho inválido é descartado", painel.tecla_valida({"id": "x", "acao"
 confere("atalho válido passa", (painel.tecla_valida({"id": "x", "acao": "atalho", "teclas": "Ctrl+Shift+V"}) or {}).get("teclas") == "Ctrl+Shift+V")
 k = painel.tecla_valida({"id": "s", "acao": "site", "sites": ["exemplo.com", " ", "http://a.b"]})
 confere("site sem https ganha https; vazio sai", k and k["sites"] == ["https://exemplo.com", "http://a.b"], k)
-dup = painel.normalizar({"versao": 3, "paginas": [{"nome": "A", "teclas": [
+dup = painel.normalizar({"versao": 4, "paginas": [{"nome": "A", "teclas": [
     {"id": "a", "acao": "sistema", "comando": "mudo", "atalho_global": "F13"},
     {"id": "b", "acao": "sistema", "comando": "musica", "atalho_global": "F13"},
     {"id": "a", "acao": "sistema", "comando": "bloquear"}]}]})
@@ -109,7 +109,11 @@ confere("migração: a tecla dele fica", "minha" in ts)
 mapa = mg["aparelhos"]["akp03e"]["perfis"][0]["paginas"][0]["m"]
 confere("migração: no aparelho, a tecla de Máscaras chama a máscara por voz",
         mapa == {"k1": "l_ditar", "k4": "l_mascara_voz"}, mapa)
-confere("migração: grava como versão 3", mg["versao"] == 3)
+confere("migração: grava como versão 4", mg["versao"] == 4)
+confere("migração 4: entra a tecla Apagar o laudo", (ts.get("l_apagar") or {}).get("comando") == "apagar",
+        sorted(ts))
+confere("migração 4: rodar de novo não duplica",
+        sum(1 for t in painel.todas_as_teclas(painel.normalizar(mg)) if t["id"] == "l_apagar") == 1)
 
 # --- versão 3: perfis no aparelho ---
 v2 = {"versao": 2, "paginas": painel.padrao()["paginas"][:2] + [{"nome": "Sistema", "teclas": [

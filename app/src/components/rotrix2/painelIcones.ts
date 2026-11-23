@@ -31,6 +31,7 @@ import {
   Repeat2,
   Files,
   ListOrdered,
+  Trash2,
 } from "lucide-react";
 import type { Tecla } from "./painelComum";
 
@@ -65,6 +66,7 @@ export const ICONES: Record<string, React.ElementType> = {
   profile: Repeat2,
   pages: Files,
   multi: ListOrdered,
+  trash: Trash2,
 };
 
 export const iconePadrao = (t: Tecla): string =>

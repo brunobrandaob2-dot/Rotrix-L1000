@@ -159,6 +159,7 @@ export const COMANDOS_ROTRIX: [string, string][] = [
   ["analisar_rx", "Analisar RX"],
   ["coronarias", "Estruturados (coronárias)"],
   ["mascaras", "Máscaras"],
+  ["apagar", "Apagar o laudo (o ⏱ traz de volta)"],
 ];
 
 export const COMANDOS_SISTEMA: [string, string][] = [

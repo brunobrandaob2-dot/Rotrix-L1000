@@ -819,6 +819,8 @@ export const LaudoPage: React.FC<Props> = ({
   const paraComandos = useRef<Record<string, () => void>>({});
   paraComandos.current = {
     colar: () => void colarNoRis(),
+    // 23/11: a lixeira da folha também pelo Stream Deck (o ⏱ traz de volta)
+    apagar: () => limpar(),
     // 22/11: "Ditar" = o 3º botão (a IA ouve, organiza e reescreve); "Máscara por
     // voz" = o 2º (chama a máscara pelos atalhos); o 1º (transcrição crua) fica
     // como opção. Apertar de novo para de gravar, como no clique curto.
