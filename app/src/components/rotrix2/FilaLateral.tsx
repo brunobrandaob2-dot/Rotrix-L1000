@@ -127,7 +127,9 @@ export const FilaLateral: React.FC<Props> = ({ modo, aberta, aoMostrar, aoTrocar
     if (e.button !== 0 || (e.target as HTMLElement).closest("[data-abrir]")) return;
     e.preventDefault();
     const ja = marcados.includes(id);
-    if (!e.ctrlKey && !e.metaKey && !ja) {
+    // 23/11: o quadradinho soma/tira só aquele, sem desmarcar os outros
+    const naCaixa = Boolean((e.target as HTMLElement).closest("[data-caixa]"));
+    if (!e.ctrlKey && !e.metaKey && !naCaixa && !ja) {
       setMarcados([id]);
       arrasto.current = { valor: true };
     } else {
@@ -232,7 +234,8 @@ export const FilaLateral: React.FC<Props> = ({ modo, aberta, aoMostrar, aoTrocar
                 style={vez ? { boxShadow: "inset 3px 0 0 var(--color-logo-primary, #82aee6)" } : undefined}
               >
                 <span
-                  className={`h-3.5 w-3.5 rounded border grid place-items-center ${
+                  data-caixa
+                  className={`h-3.5 w-3.5 rounded border grid place-items-center cursor-pointer ${
                     m ? "bg-logo-primary border-logo-primary text-white" : "border-mid-gray/40"
                   }`}
                 >

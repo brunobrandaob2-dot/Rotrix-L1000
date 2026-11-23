@@ -25,6 +25,7 @@ import {
   lerFila,
   pronto,
   emAndamento,
+  mesmoPaciente,
   ehOutro,
   hora,
   dia,
@@ -240,7 +241,11 @@ export const FilaPage: React.FC = () => {
       }
     }
     const ja = marcados.includes(id);
-    if (!e.ctrlKey && !e.metaKey && !ja) {
+    // 23/11 (pedido dele): clicar no QUADRADINHO marca/desmarca só aquele e
+    // mantém os outros — como caixa de marcar. No resto da linha continua o
+    // jeito do Windows (clique escolhe um; Ctrl soma; Shift pega o intervalo).
+    const naCaixa = Boolean((e.target as HTMLElement).closest("[data-caixa]"));
+    if (!e.ctrlKey && !e.metaKey && !naCaixa && !ja) {
       setMarcados([id]);
       arrasto.current = { valor: true, n: 1 };
     } else {
@@ -285,9 +290,41 @@ export const FilaPage: React.FC = () => {
       setAviso(String(e));
     }
   };
+  // comparar (o "combo" do Radius): os marcados juntos, ou o exame com os
+  // outros do mesmo paciente que estão na fila, na mesma janela do visualizador
+  const marcadosAbriveis = todos.filter((x) => marcados.includes(x.id) && !emAndamento(x));
+  const doPaciente = alvoMenu
+    ? todos
+        .filter((x) => x.id !== alvoMenu.id && !emAndamento(x) && mesmoPaciente(x, alvoMenu))
+        .sort((a, b) => (b.entrou || "").localeCompare(a.entrou || ""))
+    : [];
+  const abrirJuntos = async (ids: string[]) => {
+    const r = await abrirEstudos(ids);
+    setAviso(r.ok ? `${r.frase}, juntos na mesma janela para comparar` : r.frase);
+  };
+  const opcoesComparar: ContextMenuOption[] = [
+    ...(marcadosAbriveis.length > 1
+      ? [
+          {
+            label: `Abrir os ${marcadosAbriveis.length} marcados juntos (comparar)`,
+            onClick: () => void abrirJuntos(marcadosAbriveis.map((x) => x.id)),
+          },
+        ]
+      : []),
+    ...(alvoMenu && doPaciente.length
+      ? [
+          {
+            label: `Comparar com ${doPaciente.length === 1 ? "o outro exame" : `os outros ${doPaciente.length} exames`} deste paciente`,
+            isDisabled: emAndamento(alvoMenu),
+            onClick: () => void abrirJuntos([alvoMenu.id, ...doPaciente.map((x) => x.id)]),
+          },
+        ]
+      : []),
+  ];
   const opcoesDoMenu: ContextMenuOption[] = alvoMenu
     ? [
         { label: "Abrir", isDisabled: emAndamento(alvoMenu), onClick: () => void abrir(alvoMenu.id) },
+        ...opcoesComparar,
         pronto(alvoMenu)
           ? { label: "Desmarcar laudado", onClick: () => void desmarcarLaudado(alvoMenu.id) }
           : {
@@ -441,7 +478,7 @@ export const FilaPage: React.FC = () => {
         ) : itens.length === 0 ? (
           <p className="p-4 text-sm text-mid-gray">Nenhum exame nesta aba.</p>
         ) : (
-          <ContextMenu items={opcoesDoMenu} label="Ações do exame" menuWidth="220px" size="sm">
+          <ContextMenu items={opcoesDoMenu} label="Ações do exame" menuWidth="300px" size="sm">
           <table className="w-full text-[13px] select-none">
             <thead className="sticky top-0 bg-background z-10">
               <tr className="text-[10px] uppercase tracking-wide text-mid-gray border-b border-mid-gray/20">
@@ -485,7 +522,7 @@ export const FilaPage: React.FC = () => {
                     }`}
                     style={vez ? { boxShadow: "inset 3px 0 0 var(--color-logo-primary, #82aee6)" } : undefined}
                   >
-                    <td className="py-2 text-center">
+                    <td className="py-2 text-center cursor-pointer" data-caixa>
                       <span
                         className={`inline-flex h-4 w-4 items-center justify-center rounded border ${
                           marcado ? "bg-logo-primary border-logo-primary text-white" : "border-mid-gray/40"

@@ -87,6 +87,21 @@ export const nomeDoExame = (e: Estudo): string =>
   e.cabecalho ||
   (emAndamento(e) ? "" : ehOutro(e) ? "ZIP baixado por fora" : "exame sem descrição");
 
+/** 23/11: o mesmo paciente (para comparar exames): nome por extenso igual,
+ *  sem ligar para acento, maiúscula ou espaço a mais. Sem nome, nunca. */
+const nomeChave = (e: Estudo): string =>
+  (e.nome || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^A-Za-z ]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toUpperCase();
+export const mesmoPaciente = (a: Estudo, b: Estudo): boolean => {
+  const ka = nomeChave(a);
+  return ka.length >= 5 && ka === nomeChave(b);
+};
+
 export const nomeDoPaciente = (e: Estudo): string =>
   e.nome || e.iniciais || (emAndamento(e) ? "Baixando…" : "—");
 
