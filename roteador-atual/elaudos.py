@@ -413,6 +413,20 @@ def quem_atende():
     return "outro" if c else "ninguem"
 
 
+def avisar_o_windows():
+    """Manda o Windows renovar as associações (SHCNE_ASSOCCHANGED).
+
+    23/11: depois da troca no registro, o Brave (aberto desde antes) continuou
+    chamando o Radius — o Windows guarda as associações na memória de cada
+    programa até alguém avisar que mudaram. Um programa novo já lia o certo."""
+    try:
+        import ctypes
+        ctypes.windll.shell32.SHChangeNotify(0x08000000, 0x0000, None, None)
+        return True
+    except Exception:
+        return False
+
+
 def atender_no_rotrix():
     """Passa os links do E-Laudos para o Rotrix (guarda o comando de antes)."""
     import winreg
@@ -426,6 +440,7 @@ def atender_no_rotrix():
         winreg.SetValueEx(k, "URL Protocol", 0, winreg.REG_SZ, "")
     with winreg.CreateKey(winreg.HKEY_CURRENT_USER, _CHAVE + r"\shell\open\command") as k:
         winreg.SetValueEx(k, "", 0, winreg.REG_SZ, comando_rotrix())
+    avisar_o_windows()
     return {"ok": True, "atende": quem_atende()}
 
 
@@ -441,6 +456,7 @@ def devolver_ao_radius():
         return {"ok": False, "motivo": "sem_anterior", "frase": "não sei qual era o comando de antes"}
     with winreg.CreateKey(winreg.HKEY_CURRENT_USER, _CHAVE + r"\shell\open\command") as k:
         winreg.SetValueEx(k, "", 0, winreg.REG_SZ, antes)
+    avisar_o_windows()
     return {"ok": True, "atende": quem_atende()}
 
 
