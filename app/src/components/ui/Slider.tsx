@@ -1,4 +1,7 @@
+// Fase 6 (Astryx): a barra de arrastar é o Slider do Astryx. A linha (título,
+// descrição), o valor à direita e o botão de voltar ao padrão continuam.
 import React from "react";
+import { Slider as AxSlider } from "@astryxdesign/core/Slider";
 import { SettingContainer } from "./SettingContainer";
 import { ResetButton } from "./ResetButton";
 
@@ -34,49 +37,33 @@ export const Slider: React.FC<SliderProps> = ({
   formatValue = (v) => v.toFixed(2),
   onReset,
   isResetting = false,
-}) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(parseFloat(e.target.value));
-  };
-
-  return (
-    <SettingContainer
-      title={label}
-      description={description}
-      descriptionMode={descriptionMode}
-      grouped={grouped}
-      layout="horizontal"
-      disabled={disabled}
-    >
-      <div className="w-full">
-        <div className="flex items-center space-x-1 h-6">
-          <input
-            type="range"
-            min={min}
-            max={max}
-            step={step}
-            value={value}
-            onChange={handleChange}
-            disabled={disabled}
-            className="flex-grow h-2 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-logo-primary disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{
-              background: `linear-gradient(to right, var(--color-background-ui) ${
-                ((value - min) / (max - min)) * 100
-              }%, rgba(128, 128, 128, 0.2) ${
-                ((value - min) / (max - min)) * 100
-              }%)`,
-            }}
-          />
-          {showValue && (
-            <span className="text-sm font-medium text-text/90 w-12 text-end">
-              {formatValue(value)}
-            </span>
-          )}
-          {onReset && (
-            <ResetButton onClick={onReset} disabled={disabled || isResetting} />
-          )}
-        </div>
+}) => (
+  <SettingContainer
+    title={label}
+    description={description}
+    descriptionMode={descriptionMode}
+    grouped={grouped}
+    layout="horizontal"
+    disabled={disabled}
+  >
+    {/* o Slider do Astryx não tem largura própria (o <input> antigo tinha):
+        sem largura mínima ele sumia na linha da configuração */}
+    <div className="w-full min-w-[220px] flex items-center gap-2">
+      <div className="flex-1 min-w-[150px]">
+        <AxSlider
+          label={label}
+          isLabelHidden
+          value={value}
+          onChange={(v: number) => onChange(v)}
+          min={min}
+          max={max}
+          step={step}
+          isDisabled={disabled}
+          width="100%"
+        />
       </div>
-    </SettingContainer>
-  );
-};
+      {showValue && <span className="text-sm font-medium text-text/90 w-12 text-end">{formatValue(value)}</span>}
+      {onReset && <ResetButton onClick={onReset} disabled={disabled || isResetting} />}
+    </div>
+  </SettingContainer>
+);

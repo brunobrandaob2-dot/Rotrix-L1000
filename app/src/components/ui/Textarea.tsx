@@ -1,27 +1,33 @@
+// Fase 6 (Astryx): a caixa de texto é o TextArea do Astryx. Mesmas props de
+// antes (value, onChange(evento), placeholder, rows, disabled, className).
 import React from "react";
+import { TextArea } from "@astryxdesign/core/TextArea";
 
-interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   variant?: "default" | "compact";
 }
 
 export const Textarea: React.FC<TextareaProps> = ({
   className = "",
   variant = "default",
+  value,
+  onChange,
+  placeholder,
+  rows,
+  disabled,
+  "aria-label": ariaLabel,
   ...props
-}) => {
-  const baseClasses =
-    "px-2 py-1 text-sm font-semibold bg-mid-gray/10 border border-mid-gray/80 rounded-md text-start transition-[background-color,border-color] duration-150 hover:bg-logo-primary/10 hover:border-logo-primary focus:outline-none focus:bg-logo-primary/10 focus:border-logo-primary resize-y";
-
-  const variantClasses = {
-    default: "px-3 py-2 min-h-[100px]",
-    compact: "px-2 py-1 min-h-[80px]",
-  };
-
-  return (
-    <textarea
-      className={`${baseClasses} ${variantClasses[variant]} ${className}`}
-      {...props}
-    />
-  );
-};
+}) => (
+  <TextArea
+    {...(props as Record<string, unknown>)}
+    containerClassName={className}
+    label={ariaLabel || placeholder || "texto"}
+    isLabelHidden
+    value={String(value ?? "")}
+    onChange={(_v, e) => onChange?.(e)}
+    placeholder={placeholder}
+    rows={rows ?? (variant === "compact" ? 3 : 4)}
+    isDisabled={Boolean(disabled)}
+    size={variant === "compact" ? "sm" : "md"}
+  />
+);

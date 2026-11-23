@@ -1,4 +1,7 @@
+// Fase 6 (Astryx): o interruptor das Configurações é o Switch do Astryx. A
+// linha (título, descrição, dica) continua sendo a SettingContainer.
 import React from "react";
+import { Switch } from "@astryxdesign/core/Switch";
 import { SettingContainer } from "./SettingContainer";
 
 interface ToggleSwitchProps {
@@ -23,34 +26,23 @@ export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   descriptionMode = "tooltip",
   grouped = false,
   tooltipPosition = "top",
-}) => {
-  return (
-    <SettingContainer
-      title={label}
-      description={description}
-      descriptionMode={descriptionMode}
-      grouped={grouped}
-      disabled={disabled}
-      tooltipPosition={tooltipPosition}
-    >
-      <label
-        className={`flex items-center ${disabled || isUpdating ? "cursor-not-allowed" : "cursor-pointer"}`}
-      >
-        <input
-          type="checkbox"
-          value=""
-          className="sr-only peer"
-          checked={checked}
-          disabled={disabled || isUpdating}
-          onChange={(e) => onChange(e.target.checked)}
-        />
-        <div className="relative w-11 h-6 bg-mid-gray/20 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-logo-primary rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-background-ui peer-disabled:opacity-50"></div>
-      </label>
-      {isUpdating && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-4 h-4 border-2 border-logo-primary border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      )}
-    </SettingContainer>
-  );
-};
+}) => (
+  <SettingContainer
+    title={label}
+    description={description}
+    descriptionMode={descriptionMode}
+    grouped={grouped}
+    disabled={disabled}
+    tooltipPosition={tooltipPosition}
+  >
+    <Switch
+      label={label}
+      isLabelHidden
+      value={checked}
+      onChange={(v) => onChange(v)}
+      isDisabled={disabled}
+      isLoading={isUpdating}
+      size="sm"
+    />
+  </SettingContainer>
+);
