@@ -46,7 +46,15 @@ import { textoDasRegras } from "./modelos";
 import { motivoDoBloqueio } from "./bloqueio";
 import { BotoesDaFolha } from "./BotoesDaFolha";
 import { ImagemNaFolha } from "./ImagemNaFolha";
-import { conferir, resumoDaConferencia, type Pendencia } from "./conferencia";
+import {
+  conferir,
+  resumoDaConferencia,
+  instrucaoDeCorrecao,
+  corrigirIndicacao,
+  tirarLinhasConferir,
+  irAteLacuna,
+  type Pendencia,
+} from "./conferencia";
 import { sugerirCalculadoras, CALCULADORAS, EVENTO_CALCULADORA, type Sugestao } from "./calculadoras";
 import {
   formatarTempo,
@@ -523,6 +531,34 @@ export const LaudoPage: React.FC<Props> = ({
       cru.then((fn) => fn());
     };
   }, [rodarIA]);
+
+  // ---------- corrigir o que a Conferência apontou (23/11) ----------
+  // Regra fixa (indicação "Em anexo.", linha [conferir]) corrige aqui, sem IA, só
+  // naquela linha. O resto vai para a IA com a ordem de mexer SÓ naqueles pontos.
+  // Lacuna: o valor é dele, o botão leva o cursor até ela. Desfazer volta tudo.
+  const corrigirPendencias = async (itens: Pendencia[]) => {
+    const el = folha.current;
+    if (!el || ocupado) return;
+    const antes = el.innerHTML;
+    let locais = 0;
+    for (const p of itens) {
+      const c = p.correcao;
+      if (c?.como !== "local") continue;
+      if (c.id === "indicacao" ? corrigirIndicacao(el) : tirarLinhasConferir(el)) locais++;
+    }
+    if (locais) setUltimoIA(antes);
+    const instrucao = instrucaoDeCorrecao(itens);
+    if (instrucao) {
+      await rodarIA({ instrucao });
+      // o Desfazer volta o laudo de ANTES de tudo (o rodarIA guardou o já corrigido)
+      if (locais) setUltimoIA(antes);
+      return;
+    }
+    if (locais) setAviso("corrigido na folha · Desfazer volta o que estava");
+    else if (itens.some((p) => p.correcao?.como === "ir")) {
+      if (!irAteLacuna(el)) setAviso("não achei a lacuna na folha");
+    }
+  };
 
   // ---------- texto trazido de outra aba (Histórico; 03/10: Máscaras) ----------
   useEffect(() => {
@@ -1211,6 +1247,21 @@ export const LaudoPage: React.FC<Props> = ({
               <span className="text-[9.5px] font-bold tracking-wider text-mid-gray">CONFERÊNCIA DO LAUDO</span>
               <span className="ms-auto text-[10.5px] tabular-nums">{pendencias.length}</span>
             </div>
+            {pendencias.filter((p) => p.correcao && p.correcao.como !== "ir").length > 1 && (
+              <div className="flex items-center gap-1 mb-1.5">
+                <button
+                  type="button"
+                  disabled={Boolean(ocupado)}
+                  onClick={() => void corrigirPendencias(pendencias)}
+                  className="text-[10.5px] px-2 py-0.5 rounded-md border border-logo-primary/50 bg-logo-primary/15 hover:bg-logo-primary/25 cursor-pointer disabled:opacity-50"
+                >
+                  Corrigir tudo
+                </button>
+                <Dica texto="Indicação e linha [conferir] são corrigidas na hora, sem IA. Lado, achado, medida e contraste vão para a IA escolhida, com a ordem de mexer só nesses pontos. Lacuna fica com você. O Desfazer volta o laudo como estava.">
+                  <span className="text-[10px] text-mid-gray cursor-help">?</span>
+                </Dica>
+              </div>
+            )}
             {pendencias.length === 0 ? (
               <div className="text-[11px] text-mid-gray">
                 {textoDaFolha() ? "Nada a apontar." : "Folha vazia."}
@@ -1228,6 +1279,16 @@ export const LaudoPage: React.FC<Props> = ({
                     {p.texto}
                     {p.trecho && (
                       <div className="mt-1 text-[10.5px] text-mid-gray italic break-words">“{p.trecho}”</div>
+                    )}
+                    {p.correcao && (
+                      <button
+                        type="button"
+                        disabled={Boolean(ocupado)}
+                        onClick={() => void corrigirPendencias([p])}
+                        className="mt-1 block text-[10.5px] px-2 py-0.5 rounded-md border border-logo-primary/50 bg-logo-primary/15 hover:bg-logo-primary/25 cursor-pointer disabled:opacity-50"
+                      >
+                        {p.correcao.rotulo}
+                      </button>
                     )}
                   </div>
                 ))}
